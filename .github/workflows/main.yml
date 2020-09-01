@@ -1,64 +1,59 @@
-name: CI
-on: [push, pull_request]
+name: Rust Book
+
+on:
+    push:
+        branches:
+            - zh_tw
 
 jobs:
-  test:
-    name: Run tests
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Update rustup
-      run: rustup self update
-    - name: Install Rust
-      run: |
-        rustup set profile minimal
-        rustup toolchain install 1.41.0 -c rust-docs
-        rustup default 1.41.0
-    - name: Install mdbook
-      run: |
-        mkdir bin
-        curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.3.7/mdbook-v0.3.7-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=bin
-        echo "##[add-path]$(pwd)/bin"
-    - name: Report versions
-      run: |
-        rustup --version
-        rustc -Vv
-        mdbook --version
-    - name: Run tests
-      run: mdbook test
-  lint:
-    name: Run lints
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Update rustup
-      run: rustup self update
-    - name: Install Rust
-      run: |
-        rustup set profile minimal
-        rustup toolchain install nightly -c rust-docs
-        rustup default nightly
-    - name: Install mdbook
-      run: |
-        mkdir bin
-        curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.3.7/mdbook-v0.3.7-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=bin
-        echo "##[add-path]$(pwd)/bin"
-    - name: Report versions
-      run: |
-        rustup --version
-        rustc -Vv
-        mdbook --version
-    - name: Spellcheck
-      run: bash ci/spellcheck.sh list
-    - name: Lint for local file paths
-      run: |
-        mdbook build
-        cargo run --bin lfp src
-    - name: Validate references
-      run: bash ci/validate.sh
-    - name: Check for broken links
-      run: |
-        curl -sSLo linkcheck.sh \
-          https://raw.githubusercontent.com/rust-lang/rust/master/src/tools/linkchecker/linkcheck.sh
-        # Cannot use --all here because of the generated redirect pages aren't available.
-        sh linkcheck.sh book
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            # Install Rust package manager
+            #
+            - name: Install cargo
+              uses: actions-rs/toolchain@v1
+              with:
+                toolchain: stable
+                profile: minimal
+
+            # Cache installation assets
+            #
+            - name: Cache cargo registry
+              uses: actions/cache@v1
+              with:
+                path: ~/.cargo/registry
+                key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+            - name: Cache cargo index
+              uses: actions/cache@v1
+              with:
+                  path: ~/.cargo/git
+                  key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+            - name: Cache cargo build
+              uses: actions/cache@v1
+              with:
+                  path: target
+                  key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+
+            # Install mdbook and requirements
+            #
+            - name: Install mdbook
+              uses: actions-rs/cargo@v1
+              with:
+                  command: install
+                  args: mdbook
+
+            - name: Generate summary
+              run: ./generate-book.sh
+
+            # HTML publication as Github Page
+            #
+            - name: Publish HTML
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./book
+
