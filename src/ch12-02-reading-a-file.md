@@ -8,7 +8,7 @@ has an Emily Dickinson poem that will work well! Create a file called
 *poem.txt* at the root level of your project, and enter the poem “I’m Nobody!
 Who are you?”
 
-<span class="filename">Filename: poem.txt</span>
+<span class="filename">檔案名稱：poem.txt</span>
 
 ```text
 {{#include ../listings/ch12-an-io-project/listing-12-03/poem.txt}}
@@ -20,7 +20,7 @@ case</span>
 With the text in place, edit *src/main.rs* and add code to read the file, as
 shown in Listing 12-4.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,should_panic
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-04/src/main.rs:here}}

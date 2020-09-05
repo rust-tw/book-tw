@@ -27,7 +27,7 @@ need a summary from each type, and we need to request that summary by calling a
 `summarize` method on an instance. Listing 10-12 shows the definition of a
 `Summary` trait that expresses this behavior.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-12/src/lib.rs}}
@@ -60,7 +60,7 @@ headline, the author, and the location to create the return value of
 followed by the entire text of the tweet, assuming that tweet content is
 already limited to 280 characters.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-13/src/lib.rs:here}}
@@ -128,7 +128,7 @@ Listing 10-14 shows how to specify a default string for the `summarize` method
 of the `Summary` trait instead of only defining the method signature, as we did
 in Listing 10-12.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-14/src/lib.rs:here}}
@@ -381,7 +381,7 @@ a generic `largest` function that will compile as long as the types of the
 values in the slice that we pass into the function implement the `PartialOrd`
 *and* `Copy` traits, like `i32` and `char` do.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-15/src/main.rs}}
@@ -414,7 +414,7 @@ traits. For example, the type `Pair<T>` in Listing 10-16 always implements the
 inner type `T` implements the `PartialOrd` trait that enables comparison *and*
 the `Display` trait that enables printing.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-16/src/lib.rs}}

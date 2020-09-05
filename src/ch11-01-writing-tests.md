@@ -44,7 +44,7 @@ $ cd adder
 The contents of the *src/lib.rs* file in your `adder` library should look like
 Listing 11-1.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-01/src/lib.rs:here}}
@@ -105,7 +105,7 @@ Let’s change the name of our test to see how that changes the test output.
 Change the `it_works` function to a different name, such as `exploration`, like
 so:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-01-changing-test-name/src/lib.rs:here}}
@@ -125,7 +125,7 @@ as failed. We talked about the simplest way to cause a panic in Chapter 9,
 which is to call the `panic!` macro. Enter the new test, `another`, so your
 *src/lib.rs* file looks like Listing 11-3.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,panics
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-03/src/lib.rs:here}}
@@ -175,7 +175,7 @@ In Chapter 5, Listing 5-15, we used a `Rectangle` struct and a `can_hold`
 method, which are repeated here in Listing 11-5. Let’s put this code in the
 *src/lib.rs* file and write some tests for it using the `assert!` macro.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-05/src/lib.rs:here}}
@@ -190,7 +190,7 @@ for the `assert!` macro. In Listing 11-6, we write a test that exercises the
 a height of 7 and asserting that it can hold another `Rectangle` instance that
 has a width of 5 and a height of 1.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-06/src/lib.rs:here}}
@@ -220,7 +220,7 @@ is supposed to return `true`, so our test should pass. Let’s find out!
 It does pass! Let’s add another test, this time asserting that a smaller
 rectangle cannot hold a larger rectangle:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-02-adding-another-rectangle-test/src/lib.rs:here}}
@@ -270,7 +270,7 @@ In Listing 11-7, we write a function named `add_two` that adds `2` to its
 parameter and returns the result. Then we test this function using the
 `assert_eq!` macro.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-07/src/lib.rs:here}}
@@ -356,7 +356,7 @@ the problem is with the code.
 For example, let’s say we have a function that greets people by name and we
 want to test that the name we pass into the function appears in the output:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-05-greeter/src/lib.rs:here}}
@@ -418,7 +418,7 @@ test will fail if the code inside the function doesn’t panic.
 Listing 11-8 shows a test that checks that the error conditions of `Guess::new`
 happen when we expect them to.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-08/src/lib.rs:here}}
@@ -461,7 +461,7 @@ the failure message contains the provided text. For example, consider the
 modified code for `Guess` in Listing 11-9 where the `new` function panics with
 different messages depending on whether the value is too small or too large.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-09/src/lib.rs:here}}

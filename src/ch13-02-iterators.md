@@ -75,7 +75,7 @@ We can call the `next` method on iterators directly; Listing 13-15 demonstrates
 what values are returned from repeated calls to `next` on the iterator created
 from the vector.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-15/src/lib.rs:here}}
@@ -114,7 +114,7 @@ consuming the iterator. As it iterates through, it adds each item to a running
 total and returns the total when iteration is complete. Listing 13-16 has a
 test illustrating a use of the `sum` method:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-16/src/lib.rs:here}}
@@ -139,7 +139,7 @@ which takes a closure to call on each item to produce a new iterator. The
 closure here creates a new iterator in which each item from the vector has been
 incremented by 1. However, this code produces a warning:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,not_desired_behavior
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-17/src/main.rs:here}}
@@ -166,7 +166,7 @@ In Listing 13-18, we collect the results of iterating over the iterator that’s
 returned from the call to `map` into a vector. This vector will end up
 containing each item from the original vector incremented by 1.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-18/src/main.rs:here}}
@@ -194,7 +194,7 @@ In Listing 13-19, we use `filter` with a closure that captures the `shoe_size`
 variable from its environment to iterate over a collection of `Shoe` struct
 instances. It will return only shoes that are the specified size.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-19/src/lib.rs}}
@@ -239,7 +239,7 @@ that implementation.
 Listing 13-20 has the definition of the `Counter` struct and an associated
 `new` function to create instances of `Counter`:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-20/src/lib.rs}}
@@ -259,7 +259,7 @@ Next, we’ll implement the `Iterator` trait for our `Counter` type by defining
 the body of the `next` method to specify what we want to happen when this
 iterator is used, as shown in Listing 13-21:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-21/src/lib.rs:here}}
@@ -285,7 +285,7 @@ shows a test demonstrating that we can use the iterator functionality of our
 `Counter` struct by calling the `next` method on it directly, just as we did
 with the iterator created from a vector in Listing 13-15.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-22/src/lib.rs:here}}
@@ -310,7 +310,7 @@ instance after skipping the first value, multiply each pair together, keep only
 those results that are divisible by 3, and add all the resulting values
 together, we could do so, as shown in the test in Listing 13-23:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-23/src/lib.rs:here}}

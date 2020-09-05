@@ -27,7 +27,7 @@ organize the functions into nested modules. Create a new library named
 `restaurant` by running `cargo new --lib restaurant`; then put the code in
 Listing 7-1 into *src/lib.rs* to define some modules and function signatures.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-01/src/lib.rs:here}}

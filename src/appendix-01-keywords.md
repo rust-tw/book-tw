@@ -85,7 +85,7 @@ normally be allowed. You use a raw identifier by prefixing a keyword with `r#`.
 For example, `match` is a keyword. If you try to compile the following function
 that uses `match` as its name:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore,does_not_compile
 fn match(needle: &str, haystack: &str) -> bool {
@@ -107,7 +107,7 @@ The error shows that you can’t use the keyword `match` as the function
 identifier. To use `match` as a function name, you need to use the raw
 identifier syntax, like this:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 fn r#match(needle: &str, haystack: &str) -> bool {

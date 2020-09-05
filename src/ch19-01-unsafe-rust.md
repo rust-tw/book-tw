@@ -306,7 +306,7 @@ always unsafe to call from Rust code. The reason is that other languages don’t
 enforce Rust’s rules and guarantees, and Rust can’t check them, so
 responsibility falls on the programmer to ensure safety.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,unsafe
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-08/src/main.rs}}
@@ -356,7 +356,7 @@ In Rust, global variables are called *static* variables. Listing 19-9 shows an
 example declaration and use of a static variable with a string slice as a
 value.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-09/src/main.rs}}
@@ -385,7 +385,7 @@ variables can be mutable. Accessing and modifying mutable static variables is
 *unsafe*. Listing 19-10 shows how to declare, access, and modify a mutable
 static variable named `COUNTER`.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,unsafe
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-10/src/main.rs}}

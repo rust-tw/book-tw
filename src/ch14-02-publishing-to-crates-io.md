@@ -26,7 +26,7 @@ Markdown notation for formatting the text. Place documentation comments just
 before the item they’re documenting. Listing 14-1 shows documentation comments
 for an `add_one` function in a crate named `my_crate`:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-01/src/lib.rs}}
@@ -116,7 +116,7 @@ For example, if we want to add documentation that describes the purpose of the
 comments that start with `//!` to the beginning of the *src/lib.rs* file, as
 shown in Listing 14-2:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-02/src/lib.rs:here}}
@@ -174,7 +174,7 @@ Within this library are two modules: a `kinds` module containing two enums
 named `PrimaryColor` and `SecondaryColor` and a `utils` module containing a
 function named `mix`, as shown in Listing 14-3:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-03/src/lib.rs:here}}
@@ -200,7 +200,7 @@ bring the items from `art` into scope, specifying the module structure that’s
 currently defined. Listing 14-4 shows an example of a crate that uses the
 `PrimaryColor` and `mix` items from the `art` crate:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-04/src/main.rs}}
@@ -224,7 +224,7 @@ To remove the internal organization from the public API, we can modify the
 `art` crate code in Listing 14-3 to add `pub use` statements to re-export the
 items at the top level, as shown in Listing 14-5:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-05/src/lib.rs:here}}
@@ -246,7 +246,7 @@ The `art` crate users can still see and use the internal structure from Listing
 14-3 as demonstrated in Listing 14-4, or they can use the more convenient
 structure in Listing 14-5, as shown in Listing 14-6:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-06/src/main.rs:here}}
@@ -302,7 +302,7 @@ want to use on the site. If the name has been used by another crate, you will
 need to find another name and edit the `name` field in the *Cargo.toml* file
 under the `[package]` section to use the new name for publishing, like so:
 
-<span class="filename">Filename: Cargo.toml</span>
+<span class="filename">檔案名稱：Cargo.toml</span>
 
 ```toml
 [package]
@@ -341,7 +341,7 @@ the `MIT` identifier:
 
 [spdx]: http://spdx.org/licenses/
 
-<span class="filename">Filename: Cargo.toml</span>
+<span class="filename">檔案名稱：Cargo.toml</span>
 
 ```toml
 [package]
@@ -364,7 +364,7 @@ With a unique name, the version, the author details that `cargo new` added
 when you created the crate, your description, and a license added, the
 *Cargo.toml* file for a project that is ready to publish might look like this:
 
-<span class="filename">Filename: Cargo.toml</span>
+<span class="filename">檔案名稱：Cargo.toml</span>
 
 ```toml
 [package]

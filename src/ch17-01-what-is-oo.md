@@ -44,7 +44,7 @@ on demand whenever anyone needs it. In other words, `AveragedCollection` will
 cache the calculated average for us. Listing 17-1 has the definition of the
 `AveragedCollection` struct:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch17-oop/listing-17-01/src/lib.rs}}
@@ -60,7 +60,7 @@ ensure that whenever a value is added or removed from the list, the average is
 also updated. We do this by implementing `add`, `remove`, and `average` methods
 on the struct, as shown in Listing 17-2:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch17-oop/listing-17-02/src/lib.rs:here}}

@@ -59,7 +59,7 @@ printed to standard output with the rest of the failure message.
 As an example, Listing 11-10 has a silly function that prints the value of its
 parameter and returns 10, as well as a test that passes and a test that fails.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,panics
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-10/src/lib.rs:here}}
@@ -103,7 +103,7 @@ or names of the test(s) you want to run as an argument.
 To demonstrate how to run a subset of tests, we’ll create three tests for our
 `add_two` function, as shown in Listing 11-11, and choose which ones to run.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-11/src/lib.rs}}
@@ -157,7 +157,7 @@ listing as arguments all tests you do want to run, you can instead annotate the
 time-consuming tests using the `ignore` attribute to exclude them, as shown
 here:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-11-ignore-a-test/src/lib.rs:here}}

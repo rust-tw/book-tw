@@ -34,7 +34,7 @@ $ cd hello_world
 
 現在請開啓 *main.rs* 文件然而後輸入範例 1-1 中的程式碼。
 
-<span class="filename">Filename: main.rs</span>
+<span class="filename">檔案名稱：main.rs</span>
 
 ```rust
 fn main() {

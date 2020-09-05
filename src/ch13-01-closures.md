@@ -27,7 +27,7 @@ We’ll simulate calling this hypothetical algorithm with the function
 `calculating slowly...`, wait for two seconds, and then return whatever number
 we passed in.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-01/src/main.rs:here}}
@@ -52,7 +52,7 @@ The required inputs are these:
 The output will be the recommended workout plan. Listing 13-2 shows the `main`
 function we’ll use.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-02/src/main.rs:here}}
@@ -73,7 +73,7 @@ Now that we have the context, let’s get to the algorithm. The function
 app that we’re most concerned with in this example. The rest of the code
 changes in this example will be made to this function.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-03/src/main.rs:here}}
@@ -115,7 +115,7 @@ We could restructure the workout program in many ways. First, we’ll try
 extracting the duplicated call to the `simulated_expensive_calculation`
 function into a variable, as shown in Listing 13-4.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-04/src/main.rs:here}}
@@ -142,7 +142,7 @@ rather than storing the result of the function call, as shown in Listing 13-5.
 We can actually move the whole body of `simulated_expensive_calculation` within
 the closure we’re introducing here.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-05/src/main.rs:here}}
@@ -177,7 +177,7 @@ we do a function: we specify the variable name that holds the closure
 definition and follow it with parentheses containing the argument values we
 want to use, as shown in Listing 13-6.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-06/src/main.rs:here}}
@@ -222,7 +222,7 @@ explicitness and clarity at the cost of being more verbose than is strictly
 necessary. Annotating the types for the closure we defined in Listing 13-5
 would look like the definition shown in Listing 13-7.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-07/src/main.rs:here}}
@@ -261,7 +261,7 @@ example. Note that we haven’t added any type annotations to the definition: if
 we then try to call the closure twice, using a `String` as an argument the
 first time and a `u32` the second time, we’ll get an error.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-08/src/main.rs:here}}
@@ -318,7 +318,7 @@ trait bound we specify is `Fn(u32) -> u32`.
 Listing 13-9 shows the definition of the `Cacher` struct that holds a closure
 and an optional result value.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-09/src/main.rs:here}}
@@ -348,7 +348,7 @@ the result of the closure again, instead of executing the closure again, the
 The logic around the `value` field we’ve just described is defined in Listing
 13-10.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-10/src/main.rs:here}}
@@ -379,7 +379,7 @@ returns the value as well.
 Listing 13-11 shows how we can use this `Cacher` struct in the function
 `generate_workout` from Listing 13-6.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-11/src/main.rs:here}}
@@ -457,7 +457,7 @@ which they’re defined.
 Listing 13-12 has an example of a closure stored in the `equal_to_x` variable
 that uses the `x` variable from the closure’s surrounding environment.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-12/src/main.rs}}
@@ -473,7 +473,7 @@ same scope that `equal_to_x` is defined in.
 We can’t do the same with functions; if we try with the following example, our
 code won’t compile:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch13-functional-features/no-listing-02-functions-cant-capture/src/main.rs}}
@@ -526,7 +526,7 @@ keyword added to the closure definition and using vectors instead of integers,
 because integers can be copied rather than moved; note that this code will not
 yet compile.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch13-functional-features/no-listing-03-move-closures/src/main.rs}}

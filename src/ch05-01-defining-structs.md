@@ -169,7 +169,7 @@ itself. We’ll discuss traits in Chapter 10.
 > is valid for as long as the struct is. Let’s say you try to store a reference
 > in a struct without specifying lifetimes, like this, which won’t work:
 >
-> <span class="filename">Filename: src/main.rs</span>
+> <span class="filename">檔案名稱：src/main.rs</span>
 >
 > <!-- CAN'T EXTRACT SEE https://github.com/rust-lang/mdBook/issues/1127 -->
 >

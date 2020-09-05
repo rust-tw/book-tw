@@ -15,7 +15,7 @@ our current server implementation. Listing 20-10 implements handling a request
 to */sleep* with a simulated slow response that will cause the server to sleep
 for 5 seconds before responding.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,no_run
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-10/src/main.rs:here}}
@@ -96,7 +96,7 @@ problems with potentially spawning an unlimited number of threads, but it is a
 starting point. Listing 20-11 shows the changes to make to `main` to spawn a
 new thread to handle each stream within the `for` loop.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,no_run
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-11/src/main.rs:here}}
@@ -119,7 +119,7 @@ threads to a thread pool doesn’t require large changes to the code that uses
 our API. Listing 20-12 shows the hypothetical interface for a `ThreadPool`
 struct we want to use instead of `thread::spawn`.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-12/src/main.rs:here}}
@@ -155,7 +155,7 @@ web requests.
 Create a *src/lib.rs* that contains the following, which is the simplest
 definition of a `ThreadPool` struct that we can have for now:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-01-define-threadpool-struct/src/lib.rs}}
@@ -168,7 +168,7 @@ primary crate in the *hello* directory; we can still run the binary in
 to bring the library crate in and bring `ThreadPool` into scope by adding the
 following code to the top of *src/bin/main.rs*:
 
-<span class="filename">Filename: src/bin/main.rs</span>
+<span class="filename">檔案名稱：src/bin/main.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-01-define-threadpool-struct/src/bin/main.rs:here}}
@@ -187,7 +187,7 @@ that can accept `4` as an argument and should return a `ThreadPool` instance.
 Let’s implement the simplest `new` function that will have those
 characteristics:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-02-impl-threadpool-new/src/lib.rs:here}}
@@ -244,7 +244,7 @@ closure from one thread to another and `'static` because we don’t know how lon
 the thread will take to execute. Let’s create an `execute` method on
 `ThreadPool` that will take a generic parameter of type `F` with these bounds:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-03-define-execute/src/lib.rs:here}}
@@ -285,7 +285,7 @@ valid `usize`. We’ll add code to check that `size` is greater than zero before
 we return a `ThreadPool` instance and have the program panic if it receives a
 zero by using the `assert!` macro, as shown in Listing 20-13.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-13/src/lib.rs:here}}
@@ -336,7 +336,7 @@ We’ve changed the definition of `ThreadPool` to hold a vector of
 `size`, set up a `for` loop that will run some code to create the threads, and
 returned a `ThreadPool` instance containing them.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,ignore,not_desired_behavior
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-14/src/lib.rs:here}}
@@ -402,7 +402,7 @@ looking at the code in Listing 20-15.
 
 Ready? Here is Listing 20-15 with one way to make the preceding modifications.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-15/src/lib.rs:here}}
@@ -457,7 +457,7 @@ side in the `ThreadPool` instance, as shown in Listing 20-16. The `Job` struct
 doesn’t hold anything for now but will be the type of item we’re sending down
 the channel.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-16/src/lib.rs:here}}
@@ -474,7 +474,7 @@ pool creates the channel. We know we want to use the receiving end in the
 thread that the workers spawn, so we’ll reference the `receiver` parameter in
 the closure. The code in Listing 20-17 won’t quite compile yet.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-17/src/lib.rs:here}}
@@ -509,7 +509,7 @@ need to use `Arc<Mutex<T>>`. The `Arc` type will let multiple workers own the
 receiver, and `Mutex` will ensure that only one worker gets a job from the
 receiver at a time. Listing 20-18 shows the changes we need to make.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-18/src/lib.rs:here}}
@@ -533,7 +533,7 @@ with Type Aliases”][creating-type-synonyms-with-type-aliases]<!-- ignore -->
 section of Chapter 19, type aliases allow us to make long types shorter. Look
 at Listing 20-19.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-19/src/lib.rs:here}}
@@ -557,7 +557,7 @@ Instead, we need the closure to loop forever, asking the receiving end of the
 channel for a job and running the job when it gets one. Let’s make the change
 shown in Listing 20-20 to `Worker::new`.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-20/src/lib.rs:here}}
@@ -644,7 +644,7 @@ thread run them.
 After learning about the `while let` loop in Chapter 18, you might be wondering
 why we didn’t write the worker thread code as shown in Listing 20-21.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,ignore,not_desired_behavior
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-21/src/lib.rs:here}}

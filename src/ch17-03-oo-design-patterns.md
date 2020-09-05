@@ -32,7 +32,7 @@ Listing 17-11 shows this workflow in code form: this is an example usage of the
 API we’ll implement in a library crate named `blog`. This won’t compile yet
 because we haven’t implemented the `blog` crate yet.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch17-oop/listing-17-11/src/main.rs:all}}
@@ -73,7 +73,7 @@ instance of `Post`, as shown in Listing 17-12. We’ll also make a private
 inside an `Option<T>` in a private field named `state`. You’ll see why the
 `Option<T>` is necessary in a bit.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch17-oop/listing-17-12/src/lib.rs}}
@@ -105,7 +105,7 @@ how the `content` field’s data is read. The `add_text` method is pretty
 straightforward, so let’s add the implementation in Listing 17-13 to the `impl
 Post` block:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch17-oop/listing-17-13/src/lib.rs:here}}
@@ -133,7 +133,7 @@ once we implement the ability to change a post’s state so it can be published.
 So far, posts can only be in the draft state, so the post content should always
 be empty. Listing 17-14 shows this placeholder implementation:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch17-oop/listing-17-14/src/lib.rs:here}}
@@ -150,7 +150,7 @@ works as intended.
 Next, we need to add functionality to request a review of a post, which should
 change its state from `Draft` to `PendingReview`. Listing 17-15 shows this code:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch17-oop/listing-17-15/src/lib.rs:here}}
@@ -207,7 +207,7 @@ The `approve` method will be similar to the `request_review` method: it will
 set `state` to the value that the current state says it should have when that
 state is approved, as shown in Listing 17-16:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch17-oop/listing-17-16/src/lib.rs:here}}
@@ -230,7 +230,7 @@ Now we need to update the `content` method on `Post`: if the state is
 `Published`, we want to return the value in the post’s `content` field;
 otherwise, we want to return an empty string slice, as shown in Listing 17-17:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch17-oop/listing-17-17/src/lib.rs:here}}
@@ -265,7 +265,7 @@ called on the type that implements the `State` trait. That means we need to add
 logic for what content to return depending on which state we have, as shown in
 Listing 17-18:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch17-oop/listing-17-18/src/lib.rs:here}}
@@ -357,7 +357,7 @@ draft posts where only published posts are allowed by issuing a compiler error.
 
 Let’s consider the first part of `main` in Listing 17-11:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch17-oop/listing-17-11/src/main.rs:here}}
@@ -373,7 +373,7 @@ display draft post content in production, because that code won’t even compile
 Listing 17-19 shows the definition of a `Post` struct and a `DraftPost` struct,
 as well as methods on each:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch17-oop/listing-17-19/src/lib.rs}}
@@ -409,7 +409,7 @@ these constraints by adding another struct, `PendingReviewPost`, defining the
 defining an `approve` method on `PendingReviewPost` to return a `Post`, as
 shown in Listing 17-20:
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch17-oop/listing-17-20/src/lib.rs:here}}
@@ -439,7 +439,7 @@ pending review post’s contents be empty strings, nor do we need them: we can�
 compile code that tries to use the content of posts in those states any longer.
 The updated code in `main` is shown in Listing 17-21:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch17-oop/listing-17-21/src/main.rs}}

@@ -35,7 +35,7 @@ aren’t any `[profile.*]` sections in the project’s *Cargo.toml* file. By add
 any subset of the default settings. For example, here are the default values
 for the `opt-level` setting for the `dev` and `release` profiles:
 
-<span class="filename">Filename: Cargo.toml</span>
+<span class="filename">檔案名稱：Cargo.toml</span>
 
 ```toml
 [profile.dev]
@@ -60,7 +60,7 @@ You can override any default setting by adding a different value for it in
 development profile, we can add these two lines to our project’s *Cargo.toml*
 file:
 
-<span class="filename">Filename: Cargo.toml</span>
+<span class="filename">檔案名稱：Cargo.toml</span>
 
 ```toml
 [profile.dev]

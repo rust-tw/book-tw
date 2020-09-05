@@ -23,7 +23,7 @@ single line, you’ll need to include `//` on each line, like this:
 
 Comments can also be placed at the end of lines containing code:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-24-comments-end-of-line/src/main.rs}}
@@ -32,7 +32,7 @@ Comments can also be placed at the end of lines containing code:
 But you’ll more often see them used in this format, with the comment on a
 separate line above the code it’s annotating:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-25-comments-above-line/src/main.rs}}

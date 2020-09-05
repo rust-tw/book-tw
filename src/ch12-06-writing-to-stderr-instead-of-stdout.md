@@ -54,7 +54,7 @@ the `eprintln!` macro that prints to the standard error stream, so let’s chang
 the two places we were calling `println!` to print errors to use `eprintln!`
 instead.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-24/src/main.rs:here}}
@@ -84,7 +84,7 @@ $ cargo run to poem.txt > output.txt
 We won’t see any output to the terminal, and *output.txt* will contain our
 results:
 
-<span class="filename">Filename: output.txt</span>
+<span class="filename">檔案名稱：output.txt</span>
 
 ```text
 Are you nobody, too?

@@ -10,7 +10,7 @@ crate root file so it contains the code shown in Listing 7-21. In this case,
 the crate root file is *src/lib.rs*, but this procedure also works with binary
 crates whose crate root file is *src/main.rs*.
 
-<span class="filename">Filename: src/lib.rs</span>
+<span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-21-and-22/src/lib.rs}}
@@ -22,7 +22,7 @@ body will be in *src/front_of_house.rs*</span>
 And *src/front_of_house.rs* gets the definitions from the body of the
 `front_of_house` module, as shown in Listing 7-22.
 
-<span class="filename">Filename: src/front_of_house.rs</span>
+<span class="filename">檔案名稱：src/front_of_house.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-21-and-22/src/front_of_house.rs}}
@@ -37,7 +37,7 @@ the module. To continue with our example and extract the `hosting` module to
 its own file as well, we change *src/front_of_house.rs* to contain only the
 declaration of the `hosting` module:
 
-<span class="filename">Filename: src/front_of_house.rs</span>
+<span class="filename">檔案名稱：src/front_of_house.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/no-listing-02-extracting-hosting/src/front_of_house.rs}}
@@ -47,7 +47,7 @@ Then we create a *src/front_of_house* directory and a file
 *src/front_of_house/hosting.rs* to contain the definitions made in the
 `hosting` module:
 
-<span class="filename">Filename: src/front_of_house/hosting.rs</span>
+<span class="filename">檔案名稱：src/front_of_house/hosting.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/no-listing-02-extracting-hosting/src/front_of_house/hosting.rs}}
