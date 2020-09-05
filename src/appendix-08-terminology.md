@@ -60,6 +60,7 @@ iterative              | 疊代                          | 參考：[維基百�
 iterator               | 疊代器                        | 參考：[維基百科][iterator]
 immutable              | 不可變                        | 參考：[維基百科][immutable]
 inheritance            | 繼承　                        |
+keyword                | 關鍵字                        |
 language feature       | 語言特徵                      | 參考：[中華民國資訊學會][language feature]
 library                | 函式庫                        | 參考：[維基百科][library]
 lifetimes              | 生命週期                      |
