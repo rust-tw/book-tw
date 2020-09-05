@@ -12,6 +12,7 @@ arity                  | 元數                          | 所需運算元的數
 array                  | 陣列                          | 參考：[維基百科][array]
 assignment             | 賦值                          |
 associated function    | 關聯函式                      |
+benchmarking           | 基準化分析法                  |
 best-practice          | 最佳做法                      |
 bit                    | 位元                          | 參考：[維基百科][bit]
 block                  | 區塊                          |
@@ -34,6 +35,7 @@ crash                  | 當機                          |
 dangling pointer       | 迷途指標                      | 參考：[維基百科][dangling pointer]
 data race              | 資料競爭                      |
 declaration statements | 宣告陳述式                    |
+dependencies           | 依賴                          |
 deque                  | 雙向佇列                      | Double-ended queue
 dereference            | 取值                          | 即 `*` 運算子
 dispatch               | 分派                          | 參考：[維基百科][multiple dispatch]
@@ -44,7 +46,7 @@ executable             | 執行檔                        |
 expression             | 表達式                        |
 expression-oriented    | 表達式導向                    |
 expression statements  | 表達陳述式                    |
-extensions             | 擴充功能                      |
+filename extension     | 副檔名                        |
 handle                 | 控制代碼                      | 參考：[維基百科][handle]、[MSDN][handle_2]
 heap                   | 堆積                          | 參考：[維基百科][heap]
 fault                  | 錯誤                          |
@@ -84,9 +86,11 @@ plugins                | 外掛                          |
 pointer                | 指標                          | 參考：[維基百科][pointer]
 polymorphism           | 多型                          | 參考：[維基百科][polymorphism]
 primitive type         | 基本型別                      | 參考：[維基百科][primitive type]
+profile                | 設定檔                        |
 reference              | 參照、參考                    | 參考：[維基百科][reference]
 round bracket          | 圓括號                        | 參考：[維基百科][bracket]
 scope                  | 有效範圍                      |
+section                | 片段                          |
 semantics              | 語意                          |
 segment                | 區段                          | 參考：[維基百科][segment]
 segmentation fault     | 記憶體區段錯誤                | 參考：[維基百科][segmentation fault]
@@ -190,7 +194,6 @@ bootstrap              |                               |
 build                  |                               | 名詞，例：create a "build"
 closures               |                               |
 crates                 |                               |
-dependencies           |                               |
 destructuring let      |                               | 用於存取 tuple
 fully-strict           |                               |
 hash                   |                               |
@@ -204,10 +207,10 @@ panic                  |                               |
 patches                |                               |
 placeholder            |                               |
 prelude                |                               | 預先載入的函式庫
-profiles               |                               |
 regression             |                               |
 repository             |                               |
 root                   |                               |
+Rustaceans             |                               | Rust 開發者稱呼自己的常用稱號
 shell                  |                               |
 slices                 |                               | 其他資料結構的參考
 tabs                   |                               |
