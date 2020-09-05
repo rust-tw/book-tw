@@ -60,7 +60,7 @@ Hello, world!
 Hello, world!
 ```
 
-不管你的作業系統維和，終端機上應該都會出現 `Hello, world!`。如果你沒有看到，可以回到安裝章節中的[「疑難排除」][troubleshooting]尋求協助。
+不管你的作業系統維和，終端機上應該都會出現 `Hello, world!`。如果你沒有看到，可以回到安裝章節中的[「疑難排除」][troubleshooting]<!-- ignore -->尋求協助。
 
 如果 `Hello, world!` 有印出來，那麼恭喜你！你正式寫了一支 Rust 程式，所以你也正式成爲 Rust 開發者——歡迎加入！
 
@@ -137,3 +137,7 @@ $ ./main # or .\main.exe on Windows
 在簡單的程式使用 `rustc` 來編譯不會有什麼問題，但當你的專案成長時，你將會需要管理所有選擇並讓程式碼易於分享。接下來我們將介紹 Cargo 這項工具給你，它將協助你寫出真正的 Rust 程式。
 
 [troubleshooting]: ch01-01-installation.html#troubleshooting
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [fce7281](https://github.com/rust-lang/book/blob/fce7281061fd4b18a87075f43c17fc3168230a21/src/ch01-02-hello-world.md)
+> - updated: 2020-09-05

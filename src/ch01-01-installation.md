@@ -75,6 +75,6 @@ rustc x.y.z (abcabcabc yyyy-mm-dd)
 
 每當有任何型態或函式出現而你卻不清楚如何使用時，你就可以使用應用程式介面（API）技術文件來知道！
 
-> translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> commit: [bcf17fb](https://github.com/rust-lang/book/blob/bad683bb7dcd06ef7f5f83bad3a25b1706b7b230/src/ch01-01-installation.md)
-> updated: 2020-09-05
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [bad683b](https://github.com/rust-lang/book/blob/bad683bb7dcd06ef7f5f83bad3a25b1706b7b230/src/ch01-01-installation.md)
+> - updated: 2020-09-05
