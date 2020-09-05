@@ -167,19 +167,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#variables-and-mutability" id="variables-and-mutability">Variables and Mutability</a></h2>
-<p>As mentioned in Chapter 2, by default variables are immutable. This is one of
-many nudges Rust gives you to write your code in a way that takes advantage of
-the safety and easy concurrency that Rust offers. However, you still have the
-option to make your variables mutable. Let’s explore how and why Rust
-encourages you to favor immutability and why sometimes you might want to opt
-out.</p>
-<p>When a variable is immutable, once a value is bound to a name, you can’t change
-that value. To illustrate this, let’s generate a new project called <em>variables</em>
-in your <em>projects</em> directory by using <code>cargo new variables</code>.</p>
-<p>Then, in your new <em>variables</em> directory, open <em>src/main.rs</em> and replace its
-code with the following code that won’t compile just yet:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+                        <h2><a class="header" href="#變數與可變性" id="變數與可變性">變數與可變性</a></h2>
+<p>如同第二章提到的，變數預設是不可變的。這是 Rust 推動你能充分利用 Rust 提供的安全性和簡單地並行性來寫程式的許多方法之一。不過，你還是有辦法能讓你的變數成爲可變的。讓我們來探討爲何 Rust 鼓勵你多多使用不可變，以及何時你會想要改爲可變的。</p>
+<p>當一個變數是不可變的，只要有數值綁定在一個名字上，你就無法改變其值。爲了方便說明，讓我們使用 <code>cargo new variables</code> 在 <em>projects</em> 目錄下產生一個新專案叫做 <em>variables</em>。</p>
+<p>再來在你的新 <em>variables</em> 目錄下開啓 <em>src/main.rs</em> 然後覆蓋程式碼爲以下內容，這是段還無法編譯的程式碼：</p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = 5;
     println!(&quot;The value of x is: {}&quot;, x);
@@ -187,8 +179,7 @@ code with the following code that won’t compile just yet:</p>
     println!(&quot;The value of x is: {}&quot;, x);
 }
 </code></pre>
-<p>Save and run the program using <code>cargo run</code>. You should receive an error
-message, as shown in this output:</p>
+<p>儲存然後使用 <code>cargo run</code> 執行程式。你應該會收到一則錯誤訊息，如下所示：</p>
 <pre><code class="language-console">$ cargo run
    Compiling variables v0.1.0 (file:///projects/variables)
 error[E0384]: cannot assign twice to immutable variable `x`
@@ -210,30 +201,13 @@ error: could not compile `variables`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>This example shows how the compiler helps you find errors in your programs.
-Even though compiler errors can be frustrating, they only mean your program
-isn’t safely doing what you want it to do yet; they do <em>not</em> mean that you’re
-not a good programmer! Experienced Rustaceans still get compiler errors.</p>
-<p>The error message indicates that the cause of the error is that you <code>cannot assign twice to immutable variable x</code>, because you tried to assign a second
-value to the immutable <code>x</code> variable.</p>
-<p>It’s important that we get compile-time errors when we attempt to change a
-value that we previously designated as immutable because this very situation
-can lead to bugs. If one part of our code operates on the assumption that a
-value will never change and another part of our code changes that value, it’s
-possible that the first part of the code won’t do what it was designed to do.
-The cause of this kind of bug can be difficult to track down after the fact,
-especially when the second piece of code changes the value only <em>sometimes</em>.</p>
-<p>In Rust, the compiler guarantees that when you state that a value won’t change,
-it really won’t change. That means that when you’re reading and writing code,
-you don’t have to keep track of how and where a value might change. Your code
-is thus easier to reason through.</p>
-<p>But mutability can be very useful. Variables are immutable only by default; as
-you did in Chapter 2, you can make them mutable by adding <code>mut</code> in front of the
-variable name. In addition to allowing this value to change, <code>mut</code> conveys
-intent to future readers of the code by indicating that other parts of the code
-will be changing this variable’s value.</p>
-<p>For example, let’s change <em>src/main.rs</em> to the following:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p>此範例顯示了編譯器如何協助你找到你程式碼的錯誤。雖然看到編譯器錯誤訊息總是令人感到沮喪，但這通常是爲了讓你知道你的程式無法安全地完成你想讓它完成的任務。它們 <em>不代表</em> 你不是個優秀的程式設計師！有經驗的 Rustaceans 時常會與編譯器錯誤訊息打交道。</p>
+<p>這則錯誤訊息表示錯誤發生的原因：「cannot assign twice to immutable variable x」，因爲你嘗試第二次賦值給 <code>x</code> 變數。</p>
+<p>當我們嘗試改變一個原先設計爲不可變的變數時，能夠產生編譯時錯誤是很重要的。因爲這樣的情況很容易導致程式錯誤。如果我們有一部分的程式碼在執行時認爲某個數值絕對不會改變，但另一部分的程式碼卻更改了其值，那麼這就有可能讓前一部分的程式碼就可能以無法預測的方式運行。這樣的程式錯誤的起因是很難追蹤的，尤其是當第二部分的程式碼<em>偶而</em>才會改變其值。</p>
+<p>在 Rust 中，編譯器會保證當你宣告一個數值不會被改變時，它就絕對不會被改變。這代表當你讀寫程式碼時，你不需要去追蹤該值可能會被改變，讓你的程式碼更容易推導。</p>
+<p>但同時可變性也是非常有用的，變數只有預設是不可變的，就如同第二章一樣你可以在變數名稱前面加上 <code>mut</code> 讓它們可以成爲可變的。除了允許改變其值之外，<code>mut</code> 像未來的讀取者表明了其他部分的程式碼將會改變此變數的數值。</p>
+<p>舉例來說，讓我們改變 <em>src/main.rs</em>  成以下程式碼：</p>
+<p><span class="filename">檔案內容：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let mut x = 5;
     println!(&quot;The value of x is: {}&quot;, x);
@@ -241,7 +215,7 @@ will be changing this variable’s value.</p>
     println!(&quot;The value of x is: {}&quot;, x);
 }
 </code></pre></pre>
-<p>When we run the program now, we get this:</p>
+<p>當你執行程式的話，我們會得到：</p>
 <pre><code class="language-console">$ cargo run
    Compiling variables v0.1.0 (file:///projects/variables)
     Finished dev [unoptimized + debuginfo] target(s) in 0.30s
@@ -249,62 +223,26 @@ will be changing this variable’s value.</p>
 The value of x is: 5
 The value of x is: 6
 </code></pre>
-<p>We’re allowed to change the value that <code>x</code> binds to from <code>5</code> to <code>6</code> when <code>mut</code>
-is used. In some cases, you’ll want to make a variable mutable because it makes
-the code more convenient to write than if it had only immutable variables.</p>
-<p>There are multiple trade-offs to consider in addition to the prevention of
-bugs. For example, in cases where you’re using large data structures, mutating
-an instance in place may be faster than copying and returning newly allocated
-instances. With smaller data structures, creating new instances and writing in
-a more functional programming style may be easier to think through, so lower
-performance might be a worthwhile penalty for gaining that clarity.</p>
-<h3><a class="header" href="#differences-between-variables-and-constants" id="differences-between-variables-and-constants">Differences Between Variables and Constants</a></h3>
-<p>Being unable to change the value of a variable might have reminded you of
-another programming concept that most other languages have: <em>constants</em>. Like
-immutable variables, constants are values that are bound to a name and are not
-allowed to change, but there are a few differences between constants and
-variables.</p>
-<p>First, you aren’t allowed to use <code>mut</code> with constants. Constants aren’t just
-immutable by default—they’re always immutable.</p>
-<p>You declare constants using the <code>const</code> keyword instead of the <code>let</code> keyword,
-and the type of the value <em>must</em> be annotated. We’re about to cover types and
-type annotations in the next section, <a href="ch03-02-data-types.html#data-types">“Data Types,”</a><!-- ignore
---> so don’t worry about the details right now. Just know that you must always
-annotate the type.</p>
-<p>Constants can be declared in any scope, including the global scope, which makes
-them useful for values that many parts of code need to know about.</p>
-<p>The last difference is that constants may be set only to a constant expression,
-not the result of a function call or any other value that could only be
-computed at runtime.</p>
-<p>Here’s an example of a constant declaration where the constant’s name is
-<code>MAX_POINTS</code> and its value is set to 100,000. (Rust’s naming convention for
-constants is to use all uppercase with underscores between words, and
-underscores can be inserted in numeric literals to improve readability):</p>
+<p>當使用 <code>mut</code> 時，我們可以將 <code>x</code> 的數值錯從 <code>5</code> 改變爲 <code>6</code>。有時候比起只有不可變變數，你會想要將某些變數改爲可變的，讓它更容易編寫。</p>
+<p>當然除了防止程式錯誤以外，這還有很多權衡取捨。舉例來說，當你擁有一個大型資料結構時，變更其值通常會比複製然後返回重新分配的實例還來的快。不過在比較小的資料結構，用函式程式語言的風格產生新的實例會比較容易思考，所以損失一些效能會比損失閱讀性來得好。</p>
+<h3><a class="header" href="#變數與常數的差異" id="變數與常數的差異">變數與常數的差異</a></h3>
+<p>不能夠變更數值的情況可能會讓你聯想到其他程式語言都有的概念：<em>常數（constants）</em>。和不可變變數一樣，常數會讓數值與名稱綁定且不允許被改變，但是不可變變數與常數還是有些差異。</p>
+<p>首先，你無法在使用常數使用 <code>mut</code>，常數不是預設不可變，它們永遠都不可變。</p>
+<p>如果你使用 <code>const</code> 宣告而非 <code>let</code> 的話，你<em>必須</em>指明型別。我們會在下一章<a href="ch03-02-data-types.html#data-types">「資料型別」</a><!-- ignore -->詳細解釋型別與型別詮釋，所以現在先別擔心細節。你只需要先知道你永遠必須先詮釋常數的型別。</p>
+<p>常數可以被定義在任一有效範圍，包含全域有效範圍。這讓它們非常有用，讓許多部分的程式碼都能夠知道它們。</p>
+<p>最後一個差別是常數只能被常數表達式設置，而不能用函式的結果或任一在運行時產生的其他數值設置。</p>
+<p>以下爲一個常數名稱被宣告爲 <code>MAX_POINTS</code> 的範例，它的數值被設爲 100,000。（Rust 的常數命名規則爲使用全部英文大寫並用底寫區隔每個單字，數值可以用底下區隔來改善可讀性）：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>const MAX_POINTS: u32 = 100_000;
 <span class="boring">}
 </span></code></pre></pre>
-<p>Constants are valid for the entire time a program runs, within the scope they
-were declared in, making them a useful choice for values in your application
-domain that multiple parts of the program might need to know about, such as the
-maximum number of points any player of a game is allowed to earn or the speed
-of light.</p>
-<p>Naming hardcoded values used throughout your program as constants is useful in
-conveying the meaning of that value to future maintainers of the code. It also
-helps to have only one place in your code you would need to change if the
-hardcoded value needed to be updated in the future.</p>
-<h3><a class="header" href="#shadowing" id="shadowing">Shadowing</a></h3>
-<p>As you saw in the guessing game tutorial in the <a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">“Comparing the Guess to the
-Secret Number”</a><!-- ignore -->
-section in Chapter 2, you can declare a new variable with the same name as a
-previous variable, and the new variable shadows the previous variable.
-Rustaceans say that the first variable is <em>shadowed</em> by the second, which means
-that the second variable’s value is what appears when the variable is used. We
-can shadow a variable by using the same variable’s name and repeating the use
-of the <code>let</code> keyword as follows:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p>常數砸愛整支程式運行時在它們的有效範圍都是有效的，讓它們可以作爲處理許多程式碼部分的全域範圍數值，像是一款遊戲中玩家能夠得到的最高分數或者光速的數值。</p>
+<p>將會擴散到你所有程式碼的數值定義爲常數，對於幫助未來程式碼的維護者理解是非常好的選擇。這也讓未來需要更新數值的話，你知道需要修改寫死的地方就好。</p>
+<h3><a class="header" href="#遮蔽shadowing" id="遮蔽shadowing">遮蔽（Shadowing）</a></h3>
+<p>如同你在猜謎遊戲教學所看到的，在第二章<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「比較猜測得數字」</a><!-- ignore --> 你可以用之前的變數再次宣告新的變數，然後新的變數就會遮蔽之前的變數。Rustaceans 會說第一個變數被第二個變數所<em>遮蔽</em>了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 <code>let</code> 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：</p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;
 
@@ -315,44 +253,27 @@ of the <code>let</code> keyword as follows:</p>
     println!(&quot;The value of x is: {}&quot;, x);
 }
 </code></pre></pre>
-<p>This program first binds <code>x</code> to a value of <code>5</code>. Then it shadows <code>x</code> by
-repeating <code>let x =</code>, taking the original value and adding <code>1</code> so the value of
-<code>x</code> is then <code>6</code>. The third <code>let</code> statement also shadows <code>x</code>, multiplying the
-previous value by <code>2</code> to give <code>x</code> a final value of <code>12</code>. When we run this
-program, it will output the following:</p>
+<p>此程式首先將 <code>x</code> 給與 <code>5</code>，然後它用 <code>let x =</code> 遮蔽了 <code>x</code> 變數取代了原本的變數變爲 <code>6</code>。第三次的 <code>let</code> 陳述式一樣遮蔽了 <code>x</code> 讓它將原本的值乘與 <code>2</code>，讓 <code>x</code> 最終的數值爲 <code>12</code>。當我們運行此程式時，當會輸出以下結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling variables v0.1.0 (file:///projects/variables)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/variables`
 The value of x is: 12
 </code></pre>
-<p>Shadowing is different from marking a variable as <code>mut</code>, because we’ll get a
-compile-time error if we accidentally try to reassign to this variable without
-using the <code>let</code> keyword. By using <code>let</code>, we can perform a few transformations
-on a value but have the variable be immutable after those transformations have
-been completed.</p>
-<p>The other difference between <code>mut</code> and shadowing is that because we’re
-effectively creating a new variable when we use the <code>let</code> keyword again, we can
-change the type of the value but reuse the same name. For example, say our
-program asks a user to show how many spaces they want between some text by
-inputting space characters, but we really want to store that input as a number:</p>
+<p>遮蔽與標記變數爲 <code>mut</code> 是不一樣的，因爲如果我們不小心重新賦值而沒有加上 <code>let</code> 關鍵字的話，是會產生編譯期錯誤的。使用 <code>let</code> 的話，我們可以作出一些改變，然後在這之後該變數仍然是不可變的。</p>
+<p>另一個 <code>mut</code> 與遮蔽不同的地方是，爲我們能有效地再次運用 <code>let</code> 產生新的變數，我們可以在重新運用相同名稱時改變它的型別。舉例來說，當我們希望程式要求使用者顯示出字串間應該顯示多少空格，但同時我們又希望它被存爲一個數字，我們可以這樣做：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let spaces = &quot;   &quot;;
     let spaces = spaces.len();
 <span class="boring">}
 </span></code></pre></pre>
-<p>This construct is allowed because the first <code>spaces</code> variable is a string type
-and the second <code>spaces</code> variable, which is a brand-new variable that happens to
-have the same name as the first one, is a number type. Shadowing thus spares us
-from having to come up with different names, such as <code>spaces_str</code> and
-<code>spaces_num</code>; instead, we can reuse the simpler <code>spaces</code> name. However, if we
-try to use <code>mut</code> for this, as shown here, we’ll get a compile-time error:</p>
+<p>這個範例是被允許的是因爲第一次宣告 <code>spaces</code> 的變數雖然是一個字串型別，但在第二次宣告儘管用了同樣的名稱，但是我們卻能遮蔽成數字型別。遮蔽這項功能讓我們不必去宣告像是 <code>spaces_str</code> 與 <code>spaces_num</code>，我們可以重複使用 <code>spaces</code> 這個變數名稱。不過，可變變數仍然是無法變更變數型別的，如果這樣做的話我們就會拿到編譯期錯誤：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let mut spaces = &quot;   &quot;;
     spaces = spaces.len();
 <span class="boring">}
 </span></code></pre>
-<p>The error says we’re not allowed to mutate a variable’s type:</p>
+<p>此錯誤訊息告訴我們我們不與許改變變數的型別：</p>
 <pre><code class="language-console">$ cargo run
    Compiling variables v0.1.0 (file:///projects/variables)
 error[E0308]: mismatched types
@@ -370,6 +291,13 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>Now that we’ve explored how variables work, let’s look at more data types they
 can have.</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch03-01-variables-and-mutability.md">d44317c</a></li>
+<li>updated: 2020-09-05</li>
+</ul>
+</blockquote>
 
                     </main>
 

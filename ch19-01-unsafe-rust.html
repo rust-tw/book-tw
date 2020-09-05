@@ -509,7 +509,7 @@ from the C standard library. Functions declared within <code>extern</code> block
 always unsafe to call from Rust code. The reason is that other languages don’t
 enforce Rust’s rules and guarantees, and Rust can’t check them, so
 responsibility falls on the programmer to ensure safety.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust unsafe">extern &quot;C&quot; {
     fn abs(input: i32) -&gt; i32;
 }
@@ -559,7 +559,7 @@ accessing the same mutable global variable, it can cause a data race.</p>
 <p>In Rust, global variables are called <em>static</em> variables. Listing 19-9 shows an
 example declaration and use of a static variable with a string slice as a
 value.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">static HELLO_WORLD: &amp;str = &quot;Hello, world!&quot;;
 
 fn main() {
@@ -585,7 +585,7 @@ are allowed to duplicate their data whenever they’re used.</p>
 variables can be mutable. Accessing and modifying mutable static variables is
 <em>unsafe</em>. Listing 19-10 shows how to declare, access, and modify a mutable
 static variable named <code>COUNTER</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust unsafe">static mut COUNTER: u32 = 0;
 
 fn add_to_count(inc: u32) {

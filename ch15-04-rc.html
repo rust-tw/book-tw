@@ -205,7 +205,7 @@ lists will then continue on to the first <code>a</code> list containing 5 and 10
 words, both lists will share the first list containing 5 and 10.</p>
 <p>Trying to implement this scenario using our definition of <code>List</code> with <code>Box&lt;T&gt;</code>
 won’t work, as shown in Listing 15-17:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">enum List {
     Cons(i32, Box&lt;List&gt;),
     Nil,
@@ -260,7 +260,7 @@ creating <code>c</code>, increasing the number of references from two to three. 
 we call <code>Rc::clone</code>, the reference count to the data within the <code>Rc&lt;List&gt;</code> will
 increase, and the data won’t be cleaned up unless there are zero references to
 it.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum List {
     Cons(i32, Rc&lt;List&gt;),
     Nil,
@@ -297,7 +297,7 @@ code, we only need to consider the deep-copy clones and can disregard calls to
 counts changing as we create and drop references to the <code>Rc&lt;List&gt;</code> in <code>a</code>.</p>
 <p>In Listing 15-19, we’ll change <code>main</code> so it has an inner scope around list <code>c</code>;
 then we can see how the reference count changes when <code>c</code> goes out of scope.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum List {
 </span><span class="boring">    Cons(i32, Rc&lt;List&gt;),
 </span><span class="boring">    Nil,

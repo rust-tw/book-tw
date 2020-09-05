@@ -198,7 +198,7 @@ you recognize duplicated code to extract into a function, you’ll start to
 recognize duplicated code that can use generics.</p>
 <p>Consider a short program that finds the largest number in a list, as shown in
 Listing 10-1.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
@@ -227,7 +227,7 @@ hold the largest number, which in this case is 100.</p>
 <p>To find the largest number in two different lists of numbers, we can duplicate
 the code in Listing 10-1 and use the same logic at two different places in the
 program, as shown in Listing 10-2.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
@@ -266,7 +266,7 @@ largest number in a list abstractly.</p>
 function named <code>largest</code>. Unlike the code in Listing 10-1, which can find the
 largest number in only one particular list, this program can find the largest
 number in two different lists.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn largest(list: &amp;[i32]) -&gt; &amp;i32 {
     let mut largest = &amp;list[0];
 

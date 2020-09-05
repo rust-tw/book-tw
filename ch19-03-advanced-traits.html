@@ -212,7 +212,7 @@ handle. So why use associated types?</p>
 <p>Let’s examine the difference between the two concepts with an example from
 Chapter 13 that implements the <code>Iterator</code> trait on the <code>Counter</code> struct. In
 Listing 13-21, we specified that the <code>Item</code> type was <code>u32</code>:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">struct Counter {
 </span><span class="boring">    count: u32,
 </span><span class="boring">}
@@ -280,7 +280,7 @@ in <code>std::ops</code> by implementing the traits associated with the operator
 example, in Listing 19-14 we overload the <code>+</code> operator to add two <code>Point</code>
 instances together. We do this by implementing the <code>Add</code> trait on a <code>Point</code>
 struct:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::ops::Add;
 
 #[derive(Debug, PartialEq)]
@@ -340,7 +340,7 @@ default.</p>
 units. We want to add values in millimeters to values in meters and have the
 implementation of <code>Add</code> do the conversion correctly. We can implement <code>Add</code> for
 <code>Millimeters</code> with <code>Meters</code> as the <code>Rhs</code>, as shown in Listing 19-15.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -387,7 +387,7 @@ want to use. Consider the code in Listing 19-16 where we’ve defined two traits
 <code>Pilot</code> and <code>Wizard</code>, that both have a method called <code>fly</code>. We then implement
 both traits on a type <code>Human</code> that already has a method named <code>fly</code> implemented
 on it. Each <code>fly</code> method does something different.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">trait Pilot {
     fn fly(&amp;self);
 }
@@ -423,7 +423,7 @@ method and are implemented on the <code>Human</code> type, and a <code>fly</code
 implemented on <code>Human</code> directly</span></p>
 <p>When we call <code>fly</code> on an instance of <code>Human</code>, the compiler defaults to calling
 the method that is directly implemented on the type, as shown in Listing 19-17.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">trait Pilot {
 </span><span class="boring">    fn fly(&amp;self);
 </span><span class="boring">}
@@ -464,7 +464,7 @@ called the <code>fly</code> method implemented on <code>Human</code> directly.</
 <p>To call the <code>fly</code> methods from either the <code>Pilot</code> trait or the <code>Wizard</code> trait,
 we need to use more explicit syntax to specify which <code>fly</code> method we mean.
 Listing 19-18 demonstrates this syntax.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">trait Pilot {
 </span><span class="boring">    fn fly(&amp;self);
 </span><span class="boring">}
@@ -525,7 +525,7 @@ figure out which type you mean unless you use <em>fully qualified syntax</em>. F
 example, the <code>Animal</code> trait in Listing 19-19 has the associated function
 <code>baby_name</code>, the implementation of <code>Animal</code> for the struct <code>Dog</code>, and the
 associated function <code>baby_name</code> defined on <code>Dog</code> directly.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">trait Animal {
     fn baby_name() -&gt; String;
 }
@@ -570,7 +570,7 @@ is part of the <code>Animal</code> trait that we implemented on <code>Dog</code>
 <code>A baby dog is called a puppy</code>. The technique of specifying the trait name that
 we used in Listing 19-18 doesn’t help here; if we change <code>main</code> to the code in
 Listing 19-20, we’ll get a compilation error.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">trait Animal {
 </span><span class="boring">    fn baby_name() -&gt; String;
 </span><span class="boring">}
@@ -622,7 +622,7 @@ To learn more, run the command again with --verbose.
 <p>To disambiguate and tell Rust that we want to use the implementation of
 <code>Animal</code> for <code>Dog</code>, we need to use fully qualified syntax. Listing 19-21
 demonstrates how to use fully qualified syntax.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">trait Animal {
 </span><span class="boring">    fn baby_name() -&gt; String;
 </span><span class="boring">}
@@ -689,7 +689,7 @@ work only for types that also implement <code>Display</code> and provide the fun
 that <code>OutlinePrint</code> needs. We can do that in the trait definition by specifying
 <code>OutlinePrint: Display</code>. This technique is similar to adding a trait bound to
 the trait. Listing 19-22 shows an implementation of the <code>OutlinePrint</code> trait.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::fmt;
 
 trait OutlinePrint: fmt::Display {
@@ -716,7 +716,7 @@ error saying that no method named <code>to_string</code> was found for the type 
 the current scope.</p>
 <p>Let’s see what happens when we try to implement <code>OutlinePrint</code> on a type that
 doesn’t implement <code>Display</code>, such as the <code>Point</code> struct:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::fmt;
 </span><span class="boring">
 </span><span class="boring">trait OutlinePrint: fmt::Display {
@@ -764,7 +764,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>To fix this, we implement <code>Display</code> on <code>Point</code> and satisfy the constraint that
 <code>OutlinePrint</code> requires, like so:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">trait OutlinePrint: fmt::Display {
 </span><span class="boring">    fn outline_print(&amp;self) {
 </span><span class="boring">        let output = self.to_string();
@@ -819,7 +819,7 @@ orphan rule prevents us from doing directly because the <code>Display</code> tra
 <code>Vec&lt;T&gt;</code> type are defined outside our crate. We can make a <code>Wrapper</code> struct
 that holds an instance of <code>Vec&lt;T&gt;</code>; then we can implement <code>Display</code> on
 <code>Wrapper</code> and use the <code>Vec&lt;T&gt;</code> value, as shown in Listing 19-23.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::fmt;
 
 struct Wrapper(Vec&lt;String&gt;);

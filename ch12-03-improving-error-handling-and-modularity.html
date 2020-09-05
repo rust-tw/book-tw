@@ -227,7 +227,7 @@ reading it. Let’s rework our program by following this process.</p>
 <code>main</code> will call to prepare for moving the command line parsing logic to
 <em>src/lib.rs</em>. Listing 12-5 shows the new start of <code>main</code> that calls a new
 function <code>parse_config</code>, which we’ll define in <em>src/main.rs</em> for the moment.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -287,7 +287,7 @@ other and what their purpose is.</p>
 an anti-pattern known as <em>primitive obsession</em>.</p>
 </blockquote>
 <p>Listing 12-6 shows the improvements to the <code>parse_config</code> function.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -373,7 +373,7 @@ standard library, such as <code>String</code>, by calling <code>String::new</cod
 changing <code>parse_config</code> into a <code>new</code> function associated with <code>Config</code>, we’ll
 be able to create instances of <code>Config</code> by calling <code>Config::new</code>. Listing 12-7
 shows the changes we need to make.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -434,7 +434,7 @@ happened and what they should do instead. Let’s fix that now.</p>
 <p>In Listing 12-8, we add a check in the <code>new</code> function that will verify that the
 slice is long enough before accessing index 1 and 2. If the slice isn’t long
 enough, the program panics and displays a better error message than the <code>index out of bounds</code> message.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -508,7 +508,7 @@ about <code>thread 'main'</code> and <code>RUST_BACKTRACE</code> that a call to 
 <code>Config::new</code> and the body of the function needed to return a <code>Result</code>. Note
 that this won’t compile until we update <code>main</code> as well, which we’ll do in the
 next listing.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -565,7 +565,7 @@ Listing 12-10. We’ll also take the responsibility of exiting the command line
 tool with a nonzero error code from <code>panic!</code> and implement it by hand. A
 nonzero exit status is a convention to signal to the process that called our
 program that the program exited with an error state.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
 </span>use std::process;
@@ -647,7 +647,7 @@ inspection, and we’ll be able to write tests for all the other logic.</p>
 <p>Listing 12-11 shows the extracted <code>run</code> function. For now, we’re just making
 the small, incremental improvement of extracting the function. We’re still
 defining the function in <em>src/main.rs</em>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
 </span><span class="boring">use std::process;
@@ -708,7 +708,7 @@ function will return a <code>Result&lt;T, E&gt;</code> when something goes wrong
 us further consolidate into <code>main</code> the logic around handling errors in a
 user-friendly way. Listing 12-12 shows the changes we need to make to the
 signature and body of <code>run</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
 </span><span class="boring">use std::process;
@@ -816,7 +816,7 @@ have some error-handling code here! Let’s rectify that problem now.</p>
 <h4><a class="header" href="#handling-errors-returned-from-run-in-main" id="handling-errors-returned-from-run-in-main">Handling Errors Returned from <code>run</code> in <code>main</code></a></h4>
 <p>We’ll check for errors and handle them using a technique similar to one we used
 with <code>Config::new</code> in Listing 12-10, but with a slight difference:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -891,7 +891,7 @@ it and have a <em>src/main.rs</em> file with fewer responsibilities.</p>
 <p>The contents of <em>src/lib.rs</em> should have the signatures shown in Listing 12-13
 (we’ve omitted the bodies of the functions for brevity). Note that this won’t
 compile until we modify <em>src/main.rs</em> in Listing 12-14.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">use std::error::Error;
 use std::fs;
 
@@ -930,7 +930,7 @@ pub fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 public API that we can test!</p>
 <p>Now we need to bring the code we moved to <em>src/lib.rs</em> into the scope of the
 binary crate in <em>src/main.rs</em>, as shown in Listing 12-14.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use std::env;
 use std::process;
 

@@ -175,7 +175,7 @@ refactor the program until we’re using structs instead.</p>
 the width and height of a rectangle specified in pixels and calculate the area
 of the rectangle. Listing 5-8 shows a short program with one way of doing
 exactly that in our project’s <em>src/main.rs</em>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let width1 = 30;
     let height1 = 50;
@@ -226,7 +226,7 @@ we might do that in <a href="ch03-02-data-types.html#the-tuple-type">“The Tupl
 of Chapter 3: by using tuples.</p>
 <h3><a class="header" href="#refactoring-with-tuples" id="refactoring-with-tuples">Refactoring with Tuples</a></h3>
 <p>Listing 5-9 shows another version of our program that uses tuples.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let rect1 = (30, 50);
 
@@ -257,7 +257,7 @@ our code.</p>
 <p>We use structs to add meaning by labeling the data. We can transform the tuple
 we’re using into a data type with a name for the whole as well as names for the
 parts, as shown in Listing 5-10.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Rectangle {
     width: u32,
     height: u32,
@@ -301,7 +301,7 @@ and <code>1</code>. This is a win for clarity.</p>
 debugging our program and see the values for all its fields. Listing 5-11 tries
 using the <code>println!</code> macro as we have used in previous chapters. This won’t
 work, however.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">struct Rectangle {
     width: u32,
     height: u32,
@@ -350,7 +350,7 @@ see its value while we’re debugging our code.</p>
 have to explicitly opt in to make that functionality available for our struct.
 To do that, we add the annotation <code>#[derive(Debug)]</code> just before the struct
 definition, as shown in Listing 5-12.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
 struct Rectangle {
     width: u32,

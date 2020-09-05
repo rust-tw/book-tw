@@ -196,7 +196,7 @@ as the code, you’ll use <code>#[cfg(test)]</code> to specify that they shouldn
 included in the compiled result.</p>
 <p>Recall that when we generated the new <code>adder</code> project in the first section of
 this chapter, Cargo generated this code for us:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[cfg(test)]
 mod tests {
     #[test]
@@ -221,7 +221,7 @@ functions should be tested directly, and other languages make it difficult or
 impossible to test private functions. Regardless of which testing ideology you
 adhere to, Rust’s privacy rules do allow you to test private functions.
 Consider the code in Listing 11-12 with the private function <code>internal_adder</code>.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">pub fn add_two(a: i32) -&gt; i32 {
     internal_adder(a, 2)
 }
@@ -264,7 +264,7 @@ will compile each of the files as an individual crate.</p>
 <p>Let’s create an integration test. With the code in Listing 11-12 still in the
 <em>src/lib.rs</em> file, make a <em>tests</em> directory, create a new file named
 <em>tests/integration_test.rs</em>, and enter the code in Listing 11-13.</p>
-<p><span class="filename">Filename: tests/integration_test.rs</span></p>
+<p><span class="filename">檔案名稱：tests/integration_test.rs</span></p>
 <pre><code class="language-rust ignore">use adder;
 
 #[test]
@@ -351,7 +351,7 @@ section of Chapter 7 to extract them into a common module. For example, if we
 create <em>tests/common.rs</em> and place a function named <code>setup</code> in it, we can add
 some code to <code>setup</code> that we want to call from multiple test functions in
 multiple test files:</p>
-<p><span class="filename">Filename: tests/common.rs</span></p>
+<p><span class="filename">檔案名稱：tests/common.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -407,7 +407,7 @@ crates or have sections in the test output.</p>
 <p>After we’ve created <em>tests/common/mod.rs</em>, we can use it from any of the
 integration test files as a module. Here’s an example of calling the <code>setup</code>
 function from the <code>it_adds_two</code> test in <em>tests/integration_test.rs</em>:</p>
-<p><span class="filename">Filename: tests/integration_test.rs</span></p>
+<p><span class="filename">檔案名稱：tests/integration_test.rs</span></p>
 <pre><code class="language-rust ignore">use adder;
 
 mod common;

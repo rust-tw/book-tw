@@ -179,7 +179,7 @@ instance of the struct the method is being called on.</p>
 <p>Let’s change the <code>area</code> function that has a <code>Rectangle</code> instance as a parameter
 and instead make an <code>area</code> method defined on the <code>Rectangle</code> struct, as shown
 in Listing 5-13.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
 struct Rectangle {
     width: u32,
@@ -286,7 +286,7 @@ of <code>Rectangle</code> and return <code>true</code> if the second <code>Recta
 within <code>self</code>; otherwise it should return <code>false</code>. That is, we want to be able
 to write the program shown in Listing 5-14, once we’ve defined the <code>can_hold</code>
 method.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">fn main() {
     let rect1 = Rectangle {
         width: 30,
@@ -326,7 +326,7 @@ Boolean, and the implementation will check whether the width and height of
 <code>self</code> are both greater than the width and height of the other <code>Rectangle</code>,
 respectively. Let’s add the new <code>can_hold</code> method to the <code>impl</code> block from
 Listing 5-13, shown in Listing 5-15.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
 </span><span class="boring">    width: u32,
@@ -379,7 +379,7 @@ instance of the struct. For example, we could provide an associated function
 that would have one dimension parameter and use that as both width and height,
 thus making it easier to create a square <code>Rectangle</code> rather than having to
 specify the same value twice:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
 </span><span class="boring">    width: u32,

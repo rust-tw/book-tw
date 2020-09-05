@@ -215,7 +215,7 @@ line that indicates the test passed. If a test fails, we’ll see whatever was
 printed to standard output with the rest of the failure message.</p>
 <p>As an example, Listing 11-10 has a silly function that prints the value of its
 parameter and returns 10, as well as a test that passes and a test that fails.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust panics"><span class="boring">fn main() {}
 </span><span class="boring">
 </span>fn prints_and_returns_10(a: i32) -&gt; i32 {
@@ -321,7 +321,7 @@ that code. You can choose which tests to run by passing <code>cargo test</code> 
 or names of the test(s) you want to run as an argument.</p>
 <p>To demonstrate how to run a subset of tests, we’ll create three tests for our
 <code>add_two</code> function, as shown in Listing 11-11, and choose which ones to run.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -417,7 +417,7 @@ might want to exclude them during most runs of <code>cargo test</code>. Rather t
 listing as arguments all tests you do want to run, you can instead annotate the
 time-consuming tests using the <code>ignore</code> attribute to exclude them, as shown
 here:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[test]
 fn it_works() {
     assert_eq!(2 + 2, 4);

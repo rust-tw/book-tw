@@ -189,7 +189,7 @@ your crate is <em>implemented</em>.</p>
 Markdown notation for formatting the text. Place documentation comments just
 before the item they’re documenting. Listing 14-1 shows documentation comments
 for an <code>add_one</code> function in a crate named <code>my_crate</code>:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">/// Adds one to the number given.
 ///
 /// # Examples
@@ -271,7 +271,7 @@ module as a whole.</p>
 <code>my_crate</code> crate that contains the <code>add_one</code> function, we can add documentation
 comments that start with <code>//!</code> to the beginning of the <em>src/lib.rs</em> file, as
 shown in Listing 14-2:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">//! # My Crate
 //!
 //! `my_crate` is a collection of utilities to make performing certain
@@ -333,7 +333,7 @@ defined in the other location instead.</p>
 Within this library are two modules: a <code>kinds</code> module containing two enums
 named <code>PrimaryColor</code> and <code>SecondaryColor</code> and a <code>utils</code> module containing a
 function named <code>mix</code>, as shown in Listing 14-3:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">//! # Art
 //!
 //! A library for modeling artistic concepts.
@@ -381,7 +381,7 @@ see them.</p>
 bring the items from <code>art</code> into scope, specifying the module structure that’s
 currently defined. Listing 14-4 shows an example of a crate that uses the
 <code>PrimaryColor</code> and <code>mix</code> items from the <code>art</code> crate:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use art::kinds::PrimaryColor;
 use art::utils::mix;
 
@@ -406,7 +406,7 @@ specify the module names in the <code>use</code> statements.</p>
 <p>To remove the internal organization from the public API, we can modify the
 <code>art</code> crate code in Listing 14-3 to add <code>pub use</code> statements to re-export the
 items at the top level, as shown in Listing 14-5:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">//! # Art
 //!
 //! A library for modeling artistic concepts.
@@ -454,7 +454,7 @@ that lists the re-exports</span></p>
 <p>The <code>art</code> crate users can still see and use the internal structure from Listing
 14-3 as demonstrated in Listing 14-4, or they can use the more convenient
 structure in Listing 14-5, as shown in Listing 14-6:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use art::mix;
 use art::PrimaryColor;
 
@@ -503,7 +503,7 @@ with that name. Before attempting to publish a crate, search for the name you
 want to use on the site. If the name has been used by another crate, you will
 need to find another name and edit the <code>name</code> field in the <em>Cargo.toml</em> file
 under the <code>[package]</code> section to use the new name for publishing, like so:</p>
-<p><span class="filename">Filename: Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[package]
 name = &quot;guessing_game&quot;
 </code></pre>
@@ -531,7 +531,7 @@ your crate in search results. For the <code>license</code> field, you need to gi
 Exchange (SPDX)</a> lists the identifiers you can use for this value. For
 example, to specify that you’ve licensed your crate using the MIT License, add
 the <code>MIT</code> identifier:</p>
-<p><span class="filename">Filename: Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[package]
 name = &quot;guessing_game&quot;
 license = &quot;MIT&quot;
@@ -548,7 +548,7 @@ by <code>OR</code> to have multiple licenses for your project.</p>
 <p>With a unique name, the version, the author details that <code>cargo new</code> added
 when you created the crate, your description, and a license added, the
 <em>Cargo.toml</em> file for a project that is ready to publish might look like this:</p>
-<p><span class="filename">Filename: Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[package]
 name = &quot;guessing_game&quot;
 version = &quot;0.1.0&quot;

@@ -210,7 +210,7 @@ system and ownership rules, you can’t get locking and unlocking wrong.</p>
 <h4><a class="header" href="#the-api-of-mutext" id="the-api-of-mutext">The API of <code>Mutex&lt;T&gt;</code></a></h4>
 <p>As an example of how to use a mutex, let’s start by using a mutex in a
 single-threaded context, as shown in Listing 16-12:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::Mutex;
 
 fn main() {
@@ -255,7 +255,7 @@ We’ll spin up 10 threads and have them each increment a counter value by 1, so
 the counter goes from 0 to 10. The next example in Listing 16-13 will have
 a compiler error, and we’ll use that error to learn more about using
 <code>Mutex&lt;T&gt;</code> and how Rust helps us use it correctly.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use std::sync::Mutex;
 use std::thread;
 
@@ -324,7 +324,7 @@ what happens. We’ll wrap the <code>Mutex&lt;T&gt;</code> in <code>Rc&lt;T&gt;<
 the <code>Rc&lt;T&gt;</code> before moving ownership to the thread. Now that we’ve seen the
 errors, we’ll also switch back to using the <code>for</code> loop, and we’ll keep the
 <code>move</code> keyword with the closure.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use std::rc::Rc;
 use std::sync::Mutex;
 use std::thread;
@@ -402,7 +402,7 @@ guarantees atomics provide.</p>
 <p>Let’s return to our example: <code>Arc&lt;T&gt;</code> and <code>Rc&lt;T&gt;</code> have the same API, so we fix
 our program by changing the <code>use</code> line, the call to <code>new</code>, and the call to
 <code>clone</code>. The code in Listing 16-15 will finally compile and run:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::{Arc, Mutex};
 use std::thread;
 

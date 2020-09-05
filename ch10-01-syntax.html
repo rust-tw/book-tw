@@ -179,7 +179,7 @@ parameters and return value. Doing so makes our code more flexible and provides
 more functionality to callers of our function while preventing code duplication.</p>
 <p>Continuing with our <code>largest</code> function, Listing 10-4 shows two functions that
 both find the largest value in a slice.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn largest_i32(list: &amp;[i32]) -&gt; &amp;i32 {
     let mut largest = &amp;list[0];
 
@@ -246,7 +246,7 @@ same type <code>T</code>.</p>
 data type in its signature. The listing also shows how we can call the function
 with either a slice of <code>i32</code> values or <code>char</code> values. Note that this code won’t
 compile yet, but we’ll fix it later in this chapter.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {
     let mut largest = &amp;list[0];
 
@@ -307,7 +307,7 @@ parameters.</p>
 <p>We can also define structs to use a generic type parameter in one or more
 fields using the <code>&lt;&gt;</code> syntax. Listing 10-6 shows how to define a <code>Point&lt;T&gt;</code>
 struct to hold <code>x</code> and <code>y</code> coordinate values of any type.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T&gt; {
     x: T,
     y: T,
@@ -330,7 +330,7 @@ definition says that the <code>Point&lt;T&gt;</code> struct is generic over some
 the fields <code>x</code> and <code>y</code> are <em>both</em> that same type, whatever that type may be. If
 we create an instance of a <code>Point&lt;T&gt;</code> that has values of different types, as in
 Listing 10-7, our code won’t compile.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">struct Point&lt;T&gt; {
     x: T,
     y: T,
@@ -365,7 +365,7 @@ To learn more, run the command again with --verbose.
 different types, we can use multiple generic type parameters. For example, in
 Listing 10-8, we can change the definition of <code>Point</code> to be generic over types
 <code>T</code> and <code>U</code> where <code>x</code> is of type <code>T</code> and <code>y</code> is of type <code>U</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T, U&gt; {
     x: T,
     y: U,
@@ -428,7 +428,7 @@ avoid duplication by using generic types instead.</p>
 <p>We can implement methods on structs and enums (as we did in Chapter 5) and use
 generic types in their definitions, too. Listing 10-9 shows the <code>Point&lt;T&gt;</code>
 struct we defined in Listing 10-6 with a method named <code>x</code> implemented on it.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T&gt; {
     x: T,
     y: T,
@@ -458,7 +458,7 @@ brackets in <code>Point</code> is a generic type rather than a concrete type.</p
 <p>We could, for example, implement methods only on <code>Point&lt;f32&gt;</code> instances rather
 than on <code>Point&lt;T&gt;</code> instances with any generic type. In Listing 10-10 we use the
 concrete type <code>f32</code>, meaning we don’t declare any types after <code>impl</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Point&lt;T&gt; {
 </span><span class="boring">    x: T,
 </span><span class="boring">    y: T,
@@ -496,7 +496,7 @@ takes another <code>Point</code> as a parameter, which might have different type
 <code>self</code> <code>Point</code> we’re calling <code>mixup</code> on. The method creates a new <code>Point</code>
 instance with the <code>x</code> value from the <code>self</code> <code>Point</code> (of type <code>T</code>) and the <code>y</code>
 value from the passed-in <code>Point</code> (of type <code>W</code>).</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T, U&gt; {
     x: T,
     y: U,
@@ -564,7 +564,7 @@ is <code>f64</code>. As such, it expands the generic definition of <code>Option&
 the specific ones.</p>
 <p>The monomorphized version of the code looks like the following. The generic
 <code>Option&lt;T&gt;</code> is replaced with the specific definitions created by the compiler:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum Option_i32 {
     Some(i32),
     None,

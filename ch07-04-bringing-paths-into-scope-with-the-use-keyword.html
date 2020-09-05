@@ -179,7 +179,7 @@ they’re local items with the <code>use</code> keyword.</p>
 scope of the <code>eat_at_restaurant</code> function so we only have to specify
 <code>hosting::add_to_waitlist</code> to call the <code>add_to_waitlist</code> function in
 <code>eat_at_restaurant</code>.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -206,7 +206,7 @@ also check privacy, like any other paths.</p>
 <p>You can also bring an item into scope with <code>use</code> and a relative path. Listing
 7-12 shows how to specify a relative path to get the same behavior as in
 Listing 7-11.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -229,7 +229,7 @@ a relative path</span></p>
 <p>In Listing 7-11, you might have wondered why we specified <code>use crate::front_of_house::hosting</code> and then called <code>hosting::add_to_waitlist</code> in
 <code>eat_at_restaurant</code> rather than specifying the <code>use</code> path all the way out to
 the <code>add_to_waitlist</code> function to achieve the same result, as in Listing 7-13.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -258,7 +258,7 @@ defined while still minimizing repetition of the full path. The code in Listing
 it’s idiomatic to specify the full path. Listing 7-14 shows the idiomatic way
 to bring the standard library’s <code>HashMap</code> struct into the scope of a binary
 crate.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::collections::HashMap;
 
 fn main() {
@@ -274,7 +274,7 @@ emerged, and folks have gotten used to reading and writing Rust code this way.</
 into scope with <code>use</code> statements, because Rust doesn’t allow that. Listing 7-15
 shows how to bring two <code>Result</code> types into scope that have the same name but
 different parent modules and how to refer to them.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -303,7 +303,7 @@ meant when we used <code>Result</code>.</p>
 into the same scope with <code>use</code>: after the path, we can specify <code>as</code> and a new
 local name, or alias, for the type. Listing 7-16 shows another way to write the
 code in Listing 7-15 by renaming one of the two <code>Result</code> types using <code>as</code>.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -336,7 +336,7 @@ an item into scope but also making that item available for others to bring into
 their scope.</p>
 <p>Listing 7-17 shows the code in Listing 7-11 with <code>use</code> in the root module
 changed to <code>pub use</code>.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -376,7 +376,7 @@ added this line to <em>Cargo.toml</em>:</p>
 * ch02-00-guessing-game-tutorial.md
 * ch14-03-cargo-workspaces.md
 -->
-<p><span class="filename">Filename: Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[dependencies]
 rand = &quot;0.5.5&quot;
 </code></pre>
@@ -431,7 +431,7 @@ crate.</p>
 listing each item on its own line can take up a lot of vertical space in our
 files. For example, these two <code>use</code> statements we had in the Guessing Game in
 Listing 2-4 bring items from <code>std</code> into scope:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span>// --snip--
 use std::cmp::Ordering;
@@ -466,7 +466,7 @@ use std::io;
 line. We do this by specifying the common part of the path, followed by two
 colons, and then curly brackets around a list of the parts of the paths that
 differ, as shown in Listing 7-18.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span>// --snip--
 use std::{cmp::Ordering, io};
@@ -507,7 +507,7 @@ needed by a lot!</p>
 two <code>use</code> statements that share a subpath. For example, Listing 7-19 shows two
 <code>use</code> statements: one that brings <code>std::io</code> into scope and one that brings
 <code>std::io::Write</code> into scope.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -520,7 +520,7 @@ of the other</span></p>
 <p>The common part of these two paths is <code>std::io</code>, and that’s the complete first
 path. To merge these two paths into one <code>use</code> statement, we can use <code>self</code> in
 the nested path, as shown in Listing 7-20.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {

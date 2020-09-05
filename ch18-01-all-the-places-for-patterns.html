@@ -205,7 +205,7 @@ patterns. Also, the conditions in a series of <code>if let</code>, <code>else if
 decide what the background color should be. For this example, we’ve created
 variables with hardcoded values that a real program might receive from user
 input.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let favorite_color: Option&lt;&amp;str&gt; = None;
     let is_tuesday = false;
@@ -385,7 +385,7 @@ parameters</span></p>
 <p>The <code>x</code> part is a pattern! As we did with <code>let</code>, we could match a tuple in a
 function’s arguments to the pattern. Listing 18-7 splits the values in a tuple
 as we pass it to a function.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn print_coordinates(&amp;(x, y): &amp;(i32, i32)) {
     println!(&quot;Current location: ({}, {})&quot;, x, y);
 }

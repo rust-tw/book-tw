@@ -206,7 +206,7 @@ the values in the vector, meaning the average doesn’t have to be computed
 on demand whenever anyone needs it. In other words, <code>AveragedCollection</code> will
 cache the calculated average for us. Listing 17-1 has the definition of the
 <code>AveragedCollection</code> struct:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -224,7 +224,7 @@ the struct remain private. This is important in this case because we want to
 ensure that whenever a value is added or removed from the list, the average is
 also updated. We do this by implementing <code>add</code>, <code>remove</code>, and <code>average</code> methods
 on the struct, as shown in Listing 17-2:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {

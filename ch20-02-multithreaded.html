@@ -180,7 +180,7 @@ this, but first, we’ll look at the problem in action.</p>
 our current server implementation. Listing 20-10 implements handling a request
 to <em>/sleep</em> with a simulated slow response that will cause the server to sleep
 for 5 seconds before responding.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::fs;
 </span><span class="boring">use std::io::prelude::*;
 </span><span class="boring">use std::net::TcpListener;
@@ -288,7 +288,7 @@ every connection. As mentioned earlier, this isn’t our final plan due to the
 problems with potentially spawning an unlimited number of threads, but it is a
 starting point. Listing 20-11 shows the changes to make to <code>main</code> to spawn a
 new thread to handle each stream within the <code>for</code> loop.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::fs;
 </span><span class="boring">use std::io::prelude::*;
 </span><span class="boring">use std::net::TcpListener;
@@ -345,7 +345,7 @@ new threads without any limit.</p>
 threads to a thread pool doesn’t require large changes to the code that uses
 our API. Listing 20-12 shows the hypothetical interface for a <code>ThreadPool</code>
 struct we want to use instead of <code>thread::spawn</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::fs;
 </span><span class="boring">use std::io::prelude::*;
 </span><span class="boring">use std::net::TcpListener;
@@ -425,7 +425,7 @@ library for any work we want to do using a thread pool, not just for serving
 web requests.</p>
 <p>Create a <em>src/lib.rs</em> that contains the following, which is the simplest
 definition of a <code>ThreadPool</code> struct that we can have for now:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -438,7 +438,7 @@ primary crate in the <em>hello</em> directory; we can still run the binary in
 <em>src/bin/main.rs</em> using <code>cargo run</code>. After moving the <em>main.rs</em> file, edit it
 to bring the library crate in and bring <code>ThreadPool</code> into scope by adding the
 following code to the top of <em>src/bin/main.rs</em>:</p>
-<p><span class="filename">Filename: src/bin/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/bin/main.rs</span></p>
 <pre><code class="language-rust ignore">use hello::ThreadPool;
 <span class="boring">use std::fs;
 </span><span class="boring">use std::io::prelude::*;
@@ -506,7 +506,7 @@ To learn more, run the command again with --verbose.
 that can accept <code>4</code> as an argument and should return a <code>ThreadPool</code> instance.
 Let’s implement the simplest <code>new</code> function that will have those
 characteristics:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">pub struct ThreadPool;
 
 impl ThreadPool {
@@ -571,7 +571,7 @@ request’s closure one time, which matches the <code>Once</code> in <code>FnOnc
 closure from one thread to another and <code>'static</code> because we don’t know how long
 the thread will take to execute. Let’s create an <code>execute</code> method on
 <code>ThreadPool</code> that will take a generic parameter of type <code>F</code> with these bounds:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct ThreadPool;
 </span><span class="boring">
 </span>impl ThreadPool {
@@ -620,7 +620,7 @@ However, a pool with zero threads also makes no sense, yet zero is a perfectly
 valid <code>usize</code>. We’ll add code to check that <code>size</code> is greater than zero before
 we return a <code>ThreadPool</code> instance and have the program panic if it receives a
 zero by using the <code>assert!</code> macro, as shown in Listing 20-13.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct ThreadPool;
 </span><span class="boring">
 </span>impl ThreadPool {
@@ -682,7 +682,7 @@ We’ve changed the definition of <code>ThreadPool</code> to hold a vector of
 <code>thread::JoinHandle&lt;()&gt;</code> instances, initialized the vector with a capacity of
 <code>size</code>, set up a <code>for</code> loop that will run some code to create the threads, and
 returned a <code>ThreadPool</code> instance containing them.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore not_desired_behavior">use std::thread;
 
 pub struct ThreadPool {
@@ -769,7 +769,7 @@ a new <code>Worker</code> with that <code>id</code>, and store the worker in the
 <p>If you’re up for a challenge, try implementing these changes on your own before
 looking at the code in Listing 20-15.</p>
 <p>Ready? Here is Listing 20-15 with one way to make the preceding modifications.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 
 pub struct ThreadPool {
@@ -861,7 +861,7 @@ and execute the closures of any jobs it receives.</li>
 side in the <code>ThreadPool</code> instance, as shown in Listing 20-16. The <code>Job</code> struct
 doesn’t hold anything for now but will be the type of item we’re sending down
 the channel.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::thread;
 </span>// --snip--
 use std::sync::mpsc;
@@ -927,7 +927,7 @@ sending end. This will successfully compile, still with warnings.</p>
 pool creates the channel. We know we want to use the receiving end in the
 thread that the workers spawn, so we’ll reference the <code>receiver</code> parameter in
 the closure. The code in Listing 20-17 won’t quite compile yet.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::thread;
 </span><span class="boring">
@@ -1024,7 +1024,7 @@ ownership across multiple threads and allow the threads to mutate the value, we
 need to use <code>Arc&lt;Mutex&lt;T&gt;&gt;</code>. The <code>Arc</code> type will let multiple workers own the
 receiver, and <code>Mutex</code> will ensure that only one worker gets a job from the
 receiver at a time. Listing 20-18 shows the changes we need to make.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::thread;
 </span>use std::sync::Arc;
@@ -1105,7 +1105,7 @@ closure that <code>execute</code> receives. As discussed in the <a href="ch19-04
 with Type Aliases”</a><!-- ignore -->
 section of Chapter 19, type aliases allow us to make long types shorter. Look
 at Listing 20-19.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
@@ -1189,7 +1189,7 @@ compiler doesn’t know that.</p>
 Instead, we need the closure to loop forever, asking the receiving end of the
 channel for a job and running the job when it gets one. Let’s make the change
 shown in Listing 20-20 to <code>Worker::new</code>.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1333,7 +1333,7 @@ limitation is not caused by our web server.</p>
 </blockquote>
 <p>After learning about the <code>while let</code> loop in Chapter 18, you might be wondering
 why we didn’t write the worker thread code as shown in Listing 20-21.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore not_desired_behavior"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;

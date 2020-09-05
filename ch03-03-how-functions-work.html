@@ -175,7 +175,7 @@ declare new functions.</p>
 <p>Rust code uses <em>snake case</em> as the conventional style for function and variable
 names. In snake case, all letters are lowercase and underscores separate words.
 Here’s a program that contains an example function definition:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
 
@@ -218,7 +218,7 @@ variables in a function’s definition or the concrete values passed in when you
 call a function.</p>
 <p>The following rewritten version of <code>another_function</code> shows what parameters
 look like in Rust:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     another_function(5);
 }
@@ -244,7 +244,7 @@ definitions means the compiler almost never needs you to use them elsewhere in
 the code to figure out what you mean.</p>
 <p>When you want a function to have multiple parameters, separate the parameter
 declarations with commas, like this:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     another_function(5, 6);
 }
@@ -282,7 +282,7 @@ instructions that perform some action and do not return a value. <em>Expressions
 evaluate to a resulting value. Let’s look at some examples.</p>
 <p>Creating a variable and assigning a value to it with the <code>let</code> keyword is a
 statement. In Listing 3-1, <code>let y = 6;</code> is a statement.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let y = 6;
 }
@@ -292,7 +292,7 @@ statement. In Listing 3-1, <code>let y = 6;</code> is a statement.</p>
 statement in itself.</p>
 <p>Statements do not return values. Therefore, you can’t assign a <code>let</code> statement
 to another variable, as the following code tries to do; you’ll get an error:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = (let y = 6);
 }
@@ -320,7 +320,7 @@ statements: in Listing 3-1, the <code>6</code> in the statement <code>let y = 6;
 expression that evaluates to the value <code>6</code>. Calling a function is an
 expression. Calling a macro is an expression. The block that we use to create
 new scopes, <code>{}</code>, is an expression, for example:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;
 
@@ -352,7 +352,7 @@ the block of the body of a function. You can return early from a function by
 using the <code>return</code> keyword and specifying a value, but most functions return
 the last expression implicitly. Here’s an example of a function that returns a
 value:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn five() -&gt; i32 {
     5
 }
@@ -388,7 +388,7 @@ that line is the same as the following:</p>
 return value, but the body of the function is a lonely <code>5</code> with no semicolon
 because it’s an expression whose value we want to return.</p>
 <p>Let’s look at another example:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = plus_one(5);
 
@@ -402,7 +402,7 @@ fn plus_one(x: i32) -&gt; i32 {
 <p>Running this code will print <code>The value of x is: 6</code>. But if we place a
 semicolon at the end of the line containing <code>x + 1</code>, changing it from an
 expression to a statement, we’ll get an error.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = plus_one(5);
 

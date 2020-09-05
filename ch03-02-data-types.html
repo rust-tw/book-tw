@@ -283,7 +283,7 @@ which are 32 bits and 64 bits in size, respectively. The default type is <code>f
 because on modern CPUs it’s roughly the same speed as <code>f32</code> but is capable of
 more precision.</p>
 <p>Here’s an example that shows floating-point numbers in action:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 2.0; // f64
 
@@ -296,7 +296,7 @@ more precision.</p>
 <p>Rust supports the basic mathematical operations you’d expect for all of the
 number types: addition, subtraction, multiplication, division, and remainder.
 The following code shows how you’d use each one in a <code>let</code> statement:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     // addition
     let sum = 5 + 10;
@@ -321,7 +321,7 @@ list of all operators that Rust provides.</p>
 <p>As in most other programming languages, a Boolean type in Rust has two possible
 values: <code>true</code> and <code>false</code>. Booleans are one byte in size. The Boolean type in
 Rust is specified using <code>bool</code>. For example:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let t = true;
 
@@ -336,7 +336,7 @@ Flow”</a><!-- ignore --> section.</p>
 <code>char</code> type is the language’s most primitive alphabetic type, and the following
 code shows one way to use it. (Note that <code>char</code> literals are specified with
 single quotes, as opposed to string literals, which use double quotes.)</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let c = 'z';
     let z = 'ℤ';
@@ -363,7 +363,7 @@ they cannot grow or shrink in size.</p>
 parentheses. Each position in the tuple has a type, and the types of the
 different values in the tuple don’t have to be the same. We’ve added optional
 type annotations in this example:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let tup: (i32, f64, u8) = (500, 6.4, 1);
 }
@@ -371,7 +371,7 @@ type annotations in this example:</p>
 <p>The variable <code>tup</code> binds to the entire tuple, because a tuple is considered a
 single compound element. To get the individual values out of a tuple, we can
 use pattern matching to destructure a tuple value, like this:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let tup = (500, 6.4, 1);
 
@@ -388,7 +388,7 @@ the single tuple into three parts. Finally, the program prints the value of
 <p>In addition to destructuring through pattern matching, we can access a tuple
 element directly by using a period (<code>.</code>) followed by the index of the value we
 want to access. For example:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x: (i32, f64, u8) = (500, 6.4, 1);
 
@@ -409,7 +409,7 @@ different from arrays in some other languages because arrays in Rust have a
 fixed length, like tuples.</p>
 <p>In Rust, the values going into an array are written as a comma-separated list
 inside square brackets:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [1, 2, 3, 4, 5];
 }
@@ -459,7 +459,7 @@ more concise way.</p>
 <h5><a class="header" href="#accessing-array-elements" id="accessing-array-elements">Accessing Array Elements</a></h5>
 <p>An array is a single chunk of memory allocated on the stack. You can access
 elements of an array using indexing, like this:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [1, 2, 3, 4, 5];
 
@@ -474,7 +474,7 @@ get the value <code>2</code> from index <code>[1]</code> in the array.</p>
 <p>What happens if you try to access an element of an array that is past the end
 of the array? Say you change the example to the following code, which will
 compile but exit with an error when it runs:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore panics">fn main() {
     let a = [1, 2, 3, 4, 5];
     let index = 10;

@@ -188,7 +188,7 @@ $ cd guessing_game
 as the first argument. The second command changes to the new project’s
 directory.</p>
 <p>Look at the generated <em>Cargo.toml</em> file:</p>
-<p><span class="filename">Filename: Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[package]
 name = &quot;guessing_game&quot;
 version = &quot;0.1.0&quot;
@@ -203,7 +203,7 @@ edition = &quot;2018&quot;
 correct, fix that in the file and save it again.</p>
 <p>As you saw in Chapter 1, <code>cargo new</code> generates a “Hello, world!” program for
 you. Check out the <em>src/main.rs</em> file:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
 }
@@ -225,7 +225,7 @@ the next one.</p>
 that input, and check that the input is in the expected form. To start, we’ll
 allow the player to input a guess. Enter the code in Listing 2-1 into
 <em>src/main.rs</em>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use std::io;
 
 fn main() {
@@ -544,7 +544,7 @@ you:</p>
 * ch07-04-bringing-paths-into-scope-with-the-use-keyword.md
 * ch14-03-cargo-workspaces.md
 -->
-<p><span class="filename">Filename: Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[dependencies]
 rand = &quot;0.5.5&quot;
 </code></pre>
@@ -663,7 +663,7 @@ from a number of packages.</p>
 <h3><a class="header" href="#generating-a-random-number" id="generating-a-random-number">Generating a Random Number</a></h3>
 <p>Now that you’ve added the <code>rand</code> crate to <em>Cargo.toml</em>, let’s start using
 <code>rand</code>. The next step is to update <em>src/main.rs</em>, as shown in Listing 2-3.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use std::io;
 use rand::Rng;
 
@@ -744,7 +744,7 @@ You guessed: 5
 <p>Now that we have user input and a random number, we can compare them. That step
 is shown in Listing 2-4. Note that this code won’t compile quite yet, as we
 will explain.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
@@ -843,7 +843,7 @@ cannot compare a string and a number type.</p>
 <p>Ultimately, we want to convert the <code>String</code> the program reads as input into a
 real number type so we can compare it numerically to the secret number. We can
 do that by adding another line to the <code>main</code> function body:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
@@ -944,7 +944,7 @@ Let’s change that by adding a loop!</p>
 <h2><a class="header" href="#allowing-multiple-guesses-with-looping" id="allowing-multiple-guesses-with-looping">Allowing Multiple Guesses with Looping</a></h2>
 <p>The <code>loop</code> keyword creates an infinite loop. We’ll add that now to give users
 more chances at guessing the number:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
@@ -1029,7 +1029,7 @@ However, this is suboptimal to say the least. We want the game to automatically
 stop when the correct number is guessed.</p>
 <h3><a class="header" href="#quitting-after-a-correct-guess" id="quitting-after-a-correct-guess">Quitting After a Correct Guess</a></h3>
 <p>Let’s program the game to quit when the user wins by adding a <code>break</code> statement:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
@@ -1075,7 +1075,7 @@ exiting the program, because the loop is the last part of <code>main</code>.</p>
 the user inputs a non-number, let’s make the game ignore a non-number so the
 user can continue guessing. We can do that by altering the line where <code>guess</code>
 is converted from a <code>String</code> to a <code>u32</code>, as shown in Listing 2-5.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
@@ -1172,7 +1172,7 @@ You win!
 that the program is still printing the secret number. That worked well for
 testing, but it ruins the game. Let’s delete the <code>println!</code> that outputs the
 secret number. Listing 2-6 shows the final code.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use rand::Rng;
 use std::cmp::Ordering;
 use std::io;

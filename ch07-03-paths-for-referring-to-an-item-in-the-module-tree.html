@@ -190,7 +190,7 @@ public API, so we mark it with the <code>pub</code> keyword. In the <a href="ch0
 the <code>pub</code> Keyword”</a><!-- ignore --> section, we’ll go into more detail
 about <code>pub</code>. Note that this example won’t compile just yet; we’ll explain why
 in a bit.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
     mod hosting {
         fn add_to_waitlist() {}
@@ -285,7 +285,7 @@ keyword to make an item public.</p>
 private. We want the <code>eat_at_restaurant</code> function in the parent module to have
 access to the <code>add_to_waitlist</code> function in the child module, so we mark the
 <code>hosting</code> module with the <code>pub</code> keyword, as shown in Listing 7-5.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
     pub mod hosting {
         fn add_to_waitlist() {}
@@ -337,7 +337,7 @@ The privacy rules apply to structs, enums, functions, and methods as well as
 modules.</p>
 <p>Let’s also make the <code>add_to_waitlist</code> function public by adding the <code>pub</code>
 keyword before its definition, as in Listing 7-7.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -384,7 +384,7 @@ the <code>..</code> syntax. Why would we want to do this?</p>
 fixes an incorrect order and personally brings it out to the customer. The
 function <code>fix_incorrect_order</code> calls the function <code>serve_order</code> by specifying
 the path to <code>serve_order</code> starting with <code>super</code>:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn serve_order() {}
 
 mod back_of_house {
@@ -419,7 +419,7 @@ customer can pick the type of bread that comes with a meal, but the chef
 decides which fruit accompanies the meal based on what’s in season and in
 stock. The available fruit changes quickly, so customers can’t choose the fruit
 or even see which fruit they’ll get.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -467,7 +467,7 @@ have such a function, we couldn’t create an instance of <code>Breakfast</code>
 <code>seasonal_fruit</code> field in <code>eat_at_restaurant</code>.</p>
 <p>In contrast, if we make an enum public, all of its variants are then public. We
 only need the <code>pub</code> before the <code>enum</code> keyword, as shown in Listing 7-10.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {

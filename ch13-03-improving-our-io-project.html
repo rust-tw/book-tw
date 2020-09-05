@@ -178,7 +178,7 @@ an instance of the <code>Config</code> struct by indexing into the slice and clo
 values, allowing the <code>Config</code> struct to own those values. In Listing 13-24,
 we’ve reproduced the implementation of the <code>Config::new</code> function as it was in
 Listing 12-23:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -304,7 +304,7 @@ operations that borrow, we can move the <code>String</code> values from the iter
 <code>Config</code> rather than calling <code>clone</code> and making a new allocation.</p>
 <h4><a class="header" href="#using-the-returned-iterator-directly" id="using-the-returned-iterator-directly">Using the Returned Iterator Directly</a></h4>
 <p>Open your I/O project’s <em>src/main.rs</em> file, which should look like this:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::process;
 </span><span class="boring">
@@ -330,7 +330,7 @@ operations that borrow, we can move the <code>String</code> values from the iter
 <p>We’ll change the start of the <code>main</code> function that we had in Listing 12-24 to
 the code in Listing 13-25. This won’t compile until we update <code>Config::new</code> as
 well.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::process;
 </span><span class="boring">
@@ -361,7 +361,7 @@ we’re passing ownership of the iterator returned from <code>env::args</code> t
 <em>src/lib.rs</em> file, let’s change the signature of <code>Config::new</code> to look like
 Listing 13-26. This still won’t compile because we need to update the function
 body.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -481,7 +481,7 @@ keyword into the specification of the <code>args</code> parameter to make it mut
 also mentions that <code>std::env::Args</code> implements the <code>Iterator</code> trait, so we know
 we can call the <code>next</code> method on it! Listing 13-27 updates the code from
 Listing 12-23 to use the <code>next</code> method:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::env;
 </span><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -606,7 +606,7 @@ the same thing for the <code>filename</code> value.</p>
 <h3><a class="header" href="#making-code-clearer-with-iterator-adaptors" id="making-code-clearer-with-iterator-adaptors">Making Code Clearer with Iterator Adaptors</a></h3>
 <p>We can also take advantage of iterators in the <code>search</code> function in our I/O
 project, which is reproduced here in Listing 13-28 as it was in Listing 12-19:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -670,7 +670,7 @@ functional programming style prefers to minimize the amount of mutable state to
 make code clearer. Removing the mutable state might enable a future enhancement
 to make searching happen in parallel, because we wouldn’t have to manage
 concurrent access to the <code>results</code> vector. Listing 13-29 shows this change:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;

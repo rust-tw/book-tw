@@ -181,7 +181,7 @@ the first step is again to write a failing test. We’ll add a new test for the
 new <code>search_case_insensitive</code> function and rename our old test from
 <code>one_result</code> to <code>case_sensitive</code> to clarify the differences between the two
 tests, as shown in Listing 12-20.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -280,7 +280,7 @@ for the <code>search</code> function in Listing 12-16 to see the test compile an
 the same as the <code>search</code> function. The only difference is that we’ll lowercase
 the <code>query</code> and each <code>line</code> so whatever the case of the input arguments,
 they’ll be the same case when we check whether the line contains the query.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -424,7 +424,7 @@ from the <code>run</code> function. First, we’ll add a configuration option to
 <code>Config</code> struct to switch between case-sensitive and case-insensitive search.
 Adding this field will cause compiler errors because we aren’t initializing
 this field anywhere yet:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -530,7 +530,7 @@ need the <code>run</code> function to check the <code>case_sensitive</code> fiel
 that to decide whether to call the <code>search</code> function or the
 <code>search_case_insensitive</code> function, as shown in Listing 12-22. Note this still
 won’t compile yet.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -639,7 +639,7 @@ library, so we want to bring that module into scope with a <code>use std::env;</
 at the top of <em>src/lib.rs</em>. Then we’ll use the <code>var</code> function from the <code>env</code>
 module to check for an environment variable named <code>CASE_INSENSITIVE</code>, as shown
 in Listing 12-23.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::env;
 // --snip--
 

@@ -193,7 +193,7 @@ the metadata we’ve seen in other <em>Cargo.toml</em> files. Instead, it will s
 with a <code>[workspace]</code> section that will allow us to add members to the workspace
 by specifying the path to the package with our binary crate; in this case,
 that path is <em>adder</em>:</p>
-<p><span class="filename">Filename: Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[workspace]
 
 members = [
@@ -235,7 +235,7 @@ avoid unnecessary rebuilding.</p>
 <p>Next, let’s create another member package in the workspace and call it <code>add-one</code>.
 Change the top-level <em>Cargo.toml</em> to specify the <em>add-one</em> path in the
 <code>members</code> list:</p>
-<p><span class="filename">Filename: Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[workspace]
 
 members = [
@@ -267,7 +267,7 @@ copy output below
 └── target
 </code></pre>
 <p>In the <em>add-one/src/lib.rs</em> file, let’s add an <code>add_one</code> function:</p>
-<p><span class="filename">Filename: add-one/src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：add-one/src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -280,7 +280,7 @@ copy output below
 package with our binary depend on the <code>add-one</code> package, that has our
 library. First, we’ll need to add a path dependency on <code>add-one</code> to
 <em>adder/Cargo.toml</em>.</p>
-<p><span class="filename">Filename: adder/Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：adder/Cargo.toml</span></p>
 <pre><code class="language-toml">[dependencies]
 
 add-one = { path = &quot;../add-one&quot; }
@@ -291,7 +291,7 @@ we need to be explicit about the dependency relationships between the crates.</p
 crate. Open the <em>adder/src/main.rs</em> file and add a <code>use</code> line at the top to
 bring the new <code>add-one</code> library crate into scope. Then change the <code>main</code>
 function to call the <code>add_one</code> function, as in Listing 14-7.</p>
-<p><span class="filename">Filename: adder/src/main.rs</span></p>
+<p><span class="filename">檔案名稱：adder/src/main.rs</span></p>
 <pre><code class="language-rust ignore">use add_one;
 
 fn main() {
@@ -347,7 +347,7 @@ crate:</p>
 * ch02-00-guessing-game-tutorial.md
 * ch07-04-bringing-paths-into-scope-with-the-use-keyword.md
 -->
-<p><span class="filename">Filename: add-one/Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：add-one/Cargo.toml</span></p>
 <pre><code class="language-toml">[dependencies]
 rand = &quot;0.5.5&quot;
 </code></pre>
@@ -398,7 +398,7 @@ in the workspace will be compatible with each other.</p>
 <h4><a class="header" href="#adding-a-test-to-a-workspace" id="adding-a-test-to-a-workspace">Adding a Test to a Workspace</a></h4>
 <p>For another enhancement, let’s add a test of the <code>add_one::add_one</code> function
 within the <code>add_one</code> crate:</p>
-<p><span class="filename">Filename: add-one/src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：add-one/src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {

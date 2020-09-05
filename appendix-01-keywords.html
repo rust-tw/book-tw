@@ -243,7 +243,7 @@ for potential future use.</p>
 normally be allowed. You use a raw identifier by prefixing a keyword with <code>r#</code>.</p>
 <p>For example, <code>match</code> is a keyword. If you try to compile the following function
 that uses <code>match</code> as its name:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn match(needle: &amp;str, haystack: &amp;str) -&gt; bool {
     haystack.contains(needle)
 }
@@ -258,7 +258,7 @@ that uses <code>match</code> as its name:</p>
 <p>The error shows that you can’t use the keyword <code>match</code> as the function
 identifier. To use <code>match</code> as a function name, you need to use the raw
 identifier syntax, like this:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn r#match(needle: &amp;str, haystack: &amp;str) -&gt; bool {
     haystack.contains(needle)
 }

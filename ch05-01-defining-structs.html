@@ -416,7 +416,7 @@ but to do so requires the use of <em>lifetimes</em>, a Rust feature that we’ll
 discuss in Chapter 10. Lifetimes ensure that the data referenced by a struct
 is valid for as long as the struct is. Let’s say you try to store a reference
 in a struct without specifying lifetimes, like this, which won’t work:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- CAN'T EXTRACT SEE https://github.com/rust-lang/mdBook/issues/1127 -->
 <pre><code class="language-rust ignore does_not_compile">struct User {
     username: &amp;str,

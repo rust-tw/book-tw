@@ -226,7 +226,7 @@ thread-related API provided by the standard library.</p>
 closure (we talked about closures in Chapter 13) containing the code we want to
 run in the new thread. The example in Listing 16-1 prints some text from a main
 thread and other text from a new thread:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 use std::time::Duration;
 
@@ -285,7 +285,7 @@ value that, when we call the <code>join</code> method on it, will wait for its t
 finish. Listing 16-2 shows how to use the <code>JoinHandle</code> of the thread we created
 in Listing 16-1 and call <code>join</code> to make sure the spawned thread finishes before
 <code>main</code> exits:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 use std::time::Duration;
 
@@ -333,7 +333,7 @@ hi number 9 from the spawned thread!
 call to <code>handle.join()</code> and does not end until the spawned thread is finished.</p>
 <p>But let’s see what happens when we instead move <code>handle.join()</code> before the
 <code>for</code> loop in <code>main</code>, like this:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 use std::time::Duration;
 
@@ -387,7 +387,7 @@ thread’s code. To use data from the main thread in the spawned thread, the
 spawned thread’s closure must capture the values it needs. Listing 16-3 shows
 an attempt to create a vector in the main thread and use it in the spawned
 thread. However, this won’t yet work, as you’ll see in a moment.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use std::thread;
 
 fn main() {
@@ -442,7 +442,7 @@ tell how long the spawned thread will run, so it doesn’t know if the reference
 to <code>v</code> will always be valid.</p>
 <p>Listing 16-4 provides a scenario that’s more likely to have a reference to <code>v</code>
 that won’t be valid:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use std::thread;
 
 fn main() {
@@ -479,7 +479,7 @@ after automatic regeneration, look at listings/ch16-fearless-concurrency/listing
 ownership of the values it’s using rather than allowing Rust to infer that it
 should borrow the values. The modification to Listing 16-3 shown in Listing
 16-5 will compile and run as we intend:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 
 fn main() {

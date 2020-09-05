@@ -195,7 +195,7 @@ $ cd hello
 <p>Now enter the code in Listing 20-1 in <em>src/main.rs</em> to start. This code will
 listen at the address <code>127.0.0.1:7878</code> for incoming TCP streams. When it gets
 an incoming stream, it will print <code>Connection established!</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run">use std::net::TcpListener;
 
 fn main() {
@@ -279,7 +279,7 @@ with the connection, we’ll start a new function for processing connections. In
 this new <code>handle_connection</code> function, we’ll read data from the TCP stream and
 print it so we can see the data being sent from the browser. Change the code to
 look like Listing 20-2.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run">use std::io::prelude::*;
 use std::net::TcpListener;
 use std::net::TcpStream;
@@ -403,7 +403,7 @@ successful HTTP response. Let’s write this to the stream as our response to a
 successful request! From the <code>handle_connection</code> function, remove the
 <code>println!</code> that was printing the request data and replace it with the code in
 Listing 20-3.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::io::prelude::*;
 </span><span class="boring">use std::net::TcpListener;
 </span><span class="boring">use std::net::TcpStream;
@@ -450,7 +450,7 @@ and response!</p>
 a new file, <em>hello.html</em>, in the root of your project directory, not in the
 <em>src</em> directory. You can input any HTML you want; Listing 20-4 shows one
 possibility.</p>
-<p><span class="filename">Filename: hello.html</span></p>
+<p><span class="filename">檔案名稱：hello.html</span></p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
   &lt;head&gt;
@@ -469,7 +469,7 @@ response</span></p>
 from the server when a request is received, we’ll modify <code>handle_connection</code> as
 shown in Listing 20-5 to read the HTML file, add it to the response as a body,
 and send it.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run">use std::fs;
 // --snip--
 
@@ -528,7 +528,7 @@ browser requests anything else. For this we need to modify <code>handle_connecti
 as shown in Listing 20-6. This new code checks the content of the request
 received against what we know a request for <em>/</em> looks like and adds <code>if</code> and
 <code>else</code> blocks to treat requests differently.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::fs;
 </span><span class="boring">use std::io::prelude::*;
 </span><span class="boring">use std::net::TcpListener;
@@ -588,7 +588,7 @@ saw when running the code in Listing 20-1 and Listing 20-2.</p>
 with the status code 404, which signals that the content for the request was
 not found. We’ll also return some HTML for a page to render in the browser
 indicating the response to the end user.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::fs;
 </span><span class="boring">use std::io::prelude::*;
 </span><span class="boring">use std::net::TcpListener;
@@ -640,7 +640,7 @@ phrase <code>NOT FOUND</code>. We’re still not returning headers, and the body
 response will be the HTML in the file <em>404.html</em>. You’ll need to create a
 <em>404.html</em> file next to <em>hello.html</em> for the error page; again feel free to use
 any HTML you want or use the example HTML in Listing 20-8.</p>
-<p><span class="filename">Filename: 404.html</span></p>
+<p><span class="filename">檔案名稱：404.html</span></p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
   &lt;head&gt;
@@ -667,7 +667,7 @@ that will assign the values of the status line and the filename to variables;
 we can then use those variables unconditionally in the code to read the file
 and write the response. Listing 20-9 shows the resulting code after replacing
 the large <code>if</code> and <code>else</code> blocks.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::fs;
 </span><span class="boring">use std::io::prelude::*;
 </span><span class="boring">use std::net::TcpListener;

@@ -233,7 +233,7 @@ integers:</p>
 of five string slices. We wouldn’t be able to use a function to do the same
 because we wouldn’t know the number or type of values up front.</p>
 <p>Listing 19-28 shows a slightly simplified definition of the <code>vec!</code> macro.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -322,7 +322,7 @@ with a special crate type. This is for complex technical reasons that we hope
 to eliminate in the future. Using procedural macros looks like the code in
 Listing 19-29, where <code>some_attribute</code> is a placeholder for using a specific
 macro.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">use proc_macro;
 
 #[some_attribute]
@@ -351,7 +351,7 @@ types, we’ll provide a procedural macro so users can annotate their type with
 function. The default implementation will print <code>Hello, Macro! My name is TypeName!</code> where <code>TypeName</code> is the name of the type on which this trait has
 been defined. In other words, we’ll write a crate that enables another
 programmer to write code like Listing 19-30 using our crate.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use hello_macro::HelloMacro;
 use hello_macro_derive::HelloMacro;
 
@@ -369,7 +369,7 @@ first step is to make a new library crate, like this:</p>
 <pre><code class="language-console">$ cargo new hello_macro --lib
 </code></pre>
 <p>Next, we’ll define the <code>HelloMacro</code> trait and its associated function:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -423,7 +423,7 @@ possible for programmers to use <code>hello_macro</code> even if they don’t wa
 We’ll also need functionality from the <code>syn</code> and <code>quote</code> crates, as you’ll see
 in a moment, so we need to add them as dependencies. Add the following to the
 <em>Cargo.toml</em> file for <code>hello_macro_derive</code>:</p>
-<p><span class="filename">Filename: hello_macro_derive/Cargo.toml</span></p>
+<p><span class="filename">檔案名稱：hello_macro_derive/Cargo.toml</span></p>
 <pre><code class="language-toml">[lib]
 proc-macro = true
 
@@ -434,7 +434,7 @@ quote = &quot;1.0&quot;
 <p>To start defining the procedural macro, place the code in Listing 19-31 into
 your <em>src/lib.rs</em> file for the <code>hello_macro_derive</code> crate. Note that this code
 won’t compile until we add a definition for the <code>impl_hello_macro</code> function.</p>
-<p><span class="filename">Filename: hello_macro_derive/src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：hello_macro_derive/src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">extern crate proc_macro;
 
 use proc_macro::TokenStream;
@@ -521,7 +521,7 @@ about what went wrong by using <code>panic!</code> or <code>expect</code>.</p>
 <p>Now that we have the code to turn the annotated Rust code from a <code>TokenStream</code>
 into a <code>DeriveInput</code> instance, let’s generate the code that implements the
 <code>HelloMacro</code> trait on the annotated type, as shown in Listing 19-33.</p>
-<p><span class="filename">Filename: hello_macro_derive/src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：hello_macro_derive/src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">extern crate proc_macro;
 </span><span class="boring">
 </span><span class="boring">use proc_macro::TokenStream;

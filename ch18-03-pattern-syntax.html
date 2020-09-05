@@ -199,7 +199,7 @@ value <code>Some(5)</code> and a variable <code>y</code> with the value <code>10
 <code>match</code> expression on the value <code>x</code>. Look at the patterns in the match arms and
 <code>println!</code> at the end, and try to figure out what the code will print before
 running this code or reading further.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = Some(5);
     let y = 10;
@@ -293,7 +293,7 @@ to use different parts of these values. Let’s walk through each value.</p>
 <h4><a class="header" href="#destructuring-structs" id="destructuring-structs">Destructuring Structs</a></h4>
 <p>Listing 18-12 shows a <code>Point</code> struct with two fields, <code>x</code> and <code>y</code>, that we can
 break apart using a pattern with a <code>let</code> statement.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point {
     x: i32,
     y: i32,
@@ -321,7 +321,7 @@ of the struct field, and the variables created from the pattern will have the
 same names. Listing 18-13 shows code that behaves in the same way as the code
 in Listing 18-12, but the variables created in the <code>let</code> pattern are <code>x</code> and
 <code>y</code> instead of <code>a</code> and <code>b</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point {
     x: i32,
     y: i32,
@@ -346,7 +346,7 @@ some of the fields for particular values while creating variables to
 destructure the other fields.</p>
 <p>Listing 18-14 shows a <code>match</code> expression that separates <code>Point</code> values into
 three cases: points that lie directly on the <code>x</code> axis (which is true when <code>y = 0</code>), on the <code>y</code> axis (<code>x = 0</code>), or neither.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Point {
 </span><span class="boring">    x: i32,
 </span><span class="boring">    y: i32,
@@ -380,7 +380,7 @@ mentioned explicitly is that the pattern to destructure an enum should
 correspond to the way the data stored within the enum is defined. As an
 example, in Listing 18-15 we use the <code>Message</code> enum from Listing 6-2 and write
 a <code>match</code> with patterns that will destructure each inner value.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum Message {
     Quit,
     Move { x: i32, y: i32 },
@@ -496,7 +496,7 @@ parts of a value. Let’s explore how and why to use each of these patterns.</p>
 but not bind to the value. Although the underscore <code>_</code> pattern is especially
 useful as the last arm in a <code>match</code> expression, we can use it in any pattern,
 including function parameters, as shown in Listing 18-17.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn foo(_: i32, y: i32) {
     println!(&quot;This code only uses the y parameter: {}&quot;, y);
 }
@@ -574,7 +574,7 @@ project. In this situation, you can tell Rust not to warn you about the unused
 variable by starting the name of the variable with an underscore. In Listing
 18-20, we create two unused variables, but when we run this code, we should
 only get a warning about one of them.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let _x = 5;
     let y = 10;
@@ -647,7 +647,7 @@ structs that have lots of fields in situations where only one or two fields are
 relevant.</p>
 <p>The syntax <code>..</code> will expand to as many values as it needs to be. Listing 18-24
 shows how to use <code>..</code> with a tuple.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let numbers = (2, 4, 8, 16, 32);
 
@@ -666,7 +666,7 @@ a tuple and ignoring all other values</span></p>
 intended for matching and which should be ignored, Rust will give us an error.
 Listing 18-25 shows an example of using <code>..</code> ambiguously, so it will not
 compile.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let numbers = (2, 4, 8, 16, 32);
 
@@ -738,7 +738,7 @@ pattern in the <code>match</code> expression instead of using the variable outsi
 <code>match</code>. That new variable meant we couldn’t test against the value of the
 outer variable. Listing 18-27 shows how we can use a match guard to fix this
 problem.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = Some(5);
     let y = 10;

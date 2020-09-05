@@ -552,7 +552,7 @@ be sure, but as a general rule, any group of simple scalar values can be
 assigning a value to a variable. Passing a variable to a function will move or
 copy, just as assignment does. Listing 4-3 has an example with some annotations
 showing where variables go into and out of scope.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let s = String::from(&quot;hello&quot;);  // s comes into scope
 
@@ -586,7 +586,7 @@ the ownership rules prevent you from doing so.</p>
 <h3><a class="header" href="#return-values-and-scope" id="return-values-and-scope">Return Values and Scope</a></h3>
 <p>Returning values can also transfer ownership. Listing 4-4 is an example with
 similar annotations to those in Listing 4-3.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let s1 = gives_ownership();         // gives_ownership moves its return
                                         // value into s1
@@ -629,7 +629,7 @@ It’s quite annoying that anything we pass in also needs to be passed back if w
 want to use it again, in addition to any data resulting from the body of the
 function that we might want to return as well.</p>
 <p>It’s possible to return multiple values using a tuple, as shown in Listing 4-5.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let s1 = String::from(&quot;hello&quot;);
 

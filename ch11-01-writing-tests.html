@@ -203,7 +203,7 @@ $ cd adder
 </code></pre>
 <p>The contents of the <em>src/lib.rs</em> file in your <code>adder</code> library should look like
 Listing 11-1.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[cfg(test)]
 mod tests {
     #[test]
@@ -269,7 +269,7 @@ ignore the <code>Doc-tests</code> output.</p>
 <p>Let’s change the name of our test to see how that changes the test output.
 Change the <code>it_works</code> function to a different name, such as <code>exploration</code>, like
 so:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[cfg(test)]
 mod tests {
     #[test]
@@ -305,7 +305,7 @@ and when the main thread sees that a test thread has died, the test is marked
 as failed. We talked about the simplest way to cause a panic in Chapter 9,
 which is to call the <code>panic!</code> macro. Enter the new test, <code>another</code>, so your
 <em>src/lib.rs</em> file looks like Listing 11-3.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust panics">#[cfg(test)]
 mod tests {
     #[test]
@@ -375,7 +375,7 @@ way we intend.</p>
 <p>In Chapter 5, Listing 5-15, we used a <code>Rectangle</code> struct and a <code>can_hold</code>
 method, which are repeated here in Listing 11-5. Let’s put this code in the
 <em>src/lib.rs</em> file and write some tests for it using the <code>assert!</code> macro.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
 struct Rectangle {
     width: u32,
@@ -397,7 +397,7 @@ for the <code>assert!</code> macro. In Listing 11-6, we write a test that exerci
 <code>can_hold</code> method by creating a <code>Rectangle</code> instance that has a width of 8 and
 a height of 7 and asserting that it can hold another <code>Rectangle</code> instance that
 has a width of 5 and a height of 1.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
 </span><span class="boring">    width: u32,
@@ -464,7 +464,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </code></pre>
 <p>It does pass! Let’s add another test, this time asserting that a smaller
 rectangle cannot hold a larger rectangle:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
 </span><span class="boring">    width: u32,
@@ -627,7 +627,7 @@ expression, not the values that lead to the <code>false</code> value.</p>
 <p>In Listing 11-7, we write a function named <code>add_two</code> that adds <code>2</code> to its
 parameter and returns the result. Then we test this function using the
 <code>assert_eq!</code> macro.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">pub fn add_two(a: i32) -&gt; i32 {
     a + 2
 }
@@ -755,7 +755,7 @@ what an assertion means; when a test fails, you’ll have a better idea of what
 the problem is with the code.</p>
 <p>For example, let’s say we have a function that greets people by name and we
 want to test that the name we pass into the function appears in the output:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">pub fn greeting(name: &amp;str) -&gt; String {
     format!(&quot;Hello {}!&quot;, name)
 }
@@ -883,7 +883,7 @@ This attribute makes a test pass if the code inside the function panics; the
 test will fail if the code inside the function doesn’t panic.</p>
 <p>Listing 11-8 shows a test that checks that the error conditions of <code>Guess::new</code>
 happen when we expect them to.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">pub struct Guess {
     value: i32,
 }
@@ -995,7 +995,7 @@ parameter to the <code>should_panic</code> attribute. The test harness will make
 the failure message contains the provided text. For example, consider the
 modified code for <code>Guess</code> in Listing 11-9 where the <code>new</code> function panics with
 different messages depending on whether the value is too small or too large.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Guess {
 </span><span class="boring">    value: i32,
 </span><span class="boring">}

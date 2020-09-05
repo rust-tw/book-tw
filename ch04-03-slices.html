@@ -182,7 +182,7 @@ should be returned.</p>
 ownership, so this is fine. But what should we return? We don’t really have a
 way to talk about <em>part</em> of a string. However, we could return the index of the
 end of the word. Let’s try that, as shown in Listing 4-7.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;String) -&gt; usize {
     let bytes = s.as_bytes();
 
@@ -265,7 +265,7 @@ only a meaningful number in the context of the <code>&amp;String</code>. In othe
 because it’s a separate value from the <code>String</code>, there’s no guarantee that it
 will still be valid in the future. Consider the program in Listing 4-8 that
 uses the <code>first_word</code> function from Listing 4-7.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
 </span><span class="boring">    let bytes = s.as_bytes();
 </span><span class="boring">
@@ -376,7 +376,7 @@ Text with Strings”</a><!-- ignore --> section of Chapter 8.</p>
 </blockquote>
 <p>With all this information in mind, let’s rewrite <code>first_word</code> to return a
 slice. The type that signifies “string slice” is written as <code>&amp;str</code>:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;String) -&gt; &amp;str {
     let bytes = s.as_bytes();
 
@@ -410,7 +410,7 @@ show up later if we kept trying to use the first word index with an emptied
 string. Slices make this bug impossible and let us know we have a problem with
 our code much sooner. Using the slice version of <code>first_word</code> will throw a
 compile-time error:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn first_word(s: &amp;String) -&gt; &amp;str {
 </span><span class="boring">    let bytes = s.as_bytes();
 </span><span class="boring">
@@ -514,7 +514,7 @@ a string slice for the type of the <code>s</code> parameter</span></p>
 can pass a slice of the entire <code>String</code>. Defining a function to take a string
 slice instead of a reference to a <code>String</code> makes our API more general and useful
 without losing any functionality:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn first_word(s: &amp;str) -&gt; &amp;str {
 </span><span class="boring">    let bytes = s.as_bytes();
 </span><span class="boring">

@@ -294,7 +294,7 @@ lifetimes of parameters and return values in the context of functions.</p>
 <p>Let’s write a function that returns the longer of two string slices. This
 function will take two string slices and return a string slice. After we’ve
 implemented the <code>longest</code> function, the code in Listing 10-20 should print <code>The longest string is abcd</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">fn main() {
     let string1 = String::from(&quot;abcd&quot;);
     let string2 = &quot;xyz&quot;;
@@ -313,7 +313,7 @@ for more discussion about why the parameters we use in Listing 10-20 are the
 ones we want.</p>
 <p>If we try to implement the <code>longest</code> function as shown in Listing 10-21, it
 won’t compile.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span><span class="boring">    let string1 = String::from(&quot;abcd&quot;);
 </span><span class="boring">    let string2 = &quot;xyz&quot;;
@@ -401,7 +401,7 @@ list. The constraint we want to express in this signature is that all the
 references in the parameters and the return value must have the same lifetime.
 We’ll name the lifetime <code>'a</code> and then add it to each reference, as shown in
 Listing 10-22.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let string1 = String::from(&quot;abcd&quot;);
 </span><span class="boring">    let string2 = &quot;xyz&quot;;
@@ -453,7 +453,7 @@ lifetimes of <code>x</code> and <code>y</code>.</p>
 <p>Let’s look at how the lifetime annotations restrict the <code>longest</code> function by
 passing in references that have different concrete lifetimes. Listing 10-23 is
 a straightforward example.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let string1 = String::from(&quot;long string is long&quot;);
 
@@ -485,7 +485,7 @@ assignment of the value to the <code>result</code> variable inside the scope wit
 <code>string2</code>. Then we’ll move the <code>println!</code> that uses <code>result</code> outside the inner
 scope, after the inner scope has ended. The code in Listing 10-24 will not
 compile.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let string1 = String::from(&quot;long string is long&quot;);
     let result;
@@ -548,7 +548,7 @@ function is doing. For example, if we changed the implementation of the
 <code>longest</code> function to always return the first parameter rather than the longest
 string slice, we wouldn’t need to specify a lifetime on the <code>y</code> parameter. The
 following code will compile:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let string1 = String::from(&quot;abcd&quot;);
 </span><span class="boring">    let string2 = &quot;efghijklmnopqrstuvwxyz&quot;;
@@ -570,7 +570,7 @@ the reference returned does <em>not</em> refer to one of the parameters, it must
 to a value created within this function, which would be a dangling reference
 because the value will go out of scope at the end of the function. Consider
 this attempted implementation of the <code>longest</code> function that won’t compile:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span><span class="boring">    let string1 = String::from(&quot;abcd&quot;);
 </span><span class="boring">    let string2 = &quot;xyz&quot;;
@@ -622,7 +622,7 @@ would create dangling pointers or otherwise violate memory safety.</p>
 structs to hold references, but in that case we would need to add a lifetime
 annotation on every reference in the struct’s definition. Listing 10-25 has a
 struct named <code>ImportantExcerpt</code> that holds a string slice.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct ImportantExcerpt&lt;'a&gt; {
     part: &amp;'a str,
 }
@@ -654,7 +654,7 @@ the <code>ImportantExcerpt</code> goes out of scope, so the reference in the
 lifetime parameters for functions or structs that use references. However, in
 Chapter 4 we had a function in Listing 4-9, which is shown again in Listing
 10-26, that compiled without lifetime annotations.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;str) -&gt; &amp;str {
     let bytes = s.as_bytes();
 

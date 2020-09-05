@@ -226,7 +226,7 @@ languages: their specific purpose is to allow abstraction across common
 behavior.</p>
 <p>Listing 17-3 shows how to define a trait named <code>Draw</code> with one method named
 <code>draw</code>:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -241,7 +241,7 @@ in Chapter 10. Next comes some new syntax: Listing 17-4 defines a struct named
 <code>Screen</code> that holds a vector named <code>components</code>. This vector is of type
 <code>Box&lt;dyn Draw&gt;</code>, which is a trait object; it’s a stand-in for any type inside
 a <code>Box</code> that implements the <code>Draw</code> trait.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -259,7 +259,7 @@ a <code>Box</code> that implements the <code>Draw</code> trait.</p>
 trait</span></p>
 <p>On the <code>Screen</code> struct, we’ll define a method named <code>run</code> that will call the
 <code>draw</code> method on each of its <code>components</code>, as shown in Listing 17-5:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -288,7 +288,7 @@ with one concrete type at a time, whereas trait objects allow for multiple
 concrete types to fill in for the trait object at runtime. For example, we
 could have defined the <code>Screen</code> struct using a generic type and a trait bound
 as in Listing 17-6:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -328,7 +328,7 @@ runtime performance implications.</p>
 of this book, so the <code>draw</code> method won’t have any useful implementation in its
 body. To imagine what the implementation might look like, a <code>Button</code> struct
 might have fields for <code>width</code>, <code>height</code>, and <code>label</code>, as shown in Listing 17-7:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub trait Draw {
 </span><span class="boring">    fn draw(&amp;self);
 </span><span class="boring">}
@@ -373,7 +373,7 @@ methods won’t apply to types like <code>TextField</code>.</p>
 <p>If someone using our library decides to implement a <code>SelectBox</code> struct that has
 <code>width</code>, <code>height</code>, and <code>options</code> fields, they implement the <code>Draw</code> trait on the
 <code>SelectBox</code> type as well, as shown in Listing 17-8:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use gui::Draw;
 
 struct SelectBox {
@@ -397,7 +397,7 @@ instance. To the <code>Screen</code> instance, they can add a <code>SelectBox</c
 by putting each in a <code>Box&lt;T&gt;</code> to become a trait object. They can then call the
 <code>run</code> method on the <code>Screen</code> instance, which will call <code>draw</code> on each of the
 components. Listing 17-9 shows this implementation:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use gui::Draw;
 </span><span class="boring">
 </span><span class="boring">struct SelectBox {
@@ -460,7 +460,7 @@ if a value doesn’t implement a method but we call it anyway. Rust won’t comp
 our code if the values don’t implement the traits that the trait objects need.</p>
 <p>For example, Listing 17-10 shows what happens if we try to create a <code>Screen</code>
 with a <code>String</code> as a component:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use gui::Screen;
 
 fn main() {

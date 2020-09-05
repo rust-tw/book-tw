@@ -191,7 +191,7 @@ is less important than the pointer-like behavior.</p>
 as an arrow to a value stored somewhere else. In Listing 15-6, we create a
 reference to an <code>i32</code> value and then use the dereference operator to follow the
 reference to the data:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;
     let y = &amp;x;
@@ -234,7 +234,7 @@ to the value it’s pointing to.</p>
 <h3><a class="header" href="#using-boxt-like-a-reference" id="using-boxt-like-a-reference">Using <code>Box&lt;T&gt;</code> Like a Reference</a></h3>
 <p>We can rewrite the code in Listing 15-6 to use a <code>Box&lt;T&gt;</code> instead of a
 reference; the dereference operator will work as shown in Listing 15-7:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;
     let y = Box::new(x);
@@ -259,7 +259,7 @@ dereference operator.</p>
 <p>The <code>Box&lt;T&gt;</code> type is ultimately defined as a tuple struct with one element, so
 Listing 15-8 defines a <code>MyBox&lt;T&gt;</code> type in the same way. We’ll also define a
 <code>new</code> function to match the <code>new</code> function defined on <code>Box&lt;T&gt;</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct MyBox&lt;T&gt;(T);
 
 impl&lt;T&gt; MyBox&lt;T&gt; {
@@ -279,7 +279,7 @@ type <code>T</code> and returns a <code>MyBox</code> instance that holds the val
 changing it to use the <code>MyBox&lt;T&gt;</code> type we’ve defined instead of <code>Box&lt;T&gt;</code>. The
 code in Listing 15-9 won’t compile because Rust doesn’t know how to dereference
 <code>MyBox</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">struct MyBox&lt;T&gt;(T);
 </span><span class="boring">
 </span><span class="boring">impl&lt;T&gt; MyBox&lt;T&gt; {
@@ -323,7 +323,7 @@ implementations for the trait’s required methods. The <code>Deref</code> trait
 by the standard library, requires us to implement one method named <code>deref</code> that
 borrows <code>self</code> and returns a reference to the inner data. Listing 15-10
 contains an implementation of <code>Deref</code> to add to the definition of <code>MyBox</code>:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::ops::Deref;
 
 impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
@@ -401,7 +401,7 @@ can work for either references or smart pointers.</p>
 Listing 15-8 as well as the implementation of <code>Deref</code> that we added in Listing
 15-10. Listing 15-11 shows the definition of a function that has a string slice
 parameter:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn hello(name: &amp;str) {
     println!(&quot;Hello, {}!&quot;, name);
 }
@@ -413,7 +413,7 @@ parameter:</p>
 <p>We can call the <code>hello</code> function with a string slice as an argument, such as
 <code>hello(&quot;Rust&quot;);</code> for example. Deref coercion makes it possible to call <code>hello</code>
 with a reference to a value of type <code>MyBox&lt;String&gt;</code>, as shown in Listing 15-12:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::ops::Deref;
 </span><span class="boring">
 </span><span class="boring">impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
@@ -453,7 +453,7 @@ matches the <code>hello</code> function’s definition.</p>
 <p>If Rust didn’t implement deref coercion, we would have to write the code in
 Listing 15-13 instead of the code in Listing 15-12 to call <code>hello</code> with a value
 of type <code>&amp;MyBox&lt;String&gt;</code>.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::ops::Deref;
 </span><span class="boring">
 </span><span class="boring">impl&lt;T&gt; Deref for MyBox&lt;T&gt; {

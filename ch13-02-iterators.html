@@ -240,7 +240,7 @@ iterator.</p>
 <p>We can call the <code>next</code> method on iterators directly; Listing 13-15 demonstrates
 what values are returned from repeated calls to <code>next</code> on the iterator created
 from the vector.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[cfg(test)]
 </span><span class="boring">mod tests {
 </span>    #[test]
@@ -285,7 +285,7 @@ the iterator and iterates through the items by repeatedly calling <code>next</co
 consuming the iterator. As it iterates through, it adds each item to a running
 total and returns the total when iteration is complete. Listing 13-16 has a
 test illustrating a use of the <code>sum</code> method:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[cfg(test)]
 </span><span class="boring">mod tests {
 </span>    #[test]
@@ -316,7 +316,7 @@ adaptor methods to get results from calls to iterator adaptors.</p>
 which takes a closure to call on each item to produce a new iterator. The
 closure here creates a new iterator in which each item from the vector has been
 incremented by 1. However, this code produces a warning:</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust not_desired_behavior"><span class="boring">fn main() {
 </span>    let v1: Vec&lt;i32&gt; = vec![1, 2, 3];
 
@@ -349,7 +349,7 @@ iterator and collects the resulting values into a collection data type.</p>
 <p>In Listing 13-18, we collect the results of iterating over the iterator that’s
 returned from the call to <code>map</code> into a vector. This vector will end up
 containing each item from the original vector incremented by 1.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v1: Vec&lt;i32&gt; = vec![1, 2, 3];
 
@@ -375,7 +375,7 @@ will be included in the iterator produced by <code>filter</code>. If the closure
 <p>In Listing 13-19, we use <code>filter</code> with a closure that captures the <code>shoe_size</code>
 variable from its environment to iterate over a collection of <code>Shoe</code> struct
 instances. It will return only shoes that are the specified size.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[derive(PartialEq, Debug)]
 struct Shoe {
     size: u32,
@@ -457,7 +457,7 @@ into an iterator by implementing the <code>Iterator</code> trait and using the v
 that implementation.</p>
 <p>Listing 13-20 has the definition of the <code>Counter</code> struct and an associated
 <code>new</code> function to create instances of <code>Counter</code>:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Counter {
     count: u32,
 }
@@ -481,7 +481,7 @@ always starting new instances with a value of 0 in the <code>count</code> field.
 <p>Next, we’ll implement the <code>Iterator</code> trait for our <code>Counter</code> type by defining
 the body of the <code>next</code> method to specify what we want to happen when this
 iterator is used, as shown in Listing 13-21:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Counter {
 </span><span class="boring">    count: u32,
 </span><span class="boring">}
@@ -522,7 +522,7 @@ will increment <code>count</code> and return the current value wrapped in <code>
 shows a test demonstrating that we can use the iterator functionality of our
 <code>Counter</code> struct by calling the <code>next</code> method on it directly, just as we did
 with the iterator created from a vector in Listing 13-15.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Counter {
 </span><span class="boring">    count: u32,
 </span><span class="boring">}
@@ -579,7 +579,7 @@ instance of <code>Counter</code>, pair them with values produced by another <cod
 instance after skipping the first value, multiply each pair together, keep only
 those results that are divisible by 3, and add all the resulting values
 together, we could do so, as shown in the test in Listing 13-23:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Counter {
 </span><span class="boring">    count: u32,
 </span><span class="boring">}

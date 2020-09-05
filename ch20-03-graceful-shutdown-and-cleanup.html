@@ -185,7 +185,7 @@ accept only two requests before gracefully shutting down its thread pool.</p>
 dropped, our threads should all join to make sure they finish their work.
 Listing 20-22 shows a first attempt at a <code>Drop</code> implementation; this code won’t
 quite work yet.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
@@ -296,7 +296,7 @@ will have a <code>Some</code> variant in <code>thread</code>, and when we want t
 <code>Worker</code>, we’ll replace <code>Some</code> with <code>None</code> so the <code>Worker</code> doesn’t have a
 thread to run.</p>
 <p>So we know we want to update the definition of <code>Worker</code> like this:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
@@ -405,7 +405,7 @@ To learn more, run the command again with --verbose.
 <p>Let’s address the second error, which points to the code at the end of
 <code>Worker::new</code>; we need to wrap the <code>thread</code> value in <code>Some</code> when we create a
 new <code>Worker</code>. Make the following changes to fix this error:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
@@ -489,7 +489,7 @@ new <code>Worker</code>. Make the following changes to fix this error:</p>
 <p>The first error is in our <code>Drop</code> implementation. We mentioned earlier that we
 intended to call <code>take</code> on the <code>Option</code> value to move <code>thread</code> out of <code>worker</code>.
 The following changes will do so:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
@@ -587,7 +587,7 @@ for the first thread to finish.</p>
 to run or a signal that they should stop listening and exit the infinite loop.
 Instead of <code>Job</code> instances, our channel will send one of these two enum
 variants.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
@@ -680,7 +680,7 @@ thread should run, or it will be a <code>Terminate</code> variant that will caus
 thread to exit its loop and stop.</p>
 <p>We need to adjust the channel to use values of type <code>Message</code> rather than type
 <code>Job</code>, as shown in Listing 20-23.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
@@ -794,7 +794,7 @@ is received.</p>
 way as it did after Listing 20-20. But we’ll get a warning because we aren’t
 creating any messages of the <code>Terminate</code> variety. Let’s fix this warning by
 changing our <code>Drop</code> implementation to look like Listing 20-24.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
@@ -920,7 +920,7 @@ messages as there are workers, each worker will receive a terminate message
 before <code>join</code> is called on its thread.</p>
 <p>To see this code in action, let’s modify <code>main</code> to accept only two requests
 before gracefully shutting down the server, as shown in Listing 20-25.</p>
-<p><span class="filename">Filename: src/bin/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/bin/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use hello::ThreadPool;
 </span><span class="boring">use std::fs;
 </span><span class="boring">use std::io::prelude::*;
@@ -1025,7 +1025,7 @@ able to shut down.</p>
 a thread pool to respond asynchronously. We’re able to perform a graceful
 shutdown of the server, which cleans up all the threads in the pool.</p>
 <p>Here’s the full code for reference:</p>
-<p><span class="filename">Filename: src/bin/main.rs</span></p>
+<p><span class="filename">檔案名稱：src/bin/main.rs</span></p>
 <pre><code class="language-rust ignore">use hello::ThreadPool;
 use std::fs;
 use std::io::prelude::*;
@@ -1073,7 +1073,7 @@ fn handle_connection(mut stream: TcpStream) {
     stream.flush().unwrap();
 }
 </code></pre>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::mpsc;
 use std::sync::Arc;
 use std::sync::Mutex;

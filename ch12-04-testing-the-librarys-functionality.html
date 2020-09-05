@@ -201,7 +201,7 @@ the behavior we want the <code>search</code> function to have: it will take a qu
 the text to search for the query in, and it will return only the lines from the
 text that contain the query. Listing 12-15 shows this test, which won’t compile
 yet.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -258,7 +258,7 @@ code to get the test to compile and run by adding a definition of the <code>sear
 function that always returns an empty vector, as shown in Listing 12-16. Then
 the test should compile and fail because an empty vector doesn’t match a vector
 containing the line <code>&quot;safe, fast, productive.&quot;</code></p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -392,7 +392,7 @@ that and implement <code>search</code>, our program needs to follow these steps:
 <p>Rust has a helpful method to handle line-by-line iteration of strings,
 conveniently named <code>lines</code>, that works as shown in Listing 12-17. Note this
 won’t compile yet.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -453,7 +453,7 @@ with an iterator to run some code on each item in a collection.</p>
 Fortunately, strings have a helpful method named <code>contains</code> that does this for
 us! Add a call to the <code>contains</code> method in the <code>search</code> function, as shown in
 Listing 12-18. Note this still won’t compile yet.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -512,7 +512,7 @@ line contains the string in <code>query</code></span></p>
 we can make a mutable vector before the <code>for</code> loop and call the <code>push</code> method
 to store a <code>line</code> in the vector. After the <code>for</code> loop, we return the vector, as
 shown in Listing 12-19.</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
@@ -607,7 +607,7 @@ explore iterators in detail, and look at how to improve it.</p>
 from our <code>run</code> function. We need to pass the <code>config.query</code> value and the
 <code>contents</code> that <code>run</code> reads from the file to the <code>search</code> function. Then <code>run</code>
 will print each line returned from <code>search</code>:</p>
-<p><span class="filename">Filename: src/lib.rs</span></p>
+<p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
