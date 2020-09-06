@@ -2260,21 +2260,16 @@ To learn more, run the command again with --verbose.
 <li>updated: 2020-09-05</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#comments" id="comments">Comments</a></h2>
-<p>All programmers strive to make their code easy to understand, but sometimes
-extra explanation is warranted. In these cases, programmers leave notes, or
-<em>comments</em>, in their source code that the compiler will ignore but people
-reading the source code may find useful.</p>
-<p>Here’s a simple comment:</p>
+<h2><a class="header" href="#註解" id="註解">註解</a></h2>
+<p>所有程式設計師均致力於讓他們的程式碼易於閱讀，不過有時後額外的解釋還是需要的。這種情況下，開發者會在他們的程式碼留下一些筆記或是<em>註解（comments）</em>，編譯器會忽略這些字，但其他人在閱讀程式碼時可能就會覺得很有幫助。</p>
+<p>這是一個簡單地註釋：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// hello, world
 <span class="boring">}
 </span></code></pre></pre>
-<p>In Rust, the idiomatic comment style starts a comment with two slashes, and the
-comment continues until the end of the line. For comments that extend beyond a
-single line, you’ll need to include <code>//</code> on each line, like this:</p>
+<p>在 Rust 中，理想的註解風格是用兩行斜線在加上一個空格起頭，然後註解就能一直寫到該行結束爲止。如果註解會超過一行的話，你需要在每一行都加上 <code>//</code>，如下所示：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2283,22 +2278,27 @@ single line, you’ll need to include <code>//</code> on each line, like this:</
 // explain what’s going on.
 <span class="boring">}
 </span></code></pre></pre>
-<p>Comments can also be placed at the end of lines containing code:</p>
+<p>註解也可以加載程式碼之後：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let lucky_number = 7; // I’m feeling lucky today
 }
 </code></pre></pre>
-<p>But you’ll more often see them used in this format, with the comment on a
-separate line above the code it’s annotating:</p>
+<p>不過你會更常看到它們用用以下格式，註解會爲於要說明的程式碼上一行：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     // I’m feeling lucky today
     let lucky_number = 7;
 }
 </code></pre></pre>
-<p>Rust also has another kind of comment, documentation comments, which we’ll
-discuss in the “Publishing a Crate to Crates.io” section of Chapter 14.</p>
+<p>Rust 還有另一種註解：技術文件註解。我們會在第十四章的「發佈 Crate 到 Crates.io」段落提到它。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/25a1530ccbf0a79c8df2920ee2af8beb106122e8/src/ch03-04-comments.md">25a1530</a></li>
+<li>updated: 2020-09-06</li>
+</ul>
+</blockquote>
 <h2><a class="header" href="#control-flow" id="control-flow">Control Flow</a></h2>
 <p>Deciding whether or not to run some code depending on if a condition is true
 and deciding to run some code repeatedly while a condition is true are basic
