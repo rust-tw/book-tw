@@ -197,9 +197,9 @@ edition = &quot;2018&quot;
 </code></pre>
 <p><span class="caption">範例 1-2：用 <code>cargo new</code> 產生的 <em>Cargo.toml</em></span></p>
 <p>此檔案用的是 <a href="https://toml.io"><em>TOML</em></a><!-- ignore --> （<em>Tom’s Obvious, Minimal Language</em>）格式，這是 Cargo 配置文件的格式。</p>
-<p>第一行的 <code>[package]</code> 是一個片段（section）標題，說明以下的陳述語句會配置這個套件。隨著我們加入更多資訊到此文件，我們也會加上更多片段。</p>
+<p>第一行的 <code>[package]</code> 是一個段落（section）標題，說明以下的陳述語句會配置這個套件。隨著我們加入更多資訊到此文件，我們也會加上更多段落。</p>
 <p>接下來四行就是 Cargo 編譯你的程式所需的配置資訊：名稱、版本、誰寫的以及哪個 Rust <code>edition</code> 會用到。Cargo 會透過環境取得你的名字和電子郵件資訊，所以要是資訊不對的話，請現在編輯然後儲存檔案。我們會在附錄 E 介紹什麼是 <code>edition</code>。</p>
-<p>最後一行 <code>[dependencies]</code> 是用來列出你的專案會用到哪些依賴的片段。在 Rust 中，程式碼套件會被稱爲 <em>crates</em>。我們在此專案還不需要任何其他 crate。但是我們會在第二章開始用到，屆時我們會再來介紹。</p>
+<p>最後一行 <code>[dependencies]</code> 是用來列出你的專案會用到哪些依賴的段落。在 Rust 中，程式碼套件會被稱爲 <em>crates</em>。我們在此專案還不需要任何其他 crate。但是我們會在第二章開始用到，屆時我們會再來介紹。</p>
 <p>現在請開啓 <em>src/main.rs</em> 來看看：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
