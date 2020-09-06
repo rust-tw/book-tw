@@ -6,7 +6,7 @@ English 英文           | Traditional Chinese 正體中文  | Note 備註
 ------------           |-----------------------------  |----------
 Abstract Syntax Tree   | 抽象語法樹                    | 參考：[維基百科][AST]
 ahead-of-time compiled | 預先編譯                      |
-annotations            | 註釋                          |
+annotations            | 詮釋                          |
 argument               | 引數                          |
 arity                  | 元數                          | 所需運算元的數量。參考：[維基百科][arity]
 array                  | 陣列                          | 參考：[維基百科][array]
@@ -79,10 +79,11 @@ operators              | 運算子                        | 參考：[維基百�
 overloading            | 重載                          | 參考：[維基百科][overloading]
 ownership              | 所有權                        |
 package                | 套件                          | 參考：[維基百科][package]
+panic                  | 恐慌                          |
 parse                  | 分析、分析語法                |
 parser                 | 語法分析器                    | 參考：[維基百科][parser]
 pattern                | 模式                          | 參考：[維基百科][pattern]
-pattern matching       | 模式                          | 參考：[中華民國資訊學會][pattern matching]
+pattern matching       | 模式配對                      | 參考：[中華民國資訊學會][pattern matching]
 plugins                | 外掛                          |
 pointer                | 指標                          | 參考：[維基百科][pointer]
 polymorphism           | 多型                          | 參考：[維基百科][polymorphism]
@@ -90,8 +91,10 @@ primitive type         | 基本型別                      | 參考：[維基百
 profile                | 設定檔                        |
 reference              | 參照、參考                    | 參考：[維基百科][reference]
 round bracket          | 圓括號                        | 參考：[維基百科][bracket]
+runtime                | 執行時                        |
+scalar                 | 純量                          |
 scope                  | 有效範圍                      |
-section                | 片段                          |
+section                | 段落                          |
 semantics              | 語意                          |
 segment                | 區段                          | 參考：[維基百科][segment]
 segmentation fault     | 記憶體區段錯誤                | 參考：[維基百科][segmentation fault]
@@ -108,7 +111,7 @@ symbols                | 符號                          |
 syntax                 | 語法                          |
 thread                 | 執行緒                        | 參考：[維基百科][thread]
 trait                  | 特徵                          | 參考：[維基百科][trait]
-tuple                  | 多元組                        | 參考：[維基百科][tuple]
+tuple                  | 元組                        |
 two’s complement       | 二補數                        | 參考：[維基百科][two’s complement]
 type                   | 型別                          | 參考：[維基百科][type]
 type inference         | 型別推斷                      | 參考：[維基百科][type inference]
@@ -178,7 +181,6 @@ zero-cost abstractions | 無成本抽象化                  |
 [struct_2]: https://zh.wikipedia.org/zh-tw/%E7%BB%93%E6%9E%84%E4%BD%93_(C%E8%AF%AD%E8%A8%80)
 [thread]: https://zh.wikipedia.org/zh-tw/%E7%BA%BF%E7%A8%8B
 [trait]: https://zh.wikipedia.org/wiki/Traits_%28%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%29
-[tuple]: https://zh.wikipedia.org/zh-tw/%E5%A4%9A%E5%85%83%E7%BB%84
 [two’s complement]: https://zh.wikipedia.org/zh-tw/%E4%BA%8C%E8%A3%9C%E6%95%B8
 [type]: https://zh.wikipedia.org/zh-tw/%E8%B3%87%E6%96%99%E9%A1%9E%E5%9E%8B
 [type inference]: https://zh.wikipedia.org/zh-tw/%E7%B1%BB%E5%9E%8B%E6%8E%A8%E8%AE%BA
@@ -195,7 +197,6 @@ bootstrap              |                               |
 build                  |                               | 名詞，例：create a "build"
 closures               |                               |
 crates                 |                               |
-destructuring let      |                               | 用於存取 tuple
 fully-strict           |                               |
 hash                   |                               |
 import                 |                               |
@@ -204,7 +205,6 @@ master                 |                               | git branch
 mata                   |                               |
 metaprogramming        |                               |
 non-strict             |                               |
-panic                  |                               |
 patches                |                               |
 placeholder            |                               |
 prelude                |                               | 預先載入的函式庫
