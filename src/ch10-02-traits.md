@@ -33,7 +33,7 @@ need a summary from each type, and we need to request that summary by calling a
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-12/src/lib.rs}}
 ```
 
-<span class="caption">Listing 10-12: A `Summary` trait that consists of the
+<span class="caption">範例 10-12: A `Summary` trait that consists of the
 behavior provided by a `summarize` method</span>
 
 Here, we declare a trait using the `trait` keyword and then the trait’s name,
@@ -66,7 +66,7 @@ already limited to 280 characters.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-13/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 10-13: Implementing the `Summary` trait on the
+<span class="caption">範例 10-13: Implementing the `Summary` trait on the
 `NewsArticle` and `Tweet` types</span>
 
 Implementing a trait on a type is similar to implementing regular methods. The
@@ -134,7 +134,7 @@ in Listing 10-12.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-14/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 10-14: Definition of a `Summary` trait with a
+<span class="caption">範例 10-14: Definition of a `Summary` trait with a
 default implementation of the `summarize` method</span>
 
 To use a default implementation to summarize instances of `NewsArticle` instead
@@ -387,7 +387,7 @@ values in the slice that we pass into the function implement the `PartialOrd`
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-15/src/main.rs}}
 ```
 
-<span class="caption">Listing 10-15: A working definition of the `largest`
+<span class="caption">範例 10-15: A working definition of the `largest`
 function that works on any generic type that implements the `PartialOrd` and
 `Copy` traits</span>
 
@@ -420,7 +420,7 @@ the `Display` trait that enables printing.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-16/src/lib.rs}}
 ```
 
-<span class="caption">Listing 10-16: Conditionally implement methods on a
+<span class="caption">範例 10-16: Conditionally implement methods on a
 generic type depending on trait bounds</span>
 
 We can also conditionally implement a trait for any type that implements

@@ -27,7 +27,7 @@ quite work yet.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-22/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-22: Joining each thread when the thread pool
+<span class="caption">範例 20-22: Joining each thread when the thread pool
 goes out of scope</span>
 
 First, we loop through each of the thread pool `workers`. We use `&mut` for
@@ -129,7 +129,7 @@ We need to adjust the channel to use values of type `Message` rather than type
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-23/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-23: Sending and receiving `Message` values and
+<span class="caption">範例 20-23: Sending and receiving `Message` values and
 exiting the loop if a `Worker` receives `Message::Terminate`</span>
 
 To incorporate the `Message` enum, we need to change `Job` to `Message` in two
@@ -151,7 +151,7 @@ changing our `Drop` implementation to look like Listing 20-24.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-24/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-24: Sending `Message::Terminate` to the
+<span class="caption">範例 20-24: Sending `Message::Terminate` to the
 workers before calling `join` on each worker thread</span>
 
 We’re now iterating over the workers twice: once to send one `Terminate`
@@ -185,7 +185,7 @@ before gracefully shutting down the server, as shown in Listing 20-25.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-25/src/bin/main.rs:here}}
 ```
 
-<span class="caption">Listing 20-25: Shut down the server after serving two
+<span class="caption">範例 20-25: Shut down the server after serving two
 requests by exiting the loop</span>
 
 You wouldn’t want a real-world web server to shut down after serving only two

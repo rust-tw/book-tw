@@ -44,7 +44,7 @@ yet.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-15/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 12-15: Creating a failing test for the `search`
+<span class="caption">範例 12-15: Creating a failing test for the `search`
 function we wish we had</span>
 
 This test searches for the string `"duct"`. The text we’re searching is three
@@ -64,7 +64,7 @@ containing the line `"safe, fast, productive."`
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-16/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 12-16: Defining just enough of the `search`
+<span class="caption">範例 12-16: Defining just enough of the `search`
 function so our test will compile</span>
 
 Notice that we need an explicit lifetime `'a` defined in the signature of
@@ -133,7 +133,7 @@ won’t compile yet.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-17/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 12-17: Iterating through each line in `contents`
+<span class="caption">範例 12-17: Iterating through each line in `contents`
 </span>
 
 The `lines` method returns an iterator. We’ll talk about iterators in depth in
@@ -154,7 +154,7 @@ Listing 12-18. Note this still won’t compile yet.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-18/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 12-18: Adding functionality to see whether the
+<span class="caption">範例 12-18: Adding functionality to see whether the
 line contains the string in `query`</span>
 
 #### Storing Matching Lines
@@ -170,7 +170,7 @@ shown in Listing 12-19.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-19/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 12-19: Storing the lines that match so we can
+<span class="caption">範例 12-19: Storing the lines that match so we can
 return them</span>
 
 Now the `search` function should return only the lines that contain `query`,

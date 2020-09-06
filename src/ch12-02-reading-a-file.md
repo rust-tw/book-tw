@@ -14,7 +14,7 @@ Who are you?”
 {{#include ../listings/ch12-an-io-project/listing-12-03/poem.txt}}
 ```
 
-<span class="caption">Listing 12-3: A poem by Emily Dickinson makes a good test
+<span class="caption">範例 12-3: A poem by Emily Dickinson makes a good test
 case</span>
 
 With the text in place, edit *src/main.rs* and add code to read the file, as
@@ -26,7 +26,7 @@ shown in Listing 12-4.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-04/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-4: Reading the contents of the file specified
+<span class="caption">範例 12-4: Reading the contents of the file specified
 by the second argument</span>
 
 First, we add another `use` statement to bring in a relevant part of the

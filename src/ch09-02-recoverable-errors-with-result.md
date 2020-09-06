@@ -37,7 +37,7 @@ fail. In Listing 9-3 we try to open a file.
 {{#rustdoc_include ../listings/ch09-error-handling/listing-09-03/src/main.rs}}
 ```
 
-<span class="caption">Listing 9-3: Opening a file</span>
+<span class="caption">範例 9-3: Opening a file</span>
 
 How do we know `File::open` returns a `Result`? We could look at the [standard
 library API documentation](../std/index.html)<!-- ignore -->, or we could ask
@@ -86,7 +86,7 @@ Chapter 6.
 {{#rustdoc_include ../listings/ch09-error-handling/listing-09-04/src/main.rs}}
 ```
 
-<span class="caption">Listing 9-4: Using a `match` expression to handle the
+<span class="caption">範例 9-4: Using a `match` expression to handle the
 `Result` variants that might be returned</span>
 
 Note that, like the `Option` enum, the `Result` enum and its variants have been
@@ -128,7 +128,7 @@ tests to fail lol -->
 {{#rustdoc_include ../listings/ch09-error-handling/listing-09-05/src/main.rs}}
 ```
 
-<span class="caption">Listing 9-5: Handling different kinds of errors in
+<span class="caption">範例 9-5: Handling different kinds of errors in
 different ways</span>
 
 The type of the value that `File::open` returns inside the `Err` variant is
@@ -239,7 +239,7 @@ don't want to include it for rustdoc testing purposes. -->
 {{#include ../listings/ch09-error-handling/listing-09-06/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 9-6: A function that returns errors to the
+<span class="caption">範例 9-6: A function that returns errors to the
 calling code using `match`</span>
 
 This function can be written in a much shorter way, but we’re going to start by
@@ -305,7 +305,7 @@ don't want to include it for rustdoc testing purposes. -->
 {{#include ../listings/ch09-error-handling/listing-09-07/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 9-7: A function that returns errors to the
+<span class="caption">範例 9-7: A function that returns errors to the
 calling code using the `?` operator</span>
 
 The `?` placed after a `Result` value is defined to work in almost the same way
@@ -348,7 +348,7 @@ don't want to include it for rustdoc testing purposes. -->
 {{#include ../listings/ch09-error-handling/listing-09-08/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 9-8: Chaining method calls after the `?`
+<span class="caption">範例 9-8: Chaining method calls after the `?`
 operator</span>
 
 We’ve moved the creation of the new `String` in `s` to the beginning of the
@@ -373,7 +373,7 @@ don't want to include it for rustdoc testing purposes. -->
 {{#include ../listings/ch09-error-handling/listing-09-09/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 9-9: Using `fs::read_to_string` instead of
+<span class="caption">範例 9-9: Using `fs::read_to_string` instead of
 opening and then reading the file</span>
 
 Reading a file into a string is a fairly common operation, so Rust provides the

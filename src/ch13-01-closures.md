@@ -33,7 +33,7 @@ we passed in.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-01/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-1: A function to stand in for a hypothetical
+<span class="caption">範例 13-1: A function to stand in for a hypothetical
 calculation that takes about 2 seconds to run</span>
 
 Next is the `main` function, which contains the parts of the workout app
@@ -58,7 +58,7 @@ function we’ll use.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-02/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-2: A `main` function with hardcoded values to
+<span class="caption">範例 13-2: A `main` function with hardcoded values to
 simulate user input and random number generation</span>
 
 We’ve hardcoded the variable `simulated_user_specified_value` as 10 and the
@@ -79,7 +79,7 @@ changes in this example will be made to this function.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-03/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-3: The business logic that prints the workout
+<span class="caption">範例 13-3: The business logic that prints the workout
 plans based on the inputs and calls to the `simulated_expensive_calculation`
 function</span>
 
@@ -121,7 +121,7 @@ function into a variable, as shown in Listing 13-4.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-04/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-4: Extracting the calls to
+<span class="caption">範例 13-4: Extracting the calls to
 `simulated_expensive_calculation` to one place and storing the result in the
 `expensive_result` variable</span>
 
@@ -148,7 +148,7 @@ the closure we’re introducing here.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-05/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-5: Defining a closure and storing it in the
+<span class="caption">範例 13-5: Defining a closure and storing it in the
 `expensive_closure` variable</span>
 
 The closure definition comes after the `=` to assign it to the variable
@@ -183,7 +183,7 @@ want to use, as shown in Listing 13-6.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-06/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-6: Calling the `expensive_closure` we’ve
+<span class="caption">範例 13-6: Calling the `expensive_closure` we’ve
 defined</span>
 
 Now the expensive calculation is called in only one place, and we’re only
@@ -228,7 +228,7 @@ would look like the definition shown in Listing 13-7.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-07/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-7: Adding optional type annotations of the
+<span class="caption">範例 13-7: Adding optional type annotations of the
 parameter and return value types in the closure</span>
 
 With type annotations added, the syntax of closures looks more similar to the
@@ -267,7 +267,7 @@ first time and a `u32` the second time, we’ll get an error.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-08/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-8: Attempting to call a closure whose types
+<span class="caption">範例 13-8: Attempting to call a closure whose types
 are inferred with two different types</span>
 
 The compiler gives us this error:
@@ -324,7 +324,7 @@ and an optional result value.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-09/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-9: Defining a `Cacher` struct that holds a
+<span class="caption">範例 13-9: Defining a `Cacher` struct that holds a
 closure in `calculation` and an optional result in `value`</span>
 
 The `Cacher` struct has a `calculation` field of the generic type `T`. The
@@ -354,7 +354,7 @@ The logic around the `value` field we’ve just described is defined in Listing
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-10/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-10: The caching logic of `Cacher`</span>
+<span class="caption">範例 13-10: The caching logic of `Cacher`</span>
 
 We want `Cacher` to manage the struct fields’ values rather than letting the
 calling code potentially change the values in these fields directly, so these
@@ -385,7 +385,7 @@ Listing 13-11 shows how we can use this `Cacher` struct in the function
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-11/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 13-11: Using `Cacher` in the `generate_workout`
+<span class="caption">範例 13-11: Using `Cacher` in the `generate_workout`
 function to abstract away the caching logic</span>
 
 Instead of saving the closure in a variable directly, we save a new instance of
@@ -463,7 +463,7 @@ that uses the `x` variable from the closure’s surrounding environment.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-12/src/main.rs}}
 ```
 
-<span class="caption">Listing 13-12: Example of a closure that refers to a
+<span class="caption">範例 13-12: Example of a closure that refers to a
 variable in its enclosing scope</span>
 
 Here, even though `x` is not one of the parameters of `equal_to_x`, the

@@ -32,7 +32,7 @@ reference to the data:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-06/src/main.rs}}
 ```
 
-<span class="caption">Listing 15-6: Using the dereference operator to follow a
+<span class="caption">範例 15-6: Using the dereference operator to follow a
 reference to an `i32` value</span>
 
 The variable `x` holds an `i32` value, `5`. We set `y` equal to a reference to
@@ -64,7 +64,7 @@ reference; the dereference operator will work as shown in Listing 15-7:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-07/src/main.rs}}
 ```
 
-<span class="caption">Listing 15-7: Using the dereference operator on a
+<span class="caption">範例 15-7: Using the dereference operator on a
 `Box<i32>`</span>
 
 The only difference between Listing 15-7 and Listing 15-6 is that here we set
@@ -91,7 +91,7 @@ Listing 15-8 defines a `MyBox<T>` type in the same way. We’ll also define a
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-08/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 15-8: Defining a `MyBox<T>` type</span>
+<span class="caption">範例 15-8: Defining a `MyBox<T>` type</span>
 
 We define a struct named `MyBox` and declare a generic parameter `T`, because
 we want our type to hold values of any type. The `MyBox` type is a tuple struct
@@ -109,7 +109,7 @@ code in Listing 15-9 won’t compile because Rust doesn’t know how to derefere
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-09/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 15-9: Attempting to use `MyBox<T>` in the same
+<span class="caption">範例 15-9: Attempting to use `MyBox<T>` in the same
 way we used references and `Box<T>`</span>
 
 Here’s the resulting compilation error:
@@ -136,7 +136,7 @@ contains an implementation of `Deref` to add to the definition of `MyBox`:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-10/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 15-10: Implementing `Deref` on `MyBox<T>`</span>
+<span class="caption">範例 15-10: Implementing `Deref` on `MyBox<T>`</span>
 
 The `type Target = T;` syntax defines an associated type for the `Deref` trait
 to use. Associated types are a slightly different way of declaring a generic
@@ -207,7 +207,7 @@ parameter:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-11/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 15-11: A `hello` function that has the parameter
+<span class="caption">範例 15-11: A `hello` function that has the parameter
 `name` of type `&str`</span>
 
 We can call the `hello` function with a string slice as an argument, such as
@@ -220,7 +220,7 @@ with a reference to a value of type `MyBox<String>`, as shown in Listing 15-12:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-12/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 15-12: Calling `hello` with a reference to a
+<span class="caption">範例 15-12: Calling `hello` with a reference to a
 `MyBox<String>` value, which works because of deref coercion</span>
 
 Here we’re calling the `hello` function with the argument `&m`, which is a
@@ -241,7 +241,7 @@ of type `&MyBox<String>`.
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-13/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 15-13: The code we would have to write if Rust
+<span class="caption">範例 15-13: The code we would have to write if Rust
 didn’t have deref coercion</span>
 
 The `(*m)` dereferences the `MyBox<String>` into a `String`. Then the `&` and

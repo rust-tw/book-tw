@@ -51,7 +51,7 @@ as well, starting with the `new` function to create a string, shown in Listing
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-11/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 8-11: Creating a new, empty `String`</span>
+<span class="caption">範例 8-11: Creating a new, empty `String`</span>
 
 This line creates a new empty string called `s`, which we can then load data
 into. Often, we’ll have some initial data that we want to start the string
@@ -63,7 +63,7 @@ two examples.
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-12/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 8-12: Using the `to_string` method to create a
+<span class="caption">範例 8-12: Using the `to_string` method to create a
 `String` from a string literal</span>
 
 This code creates a string containing `initial contents`.
@@ -76,7 +76,7 @@ that uses `to_string`.
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-13/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 8-13: Using the `String::from` function to create
+<span class="caption">範例 8-13: Using the `String::from` function to create
 a `String` from a string literal</span>
 
 Because strings are used for so many things, we can use many different generic
@@ -91,7 +91,7 @@ data in them, as shown in Listing 8-14.
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-14/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 8-14: Storing greetings in different languages in
+<span class="caption">範例 8-14: Storing greetings in different languages in
 strings</span>
 
 All of these are valid `String` values.
@@ -111,7 +111,7 @@ as shown in Listing 8-15.
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-15/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 8-15: Appending a string slice to a `String`
+<span class="caption">範例 8-15: Appending a string slice to a `String`
 using the `push_str` method</span>
 
 After these two lines, `s` will contain `foobar`. The `push_str` method takes a
@@ -123,7 +123,7 @@ unfortunate if we weren’t able to use `s2` after appending its contents to `s1
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-16/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 8-16: Using a string slice after appending its
+<span class="caption">範例 8-16: Using a string slice after appending its
 contents to a `String`</span>
 
 If the `push_str` method took ownership of `s2`, we wouldn’t be able to print
@@ -137,7 +137,7 @@ the `push` method.
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-17/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 8-17: Adding one character to a `String` value
+<span class="caption">範例 8-17: Adding one character to a `String` value
 using `push`</span>
 
 As a result of this code, `s` will contain `lol`.
@@ -151,7 +151,7 @@ operator, as shown in Listing 8-18.
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-18/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 8-18: Using the `+` operator to combine two
+<span class="caption">範例 8-18: Using the `+` operator to combine two
 `String` values into a new `String` value</span>
 
 The string `s3` will contain `Hello, world!` as a result of this code. The
@@ -224,7 +224,7 @@ get an error. Consider the invalid code in Listing 8-19.
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-19/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 8-19: Attempting to use indexing syntax with a
+<span class="caption">範例 8-19: Attempting to use indexing syntax with a
 String</span>
 
 This code will result in the following error:

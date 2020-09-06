@@ -41,7 +41,7 @@ Listing 15-1 shows how to use a box to store an `i32` value on the heap:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-01/src/main.rs}}
 ```
 
-<span class="caption">Listing 15-1: Storing an `i32` value on the heap using a
+<span class="caption">範例 15-1: Storing an `i32` value on the heap using a
 box</span>
 
 We define the variable `b` to have the value of a `Box` that points to the
@@ -109,7 +109,7 @@ we’ll demonstrate.
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-02/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 15-2: The first attempt at defining an enum to
+<span class="caption">範例 15-2: The first attempt at defining an enum to
 represent a cons list data structure of `i32` values</span>
 
 > Note: We’re implementing a cons list that holds only `i32` values for the
@@ -126,7 +126,7 @@ Listing 15-3:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-03/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 15-3: Using the `List` enum to store the list `1,
+<span class="caption">範例 15-3: Using the `List` enum to store the list `1,
 2, 3`</span>
 
 The first `Cons` value holds `1` and another `List` value. This `List` value is
@@ -141,7 +141,7 @@ Listing 15-4:
 {{#include ../listings/ch15-smart-pointers/listing-15-03/output.txt}}
 ```
 
-<span class="caption">Listing 15-4: The error we get when attempting to define
+<span class="caption">範例 15-4: The error we get when attempting to define
 a recursive enum</span>
 
 The error shows this type “has infinite size.” The reason is that we’ve defined
@@ -217,7 +217,7 @@ of the `List` in Listing 15-3 to the code in Listing 15-5, which will compile:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-05/src/main.rs}}
 ```
 
-<span class="caption">Listing 15-5: Definition of `List` that uses `Box<T>` in
+<span class="caption">範例 15-5: Definition of `List` that uses `Box<T>` in
 order to have a known size</span>
 
 The `Cons` variant will need the size of an `i32` plus the space to store the

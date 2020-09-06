@@ -41,7 +41,7 @@ an incoming stream, it will print `Connection established!`.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-01/src/main.rs}}
 ```
 
-<span class="caption">Listing 20-1: Listening for incoming streams and printing
+<span class="caption">範例 20-1: Listening for incoming streams and printing
 a message when we receive a stream</span>
 
 Using `TcpListener`, we can listen for TCP connections at the address
@@ -133,7 +133,7 @@ look like Listing 20-2.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-02/src/main.rs}}
 ```
 
-<span class="caption">Listing 20-2: Reading from the `TcpStream` and printing
+<span class="caption">範例 20-2: Reading from the `TcpStream` and printing
 the data</span>
 
 We bring `std::io::prelude` into scope to get access to certain traits that let
@@ -270,7 +270,7 @@ Listing 20-3.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-03/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 20-3: Writing a tiny successful HTTP response to
+<span class="caption">範例 20-3: Writing a tiny successful HTTP response to
 the stream</span>
 
 The first new line defines the `response` variable that holds the success
@@ -303,7 +303,7 @@ possibility.
 {{#include ../listings/ch20-web-server/listing-20-04/hello.html}}
 ```
 
-<span class="caption">Listing 20-4: A sample HTML file to return in a
+<span class="caption">範例 20-4: A sample HTML file to return in a
 response</span>
 
 This is a minimal HTML5 document with a heading and some text. To return this
@@ -317,7 +317,7 @@ and send it.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-05/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 20-5: Sending the contents of *hello.html* as the
+<span class="caption">範例 20-5: Sending the contents of *hello.html* as the
 body of the response</span>
 
 We’ve added a line at the top to bring the standard library’s filesystem module
@@ -355,7 +355,7 @@ received against what we know a request for */* looks like and adds `if` and
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-06/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 20-6: Matching the request and handling requests
+<span class="caption">範例 20-6: Matching the request and handling requests
 to */* differently from other requests</span>
 
 First, we hardcode the data corresponding to the */* request into the `get`
@@ -386,7 +386,7 @@ indicating the response to the end user.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-07/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 20-7: Responding with status code 404 and an
+<span class="caption">範例 20-7: Responding with status code 404 and an
 error page if anything other than */* was requested</span>
 
 Here, our response has a status line with status code 404 and the reason
@@ -401,7 +401,7 @@ any HTML you want or use the example HTML in Listing 20-8.
 {{#include ../listings/ch20-web-server/listing-20-08/404.html}}
 ```
 
-<span class="caption">Listing 20-8: Sample content for the page to send back
+<span class="caption">範例 20-8: Sample content for the page to send back
 with any 404 response</span>
 
 With these changes, run your server again. Requesting *127.0.0.1:7878*
@@ -425,7 +425,7 @@ the large `if` and `else` blocks.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-09/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 20-9: Refactoring the `if` and `else` blocks to
+<span class="caption">範例 20-9: Refactoring the `if` and `else` blocks to
 contain only the code that differs between the two cases</span>
 
 Now the `if` and `else` blocks only return the appropriate values for the

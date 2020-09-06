@@ -20,7 +20,7 @@ similar to that of closures, as shown in Listing 19-27.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-27/src/main.rs}}
 ```
 
-<span class="caption">Listing 19-27: Using the `fn` type to accept a function
+<span class="caption">範例 19-27: Using the `fn` type to accept a function
 pointer as an argument</span>
 
 This code prints `The answer is: 12`. We specify that the parameter `f` in

@@ -128,7 +128,7 @@ called `Messenger`. Listing 15-20 shows the library code:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-20/src/lib.rs}}
 ```
 
-<span class="caption">Listing 15-20: A library to keep track of how close a
+<span class="caption">範例 15-20: A library to keep track of how close a
 value is to a maximum value and warn when the value is at certain levels</span>
 
 One important part of this code is that the `Messenger` trait has one method
@@ -155,7 +155,7 @@ implement a mock object to do just that, but the borrow checker won’t allow it
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-21/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 15-21: An attempt to implement a `MockMessenger`
+<span class="caption">範例 15-21: An attempt to implement a `MockMessenger`
 that isn’t allowed by the borrow checker</span>
 
 This test code defines a `MockMessenger` struct that has a `sent_messages`
@@ -199,7 +199,7 @@ shows what that looks like:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-22/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 15-22: Using `RefCell<T>` to mutate an inner
+<span class="caption">範例 15-22: Using `RefCell<T>` to mutate an inner
 value while the outer value is considered immutable</span>
 
 The `sent_messages` field is now of type `RefCell<Vec<String>>` instead of
@@ -248,7 +248,7 @@ at runtime.
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-23/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 15-23: Creating two mutable references in the
+<span class="caption">範例 15-23: Creating two mutable references in the
 same scope to see that `RefCell<T>` will panic</span>
 
 We create a variable `one_borrow` for the `RefMut<T>` smart pointer returned
@@ -296,7 +296,7 @@ the lists:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-24/src/main.rs}}
 ```
 
-<span class="caption">Listing 15-24: Using `Rc<RefCell<i32>>` to create a
+<span class="caption">範例 15-24: Using `Rc<RefCell<i32>>` to create a
 `List` that we can mutate</span>
 
 We create a value that is an instance of `Rc<RefCell<i32>>` and store it in a

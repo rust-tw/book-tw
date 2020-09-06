@@ -94,7 +94,7 @@ references.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-01/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-1: Creating raw pointers from references</span>
+<span class="caption">範例 19-1: Creating raw pointers from references</span>
 
 Notice that we don’t include the `unsafe` keyword in this code. We can create
 raw pointers in safe code; we just can’t dereference raw pointers outside an
@@ -117,7 +117,7 @@ Usually, there is no good reason to write code like this, but it is possible.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-02/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-2: Creating a raw pointer to an arbitrary
+<span class="caption">範例 19-2: Creating a raw pointer to an arbitrary
 memory address</span>
 
 Recall that we can create raw pointers in safe code, but we can’t *dereference*
@@ -128,7 +128,7 @@ dereference operator `*` on a raw pointer that requires an `unsafe` block.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-03/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-3: Dereferencing raw pointers within an
+<span class="caption">範例 19-3: Dereferencing raw pointers within an
 `unsafe` block</span>
 
 Creating a pointer does no harm; it’s only when we try to access the value that
@@ -199,7 +199,7 @@ argument. Listing 19-4 shows how to use `split_at_mut`.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-04/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-4: Using the safe `split_at_mut`
+<span class="caption">範例 19-4: Using the safe `split_at_mut`
 function</span>
 
 We can’t implement this function using only safe Rust. An attempt might look
@@ -211,7 +211,7 @@ of `i32` values rather than for a generic type `T`.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-05/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-5: An attempted implementation of
+<span class="caption">範例 19-5: An attempted implementation of
 `split_at_mut` using only safe Rust</span>
 
 This function first gets the total length of the slice. Then it asserts that
@@ -243,7 +243,7 @@ to unsafe functions to make the implementation of `split_at_mut` work.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-06/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-6: Using unsafe code in the implementation of
+<span class="caption">範例 19-6: Using unsafe code in the implementation of
 the `split_at_mut` function</span>
 
 Recall from [“The Slice Type”][the-slice-type]<!-- ignore --> section in
@@ -285,7 +285,7 @@ location and creates a slice 10,000 items long.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-07/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-7: Creating a slice from an arbitrary memory
+<span class="caption">範例 19-7: Creating a slice from an arbitrary memory
 location</span>
 
 We don’t own the memory at this arbitrary location, and there is no guarantee
@@ -312,7 +312,7 @@ responsibility falls on the programmer to ensure safety.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-08/src/main.rs}}
 ```
 
-<span class="caption">Listing 19-8: Declaring and calling an `extern` function
+<span class="caption">範例 19-8: Declaring and calling an `extern` function
 defined in another language</span>
 
 Within the `extern "C"` block, we list the names and signatures of external
@@ -362,7 +362,7 @@ value.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-09/src/main.rs}}
 ```
 
-<span class="caption">Listing 19-9: Defining and using an immutable static
+<span class="caption">範例 19-9: Defining and using an immutable static
 variable</span>
 
 Static variables are similar to constants, which we discussed in the
@@ -391,7 +391,7 @@ static variable named `COUNTER`.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-10/src/main.rs}}
 ```
 
-<span class="caption">Listing 19-10: Reading from or writing to a mutable
+<span class="caption">範例 19-10: Reading from or writing to a mutable
 static variable is unsafe</span>
 
 As with regular variables, we specify mutability using the `mut` keyword. Any
@@ -418,7 +418,7 @@ compiler can’t verify. We can declare that a trait is `unsafe` by adding the
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-11/src/main.rs}}
 ```
 
-<span class="caption">Listing 19-11: Defining and implementing an unsafe
+<span class="caption">範例 19-11: Defining and implementing an unsafe
 trait</span>
 
 By using `unsafe impl`, we’re promising that we’ll uphold the invariants that

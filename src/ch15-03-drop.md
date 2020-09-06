@@ -33,7 +33,7 @@ function.
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-14/src/main.rs}}
 ```
 
-<span class="caption">Listing 15-14: A `CustomSmartPointer` struct that
+<span class="caption">範例 15-14: A `CustomSmartPointer` struct that
 implements the `Drop` trait where we would put our cleanup code</span>
 
 The `Drop` trait is included in the prelude, so we don’t need to bring it into
@@ -83,7 +83,7 @@ compiler error:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-15/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 15-15: Attempting to call the `drop` method from
+<span class="caption">範例 15-15: Attempting to call the `drop` method from
 the `Drop` trait manually to clean up early</span>
 
 When we try to compile this code, we’ll get this error:
@@ -118,7 +118,7 @@ an argument. The function is in the prelude, so we can modify `main` in Listing
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-16/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 15-16: Calling `std::mem::drop` to explicitly
+<span class="caption">範例 15-16: Calling `std::mem::drop` to explicitly
 drop a value before it goes out of scope</span>
 
 Running this code will print the following:

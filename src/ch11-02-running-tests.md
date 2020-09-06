@@ -65,7 +65,7 @@ parameter and returns 10, as well as a test that passes and a test that fails.
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-10/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 11-10: Tests for a function that calls
+<span class="caption">範例 11-10: Tests for a function that calls
 `println!`</span>
 
 When we run these tests with `cargo test`, we’ll see the following output:
@@ -109,7 +109,7 @@ To demonstrate how to run a subset of tests, we’ll create three tests for our
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-11/src/lib.rs}}
 ```
 
-<span class="caption">Listing 11-11: Three tests with three different
+<span class="caption">範例 11-11: Three tests with three different
 names</span>
 
 If we run the tests without passing any arguments, as we saw earlier, all the

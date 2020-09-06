@@ -64,7 +64,7 @@ Consider the code in Listing 11-12 with the private function `internal_adder`.
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-12/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 11-12: Testing a private function</span>
+<span class="caption">範例 11-12: Testing a private function</span>
 
 Note that the `internal_adder` function is not marked as `pub`, but because
 tests are just Rust code and the `tests` module is just another module, you can
@@ -99,7 +99,7 @@ Let’s create an integration test. With the code in Listing 11-12 still in the
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-13/tests/integration_test.rs}}
 ```
 
-<span class="caption">Listing 11-13: An integration test of a function in the
+<span class="caption">範例 11-13: An integration test of a function in the
 `adder` crate</span>
 
 We’ve added `use adder` at the top of the code, which we didn’t need in the

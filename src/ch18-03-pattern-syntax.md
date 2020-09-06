@@ -36,7 +36,7 @@ running this code or reading further.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-11/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-11: A `match` expression with an arm that
+<span class="caption">範例 18-11: A `match` expression with an arm that
 introduces a shadowed variable `y`</span>
 
 Let’s walk through what happens when the `match` expression runs. The pattern
@@ -126,7 +126,7 @@ break apart using a pattern with a `let` statement.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-12/src/main.rs}}
 ```
 
-<span class="caption">Listing 18-12: Destructuring a struct’s fields into
+<span class="caption">範例 18-12: Destructuring a struct’s fields into
 separate variables</span>
 
 This code creates the variables `a` and `b` that match the values of the `x`
@@ -149,7 +149,7 @@ in Listing 18-12, but the variables created in the `let` pattern are `x` and
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-13/src/main.rs}}
 ```
 
-<span class="caption">Listing 18-13: Destructuring struct fields using struct
+<span class="caption">範例 18-13: Destructuring struct fields using struct
 field shorthand</span>
 
 This code creates the variables `x` and `y` that match the `x` and `y` fields
@@ -171,7 +171,7 @@ three cases: points that lie directly on the `x` axis (which is true when `y =
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-14/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-14: Destructuring and matching literal values
+<span class="caption">範例 18-14: Destructuring and matching literal values
 in one pattern</span>
 
 The first arm will match any point that lies on the `x` axis by specifying that
@@ -201,7 +201,7 @@ a `match` with patterns that will destructure each inner value.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-15/src/main.rs}}
 ```
 
-<span class="caption">Listing 18-15: Destructuring enum variants that hold
+<span class="caption">範例 18-15: Destructuring enum variants that hold
 different kinds of values</span>
 
 This code will print `Change the color to red 0, green 160, and blue 255`. Try
@@ -235,7 +235,7 @@ colors in the `ChangeColor` message, as shown in Listing 18-16.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-16/src/main.rs}}
 ```
 
-<span class="caption">Listing 18-16: Matching on nested enums</span>
+<span class="caption">範例 18-16: Matching on nested enums</span>
 
 The pattern of the first arm in the `match` expression matches a
 `Message::ChangeColor` enum variant that contains a `Color::Rgb` variant; then
@@ -283,7 +283,7 @@ including function parameters, as shown in Listing 18-17.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-17/src/main.rs}}
 ```
 
-<span class="caption">Listing 18-17: Using `_` in a function signature</span>
+<span class="caption">範例 18-17: Using `_` in a function signature</span>
 
 This code will completely ignore the value passed as the first argument, `3`,
 and will print `This code only uses the y parameter: 4`.
@@ -309,7 +309,7 @@ setting but can unset the setting and give it a value if it is currently unset.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-18/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-18: Using an underscore within patterns that
+<span class="caption">範例 18-18: Using an underscore within patterns that
 match `Some` variants when we don’t need to use the value inside the
 `Some`</span>
 
@@ -332,7 +332,7 @@ fourth values in a tuple of five items.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-19/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-19: Ignoring multiple parts of a tuple</span>
+<span class="caption">範例 18-19: Ignoring multiple parts of a tuple</span>
 
 This code will print `Some numbers: 2, 8, 32`, and the values 4 and 16 will be
 ignored.
@@ -353,7 +353,7 @@ only get a warning about one of them.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-20/src/main.rs}}
 ```
 
-<span class="caption">Listing 18-20: Starting a variable name with an
+<span class="caption">範例 18-20: Starting a variable name with an
 underscore to avoid getting unused variable warnings</span>
 
 Here we get a warning about not using the variable `y`, but we don’t get a
@@ -368,7 +368,7 @@ distinction matters, Listing 18-21 will provide us with an error.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-21/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-21: An unused variable starting with an
+<span class="caption">範例 18-21: An unused variable starting with an
 underscore still binds the value, which might take ownership of the value</span>
 
 We’ll receive an error because the `s` value will still be moved into `_s`,
@@ -380,7 +380,7 @@ because `s` doesn’t get moved into `_`.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-22/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-22: Using an underscore does not bind the
+<span class="caption">範例 18-22: Using an underscore does not bind the
 value</span>
 
 This code works just fine because we never bind `s` to anything; it isn’t moved.
@@ -399,7 +399,7 @@ the values in the `y` and `z` fields.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-23/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-23: Ignoring all fields of a `Point` except
+<span class="caption">範例 18-23: Ignoring all fields of a `Point` except
 for `x` by using `..`</span>
 
 We list the `x` value and then just include the `..` pattern. This is quicker
@@ -416,7 +416,7 @@ shows how to use `..` with a tuple.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-24/src/main.rs}}
 ```
 
-<span class="caption">Listing 18-24: Matching only the first and last values in
+<span class="caption">範例 18-24: Matching only the first and last values in
 a tuple and ignoring all other values</span>
 
 In this code, the first and last value are matched with `first` and `last`. The
@@ -433,7 +433,7 @@ compile.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-25/src/main.rs}}
 ```
 
-<span class="caption">Listing 18-25: An attempt to use `..` in an ambiguous
+<span class="caption">範例 18-25: An attempt to use `..` in an ambiguous
 way</span>
 
 When we compile this example, we get this error:
@@ -465,7 +465,7 @@ guard of `if x < 5`.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-26/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-26: Adding a match guard to a pattern</span>
+<span class="caption">範例 18-26: Adding a match guard to a pattern</span>
 
 This example will print `less than five: 4`. When `num` is compared to the
 pattern in the first arm, it matches, because `Some(4)` matches `Some(x)`. Then
@@ -493,7 +493,7 @@ problem.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-27/src/main.rs}}
 ```
 
-<span class="caption">Listing 18-27: Using a match guard to test for equality
+<span class="caption">範例 18-27: Using a match guard to test for equality
 with an outer variable</span>
 
 This code will now print `Default case, x = Some(5)`. The pattern in the second
@@ -519,7 +519,7 @@ to `4`, `5`, *and* `6`, even though it might look like `if y` only applies to
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-28/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-28: Combining multiple patterns with a match
+<span class="caption">範例 18-28: Combining multiple patterns with a match
 guard</span>
 
 The match condition states that the arm only matches if the value of `x` is
@@ -560,7 +560,7 @@ a different name.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-29/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-29: Using `@` to bind to a value in a pattern
+<span class="caption">範例 18-29: Using `@` to bind to a value in a pattern
 while also testing it</span>
 
 This example will print `Found an id in range: 5`. By specifying `id_variable

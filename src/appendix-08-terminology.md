@@ -111,7 +111,7 @@ symbols                | 符號                          |
 syntax                 | 語法                          |
 thread                 | 執行緒                        | 參考：[維基百科][thread]
 trait                  | 特徵                          | 參考：[維基百科][trait]
-tuple                  | 元組                        |
+tuple                  | 元組                          |
 two’s complement       | 二補數                        | 參考：[維基百科][two’s complement]
 type                   | 型別                          | 參考：[維基百科][type]
 type inference         | 型別推斷                      | 參考：[維基百科][type inference]
@@ -119,7 +119,6 @@ unsigned integer       | 非帶號整數                    | 參考：[維基�
 values                 | 值、數值                      |
 variables              | 變數                          |
 variant                | 變體                          |
-vector                 | 向量                          |
 view                   | 視圖                          | 參考：[維基百科][view]
 zero-cost abstractions | 無成本抽象化                  |
 
@@ -216,6 +215,7 @@ shell                  |                               |
 slices                 |                               | 其他資料結構的參考
 tabs                   |                               |
 target triple          |                               |
+vector                 |                               |
 work stealing          |                               |
 
 

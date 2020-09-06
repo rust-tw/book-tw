@@ -72,7 +72,7 @@ Listing 17-3 shows how to define a trait named `Draw` with one method named
 {{#rustdoc_include ../listings/ch17-oop/listing-17-03/src/lib.rs}}
 ```
 
-<span class="caption">Listing 17-3: Definition of the `Draw` trait</span>
+<span class="caption">範例 17-3: Definition of the `Draw` trait</span>
 
 This syntax should look familiar from our discussions on how to define traits
 in Chapter 10. Next comes some new syntax: Listing 17-4 defines a struct named
@@ -86,7 +86,7 @@ a `Box` that implements the `Draw` trait.
 {{#rustdoc_include ../listings/ch17-oop/listing-17-04/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 17-4: Definition of the `Screen` struct with a
+<span class="caption">範例 17-4: Definition of the `Screen` struct with a
 `components` field holding a vector of trait objects that implement the `Draw`
 trait</span>
 
@@ -99,7 +99,7 @@ On the `Screen` struct, we’ll define a method named `run` that will call the
 {{#rustdoc_include ../listings/ch17-oop/listing-17-05/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 17-5: A `run` method on `Screen` that calls the
+<span class="caption">範例 17-5: A `run` method on `Screen` that calls the
 `draw` method on each component</span>
 
 This works differently from defining a struct that uses a generic type
@@ -115,7 +115,7 @@ as in Listing 17-6:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-06/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 17-6: An alternate implementation of the `Screen`
+<span class="caption">範例 17-6: An alternate implementation of the `Screen`
 struct and its `run` method using generics and trait bounds</span>
 
 This restricts us to a `Screen` instance that has a list of components all of
@@ -142,7 +142,7 @@ might have fields for `width`, `height`, and `label`, as shown in Listing 17-7:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-07/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 17-7: A `Button` struct that implements the
+<span class="caption">範例 17-7: A `Button` struct that implements the
 `Draw` trait</span>
 
 The `width`, `height`, and `label` fields on `Button` will differ from the
@@ -165,7 +165,7 @@ If someone using our library decides to implement a `SelectBox` struct that has
 {{#rustdoc_include ../listings/ch17-oop/listing-17-08/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 17-8: Another crate using `gui` and implementing
+<span class="caption">範例 17-8: Another crate using `gui` and implementing
 the `Draw` trait on a `SelectBox` struct</span>
 
 Our library’s user can now write their `main` function to create a `Screen`
@@ -180,7 +180,7 @@ components. Listing 17-9 shows this implementation:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-09/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 17-9: Using trait objects to store values of
+<span class="caption">範例 17-9: Using trait objects to store values of
 different types that implement the same trait</span>
 
 When we wrote the library, we didn’t know that someone might add the
@@ -214,7 +214,7 @@ with a `String` as a component:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-10/src/main.rs}}
 ```
 
-<span class="caption">Listing 17-10: Attempting to use a type that doesn’t
+<span class="caption">範例 17-10: Attempting to use a type that doesn’t
 implement the trait object’s trait</span>
 
 We’ll get this error because `String` doesn’t implement the `Draw` trait:

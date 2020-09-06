@@ -31,7 +31,7 @@ pattern. As you might expect, this code will not compile.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-08/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-8: Attempting to use a refutable pattern with
+<span class="caption">範例 18-8: Attempting to use a refutable pattern with
 `let`</span>
 
 If `some_option_value` was a `None` value, it would fail to match the pattern
@@ -57,7 +57,7 @@ validly. Listing 18-9 shows how to fix the code in Listing 18-8.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-09/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-9: Using `if let` and a block with refutable
+<span class="caption">範例 18-9: Using `if let` and a block with refutable
 patterns instead of `let`</span>
 
 We’ve given the code an out! This code is perfectly valid, although it means we
@@ -69,7 +69,7 @@ the compiler will give a warning.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-10/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 18-10: Attempting to use an irrefutable pattern
+<span class="caption">範例 18-10: Attempting to use an irrefutable pattern
 with `if let`</span>
 
 Rust complains that it doesn’t make sense to use `if let` with an irrefutable

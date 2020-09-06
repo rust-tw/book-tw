@@ -26,7 +26,7 @@ end of the word. Let’s try that, as shown in Listing 4-7.
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 4-7: The `first_word` function that returns a
+<span class="caption">範例 4-7: The `first_word` function that returns a
 byte index value into the `String` parameter</span>
 
 Because we need to go through the `String` element by element and check whether
@@ -77,7 +77,7 @@ uses the `first_word` function from Listing 4-7.
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-08/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 4-8: Storing the result from calling the
+<span class="caption">範例 4-8: Storing the result from calling the
 `first_word` function and then changing the `String` contents</span>
 
 This program compiles without any errors and would also do so if we used `word`
@@ -251,7 +251,7 @@ and `&str` values.
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-09/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 4-9: Improving the `first_word` function by using
+<span class="caption">範例 4-9: Improving the `first_word` function by using
 a string slice for the type of the `s` parameter</span>
 
 If we have a string slice, we can pass that directly. If we have a `String`, we

@@ -23,7 +23,7 @@ value in cents, as shown here in Listing 6-3.
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-03/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 6-3: An enum and a `match` expression that has
+<span class="caption">範例 6-3: An enum and a `match` expression that has
 the variants of the enum as its patterns</span>
 
 Let’s break down the `match` in the `value_in_cents` function. First, we list
@@ -75,7 +75,7 @@ inside it, which we’ve done here in Listing 6-4.
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-04/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 6-4: A `Coin` enum in which the `Quarter` variant
+<span class="caption">範例 6-4: A `Coin` enum in which the `Quarter` variant
 also holds a `UsState` value</span>
 
 Let’s imagine that a friend of ours is trying to collect all 50 state quarters.
@@ -119,7 +119,7 @@ Listing 6-5.
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-05/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 6-5: A function that uses a `match` expression on
+<span class="caption">範例 6-5: A function that uses a `match` expression on
 an `Option<i32>`</span>
 
 Let’s examine the first execution of `plus_one` in more detail. When we call

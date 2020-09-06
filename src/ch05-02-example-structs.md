@@ -15,7 +15,7 @@ exactly that in our project’s *src/main.rs*.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-08/src/main.rs:all}}
 ```
 
-<span class="caption">Listing 5-8: Calculating the area of a rectangle
+<span class="caption">範例 5-8: Calculating the area of a rectangle
 specified by separate width and height variables</span>
 
 Now, run this program using `cargo run`:
@@ -52,7 +52,7 @@ Listing 5-9 shows another version of our program that uses tuples.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-09/src/main.rs}}
 ```
 
-<span class="caption">Listing 5-9: Specifying the width and height of the
+<span class="caption">範例 5-9: Specifying the width and height of the
 rectangle with a tuple</span>
 
 In one way, this program is better. Tuples let us add a bit of structure, and
@@ -80,7 +80,7 @@ parts, as shown in Listing 5-10.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-10/src/main.rs}}
 ```
 
-<span class="caption">Listing 5-10: Defining a `Rectangle` struct</span>
+<span class="caption">範例 5-10: Defining a `Rectangle` struct</span>
 
 Here we’ve defined a struct and named it `Rectangle`. Inside the curly
 brackets, we defined the fields as `width` and `height`, both of which have
@@ -114,7 +114,7 @@ work, however.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-11/src/main.rs}}
 ```
 
-<span class="caption">Listing 5-11: Attempting to print a `Rectangle`
+<span class="caption">範例 5-11: Attempting to print a `Rectangle`
 instance</span>
 
 When we compile this code, we get an error with this core message:
@@ -169,7 +169,7 @@ definition, as shown in Listing 5-12.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-12/src/main.rs}}
 ```
 
-<span class="caption">Listing 5-12: Adding the annotation to derive the `Debug`
+<span class="caption">範例 5-12: Adding the annotation to derive the `Debug`
 trait and printing the `Rectangle` instance using debug formatting</span>
 
 Now when we run the program, we won’t get any errors, and we’ll see the

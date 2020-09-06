@@ -20,7 +20,7 @@ in Listing 5-13.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-13/src/main.rs}}
 ```
 
-<span class="caption">Listing 5-13: Defining an `area` method on the
+<span class="caption">範例 5-13: Defining an `area` method on the
 `Rectangle` struct</span>
 
 To define the function within the context of `Rectangle`, we start an `impl`
@@ -115,7 +115,7 @@ method.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-14/src/main.rs}}
 ```
 
-<span class="caption">Listing 5-14: Using the as-yet-unwritten `can_hold`
+<span class="caption">範例 5-14: Using the as-yet-unwritten `can_hold`
 method</span>
 
 And the expected output would look like the following, because both dimensions
@@ -147,7 +147,7 @@ Listing 5-13, shown in Listing 5-15.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-15/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 5-15: Implementing the `can_hold` method on
+<span class="caption">範例 5-15: Implementing the `can_hold` method on
 `Rectangle` that takes another `Rectangle` instance as a parameter</span>
 
 When we run this code with the `main` function in Listing 5-14, we’ll get our
@@ -191,7 +191,7 @@ in its own `impl` block.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-16/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 5-16: Rewriting Listing 5-15 using multiple `impl`
+<span class="caption">範例 5-16: Rewriting Listing 5-15 using multiple `impl`
 blocks</span>
 
 There’s no reason to separate these methods into multiple `impl` blocks here,

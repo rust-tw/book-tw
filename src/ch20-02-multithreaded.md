@@ -21,7 +21,7 @@ for 5 seconds before responding.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-10/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 20-10: Simulating a slow request by recognizing
+<span class="caption">範例 20-10: Simulating a slow request by recognizing
 */sleep* and sleeping for 5 seconds</span>
 
 This code is a bit messy, but it’s good enough for simulation purposes. We
@@ -102,7 +102,7 @@ new thread to handle each stream within the `for` loop.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-11/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 20-11: Spawning a new thread for each
+<span class="caption">範例 20-11: Spawning a new thread for each
 stream</span>
 
 As you learned in Chapter 16, `thread::spawn` will create a new thread and then
@@ -125,7 +125,7 @@ struct we want to use instead of `thread::spawn`.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-12/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 20-12: Our ideal `ThreadPool` interface</span>
+<span class="caption">範例 20-12: Our ideal `ThreadPool` interface</span>
 
 We use `ThreadPool::new` to create a new thread pool with a configurable number
 of threads, in this case four. Then, in the `for` loop, `pool.execute` has a
@@ -291,7 +291,7 @@ zero by using the `assert!` macro, as shown in Listing 20-13.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-13/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-13: Implementing `ThreadPool::new` to panic if
+<span class="caption">範例 20-13: Implementing `ThreadPool::new` to panic if
 `size` is zero</span>
 
 We’ve added some documentation for our `ThreadPool` with doc comments. Note
@@ -342,7 +342,7 @@ returned a `ThreadPool` instance containing them.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-14/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-14: Creating a vector for `ThreadPool` to hold
+<span class="caption">範例 20-14: Creating a vector for `ThreadPool` to hold
 the threads</span>
 
 We’ve brought `std::thread` into scope in the library crate, because we’re
@@ -408,7 +408,7 @@ Ready? Here is Listing 20-15 with one way to make the preceding modifications.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-15/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-15: Modifying `ThreadPool` to hold `Worker`
+<span class="caption">範例 20-15: Modifying `ThreadPool` to hold `Worker`
 instances instead of holding threads directly</span>
 
 We’ve changed the name of the field on `ThreadPool` from `threads` to `workers`
@@ -463,7 +463,7 @@ the channel.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-16/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-16: Modifying `ThreadPool` to store the
+<span class="caption">範例 20-16: Modifying `ThreadPool` to store the
 sending end of a channel that sends `Job` instances</span>
 
 In `ThreadPool::new`, we create our new channel and have the pool hold the
@@ -480,7 +480,7 @@ the closure. The code in Listing 20-17 won’t quite compile yet.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-17/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-17: Passing the receiving end of the channel
+<span class="caption">範例 20-17: Passing the receiving end of the channel
 to the workers</span>
 
 We’ve made some small and straightforward changes: we pass the receiving end of
@@ -515,7 +515,7 @@ receiver at a time. Listing 20-18 shows the changes we need to make.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-18/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-18: Sharing the receiving end of the channel
+<span class="caption">範例 20-18: Sharing the receiving end of the channel
 among the workers using `Arc` and `Mutex`</span>
 
 In `ThreadPool::new`, we put the receiving end of the channel in an `Arc` and a
@@ -539,7 +539,7 @@ at Listing 20-19.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-19/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-19: Creating a `Job` type alias for a `Box`
+<span class="caption">範例 20-19: Creating a `Job` type alias for a `Box`
 that holds each closure and then sending the job down the channel</span>
 
 After creating a new `Job` instance using the closure we get in `execute`, we
@@ -563,7 +563,7 @@ shown in Listing 20-20 to `Worker::new`.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-20/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-20: Receiving and executing the jobs in the
+<span class="caption">範例 20-20: Receiving and executing the jobs in the
 worker’s thread</span>
 
 Here, we first call `lock` on the `receiver` to acquire the mutex, and then we
@@ -650,7 +650,7 @@ why we didn’t write the worker thread code as shown in Listing 20-21.
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-21/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 20-21: An alternative implementation of
+<span class="caption">範例 20-21: An alternative implementation of
 `Worker::new` using `while let`</span>
 
 This code compiles and runs but doesn’t result in the desired threading

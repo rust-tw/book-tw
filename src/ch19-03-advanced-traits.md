@@ -31,7 +31,7 @@ shown in Listing 19-12.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-12/src/lib.rs}}
 ```
 
-<span class="caption">Listing 19-12: The definition of the `Iterator` trait
+<span class="caption">範例 19-12: The definition of the `Iterator` trait
 that has an associated type `Item`</span>
 
 The type `Item` is a placeholder type, and the `next` method’s definition shows
@@ -60,7 +60,7 @@ This syntax seems comparable to that of generics. So why not just define the
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-13/src/lib.rs}}
 ```
 
-<span class="caption">Listing 19-13: A hypothetical definition of the
+<span class="caption">範例 19-13: A hypothetical definition of the
 `Iterator` trait using generics</span>
 
 The difference is that when using generics, as in Listing 19-13, we must
@@ -104,7 +104,7 @@ struct:
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-14/src/main.rs}}
 ```
 
-<span class="caption">Listing 19-14: Implementing the `Add` trait to overload
+<span class="caption">範例 19-14: Implementing the `Add` trait to overload
 the `+` operator for `Point` instances</span>
 
 The `add` method adds the `x` values of two `Point` instances and the `y`
@@ -147,7 +147,7 @@ implementation of `Add` do the conversion correctly. We can implement `Add` for
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-15/src/lib.rs}}
 ```
 
-<span class="caption">Listing 19-15: Implementing the `Add` trait on
+<span class="caption">範例 19-15: Implementing the `Add` trait on
 `Millimeters` to add `Millimeters` to `Meters`</span>
 
 To add `Millimeters` and `Meters`, we specify `impl Add<Meters>` to set the
@@ -189,7 +189,7 @@ on it. Each `fly` method does something different.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-16/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-16: Two traits are defined to have a `fly`
+<span class="caption">範例 19-16: Two traits are defined to have a `fly`
 method and are implemented on the `Human` type, and a `fly` method is
 implemented on `Human` directly</span>
 
@@ -202,7 +202,7 @@ the method that is directly implemented on the type, as shown in Listing 19-17.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-17/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-17: Calling `fly` on an instance of
+<span class="caption">範例 19-17: Calling `fly` on an instance of
 `Human`</span>
 
 Running this code will print `*waving arms furiously*`, showing that Rust
@@ -218,7 +218,7 @@ Listing 19-18 demonstrates this syntax.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-18/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-18: Specifying which trait’s `fly` method we
+<span class="caption">範例 19-18: Specifying which trait’s `fly` method we
 want to call</span>
 
 Specifying the trait name before the method name clarifies to Rust which
@@ -250,7 +250,7 @@ associated function `baby_name` defined on `Dog` directly.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-19/src/main.rs}}
 ```
 
-<span class="caption">Listing 19-19: A trait with an associated function and a
+<span class="caption">範例 19-19: A trait with an associated function and a
 type with an associated function of the same name that also implements the
 trait</span>
 
@@ -280,7 +280,7 @@ Listing 19-20, we’ll get a compilation error.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-20/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-20: Attempting to call the `baby_name`
+<span class="caption">範例 19-20: Attempting to call the `baby_name`
 function from the `Animal` trait, but Rust doesn’t know which implementation to
 use</span>
 
@@ -302,7 +302,7 @@ demonstrates how to use fully qualified syntax.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-21/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-21: Using fully qualified syntax to specify
+<span class="caption">範例 19-21: Using fully qualified syntax to specify
 that we want to call the `baby_name` function from the `Animal` trait as
 implemented on `Dog`</span>
 
@@ -362,7 +362,7 @@ the trait. Listing 19-22 shows an implementation of the `OutlinePrint` trait.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-22/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-22: Implementing the `OutlinePrint` trait that
+<span class="caption">範例 19-22: Implementing the `OutlinePrint` trait that
 requires the functionality from `Display`</span>
 
 Because we’ve specified that `OutlinePrint` requires the `Display` trait, we
@@ -428,7 +428,7 @@ that holds an instance of `Vec<T>`; then we can implement `Display` on
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-23/src/main.rs}}
 ```
 
-<span class="caption">Listing 19-23: Creating a `Wrapper` type around
+<span class="caption">範例 19-23: Creating a `Wrapper` type around
 `Vec<String>` to implement `Display`</span>
 
 The implementation of `Display` uses `self.0` to access the inner `Vec<T>`,

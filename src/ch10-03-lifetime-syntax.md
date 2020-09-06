@@ -28,7 +28,7 @@ scope.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-17/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-17: An attempt to use a reference whose value
+<span class="caption">範例 10-17: An attempt to use a reference whose value
 has gone out of scope</span>
 
 > Note: The examples in Listings 10-17, 10-18, and 10-24 declare variables
@@ -67,7 +67,7 @@ whether all borrows are valid. Listing 10-18 shows the same code as Listing
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-18/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-18: Annotations of the lifetimes of `r` and
+<span class="caption">範例 10-18: Annotations of the lifetimes of `r` and
 `x`, named `'a` and `'b`, respectively</span>
 
 Here, we’ve annotated the lifetime of `r` with `'a` and the lifetime of `x`
@@ -84,7 +84,7 @@ compiles without any errors.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-19/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-19: A valid reference because the data has a
+<span class="caption">範例 10-19: A valid reference because the data has a
 longer lifetime than the reference</span>
 
 Here, `x` has the lifetime `'b`, which in this case is larger than `'a`. This
@@ -108,7 +108,7 @@ longest string is abcd`.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-20/src/main.rs}}
 ```
 
-<span class="caption">Listing 10-20: A `main` function that calls the `longest`
+<span class="caption">範例 10-20: A `main` function that calls the `longest`
 function to find the longer of two string slices</span>
 
 Note that we want the function to take string slices, which are references,
@@ -127,7 +127,7 @@ won’t compile.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-21/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-21: An implementation of the `longest`
+<span class="caption">範例 10-21: An implementation of the `longest`
 function that returns the longer of two string slices but does not yet
 compile</span>
 
@@ -204,7 +204,7 @@ Listing 10-22.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-22/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-22: The `longest` function definition
+<span class="caption">範例 10-22: The `longest` function definition
 specifying that all the references in the signature must have the same lifetime
 `'a`</span>
 
@@ -251,7 +251,7 @@ a straightforward example.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-23/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-23: Using the `longest` function with
+<span class="caption">範例 10-23: Using the `longest` function with
 references to `String` values that have different concrete lifetimes</span>
 
 In this example, `string1` is valid until the end of the outer scope, `string2`
@@ -274,7 +274,7 @@ compile.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-24/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-24: Attempting to use `result` after `string2`
+<span class="caption">範例 10-24: Attempting to use `result` after `string2`
 has gone out of scope</span>
 
 When we try to compile this code, we’ll get this error:
@@ -368,7 +368,7 @@ struct named `ImportantExcerpt` that holds a string slice.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-25/src/main.rs}}
 ```
 
-<span class="caption">Listing 10-25: A struct that holds a reference, so its
+<span class="caption">範例 10-25: A struct that holds a reference, so its
 definition needs a lifetime annotation</span>
 
 This struct has one field, `part`, that holds a string slice, which is a
@@ -398,7 +398,7 @@ Chapter 4 we had a function in Listing 4-9, which is shown again in Listing
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-26/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-26: A function we defined in Listing 4-9 that
+<span class="caption">範例 10-26: A function we defined in Listing 4-9 that
 compiled without lifetime annotations, even though the parameter and return
 type are references</span>
 

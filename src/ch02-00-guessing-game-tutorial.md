@@ -72,7 +72,7 @@ allow the player to input a guess. Enter the code in Listing 2-1 into
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:all}}
 ```
 
-<span class="caption">Listing 2-1: Code that gets a guess from the user and
+<span class="caption">範例 2-1: Code that gets a guess from the user and
 prints it</span>
 
 This code contains a lot of information, so let’s go over it line by line. To
@@ -392,7 +392,7 @@ $ cargo build
     Finished dev [unoptimized + debuginfo] target(s) in 2.53s
 ```
 
-<span class="caption">Listing 2-2: The output from running `cargo build` after
+<span class="caption">範例 2-2: The output from running `cargo build` after
 adding the rand crate as a dependency</span>
 
 You may see different version numbers (but they will all be compatible with
@@ -515,7 +515,7 @@ Now that you’ve added the `rand` crate to *Cargo.toml*, let’s start using
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-03/src/main.rs:all}}
 ```
 
-<span class="caption">Listing 2-3: Adding code to generate a random
+<span class="caption">範例 2-3: Adding code to generate a random
 number</span>
 
 First, we add a `use` line: `use rand::Rng`. The `Rng` trait defines
@@ -591,7 +591,7 @@ will explain.
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-04/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 2-4: Handling the possible return values of
+<span class="caption">範例 2-4: Handling the possible return values of
 comparing two numbers</span>
 
 The first new bit here is another `use` statement, bringing a type called
@@ -827,7 +827,7 @@ is converted from a `String` to a `u32`, as shown in Listing 2-5.
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-05/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 2-5: Ignoring a non-number guess and asking for
+<span class="caption">範例 2-5: Ignoring a non-number guess and asking for
 another guess instead of crashing the program</span>
 
 Switching from an `expect` call to a `match` expression is how you generally
@@ -896,7 +896,7 @@ secret number. Listing 2-6 shows the final code.
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-06/src/main.rs}}
 ```
 
-<span class="caption">Listing 2-6: Complete guessing game code</span>
+<span class="caption">範例 2-6: Complete guessing game code</span>
 
 ## Summary
 

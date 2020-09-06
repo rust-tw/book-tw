@@ -44,7 +44,7 @@ Listing 10-1.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-01/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-1: Code to find the largest number in a list
+<span class="caption">範例 10-1: Code to find the largest number in a list
 of numbers</span>
 
 This code stores a list of integers in the variable `number_list` and places
@@ -66,7 +66,7 @@ program, as shown in Listing 10-2.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-02/src/main.rs}}
 ```
 
-<span class="caption">Listing 10-2: Code to find the largest number in *two*
+<span class="caption">範例 10-2: Code to find the largest number in *two*
 lists of numbers</span>
 
 Although this code works, duplicating code is tedious and error prone. We also
@@ -88,7 +88,7 @@ number in two different lists.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-03/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-3: Abstracted code to find the largest number
+<span class="caption">範例 10-3: Abstracted code to find the largest number
 in two lists</span>
 
 The `largest` function has a parameter called `list`, which represents any

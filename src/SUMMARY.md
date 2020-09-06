@@ -13,10 +13,10 @@
 
 - [Programming a Guessing Game](ch02-00-guessing-game-tutorial.md)
 
-- [Common Programming Concepts](ch03-00-common-programming-concepts.md)
-    - [Variables and Mutability](ch03-01-variables-and-mutability.md)
-    - [Data Types](ch03-02-data-types.md)
-    - [Functions](ch03-03-how-functions-work.md)
+- [常見程式設計概念](ch03-00-common-programming-concepts.md)
+    - [變數與可變性](ch03-01-variables-and-mutability.md)
+    - [資料型別](ch03-02-data-types.md)
+    - [函式](ch03-03-how-functions-work.md)
     - [Comments](ch03-04-comments.md)
     - [Control Flow](ch03-05-control-flow.md)
 

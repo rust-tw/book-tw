@@ -21,7 +21,7 @@ both find the largest value in a slice.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-04/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-4: Two functions that differ only in their
+<span class="caption">範例 10-4: Two functions that differ only in their
 names and the types in their signatures</span>
 
 The `largest_i32` function is the one we extracted in Listing 10-3 that finds
@@ -63,7 +63,7 @@ compile yet, but we’ll fix it later in this chapter.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-05/src/main.rs}}
 ```
 
-<span class="caption">Listing 10-5: A definition of the `largest` function that
+<span class="caption">範例 10-5: A definition of the `largest` function that
 uses generic type parameters but doesn’t compile yet</span>
 
 If we compile this code right now, we’ll get this error:
@@ -95,7 +95,7 @@ struct to hold `x` and `y` coordinate values of any type.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-06/src/main.rs}}
 ```
 
-<span class="caption">Listing 10-6: A `Point<T>` struct that holds `x` and `y`
+<span class="caption">範例 10-6: A `Point<T>` struct that holds `x` and `y`
 values of type `T`</span>
 
 The syntax for using generics in struct definitions is similar to that used in
@@ -116,7 +116,7 @@ Listing 10-7, our code won’t compile.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-07/src/main.rs}}
 ```
 
-<span class="caption">Listing 10-7: The fields `x` and `y` must be the same
+<span class="caption">範例 10-7: The fields `x` and `y` must be the same
 type because both have the same generic data type `T`.</span>
 
 In this example, when we assign the integer value 5 to `x`, we let the
@@ -139,7 +139,7 @@ Listing 10-8, we can change the definition of `Point` to be generic over types
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-08/src/main.rs}}
 ```
 
-<span class="caption">Listing 10-8: A `Point<T, U>` generic over two types so
+<span class="caption">範例 10-8: A `Point<T, U>` generic over two types so
 that `x` and `y` can be values of different types</span>
 
 Now all the instances of `Point` shown are allowed! You can use as many generic
@@ -202,7 +202,7 @@ struct we defined in Listing 10-6 with a method named `x` implemented on it.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-09/src/main.rs}}
 ```
 
-<span class="caption">Listing 10-9: Implementing a method named `x` on the
+<span class="caption">範例 10-9: Implementing a method named `x` on the
 `Point<T>` struct that will return a reference to the `x` field of type
 `T`</span>
 
@@ -224,7 +224,7 @@ concrete type `f32`, meaning we don’t declare any types after `impl`.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-10/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 10-10: An `impl` block that only applies to a
+<span class="caption">範例 10-10: An `impl` block that only applies to a
 struct with a particular concrete type for the generic type parameter `T`</span>
 
 This code means the type `Point<f32>` will have a method named
@@ -247,7 +247,7 @@ value from the passed-in `Point` (of type `W`).
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-11/src/main.rs}}
 ```
 
-<span class="caption">Listing 10-11: A method that uses different generic types
+<span class="caption">範例 10-11: A method that uses different generic types
 from its struct’s definition</span>
 
 In `main`, we’ve defined a `Point` that has an `i32` for `x` (with value `5`)

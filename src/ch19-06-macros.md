@@ -81,7 +81,7 @@ Listing 19-28 shows a slightly simplified definition of the `vec!` macro.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-28/src/lib.rs}}
 ```
 
-<span class="caption">Listing 19-28: A simplified version of the `vec!` macro
+<span class="caption">範例 19-28: A simplified version of the `vec!` macro
 definition</span>
 
 > Note: The actual definition of the `vec!` macro in the standard library
@@ -182,7 +182,7 @@ pub fn some_name(input: TokenStream) -> TokenStream {
 }
 ```
 
-<span class="caption">Listing 19-29: An example of using a procedural
+<span class="caption">範例 19-29: An example of using a procedural
 macro</span>
 
 The function that defines a procedural macro takes a `TokenStream` as an input
@@ -216,7 +216,7 @@ programmer to write code like Listing 19-30 using our crate.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-30/src/main.rs}}
 ```
 
-<span class="caption">Listing 19-30: The code a user of our crate will be able
+<span class="caption">範例 19-30: The code a user of our crate will be able
 to write when using our procedural macro</span>
 
 This code will print `Hello, Macro! My name is Pancakes!` when we’re done. The
@@ -293,7 +293,7 @@ won’t compile until we add a definition for the `impl_hello_macro` function.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-31/hello_macro/hello_macro_derive/src/lib.rs}}
 ```
 
-<span class="caption">Listing 19-31: Code that most procedural macro crates
+<span class="caption">範例 19-31: Code that most procedural macro crates
 will require in order to process Rust code</span>
 
 Notice that we’ve split the code into the `hello_macro_derive` function, which
@@ -352,7 +352,7 @@ DeriveInput {
 }
 ```
 
-<span class="caption">Listing 19-32: The `DeriveInput` instance we get when
+<span class="caption">範例 19-32: The `DeriveInput` instance we get when
 parsing the code that has the macro’s attribute in Listing 19-30</span>
 
 The fields of this struct show that the Rust code we’ve parsed is a unit struct
@@ -387,7 +387,7 @@ into a `DeriveInput` instance, let’s generate the code that implements the
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-33/hello_macro/hello_macro_derive/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 19-33: Implementing the `HelloMacro` trait using
+<span class="caption">範例 19-33: Implementing the `HelloMacro` trait using
 the parsed Rust code</span>
 
 We get an `Ident` struct instance containing the name (identifier) of the

@@ -16,7 +16,7 @@ crates whose crate root file is *src/main.rs*.
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-21-and-22/src/lib.rs}}
 ```
 
-<span class="caption">Listing 7-21: Declaring the `front_of_house` module whose
+<span class="caption">範例 7-21: Declaring the `front_of_house` module whose
 body will be in *src/front_of_house.rs*</span>
 
 And *src/front_of_house.rs* gets the definitions from the body of the
@@ -28,7 +28,7 @@ And *src/front_of_house.rs* gets the definitions from the body of the
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-21-and-22/src/front_of_house.rs}}
 ```
 
-<span class="caption">Listing 7-22: Definitions inside the `front_of_house`
+<span class="caption">範例 7-22: Definitions inside the `front_of_house`
 module in *src/front_of_house.rs*</span>
 
 Using a semicolon after `mod front_of_house` rather than using a block tells

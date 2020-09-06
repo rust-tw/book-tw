@@ -50,7 +50,7 @@ cache the calculated average for us. Listing 17-1 has the definition of the
 {{#rustdoc_include ../listings/ch17-oop/listing-17-01/src/lib.rs}}
 ```
 
-<span class="caption">Listing 17-1: An `AveragedCollection` struct that
+<span class="caption">範例 17-1: An `AveragedCollection` struct that
 maintains a list of integers and the average of the items in the
 collection</span>
 
@@ -66,7 +66,7 @@ on the struct, as shown in Listing 17-2:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-02/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 17-2: Implementations of the public methods
+<span class="caption">範例 17-2: Implementations of the public methods
 `add`, `remove`, and `average` on `AveragedCollection`</span>
 
 The public methods `add`, `remove`, and `average` are the only ways to access

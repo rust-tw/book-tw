@@ -75,7 +75,7 @@ code like that in Listing 19-24.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-24/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-24: Using a long type in many places</span>
+<span class="caption">範例 19-24: Using a long type in many places</span>
 
 A type alias makes this code more manageable by reducing the repetition. In
 Listing 19-25, we’ve introduced an alias named `Thunk` for the verbose type and
@@ -85,7 +85,7 @@ can replace all uses of the type with the shorter alias `Thunk`.
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-25/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 19-25: Introducing a type alias `Thunk` to reduce
+<span class="caption">範例 19-25: Introducing a type alias `Thunk` to reduce
 repetition</span>
 
 This code is much easier to read and write! Choosing a meaningful name for a
@@ -148,7 +148,7 @@ Listing 2-5; we’ve reproduced part of it here in Listing 19-26.
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-05/src/main.rs:ch19}}
 ```
 
-<span class="caption">Listing 19-26: A `match` with an arm that ends in
+<span class="caption">範例 19-26: A `match` with an arm that ends in
 `continue`</span>
 
 At the time, we skipped over some details in this code. In Chapter 6 in [“The

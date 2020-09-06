@@ -78,7 +78,7 @@ function `parse_config`, which we’ll define in *src/main.rs* for the moment.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-05/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-5: Extracting a `parse_config` function from
+<span class="caption">範例 12-5: Extracting a `parse_config` function from
 `main`</span>
 
 We’re still collecting the command line arguments into a vector, but instead of
@@ -123,7 +123,7 @@ Listing 12-6 shows the improvements to the `parse_config` function.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-06/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-6: Refactoring `parse_config` to return an
+<span class="caption">範例 12-6: Refactoring `parse_config` to return an
 instance of a `Config` struct</span>
 
 We’ve added a struct named `Config` defined to have fields named `query` and
@@ -191,7 +191,7 @@ shows the changes we need to make.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-07/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-7: Changing `parse_config` into
+<span class="caption">範例 12-7: Changing `parse_config` into
 `Config::new`</span>
 
 We’ve updated `main` where we were calling `parse_config` to instead call
@@ -227,7 +227,7 @@ out of bounds` message.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-08/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-8: Adding a check for the number of
+<span class="caption">範例 12-8: Adding a check for the number of
 arguments</span>
 
 This code is similar to [the `Guess::new` function we wrote in Listing
@@ -273,7 +273,7 @@ next listing.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-09/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-9: Returning a `Result` from
+<span class="caption">範例 12-9: Returning a `Result` from
 `Config::new`</span>
 
 Our `new` function now returns a `Result` with a `Config` instance in the
@@ -306,7 +306,7 @@ program that the program exited with an error state.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-10/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-10: Exiting with an error code if creating a
+<span class="caption">範例 12-10: Exiting with an error code if creating a
 new `Config` fails</span>
 
 In this listing, we’ve used a method we haven’t covered before:
@@ -357,7 +357,7 @@ defining the function in *src/main.rs*.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-11/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-11: Extracting a `run` function containing the
+<span class="caption">範例 12-11: Extracting a `run` function containing the
 rest of the program logic</span>
 
 The `run` function now contains all the remaining logic from `main`, starting
@@ -380,7 +380,7 @@ signature and body of `run`.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-12/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-12: Changing the `run` function to return
+<span class="caption">範例 12-12: Changing the `run` function to return
 `Result`</span>
 
 We’ve made three significant changes here. First, we changed the return type of
@@ -465,7 +465,7 @@ compile until we modify *src/main.rs* in Listing 12-14.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-13/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 12-13: Moving `Config` and `run` into
+<span class="caption">範例 12-13: Moving `Config` and `run` into
 *src/lib.rs*</span>
 
 We’ve made liberal use of the `pub` keyword: on `Config`, on its fields and its
@@ -481,7 +481,7 @@ binary crate in *src/main.rs*, as shown in Listing 12-14.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-14/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-14: Using the `minigrep` library crate in
+<span class="caption">範例 12-14: Using the `minigrep` library crate in
 *src/main.rs*</span>
 
 We add a `use minigrep::Config` line to bring the `Config` type from the

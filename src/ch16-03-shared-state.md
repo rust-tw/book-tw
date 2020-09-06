@@ -57,7 +57,7 @@ single-threaded context, as shown in Listing 16-12:
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-12/src/main.rs}}
 ```
 
-<span class="caption">Listing 16-12: Exploring the API of `Mutex<T>` in a
+<span class="caption">範例 16-12: Exploring the API of `Mutex<T>` in a
 single-threaded context for simplicity</span>
 
 As with many types, we create a `Mutex<T>` using the associated function `new`.
@@ -102,7 +102,7 @@ a compiler error, and we’ll use that error to learn more about using
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-13/src/main.rs}}
 ```
 
-<span class="caption">Listing 16-13: Ten threads each increment a counter
+<span class="caption">範例 16-13: Ten threads each increment a counter
 guarded by a `Mutex<T>`</span>
 
 We create a `counter` variable to hold an `i32` inside a `Mutex<T>`, as we
@@ -144,7 +144,7 @@ errors, we’ll also switch back to using the `for` loop, and we’ll keep the
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-14/src/main.rs}}
 ```
 
-<span class="caption">Listing 16-14: Attempting to use `Rc<T>` to allow
+<span class="caption">範例 16-14: Attempting to use `Rc<T>` to allow
 multiple threads to own the `Mutex<T>`</span>
 
 Once again, we compile and get... different errors! The compiler is teaching us
@@ -199,7 +199,7 @@ our program by changing the `use` line, the call to `new`, and the call to
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-15/src/main.rs}}
 ```
 
-<span class="caption">Listing 16-15: Using an `Arc<T>` to wrap the `Mutex<T>`
+<span class="caption">範例 16-15: Using an `Arc<T>` to wrap the `Mutex<T>`
 to be able to share ownership across multiple threads</span>
 
 This code will print the following:

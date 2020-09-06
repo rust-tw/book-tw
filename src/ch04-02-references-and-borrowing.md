@@ -69,7 +69,7 @@ Listing 4-6. Spoiler alert: it doesn’t work!
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-06/src/main.rs}}
 ```
 
-<span class="caption">Listing 4-6: Attempting to modify a borrowed value</span>
+<span class="caption">範例 4-6: Attempting to modify a borrowed value</span>
 
 Here’s the error:
 

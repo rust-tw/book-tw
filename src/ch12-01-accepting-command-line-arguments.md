@@ -44,7 +44,7 @@ command line arguments passed to it and then collect the values into a vector.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-01/src/main.rs}}
 ```
 
-<span class="caption">Listing 12-1: Collecting the command line arguments into
+<span class="caption">範例 12-1: Collecting the command line arguments into
 a vector and printing them</span>
 
 First, we bring the `std::env` module into scope with a `use` statement so we
@@ -106,7 +106,7 @@ throughout the rest of the program. We do that in Listing 12-2.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-02/src/main.rs}}
 ```
 
-<span class="caption">Listing 12-2: Creating variables to hold the query
+<span class="caption">範例 12-2: Creating variables to hold the query
 argument and filename argument</span>
 
 As we saw when we printed the vector, the program’s name takes up the first

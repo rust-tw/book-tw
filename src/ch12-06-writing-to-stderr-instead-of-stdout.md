@@ -60,7 +60,7 @@ instead.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-24/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 12-24: Writing error messages to standard error
+<span class="caption">範例 12-24: Writing error messages to standard error
 instead of standard output using `eprintln!`</span>
 
 After changing `println!` to `eprintln!`, let’s run the program again in the

@@ -9,7 +9,7 @@ execute code if the value is 3.
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-06/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 6-6: A `match` that only cares about executing
+<span class="caption">範例 6-6: A `match` that only cares about executing
 code when the value is `Some(3)`</span>
 
 We want to do something with the `Some(3)` match but do nothing with any other

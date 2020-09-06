@@ -22,7 +22,7 @@ tests, as shown in Listing 12-20.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-20/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 12-20: Adding a new failing test for the
+<span class="caption">範例 12-20: Adding a new failing test for the
 case-insensitive function we’re about to add</span>
 
 Note that we’ve edited the old test’s `contents` too. We’ve added a new line
@@ -54,7 +54,7 @@ they’ll be the same case when we check whether the line contains the query.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-21/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 12-21: Defining the `search_case_insensitive`
+<span class="caption">範例 12-21: Defining the `search_case_insensitive`
 function to lowercase the query and the line before comparing them</span>
 
 First, we lowercase the `query` string and store it in a shadowed variable with
@@ -108,7 +108,7 @@ won’t compile yet.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-22/src/lib.rs:there}}
 ```
 
-<span class="caption">Listing 12-22: Calling either `search` or
+<span class="caption">範例 12-22: Calling either `search` or
 `search_case_insensitive` based on the value in `config.case_sensitive`</span>
 
 Finally, we need to check for the environment variable. The functions for
@@ -124,7 +124,7 @@ in Listing 12-23.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-23/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 12-23: Checking for an environment variable named
+<span class="caption">範例 12-23: Checking for an environment variable named
 `CASE_INSENSITIVE`</span>
 
 Here, we create a new variable `case_sensitive`. To set its value, we call the

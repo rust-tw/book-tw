@@ -33,7 +33,7 @@ Listing 7-1 into *src/lib.rs* to define some modules and function signatures.
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-01/src/lib.rs:here}}
 ```
 
-<span class="caption">Listing 7-1: A `front_of_house` module containing other
+<span class="caption">範例 7-1: A `front_of_house` module containing other
 modules that then contain functions</span>
 
 We define a module by starting with the `mod` keyword and then specify the
@@ -69,7 +69,7 @@ crate
          └── take_payment
 ```
 
-<span class="caption">Listing 7-2: The module tree for the code in Listing
+<span class="caption">範例 7-2: The module tree for the code in Listing
 7-1</span>
 
 This tree shows how some of the modules nest inside one another (for example,
