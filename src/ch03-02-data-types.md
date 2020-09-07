@@ -97,7 +97,7 @@ Rust 支援你所有想得到的數值型別基本運算：加法、減法、乘
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-08-boolean/src/main.rs}}
 ```
 
-布林值最常使用的方式之一是作爲條件判斷，像是在 `if` 表達式中使用。我們將會在[「控制流」][control-flow]<!-- ignore -->段落介紹如何在 Rust 使用 `if` 表達式。
+布林值最常使用的方式之一是作爲條件判斷，像是在 `if` 表達式中使用。我們將會在[「控制流程」][control-flow]<!-- ignore -->段落介紹如何在 Rust 使用 `if` 表達式。
 
 #### 字元型別
 

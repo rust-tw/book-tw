@@ -17,8 +17,8 @@
     - [變數與可變性](ch03-01-variables-and-mutability.md)
     - [資料型別](ch03-02-data-types.md)
     - [函式](ch03-03-how-functions-work.md)
-    - [Comments](ch03-04-comments.md)
-    - [Control Flow](ch03-05-control-flow.md)
+    - [註解](ch03-04-comments.md)
+    - [控制流程](ch03-05-control-flow.md)
 
 - [Understanding Ownership](ch04-00-understanding-ownership.md)
     - [What is Ownership?](ch04-01-what-is-ownership.md)
