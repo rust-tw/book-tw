@@ -1,19 +1,12 @@
-## Control Flow
+## 控制流
 
-Deciding whether or not to run some code depending on if a condition is true
-and deciding to run some code repeatedly while a condition is true are basic
-building blocks in most programming languages. The most common constructs that
-let you control the flow of execution of Rust code are `if` expressions and
-loops.
+在大多數程式語言中，能夠決定依據某項條件是否爲真來執行些程式碼，以及依據某項條件是否爲真來重複執行些程式碼是非常基本的組成元件。在 Rust 程式碼中能讓你控制執行流程的常見方法有 `if` 表達式以及迴圈。
 
-### `if` Expressions
+### `if` 表達式
 
-An `if` expression allows you to branch your code depending on conditions. You
-provide a condition and then state, “If this condition is met, run this block
-of code. If the condition is not met, do not run this block of code.”
+`if` 能讓你依照條件判斷對你的程式碼產生分支。基本上你提供一個條件然後就像是在說：「如果此條件符合的話，就執行這個程式碼區塊；如果沒有的話，就不要執行這段程式碼。」
 
-Create a new project called *branches* in your *projects* directory to explore
-the `if` expression. In the *src/main.rs* file, input the following:
+請在你的 *projects* 目錄下建立一個新的專案叫做 *branches* 好讓我們來探討 `if` 表達式。接著請在 *src/main.rs* 檔案內輸入以下內容：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -21,44 +14,29 @@ the `if` expression. In the *src/main.rs* file, input the following:
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-26-if-true/src/main.rs}}
 ```
 
-All `if` expressions start with the keyword `if`, which is followed by a
-condition. In this case, the condition checks whether or not the variable
-`number` has a value less than 5. The block of code we want to execute if the
-condition is true is placed immediately after the condition inside curly
-brackets. Blocks of code associated with the conditions in `if` expressions are
-sometimes called *arms*, just like the arms in `match` expressions that we
-discussed in the [“Comparing the Guess to the Secret
-Number”][comparing-the-guess-to-the-secret-number]<!-- ignore --> section of
-Chapter 2.
+所有的 `if` 表達式都由 `if` 關鍵字開始在加上一個條件。在此例中的條件是判斷變數 `number` 是否小於 5。如果條件符合的話，我們將要執行的程式碼區塊接著用大括號接在後面。與 `if` 表達式條件相關的程式碼段落有時也被稱爲 *arms*，就像我們在第二章[「將猜測的數字與祕密數字做比較」][comparing-the-guess-to-the-secret-number]<!-- ignore -->段落提到的 `match` 表達式的分支一樣。
 
-Optionally, we can also include an `else` expression, which we chose
-to do here, to give the program an alternative block of code to execute should
-the condition evaluate to false. If you don’t provide an `else` expression and
-the condition is false, the program will just skip the `if` block and move on
-to the next bit of code.
+另外，我們還可以選擇性地加上 `else` 表達式（就像範例寫的），讓條件不符時可以去執行另外一段程式碼。如果你沒有提供 `else` 表達式且條件爲否的話，程式會直接略過 `if` 的程式碼區塊，接著執行後續的程式碼。
 
-Try running this code; you should see the following output:
+請嘗試執行此程式碼，你應該會看到以下輸出結果：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-26-if-true/output.txt}}
 ```
 
-Let’s try changing the value of `number` to a value that makes the condition
-`false` to see what happens:
+讓我們來變更 `number` 的值使條件變成 `false`，再來看看會發生什麼事：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-27-if-false/src/main.rs:here}}
 ```
 
-Run the program again, and look at the output:
+在跑一次程式，然後看看輸出：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-27-if-false/output.txt}}
 ```
 
-It’s also worth noting that the condition in this code *must* be a `bool`. If
-the condition isn’t a `bool`, we’ll get an error. For example, try running the
-following code:
+還有一件值得注意的是程式碼的條件判斷*必須*是 `bool`。如果條件不是 `bool` 的話，我們就會遇到錯誤。比方說，試試以下程式碼：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -66,19 +44,13 @@ following code:
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-28-if-condition-must-be-bool/src/main.rs}}
 ```
 
-The `if` condition evaluates to a value of `3` this time, and Rust throws an
-error:
+這次 `if` 條件計算出數值 `3`，然後 Rust 丟出錯誤給我們：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-28-if-condition-must-be-bool/output.txt}}
 ```
 
-The error indicates that Rust expected a `bool` but got an integer. Unlike
-languages such as Ruby and JavaScript, Rust will not automatically try to
-convert non-Boolean types to a Boolean. You must be explicit and always provide
-`if` with a Boolean as its condition. If we want the `if` code block to run
-only when a number is not equal to `0`, for example, we can change the `if`
-expression to the following:
+錯誤訊息告訴我們 Rust 預期收到 `bool` 但是卻拿到整數。這和 Ruby 和 JavaScript 就不同，Rust 不會自動將非布林值型別轉換成布林值。你永遠必須顯式提供布林值給 `if` 作爲它的條件判斷。舉例來說，如果我們希望 `if` 只會在數值爲 `0` 才執行，我們可以將 `if` 表達式改成以下範例：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -86,12 +58,11 @@ expression to the following:
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-29-if-not-equal-0/src/main.rs}}
 ```
 
-Running this code will print `number was something other than zero`.
+執行此程式碼就會印出「number was something other than zero」。
 
-#### Handling Multiple Conditions with `else if`
+#### 使用 `else if` 處理多重條件
 
-You can have multiple conditions by combining `if` and `else` in an `else if`
-expression. For example:
+想要實現多重條件的話，你可以將 `if` 和 `else` 組合成 `else if` 表達式。舉例來說：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -99,28 +70,19 @@ expression. For example:
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-30-else-if/src/main.rs}}
 ```
 
-This program has four possible paths it can take. After running it, you should
-see the following output:
+程式有四種可能的分支，當你執行它時你應該會看到以下輸出結果：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-30-else-if/output.txt}}
 ```
 
-When this program executes, it checks each `if` expression in turn and executes
-the first body for which the condition holds true. Note that even though 6 is
-divisible by 2, we don’t see the output `number is divisible by 2`, nor do we
-see the `number is not divisible by 4, 3, or 2` text from the `else` block.
-That’s because Rust only executes the block for the first true condition, and
-once it finds one, it doesn’t even check the rest.
+當此程式執行時，他會依序檢查每一個 `if` 表達式，並執行第一個符合條件的程式碼段落。注意到雖然 6 的確可以除以 2，但我們沒有看到 `number is divisible by 2`，也沒有看到來自 `else` 那段的 `number is not divisible by 4, 3, or 2`。這是因爲 Rust 只會執行第一個符合條件的區塊，而當它遇到時它就不會在檢查其他條件。
 
-Using too many `else if` expressions can clutter your code, so if you have more
-than one, you might want to refactor your code. Chapter 6 describes a powerful
-Rust branching construct called `match` for these cases.
+使用太多的 `else if` 表達式很容易讓你的程式碼變得凌亂，所以當你需要用到一個以上，你可能會想要先重構程式碼看看。爲此我們在第六章會介紹一個功能強大的 Rust 條件判斷結構叫做 `match`。
 
-#### Using `if` in a `let` Statement
+#### 在 `let` 陳述式中使用 `if`
 
-Because `if` is an expression, we can use it on the right side of a `let`
-statement, as in Listing 3-2.
+因爲 `if` 是表達式，所以我們可以像範例 3-2 這樣放在 `let` 陳述式的右邊。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -128,23 +90,15 @@ statement, as in Listing 3-2.
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/listing-03-02/src/main.rs}}
 ```
 
-<span class="caption">範例 3-2: Assigning the result of an `if` expression
-to a variable</span>
+<span class="caption">範例 3-2：將 `if` 表達式的結果賦值給變數</span>
 
-The `number` variable will be bound to a value based on the outcome of the `if`
-expression. Run this code to see what happens:
+變數 `number` 會得到 `if` 表達式運算出的數值。執行此程式看看會發生什麼事：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/listing-03-02/output.txt}}
 ```
 
-Remember that blocks of code evaluate to the last expression in them, and
-numbers by themselves are also expressions. In this case, the value of the
-whole `if` expression depends on which block of code executes. This means the
-values that have the potential to be results from each arm of the `if` must be
-the same type; in Listing 3-2, the results of both the `if` arm and the `else`
-arm were `i32` integers. If the types are mismatched, as in the following
-example, we’ll get an error:
+你應該還記得程式碼區塊也可以是表達式且會回傳最後一行的數值，而且數字本身也是表達式。在此例中，`if` 表達式的值取決於哪段程式碼被執行。這代表可能成爲最終結果的每一個 `if` 分支必須要是相同型別。在範例 3-2 中，各分支的型態都是 `i32`。如果型態不一致的話，如以下範例所示，我們會得到錯誤：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -152,39 +106,25 @@ example, we’ll get an error:
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-31-arms-must-return-same-type/src/main.rs}}
 ```
 
-When we try to compile this code, we’ll get an error. The `if` and `else` arms
-have value types that are incompatible, and Rust indicates exactly where to
-find the problem in the program:
+當我們嘗試編譯程式碼時，我們會得到錯誤。`if` 和 `else` 分支的型態並不一致，而且 Rust 還確切指出程式出錯的地方在哪：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-31-arms-must-return-same-type/output.txt}}
 ```
 
-The expression in the `if` block evaluates to an integer, and the expression in
-the `else` block evaluates to a string. This won’t work because variables must
-have a single type. Rust needs to know at compile time what type the `number`
-variable is, definitively, so it can verify at compile time that its type is
-valid everywhere we use `number`. Rust wouldn’t be able to do that if the type
-of `number` was only determined at runtime; the compiler would be more complex
-and would make fewer guarantees about the code if it had to keep track of
-multiple hypothetical types for any variable.
+`if` 段落的表達式運算出整數，但 `else` 的區塊卻運算出字串。這樣行不通的原因是變數只能有一個型別。Rust 必須在編譯期間確切知道變數 `number` 的型別，這樣才能驗證它的型別在任何有使用到 `number` 的地方都是有效的。要是 `number` 只能在執行時知道的話，Rust 就沒辦法這樣做了。如果編譯器必須追蹤所有變數多種可能存在的型別，那就會變得非常負責並無法爲程式碼提供足夠的保障。
 
-### Repetition with Loops
+### 使用迴圈重複執行
 
-It’s often useful to execute a block of code more than once. For this task,
-Rust provides several *loops*. A loop runs through the code inside the loop
-body to the end and then starts immediately back at the beginning. To
-experiment with loops, let’s make a new project called *loops*.
+重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 *迴圈（loops）*的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。爲了繼續探討迴圈，讓我們再開一個新專案 *loops*。
 
-Rust has three kinds of loops: `loop`, `while`, and `for`. Let’s try each one.
+Rust 提供三種迴圈：`loop`、`while` 和 `for`。讓我們每個都嘗試看看吧。
 
-#### Repeating Code with `loop`
+#### 使用 `loop` 重複執行程式碼
 
-The `loop` keyword tells Rust to execute a block of code over and over again
-forever or until you explicitly tell it to stop.
+`loop` 關鍵字告訴 Rust 去反覆不停地執行一段程式碼直到你親自告訴它要停下來。
 
-As an example, change the *src/main.rs* file in your *loops* directory to look
-like this:
+我們用以下範例示範，請修改你 *loops* 目錄下的 *src/main.rs* 檔案成以下程式碼：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -192,10 +132,7 @@ like this:
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-32-loop/src/main.rs}}
 ```
 
-When we run this program, we’ll see `again!` printed over and over continuously
-until we stop the program manually. Most terminals support a keyboard shortcut,
-<span class="keystroke">ctrl-c</span>, to interrupt a program that is stuck in
-a continual loop. Give it a try:
+當我們執行此程式時，我們會看到 `again!` 一直不停地重複顯示出來，直到我們手動停下程式爲止。大多數的終端機都支援 <span class="keystroke">ctrl-c</span> 這個快捷鍵來中斷一支卡在無限迴圈的程式，你可以自己試試看：
 
 <!-- manual-regeneration
 cd listings/ch03-common-programming-concepts/no-listing-32-loop
@@ -215,51 +152,25 @@ again!
 ^Cagain!
 ```
 
-The symbol `^C` represents where you pressed <span class="keystroke">ctrl-c
-</span>. You may or may not see the word `again!` printed after the `^C`,
-depending on where the code was in the loop when it received the interrupt
-signal.
+`^C` 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 `again!` 出現在 `^C` 之後。
 
-Fortunately, Rust provides another, more reliable way to break out of a loop.
-You can place the `break` keyword within the loop to tell the program when to
-stop executing the loop. Recall that we did this in the guessing game in the
-[“Quitting After a Correct Guess”][quitting-after-a-correct-guess]<!-- ignore
---> section of Chapter 2 to exit the program when the user won the game by
-guessing the correct number.
+幸運的是 Rust 有提供另一個打破迴圈更可靠的方法。你可以在迴圈內加上 `break` 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章[「猜對後離開」][quitting-after-a-correct-guess]<!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。
 
-#### Returning Values from Loops
+#### 從迴圈回傳數值
 
-One of the uses of a `loop` is to retry an operation you know might fail, such
-as checking whether a thread has completed its job. However, you might need to
-pass the result of that operation to the rest of your code. To do this, you can
-add the value you want returned after the `break` expression you use to stop
-the loop; that value will be returned out of the loop so you can use it, as
-shown here:
+其中一種使用 `loop` 的用途是重試某些你覺得會失敗的動作，像是檢查一個執行緒是否已經完成其任務。不過這樣你可能就會想傳遞任務結果給之後的程式碼。要做到這樣的事，你可以在你要用來停下迴圈的 `break` 表達式內加上一個你想回傳數值，該值就會被停止的迴圈回傳，如以下所示：
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-33-return-value-from-loop/src/main.rs}}
 ```
 
-Before the loop, we declare a variable named `counter` and initialize it to
-`0`. Then we declare a variable named `result` to hold the value returned from
-the loop. On every iteration of the loop, we add `1` to the `counter` variable,
-and then check whether the counter is equal to `10`. When it is, we use the
-`break` keyword with the value `counter * 2`. After the loop, we use a
-semicolon to end the statement that assigns the value to `result`. Finally, we
-print the value in `result`, which in this case is 20.
+在迴圈之前，我們宣告了一個變數 `counter` 並初始化爲 `0`，然後我們宣告了另一個變數 `result` 來取的迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 `counter` 加上 `1` 並檢查它是否等於 `10`。如果是的話就用 `break` 關鍵字回傳 `counter * 2`。在迴圈結束後，我們用分號才結束這個賦值給 `result` 的陳述式。最後我們印出 `result`，而結果爲 20。
 
-#### Conditional Loops with `while`
+#### 使用 `while` 做條件迴圈
 
-It’s often useful for a program to evaluate a condition within a loop. While
-the condition is true, the loop runs. When the condition ceases to be true, the
-program calls `break`, stopping the loop. This loop type could be implemented
-using a combination of `loop`, `if`, `else`, and `break`; you could try that
-now in a program, if you’d like.
+在程式中用條件判斷迴圈的執行通常是很有用的。當條件爲真時，迴圈就繼續執行。當條件不再符合時，程式就用 `break` 停止迴圈。這樣的循環方法可以用 `loop`、`if`、`else` 和 `break` 組合出來。如果你想嘗試的話，你現在就可以自己寫寫看看。
 
-However, this pattern is so common that Rust has a built-in language construct
-for it, called a `while` loop. Listing 3-3 uses `while`: the program loops
-three times, counting down each time, and then, after the loop, it prints
-another message and exits.
+但是這種模式非常常見，所以 Rust 有提供內建的結構稱爲 `while` 迴圈。範例 3-3 就是使用 `while` 的例子：該程式會循環三次，每次計數都減一，然後在迴圈之後印出訊息並離開。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -267,17 +178,13 @@ another message and exits.
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/listing-03-03/src/main.rs}}
 ```
 
-<span class="caption">範例 3-3: Using a `while` loop to run code while a
-condition holds true</span>
+<span class="caption">範例 3-3：使用 `while` 迴圈，當條件符合就持續執行程式碼</span>
 
-This construct eliminates a lot of nesting that would be necessary if you used
-`loop`, `if`, `else`, and `break`, and it’s clearer. While a condition holds
-true, the code runs; otherwise, it exits the loop.
+這樣的結構消除了很多使用 `loop`、`if`、`else` 與 `break` 會有的雜訊，這樣可以更易閱讀。當條件爲真的，程式碼就執行；不然的話，它就離開迴圈。
 
-#### Looping Through a Collection with `for`
+#### 使用 `for` 遍歷集合
 
-You could use the `while` construct to loop over the elements of a collection,
-such as an array. For example, let’s look at Listing 3-4.
+你可以用 `while` 來遍歷一個集合的元素，像是陣列等等。舉例來說，我們可以看看範例 3-4。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -285,29 +192,19 @@ such as an array. For example, let’s look at Listing 3-4.
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/listing-03-04/src/main.rs}}
 ```
 
-<span class="caption">範例 3-4: Looping through each element of a collection
-using a `while` loop</span>
+<span class="caption">範例 3-4：使用 `while` 遍歷集合的每個元素</span>
 
-Here, the code counts up through the elements in the array. It starts at index
-`0`, and then loops until it reaches the final index in the array (that is,
-when `index < 5` is no longer true). Running this code will print every element
-in the array:
+程式在此對陣列的每個元素計數，它先從索引 `0` 開始，然後持續循環直到它抵達最後一個陣列索引爲止（也就是 `index < 5` 不再爲真）。執行此程式會印出陣列裡的每個元素：
 
 ```text
 {{#include ../listings/ch03-common-programming-concepts/listing-03-04/output.txt}}
 ```
 
-All five array values appear in the terminal, as expected. Even though `index`
-will reach a value of `5` at some point, the loop stops executing before trying
-to fetch a sixth value from the array.
+所有五個元素都如預期顯示在終端機上。儘管 `index` 會在某一刻達到 `5`，但是迴圈會在嘗試取得陣列第六個元素前就停止執行。
 
-But this approach is error prone; we could cause the program to panic if the
-index length is incorrect. It’s also slow, because the compiler adds runtime
-code to perform the conditional check on every element on every iteration
-through the loop.
+但這樣的方式是容易出錯的，我們可能取得錯誤的索引長度造成程式恐慌。這同時也使程式變慢，因爲編譯器得在執行時的程式碼對迴圈中每次迭代的每個元素加上條件檢查。
 
-As a more concise alternative, you can use a `for` loop and execute some code
-for each item in a collection. A `for` loop looks like the code in Listing 3-5.
+所以更簡潔的替代方案是，你可以使用 `for` 迴圈來對集合的每個元素執行一些程式碼。`for` 迴圈的樣子就像範例 3-5 寫的這一樣。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -315,30 +212,15 @@ for each item in a collection. A `for` loop looks like the code in Listing 3-5.
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/listing-03-05/src/main.rs}}
 ```
 
-<span class="caption">範例 3-5: Looping through each element of a collection
-using a `for` loop</span>
+<span class="caption">範例 3-5：使用 `for` 迴圈遍歷集合的每個元素</span>
 
-When we run this code, we’ll see the same output as in Listing 3-4. More
-importantly, we’ve now increased the safety of the code and eliminated the
-chance of bugs that might result from going beyond the end of the array or not
-going far enough and missing some items.
+當我們執行此程式時，我們會看到和範例 3-4 一樣的結果。最重要的是，我們增加了程式的安全性，去除了造成程式錯誤的可能性。不會出現超出陣列大小或是讀取長度不足的風險。
 
-For example, in the code in Listing 3-4, if you changed the definition of the
-`a` array to have four elements but forgot to update the condition to `while
-index < 4`, the code would panic. Using the `for` loop, you wouldn’t need to
-remember to change any other code if you changed the number of values in the
-array.
+比方說在範例 3-4 的程式碼，如果你變更陣列 `a` 的元素爲只有 4 個，但忘記更新條件判斷爲 `while index < 4` 的話，程式就會恐慌。使用 `for` 迴圈的話，我們變更陣列長度時，就不需要去記得更新其他程式碼。
 
-The safety and conciseness of `for` loops make them the most commonly used loop
-construct in Rust. Even in situations in which you want to run some code a
-certain number of times, as in the countdown example that used a `while` loop
-in Listing 3-3, most Rustaceans would use a `for` loop. The way to do that
-would be to use a `Range`, which is a type provided by the standard library
-that generates all numbers in sequence starting from one number and ending
-before another number.
+`for` 迴圈的安全性與簡潔程度讓它成爲 Rust 最常被使用的迴圈結構。就算你想執行的是依照次數循環的程式碼，像是範例 3-3 的 `while` 迴圈範例，多數 Rustaceans 還是會選擇 `for` 迴圈。要這麼做的方法是使用 `Range`，這是標準函式庫提供的型別，用來產生一連串的數字序列，從指定一個數字開始一直到另一個數字之前結束。
 
-Here’s what the countdown would look like using a `for` loop and another method
-we’ve not yet talked about, `rev`, to reverse the range:
+以下是我們用 `loop` 迴圈來計數的另一種方式，它用了一個我們還沒講過的方法 `rev`，這可以用來反轉：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -346,24 +228,23 @@ we’ve not yet talked about, `rev`, to reverse the range:
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-34-for-range/src/main.rs}}
 ```
 
-This code is a bit nicer, isn’t it?
+這樣是不是看起來更好讀許多？
 
-## Summary
+## 總結
 
-You made it! That was a sizable chapter: you learned about variables, scalar
-and compound data types, functions, comments, `if` expressions, and loops! If
-you want to practice with the concepts discussed in this chapter, try building
-programs to do the following:
+你做到了！這的確是篇大章節：你學到了變數、純量與複合資料型別、函式、註解、`if` 表達式以及迴圈！如果你想練習此章的概念，你可以試著打造以下程式：
 
-* Convert temperatures between Fahrenheit and Celsius.
-* Generate the nth Fibonacci number.
-* Print the lyrics to the Christmas carol “The Twelve Days of Christmas,”
-  taking advantage of the repetition in the song.
+* 轉換攝氏與華氏溫度。
+* 產生第 n 個斐波那契數字。
+* 試著用重複的歌詞印出 Christmas carol 的 The Twelve Days of Christmas。
 
-When you’re ready to move on, we’ll talk about a concept in Rust that *doesn’t*
-commonly exist in other programming languages: ownership.
+當你準備好後，我們就來探討一個其他語言*不常見*的概念：所有權。
 
 [comparing-the-guess-to-the-secret-number]:
 ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number
 [quitting-after-a-correct-guess]:
 ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch03-05-control-flow.md)
+> - updated: 2020-09-07

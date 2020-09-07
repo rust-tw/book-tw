@@ -579,7 +579,7 @@ You guessed: 5
 You should get different random numbers, and they should all be numbers between
 1 and 100. Great job!
 
-## Comparing the Guess to the Secret Number
+## 將猜測的數字與祕密數字做比較
 
 Now that we have user input and a random number, we can compare them. That step
 is shown in Listing 2-4. Note that this code won’t compile quite yet, as we
@@ -800,7 +800,7 @@ Typing `quit` actually quits the game, but so will any other non-number input.
 However, this is suboptimal to say the least. We want the game to automatically
 stop when the correct number is guessed.
 
-### Quitting After a Correct Guess
+### 猜對後離開
 
 Let’s program the game to quit when the user wins by adding a `break` statement:
 

@@ -2,7 +2,7 @@
 
 每個數值在 Rust 中都屬於某種*資料型別*，這告訴 Rust 何種資料被指定，好讓它能妥善處理資料。我們講討論講種資料型別子集：純量（scalar）與複合（compound）。
 
-請記住 Rust 是一門*靜態型別*語言，這代表它必須在編譯時知道所有變數的型別。編譯器通常能依據數值與我們使用的方式推導出我們想使用的型別。但有時後如果多種型別都有可能時，像是第二章的[「比較猜測的數字與祕密數字」][comparing-the-guess-to-the-secret-number]<!-- ignore -->用到的 `parse` 將 `String` 轉換成數字時，我們就需要像這樣加上型別詮釋： 
+請記住 Rust 是一門*靜態型別*語言，這代表它必須在編譯時知道所有變數的型別。編譯器通常能依據數值與我們使用的方式推導出我們想使用的型別。但有時後如果多種型別都有可能時，像是第二章的[「將猜測的數字與祕密數字做比較」][comparing-the-guess-to-the-secret-number]<!-- ignore -->用到的 `parse` 將 `String` 轉換成數字時，我們就需要像這樣加上型別詮釋： 
 
 ```rust
 let guess: u32 = "42".parse().expect("Not a number!");
@@ -223,10 +223,6 @@ ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number
 [strings]: ch08-02-strings.html#storing-utf-8-encoded-text-with-strings
 [unrecoverable-errors-with-panic]: ch09-01-unrecoverable-errors-with-panic.html
 [wrapping]: ../std/num/struct.Wrapping.html
-
-[comparing-the-guess-to-the-secret-number]:
-ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number
-[data-types]: ch03-02-data-types.html#data-types
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [88250d6](https://github.com/rust-lang/book/blob/88250d663d5288a7f643ffca2f2c999190f3d4ae/src/ch03-02-data-types.md)

@@ -1,4 +1,4 @@
-## Storing UTF-8 Encoded Text with Strings
+## 用字串儲存 UTF-8 編碼的文字
 
 We talked about strings in Chapter 4, but we’ll look at them in more depth now.
 New Rustaceans commonly get stuck on strings for a combination of three
