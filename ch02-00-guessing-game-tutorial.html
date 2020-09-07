@@ -740,7 +740,7 @@ You guessed: 5
 </code></pre>
 <p>You should get different random numbers, and they should all be numbers between
 1 and 100. Great job!</p>
-<h2><a class="header" href="#comparing-the-guess-to-the-secret-number" id="comparing-the-guess-to-the-secret-number">Comparing the Guess to the Secret Number</a></h2>
+<h2><a class="header" href="#將猜測的數字與祕密數字做比較" id="將猜測的數字與祕密數字做比較">將猜測的數字與祕密數字做比較</a></h2>
 <p>Now that we have user input and a random number, we can compare them. That step
 is shown in Listing 2-4. Note that this code won’t compile quite yet, as we
 will explain.</p>
@@ -1027,7 +1027,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 <p>Typing <code>quit</code> actually quits the game, but so will any other non-number input.
 However, this is suboptimal to say the least. We want the game to automatically
 stop when the correct number is guessed.</p>
-<h3><a class="header" href="#quitting-after-a-correct-guess" id="quitting-after-a-correct-guess">Quitting After a Correct Guess</a></h3>
+<h3><a class="header" href="#猜對後離開" id="猜對後離開">猜對後離開</a></h3>
 <p>Let’s program the game to quit when the user wins by adding a <code>break</code> statement:</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;

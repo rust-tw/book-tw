@@ -1223,7 +1223,7 @@ You guessed: 5
 </code></pre>
 <p>You should get different random numbers, and they should all be numbers between
 1 and 100. Great job!</p>
-<h2><a class="header" href="#comparing-the-guess-to-the-secret-number" id="comparing-the-guess-to-the-secret-number">Comparing the Guess to the Secret Number</a></h2>
+<h2><a class="header" href="#將猜測的數字與祕密數字做比較" id="將猜測的數字與祕密數字做比較">將猜測的數字與祕密數字做比較</a></h2>
 <p>Now that we have user input and a random number, we can compare them. That step
 is shown in Listing 2-4. Note that this code won’t compile quite yet, as we
 will explain.</p>
@@ -1510,7 +1510,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 <p>Typing <code>quit</code> actually quits the game, but so will any other non-number input.
 However, this is suboptimal to say the least. We want the game to automatically
 stop when the correct number is guessed.</p>
-<h3><a class="header" href="#quitting-after-a-correct-guess" id="quitting-after-a-correct-guess">Quitting After a Correct Guess</a></h3>
+<h3><a class="header" href="#猜對後離開" id="猜對後離開">猜對後離開</a></h3>
 <p>Let’s program the game to quit when the user wins by adding a <code>break</code> statement:</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
@@ -1791,7 +1791,7 @@ The value of x is: 6
 <p>常數砸愛整支程式運行時在它們的有效範圍都是有效的，讓它們可以作爲處理許多程式碼部分的全域範圍數值，像是一款遊戲中玩家能夠得到的最高分數或者光速的數值。</p>
 <p>將會擴散到你所有程式碼的數值定義爲常數，對於幫助未來程式碼的維護者理解是非常好的選擇。這也讓未來需要更新數值的話，你知道需要修改寫死的地方就好。</p>
 <h3><a class="header" href="#遮蔽shadowing" id="遮蔽shadowing">遮蔽（Shadowing）</a></h3>
-<p>如同你在猜謎遊戲教學所看到的，在第二章<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「比較猜測得數字」</a><!-- ignore --> 你可以用之前的變數再次宣告新的變數，然後新的變數就會遮蔽之前的變數。Rustaceans 會說第一個變數被第二個變數所<em>遮蔽</em>了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 <code>let</code> 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：</p>
+<p>如同你在猜謎遊戲教學所看到的，在第二章<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「將猜測的數字與祕密數字做比較」</a><!-- ignore --> 你可以用之前的變數再次宣告新的變數，然後新的變數就會遮蔽之前的變數。Rustaceans 會說第一個變數被第二個變數所<em>遮蔽</em>了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 <code>let</code> 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;
@@ -1850,7 +1850,7 @@ can have.</p>
 </blockquote>
 <h2><a class="header" href="#資料型別" id="資料型別">資料型別</a></h2>
 <p>每個數值在 Rust 中都屬於某種<em>資料型別</em>，這告訴 Rust 何種資料被指定，好讓它能妥善處理資料。我們講討論講種資料型別子集：純量（scalar）與複合（compound）。</p>
-<p>請記住 Rust 是一門<em>靜態型別</em>語言，這代表它必須在編譯時知道所有變數的型別。編譯器通常能依據數值與我們使用的方式推導出我們想使用的型別。但有時後如果多種型別都有可能時，像是第二章的<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「比較猜測的數字與祕密數字」</a><!-- ignore -->用到的 <code>parse</code> 將 <code>String</code> 轉換成數字時，我們就需要像這樣加上型別詮釋： </p>
+<p>請記住 Rust 是一門<em>靜態型別</em>語言，這代表它必須在編譯時知道所有變數的型別。編譯器通常能依據數值與我們使用的方式推導出我們想使用的型別。但有時後如果多種型別都有可能時，像是第二章的<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->用到的 <code>parse</code> 將 <code>String</code> 轉換成數字時，我們就需要像這樣加上型別詮釋： </p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2090,7 +2090,7 @@ Another function.
 </code></pre>
 <p>程式碼會按照 <code>main</code> 函式中的順序執行。首先，「Hello, world!」的訊息會先顯示出來，再來才會呼叫 <code>another_function</code> 並印出它的訊息。</p>
 <h3><a class="header" href="#函式參數" id="函式參數">函式參數</a></h3>
-<p>函式也可以被定義成擁有<em>參數（parameters）<em>的，這是函式（signatures）中特殊的變數。當函式有參數時，你可以提供那些參數的確切數值。嚴格上來說，我們傳遞的數值會叫做</em>引數（arguments）</em>。但爲了方便起見，通常大家不太會去在意兩者的區別。雖然函式定義時才叫<em>參數</em>，傳遞數值時叫做<em>引數</em>，但很多時候會被人們拿來交互使用。</p>
+<p>函式也可以被定義成擁有<em>參數（parameters）<em>的，這是函式簽名（signatures）中特殊的變數。當函式有參數時，你可以提供那些參數的確切數值。嚴格上來說，我們傳遞的數值會叫做</em>引數（arguments）</em>。但爲了方便起見，通常大家不太會去在意兩者的區別。雖然函式定義時才叫<em>參數</em>，傳遞數值時叫做<em>引數</em>，但很多時候會被人們拿來交互使用。</p>
 <p>以下是加上參數後重新寫過的 <code>another_function</code> 範例：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -2299,18 +2299,11 @@ To learn more, run the command again with --verbose.
 <li>updated: 2020-09-06</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#control-flow" id="control-flow">Control Flow</a></h2>
-<p>Deciding whether or not to run some code depending on if a condition is true
-and deciding to run some code repeatedly while a condition is true are basic
-building blocks in most programming languages. The most common constructs that
-let you control the flow of execution of Rust code are <code>if</code> expressions and
-loops.</p>
-<h3><a class="header" href="#if-expressions" id="if-expressions"><code>if</code> Expressions</a></h3>
-<p>An <code>if</code> expression allows you to branch your code depending on conditions. You
-provide a condition and then state, “If this condition is met, run this block
-of code. If the condition is not met, do not run this block of code.”</p>
-<p>Create a new project called <em>branches</em> in your <em>projects</em> directory to explore
-the <code>if</code> expression. In the <em>src/main.rs</em> file, input the following:</p>
+<h2><a class="header" href="#控制流" id="控制流">控制流</a></h2>
+<p>在大多數程式語言中，能夠決定依據某項條件是否爲真來執行些程式碼，以及依據某項條件是否爲真來重複執行些程式碼是非常基本的組成元件。在 Rust 程式碼中能讓你控制執行流程的常見方法有 <code>if</code> 表達式以及迴圈。</p>
+<h3><a class="header" href="#if-表達式" id="if-表達式"><code>if</code> 表達式</a></h3>
+<p><code>if</code> 能讓你依照條件判斷對你的程式碼產生分支。基本上你提供一個條件然後就像是在說：「如果此條件符合的話，就執行這個程式碼區塊；如果沒有的話，就不要執行這段程式碼。」</p>
+<p>請在你的 <em>projects</em> 目錄下建立一個新的專案叫做 <em>branches</em> 好讓我們來探討 <code>if</code> 表達式。接著請在 <em>src/main.rs</em> 檔案內輸入以下內容：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let number = 3;
@@ -2322,29 +2315,16 @@ the <code>if</code> expression. In the <em>src/main.rs</em> file, input the foll
     }
 }
 </code></pre></pre>
-<p>All <code>if</code> expressions start with the keyword <code>if</code>, which is followed by a
-condition. In this case, the condition checks whether or not the variable
-<code>number</code> has a value less than 5. The block of code we want to execute if the
-condition is true is placed immediately after the condition inside curly
-brackets. Blocks of code associated with the conditions in <code>if</code> expressions are
-sometimes called <em>arms</em>, just like the arms in <code>match</code> expressions that we
-discussed in the <a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">“Comparing the Guess to the Secret
-Number”</a><!-- ignore --> section of
-Chapter 2.</p>
-<p>Optionally, we can also include an <code>else</code> expression, which we chose
-to do here, to give the program an alternative block of code to execute should
-the condition evaluate to false. If you don’t provide an <code>else</code> expression and
-the condition is false, the program will just skip the <code>if</code> block and move on
-to the next bit of code.</p>
-<p>Try running this code; you should see the following output:</p>
+<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始在加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。如果條件符合的話，我們將要執行的程式碼區塊接著用大括號接在後面。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱爲 <em>arms</em>，就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
+<p>另外，我們還可以選擇性地加上 <code>else</code> 表達式（就像範例寫的），讓條件不符時可以去執行另外一段程式碼。如果你沒有提供 <code>else</code> 表達式且條件爲否的話，程式會直接略過 <code>if</code> 的程式碼區塊，接著執行後續的程式碼。</p>
+<p>請嘗試執行此程式碼，你應該會看到以下輸出結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/branches`
 condition was true
 </code></pre>
-<p>Let’s try changing the value of <code>number</code> to a value that makes the condition
-<code>false</code> to see what happens:</p>
+<p>讓我們來變更 <code>number</code> 的值使條件變成 <code>false</code>，再來看看會發生什麼事：</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span>    let number = 7;
 <span class="boring">
@@ -2355,16 +2335,14 @@ condition was true
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p>Run the program again, and look at the output:</p>
+<p>在跑一次程式，然後看看輸出：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/branches`
 condition was false
 </code></pre>
-<p>It’s also worth noting that the condition in this code <em>must</em> be a <code>bool</code>. If
-the condition isn’t a <code>bool</code>, we’ll get an error. For example, try running the
-following code:</p>
+<p>還有一件值得注意的是程式碼的條件判斷<em>必須</em>是 <code>bool</code>。如果條件不是 <code>bool</code> 的話，我們就會遇到錯誤。比方說，試試以下程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let number = 3;
@@ -2374,8 +2352,7 @@ following code:</p>
     }
 }
 </code></pre>
-<p>The <code>if</code> condition evaluates to a value of <code>3</code> this time, and Rust throws an
-error:</p>
+<p>這次 <code>if</code> 條件計算出數值 <code>3</code>，然後 Rust 丟出錯誤給我們：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
 error[E0308]: mismatched types
@@ -2391,12 +2368,7 @@ error: could not compile `branches`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>The error indicates that Rust expected a <code>bool</code> but got an integer. Unlike
-languages such as Ruby and JavaScript, Rust will not automatically try to
-convert non-Boolean types to a Boolean. You must be explicit and always provide
-<code>if</code> with a Boolean as its condition. If we want the <code>if</code> code block to run
-only when a number is not equal to <code>0</code>, for example, we can change the <code>if</code>
-expression to the following:</p>
+<p>錯誤訊息告訴我們 Rust 預期收到 <code>bool</code> 但是卻拿到整數。這和 Ruby 和 JavaScript 就不同，Rust 不會自動將非布林值型別轉換成布林值。你永遠必須顯式提供布林值給 <code>if</code> 作爲它的條件判斷。舉例來說，如果我們希望 <code>if</code> 只會在數值爲 <code>0</code> 才執行，我們可以將 <code>if</code> 表達式改成以下範例：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let number = 3;
@@ -2406,10 +2378,9 @@ expression to the following:</p>
     }
 }
 </code></pre></pre>
-<p>Running this code will print <code>number was something other than zero</code>.</p>
-<h4><a class="header" href="#handling-multiple-conditions-with-else-if" id="handling-multiple-conditions-with-else-if">Handling Multiple Conditions with <code>else if</code></a></h4>
-<p>You can have multiple conditions by combining <code>if</code> and <code>else</code> in an <code>else if</code>
-expression. For example:</p>
+<p>執行此程式碼就會印出「number was something other than zero」。</p>
+<h4><a class="header" href="#使用-else-if-處理多重條件" id="使用-else-if-處理多重條件">使用 <code>else if</code> 處理多重條件</a></h4>
+<p>想要實現多重條件的話，你可以將 <code>if</code> 和 <code>else</code> 組合成 <code>else if</code> 表達式。舉例來說：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let number = 6;
@@ -2425,26 +2396,17 @@ expression. For example:</p>
     }
 }
 </code></pre></pre>
-<p>This program has four possible paths it can take. After running it, you should
-see the following output:</p>
+<p>程式有四種可能的分支，當你執行它時你應該會看到以下輸出結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/branches`
 number is divisible by 3
 </code></pre>
-<p>When this program executes, it checks each <code>if</code> expression in turn and executes
-the first body for which the condition holds true. Note that even though 6 is
-divisible by 2, we don’t see the output <code>number is divisible by 2</code>, nor do we
-see the <code>number is not divisible by 4, 3, or 2</code> text from the <code>else</code> block.
-That’s because Rust only executes the block for the first true condition, and
-once it finds one, it doesn’t even check the rest.</p>
-<p>Using too many <code>else if</code> expressions can clutter your code, so if you have more
-than one, you might want to refactor your code. Chapter 6 describes a powerful
-Rust branching construct called <code>match</code> for these cases.</p>
-<h4><a class="header" href="#using-if-in-a-let-statement" id="using-if-in-a-let-statement">Using <code>if</code> in a <code>let</code> Statement</a></h4>
-<p>Because <code>if</code> is an expression, we can use it on the right side of a <code>let</code>
-statement, as in Listing 3-2.</p>
+<p>當此程式執行時，他會依序檢查每一個 <code>if</code> 表達式，並執行第一個符合條件的程式碼段落。注意到雖然 6 的確可以除以 2，但我們沒有看到 <code>number is divisible by 2</code>，也沒有看到來自 <code>else</code> 那段的 <code>number is not divisible by 4, 3, or 2</code>。這是因爲 Rust 只會執行第一個符合條件的區塊，而當它遇到時它就不會在檢查其他條件。</p>
+<p>使用太多的 <code>else if</code> 表達式很容易讓你的程式碼變得凌亂，所以當你需要用到一個以上，你可能會想要先重構程式碼看看。爲此我們在第六章會介紹一個功能強大的 Rust 條件判斷結構叫做 <code>match</code>。</p>
+<h4><a class="header" href="#在-let-陳述式中使用-if" id="在-let-陳述式中使用-if">在 <code>let</code> 陳述式中使用 <code>if</code></a></h4>
+<p>因爲 <code>if</code> 是表達式，所以我們可以像範例 3-2 這樣放在 <code>let</code> 陳述式的右邊。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let condition = true;
@@ -2453,23 +2415,15 @@ statement, as in Listing 3-2.</p>
     println!(&quot;The value of number is: {}&quot;, number);
 }
 </code></pre></pre>
-<p><span class="caption">範例 3-2: Assigning the result of an <code>if</code> expression
-to a variable</span></p>
-<p>The <code>number</code> variable will be bound to a value based on the outcome of the <code>if</code>
-expression. Run this code to see what happens:</p>
+<p><span class="caption">範例 3-2：將 <code>if</code> 表達式的結果賦值給變數</span></p>
+<p>變數 <code>number</code> 會得到 <code>if</code> 表達式運算出的數值。執行此程式看看會發生什麼事：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.30s
      Running `target/debug/branches`
 The value of number is: 5
 </code></pre>
-<p>Remember that blocks of code evaluate to the last expression in them, and
-numbers by themselves are also expressions. In this case, the value of the
-whole <code>if</code> expression depends on which block of code executes. This means the
-values that have the potential to be results from each arm of the <code>if</code> must be
-the same type; in Listing 3-2, the results of both the <code>if</code> arm and the <code>else</code>
-arm were <code>i32</code> integers. If the types are mismatched, as in the following
-example, we’ll get an error:</p>
+<p>你應該還記得程式碼區塊也可以是表達式且會回傳最後一行的數值，而且數字本身也是表達式。在此例中，<code>if</code> 表達式的值取決於哪段程式碼被執行。這代表可能成爲最終結果的每一個 <code>if</code> 分支必須要是相同型別。在範例 3-2 中，各分支的型態都是 <code>i32</code>。如果型態不一致的話，如以下範例所示，我們會得到錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let condition = true;
@@ -2479,9 +2433,7 @@ example, we’ll get an error:</p>
     println!(&quot;The value of number is: {}&quot;, number);
 }
 </code></pre>
-<p>When we try to compile this code, we’ll get an error. The <code>if</code> and <code>else</code> arms
-have value types that are incompatible, and Rust indicates exactly where to
-find the problem in the program:</p>
+<p>當我們嘗試編譯程式碼時，我們會得到錯誤。<code>if</code> 和 <code>else</code> 分支的型態並不一致，而且 Rust 還確切指出程式出錯的地方在哪：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
 error[E0308]: if and else have incompatible types
@@ -2499,25 +2451,13 @@ error: could not compile `branches`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>The expression in the <code>if</code> block evaluates to an integer, and the expression in
-the <code>else</code> block evaluates to a string. This won’t work because variables must
-have a single type. Rust needs to know at compile time what type the <code>number</code>
-variable is, definitively, so it can verify at compile time that its type is
-valid everywhere we use <code>number</code>. Rust wouldn’t be able to do that if the type
-of <code>number</code> was only determined at runtime; the compiler would be more complex
-and would make fewer guarantees about the code if it had to keep track of
-multiple hypothetical types for any variable.</p>
-<h3><a class="header" href="#repetition-with-loops" id="repetition-with-loops">Repetition with Loops</a></h3>
-<p>It’s often useful to execute a block of code more than once. For this task,
-Rust provides several <em>loops</em>. A loop runs through the code inside the loop
-body to the end and then starts immediately back at the beginning. To
-experiment with loops, let’s make a new project called <em>loops</em>.</p>
-<p>Rust has three kinds of loops: <code>loop</code>, <code>while</code>, and <code>for</code>. Let’s try each one.</p>
-<h4><a class="header" href="#repeating-code-with-loop" id="repeating-code-with-loop">Repeating Code with <code>loop</code></a></h4>
-<p>The <code>loop</code> keyword tells Rust to execute a block of code over and over again
-forever or until you explicitly tell it to stop.</p>
-<p>As an example, change the <em>src/main.rs</em> file in your <em>loops</em> directory to look
-like this:</p>
+<p><code>if</code> 段落的表達式運算出整數，但 <code>else</code> 的區塊卻運算出字串。這樣行不通的原因是變數只能有一個型別。Rust 必須在編譯期間確切知道變數 <code>number</code> 的型別，這樣才能驗證它的型別在任何有使用到 <code>number</code> 的地方都是有效的。要是 <code>number</code> 只能在執行時知道的話，Rust 就沒辦法這樣做了。如果編譯器必須追蹤所有變數多種可能存在的型別，那就會變得非常負責並無法爲程式碼提供足夠的保障。</p>
+<h3><a class="header" href="#使用迴圈重複執行" id="使用迴圈重複執行">使用迴圈重複執行</a></h3>
+<p>重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 *迴圈（loops）*的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。爲了繼續探討迴圈，讓我們再開一個新專案 <em>loops</em>。</p>
+<p>Rust 提供三種迴圈：<code>loop</code>、<code>while</code> 和 <code>for</code>。讓我們每個都嘗試看看吧。</p>
+<h4><a class="header" href="#使用-loop-重複執行程式碼" id="使用-loop-重複執行程式碼">使用 <code>loop</code> 重複執行程式碼</a></h4>
+<p><code>loop</code> 關鍵字告訴 Rust 去反覆不停地執行一段程式碼直到你親自告訴它要停下來。</p>
+<p>我們用以下範例示範，請修改你 <em>loops</em> 目錄下的 <em>src/main.rs</em> 檔案成以下程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">fn main() {
     loop {
@@ -2525,10 +2465,7 @@ like this:</p>
     }
 }
 </code></pre>
-<p>When we run this program, we’ll see <code>again!</code> printed over and over continuously
-until we stop the program manually. Most terminals support a keyboard shortcut,
-<span class="keystroke">ctrl-c</span>, to interrupt a program that is stuck in
-a continual loop. Give it a try:</p>
+<p>當我們執行此程式時，我們會看到 <code>again!</code> 一直不停地重複顯示出來，直到我們手動停下程式爲止。大多數的終端機都支援 <span class="keystroke">ctrl-c</span> 這個快捷鍵來中斷一支卡在無限迴圈的程式，你可以自己試試看：</p>
 <!-- manual-regeneration
 cd listings/ch03-common-programming-concepts/no-listing-32-loop
 cargo run
@@ -2544,23 +2481,10 @@ again!
 again!
 ^Cagain!
 </code></pre>
-<p>The symbol <code>^C</code> represents where you pressed <span class="keystroke">ctrl-c
-</span>. You may or may not see the word <code>again!</code> printed after the <code>^C</code>,
-depending on where the code was in the loop when it received the interrupt
-signal.</p>
-<p>Fortunately, Rust provides another, more reliable way to break out of a loop.
-You can place the <code>break</code> keyword within the loop to tell the program when to
-stop executing the loop. Recall that we did this in the guessing game in the
-<a href="ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess">“Quitting After a Correct Guess”</a><!-- ignore
---> section of Chapter 2 to exit the program when the user won the game by
-guessing the correct number.</p>
-<h4><a class="header" href="#returning-values-from-loops" id="returning-values-from-loops">Returning Values from Loops</a></h4>
-<p>One of the uses of a <code>loop</code> is to retry an operation you know might fail, such
-as checking whether a thread has completed its job. However, you might need to
-pass the result of that operation to the rest of your code. To do this, you can
-add the value you want returned after the <code>break</code> expression you use to stop
-the loop; that value will be returned out of the loop so you can use it, as
-shown here:</p>
+<p><code>^C</code> 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 <code>again!</code> 出現在 <code>^C</code> 之後。</p>
+<p>幸運的是 Rust 有提供另一個打破迴圈更可靠的方法。你可以在迴圈內加上 <code>break</code> 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章<a href="ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess">「猜對後離開」</a><!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。</p>
+<h4><a class="header" href="#從迴圈回傳數值" id="從迴圈回傳數值">從迴圈回傳數值</a></h4>
+<p>其中一種使用 <code>loop</code> 的用途是重試某些你覺得會失敗的動作，像是檢查一個執行緒是否已經完成其任務。不過這樣你可能就會想傳遞任務結果給之後的程式碼。要做到這樣的事，你可以在你要用來停下迴圈的 <code>break</code> 表達式內加上一個你想回傳數值，該值就會被停止的迴圈回傳，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let mut counter = 0;
 
@@ -2575,23 +2499,10 @@ shown here:</p>
     println!(&quot;The result is {}&quot;, result);
 }
 </code></pre></pre>
-<p>Before the loop, we declare a variable named <code>counter</code> and initialize it to
-<code>0</code>. Then we declare a variable named <code>result</code> to hold the value returned from
-the loop. On every iteration of the loop, we add <code>1</code> to the <code>counter</code> variable,
-and then check whether the counter is equal to <code>10</code>. When it is, we use the
-<code>break</code> keyword with the value <code>counter * 2</code>. After the loop, we use a
-semicolon to end the statement that assigns the value to <code>result</code>. Finally, we
-print the value in <code>result</code>, which in this case is 20.</p>
-<h4><a class="header" href="#conditional-loops-with-while" id="conditional-loops-with-while">Conditional Loops with <code>while</code></a></h4>
-<p>It’s often useful for a program to evaluate a condition within a loop. While
-the condition is true, the loop runs. When the condition ceases to be true, the
-program calls <code>break</code>, stopping the loop. This loop type could be implemented
-using a combination of <code>loop</code>, <code>if</code>, <code>else</code>, and <code>break</code>; you could try that
-now in a program, if you’d like.</p>
-<p>However, this pattern is so common that Rust has a built-in language construct
-for it, called a <code>while</code> loop. Listing 3-3 uses <code>while</code>: the program loops
-three times, counting down each time, and then, after the loop, it prints
-another message and exits.</p>
+<p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化爲 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取的迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果爲 20。</p>
+<h4><a class="header" href="#使用-while-做條件迴圈" id="使用-while-做條件迴圈">使用 <code>while</code> 做條件迴圈</a></h4>
+<p>在程式中用條件判斷迴圈的執行通常是很有用的。當條件爲真時，迴圈就繼續執行。當條件不再符合時，程式就用 <code>break</code> 停止迴圈。這樣的循環方法可以用 <code>loop</code>、<code>if</code>、<code>else</code> 和 <code>break</code> 組合出來。如果你想嘗試的話，你現在就可以自己寫寫看看。</p>
+<p>但是這種模式非常常見，所以 Rust 有提供內建的結構稱爲 <code>while</code> 迴圈。範例 3-3 就是使用 <code>while</code> 的例子：該程式會循環三次，每次計數都減一，然後在迴圈之後印出訊息並離開。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let mut number = 3;
@@ -2605,14 +2516,10 @@ another message and exits.</p>
     println!(&quot;LIFTOFF!!!&quot;);
 }
 </code></pre></pre>
-<p><span class="caption">範例 3-3: Using a <code>while</code> loop to run code while a
-condition holds true</span></p>
-<p>This construct eliminates a lot of nesting that would be necessary if you used
-<code>loop</code>, <code>if</code>, <code>else</code>, and <code>break</code>, and it’s clearer. While a condition holds
-true, the code runs; otherwise, it exits the loop.</p>
-<h4><a class="header" href="#looping-through-a-collection-with-for" id="looping-through-a-collection-with-for">Looping Through a Collection with <code>for</code></a></h4>
-<p>You could use the <code>while</code> construct to loop over the elements of a collection,
-such as an array. For example, let’s look at Listing 3-4.</p>
+<p><span class="caption">範例 3-3：使用 <code>while</code> 迴圈，當條件符合就持續執行程式碼</span></p>
+<p>這樣的結構消除了很多使用 <code>loop</code>、<code>if</code>、<code>else</code> 與 <code>break</code> 會有的雜訊，這樣可以更易閱讀。當條件爲真的，程式碼就執行；不然的話，它就離開迴圈。</p>
+<h4><a class="header" href="#使用-for-遍歷集合" id="使用-for-遍歷集合">使用 <code>for</code> 遍歷集合</a></h4>
+<p>你可以用 <code>while</code> 來遍歷一個集合的元素，像是陣列等等。舉例來說，我們可以看看範例 3-4。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [10, 20, 30, 40, 50];
@@ -2625,12 +2532,8 @@ such as an array. For example, let’s look at Listing 3-4.</p>
     }
 }
 </code></pre></pre>
-<p><span class="caption">範例 3-4: Looping through each element of a collection
-using a <code>while</code> loop</span></p>
-<p>Here, the code counts up through the elements in the array. It starts at index
-<code>0</code>, and then loops until it reaches the final index in the array (that is,
-when <code>index &lt; 5</code> is no longer true). Running this code will print every element
-in the array:</p>
+<p><span class="caption">範例 3-4：使用 <code>while</code> 遍歷集合的每個元素</span></p>
+<p>程式在此對陣列的每個元素計數，它先從索引 <code>0</code> 開始，然後持續循環直到它抵達最後一個陣列索引爲止（也就是 <code>index &lt; 5</code> 不再爲真）。執行此程式會印出陣列裡的每個元素：</p>
 <pre><code class="language-text">$ cargo run
    Compiling loops v0.1.0 (file:///projects/loops)
     Finished dev [unoptimized + debuginfo] target(s) in 0.32s
@@ -2641,15 +2544,9 @@ the value is: 30
 the value is: 40
 the value is: 50
 </code></pre>
-<p>All five array values appear in the terminal, as expected. Even though <code>index</code>
-will reach a value of <code>5</code> at some point, the loop stops executing before trying
-to fetch a sixth value from the array.</p>
-<p>But this approach is error prone; we could cause the program to panic if the
-index length is incorrect. It’s also slow, because the compiler adds runtime
-code to perform the conditional check on every element on every iteration
-through the loop.</p>
-<p>As a more concise alternative, you can use a <code>for</code> loop and execute some code
-for each item in a collection. A <code>for</code> loop looks like the code in Listing 3-5.</p>
+<p>所有五個元素都如預期顯示在終端機上。儘管 <code>index</code> 會在某一刻達到 <code>5</code>，但是迴圈會在嘗試取得陣列第六個元素前就停止執行。</p>
+<p>但這樣的方式是容易出錯的，我們可能取得錯誤的索引長度造成程式恐慌。這同時也使程式變慢，因爲編譯器得在執行時的程式碼對迴圈中每次迭代的每個元素加上條件檢查。</p>
+<p>所以更簡潔的替代方案是，你可以使用 <code>for</code> 迴圈來對集合的每個元素執行一些程式碼。<code>for</code> 迴圈的樣子就像範例 3-5 寫的這一樣。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [10, 20, 30, 40, 50];
@@ -2659,25 +2556,11 @@ for each item in a collection. A <code>for</code> loop looks like the code in Li
     }
 }
 </code></pre></pre>
-<p><span class="caption">範例 3-5: Looping through each element of a collection
-using a <code>for</code> loop</span></p>
-<p>When we run this code, we’ll see the same output as in Listing 3-4. More
-importantly, we’ve now increased the safety of the code and eliminated the
-chance of bugs that might result from going beyond the end of the array or not
-going far enough and missing some items.</p>
-<p>For example, in the code in Listing 3-4, if you changed the definition of the
-<code>a</code> array to have four elements but forgot to update the condition to <code>while index &lt; 4</code>, the code would panic. Using the <code>for</code> loop, you wouldn’t need to
-remember to change any other code if you changed the number of values in the
-array.</p>
-<p>The safety and conciseness of <code>for</code> loops make them the most commonly used loop
-construct in Rust. Even in situations in which you want to run some code a
-certain number of times, as in the countdown example that used a <code>while</code> loop
-in Listing 3-3, most Rustaceans would use a <code>for</code> loop. The way to do that
-would be to use a <code>Range</code>, which is a type provided by the standard library
-that generates all numbers in sequence starting from one number and ending
-before another number.</p>
-<p>Here’s what the countdown would look like using a <code>for</code> loop and another method
-we’ve not yet talked about, <code>rev</code>, to reverse the range:</p>
+<p><span class="caption">範例 3-5：使用 <code>for</code> 迴圈遍歷集合的每個元素</span></p>
+<p>當我們執行此程式時，我們會看到和範例 3-4 一樣的結果。最重要的是，我們增加了程式的安全性，去除了造成程式錯誤的可能性。不會出現超出陣列大小或是讀取長度不足的風險。</p>
+<p>比方說在範例 3-4 的程式碼，如果你變更陣列 <code>a</code> 的元素爲只有 4 個，但忘記更新條件判斷爲 <code>while index &lt; 4</code> 的話，程式就會恐慌。使用 <code>for</code> 迴圈的話，我們變更陣列長度時，就不需要去記得更新其他程式碼。</p>
+<p><code>for</code> 迴圈的安全性與簡潔程度讓它成爲 Rust 最常被使用的迴圈結構。就算你想執行的是依照次數循環的程式碼，像是範例 3-3 的 <code>while</code> 迴圈範例，多數 Rustaceans 還是會選擇 <code>for</code> 迴圈。要這麼做的方法是使用 <code>Range</code>，這是標準函式庫提供的型別，用來產生一連串的數字序列，從指定一個數字開始一直到另一個數字之前結束。</p>
+<p>以下是我們用 <code>loop</code> 迴圈來計數的另一種方式，它用了一個我們還沒講過的方法 <code>rev</code>，這可以用來反轉：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     for number in (1..4).rev() {
@@ -2686,20 +2569,22 @@ we’ve not yet talked about, <code>rev</code>, to reverse the range:</p>
     println!(&quot;LIFTOFF!!!&quot;);
 }
 </code></pre></pre>
-<p>This code is a bit nicer, isn’t it?</p>
-<h2><a class="header" href="#summary-1" id="summary-1">Summary</a></h2>
-<p>You made it! That was a sizable chapter: you learned about variables, scalar
-and compound data types, functions, comments, <code>if</code> expressions, and loops! If
-you want to practice with the concepts discussed in this chapter, try building
-programs to do the following:</p>
+<p>這樣是不是看起來更好讀許多？</p>
+<h2><a class="header" href="#總結-1" id="總結-1">總結</a></h2>
+<p>你做到了！這的確是篇大章節：你學到了變數、純量與複合資料型別、函式、註解、<code>if</code> 表達式以及迴圈！如果你想練習此章的概念，你可以試著打造以下程式：</p>
 <ul>
-<li>Convert temperatures between Fahrenheit and Celsius.</li>
-<li>Generate the nth Fibonacci number.</li>
-<li>Print the lyrics to the Christmas carol “The Twelve Days of Christmas,”
-taking advantage of the repetition in the song.</li>
+<li>轉換攝氏與華氏溫度。</li>
+<li>產生第 n 個斐波那契數字。</li>
+<li>試著用重複的歌詞印出 Christmas carol 的 The Twelve Days of Christmas。</li>
 </ul>
-<p>When you’re ready to move on, we’ll talk about a concept in Rust that <em>doesn’t</em>
-commonly exist in other programming languages: ownership.</p>
+<p>當你準備好後，我們就來探討一個其他語言<em>不常見</em>的概念：所有權。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch03-05-control-flow.md">d44317c</a></li>
+<li>updated: 2020-09-07</li>
+</ul>
+</blockquote>
 <h1><a class="header" href="#understanding-ownership" id="understanding-ownership">Understanding Ownership</a></h1>
 <p>Ownership is Rust’s most unique feature, and it enables Rust to make memory
 safety guarantees without needing a garbage collector. Therefore, it’s
@@ -3916,7 +3801,7 @@ let slice = &amp;a[1..3];
 storing a reference to the first element and a length. You’ll use this kind of
 slice for all sorts of other collections. We’ll discuss these collections in
 detail when we talk about vectors in Chapter 8.</p>
-<h2><a class="header" href="#summary-2" id="summary-2">Summary</a></h2>
+<h2><a class="header" href="#summary-1" id="summary-1">Summary</a></h2>
 <p>The concepts of ownership, borrowing, and slices ensure memory safety in Rust
 programs at compile time. The Rust language gives you control over your memory
 usage in the same way as other systems programming languages, but having the
@@ -4747,7 +4632,7 @@ blocks</span></p>
 <p>There’s no reason to separate these methods into multiple <code>impl</code> blocks here,
 but this is valid syntax. We’ll see a case in which multiple <code>impl</code> blocks are
 useful in Chapter 10, where we discuss generic types and traits.</p>
-<h2><a class="header" href="#summary-3" id="summary-3">Summary</a></h2>
+<h2><a class="header" href="#summary-2" id="summary-2">Summary</a></h2>
 <p>Structs let you create custom types that are meaningful for your domain. By
 using structs, you can keep associated pieces of data connected to each other
 and name each piece to make your code clear. Methods let you specify the
@@ -5553,7 +5438,7 @@ expression like this:</p>
 </span></code></pre></pre>
 <p>If you have a situation in which your program has logic that is too verbose to
 express using a <code>match</code>, remember that <code>if let</code> is in your Rust toolbox as well.</p>
-<h2><a class="header" href="#summary-4" id="summary-4">Summary</a></h2>
+<h2><a class="header" href="#summary-3" id="summary-3">Summary</a></h2>
 <p>We’ve now covered how to use enums to create custom types that can be one of a
 set of enumerated values. We’ve shown how the standard library’s <code>Option&lt;T&gt;</code>
 type helps you use the type system to prevent errors. When enum values have
@@ -6512,7 +6397,7 @@ in size.</p>
 are compiled as part of the crate. The <code>mod</code> keyword declares modules, and Rust
 looks in a file with the same name as the module for the code that goes into
 that module.</p>
-<h2><a class="header" href="#summary-5" id="summary-5">Summary</a></h2>
+<h2><a class="header" href="#summary-4" id="summary-4">Summary</a></h2>
 <p>Rust lets you split a package into multiple crates and a crate into modules
 so you can refer to items defined in one module from another module. You can do
 this by specifying absolute or relative paths. These paths can be brought into
@@ -6798,7 +6683,7 @@ to review <a href="../std/vec/struct.Vec.html">the API documentation</a> for all
 <code>Vec&lt;T&gt;</code> by the standard library. For example, in addition to <code>push</code>, a <code>pop</code>
 method removes and returns the last element. Let’s move on to the next
 collection type: <code>String</code>!</p>
-<h2><a class="header" href="#storing-utf-8-encoded-text-with-strings" id="storing-utf-8-encoded-text-with-strings">Storing UTF-8 Encoded Text with Strings</a></h2>
+<h2><a class="header" href="#用字串儲存-utf-8-編碼的文字" id="用字串儲存-utf-8-編碼的文字">用字串儲存 UTF-8 編碼的文字</a></h2>
 <p>We talked about strings in Chapter 4, but we’ll look at them in more depth now.
 New Rustaceans commonly get stuck on strings for a combination of three
 reasons: Rust’s propensity for exposing possible errors, strings being a more
@@ -7442,7 +7327,7 @@ provide hashers implementing many common hashing algorithms.</p>
 <div class="footnote-definition" id="siphash"><sup class="footnote-definition-label">1</sup>
 <p><a href="https://www.131002.net/siphash/siphash.pdf">https://www.131002.net/siphash/siphash.pdf</a></p>
 </div>
-<h2><a class="header" href="#summary-6" id="summary-6">Summary</a></h2>
+<h2><a class="header" href="#summary-5" id="summary-5">Summary</a></h2>
 <p>Vectors, strings, and hash maps will provide a large amount of functionality
 necessary in programs when you need to store, access, and modify data. Here are
 some exercises you should now be equipped to solve:</p>
@@ -7485,7 +7370,7 @@ unrecoverable error. This chapter covers calling <code>panic!</code> first and t
 about returning <code>Result&lt;T, E&gt;</code> values. Additionally, we’ll explore
 considerations when deciding whether to try to recover from an error or to stop
 execution.</p>
-<h2><a class="header" href="#unrecoverable-errors-with-panic" id="unrecoverable-errors-with-panic">Unrecoverable Errors with <code>panic!</code></a></h2>
+<h2><a class="header" href="#對無法復原的錯誤使用-panic" id="對無法復原的錯誤使用-panic">對無法復原的錯誤使用 <code>panic!</code></a></h2>
 <p>Sometimes, bad things happen in your code, and there’s nothing you can do about
 it. In these cases, Rust has the <code>panic!</code> macro. When the <code>panic!</code> macro
 executes, your program will print a failure message, unwind and clean up the
@@ -8383,7 +8268,7 @@ hasn’t been checked by the conditions in the <code>Guess::new</code> function.
 <p>A function that has a parameter or returns only numbers between 1 and 100 could
 then declare in its signature that it takes or returns a <code>Guess</code> rather than an
 <code>i32</code> and wouldn’t need to do any additional checks in its body.</p>
-<h2><a class="header" href="#summary-7" id="summary-7">Summary</a></h2>
+<h2><a class="header" href="#summary-6" id="summary-6">Summary</a></h2>
 <p>Rust’s error handling features are designed to help you write more robust code.
 The <code>panic!</code> macro signals that your program is in a state it can’t handle and
 lets you tell the process to stop instead of trying to proceed with invalid or
@@ -10423,7 +10308,7 @@ before the function compares the lengths of the string slices, which is why the
 <code>Display</code> trait bound is necessary. Because lifetimes are a type of generic,
 the declarations of the lifetime parameter <code>'a</code> and the generic type parameter
 <code>T</code> go in the same list inside the angle brackets after the function name.</p>
-<h2><a class="header" href="#summary-8" id="summary-8">Summary</a></h2>
+<h2><a class="header" href="#summary-7" id="summary-7">Summary</a></h2>
 <p>We covered a lot in this chapter! Now that you know about generic type
 parameters, traits and trait bounds, and generic lifetime parameters, you’re
 ready to write code without repetition that works in many different situations.
@@ -12011,7 +11896,7 @@ library crate with <code>use</code> to make the important functionality availabl
 If the important functionality works, the small amount of code in the
 <em>src/main.rs</em> file will work as well, and that small amount of code doesn’t
 need to be tested.</p>
-<h2><a class="header" href="#summary-9" id="summary-9">Summary</a></h2>
+<h2><a class="header" href="#summary-8" id="summary-8">Summary</a></h2>
 <p>Rust’s testing features provide a way to specify how code should function to
 ensure it continues to work as you expect, even as you make changes. Unit tests
 exercise different parts of a library separately and can test private
@@ -14328,7 +14213,7 @@ How dreary to be somebody!
 </code></pre>
 <p>This demonstrates that we’re now using standard output for successful output
 and standard error for error output as appropriate.</p>
-<h2><a class="header" href="#summary-10" id="summary-10">Summary</a></h2>
+<h2><a class="header" href="#summary-9" id="summary-9">Summary</a></h2>
 <p>This chapter recapped some of the major concepts you’ve learned so far and
 covered how to perform common I/O operations in Rust. By using command line
 arguments, files, environment variables, and the <code>eprintln!</code> macro for printing
@@ -16374,7 +16259,7 @@ All these optimizations that Rust is able to apply make the resulting code
 extremely efficient. Now that you know this, you can use iterators and closures
 without fear! They make code seem like it’s higher level but don’t impose a
 runtime performance penalty for doing so.</p>
-<h2><a class="header" href="#summary-11" id="summary-11">Summary</a></h2>
+<h2><a class="header" href="#summary-10" id="summary-10">Summary</a></h2>
 <p>Closures and iterators are Rust features inspired by functional programming
 language ideas. They contribute to Rust’s capability to clearly express
 high-level ideas at low-level performance. The implementations of closures and
@@ -17267,7 +17152,7 @@ run it as if it was a Cargo subcommand by running <code>cargo something</code>. 
 commands like this are also listed when you run <code>cargo --list</code>. Being able to
 use <code>cargo install</code> to install extensions and then run them just like the
 built-in Cargo tools is a super convenient benefit of Cargo’s design!</p>
-<h2><a class="header" href="#summary-12" id="summary-12">Summary</a></h2>
+<h2><a class="header" href="#summary-11" id="summary-11">Summary</a></h2>
 <p>Sharing code with Cargo and <a href="https://crates.io/">crates.io</a><!-- ignore --> is
 part of what makes the Rust ecosystem useful for many different tasks. Rust’s
 standard library is small and stable, but crates are easy to share, use, and
@@ -19334,7 +19219,7 @@ specifying that the relationship from a child to its parent should be a
 <code>Weak&lt;T&gt;</code> reference in the definition of <code>Node</code>, you’re able to have parent
 nodes point to child nodes and vice versa without creating a reference cycle
 and memory leaks.</p>
-<h2><a class="header" href="#summary-13" id="summary-13">Summary</a></h2>
+<h2><a class="header" href="#summary-12" id="summary-12">Summary</a></h2>
 <p>This chapter covered how to use smart pointers to make different guarantees and
 trade-offs from those Rust makes by default with regular references. The
 <code>Box&lt;T&gt;</code> type has a known size and points to data allocated on the heap. The
@@ -20421,7 +20306,7 @@ information is that building new concurrent types not made up of <code>Send</cod
 <code>Sync</code> parts requires careful thought to uphold the safety guarantees. <a href="../nomicon/index.html">“The
 Rustonomicon”</a> has more information about these guarantees and how to
 uphold them.</p>
-<h2><a class="header" href="#summary-14" id="summary-14">Summary</a></h2>
+<h2><a class="header" href="#summary-13" id="summary-13">Summary</a></h2>
 <p>This isn’t the last you’ll see of concurrency in this book: the project in
 Chapter 20 will use the concepts in this chapter in a more realistic situation
 than the smaller examples discussed here.</p>
@@ -21873,7 +21758,7 @@ problem to take advantage of Rust’s features can provide benefits, such as
 preventing some bugs at compile time. Object-oriented patterns won’t always be
 the best solution in Rust due to certain features, like ownership, that
 object-oriented languages don’t have.</p>
-<h2><a class="header" href="#summary-15" id="summary-15">Summary</a></h2>
+<h2><a class="header" href="#summary-14" id="summary-14">Summary</a></h2>
 <p>No matter whether or not you think Rust is an object-oriented language after
 reading this chapter, you now know that you can use trait objects to get some
 object-oriented features in Rust. Dynamic dispatch can give your code some
@@ -22934,7 +22819,7 @@ reason is that we’ve used the struct field shorthand syntax. But we haven’t
 applied any test to the value in the <code>id</code> field in this arm, as we did with the
 first two arms: any value would match this pattern.</p>
 <p>Using <code>@</code> lets us test a value and save it in a variable within one pattern.</p>
-<h2><a class="header" href="#summary-16" id="summary-16">Summary</a></h2>
+<h2><a class="header" href="#summary-15" id="summary-15">Summary</a></h2>
 <p>Rust’s patterns are very useful in that they help distinguish between different
 kinds of data. When used in <code>match</code> expressions, Rust ensures your patterns
 cover every possible value, or your program won’t compile. Patterns in <code>let</code>
@@ -25121,7 +25006,7 @@ pub fn sql(input: TokenStream) -&gt; TokenStream {
 <p>This definition is similar to the custom derive macro’s signature: we receive
 the tokens that are inside the parentheses and return the code we wanted to
 generate.</p>
-<h2><a class="header" href="#summary-17" id="summary-17">Summary</a></h2>
+<h2><a class="header" href="#summary-16" id="summary-16">Summary</a></h2>
 <p>Whew! Now you have some Rust features in your toolbox that you won’t use often,
 but you’ll know they’re available in very particular circumstances. We’ve
 introduced several complex topics so that when you encounter them in error
@@ -27991,7 +27876,7 @@ some ideas:</p>
 similar web server using the crate instead. Then compare its API and
 robustness to the thread pool we implemented.</li>
 </ul>
-<h2><a class="header" href="#summary-18" id="summary-18">Summary</a></h2>
+<h2><a class="header" href="#summary-17" id="summary-17">Summary</a></h2>
 <p>Well done! You’ve made it to the end of the book! We want to thank you for
 joining us on this tour of Rust. You’re now ready to implement your own Rust
 projects and help with other peoples’ projects. Keep in mind that there is a
