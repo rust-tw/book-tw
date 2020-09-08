@@ -7,8 +7,8 @@ fn main() {
 }
 
 // ANCHOR: here
-fn calculate_length(s: &String) -> usize { // s is a reference to a String
+fn calculate_length(s: &String) -> usize { // s 個 String 的引用
     s.len()
-} // Here, s goes out of scope. But because it does not have ownership of what
-  // it refers to, nothing happens.
+} // s 在此離開作用域，但因爲它沒有它所指向的資料的所有權
+  // 沒有任何動作發生
 // ANCHOR_END: here
