@@ -25,7 +25,7 @@ without taking ownership of it. Figure 4-5 shows a diagram.
 
 <img alt="&String s pointing at String s1" src="img/trpl04-05.svg" class="center" />
 
-<span class="caption">Figure 4-5: A diagram of `&String s` pointing at `String
+<span class="caption">圖示 4-5: A diagram of `&String s` pointing at `String
 s1`</span>
 
 > Note: The opposite of referencing by using `&` is *dereferencing*, which is

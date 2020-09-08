@@ -23,6 +23,7 @@ bug                    | 程式錯誤                      |
 Builder Pattern        | 生成器模式                    | 參考：[維基百科][Builder Pattern]
 byte                   | 位元組                        | 參考：[維基百科][byte]
 camel case             | 駝峰式大小寫                  | 參考：[維基百科][camel case]
+clone                  | 克隆                          |
 collection             | 集合                          | 參考：[維基百科][collection]
 command line           | 命令列                        | 參考：[維基百科][command_line]
 commit                 | 提交                          |
@@ -31,6 +32,7 @@ conditional            | 條件運算                      | 參考：[維基百
 configuration          | 配置                          |
 constant               | 常數                          | 參考：[維基百科][constant]
 constructor            | 建構子                        |
+copy                   | 拷貝                          |
 crash                  | 當機                          |
 dangling pointer       | 迷途指標                      | 參考：[維基百科][dangling pointer]
 data race              | 資料競爭                      |
@@ -65,6 +67,7 @@ language feature       | 語言特徵                      | 參考：[中華民
 library                | 函式庫                        | 參考：[維基百科][library]
 lifetimes              | 生命週期                      |
 linker                 | 連結器                        | 參考：[維基百科][linker]
+literal                | 字面值                        |
 loop                   | 迴圈、循環                    | 參考：[維基百科][loop]
 macro                  | 巨集                          | 參考：[維基百科][macro]
 main function          | 主函式                        | 參考：[維基百科][main function]

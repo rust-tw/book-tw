@@ -178,7 +178,7 @@ variant. The `Cons` variant holds a value of type `i32` and a value of type
 
 <img alt="An infinite Cons list" src="img/trpl15-01.svg" class="center" style="width: 50%;" />
 
-<span class="caption">Figure 15-1: An infinite `List` consisting of infinite
+<span class="caption">圖示 15-1: An infinite `List` consisting of infinite
 `Cons` variants</span>
 
 #### Using `Box<T>` to Get a Recursive Type with a Known Size
@@ -230,7 +230,7 @@ looks like now.
 
 <img alt="A finite Cons list" src="img/trpl15-02.svg" class="center" />
 
-<span class="caption">Figure 15-2: A `List` that is not infinitely sized
+<span class="caption">圖示 15-2: A `List` that is not infinitely sized
 because `Cons` holds a `Box`</span>
 
 Boxes provide only the indirection and heap allocation; they don’t have any

@@ -77,7 +77,7 @@ forever. To visualize this reference cycle, we’ve created a diagram in Figure
 
 <img alt="Reference cycle of lists" src="img/trpl15-04.svg" class="center" />
 
-<span class="caption">Figure 15-4: A reference cycle of lists `a` and `b`
+<span class="caption">圖示 15-4: A reference cycle of lists `a` and `b`
 pointing to each other</span>
 
 If you uncomment the last `println!` and run the program, Rust will try to

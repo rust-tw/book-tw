@@ -125,7 +125,7 @@ Figure 4-6 shows this in a diagram.
 
 <img alt="world containing a pointer to the 6th byte of String s and a length 5" src="img/trpl04-06.svg" class="center" style="width: 50%;" />
 
-<span class="caption">Figure 4-6: String slice referring to part of a
+<span class="caption">圖示 4-6: String slice referring to part of a
 `String`</span>
 
 With Rust’s `..` range syntax, if you want to start at the first index (zero),

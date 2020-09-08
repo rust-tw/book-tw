@@ -1,23 +1,22 @@
 fn main() {
-    let s = String::from("hello");  // s comes into scope
+    let s = String::from("hello");  // s 進入作用域
 
-    takes_ownership(s);             // s's value moves into the function...
-                                    // ... and so is no longer valid here
+    takes_ownership(s);             // s 的值進入函式
+                                    // 所以 s 也在此無效
 
-    let x = 5;                      // x comes into scope
+    let x = 5;                      // x 進入作用域
 
-    makes_copy(x);                  // x would move into the function,
-                                    // but i32 is Copy, so it’s okay to still
-                                    // use x afterward
+    makes_copy(x);                  // x 本該移動進函式裡
+                                    // 但 i32 有 Copy，所以 x 可繼續使用
 
-} // Here, x goes out of scope, then s. But because s's value was moved, nothing
-  // special happens.
+} // x 在此離開作用域，接著是 s。但因爲 s 的值已經被移動了
+  // 它不會有任何動作
 
-fn takes_ownership(some_string: String) { // some_string comes into scope
+fn takes_ownership(some_string: String) { // some_string 進入作用域
     println!("{}", some_string);
-} // Here, some_string goes out of scope and `drop` is called. The backing
-  // memory is freed.
+} // some_string 在此離開作用域並呼叫 `drop`
+  // 佔用的記憶體被釋放
 
-fn makes_copy(some_integer: i32) { // some_integer comes into scope
+fn makes_copy(some_integer: i32) { // some_integer 進入作用域
     println!("{}", some_integer);
-} // Here, some_integer goes out of scope. Nothing special happens.
+} // some_integer 在此離開作用域，沒有任何動作發生

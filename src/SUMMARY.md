@@ -20,8 +20,8 @@
     - [註解](ch03-04-comments.md)
     - [控制流程](ch03-05-control-flow.md)
 
-- [Understanding Ownership](ch04-00-understanding-ownership.md)
-    - [What is Ownership?](ch04-01-what-is-ownership.md)
+- [理解所有權](ch04-00-understanding-ownership.md)
+    - [什麼是所有權？](ch04-01-what-is-ownership.md)
     - [References and Borrowing](ch04-02-references-and-borrowing.md)
     - [The Slice Type](ch04-03-slices.md)
 
@@ -40,7 +40,7 @@
 - [Managing Growing Projects with Packages, Crates, and Modules](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
     - [Packages and Crates](ch07-01-packages-and-crates.md)
     - [Defining Modules to Control Scope and Privacy](ch07-02-defining-modules-to-control-scope-and-privacy.md)
-    - [Paths for Referring to an Item in the Module Tree](ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
+    - [引用模組項目的路徑](ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
     - [Bringing Paths Into Scope with the `use` Keyword](ch07-04-bringing-paths-into-scope-with-the-use-keyword.md)
     - [Separating Modules into Different Files](ch07-05-separating-modules-into-different-files.md)
 

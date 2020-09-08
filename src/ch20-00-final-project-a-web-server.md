@@ -10,7 +10,7 @@ Figure 20-1 in a web browser.
 
 ![hello from rust](img/trpl20-01.png)
 
-<span class="caption">Figure 20-1: Our final shared project</span>
+<span class="caption">圖示 20-1: Our final shared project</span>
 
 Here is the plan to build the web server:
 
