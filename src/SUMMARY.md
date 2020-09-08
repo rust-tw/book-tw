@@ -22,8 +22,8 @@
 
 - [理解所有權](ch04-00-understanding-ownership.md)
     - [什麼是所有權？](ch04-01-what-is-ownership.md)
-    - [References and Borrowing](ch04-02-references-and-borrowing.md)
-    - [The Slice Type](ch04-03-slices.md)
+    - [引用與借用](ch04-02-references-and-borrowing.md)
+    - [Slice 型別](ch04-03-slices.md)
 
 - [Using Structs to Structure Related Data](ch05-00-structs.md)
     - [Defining and Instantiating Structs](ch05-01-defining-structs.md)

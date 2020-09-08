@@ -16,16 +16,16 @@ fn first_word(s: &str) -> &str {
 fn main() {
     let my_string = String::from("hello world");
 
-    // first_word works on slices of `String`s
+    // first_word 適用於 `String` 的 slice
     let word = first_word(&my_string[..]);
 
     let my_string_literal = "hello world";
 
-    // first_word works on slices of string literals
+    // first_word 適用於字串字面值
     let word = first_word(&my_string_literal[..]);
 
-    // Because string literals *are* string slices already,
-    // this works too, without the slice syntax!
+    // 因爲字串字面值*本來*竟是 slices
+    // 沒有 slice 語法也是可行的！
     let word = first_word(my_string_literal);
 }
 // ANCHOR_END: usage

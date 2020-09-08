@@ -1,24 +1,16 @@
-## The Slice Type
+## Slice 型別
 
-Another data type that does not have ownership is the *slice*. Slices let you
-reference a contiguous sequence of elements in a collection rather than the
-whole collection.
+另一種沒有所有權的資料型別是 *slice*。Slice 讓你可以引用一串集合中的元素序列，而不非引用整個集合。
 
-Here’s a small programming problem: write a function that takes a string and
-returns the first word it finds in that string. If the function doesn’t find a
-space in the string, the whole string must be one word, so the entire string
-should be returned.
+以下是個小小的程式問題：寫一支接收字串的函式並回傳第一個找到的單字，如果函式沒有在字串找到空格的話，就代表整個字串就是一個單字，所以就回傳整個字串。
 
-Let’s think about the signature of this function:
+先來想想看函式簽名該長怎樣：
 
 ```rust,ignore
 fn first_word(s: &String) -> ?
 ```
 
-This function, `first_word`, has a `&String` as a parameter. We don’t want
-ownership, so this is fine. But what should we return? We don’t really have a
-way to talk about *part* of a string. However, we could return the index of the
-end of the word. Let’s try that, as shown in Listing 4-7.
+此函式 `first_word` 有一個參數 `&String`。我們不需要取得所有權，所以這是合理的。但我們該回傳啥呢？我們目前還沒有方法能夠描述一個字串的*其中一部分*。不過我們可以回傳該單字的最後一個索引。讓我們像範例 4-7 這樣試試看。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -26,50 +18,31 @@ end of the word. Let’s try that, as shown in Listing 4-7.
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:here}}
 ```
 
-<span class="caption">範例 4-7: The `first_word` function that returns a
-byte index value into the `String` parameter</span>
+<span class="caption">範例 4-7：函式 `first_word` 回傳參數 `String` 第一個單字最後的索引</span>
 
-Because we need to go through the `String` element by element and check whether
-a value is a space, we’ll convert our `String` to an array of bytes using the
-`as_bytes` method:
+因爲我們需要遍歷 `String` 的每個元素並檢查該值是空格，我們要用 `as_bytes` 方法將 `String` 轉換成一個位元組陣列：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:as_bytes}}
 ```
 
-Next, we create an iterator over the array of bytes using the `iter` method:
+接下來我們使用 `iter` 方法對位元組陣列建立一個疊代器（iterator）：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:iter}}
 ```
 
-We’ll discuss iterators in more detail in Chapter 13. For now, know that `iter`
-is a method that returns each element in a collection and that `enumerate`
-wraps the result of `iter` and returns each element as part of a tuple instead.
-The first element of the tuple returned from `enumerate` is the index, and the
-second element is a reference to the element. This is a bit more convenient
-than calculating the index ourselves.
+我們會在第十三章討論疊代器的細節。現在我們只需要知道 `iter` 是個能夠回傳集合中每個元素的方法，然後 `enumerate` 會將 `iter` 的結果包裝起來回傳成元組。`enumerate` 回傳的元組中的第一個元素是索引，第二個才是元素的引用。這樣比我們自己計算索引還來的方便。
 
-Because the `enumerate` method returns a tuple, we can use patterns to
-destructure that tuple, just like everywhere else in Rust. So in the `for`
-loop, we specify a pattern that has `i` for the index in the tuple and `&item`
-for the single byte in the tuple. Because we get a reference to the element
-from `.iter().enumerate()`, we use `&` in the pattern.
+既然 `enumerate` 回傳的是元組，我們可以用模式配對來解構元組，就像在 Rust 其他地方使用的方式一樣。所以在 `for` 迴圈中，我們指定了一個模式讓 `i` 取得索引然後 `&item` 取得元組中的位元組。因爲我們從用 `.iter().enumerate()` 取得引用的，所以在模式中我們用的是 `&` 來獲取。
 
-Inside the `for` loop, we search for the byte that represents the space by
-using the byte literal syntax. If we find a space, we return the position.
-Otherwise, we return the length of the string by using `s.len()`:
+在 `for` 迴圈裡面我們使用字串字面值的語法搜尋位元組是不是空格。如果我們找到空格的話，我們就回傳該位置。不然我們就用 `s.len()` 回傳整個字串的長度：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:inside_for}}
 ```
 
-We now have a way to find out the index of the end of the first word in the
-string, but there’s a problem. We’re returning a `usize` on its own, but it’s
-only a meaningful number in the context of the `&String`. In other words,
-because it’s a separate value from the `String`, there’s no guarantee that it
-will still be valid in the future. Consider the program in Listing 4-8 that
-uses the `first_word` function from Listing 4-7.
+我們現在有了一個能夠找到字串第一個單字結尾索引的辦法，但還有一個問題。我們回傳的是一個獨立的 `usize`，它套用在 `&String` 身上才有意義。換句話說，因爲它是個與 `String` 沒有直接關係的數值，我們無法保證它在未來還是有效的。參考一下使用了範例 4-7 中函式 `first_word` 的範例 4-8：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -77,59 +50,39 @@ uses the `first_word` function from Listing 4-7.
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-08/src/main.rs:here}}
 ```
 
-<span class="caption">範例 4-8: Storing the result from calling the
-`first_word` function and then changing the `String` contents</span>
+<span class="caption">範例 4-8：先儲存呼叫函式 `first_word`的結果再變更 `String` 的內容</span>
 
-This program compiles without any errors and would also do so if we used `word`
-after calling `s.clear()`. Because `word` isn’t connected to the state of `s`
-at all, `word` still contains the value `5`. We could use that value `5` with
-the variable `s` to try to extract the first word out, but this would be a bug
-because the contents of `s` have changed since we saved `5` in `word`.
+此程式可以成功編譯沒有任何錯誤，而且我們在呼叫 `s.clear()` 後仍然能使用 `word`。因爲 `word` 和 `s` 並沒有直接的關係，`word` 在之後仍能繼續保留 `5`。我們可以用 `s` 取得 `5` 並嘗試取得第一個單字。但這樣就會是程式錯誤了，因爲 `s` 的內容自從我們賦值 `5` 給 `word` 之後的內容已經被改變了。
 
-Having to worry about the index in `word` getting out of sync with the data in
-`s` is tedious and error prone! Managing these indices is even more brittle if
-we write a `second_word` function. Its signature would have to look like this:
+要隨時留意 `word` 會不會與 `s` 的資料脫鉤是很煩瑣的且容易出錯！要是我們又寫了個函式 `second_word`，管理這些索引會變得非常難以管控！我們會不得不將函式簽名改成這樣：
 
 ```rust,ignore
 fn second_word(s: &String) -> (usize, usize) {
 ```
 
-Now we’re tracking a starting *and* an ending index, and we have even more
-values that were calculated from data in a particular state but aren’t tied to
-that state at all. We now have three unrelated variables floating around that
-need to be kept in sync.
+現在我們得同時紀錄起始*與*結束的索引，而且我們還產生了更多與原本數值沒辦法直接相關的計算結果。我們現在有三個非直接相關的變數需要保持同步。
 
-Luckily, Rust has a solution to this problem: string slices.
+幸運的是 Rust 爲此提供了一個解決辦法：字串 slice。
 
-### String Slices
+### 字串 Slice
 
-A *string slice* is a reference to part of a `String`, and it looks like this:
+*字串 slice* 是 `String` 其中一部分的引用，它長得像這樣：
 
 ```rust
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-17-slice/src/main.rs:here}}
 ```
 
-This is similar to taking a reference to the whole `String` but with the extra
-`[0..5]` bit. Rather than a reference to the entire `String`, it’s a reference
-to a portion of the `String`.
+這和取得整個 `String` 的引用相似，但是加上了 `[0..5]`。所以與其引用整個 `String`，這個只引用了一部分的`String`。
 
-We can create slices using a range within brackets by specifying
-`[starting_index..ending_index]`, where `starting_index` is the first position
-in the slice and `ending_index` is one more than the last position in the
-slice. Internally, the slice data structure stores the starting position and
-the length of the slice, which corresponds to `ending_index` minus
-`starting_index`. So in the case of `let world = &s[6..11];`, `world` would be
-a slice that contains a pointer to the 7th byte (counting from 1) of `s` with a length value of 5.
+我們可以像這樣 `[起始索引..結束索引]` 用中括號加上一個範圍來建立 slice。`起始索引` 是 slice 的第一個位置，而 `結束索引` 在索引結尾之後的位置（所以不包含此值）。在內部的 slice 資料結構會儲存起始位置，以及 `結束索引` 與 `起始索引` 相減後的長度。所以用 `let world = &s[6..11];` 作爲例子的話， `world` 就會是個 slice，包含一個指標指向 `s` 第七個位元組和一個長度數值 `5`。
 
-Figure 4-6 shows this in a diagram.
+Figu圖示re 4-6 就是此例的示意圖。
 
 <img alt="world containing a pointer to the 6th byte of String s and a length 5" src="img/trpl04-06.svg" class="center" style="width: 50%;" />
 
-<span class="caption">圖示 4-6: String slice referring to part of a
-`String`</span>
+<span class="caption">圖示 4-6：指向部分 `String` 的字串 slice</span>
 
-With Rust’s `..` range syntax, if you want to start at the first index (zero),
-you can drop the value before the two periods. In other words, these are equal:
+要是你想用 Rust 指定範圍的語法 `..` 從第一個索引（也就是零）開始的話，你可以省略兩個句點之前的值。換句話說，以下兩個是相等的：
 
 ```rust
 let s = String::from("hello");
@@ -138,8 +91,7 @@ let slice = &s[0..2];
 let slice = &s[..2];
 ```
 
-By the same token, if your slice includes the last byte of the `String`, you
-can drop the trailing number. That means these are equal:
+同樣地，如果你的 slice 包含 `String` 的最後一個位元組的話，你同樣能省略最後一個數值。這代表以下都是相等的：
 
 ```rust
 let s = String::from("hello");
@@ -150,8 +102,7 @@ let slice = &s[3..len];
 let slice = &s[3..];
 ```
 
-You can also drop both values to take a slice of the entire string. So these
-are equal:
+如果你要獲取整個字串的 slice，你甚至能省略兩者的數值，以下都是相等的：
 
 ```rust
 let s = String::from("hello");
@@ -162,15 +113,10 @@ let slice = &s[0..len];
 let slice = &s[..];
 ```
 
-> Note: String slice range indices must occur at valid UTF-8 character
-> boundaries. If you attempt to create a string slice in the middle of a
-> multibyte character, your program will exit with an error. For the purposes
-> of introducing string slices, we are assuming ASCII only in this section; a
-> more thorough discussion of UTF-8 handling is in the [“Storing UTF-8 Encoded
-> Text with Strings”][strings]<!-- ignore --> section of Chapter 8.
+> 注意：字串 slice 的索引範圍必須是有效的 UTF-8 字元界限。如果你嘗試從一個多位元組字元（multibyte character）中產生字串 slice，你的程式就會回傳錯誤。爲了方便介紹字串 slice，本章指使用了 ASCII 字元而已。
+我們會在第八章的[「用字串儲存 UTF-8 編碼的文字」][strings]<!-- ignore -->做更詳盡的討論。
 
-With all this information in mind, let’s rewrite `first_word` to return a
-slice. The type that signifies “string slice” is written as `&str`:
+有了這些資訊，讓我們用 slice 來重寫 `first_word` 吧。「字串字面值」的的回傳型態我們會寫 `&str`：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -178,30 +124,17 @@ slice. The type that signifies “string slice” is written as `&str`:
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-18-first-word-slice/src/main.rs:here}}
 ```
 
-We get the index for the end of the word in the same way as we did in Listing
-4-7, by looking for the first occurrence of a space. When we find a space, we
-return a string slice using the start of the string and the index of the space
-as the starting and ending indices.
+我們如同範例 4-7 一樣用判斷第一個空格取得了單字結尾的索引。當我們找到第一個空格，我們用字串的初始索引與當前空格的索引作爲初始與結束索引來回傳字串 slice。
 
-Now when we call `first_word`, we get back a single value that is tied to the
-underlying data. The value is made up of a reference to the starting point of
-the slice and the number of elements in the slice.
+現在當我們呼叫 `first_word`，我們就會取得一個與原本資料有直接相關的數值。此數值是由 slice 的起始位置即 slice 中的元素數量組成。
 
-Returning a slice would also work for a `second_word` function:
+這樣函式 `second_word`  一樣也可以回傳 slice：
 
 ```rust,ignore
 fn second_word(s: &String) -> &str {
 ```
 
-We now have a straightforward API that’s much harder to mess up, because the
-compiler will ensure the references into the `String` remain valid. Remember
-the bug in the program in Listing 4-8, when we got the index to the end of the
-first word but then cleared the string so our index was invalid? That code was
-logically incorrect but didn’t show any immediate errors. The problems would
-show up later if we kept trying to use the first word index with an emptied
-string. Slices make this bug impossible and let us know we have a problem with
-our code much sooner. Using the slice version of `first_word` will throw a
-compile-time error:
+我們現在有個不可能出錯且更直觀的 API，因爲編譯器會確保 `String` 的引用會是有效的。還記得我們在範例 4-8 的錯誤嗎？就是那個當我們取得單字結尾索引，但字串卻已清空變成無效的錯誤。那段程式碼邏輯是錯誤的，卻不會馬上顯示錯誤。要是我們持續嘗試用該索引存取空字串的話，問題才會浮現。Slice 可以讓這樣的程式錯誤無所遁形，並及早讓我們知道我們程式碼有問題。使用 slice 版本 `first_word` 的程式碼的話就會出現編譯期錯誤：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -209,55 +142,41 @@ compile-time error:
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-19-slice-error/src/main.rs:here}}
 ```
 
-Here’s the compiler error:
+以下是錯誤訊息：
 
 ```console
 {{#include ../listings/ch04-understanding-ownership/no-listing-19-slice-error/output.txt}}
 ```
 
-Recall from the borrowing rules that if we have an immutable reference to
-something, we cannot also take a mutable reference. Because `clear` needs to
-truncate the `String`, it needs to get a mutable reference. Rust disallows
-this, and compilation fails. Not only has Rust made our API easier to use, but
-it has also eliminated an entire class of errors at compile time!
+回憶一下借用規則，要是我們有不可變引用的話，我們就不能取得可變引用。因爲 `clear` 會縮減 `String`，它必須是可變引用。這樣一來 Rust 就不允許，並讓編譯失敗。Rust 不僅讓我們的 API 更容易使用，還想辦法讓所有錯誤在編譯期就消除！
 
-#### String Literals Are Slices
+#### 字串字面值就是 Slices
 
-Recall that we talked about string literals being stored inside the binary. Now
-that we know about slices, we can properly understand string literals:
+回想一下我們講說字串字面值是怎麼存在二進制檔案的。現在既然我們已經知道 slices，我們就能知道更清楚字串字面值：
 
 ```rust
 let s = "Hello, world!";
 ```
 
-The type of `s` here is `&str`: it’s a slice pointing to that specific point of
-the binary. This is also why string literals are immutable; `&str` is an
-immutable reference.
+此處 `s` 的型別是 `&str`：它是指向二進制檔案某部份的 slice。這也是爲何字串字面值是不可變的，`&str` 是個不可變引用。
 
-#### String Slices as Parameters
+#### 字串 Slices 作爲參數
 
-Knowing that you can take slices of literals and `String` values leads us to
-one more improvement on `first_word`, and that’s its signature:
+知道你可以取得字面值的 slices 與 `String` 數值後，我們可以再改善一次 `first_word`。那就是它的簽名：
 
 ```rust,ignore
 fn first_word(s: &String) -> &str {
 ```
 
-A more experienced Rustacean would write the signature shown in Listing 4-9
-instead because it allows us to use the same function on both `&String` values
-and `&str` values.
+較富有經驗的 Rustacean 會用範例 4-9 的方式編寫函式簽名，因爲這讓該函式可以同時接受 `&String` 和 `&str` 的數值。
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-09/src/main.rs:here}}
 ```
 
-<span class="caption">範例 4-9: Improving the `first_word` function by using
-a string slice for the type of the `s` parameter</span>
+<span class="caption">範例 4-9：使用字串 slice 作爲參數 `s` 來改善函式 `first_word`</span>
 
-If we have a string slice, we can pass that directly. If we have a `String`, we
-can pass a slice of the entire `String`. Defining a function to take a string
-slice instead of a reference to a `String` makes our API more general and useful
-without losing any functionality:
+如果我們有字串字面值的話，我們可以直接傳遞。如果我們有 `String` 的話，我可以們傳遞整個 `String` 的 slice。定義函式的參數爲字串字面值而非 `String` 可以讓我們的 API 更通用且不會失去去任何功能：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -265,17 +184,15 @@ without losing any functionality:
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-09/src/main.rs:usage}}
 ```
 
-### Other Slices
+### 其他 Slices
 
-String slices, as you might imagine, are specific to strings. But there’s a
-more general slice type, too. Consider this array:
+字串 slices 如你所想的一樣是特別針對字串的。但是我們還有更通用的 slice 型別。請考慮以下陣列：
 
 ```rust
 let a = [1, 2, 3, 4, 5];
 ```
 
-Just as we might want to refer to a part of a string, we might want to refer
-to part of an array. We’d do so like this:
+就像我們引用一部分的字串一樣，我們可以這樣引用一部分的字串：
 
 ```rust
 let a = [1, 2, 3, 4, 5];
@@ -283,21 +200,16 @@ let a = [1, 2, 3, 4, 5];
 let slice = &a[1..3];
 ```
 
-This slice has the type `&[i32]`. It works the same way as string slices do, by
-storing a reference to the first element and a length. You’ll use this kind of
-slice for all sorts of other collections. We’ll discuss these collections in
-detail when we talk about vectors in Chapter 8.
+此 slice 的型別爲 `&[i32]`，它和字串運作的方式一樣，儲存了 slice 的第一個元素以及總長度。你以後會對其他集合也使用這樣的 slice。我們會在第八章討論這些集合的更多細節。
 
-## Summary
+## 總結
 
-The concepts of ownership, borrowing, and slices ensure memory safety in Rust
-programs at compile time. The Rust language gives you control over your memory
-usage in the same way as other systems programming languages, but having the
-owner of data automatically clean up that data when the owner goes out of scope
-means you don’t have to write and debug extra code to get this control.
+所有權、借用與 slices 的概念讓 Rust 可以在編譯時期就確保記憶體安全。Rust 程式語言讓你和其他程式語言一樣控制你的記憶體使用方式，但是會在所有者離開作用域時自動清除擁有的資料，讓你不必在編寫或除錯額外的程式碼。
 
-Ownership affects how lots of other parts of Rust work, so we’ll talk about
-these concepts further throughout the rest of the book. Let’s move on to
-Chapter 5 and look at grouping pieces of data together in a `struct`.
+所有權影響了 Rust 很多其它部分執行的方式，所以我們在書中之後討論這些概念。讓我們繼續到第五章，看看如何用 `struct` 將資料組合在一起。
 
 [strings]: ch08-02-strings.html#storing-utf-8-encoded-text-with-strings
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch04-03-slices.md)
+> - updated: 2020-09-08
