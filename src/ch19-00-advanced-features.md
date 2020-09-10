@@ -1,22 +1,17 @@
-# Advanced Features
+# 進階特色
 
-By now, you’ve learned the most commonly used parts of the Rust programming
-language. Before we do one more project in Chapter 20, we’ll look at a few
-aspects of the language you might run into every once in a while. You can use
-this chapter as a reference for when you encounter any unknowns when using
-Rust. The features you’ll learn to use in this chapter are useful in very
-specific situations. Although you might not reach for them often, we want to
-make sure you have a grasp of all the features Rust has to offer.
+現在，你已經了解 Rust 程式語言最常用的部分。在開始做第二十章的另一個專案之前，先來了解你可能偶爾會遇到的語言種種面向。當你使用 Rust 碰到一些未知情況時，可以將本章作為技術文件查閱。雖然可能不會經常碰到這些，但我們希望確保你能掌握 Rust 提供的所有特色。
 
-In this chapter, we’ll cover:
+本章涵蓋：
 
-* Unsafe Rust: how to opt out of some of Rust’s guarantees and take
-  responsibility for manually upholding those guarantees
-* Advanced traits: associated types, default type parameters, fully qualified
-  syntax, supertraits, and the newtype pattern in relation to traits
-* Advanced types: more about the newtype pattern, type aliases, the never type,
-  and dynamically sized types
-* Advanced functions and closures: function pointers and returning closures
-* Macros: ways to define code that defines more code at compile time
+* Unsafe Rust：如何選擇捨棄部分 Rust 提供的保證，並自行負責維護這些保證
+* 進階特徵：關聯型別（associated type）、預設型別參數（default type parameter），完全限定語法（fully qualified syntax），超特徵（supertrait），以及跟特徵相關的新型別模式（newtype pattern）
+* 進階型別：更多有關新型別模式、型別別名（type alias），never 型別，以及動態大小型別
+* 進階函式與閉包：函式指標與回傳閉包
+* 巨集（macro）：一種定義「在編譯期定義程式碼的程式碼」之方法
 
-It’s a panoply of Rust features with something for everyone! Let’s dive in!
+這些 Rust 全功能特色適合所有人。一起來深究吧！
+
+> - translators: [Weihang Lo <me@weihanglo.tw>]
+> - commit: [10f8993](https://github.com/rust-lang/book/blob/10f89936b02dc366a2d0b34083b97cadda9e0ce4/src/ch19-00-advanced-features.md)
+> - updated: 2020-09-11
