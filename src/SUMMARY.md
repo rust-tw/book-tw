@@ -27,7 +27,7 @@
 
 - [使用結構體組織相關資料](ch05-00-structs.md)
     - [定義與實例化結構體](ch05-01-defining-structs.md)
-    - [An Example Program Using Structs](ch05-02-example-structs.md)
+    - [使用結構體的程式範例](ch05-02-example-structs.md)
     - [Method Syntax](ch05-03-method-syntax.md)
 
 - [Enums and Pattern Matching](ch06-00-enums.md)
