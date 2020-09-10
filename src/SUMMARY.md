@@ -25,8 +25,8 @@
     - [引用與借用](ch04-02-references-and-borrowing.md)
     - [Slice 型別](ch04-03-slices.md)
 
-- [Using Structs to Structure Related Data](ch05-00-structs.md)
-    - [Defining and Instantiating Structs](ch05-01-defining-structs.md)
+- [使用結構體組織相關資料](ch05-00-structs.md)
+    - [定義與實例化結構體](ch05-01-defining-structs.md)
     - [An Example Program Using Structs](ch05-02-example-structs.md)
     - [Method Syntax](ch05-03-method-syntax.md)
 
