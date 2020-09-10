@@ -1,18 +1,10 @@
-## Method Syntax
+## 方法語法
 
-*Methods* are similar to functions: they’re declared with the `fn` keyword and
-their name, they can have parameters and a return value, and they contain some
-code that is run when they’re called from somewhere else. However, methods are
-different from functions in that they’re defined within the context of a struct
-(or an enum or a trait object, which we cover in Chapters 6 and 17,
-respectively), and their first parameter is always `self`, which represents the
-instance of the struct the method is being called on.
+*方法（Methods）* 和函式類似，它們都用 `fn` 關鍵字並加上它們名稱來宣告，它們都有參數與回傳值，然後它們包含一些程式碼能夠在其他地方呼叫它們。不過，方法與函式不同的地方在於它們是針對結構體定義的（或是枚舉和特徵物件，我們會在第六章與第十七章分別介紹它們），且它們第一個參數永遠是 `self`，這代表的是呼叫該方法的結構體實例。
 
-### Defining Methods
+### 定義方法
 
-Let’s change the `area` function that has a `Rectangle` instance as a parameter
-and instead make an `area` method defined on the `Rectangle` struct, as shown
-in Listing 5-13.
+讓我們把 `Rectangle` 作爲參數的 `area` 函式轉換成定義在 `Rectangle` 內的 `area` 方法，如範例 5-13 所示。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -20,56 +12,23 @@ in Listing 5-13.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-13/src/main.rs}}
 ```
 
-<span class="caption">範例 5-13: Defining an `area` method on the
-`Rectangle` struct</span>
+<span class="caption">範例 5-13：在 `Rectangle` 中定義 `area` 方法</span>
 
-To define the function within the context of `Rectangle`, we start an `impl`
-(implementation) block. Then we move the `area` function within the `impl`
-curly brackets and change the first (and in this case, only) parameter to be
-`self` in the signature and everywhere within the body. In `main`, where we
-called the `area` function and passed `rect1` as an argument, we can instead
-use *method syntax* to call the `area` method on our `Rectangle` instance.
-The method syntax goes after an instance: we add a dot followed by the method
-name, parentheses, and any arguments.
+要定義 `Rectangle` 中的方法，我們先從 `impl`（implementation） 區塊開始。再來將 `area` 移入 `impl` 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 `self`。在 `main` 中我們原先使用 `rect1` 作爲引數呼叫的 `area`，可以改成使用*方法語法（method syntax）*來呼叫 `Rectangle` 的 `area` 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。
 
-In the signature for `area`, we use `&self` instead of `rectangle: &Rectangle`
-because Rust knows the type of `self` is `Rectangle` due to this method’s being
-inside the `impl Rectangle` context. Note that we still need to use the `&`
-before `self`, just as we did in `&Rectangle`. Methods can take ownership of
-`self`, borrow `self` immutably as we’ve done here, or borrow `self` mutably,
-just as they can any other parameter.
+在 `area` 的簽名中，我們使用 `&self` 而非 `rectangle: &Rectangle`，這是因爲此方法位於 `impl Rectangle` 底下，Rust 知道 `self` 的型別爲 `Rectangle`。請注意我們仍然在 `self` 使用 `&`，如同我們之前用的 `&Rectangle`。方法讓我們擁有 `self` 的所有權的情況下，並在此借用不可變的 `self`。不過我們也可以在前面加上 `mut` 讓 `self` 的借用成爲可不變的，就像其他參數一樣。
 
-We’ve chosen `&self` here for the same reason we used `&Rectangle` in the
-function version: we don’t want to take ownership, and we just want to read the
-data in the struct, not write to it. If we wanted to change the instance that
-we’ve called the method on as part of what the method does, we’d use `&mut
-self` as the first parameter. Having a method that takes ownership of the
-instance by using just `self` as the first parameter is rare; this technique is
-usually used when the method transforms `self` into something else and you want
-to prevent the caller from using the original instance after the transformation.
+我們之所以選擇 `&self` 的原因和我們在之前函式版本的 `&Rectangle` 一樣，我們不想取得所有權，只想讀取結構體的資料，而非寫入它。如果我們想要透過方法改變實例的數值的話，我們會使用 `&mut self` 作爲第一個參數。而只使用 `self` 取得所有權的方法更是非常少見，這種使用技巧通常是爲了想改變 `self` 成你想要的樣子，並且希望能避免原本被改變的實例繼續被呼叫。
 
-The main benefit of using methods instead of functions, in addition to using
-method syntax and not having to repeat the type of `self` in every method’s
-signature, is for organization. We’ve put all the things we can do with an
-instance of a type in one `impl` block rather than making future users of our
-code search for capabilities of `Rectangle` in various places in the library we
-provide.
+使用方法而非函式最大的好處是，除了可以使用方法語法而不必在方法簽名重複 `self` 的型別之外，其更具組織性。我們將所有一個型別所能做的事都放入 `impl` 區塊中了，而不必讓未來的使用者在茫茫函式庫中尋找 `Rectangle` 的功能。
 
-> ### Where’s the `->` Operator?
+> ### `->` 運算子跑去哪了？
 >
-> In C and C++, two different operators are used for calling methods: you use
-> `.` if you’re calling a method on the object directly and `->` if you’re
-> calling the method on a pointer to the object and need to dereference the
-> pointer first. In other words, if `object` is a pointer,
-> `object->something()` is similar to `(*object).something()`.
+> 在 C 與 C++ 中，我們有兩種呼叫方式的運算元：我們會用 `.` 來直接呼叫物件的方法；用 `->` 來呼叫需要先解引用的物件。換句話說，如果 `object` 是指標的話，`object->something()` 就會像是`(*object).something()`。
 >
-> Rust doesn’t have an equivalent to the `->` operator; instead, Rust has a
-> feature called *automatic referencing and dereferencing*. Calling methods is
-> one of the few places in Rust that has this behavior.
+> Rust 沒有提供 `->` 這樣的運算子。相反地 Rust 有個功能叫做 *自動引用與解引用（automatic referencing and dereferencing）*。呼叫方法是 Rust 少數會有這樣行爲的地方。
 >
-> Here’s how it works: when you call a method with `object.something()`, Rust
-> automatically adds in `&`, `&mut`, or `*` so `object` matches the signature of
-> the method. In other words, the following are the same:
+> 運作方式如下：當你呼叫方法像是 `object.something()` 時，Rust 會自動加上`&`、`&mut` 或 `*`，以便符合方法簽名。換句話說，以下範例是相同的：
 >
 <!-- CAN'T EXTRACT SEE BUG TODO -->
 > ```rust
@@ -93,21 +52,11 @@ provide.
 > (&p1).distance(&p2);
 > ```
 >
-> The first one looks much cleaner. This automatic referencing behavior works
-> because methods have a clear receiver—the type of `self`. Given the receiver
-> and name of a method, Rust can figure out definitively whether the method is
-> reading (`&self`), mutating (`&mut self`), or consuming (`self`). The fact
-> that Rust makes borrowing implicit for method receivers is a big part of
-> making ownership ergonomic in practice.
+> 第一個呼叫簡潔多了，這種自動引用的行爲之所以可行是因爲方法有明確的 `self` 引用型別。依據接收者的方法名稱，Rust 可以知道該方法是在讀取（`&self`）、可變的（`&mut self`）或是會消耗的（`self`）。而 Rust 之所以允許借用方法接收者成隱式的原因，是因爲這可以讓所有權更易讀懂。
 
-### Methods with More Parameters
+### 擁有更多參數的方法
 
-Let’s practice using methods by implementing a second method on the `Rectangle`
-struct. This time, we want an instance of `Rectangle` to take another instance
-of `Rectangle` and return `true` if the second `Rectangle` can fit completely
-within `self`; otherwise it should return `false`. That is, we want to be able
-to write the program shown in Listing 5-14, once we’ve defined the `can_hold`
-method.
+讓我們來練習再實作另一個 `Rectangle` 的方法。這次我們要 `Rectangle` 的實例可以接收另一個 `Rectangle` 實例，要是 `self` 本身可以包含另一個 `Rectangle` 的話我們就回傳 `true`，不然的話就回傳 `false`。也就是我們希望定一個方法 `can_hold` 如範例 5-14 所示。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -115,31 +64,16 @@ method.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-14/src/main.rs}}
 ```
 
-<span class="caption">範例 5-14: Using the as-yet-unwritten `can_hold`
-method</span>
+<span class="caption">範例 5-14：使用一個還沒定義完的方法 `can_hold`</span>
 
-And the expected output would look like the following, because both dimensions
-of `rect2` are smaller than the dimensions of `rect1` but `rect3` is wider than
-`rect1`:
+然後我們預期的輸出結果會如以下所示，因爲 `rect2` 的兩個維度都比 `rect1` 小，但 `rect3` 會比 `rect1` 大：
 
 ```text
 Can rect1 hold rect2? true
 Can rect1 hold rect3? false
 ```
 
-We know we want to define a method, so it will be within the `impl Rectangle`
-block. The method name will be `can_hold`, and it will take an immutable borrow
-of another `Rectangle` as a parameter. We can tell what the type of the
-parameter will be by looking at the code that calls the method:
-`rect1.can_hold(&rect2)` passes in `&rect2`, which is an immutable borrow to
-`rect2`, an instance of `Rectangle`. This makes sense because we only need to
-read `rect2` (rather than write, which would mean we’d need a mutable borrow),
-and we want `main` to retain ownership of `rect2` so we can use it again after
-calling the `can_hold` method. The return value of `can_hold` will be a
-Boolean, and the implementation will check whether the width and height of
-`self` are both greater than the width and height of the other `Rectangle`,
-respectively. Let’s add the new `can_hold` method to the `impl` block from
-Listing 5-13, shown in Listing 5-15.
+我們知道我們要定義方法的話，它一定得在 `impl Rectangle` 區塊底下。方法的名稱會叫做 `can_hold`。它會取得另一個 `Rectangle` 的不可變引用作爲參數。我們可以從程式碼呼叫方法的地方來知道參數的可能的型別：`rect1.can_hold(&rect2)` 傳遞了 `&rect2`，這是一個 `rect2` 的不可變引用，同時也是 `Rectangle` 的實例。這是合理的，因爲我們只需要讀取 `rect2`（而不是寫入，寫入代表我們需要可變引用），且我們希望 `main` 能夠保持 `rect2` 的所有權，好讓我們之後能在繼續使用它來呼叫 `can_hold` 方法。`can_hold` 的回傳值會是布林值，然後實作細節會是檢查 `self` 的寬度與長度是否都大於其他 `Rectangle` 的寬度與長度。讓我們加入範例 5-13 的 `can_hold` 方法到 `impl` 區塊中，如範例 5-15 所示。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -147,28 +81,15 @@ Listing 5-13, shown in Listing 5-15.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-15/src/main.rs:here}}
 ```
 
-<span class="caption">範例 5-15: Implementing the `can_hold` method on
-`Rectangle` that takes another `Rectangle` instance as a parameter</span>
+<span class="caption">範例 5-15：在 `Rectangle` 中實作了取得其他 `Rectangle` 作爲參數的 `can_hold` 方法</span>
 
-When we run this code with the `main` function in Listing 5-14, we’ll get our
-desired output. Methods can take multiple parameters that we add to the
-signature after the `self` parameter, and those parameters work just like
-parameters in functions.
+當我們用範例 5-14 的 `main` 函式執行此程式碼的話，我們會得到預期的輸出結果。方法可以在參數 `self` 之後接收更多參數，而那些參數就和函式中的參數用法一樣。
 
-### Associated Functions
+### 關聯函式
 
-Another useful feature of `impl` blocks is that we’re allowed to define
-functions within `impl` blocks that *don’t* take `self` as a parameter. These
-are called *associated functions* because they’re associated with the struct.
-They’re still functions, not methods, because they don’t have an instance of
-the struct to work with. You’ve already used the `String::from` associated
-function.
+`impl` 區塊另一個實用的功能是，我們允許在 `impl` 內定義函式且無需以 `self` 作爲參數。這叫叫做*關聯函式（associated functions）*，因爲它們與結構體是相關的。它們仍然是函式而非方法，因爲它們沒有用到結構體的實例。你已經用到了 `String::from` 此關聯函式。
 
-Associated functions are often used for constructors that will return a new
-instance of the struct. For example, we could provide an associated function
-that would have one dimension parameter and use that as both width and height,
-thus making it easier to create a square `Rectangle` rather than having to
-specify the same value twice:
+關聯函式很常用作建構子，來產生新的結構體實例。舉例來說，我們可以提供一個只接收一個維度作爲參數的關聯函式，讓它賦值給寬度與長度，讓我們可以用 `Rectangle` 來產生正方形，而不必提供兩次相同的值：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -176,36 +97,26 @@ specify the same value twice:
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/no-listing-03-associated-functions/src/main.rs:here}}
 ```
 
-To call this associated function, we use the `::` syntax with the struct name;
-`let sq = Rectangle::square(3);` is an example. This function is namespaced by
-the struct: the `::` syntax is used for both associated functions and
-namespaces created by modules. We’ll discuss modules in Chapter 7.
+要呼叫關聯函式的話，我們使用 `::` 語法並加上結構體的名稱。比方說 `let sq = Rectangle::square(3);`。此函式用結構體名稱作爲命名空間，`::` 語法可以用在關聯函式以及模組的命名空間，我們會在第七章介紹模組。
 
-### Multiple `impl` Blocks
+### 多重 `impl` 區塊
 
-Each struct is allowed to have multiple `impl` blocks. For example, Listing
-5-15 is equivalent to the code shown in Listing 5-16, which has each method
-in its own `impl` block.
+每個結構體都允許有數個 `impl` 區塊。舉例來說，範例 5-15 與範例 5-16 展示的程式碼是一樣的，它讓每個方法都有自己的 `impl` 區塊。
 
 ```rust
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-16/src/main.rs:here}}
 ```
 
-<span class="caption">範例 5-16: Rewriting Listing 5-15 using multiple `impl`
-blocks</span>
+<span class="caption">範例 5-16：使用多重 `impl` 來重寫範例 5-15</span>
 
-There’s no reason to separate these methods into multiple `impl` blocks here,
-but this is valid syntax. We’ll see a case in which multiple `impl` blocks are
-useful in Chapter 10, where we discuss generic types and traits.
+這邊我們的確沒有將方法拆爲 `impl` 區塊的理由，不過這樣的語法是合理的。我們會在第十章介紹泛型型別與特徵，看到多重 `impl` 區塊是非常實用的案例。
 
-## Summary
+## 總結
 
-Structs let you create custom types that are meaningful for your domain. By
-using structs, you can keep associated pieces of data connected to each other
-and name each piece to make your code clear. Methods let you specify the
-behavior that instances of your structs have, and associated functions let you
-namespace functionality that is particular to your struct without having an
-instance available.
+結構體讓你可以自訂對你的領域有意義的型別。使用結構體的話，你可以讓每個資料部分與其他部分具有相關性，並爲每個部分讓程式更好讀懂。方法讓你可以爲你的結構體實例指定特定行爲，然後關聯函式讓你可以在沒有實例的情況下，將特定功能置入結構體的命名空間。
 
-But structs aren’t the only way you can create custom types: let’s turn to
-Rust’s enum feature to add another tool to your toolbox.
+但是結構體並不是自訂型別的唯一方法：讓我看看 Rust 的沒枚舉功能，讓你的工具箱可以再多一項工具使用。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [5c71aac](https://github.com/rust-lang/book/blob/5c71aac64380f74f34cd9a158cc2b1d9122b5ceb/src/ch05-03-method-syntax.md)
+> - updated: 2020-09-11
