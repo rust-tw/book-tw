@@ -167,23 +167,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#the-match-control-flow-operator" id="the-match-control-flow-operator">The <code>match</code> Control Flow Operator</a></h2>
-<p>Rust has an extremely powerful control flow operator called <code>match</code> that allows
-you to compare a value against a series of patterns and then execute code based
-on which pattern matches. Patterns can be made up of literal values, variable
-names, wildcards, and many other things; Chapter 18 covers all the different
-kinds of patterns and what they do. The power of <code>match</code> comes from the
-expressiveness of the patterns and the fact that the compiler confirms that all
-possible cases are handled.</p>
-<p>Think of a <code>match</code> expression as being like a coin-sorting machine: coins slide
-down a track with variously sized holes along it, and each coin falls through
-the first hole it encounters that it fits into. In the same way, values go
-through each pattern in a <code>match</code>, and at the first pattern the value “fits,”
-the value falls into the associated code block to be used during execution.</p>
-<p>Because we just mentioned coins, let’s use them as an example using <code>match</code>! We
-can write a function that can take an unknown United States coin and, in a
-similar way as the counting machine, determine which coin it is and return its
-value in cents, as shown here in Listing 6-3.</p>
+                        <h2><a class="header" href="#match-控制流運算子" id="match-控制流運算子"><code>match</code> 控制流運算子</a></h2>
+<p>Rust 有個功能非常強大的控制流運算子叫做 <code>match</code>，你可以使用一系列模式來配對數值並依據配對到的模式來執行對應的程式。模式（Patterns）可以是字面數值、變數名稱、通配符（wildcards）和其他更多元件來組成。第十八章會涵蓋所有不同類型的模式，以及它們的用途。<code>match</code> 強大的地方在於模式表達的清楚程度以及編譯器會確保所有可能的情況都處理了。</p>
+<p>你可以想像 <code>match</code> 表達式成一個硬幣分類機器：硬幣會滑到不同大小的軌道，然後每個硬幣會滑入第一個符合大小的軌道。同樣地，數值會依序遍歷 <code>match</code> 的每個模式，然後進入第一個「配對」到該數值的模式所在的程式碼區塊，並在執行過程中使用。</p>
+<p>既然我們都提到硬幣了，就讓我們用它們來作爲 <code>match</code> 的範例吧！我們可以寫一個接收未知美國硬幣的函式，以類似驗鈔機的方式，決定它是何種硬幣並以美分作爲單位回傳其值。如範例 6-3 所示。</p>
 <pre><pre class="playground"><code class="language-rust">enum Coin {
     Penny,
     Nickel,
@@ -202,31 +189,12 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 6-3: An enum and a <code>match</code> expression that has
-the variants of the enum as its patterns</span></p>
-<p>Let’s break down the <code>match</code> in the <code>value_in_cents</code> function. First, we list
-the <code>match</code> keyword followed by an expression, which in this case is the value
-<code>coin</code>. This seems very similar to an expression used with <code>if</code>, but there’s a
-big difference: with <code>if</code>, the expression needs to return a Boolean value, but
-here, it can be any type. The type of <code>coin</code> in this example is the <code>Coin</code> enum
-that we defined on line 1.</p>
-<p>Next are the <code>match</code> arms. An arm has two parts: a pattern and some code. The
-first arm here has a pattern that is the value <code>Coin::Penny</code> and then the <code>=&gt;</code>
-operator that separates the pattern and the code to run. The code in this case
-is just the value <code>1</code>. Each arm is separated from the next with a comma.</p>
-<p>When the <code>match</code> expression executes, it compares the resulting value against
-the pattern of each arm, in order. If a pattern matches the value, the code
-associated with that pattern is executed. If that pattern doesn’t match the
-value, execution continues to the next arm, much as in a coin-sorting machine.
-We can have as many arms as we need: in Listing 6-3, our <code>match</code> has four arms.</p>
-<p>The code associated with each arm is an expression, and the resulting value of
-the expression in the matching arm is the value that gets returned for the
-entire <code>match</code> expression.</p>
-<p>Curly brackets typically aren’t used if the match arm code is short, as it is
-in Listing 6-3 where each arm just returns a value. If you want to run multiple
-lines of code in a match arm, you can use curly brackets. For example, the
-following code would print “Lucky penny!” every time the method was called with
-a <code>Coin::Penny</code> but would still return the last value of the block, <code>1</code>:</p>
+<p><span class="caption">範例 6-3：枚舉以及用枚舉變體作爲模式的 <code>match</code> 表達式</span></p>
+<p>讓我們一一介紹 <code>value_in_cents</code> 函式中 <code>match</code> 的每個部分。首先我們使用 <code>match</code> 並加上一個表達式，在此例的話就是指 <code>coin</code>。這和 <code>if</code> 中表達式的用法很像。不過差別在於 <code>if</code> 中的表達式必須回傳布林值，而在此它可以是任何型別。在此範例中 <code>coin</code> 的型別是我們在第一行定義的枚舉 <code>Coin</code>。</p>
+<p>接下來是 <code>match</code> 的分支，每個分支有兩個部分：一個模式以及對應的程式碼。這邊第一個分支的模式是 <code>Coin::Penny</code> 然後 <code>=&gt;</code> 會將模式與要執行的程式碼分開來，而在此例的程式碼就只是個 <code>1</code>。每個分支之間由逗號區隔開來。</p>
+<p>當 <code>match</code> 表達式執行時，他會將計算的數據結果依序與每個分支的模式做比較。如果有模式配對到該值的話，其對應的程式碼就會執行。如果該模式與數值不符的話，就繼續執行下一個分支，就像硬幣分類機器。</p>
+<p>每個分支對應的程式碼都是表達式，然後在配對到的分支中表達式的數值結果就會是整個 <code>match</code> 表達式的回傳值。</p>
+<p>如果配對分支的程式碼很短的話，通常就不需要用到的大括號，像是範例 6-3 每個分支就只回傳一個數值。如果你想要在配對分支執行多行程式碼的話，你就可以用大括號。舉例來說，以下程式會在每次配對到 <code>Coin::Penny</code> 時印出「Lucky penny!」再回傳程式碼區塊最後的數值 <code>1</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum Coin {
 </span><span class="boring">    Penny,
 </span><span class="boring">    Nickel,
@@ -248,16 +216,9 @@ a <code>Coin::Penny</code> but would still return the last value of the block, <
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<h3><a class="header" href="#patterns-that-bind-to-values" id="patterns-that-bind-to-values">Patterns that Bind to Values</a></h3>
-<p>Another useful feature of match arms is that they can bind to the parts of the
-values that match the pattern. This is how we can extract values out of enum
-variants.</p>
-<p>As an example, let’s change one of our enum variants to hold data inside it.
-From 1999 through 2008, the United States minted quarters with different
-designs for each of the 50 states on one side. No other coins got state
-designs, so only quarters have this extra value. We can add this information to
-our <code>enum</code> by changing the <code>Quarter</code> variant to include a <code>UsState</code> value stored
-inside it, which we’ve done here in Listing 6-4.</p>
+<h3><a class="header" href="#綁定數值的模式" id="綁定數值的模式">綁定數值的模式</a></h3>
+<p>另一項配對分支的實用功能是它們可以綁定配對模式中部分的數值，這讓我們可以取出枚舉變體中的數值。</p>
+<p>舉例來說，讓我們改變我們其中一個枚舉變體成擁有資料。從 1999 年到 2008 年，美國在鑄造 25 美分硬幣時，其中一側會有 50 個州不同的設計。不過其他的硬幣就沒有這樣的設計，只有 25 美分會有特殊值而已。我們可以改變我們的 <code>enum</code> 中的 <code>Quarter</code> 變體成儲存 <code>UsState</code> 數值，如範例 6-4所示。</p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)] // so we can inspect the state in a minute
 enum UsState {
     Alabama,
@@ -274,16 +235,9 @@ enum Coin {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 6-4: A <code>Coin</code> enum in which the <code>Quarter</code> variant
-also holds a <code>UsState</code> value</span></p>
-<p>Let’s imagine that a friend of ours is trying to collect all 50 state quarters.
-While we sort our loose change by coin type, we’ll also call out the name of
-the state associated with each quarter so if it’s one our friend doesn’t have,
-they can add it to their collection.</p>
-<p>In the match expression for this code, we add a variable called <code>state</code> to the
-pattern that matches values of the variant <code>Coin::Quarter</code>. When a
-<code>Coin::Quarter</code> matches, the <code>state</code> variable will bind to the value of that
-quarter’s state. Then we can use <code>state</code> in the code for that arm, like so:</p>
+<p><span class="caption">範例 6-4：修改 <code>Coin</code> 枚舉的 <code>Quarter</code> 變體來包含一個 <code>UsState</code> 數值</span></p>
+<p>讓我們想像我們有一個朋友想要收集所有 50 州的 25 美分硬幣。當我們在排序零錢的同時，我們會在拿到 25 美分時喊出該硬幣對應的州，好讓我們的朋友知道，如果他沒有的話就可以納入收藏。</p>
+<p>在此程式中的配對表達式中,我們在 <code>Coin::Quarter</code> 變體的配對模式中新增了一個變數 <code>state</code>。當 <code>Coin::Quarter</code> 配對符合時，變數 <code>state</code> 會綁定該 25 美分的數值，然後我們就可以在分支程式碼中使用 <code>state</code>，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
@@ -314,24 +268,11 @@ quarter’s state. Then we can use <code>state</code> in the code for that arm, 
 </span><span class="boring">    value_in_cents(Coin::Quarter(UsState::Alaska));
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>If we were to call <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code>, <code>coin</code>
-would be <code>Coin::Quarter(UsState::Alaska)</code>. When we compare that value with each
-of the match arms, none of them match until we reach <code>Coin::Quarter(state)</code>. At
-that point, the binding for <code>state</code> will be the value <code>UsState::Alaska</code>. We can
-then use that binding in the <code>println!</code> expression, thus getting the inner
-state value out of the <code>Coin</code> enum variant for <code>Quarter</code>.</p>
-<h3><a class="header" href="#matching-with-optiont" id="matching-with-optiont">Matching with <code>Option&lt;T&gt;</code></a></h3>
-<p>In the previous section, we wanted to get the inner <code>T</code> value out of the <code>Some</code>
-case when using <code>Option&lt;T&gt;</code>; we can also handle <code>Option&lt;T&gt;</code> using <code>match</code> as we
-did with the <code>Coin</code> enum! Instead of comparing coins, we’ll compare the
-variants of <code>Option&lt;T&gt;</code>, but the way that the <code>match</code> expression works remains
-the same.</p>
-<p>Let’s say we want to write a function that takes an <code>Option&lt;i32&gt;</code> and, if
-there’s a value inside, adds 1 to that value. If there isn’t a value inside,
-the function should return the <code>None</code> value and not attempt to perform any
-operations.</p>
-<p>This function is very easy to write, thanks to <code>match</code>, and will look like
-Listing 6-5.</p>
+<p>如果我們呼叫 <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code> 的話，<code>coin</code> 就會是 <code>Coin::Quarter(UsState::Alaska)</code>。當我們比較每個配對分支時，我們會到 <code>Coin::Quarter(state)</code> 的分支才配對成功。此時 <code>state</code> 綁定的數值就會是 <code>UsState::Alaska</code>。我們就可以在 <code>println!</code> 表達式中使用該幫訂的值，以此取得 <code>Coin</code> 枚舉中 <code>Quarter</code> 變體內的值。</p>
+<h3><a class="header" href="#配對-optiont" id="配對-optiont">配對 <code>Option&lt;T&gt;</code></a></h3>
+<p>在上一個段落，我們想要在使用 <code>Option&lt;T&gt;</code> 時取得 <code>Some</code> 內部的 <code>T</code> 值。如同枚舉 <code>Coin</code>，我們一樣可以使用 <code>match</code> 來處理 <code>Option&lt;T&gt;</code>！ 相對於比較硬幣，我們要比較的是 <code>Option&lt;T&gt;</code> 的變體，不過 <code>match</code> 表達式運作的方式一模一樣。</p>
+<p>假設我們要寫個接受 <code>Option&lt;i32&gt;</code> 的函式，而且如果內部有值的話就將其加上 1。如果內部沒有數值的話，該函式就回傳 <code>None</code> 且不再嘗試做任何動作。</p>
+<p>拜 <code>match</code> 所賜，這樣的函式很容易寫出來，長得就像範例 6-5。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
         match x {
@@ -345,11 +286,8 @@ Listing 6-5.</p>
     let none = plus_one(None);
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 6-5: A function that uses a <code>match</code> expression on
-an <code>Option&lt;i32&gt;</code></span></p>
-<p>Let’s examine the first execution of <code>plus_one</code> in more detail. When we call
-<code>plus_one(five)</code>, the variable <code>x</code> in the body of <code>plus_one</code> will have the
-value <code>Some(5)</code>. We then compare that against each match arm.</p>
+<p><span class="caption">範例 6-5：對 <code>Option&lt;i32&gt;</code> 使用 <code>match</code> 表達式的函式</span></p>
+<p>讓我們來仔細分析 <code>plus_one</code> 第一次的執行結果。當我們呼叫 <code>plus_one(five)</code>時，<code>plus_one</code> 本體中的變數 <code>x</code> 會擁有 <code>Some(5)</code>。我們接著就拿去和每個配對分支比較。</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span><span class="boring">    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
 </span><span class="boring">        match x {
@@ -363,8 +301,7 @@ value <code>Some(5)</code>. We then compare that against each match arm.</p>
 </span><span class="boring">    let none = plus_one(None);
 </span><span class="boring">}
 </span></code></pre>
-<p>The <code>Some(5)</code> value doesn’t match the pattern <code>None</code>, so we continue to the
-next arm.</p>
+<p><code>Some(5)</code> 並不符合 <code>None</code> 這樣的模式，所以我們繼續進行下一個分支。</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span><span class="boring">    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
 </span><span class="boring">        match x {
@@ -378,12 +315,8 @@ next arm.</p>
 </span><span class="boring">    let none = plus_one(None);
 </span><span class="boring">}
 </span></code></pre>
-<p>Does <code>Some(5)</code> match <code>Some(i)</code>? Why yes it does! We have the same variant. The
-<code>i</code> binds to the value contained in <code>Some</code>, so <code>i</code> takes the value <code>5</code>. The
-code in the match arm is then executed, so we add 1 to the value of <code>i</code> and
-create a new <code>Some</code> value with our total <code>6</code> inside.</p>
-<p>Now let’s consider the second call of <code>plus_one</code> in Listing 6-5, where <code>x</code> is
-<code>None</code>. We enter the <code>match</code> and compare to the first arm.</p>
+<p><code>Some(5)</code> 有符合 <code>Some(i)</code> 這樣的模式嗎？這是當然的囉！我們有相同的變體。<code>i</code> 會綁定 <code>Some</code> 中的值，所以 <code>i</code> 會取得 <code>5</code>。接下來配對分支中的程式碼就會執行，我們將 1 加入 <code>i</code> 並產生新的 <code>Some</code> 其內部的值就會是 <code>6</code>。</p>
+<p>現在讓我們看看範例 6-5 第二次的 <code>plus_one</code> 呼叫，這次的 <code>x</code> 是 <code>None</code>。我們進入 <code>match</code> 然後比較第一個分支。</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span><span class="boring">    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
 </span><span class="boring">        match x {
@@ -397,17 +330,10 @@ create a new <code>Some</code> value with our total <code>6</code> inside.</p>
 </span><span class="boring">    let none = plus_one(None);
 </span><span class="boring">}
 </span></code></pre>
-<p>It matches! There’s no value to add to, so the program stops and returns the
-<code>None</code> value on the right side of <code>=&gt;</code>. Because the first arm matched, no other
-arms are compared.</p>
-<p>Combining <code>match</code> and enums is useful in many situations. You’ll see this
-pattern a lot in Rust code: <code>match</code> against an enum, bind a variable to the
-data inside, and then execute code based on it. It’s a bit tricky at first, but
-once you get used to it, you’ll wish you had it in all languages. It’s
-consistently a user favorite.</p>
-<h3><a class="header" href="#matches-are-exhaustive" id="matches-are-exhaustive">Matches Are Exhaustive</a></h3>
-<p>There’s one other aspect of <code>match</code> we need to discuss. Consider this version
-of our <code>plus_one</code> function that has a bug and won’t compile:</p>
+<p>配對成功！因爲沒有任何數值可以相加，程式就停止並在 <code>=&gt;</code> 之後馬上回傳 <code>None</code>。因爲第一個分支就配對成功了，沒有其他的分支需要在做比較。</p>
+<p>用 <code>match</code> 與枚舉組合起來在很多地方都很實用。你將會在許多 Rust 程式碼看到這樣的模式，使用 <code>match</code> 配對枚舉，綁定內部的資料，然後執行對應的程式碼。一開始使用的確會有點陌生，但當你熟悉以後，你會希望所有語言都能提供這樣的功能。這一直是使用者最愛的功能之一。</p>
+<h3><a class="header" href="#配對必須是徹底的" id="配對必須是徹底的">配對必須是徹底的</a></h3>
+<p>我們還有一個 <code>match</code> 的細節要討論，今天要是我們像這樣寫了一個有錯誤的 <code>plus_one</code> 函式版本，它會無法編譯：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
         match x {
@@ -420,9 +346,7 @@ of our <code>plus_one</code> function that has a bug and won’t compile:</p>
 </span><span class="boring">    let none = plus_one(None);
 </span><span class="boring">}
 </span></code></pre>
-<p>We didn’t handle the <code>None</code> case, so this code will cause a bug. Luckily, it’s
-a bug Rust knows how to catch. If we try to compile this code, we’ll get this
-error:</p>
+<p>我們沒有處理到 <code>None</code> 的情形，所以此程式碼會產生錯誤。幸運的是這是 Rust 能夠抓到的錯誤。如果我們嘗試編譯此程式的話，我們會得到以下錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0004]: non-exhaustive patterns: `None` not covered
@@ -440,18 +364,9 @@ error: could not compile `enums`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>Rust knows that we didn’t cover every possible case and even knows which
-pattern we forgot! Matches in Rust are <em>exhaustive</em>: we must exhaust every last
-possibility in order for the code to be valid. Especially in the case of
-<code>Option&lt;T&gt;</code>, when Rust prevents us from forgetting to explicitly handle the
-<code>None</code> case, it protects us from assuming that we have a value when we might
-have null, thus making the billion-dollar mistake discussed earlier impossible.</p>
-<h3><a class="header" href="#the-_-placeholder" id="the-_-placeholder">The <code>_</code> Placeholder</a></h3>
-<p>Rust also has a pattern we can use when we don’t want to list all possible
-values. For example, a <code>u8</code> can have valid values of 0 through 255. If we only
-care about the values 1, 3, 5, and 7, we don’t want to have to list out 0, 2,
-4, 6, 8, 9 all the way up to 255. Fortunately, we don’t have to: we can use the
-special pattern <code>_</code> instead:</p>
+<p>Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是*徹底（exhaustive）*的：我們必須列舉出所有可能的情形，程式碼才能夠被視爲有效。尤其是在 <code>Option&lt;T&gt;</code> 的情況下，當 Rust 防止我們忘記處理 <code>None</code> 的情形時，它也使我們免於以爲擁有一個有效實際上卻是空的值。因此要造成之前提過的數十億元錯誤在這邊基本上是不可能的。</p>
+<h3><a class="header" href="#_-佔位符" id="_-佔位符"><code>_</code> 佔位符</a></h3>
+<p>Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需要使用此模式就好。舉例來說 <code>u8</code> 可能的數值爲 0 到 255，如果我們只在意數值 1、3、5 和 7，我們就不會想要列出 0、2、4、6、8、9 還剩下一直到 255 的每個值。幸運的是，我們不需要這樣做，我們可以使用特殊模式 <code>_</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let some_u8_value = 0u8;
     match some_u8_value {
@@ -463,14 +378,16 @@ special pattern <code>_</code> instead:</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The <code>_</code> pattern will match any value. By putting it after our other arms, the
-<code>_</code> will match all the possible cases that aren’t specified before it. The <code>()</code>
-is just the unit value, so nothing will happen in the <code>_</code> case. As a result, we
-can say that we want to do nothing for all the possible values that we don’t
-list before the <code>_</code> placeholder.</p>
-<p>However, the <code>match</code> expression can be a bit wordy in a situation in which we
-care about only <em>one</em> of the cases. For this situation, Rust provides <code>if let</code>.</p>
-<p>More about patterns and matching can be found in <a href="ch18-00-patterns.html">chapter 18</a>.</p>
+<p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code>就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值，所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符之前沒有列出的可能情形，做任何動作。</p>
+<p>不過有時候我們只在意其中<em>一種</em>情形的話， <code>match</code> 表達式的確會有點囉唆。針對此情形，Rust 提供 <code>if let</code>。</p>
+<p>而更多有關配對模式的內容可以在<a href="ch18-00-patterns.html">第十八章</a>查閱。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/41d9f4c9ae6ba07191f55338e864c713cd49a876/src/ch06-01-defining-an-enum.md">41d9f4c</a></li>
+<li>updated: 2020-09-11</li>
+</ul>
+</blockquote>
 
                     </main>
 
