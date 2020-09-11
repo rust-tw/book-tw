@@ -124,6 +124,7 @@ values                 | 值、數值                      |
 variables              | 變數                          |
 variant                | 變體                          |
 view                   | 視圖                          | 參考：[維基百科][view]
+workspaces             | 工作空間                      |
 zero-cost abstractions | 無成本抽象化                  |
 
 

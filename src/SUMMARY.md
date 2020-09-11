@@ -37,12 +37,12 @@
 
 ## Basic Rust Literacy
 
-- [Managing Growing Projects with Packages, Crates, and Modules](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
-    - [Packages and Crates](ch07-01-packages-and-crates.md)
-    - [Defining Modules to Control Scope and Privacy](ch07-02-defining-modules-to-control-scope-and-privacy.md)
+- [使用套件、Crate與模組管理成長中的專案](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
+    - [套件與 Crates](ch07-01-packages-and-crates.md)
+    - [定義模組來控制作用域與隱私](ch07-02-defining-modules-to-control-scope-and-privacy.md)
     - [引用模組項目的路徑](ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
-    - [Bringing Paths Into Scope with the `use` Keyword](ch07-04-bringing-paths-into-scope-with-the-use-keyword.md)
-    - [Separating Modules into Different Files](ch07-05-separating-modules-into-different-files.md)
+    - [使用 `use` 關鍵字引入路徑](ch07-04-bringing-paths-into-scope-with-the-use-keyword.md)
+    - [將模組拆成不同檔案](ch07-05-separating-modules-into-different-files.md)
 
 - [Common Collections](ch08-00-common-collections.md)
     - [Storing Lists of Values with Vectors](ch08-01-vectors.md)

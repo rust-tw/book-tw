@@ -1,49 +1,24 @@
-# Managing Growing Projects with Packages, Crates, and Modules
+# 使用套件、Crate與模組管理成長中的專案
 
-As you write large programs, organizing your code will be important because
-keeping track of your entire program in your head will become impossible. By
-grouping related functionality and separating code with distinct features,
-you’ll clarify where to find code that implements a particular feature and
-where to go to change how a feature works.
+當你寫的程式規模更大時，組織你的程式碼就很重要。因爲用你的腦帶要記住整個程式碼是幾乎不可能的。要是能組織相關功能的程式碼並將它們分成明確功能的話，你就能清楚地找到實作特定功能的程式碼，以及該在哪裏修改該功能的行爲。
 
-The programs we’ve written so far have been in one module in one file. As a
-project grows, you can organize code by splitting it into multiple modules and
-then multiple files. A package can contain multiple binary crates and
-optionally one library crate. As a package grows, you can extract parts into
-separate crates that become external dependencies. This chapter covers all
-these techniques. For very large projects of a set of interrelated packages
-that evolve together, Cargo provides workspaces, which we’ll cover in the
-[“Cargo Workspaces”][workspaces]<!-- ignore --> section in Chapter 14.
+我們之前寫過的程式都只在一個檔案內的一個模組（module）中。隨著專案成長，我們可以組織程式碼，拆成數個模組與數個檔案。一個套件（package）可以包含數個二進制 crate 以及選擇性提供一個函式庫 crate。隨著套件增長，你可以取出不同的部分作爲獨立的 crate，成爲對外的依賴函式庫。此章節將會介紹這些所有概念。對於非常龐大的專案，需要一系列的關聯套件組合在一起的話，Cargo 有提供工作空間（workspaces），我們會在第十四章的[「Cargo 工作空間」][workspaces]<!-- ignore -->做介紹。
 
-In addition to grouping functionality, encapsulating implementation details
-lets you reuse code at a higher level: once you’ve implemented an operation,
-other code can call that code via the code’s public interface without knowing
-how the implementation works. The way you write code defines which parts are
-public for other code to use and which parts are private implementation details
-that you reserve the right to change. This is another way to limit the amount
-of detail you have to keep in your head.
+除了爲了組織功能以外，對實作細節進行封裝可以讓你的程式碼在頂層更好使用。一旦你實作了某項功能，其他程式就可以用程式碼的公開介面呼叫該程式碼，而不必去知道它實作如何運作。你在寫程式碼時會去定義哪些部分是給其他程式碼公開使用的，以及哪些部分是私底下你可以任意修改的實作細節。這是能再減少你的腦袋需要煩惱的細節數量。
 
-A related concept is scope: the nested context in which code is written has a
-set of names that are defined as “in scope.” When reading, writing, and
-compiling code, programmers and compilers need to know whether a particular
-name at a particular spot refers to a variable, function, struct, enum, module,
-constant, or other item and what that item means. You can create scopes and
-change which names are in or out of scope. You can’t have two items with the
-same name in the same scope; tools are available to resolve name conflicts.
+還有一個概念需要再提一次，也就是作用域（scope）：程式碼需要能被定義在「作用域內」並要能夠指明此作用域。當讀取寫入或編譯程式碼時，程式設計師與編譯器需要知道特定地點的名稱，才能知道其內的變數、函式、結構體、枚舉、常數或其他任何有意義的項目。你可以建立作用域，並改變其在作用域內與作用域外的名稱。你無法在同個作用域內擁有兩個相同名稱的項目。我們可以使用一些工具來解決名稱衝突的問題。
 
-Rust has a number of features that allow you to manage your code’s
-organization, including which details are exposed, which details are private,
-and what names are in each scope in your programs. These features, sometimes
-collectively referred to as the *module system*, include:
+Rust 有一系列的功能能讓你管理你的程式碼組織，包含哪些細節能對外提供、哪些細節是私有地，以及程式中每個作用域的名稱爲何。這些功能有時會統一稱作*模組系統「module system」*，其中包含：
 
-* **Packages:** A Cargo feature that lets you build, test, and share crates
-* **Crates:** A tree of modules that produces a library or executable
-* **Modules** and **use:** Let you control the organization, scope, and
-  privacy of paths
-* **Paths:** A way of naming an item, such as a struct, function, or module
+* **套件（Package）：**讓你建構、測試並分享 crate 的 Cargo 功能
+* **Crates：**產生函式庫或執行檔的模組集合
+* **模組（Modules）** 與 **use：**讓你控制組織、作用域與路徑的隱私權
+* **路徑（Paths）:**對一個項目的命名方式，像是一個結構體、函式或模組
 
-In this chapter, we’ll cover all these features, discuss how they interact, and
-explain how to use them to manage scope. By the end, you should have a solid
-understanding of the module system and be able to work with scopes like a pro!
+在本章節中，我們會涵蓋所有這些功能，討論它們如何互動，並解釋如何使用它們來管理作用域。在讀完後，你應該就會對模組系統有紮實的認知，並能夠對作用域的使用駕輕就熟！
 
 [workspaces]: ch14-03-cargo-workspaces.html
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [41d9f4c](https://github.com/rust-lang/book/blob/41d9f4c9ae6ba07191f55338e864c713cd49a876/src/ch06-03-if-let.md)
+> - updated: 2020-09-11
