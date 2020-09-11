@@ -4694,29 +4694,12 @@ main.rs
 <li>updated: 2020-09-11</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#defining-modules-to-control-scope-and-privacy" id="defining-modules-to-control-scope-and-privacy">Defining Modules to Control Scope and Privacy</a></h2>
-<p>In this section, we’ll talk about modules and other parts of the module system,
-namely <em>paths</em> that allow you to name items; the <code>use</code> keyword that brings a
-path into scope; and the <code>pub</code> keyword to make items public. We’ll also discuss
-the <code>as</code> keyword, external packages, and the glob operator. For now, let’s
-focus on modules!</p>
-<p><em>Modules</em> let us organize code within a crate into groups for readability and
-easy reuse. Modules also control the <em>privacy</em> of items, which is whether an
-item can be used by outside code (<em>public</em>) or is an internal implementation
-detail and not available for outside use (<em>private</em>).</p>
-<p>As an example, let’s write a library crate that provides the functionality of a
-restaurant. We’ll define the signatures of functions but leave their bodies
-empty to concentrate on the organization of the code, rather than actually
-implement a restaurant in code.</p>
-<p>In the restaurant industry, some parts of a restaurant are referred to as
-<em>front of house</em> and others as <em>back of house</em>. Front of house is where
-customers are; this is where hosts seat customers, servers take orders and
-payment, and bartenders make drinks. Back of house is where the chefs and cooks
-work in the kitchen, dishwashers clean up, and managers do administrative work.</p>
-<p>To structure our crate in the same way that a real restaurant works, we can
-organize the functions into nested modules. Create a new library named
-<code>restaurant</code> by running <code>cargo new --lib restaurant</code>; then put the code in
-Listing 7-1 into <em>src/lib.rs</em> to define some modules and function signatures.</p>
+<h2><a class="header" href="#定義模組來控制作用域與隱私權" id="定義模組來控制作用域與隱私權">定義模組來控制作用域與隱私權</a></h2>
+<p>在此段落，我們將討論模組以及其他模組系統的部分，像是*路徑（paths）*項允許你來命名項目，而 <code>use</code> 關鍵字可以將路徑引入作用域，再來 <code>pub</code> 關鍵字可以讓指定的項目對外公開。我們還會討論到 <code>as</code> 關鍵字、外部套件以及全域（glob）運算子。現在讓我們先專注在模組吧！</p>
+<p><em>模組（Modules）<em>讓我們在 crate 內組織程式碼成數個群組以便使用且增加閱讀性。模組也能控制項目的</em>隱私權</em>，也就是該項目能否被外部程式碼（<em>公開（public）</em>）使用，或者只作爲內部實作細節，對外是無法使用的（<em>私有（private）</em>）。</p>
+<p>舉例來說，讓我們建立一個提供餐廳功能的函式庫 crate。我們定義一個函式簽名不過本體會是空的，好讓我們專注在程式組織，而非餐廳程式碼的實作。</p>
+<p>在餐飲業中，餐廳有些地方會被稱作<em>前端（front of house）<em>而其他部分則是</em>後端（back of house）</em>。前端是消費者的所在區域，這裡是安排顧客座位、點餐並結帳、吧台調酒的地方。而後台則是主廚與廚師工作的廚房、洗碗工洗碗以及經理管理行政工作的地方。</p>
+<p>要讓我們的 crate 像真正的餐廳一樣的話，我們可以組織函式進入模組中。要建立一個新的函式庫叫做 <code>restaurant</code> 的話，請執行 <code>cargo new --lib restaurant</code>。然後將範例 7-1 的程式碼放入 <em>src/lib.rs</em> 中，這定義了一些模組與函式簽名。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     mod hosting {
@@ -4736,25 +4719,11 @@ Listing 7-1 into <em>src/lib.rs</em> to define some modules and function signatu
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-1: A <code>front_of_house</code> module containing other
-modules that then contain functions</span></p>
-<p>We define a module by starting with the <code>mod</code> keyword and then specify the
-name of the module (in this case, <code>front_of_house</code>) and place curly brackets
-around the body of the module. Inside modules, we can have other modules, as in
-this case with the modules <code>hosting</code> and <code>serving</code>. Modules can also hold
-definitions for other items, such as structs, enums, constants, traits, or—as
-in Listing 7-1—functions.</p>
-<p>By using modules, we can group related definitions together and name why
-they’re related. Programmers using this code would have an easier time finding
-the definitions they wanted to use because they could navigate the code based
-on the groups rather than having to read through all the definitions.
-Programmers adding new functionality to this code would know where to place the
-code to keep the program organized.</p>
-<p>Earlier, we mentioned that <em>src/main.rs</em> and <em>src/lib.rs</em> are called crate
-roots. The reason for their name is that the contents of either of these two
-files form a module named <code>crate</code> at the root of the crate’s module structure,
-known as the <em>module tree</em>.</p>
-<p>Listing 7-2 shows the module tree for the structure in Listing 7-1.</p>
+<p><span class="caption">範例 7-1：<code>front_of_house</code> 模組包含了其他擁有函式的模組</span></p>
+<p>我們用 <code>mod</code> 關鍵字加上模組的名稱（在此例爲 <code>front_of_house</code>）來定義一個模組，並用大括號涵蓋模組的本體。在模組中，我們可以再包含其他模組，在此例中我們包含了 <code>hosting</code> 和 <code>serving</code>。模組還能包含其他項目，像是結構體、枚舉、常數、特徵、或像是 範例 7-1 的函式。</p>
+<p>使用模組的話，我們就能加相關的定義組合起來，並用名稱指出會合它們互相關聯。程式設計師在使用此程式碼時就能快找到他們想使用的定義，因爲他們就不必遍歷所有的定義，只要觀察依據組合起來的模組名稱就好。要對此程式碼增加新功能的開發者也能知道該將程式碼放在哪裡，以維持程式碼的組織。</p>
+<p>稍早我們提到說 <em>src/main.rs</em> 和 <em>src/lib.rs</em> 屬於 crate 的源頭。之所以這樣命名的原因是因爲這兩個文件的內容都會在 crate 源頭模組架構中組成一個模組叫做 <code>crate</code>，這樣的結構稱之爲<em>模組樹（module tree）</em>。</p>
+<p>範例 7-2 顯示了範例 7-1 的模組樹架構。</p>
 <pre><code class="language-text">crate
  └── front_of_house
      ├── hosting
@@ -4765,20 +4734,16 @@ known as the <em>module tree</em>.</p>
          ├── serve_order
          └── take_payment
 </code></pre>
-<p><span class="caption">範例 7-2: The module tree for the code in Listing
-7-1</span></p>
-<p>This tree shows how some of the modules nest inside one another (for example,
-<code>hosting</code> nests inside <code>front_of_house</code>). The tree also shows that some modules
-are <em>siblings</em> to each other, meaning they’re defined in the same module
-(<code>hosting</code> and <code>serving</code> are defined within <code>front_of_house</code>). To continue the
-family metaphor, if module A is contained inside module B, we say that module A
-is the <em>child</em> of module B and that module B is the <em>parent</em> of module A.
-Notice that the entire module tree is rooted under the implicit module named
-<code>crate</code>.</p>
-<p>The module tree might remind you of the filesystem’s directory tree on your
-computer; this is a very apt comparison! Just like directories in a filesystem,
-you use modules to organize your code. And just like files in a directory, we
-need a way to find our modules.</p>
+<p><span class="caption">範例 7-2：範例 7-1 的模組樹</span></p>
+<p>此樹顯示了有些模組是包含在其他模組內的（比方說 <code>hosting</code> 就在 <code>front_of_house</code> 底下）。此樹也顯示了有些模組是其他模組的<em>同輩（siblings）</em>，代表它們是在同模組底下定義的（<code>hosting</code> 和 <code>serving</code> 都在 <code>front_of_house</code> 底下定義）。繼續沿用家庭來譬喻的話，如果模組 A 被包含在模組 B 中，我們會說模組 A 是模組 B 的<em>下代（child）</em>，而模組 B 是模組 A 的<em>上代（parent）</em>。注意到整個模組樹的源頭是一個隱性模組叫做 <code>crate</code>。</p>
+<p>模組樹可能會讓你想到電腦中檔案系統的目錄樹，這是一個非常恰當的比喻！就像檔案系統中的目錄，你使用模組來組織你的程式碼。而且就像目錄中的檔案，我們需要有方法可以找到我們的模組。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch07-01-packages-and-crates.md">d44317c</a></li>
+<li>updated: 2020-09-11</li>
+</ul>
+</blockquote>
 <h2><a class="header" href="#paths-for-referring-to-an-item-in-the-module-tree" id="paths-for-referring-to-an-item-in-the-module-tree">Paths for Referring to an Item in the Module Tree</a></h2>
 <p>To show Rust where to find an item in a module tree, we use a path in the same
 way we use a path when navigating a filesystem. If we want to call a function,
@@ -27823,6 +27788,7 @@ of Rust.</p>
 <tr><td>Builder Pattern</td><td>生成器模式</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%BC%8F">維基百科</a></td></tr>
 <tr><td>byte</td><td>位元組</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E5%AD%97%E8%8A%82">維基百科</a></td></tr>
 <tr><td>camel case</td><td>駝峰式大小寫</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E9%A7%9D%E5%B3%B0%E5%BC%8F%E5%A4%A7%E5%B0%8F%E5%AF%AB">維基百科</a></td></tr>
+<tr><td>child</td><td>下代</td><td></td></tr>
 <tr><td>clone</td><td>克隆</td><td></td></tr>
 <tr><td>collection</td><td>集合</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E9%9B%86%E5%90%88_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">維基百科</a></td></tr>
 <tr><td>command line</td><td>命令列</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%95%8C%E9%9D%A2">維基百科</a></td></tr>
@@ -27884,6 +27850,7 @@ of Rust.</p>
 <tr><td>ownership</td><td>所有權</td><td></td></tr>
 <tr><td>package</td><td>套件</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%BD%AF%E4%BB%B6%E5%8C%85">維基百科</a></td></tr>
 <tr><td>panic</td><td>恐慌</td><td></td></tr>
+<tr><td>parent</td><td>上代</td><td></td></tr>
 <tr><td>parse</td><td>分析、分析語法</td><td></td></tr>
 <tr><td>parser</td><td>語法分析器</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%AA%9E%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8">維基百科</a></td></tr>
 <tr><td>pattern</td><td>模式</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_(%E8%AE%A1%E7%AE%97%E6%9C%BA)">維基百科</a></td></tr>
@@ -27903,6 +27870,7 @@ of Rust.</p>
 <tr><td>segment</td><td>區段</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%A8%98%E6%86%B6%E9%AB%94%E5%88%86%E6%AE%B5">維基百科</a></td></tr>
 <tr><td>segmentation fault</td><td>記憶體區段錯誤</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%A8%98%E6%86%B6%E9%AB%94%E5%8D%80%E6%AE%B5%E9%8C%AF%E8%AA%A4">維基百科</a></td></tr>
 <tr><td>shadowing</td><td>遮蔽</td><td></td></tr>
+<tr><td>sibling</td><td>同輩</td><td></td></tr>
 <tr><td>signed integer</td><td>帶號整數</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E6%95%B4%E6%95%B0_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">維基百科</a></td></tr>
 <tr><td>square bracket</td><td>方括號</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E6%8B%AC%E5%8F%B7">維基百科</a></td></tr>
 <tr><td>stack</td><td>堆疊</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E5%A0%86%E6%A0%88">維基百科</a></td></tr>
