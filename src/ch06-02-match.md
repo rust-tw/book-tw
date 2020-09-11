@@ -1,210 +1,124 @@
-## The `match` Control Flow Operator
+## `match` 控制流運算子
 
-Rust has an extremely powerful control flow operator called `match` that allows
-you to compare a value against a series of patterns and then execute code based
-on which pattern matches. Patterns can be made up of literal values, variable
-names, wildcards, and many other things; Chapter 18 covers all the different
-kinds of patterns and what they do. The power of `match` comes from the
-expressiveness of the patterns and the fact that the compiler confirms that all
-possible cases are handled.
+Rust 有個功能非常強大的控制流運算子叫做 `match`，你可以使用一系列模式來配對數值並依據配對到的模式來執行對應的程式。模式（Patterns）可以是字面數值、變數名稱、通配符（wildcards）和其他更多元件來組成。第十八章會涵蓋所有不同類型的模式，以及它們的用途。`match` 強大的地方在於模式表達的清楚程度以及編譯器會確保所有可能的情況都處理了。
 
-Think of a `match` expression as being like a coin-sorting machine: coins slide
-down a track with variously sized holes along it, and each coin falls through
-the first hole it encounters that it fits into. In the same way, values go
-through each pattern in a `match`, and at the first pattern the value “fits,”
-the value falls into the associated code block to be used during execution.
+你可以想像 `match` 表達式成一個硬幣分類機器：硬幣會滑到不同大小的軌道，然後每個硬幣會滑入第一個符合大小的軌道。同樣地，數值會依序遍歷 `match` 的每個模式，然後進入第一個「配對」到該數值的模式所在的程式碼區塊，並在執行過程中使用。
 
-Because we just mentioned coins, let’s use them as an example using `match`! We
-can write a function that can take an unknown United States coin and, in a
-similar way as the counting machine, determine which coin it is and return its
-value in cents, as shown here in Listing 6-3.
+既然我們都提到硬幣了，就讓我們用它們來作爲 `match` 的範例吧！我們可以寫一個接收未知美國硬幣的函式，以類似驗鈔機的方式，決定它是何種硬幣並以美分作爲單位回傳其值。如範例 6-3 所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-03/src/main.rs:here}}
 ```
 
-<span class="caption">範例 6-3: An enum and a `match` expression that has
-the variants of the enum as its patterns</span>
+<span class="caption">範例 6-3：枚舉以及用枚舉變體作爲模式的 `match` 表達式</span>
 
-Let’s break down the `match` in the `value_in_cents` function. First, we list
-the `match` keyword followed by an expression, which in this case is the value
-`coin`. This seems very similar to an expression used with `if`, but there’s a
-big difference: with `if`, the expression needs to return a Boolean value, but
-here, it can be any type. The type of `coin` in this example is the `Coin` enum
-that we defined on line 1.
+讓我們一一介紹 `value_in_cents` 函式中 `match` 的每個部分。首先我們使用 `match` 並加上一個表達式，在此例的話就是指 `coin`。這和 `if` 中表達式的用法很像。不過差別在於 `if` 中的表達式必須回傳布林值，而在此它可以是任何型別。在此範例中 `coin` 的型別是我們在第一行定義的枚舉 `Coin`。
 
-Next are the `match` arms. An arm has two parts: a pattern and some code. The
-first arm here has a pattern that is the value `Coin::Penny` and then the `=>`
-operator that separates the pattern and the code to run. The code in this case
-is just the value `1`. Each arm is separated from the next with a comma.
+接下來是 `match` 的分支，每個分支有兩個部分：一個模式以及對應的程式碼。這邊第一個分支的模式是 `Coin::Penny` 然後 `=>` 會將模式與要執行的程式碼分開來，而在此例的程式碼就只是個 `1`。每個分支之間由逗號區隔開來。
 
-When the `match` expression executes, it compares the resulting value against
-the pattern of each arm, in order. If a pattern matches the value, the code
-associated with that pattern is executed. If that pattern doesn’t match the
-value, execution continues to the next arm, much as in a coin-sorting machine.
-We can have as many arms as we need: in Listing 6-3, our `match` has four arms.
+當 `match` 表達式執行時，他會將計算的數據結果依序與每個分支的模式做比較。如果有模式配對到該值的話，其對應的程式碼就會執行。如果該模式與數值不符的話，就繼續執行下一個分支，就像硬幣分類機器。
 
-The code associated with each arm is an expression, and the resulting value of
-the expression in the matching arm is the value that gets returned for the
-entire `match` expression.
+每個分支對應的程式碼都是表達式，然後在配對到的分支中表達式的數值結果就會是整個 `match` 表達式的回傳值。
 
-Curly brackets typically aren’t used if the match arm code is short, as it is
-in Listing 6-3 where each arm just returns a value. If you want to run multiple
-lines of code in a match arm, you can use curly brackets. For example, the
-following code would print “Lucky penny!” every time the method was called with
-a `Coin::Penny` but would still return the last value of the block, `1`:
+如果配對分支的程式碼很短的話，通常就不需要用到的大括號，像是範例 6-3 每個分支就只回傳一個數值。如果你想要在配對分支執行多行程式碼的話，你就可以用大括號。舉例來說，以下程式會在每次配對到 `Coin::Penny` 時印出「Lucky penny!」再回傳程式碼區塊最後的數值 `1`：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-08-match-arm-multiple-lines/src/main.rs:here}}
 ```
 
-### Patterns that Bind to Values
+### 綁定數值的模式
 
-Another useful feature of match arms is that they can bind to the parts of the
-values that match the pattern. This is how we can extract values out of enum
-variants.
+另一項配對分支的實用功能是它們可以綁定配對模式中部分的數值，這讓我們可以取出枚舉變體中的數值。
 
-As an example, let’s change one of our enum variants to hold data inside it.
-From 1999 through 2008, the United States minted quarters with different
-designs for each of the 50 states on one side. No other coins got state
-designs, so only quarters have this extra value. We can add this information to
-our `enum` by changing the `Quarter` variant to include a `UsState` value stored
-inside it, which we’ve done here in Listing 6-4.
+舉例來說，讓我們改變我們其中一個枚舉變體成擁有資料。從 1999 年到 2008 年，美國在鑄造 25 美分硬幣時，其中一側會有 50 個州不同的設計。不過其他的硬幣就沒有這樣的設計，只有 25 美分會有特殊值而已。我們可以改變我們的 `enum` 中的 `Quarter` 變體成儲存 `UsState` 數值，如範例 6-4所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-04/src/main.rs:here}}
 ```
 
-<span class="caption">範例 6-4: A `Coin` enum in which the `Quarter` variant
-also holds a `UsState` value</span>
+<span class="caption">範例 6-4：修改 `Coin` 枚舉的 `Quarter` 變體來包含一個 `UsState` 數值</span>
 
-Let’s imagine that a friend of ours is trying to collect all 50 state quarters.
-While we sort our loose change by coin type, we’ll also call out the name of
-the state associated with each quarter so if it’s one our friend doesn’t have,
-they can add it to their collection.
+讓我們想像我們有一個朋友想要收集所有 50 州的 25 美分硬幣。當我們在排序零錢的同時，我們會在拿到 25 美分時喊出該硬幣對應的州，好讓我們的朋友知道，如果他沒有的話就可以納入收藏。
 
-In the match expression for this code, we add a variable called `state` to the
-pattern that matches values of the variant `Coin::Quarter`. When a
-`Coin::Quarter` matches, the `state` variable will bind to the value of that
-quarter’s state. Then we can use `state` in the code for that arm, like so:
+在此程式中的配對表達式中,我們在 `Coin::Quarter` 變體的配對模式中新增了一個變數 `state`。當 `Coin::Quarter` 配對符合時，變數 `state` 會綁定該 25 美分的數值，然後我們就可以在分支程式碼中使用 `state`，如以下所示：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-09-variable-in-pattern/src/main.rs:here}}
 ```
 
-If we were to call `value_in_cents(Coin::Quarter(UsState::Alaska))`, `coin`
-would be `Coin::Quarter(UsState::Alaska)`. When we compare that value with each
-of the match arms, none of them match until we reach `Coin::Quarter(state)`. At
-that point, the binding for `state` will be the value `UsState::Alaska`. We can
-then use that binding in the `println!` expression, thus getting the inner
-state value out of the `Coin` enum variant for `Quarter`.
+如果我們呼叫 `value_in_cents(Coin::Quarter(UsState::Alaska))` 的話，`coin` 就會是 `Coin::Quarter(UsState::Alaska)`。當我們比較每個配對分支時，我們會到 `Coin::Quarter(state)` 的分支才配對成功。此時 `state` 綁定的數值就會是 `UsState::Alaska`。我們就可以在 `println!` 表達式中使用該幫訂的值，以此取得 `Coin` 枚舉中 `Quarter` 變體內的值。
 
-### Matching with `Option<T>`
+### 配對 `Option<T>`
 
-In the previous section, we wanted to get the inner `T` value out of the `Some`
-case when using `Option<T>`; we can also handle `Option<T>` using `match` as we
-did with the `Coin` enum! Instead of comparing coins, we’ll compare the
-variants of `Option<T>`, but the way that the `match` expression works remains
-the same.
+在上一個段落，我們想要在使用 `Option<T>` 時取得 `Some` 內部的 `T` 值。如同枚舉 `Coin`，我們一樣可以使用 `match` 來處理 `Option<T>`！ 相對於比較硬幣，我們要比較的是 `Option<T>` 的變體，不過 `match` 表達式運作的方式一模一樣。
 
-Let’s say we want to write a function that takes an `Option<i32>` and, if
-there’s a value inside, adds 1 to that value. If there isn’t a value inside,
-the function should return the `None` value and not attempt to perform any
-operations.
+假設我們要寫個接受 `Option<i32>` 的函式，而且如果內部有值的話就將其加上 1。如果內部沒有數值的話，該函式就回傳 `None` 且不再嘗試做任何動作。
 
-This function is very easy to write, thanks to `match`, and will look like
-Listing 6-5.
+拜 `match` 所賜，這樣的函式很容易寫出來，長得就像範例 6-5。
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-05/src/main.rs:here}}
 ```
 
-<span class="caption">範例 6-5: A function that uses a `match` expression on
-an `Option<i32>`</span>
+<span class="caption">範例 6-5：對 `Option<i32>` 使用 `match` 表達式的函式</span>
 
-Let’s examine the first execution of `plus_one` in more detail. When we call
-`plus_one(five)`, the variable `x` in the body of `plus_one` will have the
-value `Some(5)`. We then compare that against each match arm.
+讓我們來仔細分析 `plus_one` 第一次的執行結果。當我們呼叫 `plus_one(five)`時，`plus_one` 本體中的變數 `x` 會擁有 `Some(5)`。我們接著就拿去和每個配對分支比較。
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-05/src/main.rs:first_arm}}
 ```
 
-The `Some(5)` value doesn’t match the pattern `None`, so we continue to the
-next arm.
+`Some(5)` 並不符合 `None` 這樣的模式，所以我們繼續進行下一個分支。
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-05/src/main.rs:second_arm}}
 ```
 
-Does `Some(5)` match `Some(i)`? Why yes it does! We have the same variant. The
-`i` binds to the value contained in `Some`, so `i` takes the value `5`. The
-code in the match arm is then executed, so we add 1 to the value of `i` and
-create a new `Some` value with our total `6` inside.
+`Some(5)` 有符合 `Some(i)` 這樣的模式嗎？這是當然的囉！我們有相同的變體。`i` 會綁定 `Some` 中的值，所以 `i` 會取得 `5`。接下來配對分支中的程式碼就會執行，我們將 1 加入 `i` 並產生新的 `Some` 其內部的值就會是 `6`。
 
-Now let’s consider the second call of `plus_one` in Listing 6-5, where `x` is
-`None`. We enter the `match` and compare to the first arm.
+現在讓我們看看範例 6-5 第二次的 `plus_one` 呼叫，這次的 `x` 是 `None`。我們進入 `match` 然後比較第一個分支。
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-05/src/main.rs:first_arm}}
 ```
 
-It matches! There’s no value to add to, so the program stops and returns the
-`None` value on the right side of `=>`. Because the first arm matched, no other
-arms are compared.
+配對成功！因爲沒有任何數值可以相加，程式就停止並在 `=>` 之後馬上回傳 `None`。因爲第一個分支就配對成功了，沒有其他的分支需要在做比較。
 
-Combining `match` and enums is useful in many situations. You’ll see this
-pattern a lot in Rust code: `match` against an enum, bind a variable to the
-data inside, and then execute code based on it. It’s a bit tricky at first, but
-once you get used to it, you’ll wish you had it in all languages. It’s
-consistently a user favorite.
+用 `match` 與枚舉組合起來在很多地方都很實用。你將會在許多 Rust 程式碼看到這樣的模式，使用 `match` 配對枚舉，綁定內部的資料，然後執行對應的程式碼。一開始使用的確會有點陌生，但當你熟悉以後，你會希望所有語言都能提供這樣的功能。這一直是使用者最愛的功能之一。
 
-### Matches Are Exhaustive
+### 配對必須是徹底的
 
-There’s one other aspect of `match` we need to discuss. Consider this version
-of our `plus_one` function that has a bug and won’t compile:
+我們還有一個 `match` 的細節要討論，今天要是我們像這樣寫了一個有錯誤的 `plus_one` 函式版本，它會無法編譯：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-10-non-exhaustive-match/src/main.rs:here}}
 ```
 
-We didn’t handle the `None` case, so this code will cause a bug. Luckily, it’s
-a bug Rust knows how to catch. If we try to compile this code, we’ll get this
-error:
+我們沒有處理到 `None` 的情形，所以此程式碼會產生錯誤。幸運的是這是 Rust 能夠抓到的錯誤。如果我們嘗試編譯此程式的話，我們會得到以下錯誤：
 
 ```console
 {{#include ../listings/ch06-enums-and-pattern-matching/no-listing-10-non-exhaustive-match/output.txt}}
 ```
 
-Rust knows that we didn’t cover every possible case and even knows which
-pattern we forgot! Matches in Rust are *exhaustive*: we must exhaust every last
-possibility in order for the code to be valid. Especially in the case of
-`Option<T>`, when Rust prevents us from forgetting to explicitly handle the
-`None` case, it protects us from assuming that we have a value when we might
-have null, thus making the billion-dollar mistake discussed earlier impossible.
+Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是*徹底（exhaustive）*的：我們必須列舉出所有可能的情形，程式碼才能夠被視爲有效。尤其是在 `Option<T>` 的情況下，當 Rust 防止我們忘記處理 `None` 的情形時，它也使我們免於以爲擁有一個有效實際上卻是空的值。因此要造成之前提過的數十億元錯誤在這邊基本上是不可能的。
 
-### The `_` Placeholder
+### `_` 佔位符
 
-Rust also has a pattern we can use when we don’t want to list all possible
-values. For example, a `u8` can have valid values of 0 through 255. If we only
-care about the values 1, 3, 5, and 7, we don’t want to have to list out 0, 2,
-4, 6, 8, 9 all the way up to 255. Fortunately, we don’t have to: we can use the
-special pattern `_` instead:
+Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需要使用此模式就好。舉例來說 `u8` 可能的數值爲 0 到 255，如果我們只在意數值 1、3、5 和 7，我們就不會想要列出 0、2、4、6、8、9 還剩下一直到 255 的每個值。幸運的是，我們不需要這樣做，我們可以使用特殊模式 `_`：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-11-underscore-placeholder/src/main.rs:here}}
 ```
 
-The `_` pattern will match any value. By putting it after our other arms, the
-`_` will match all the possible cases that aren’t specified before it. The `()`
-is just the unit value, so nothing will happen in the `_` case. As a result, we
-can say that we want to do nothing for all the possible values that we don’t
-list before the `_` placeholder.
+`_` 模式會配對任意數值，將它置於所有分支之後，`_`就會配對剩下尚未指明的可能情形。`()` 只是一個單位數值，所以在 `_` 的分支沒有任何事情會發生。所以我們可以說我們不想針對 `_` 佔位符之前沒有列出的可能情形，做任何動作。
 
-However, the `match` expression can be a bit wordy in a situation in which we
-care about only *one* of the cases. For this situation, Rust provides `if let`.
+不過有時候我們只在意其中*一種*情形的話， `match` 表達式的確會有點囉唆。針對此情形，Rust 提供 `if let`。
 
-More about patterns and matching can be found in [chapter 18][ch18-00-patterns].
+而更多有關配對模式的內容可以在[第十八章][ch18-00-patterns]查閱。
 
 [ch18-00-patterns]:
 ch18-00-patterns.html
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [41d9f4c](https://github.com/rust-lang/book/blob/41d9f4c9ae6ba07191f55338e864c713cd49a876/src/ch06-01-defining-an-enum.md)
+> - updated: 2020-09-11
