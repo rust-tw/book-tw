@@ -106,14 +106,14 @@
     - [Using Trait Objects That Allow for Values of Different Types](ch17-02-trait-objects.md)
     - [Implementing an Object-Oriented Design Pattern](ch17-03-oo-design-patterns.md)
 
-## Advanced Topics
+## 進階主題
 
 - [Patterns and Matching](ch18-00-patterns.md)
     - [All the Places Patterns Can Be Used](ch18-01-all-the-places-for-patterns.md)
     - [Refutability: Whether a Pattern Might Fail to Match](ch18-02-refutability.md)
     - [Pattern Syntax](ch18-03-pattern-syntax.md)
 
-- [Advanced Features](ch19-00-advanced-features.md)
+- [進階特色](ch19-00-advanced-features.md)
     - [Unsafe Rust](ch19-01-unsafe-rust.md)
     - [Advanced Traits](ch19-03-advanced-traits.md)
     - [Advanced Types](ch19-04-advanced-types.md)
