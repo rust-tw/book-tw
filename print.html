@@ -4565,11 +4565,8 @@ To learn more, run the command again with --verbose.
 <li>updated: 2020-09-11</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#concise-control-flow-with-if-let" id="concise-control-flow-with-if-let">Concise Control Flow with <code>if let</code></a></h2>
-<p>The <code>if let</code> syntax lets you combine <code>if</code> and <code>let</code> into a less verbose way to
-handle values that match one pattern while ignoring the rest. Consider the
-program in Listing 6-6 that matches on an <code>Option&lt;u8&gt;</code> value but only wants to
-execute code if the value is 3.</p>
+<h2><a class="header" href="#使用-if-let-簡化控制流" id="使用-if-let-簡化控制流">使用 <code>if let</code> 簡化控制流</a></h2>
+<p><code>if let</code> 語法讓你可以用 <code>if</code> 與 <code>let</code> 的組合來以比較不冗長的方式，來處理只在乎其中一種模式而忽略其餘的數值。現在考慮一支程式如範例 6-6 所示，我們配對 <code>Option&lt;u8&gt;</code> 的值，但只想在數值爲 3 時執行程式。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let some_u8_value = Some(0u8);
     match some_u8_value {
@@ -4578,14 +4575,9 @@ execute code if the value is 3.</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 6-6: A <code>match</code> that only cares about executing
-code when the value is <code>Some(3)</code></span></p>
-<p>We want to do something with the <code>Some(3)</code> match but do nothing with any other
-<code>Some&lt;u8&gt;</code> value or the <code>None</code> value. To satisfy the <code>match</code> expression, we
-have to add <code>_ =&gt; ()</code> after processing just one variant, which is a lot of
-boilerplate code to add.</p>
-<p>Instead, we could write this in a shorter way using <code>if let</code>. The following
-code behaves the same as the <code>match</code> in Listing 6-6:</p>
+<p><span class="caption">範例 6-6：<code>match</code> 只在數值爲 <code>Some(3)</code> 時執行程式</span></p>
+<p>我們想在 <code>Some(3)</code> 配對到時做些事情，但不想管其他 <code>Some&lt;u8&gt;</code> 的值或是 <code>None</code>。爲了滿足 <code>match</code> 表達式，我們必須在只處理一種變體的分支後面，再加上 <code>_ =&gt; ()</code>。這樣就加了不少樣板程式碼。</p>
+<p>不過我們可以使用 <code>if let</code> 以更精簡的方式寫出來，以下程式碼的行爲就與範例 6-6 的 <code>match</code> 一樣：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let some_u8_value = Some(0u8);
 </span>    if let Some(3) = some_u8_value {
@@ -4593,23 +4585,10 @@ code behaves the same as the <code>match</code> in Listing 6-6:</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The syntax <code>if let</code> takes a pattern and an expression separated by an equal
-sign. It works the same way as a <code>match</code>, where the expression is given to the
-<code>match</code> and the pattern is its first arm.</p>
-<p>Using <code>if let</code> means less typing, less indentation, and less boilerplate code.
-However, you lose the exhaustive checking that <code>match</code> enforces. Choosing
-between <code>match</code> and <code>if let</code> depends on what you’re doing in your particular
-situation and whether gaining conciseness is an appropriate trade-off for
-losing exhaustive checking.</p>
-<p>In other words, you can think of <code>if let</code> as syntax sugar for a <code>match</code> that
-runs code when the value matches one pattern and then ignores all other values.</p>
-<p>We can include an <code>else</code> with an <code>if let</code>. The block of code that goes with the
-<code>else</code> is the same as the block of code that would go with the <code>_</code> case in the
-<code>match</code> expression that is equivalent to the <code>if let</code> and <code>else</code>. Recall the
-<code>Coin</code> enum definition in Listing 6-4, where the <code>Quarter</code> variant also held a
-<code>UsState</code> value. If we wanted to count all non-quarter coins we see while also
-announcing the state of the quarters, we could do that with a <code>match</code>
-expression like this:</p>
+<p><code>if let</code> 接收一個模式與一個表達式，然後用等號區隔開來。它與 <code>match</code> 的運作方式相同，表達式的意義與 <code>match</code> 相同，然後前面的模式就是第一個分支。</p>
+<p>使用 <code>if let</code> 可以少打些字、減少縮排以及不用寫多餘的樣板程式碼。不過你就少了 <code>match</code> 強制的徹底窮舉檢查。要何時選擇 <code>match</code> 還是 <code>if let</code> 得依據你在的場合是要做什麼事情，以及在精簡度與徹底檢查之間做取捨。</p>
+<p>換句話說，你可以想像 <code>if let</code> 是 <code>match</code> 的語法糖，它只會配對一種模式來執行程式碼並忽略其他數值。</p>
+<p>我們也可以在 <code>if let</code> 之後加上 <code>else</code>，<code>else</code> 之後的程式碼區塊等同於 <code>match</code> 表達式中 <code>_</code> 情形的程式碼區塊。這樣一來的 <code>if let</code> 和 <code>else</code> 組合就等同於 <code>match</code> 了。回想一下範例 6-4 的 <code>Coin</code> 枚舉定義， <code>Quarter</code> 變體擁有數值 <code>UsState</code>。如果我們希望統計所有不是 25 美分的硬幣的同時，也能繼續回報 25 美分所屬的州的話，我們可以用 <code>match</code> 像這樣寫：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
@@ -4633,7 +4612,7 @@ expression like this:</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Or we could use an <code>if let</code> and <code>else</code> expression like this:</p>
+<p>或是我們也可以用 <code>if let</code> 和 <code>else</code> 表達式這樣寫：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
@@ -4658,21 +4637,18 @@ expression like this:</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>If you have a situation in which your program has logic that is too verbose to
-express using a <code>match</code>, remember that <code>if let</code> is in your Rust toolbox as well.</p>
-<h2><a class="header" href="#summary-1" id="summary-1">Summary</a></h2>
-<p>We’ve now covered how to use enums to create custom types that can be one of a
-set of enumerated values. We’ve shown how the standard library’s <code>Option&lt;T&gt;</code>
-type helps you use the type system to prevent errors. When enum values have
-data inside them, you can use <code>match</code> or <code>if let</code> to extract and use those
-values, depending on how many cases you need to handle.</p>
-<p>Your Rust programs can now express concepts in your domain using structs and
-enums. Creating custom types to use in your API ensures type safety: the
-compiler will make certain your functions get only values of the type each
-function expects.</p>
-<p>In order to provide a well-organized API to your users that is straightforward
-to use and only exposes exactly what your users will need, let’s now turn to
-Rust’s modules.</p>
+<p>如果你的程式碼邏輯遇到使用 <code>match</code> 表達會太囉唆的話，記得 <code>if let</code> 也在你的 Rust 工具箱中可以使用。</p>
+<h2><a class="header" href="#總結-4" id="總結-4">總結</a></h2>
+<p>我們現在含蓋了如何使用枚舉來建立一系列枚舉數值的自訂型別。我們展示了邊準函式庫的 <code>Option&lt;T&gt;</code> 型別如何用型別系統來預防錯誤。當枚舉數值其內有資料時，你可以依照你想處理的情況數量，使用 <code>match</code> 或 <code>if let</code> 來取出並使用那些數值。</p>
+<p>你的 Rust 程式碼現在能夠使用結構體與枚舉來表達你所知領域的概念了。在你的 API 建立自訂型別可以確保型別安全，編譯器會保證你的函式只會取得該函式預期的型別數值。</p>
+<p>接下來爲了提供組織完善且直觀的的 API 供你的使用者使用，並只表達出使用者確切所需要的內容，我們需要瞭解 Rust 的模組。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/41d9f4c9ae6ba07191f55338e864c713cd49a876/src/ch06-03-if-let.md">41d9f4c</a></li>
+<li>updated: 2020-09-11</li>
+</ul>
+</blockquote>
 <h1><a class="header" href="#managing-growing-projects-with-packages-crates-and-modules" id="managing-growing-projects-with-packages-crates-and-modules">Managing Growing Projects with Packages, Crates, and Modules</a></h1>
 <p>As you write large programs, organizing your code will be important because
 keeping track of your entire program in your head will become impossible. By
@@ -5619,7 +5595,7 @@ in size.</p>
 are compiled as part of the crate. The <code>mod</code> keyword declares modules, and Rust
 looks in a file with the same name as the module for the code that goes into
 that module.</p>
-<h2><a class="header" href="#summary-2" id="summary-2">Summary</a></h2>
+<h2><a class="header" href="#summary-1" id="summary-1">Summary</a></h2>
 <p>Rust lets you split a package into multiple crates and a crate into modules
 so you can refer to items defined in one module from another module. You can do
 this by specifying absolute or relative paths. These paths can be brought into
@@ -6549,7 +6525,7 @@ provide hashers implementing many common hashing algorithms.</p>
 <div class="footnote-definition" id="siphash"><sup class="footnote-definition-label">1</sup>
 <p><a href="https://www.131002.net/siphash/siphash.pdf">https://www.131002.net/siphash/siphash.pdf</a></p>
 </div>
-<h2><a class="header" href="#summary-3" id="summary-3">Summary</a></h2>
+<h2><a class="header" href="#summary-2" id="summary-2">Summary</a></h2>
 <p>Vectors, strings, and hash maps will provide a large amount of functionality
 necessary in programs when you need to store, access, and modify data. Here are
 some exercises you should now be equipped to solve:</p>
@@ -7490,7 +7466,7 @@ hasn’t been checked by the conditions in the <code>Guess::new</code> function.
 <p>A function that has a parameter or returns only numbers between 1 and 100 could
 then declare in its signature that it takes or returns a <code>Guess</code> rather than an
 <code>i32</code> and wouldn’t need to do any additional checks in its body.</p>
-<h2><a class="header" href="#summary-4" id="summary-4">Summary</a></h2>
+<h2><a class="header" href="#summary-3" id="summary-3">Summary</a></h2>
 <p>Rust’s error handling features are designed to help you write more robust code.
 The <code>panic!</code> macro signals that your program is in a state it can’t handle and
 lets you tell the process to stop instead of trying to proceed with invalid or
@@ -9530,7 +9506,7 @@ before the function compares the lengths of the string slices, which is why the
 <code>Display</code> trait bound is necessary. Because lifetimes are a type of generic,
 the declarations of the lifetime parameter <code>'a</code> and the generic type parameter
 <code>T</code> go in the same list inside the angle brackets after the function name.</p>
-<h2><a class="header" href="#summary-5" id="summary-5">Summary</a></h2>
+<h2><a class="header" href="#summary-4" id="summary-4">Summary</a></h2>
 <p>We covered a lot in this chapter! Now that you know about generic type
 parameters, traits and trait bounds, and generic lifetime parameters, you’re
 ready to write code without repetition that works in many different situations.
@@ -11118,7 +11094,7 @@ library crate with <code>use</code> to make the important functionality availabl
 If the important functionality works, the small amount of code in the
 <em>src/main.rs</em> file will work as well, and that small amount of code doesn’t
 need to be tested.</p>
-<h2><a class="header" href="#summary-6" id="summary-6">Summary</a></h2>
+<h2><a class="header" href="#summary-5" id="summary-5">Summary</a></h2>
 <p>Rust’s testing features provide a way to specify how code should function to
 ensure it continues to work as you expect, even as you make changes. Unit tests
 exercise different parts of a library separately and can test private
@@ -13435,7 +13411,7 @@ How dreary to be somebody!
 </code></pre>
 <p>This demonstrates that we’re now using standard output for successful output
 and standard error for error output as appropriate.</p>
-<h2><a class="header" href="#summary-7" id="summary-7">Summary</a></h2>
+<h2><a class="header" href="#summary-6" id="summary-6">Summary</a></h2>
 <p>This chapter recapped some of the major concepts you’ve learned so far and
 covered how to perform common I/O operations in Rust. By using command line
 arguments, files, environment variables, and the <code>eprintln!</code> macro for printing
@@ -15481,7 +15457,7 @@ All these optimizations that Rust is able to apply make the resulting code
 extremely efficient. Now that you know this, you can use iterators and closures
 without fear! They make code seem like it’s higher level but don’t impose a
 runtime performance penalty for doing so.</p>
-<h2><a class="header" href="#summary-8" id="summary-8">Summary</a></h2>
+<h2><a class="header" href="#summary-7" id="summary-7">Summary</a></h2>
 <p>Closures and iterators are Rust features inspired by functional programming
 language ideas. They contribute to Rust’s capability to clearly express
 high-level ideas at low-level performance. The implementations of closures and
@@ -16374,7 +16350,7 @@ run it as if it was a Cargo subcommand by running <code>cargo something</code>. 
 commands like this are also listed when you run <code>cargo --list</code>. Being able to
 use <code>cargo install</code> to install extensions and then run them just like the
 built-in Cargo tools is a super convenient benefit of Cargo’s design!</p>
-<h2><a class="header" href="#summary-9" id="summary-9">Summary</a></h2>
+<h2><a class="header" href="#summary-8" id="summary-8">Summary</a></h2>
 <p>Sharing code with Cargo and <a href="https://crates.io/">crates.io</a><!-- ignore --> is
 part of what makes the Rust ecosystem useful for many different tasks. Rust’s
 standard library is small and stable, but crates are easy to share, use, and
@@ -18441,7 +18417,7 @@ specifying that the relationship from a child to its parent should be a
 <code>Weak&lt;T&gt;</code> reference in the definition of <code>Node</code>, you’re able to have parent
 nodes point to child nodes and vice versa without creating a reference cycle
 and memory leaks.</p>
-<h2><a class="header" href="#summary-10" id="summary-10">Summary</a></h2>
+<h2><a class="header" href="#summary-9" id="summary-9">Summary</a></h2>
 <p>This chapter covered how to use smart pointers to make different guarantees and
 trade-offs from those Rust makes by default with regular references. The
 <code>Box&lt;T&gt;</code> type has a known size and points to data allocated on the heap. The
@@ -19528,7 +19504,7 @@ information is that building new concurrent types not made up of <code>Send</cod
 <code>Sync</code> parts requires careful thought to uphold the safety guarantees. <a href="../nomicon/index.html">“The
 Rustonomicon”</a> has more information about these guarantees and how to
 uphold them.</p>
-<h2><a class="header" href="#summary-11" id="summary-11">Summary</a></h2>
+<h2><a class="header" href="#summary-10" id="summary-10">Summary</a></h2>
 <p>This isn’t the last you’ll see of concurrency in this book: the project in
 Chapter 20 will use the concepts in this chapter in a more realistic situation
 than the smaller examples discussed here.</p>
@@ -20980,7 +20956,7 @@ problem to take advantage of Rust’s features can provide benefits, such as
 preventing some bugs at compile time. Object-oriented patterns won’t always be
 the best solution in Rust due to certain features, like ownership, that
 object-oriented languages don’t have.</p>
-<h2><a class="header" href="#summary-12" id="summary-12">Summary</a></h2>
+<h2><a class="header" href="#summary-11" id="summary-11">Summary</a></h2>
 <p>No matter whether or not you think Rust is an object-oriented language after
 reading this chapter, you now know that you can use trait objects to get some
 object-oriented features in Rust. Dynamic dispatch can give your code some
@@ -22041,7 +22017,7 @@ reason is that we’ve used the struct field shorthand syntax. But we haven’t
 applied any test to the value in the <code>id</code> field in this arm, as we did with the
 first two arms: any value would match this pattern.</p>
 <p>Using <code>@</code> lets us test a value and save it in a variable within one pattern.</p>
-<h2><a class="header" href="#summary-13" id="summary-13">Summary</a></h2>
+<h2><a class="header" href="#summary-12" id="summary-12">Summary</a></h2>
 <p>Rust’s patterns are very useful in that they help distinguish between different
 kinds of data. When used in <code>match</code> expressions, Rust ensures your patterns
 cover every possible value, or your program won’t compile. Patterns in <code>let</code>
@@ -24226,7 +24202,7 @@ pub fn sql(input: TokenStream) -&gt; TokenStream {
 <p>This definition is similar to the custom derive macro’s signature: we receive
 the tokens that are inside the parentheses and return the code we wanted to
 generate.</p>
-<h2><a class="header" href="#summary-14" id="summary-14">Summary</a></h2>
+<h2><a class="header" href="#summary-13" id="summary-13">Summary</a></h2>
 <p>Whew! Now you have some Rust features in your toolbox that you won’t use often,
 but you’ll know they’re available in very particular circumstances. We’ve
 introduced several complex topics so that when you encounter them in error
@@ -27096,7 +27072,7 @@ some ideas:</p>
 similar web server using the crate instead. Then compare its API and
 robustness to the thread pool we implemented.</li>
 </ul>
-<h2><a class="header" href="#summary-15" id="summary-15">Summary</a></h2>
+<h2><a class="header" href="#summary-14" id="summary-14">Summary</a></h2>
 <p>Well done! You’ve made it to the end of the book! We want to thank you for
 joining us on this tour of Rust. You’re now ready to implement your own Rust
 projects and help with other peoples’ projects. Keep in mind that there is a
