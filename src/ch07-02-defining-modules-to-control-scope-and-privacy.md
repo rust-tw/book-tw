@@ -1,31 +1,14 @@
-## Defining Modules to Control Scope and Privacy
+## 定義模組來控制作用域與隱私權
 
-In this section, we’ll talk about modules and other parts of the module system,
-namely *paths* that allow you to name items; the `use` keyword that brings a
-path into scope; and the `pub` keyword to make items public. We’ll also discuss
-the `as` keyword, external packages, and the glob operator. For now, let’s
-focus on modules!
+在此段落，我們將討論模組以及其他模組系統的部分，像是*路徑（paths）*項允許你來命名項目，而 `use` 關鍵字可以將路徑引入作用域，再來 `pub` 關鍵字可以讓指定的項目對外公開。我們還會討論到 `as` 關鍵字、外部套件以及全域（glob）運算子。現在讓我們先專注在模組吧！
 
-*Modules* let us organize code within a crate into groups for readability and
-easy reuse. Modules also control the *privacy* of items, which is whether an
-item can be used by outside code (*public*) or is an internal implementation
-detail and not available for outside use (*private*).
+*模組（Modules）*讓我們在 crate 內組織程式碼成數個群組以便使用且增加閱讀性。模組也能控制項目的*隱私權*，也就是該項目能否被外部程式碼（*公開（public）*）使用，或者只作爲內部實作細節，對外是無法使用的（*私有（private）*）。
 
-As an example, let’s write a library crate that provides the functionality of a
-restaurant. We’ll define the signatures of functions but leave their bodies
-empty to concentrate on the organization of the code, rather than actually
-implement a restaurant in code.
+舉例來說，讓我們建立一個提供餐廳功能的函式庫 crate。我們定義一個函式簽名不過本體會是空的，好讓我們專注在程式組織，而非餐廳程式碼的實作。
 
-In the restaurant industry, some parts of a restaurant are referred to as
-*front of house* and others as *back of house*. Front of house is where
-customers are; this is where hosts seat customers, servers take orders and
-payment, and bartenders make drinks. Back of house is where the chefs and cooks
-work in the kitchen, dishwashers clean up, and managers do administrative work.
+在餐飲業中，餐廳有些地方會被稱作*前端（front of house）*而其他部分則是*後端（back of house）*。前端是消費者的所在區域，這裡是安排顧客座位、點餐並結帳、吧台調酒的地方。而後台則是主廚與廚師工作的廚房、洗碗工洗碗以及經理管理行政工作的地方。
 
-To structure our crate in the same way that a real restaurant works, we can
-organize the functions into nested modules. Create a new library named
-`restaurant` by running `cargo new --lib restaurant`; then put the code in
-Listing 7-1 into *src/lib.rs* to define some modules and function signatures.
+要讓我們的 crate 像真正的餐廳一樣的話，我們可以組織函式進入模組中。要建立一個新的函式庫叫做 `restaurant` 的話，請執行 `cargo new --lib restaurant`。然後將範例 7-1 的程式碼放入 *src/lib.rs* 中，這定義了一些模組與函式簽名。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -33,29 +16,15 @@ Listing 7-1 into *src/lib.rs* to define some modules and function signatures.
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-01/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 7-1: A `front_of_house` module containing other
-modules that then contain functions</span>
+<span class="caption">範例 7-1：`front_of_house` 模組包含了其他擁有函式的模組</span>
 
-We define a module by starting with the `mod` keyword and then specify the
-name of the module (in this case, `front_of_house`) and place curly brackets
-around the body of the module. Inside modules, we can have other modules, as in
-this case with the modules `hosting` and `serving`. Modules can also hold
-definitions for other items, such as structs, enums, constants, traits, or—as
-in Listing 7-1—functions.
+我們用 `mod` 關鍵字加上模組的名稱（在此例爲 `front_of_house`）來定義一個模組，並用大括號涵蓋模組的本體。在模組中，我們可以再包含其他模組，在此例中我們包含了 `hosting` 和 `serving`。模組還能包含其他項目，像是結構體、枚舉、常數、特徵、或像是 範例 7-1 的函式。
 
-By using modules, we can group related definitions together and name why
-they’re related. Programmers using this code would have an easier time finding
-the definitions they wanted to use because they could navigate the code based
-on the groups rather than having to read through all the definitions.
-Programmers adding new functionality to this code would know where to place the
-code to keep the program organized.
+使用模組的話，我們就能加相關的定義組合起來，並用名稱指出會合它們互相關聯。程式設計師在使用此程式碼時就能快找到他們想使用的定義，因爲他們就不必遍歷所有的定義，只要觀察依據組合起來的模組名稱就好。要對此程式碼增加新功能的開發者也能知道該將程式碼放在哪裡，以維持程式碼的組織。
 
-Earlier, we mentioned that *src/main.rs* and *src/lib.rs* are called crate
-roots. The reason for their name is that the contents of either of these two
-files form a module named `crate` at the root of the crate’s module structure,
-known as the *module tree*.
+稍早我們提到說 *src/main.rs* 和 *src/lib.rs* 屬於 crate 的源頭。之所以這樣命名的原因是因爲這兩個文件的內容都會在 crate 源頭模組架構中組成一個模組叫做 `crate`，這樣的結構稱之爲*模組樹（module tree）*。
 
-Listing 7-2 shows the module tree for the structure in Listing 7-1.
+範例 7-2 顯示了範例 7-1 的模組樹架構。
 
 ```text
 crate
@@ -69,19 +38,12 @@ crate
          └── take_payment
 ```
 
-<span class="caption">範例 7-2: The module tree for the code in Listing
-7-1</span>
+<span class="caption">範例 7-2：範例 7-1 的模組樹</span>
 
-This tree shows how some of the modules nest inside one another (for example,
-`hosting` nests inside `front_of_house`). The tree also shows that some modules
-are *siblings* to each other, meaning they’re defined in the same module
-(`hosting` and `serving` are defined within `front_of_house`). To continue the
-family metaphor, if module A is contained inside module B, we say that module A
-is the *child* of module B and that module B is the *parent* of module A.
-Notice that the entire module tree is rooted under the implicit module named
-`crate`.
+此樹顯示了有些模組是包含在其他模組內的（比方說 `hosting` 就在 `front_of_house` 底下）。此樹也顯示了有些模組是其他模組的*同輩（siblings）*，代表它們是在同模組底下定義的（`hosting` 和 `serving` 都在 `front_of_house` 底下定義）。繼續沿用家庭來譬喻的話，如果模組 A 被包含在模組 B 中，我們會說模組 A 是模組 B 的*下代（child）*，而模組 B 是模組 A 的*上代（parent）*。注意到整個模組樹的源頭是一個隱性模組叫做 `crate`。
 
-The module tree might remind you of the filesystem’s directory tree on your
-computer; this is a very apt comparison! Just like directories in a filesystem,
-you use modules to organize your code. And just like files in a directory, we
-need a way to find our modules.
+模組樹可能會讓你想到電腦中檔案系統的目錄樹，這是一個非常恰當的比喻！就像檔案系統中的目錄，你使用模組來組織你的程式碼。而且就像目錄中的檔案，我們需要有方法可以找到我們的模組。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch07-01-packages-and-crates.md)
+> - updated: 2020-09-11

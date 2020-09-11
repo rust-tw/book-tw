@@ -23,6 +23,7 @@ bug                    | 程式錯誤                      |
 Builder Pattern        | 生成器模式                    | 參考：[維基百科][Builder Pattern]
 byte                   | 位元組                        | 參考：[維基百科][byte]
 camel case             | 駝峰式大小寫                  | 參考：[維基百科][camel case]
+child                  | 下代                          |
 clone                  | 克隆                          |
 collection             | 集合                          | 參考：[維基百科][collection]
 command line           | 命令列                        | 參考：[維基百科][command_line]
@@ -84,6 +85,7 @@ overloading            | 重載                          | 參考：[維基百�
 ownership              | 所有權                        |
 package                | 套件                          | 參考：[維基百科][package]
 panic                  | 恐慌                          |
+parent                 | 上代                          |
 parse                  | 分析、分析語法                |
 parser                 | 語法分析器                    | 參考：[維基百科][parser]
 pattern                | 模式                          | 參考：[維基百科][pattern]
@@ -103,6 +105,7 @@ semantics              | 語意                          |
 segment                | 區段                          | 參考：[維基百科][segment]
 segmentation fault     | 記憶體區段錯誤                | 參考：[維基百科][segmentation fault]
 shadowing              | 遮蔽                          |
+sibling                | 同輩                          |
 signed integer         | 帶號整數                      | 參考：[維基百科][integer]
 square bracket         | 方括號                        | 參考：[維基百科][bracket]
 stack                  | 堆疊                          | 參考：[維基百科][stack]
