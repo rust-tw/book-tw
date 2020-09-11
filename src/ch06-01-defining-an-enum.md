@@ -1,105 +1,62 @@
-## Defining an Enum
+## 定義枚舉
 
-Let’s look at a situation we might want to express in code and see why enums
-are useful and more appropriate than structs in this case. Say we need to work
-with IP addresses. Currently, two major standards are used for IP addresses:
-version four and version six. These are the only possibilities for an IP
-address that our program will come across: we can *enumerate* all possible
-variants, which is where enumeration gets its name.
+讓我們看一個程式碼表達的例子，來看看爲何此時用枚舉會比結構體更恰當且實用。假設我們要使用 IP 位址，而且現在有兩個主要的標準能使用 IP 位址：IPv4 與 IPv6。這些事我們的程式碼可能會遇到的 IP 位址，我們可以*枚舉（enumerate）*出所有可能的變體，這正是枚舉的由來。
 
-Any IP address can be either a version four or a version six address, but not
-both at the same time. That property of IP addresses makes the enum data
-structure appropriate, because enum values can only be one of its variants.
-Both version four and version six addresses are still fundamentally IP
-addresses, so they should be treated as the same type when the code is handling
-situations that apply to any kind of IP address.
+任何 IP 位址可以是第四版或第六版，但不是同時存在。IP 位址這樣的特性非常適合使用枚舉資料結構，因爲枚舉的值只能是其中一個變體。第四版與第六版同時都屬於 IP 位址，所以當有程式碼要處理任何類型的 IP 位址時，它們都應該被視爲相同型別。
 
-We can express this concept in code by defining an `IpAddrKind` enumeration and
-listing the possible kinds an IP address can be, `V4` and `V6`. These are the
-variants of the enum:
+要表達這樣的概念，我們可以定義 `IpAddrKind` 枚舉和列出 IP 位址可能的類型 `V4` 和 `V6`。這些稱爲枚舉的變體（variants）：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-01-defining-enums/src/main.rs:def}}
 ```
 
-`IpAddrKind` is now a custom data type that we can use elsewhere in our code.
+`IpAddrKind` 現在成了能在我們程式碼任何地方使用的自訂資料型別。
 
-### Enum Values
+### Enum 數值
 
-We can create instances of each of the two variants of `IpAddrKind` like this:
+我們可以像這樣建立兩個不同變體的 `IpAddrKind` 實例：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-01-defining-enums/src/main.rs:instance}}
 ```
 
-Note that the variants of the enum are namespaced under its identifier, and we
-use a double colon to separate the two. The reason this is useful is that now
-both values `IpAddrKind::V4` and `IpAddrKind::V6` are of the same type:
-`IpAddrKind`. We can then, for instance, define a function that takes any
-`IpAddrKind`:
+注意變體會爲於枚舉命名空間底下，所以我們用兩個冒號來標示。這樣的好處在於 `IpAddrKind::V4` 和 `IpAddrKind::V6` 都是同型別 `IpAddrKind`。比方說，我們就可以定義一個接收任 `IpAddrKind` 的函式：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-01-defining-enums/src/main.rs:fn}}
 ```
 
-And we can call this function with either variant:
+然後我們可以用任意變體呼叫此函式：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-01-defining-enums/src/main.rs:fn_call}}
 ```
 
-Using enums has even more advantages. Thinking more about our IP address type,
-at the moment we don’t have a way to store the actual IP address *data*; we
-only know what *kind* it is. Given that you just learned about structs in
-Chapter 5, you might tackle this problem as shown in Listing 6-1.
+使用枚舉還有更多好處。我們再進一步想一下我們的 IP 位址型態還沒有辦法儲存實際的 IP 位址*資料*，我們現在只知道它是哪種*類型*。考慮到你已經學會第五章的結構體，你應該會像範例 6-1 這樣解決問題。
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-01/src/main.rs:here}}
 ```
 
-<span class="caption">範例 6-1: Storing the data and `IpAddrKind` variant of
-an IP address using a `struct`</span>
+<span class="caption">範例 6-1：使用 `struct` 儲存 IP 位址的資料與 `IpAddrKind` 的變體</span>
 
-Here, we’ve defined a struct `IpAddr` that has two fields: a `kind` field that
-is of type `IpAddrKind` (the enum we defined previously) and an `address` field
-of type `String`. We have two instances of this struct. The first, `home`, has
-the value `IpAddrKind::V4` as its `kind` with associated address data of
-`127.0.0.1`. The second instance, `loopback`, has the other variant of
-`IpAddrKind` as its `kind` value, `V6`, and has address `::1` associated with
-it. We’ve used a struct to bundle the `kind` and `address` values together, so
-now the variant is associated with the value.
+我們在這裡定義了一個有兩個欄位的結構體 `IpAddr`：欄位 `kind` 擁有 `IpAddrKind`（我們上面定義過的枚舉）型別，`address` 欄位則是 `String` 型別。再來我們有兩個此結構體的實例。第一個 `home` 擁有 `IpAddrKind::V4` 作爲 `kind` 的值，然後位址資料是 `127.0.0.1`。第二個實例 `loopback` 擁有 `IpAddrKind` 另一個變體 `V6` 作爲 `kind` 的值，且有 `::1` 作爲位址資料。我們用結構體來組織 `kind` 和 `address` 的值在一起，讓變體可以與數值相關。
 
-We can represent the same concept in a more concise way using just an enum,
-rather than an enum inside a struct, by putting data directly into each enum
-variant. This new definition of the `IpAddr` enum says that both `V4` and `V6`
-variants will have associated `String` values:
+我們可以用另一種更簡潔的方式來定義枚舉就好，而不必使用結構體加上枚舉。枚舉內的每個變體其實都能擁有數值。以下這樣新的定義方式讓 `IpAddr` 的 `V4` 與 `V6` 都能擁有與其相關的 `String` 數值：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-02-enum-with-data/src/main.rs:here}}
 ```
 
-We attach data to each variant of the enum directly, so there is no need for an
-extra struct.
+我們將資料直接附加到枚舉的每個變體上，這樣就不再用結構體。
 
-There’s another advantage to using an enum rather than a struct: each variant
-can have different types and amounts of associated data. Version four type IP
-addresses will always have four numeric components that will have values
-between 0 and 255. If we wanted to store `V4` addresses as four `u8` values but
-still express `V6` addresses as one `String` value, we wouldn’t be able to with
-a struct. Enums handle this case with ease:
+改使用枚舉而非結構體的話還有另一項好處：每個變體可以擁有不同型別與資料的數量。第四版的 IP 位址永遠只會有四個 0 到 255 的數字部分，如果我們想要讓 `V4` 儲存四個 `u8`，但 `V6` 位址仍保持 String` 不變的話，我們在結構體是無法做到的。枚舉可以輕鬆勝任：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-03-variants-with-different-data/src/main.rs:here}}
 ```
 
-We’ve shown several different ways to define data structures to store version
-four and version six IP addresses. However, as it turns out, wanting to store
-IP addresses and encode which kind they are is so common that [the standard
-library has a definition we can use!][IpAddr]<!-- ignore --> Let’s look at how
-the standard library defines `IpAddr`: it has the exact enum and variants that
-we’ve defined and used, but it embeds the address data inside the variants in
-the form of two different structs, which are defined differently for each
-variant:
+我們展示了許多種定義儲存第四版與第六版 IP 位址資料結構的方式，不過需要儲存 IP 位址並編碼成不同類型的案例實在太常見了，所以[標準函式庫已經幫我們定義好了！][IpAddr]<!-- ignore -->讓我們看看標準函式庫是怎麼定義 `IpAddr` 的：它有和我們一模一樣的枚舉變體，不過變體各自儲存的資料是另外兩個不同的結構體，兩個定義的內容均不相同：
 
 [IpAddr]: ../std/net/enum.IpAddr.html
 
@@ -118,105 +75,58 @@ enum IpAddr {
 }
 ```
 
-This code illustrates that you can put any kind of data inside an enum variant:
-strings, numeric types, or structs, for example. You can even include another
-enum! Also, standard library types are often not much more complicated than
-what you might come up with.
+此程式碼展示了你可以將任何資料類型放入枚舉的變體中：字串、數字型別、結構體都可以。你甚至可以再包含另一個枚舉！另外標準函式庫內的型別常常沒有你想得那麼複雜。
 
-Note that even though the standard library contains a definition for `IpAddr`,
-we can still create and use our own definition without conflict because we
-haven’t brought the standard library’s definition into our scope. We’ll talk
-more about bringing types into scope in Chapter 7.
+請注意雖然標準函式庫已經有定義 `IpAddr`，但我們還是可以使用並建立我們自己定義的型別，而且不會產生衝突，因爲我們還沒有將標準函式庫的定義匯入到我們的作用域中。我們會在第七章討論如何將型別匯入作用域內。
 
-Let’s look at another example of an enum in Listing 6-2: this one has a wide
-variety of types embedded in its variants.
+讓我們再看看範例 6-2 的另一個枚舉範例，這次的變體有各式各樣的型別。
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-02/src/main.rs:here}}
 ```
 
-<span class="caption">範例 6-2: A `Message` enum whose variants each store
-different amounts and types of values</span>
+<span class="caption">範例 6-2：`Message` 枚舉的變體各自擁有不同的型別與數值數量</span>
 
-This enum has four variants with different types:
+此枚舉有四個不同型別的變體：
 
-* `Quit` has no data associated with it at all.
-* `Move` includes an anonymous struct inside it.
-* `Write` includes a single `String`.
-* `ChangeColor` includes three `i32` values.
+* `Quit` 沒有包含任何資料。
+* `Move` 包含了一個匿名結構體
+* `Write` 包含了一個 `String`。
+* `ChangeColor` 包含了三個 `i32`。
 
-Defining an enum with variants such as the ones in Listing 6-2 is similar to
-defining different kinds of struct definitions, except the enum doesn’t use the
-`struct` keyword and all the variants are grouped together under the `Message`
-type. The following structs could hold the same data that the preceding enum
-variants hold:
+如同範例 6-2 這樣定義枚舉變體和定義不同類型的結構體很像，只不過枚舉不使用 `struct` 關鍵字，而且所有的變體都會在 `Message` 型別底下。以下的結構體可以包含與上方枚舉變體定義過的資料：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-04-structs-similar-to-message-enum/src/main.rs:here}}
 ```
 
-But if we used the different structs, which each have their own type, we
-couldn’t as easily define a function to take any of these kinds of messages as
-we could with the `Message` enum defined in Listing 6-2, which is a single type.
+但是如果我們使用不同結構體且各自都有自己的型別的話，我們就無法像範例 6-2 那樣將 `Message` 視爲單一型別，輕鬆在定義函式時接收訊息所有可能的類型。
 
-There is one more similarity between enums and structs: just as we’re able to
-define methods on structs using `impl`, we’re also able to define methods on
-enums. Here’s a method named `call` that we could define on our `Message` enum:
+枚舉和結構體還有一個地方很像：如同我們可以對結構體使用 `impl` 定義方法，我們也可以對枚舉定義方法。以下範例顯示我們可以對 `Message` 枚舉定義一個 `call` 方法：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-05-methods-on-enums/src/main.rs:here}}
 ```
 
-The body of the method would use `self` to get the value that we called the
-method on. In this example, we’ve created a variable `m` that has the value
-`Message::Write(String::from("hello"))`, and that is what `self` will be in the
-body of the `call` method when `m.call()` runs.
+方法本體使用 `self` 來取得我們呼叫方法的值。在此例中M，我們建立了一個變數 `m` 並取得 `Message::Write(String::from("hello"))`，而這就會是當我們執行 `m.call()` 時 `call` 方法內會用到的 `self`。
 
-Let’s look at another enum in the standard library that is very common and
-useful: `Option`.
+讓我們再看看另一個標準函式庫內非常常見且實用的枚舉：`Option`。
 
-### The `Option` Enum and Its Advantages Over Null Values
+### `Option` 枚舉相對於空值的優勢
 
-In the previous section, we looked at how the `IpAddr` enum let us use Rust’s
-type system to encode more information than just the data into our program.
-This section explores a case study of `Option`, which is another enum defined
-by the standard library. The `Option` type is used in many places because it
-encodes the very common scenario in which a value could be something or it
-could be nothing. Expressing this concept in terms of the type system means the
-compiler can check whether you’ve handled all the cases you should be handling;
-this functionality can prevent bugs that are extremely common in other
-programming languages.
+在之前的段落，我們看到了如何使用 `IpAddr` 枚舉，來讓我們利用 Rust 的型別系統來爲我們程式中的資料附加更多資訊。在此段落我們將來研究 `Option`，這是在標準函式庫中定義的另一種枚舉。`Option` 廣泛運用在許多場合，它能表示一個數值可能有某個東西，或者什麼都沒有。在型別系統中表達這樣的概念可以讓編譯器檢查我們是否都處理完我們該處理的情況了。這樣的功能可以防止其他程式語言中非常常見的程式錯誤。
 
-Programming language design is often thought of in terms of which features you
-include, but the features you exclude are important too. Rust doesn’t have the
-null feature that many other languages have. *Null* is a value that means there
-is no value there. In languages with null, variables can always be in one of
-two states: null or not-null.
+程式語言設計通常要考慮哪些功能是你要得，但同時哪些功能是你不要的也很重要。Rust 沒有像其他許多語言都有空值。*空值（Null）*代表的是沒有任何數值。在有空值的語言，所有變數都有兩種可能：空值或非空值。
 
-In his 2009 presentation “Null References: The Billion Dollar Mistake,” Tony
-Hoare, the inventor of null, has this to say:
+而其發明者 Tony Hoare 在他 2009 的演講「空引用：造成數十億損失的錯誤」（“Null References: The Billion Dollar Mistake”）中提到：
 
-> I call it my billion-dollar mistake. At that time, I was designing the first
-> comprehensive type system for references in an object-oriented language. My
-> goal was to ensure that all use of references should be absolutely safe, with
-> checking performed automatically by the compiler. But I couldn’t resist the
-> temptation to put in a null reference, simply because it was so easy to
-> implement. This has led to innumerable errors, vulnerabilities, and system
-> crashes, which have probably caused a billion dollars of pain and damage in
-> the last forty years.
+> 我稱它爲我數十億美元的錯誤。當時我正在爲一門物件導向語言設計第一個全方位的引用型別系統。我當時的目標是透過編譯器自動檢查來確保所有的引用都是安全的。但我無法抗拒去加入空引用的誘惑，因爲實作的方式實在太簡單了。這導致了無數的錯誤、漏洞與系統崩潰，在接下來的四十年中造成了大概十億美金的痛苦與傷害。
 
-The problem with null values is that if you try to use a null value as a
-not-null value, you’ll get an error of some kind. Because this null or not-null
-property is pervasive, it’s extremely easy to make this kind of error.
+空值的問題在於，如果你想在非空值使用空值的話，你會得到某種錯誤。由於空值與非空值的特性無所不再，你會很容易犯下這類型的錯誤。
 
-However, the concept that null is trying to express is still a useful one: a
-null is a value that is currently invalid or absent for some reason.
+但有時後能夠表達「空（null）」的概念還是很有用的：空值代表目前的數值因爲某些原因而無效或缺少。
 
-The problem isn’t really with the concept but with the particular
-implementation. As such, Rust does not have nulls, but it does have an enum
-that can encode the concept of a value being present or absent. This enum is
-`Option<T>`, and it is [defined by the standard library][option]<!-- ignore -->
-as follows:
+所以問題不在於概念本身，而在於如何實作。所以 Rust 並沒有空值，但是它有一個枚舉可以表達出這樣的概念，也就是一個值可能是存在或不存在的。此枚舉就是 `Option<T>`，它是在[標準函式庫中這樣定義的][option]<!-- ignore -->：
 
 [option]: ../std/option/enum.Option.html
 
@@ -227,82 +137,43 @@ enum Option<T> {
 }
 ```
 
-The `Option<T>` enum is so useful that it’s even included in the prelude; you
-don’t need to bring it into scope explicitly. In addition, so are its variants:
-you can use `Some` and `None` directly without the `Option::` prefix. The
-`Option<T>` enum is still just a regular enum, and `Some(T)` and `None` are
-still variants of type `Option<T>`.
+`Option<T>` 實在太實用了，所以它早已加進 prelude 中，你不需要特地匯入作用域中。除此之外，它的變體也是如此，你可以直接使用 `Some` 和 `None` 而不必加上 `Option::` 的前綴。`Option<T>` 仍然就只是個枚舉，
+`Some(T)` 與 `None` 仍然是`Option<T>` 型別的變體。
 
-The `<T>` syntax is a feature of Rust we haven’t talked about yet. It’s a
-generic type parameter, and we’ll cover generics in more detail in Chapter 10.
-For now, all you need to know is that `<T>` means the `Some` variant of the
-`Option` enum can hold one piece of data of any type. Here are some examples of
-using `Option` values to hold number types and string types:
+`<T>` 語法是我們還沒介紹到的 Rust 功能。它是個泛型型別參數，我們會在第十章正式介紹泛型（generics）。現在你只需要知道 `<T>` 指的是 `Option` 枚舉中的 `Some` 變體可以是任意型別。以下是使用 `Option` 來包含數字與字串型別的範例：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-06-option-examples/src/main.rs:here}}
 ```
 
-If we use `None` rather than `Some`, we need to tell Rust what type of
-`Option<T>` we have, because the compiler can’t infer the type that the `Some`
-variant will hold by looking only at a `None` value.
+如果我們是用 `None` 而非 `Some` 的話，我們就需要告訴 Rust `Option<T>` 的確切型別，因爲編譯器無法從 `None` 值推斷出 `Some` 變體該擁有何種型別。
 
-When we have a `Some` value, we know that a value is present and the value is
-held within the `Some`. When we have a `None` value, in some sense, it means
-the same thing as null: we don’t have a valid value. So why is having
-`Option<T>` any better than having null?
+當我們有 `Some` 值時，我們會知道數值是存在的而且就位於 `Some` 內。當我們有 `None` 值時，在某種意義上它代表該值是空的，我們沒有有效的數值。所以爲何 `Option<T>` 會比用空值來得好呢？
 
-In short, because `Option<T>` and `T` (where `T` can be any type) are different
-types, the compiler won’t let us use an `Option<T>` value as if it were
-definitely a valid value. For example, this code won’t compile because it’s
-trying to add an `i8` to an `Option<i8>`:
+簡單來說因爲 `Option<T>` 與 `T`（`T` 可以是任意型別）是不同的型別，編譯器不會允許我們像一般有效的值那樣來使用 `Option<T>`。舉例來說，以下範例是無法編譯的，因爲這場是將 `i8` 與 `Option<i8>` 相加：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-07-cant-use-option-directly/src/main.rs:here}}
 ```
 
-If we run this code, we get an error message like this:
+如果我們執行此程式，我們會得到以下錯誤訊息：
 
 ```console
 {{#include ../listings/ch06-enums-and-pattern-matching/no-listing-07-cant-use-option-directly/output.txt}}
 ```
 
-Intense! In effect, this error message means that Rust doesn’t understand how
-to add an `i8` and an `Option<i8>`, because they’re different types. When we
-have a value of a type like `i8` in Rust, the compiler will ensure that we
-always have a valid value. We can proceed confidently without having to check
-for null before using that value. Only when we have an `Option<i8>` (or
-whatever type of value we’re working with) do we have to worry about possibly
-not having a value, and the compiler will make sure we handle that case before
-using the value.
+這樣其實很好！此錯誤訊息事實上指的是 Rust 不知道如何將 `i8` 與 `Option<i8>` 相加，因爲它們是不同的型別。當我們在 Rust 中有個型別像是 `i8`，編譯器將會確保我們永遠會擁有有效數值。我們可以很放新的使用該值，而不必檢查是不是空的。我們只有在使用 `Option<i8>` （或者任何其他要使用的型別）時才需要去擔心會不會沒有值。然後編譯器會確保我們在使用該值前，有處理過該有的條件。
 
-In other words, you have to convert an `Option<T>` to a `T` before you can
-perform `T` operations with it. Generally, this helps catch one of the most
-common issues with null: assuming that something isn’t null when it actually
-is.
+換句話說，你必須將 `Option<T>` 轉換爲 `T` 你才能對 `T` 做運算。 這通常就能幫助我們抓到空值最常見的問題：認爲某值不爲空，但它其實就是空值。
 
-Not having to worry about incorrectly assuming a not-null value helps you to be
-more confident in your code. In order to have a value that can possibly be
-null, you must explicitly opt in by making the type of that value `Option<T>`.
-Then, when you use that value, you are required to explicitly handle the case
-when the value is null. Everywhere that a value has a type that isn’t an
-`Option<T>`, you *can* safely assume that the value isn’t null. This was a
-deliberate design decision for Rust to limit null’s pervasiveness and increase
-the safety of Rust code.
+不用再擔心一個非空值是不是不正確的，可以讓你對你寫的程式碼更有信心。要讓一個值變成可能爲空的話，你必須顯式建立成對應型別的 `Option<T>`。然後當你要使用該值時，你就得顯式處理數值是否爲空的條件。只要一個數值的型別不是 `Option<T>`，你就*可以*安全地認定該值不爲空。這是 Rust 刻意考慮的設計決定，限制無所不再的空值，並增強 Rust 程式碼的安全性。
 
-So, how do you get the `T` value out of a `Some` variant when you have a value
-of type `Option<T>` so you can use that value? The `Option<T>` enum has a large
-number of methods that are useful in a variety of situations; you can check
-them out in [its documentation][docs]<!-- ignore -->. Becoming familiar with
-the methods on `Option<T>` will be extremely useful in your journey with Rust.
+所以當我們有一個數值型別 `Option<T>`，我們要怎麼從 `Some` 變體取出 `T`，好讓我們可以使用該值呢？`Option<T>` 枚舉有大量實用的方法可以在不同的場合下使用。你可以在[它的技術文件][docs]<!-- ignore -->查閱。更加熟悉 `Option<T>` 的方法十分益於你接下來的 Rust 旅程。
 
 [docs]: ../std/option/enum.Option.html
 
-In general, in order to use an `Option<T>` value, you want to have code that
-will handle each variant. You want some code that will run only when you have a
-`Some(T)` value, and this code is allowed to use the inner `T`. You want some
-other code to run if you have a `None` value, and that code doesn’t have a `T`
-value available. The `match` expression is a control flow construct that does
-just this when used with enums: it will run different code depending on which
-variant of the enum it has, and that code can use the data inside the matching
-value.
+總之來說，要使用 `Option<T>` 數值的話，你要讓程式碼可以處理每個變體。你會希望有一些程式碼只會在當我們有 `Some(T)` 時執行，然後這些程式碼允許使用內部的 `T`。你會希望有另一部分的程式碼能在只有 `None` 時執行，且這些程式碼不會拿到有效的 `T` 數值。`match` 表達式正是處理此枚舉行爲的控制流結構：它會針對不同的枚舉變體執行不同的程式碼，而且程式碼可以使用配對到的數值資料。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch06-01-defining-an-enum.md)
+> - updated: 2020-09-11

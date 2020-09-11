@@ -56,6 +56,7 @@ formalization          | 正規化                        |
 function               | 函式                          | 參考：[維基百科][function]
 generics               | 泛型                          | 參考：[維基百科][generics]
 identifier             | 標識符                        | 參考：[維基百科][identifier]
+import                 | 匯入                          |
 index                  | 索引                          | 參考：[維基百科][index]
 instance               | 實體                          |
 iterative              | 疊代                          | 參考：[維基百科][iterative]
@@ -201,7 +202,6 @@ closures               |                               |
 crates                 |                               |
 fully-strict           |                               |
 hash                   |                               |
-import                 |                               |
 linking                |                               |
 master                 |                               | git branch
 mata                   |                               |
