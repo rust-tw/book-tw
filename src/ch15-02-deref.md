@@ -19,7 +19,7 @@ or smart pointers.
 > We are focusing this example on `Deref`, so where the data is actually stored
 > is less important than the pointer-like behavior.
 
-### Following the Pointer to the Value with the Dereference Operator
+### 使用解引用運算子追蹤指標的數值
 
 A regular reference is a type of pointer, and one way to think of a pointer is
 as an arrow to a value stored somewhere else. In Listing 15-6, we create a

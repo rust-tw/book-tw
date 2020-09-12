@@ -19,6 +19,7 @@ block                  | 區塊                          |
 boolean                | 布林                          | 參考：[維基百科][boolean]
 bounds-check           | 邊界檢查                      | 參考：[維基百科][bounds-check]
 borrowing              | 借用                          |
+borrow checker         | 借用檢查器                    |
 bug                    | 程式錯誤                      |
 Builder Pattern        | 生成器模式                    | 參考：[維基百科][Builder Pattern]
 byte                   | 位元組                        | 參考：[維基百科][byte]
