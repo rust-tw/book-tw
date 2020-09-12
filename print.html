@@ -5299,49 +5299,25 @@ pub fn eat_at_restaurant() {
 <li>updated: 2020-09-11</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#storing-lists-of-values-with-vectors" id="storing-lists-of-values-with-vectors">Storing Lists of Values with Vectors</a></h2>
-<p>The first collection type we’ll look at is <code>Vec&lt;T&gt;</code>, also known as a <em>vector</em>.
-Vectors allow you to store more than one value in a single data structure that
-puts all the values next to each other in memory. Vectors can only store values
-of the same type. They are useful when you have a list of items, such as the
-lines of text in a file or the prices of items in a shopping cart.</p>
-<h3><a class="header" href="#creating-a-new-vector" id="creating-a-new-vector">Creating a New Vector</a></h3>
-<p>To create a new, empty vector, we can call the <code>Vec::new</code> function, as shown in
-Listing 8-1.</p>
+<h2><a class="header" href="#使用-vector-儲存列表" id="使用-vector-儲存列表">使用 Vector 儲存列表</a></h2>
+<p>我們第一個要來看的集合是 <code>Vec&lt;T&gt;</code> 常稱爲 <em>vector</em>。Vectors 允許你在一個資料結構儲存不止一個數值，而且該結構的記憶體會接連排列所有數值。它們很適合用來處理你手上的項目列表，像是一個檔案中每行的文字，或是購物車內每像物品。</p>
+<h3><a class="header" href="#建立新的-vector" id="建立新的-vector">建立新的 Vector</a></h3>
+<p>要建立一個新的空 vector 的話，我們可以呼叫 <code>Vec::new</code> 函式，如範例 8-1 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v: Vec&lt;i32&gt; = Vec::new();
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-1: Creating a new, empty vector to hold values
-of type <code>i32</code></span></p>
-<p>Note that we added a type annotation here. Because we aren’t inserting any
-values into this vector, Rust doesn’t know what kind of elements we intend to
-store. This is an important point. Vectors are implemented using generics;
-we’ll cover how to use generics with your own types in Chapter 10. For now,
-know that the <code>Vec&lt;T&gt;</code> type provided by the standard library can hold any type,
-and when a specific vector holds a specific type, the type is specified within
-angle brackets. In Listing 8-1, we’ve told Rust that the <code>Vec&lt;T&gt;</code> in <code>v</code> will
-hold elements of the <code>i32</code> type.</p>
-<p>In more realistic code, Rust can often infer the type of value you want to
-store once you insert values, so you rarely need to do this type annotation.
-It’s more common to create a <code>Vec&lt;T&gt;</code> that has initial values, and Rust
-provides the <code>vec!</code> macro for convenience. The macro will create a new vector
-that holds the values you give it. Listing 8-2 creates a new <code>Vec&lt;i32&gt;</code> that
-holds the values <code>1</code>, <code>2</code>, and <code>3</code>. The integer type is <code>i32</code> because that’s
-the default integer type, as we discussed in the <a href="ch03-02-data-types.html#data-types">“Data Types”</a><!--
-ignore --> section of Chapter 3.</p>
+<p><span class="caption">範例 8-1建立一個儲存數值型別爲 <code>i32</code> 的空 vector</span></p>
+<p>注意到我們在此加了型別詮釋。因爲我們沒有對此 vector 填入任何數值，Rust 不知道我們想儲存什麼類型的元素。這是一項重點，vector 是用泛型（generics）實作，我們會在第十章說明如何爲你自己的型別使用泛型。現在我們只需要知道標準函式庫提供的 <code>Vec&lt;T&gt;</code> 型別可以持有任意型別，然後當特定 vector 要持有特定型別時，該型別會標是在尖括號內。在範例 8-1，我們告訴 Rust 在 <code>v</code> 中的 <code>Vec&lt;T&gt;</code> 會持有 <code>i32</code> 型別的元素。</p>
+<p>在更實際的程式碼中，當你填入數值時，Rust 通常都能推導出型別來。所以你不太常會需要指明型別詮釋。建立 <code>Vec&lt;T&gt;</code> 的同進行初始化是更常見的，爲此 Rust 提供了 <code>vec!</code> 以便使用。此巨集會建立一個新的 vector 並取得你提供的數值。在範例 8-2 中，我們建立了一個新的 <code>Vec&lt;i32&gt;</code> 並擁有數值 <code>1</code>、<code>2</code> 和 <code>3</code>。整數型別爲 <code>i32</code> 是因爲這是預設整數型別，如同我們在第三章的<a href="ch03-02-data-types.html#data-types">「資料型別」</a><!-- ignore --> 段落提到的一樣。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v = vec![1, 2, 3];
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-2: Creating a new vector containing
-values</span></p>
-<p>Because we’ve given initial <code>i32</code> values, Rust can infer that the type of <code>v</code>
-is <code>Vec&lt;i32&gt;</code>, and the type annotation isn’t necessary. Next, we’ll look at how
-to modify a vector.</p>
-<h3><a class="header" href="#updating-a-vector" id="updating-a-vector">Updating a Vector</a></h3>
-<p>To create a vector and then add elements to it, we can use the <code>push</code> method,
-as shown in Listing 8-3.</p>
+<p><span class="caption">範例 8-2：建立一個擁有數值的新 vector</span></p>
+<p>因爲我們給予了初始的 <code>i32</code> 數值，Rust 可以推導出 <code>v</code> 的型別爲 <code>Vec&lt;i32&gt;</code>，所以型別詮釋就不是必要的了。接下來，讓我們看看如何修改 vector。</p>
+<h3><a class="header" href="#更新-vector" id="更新-vector">更新 Vector</a></h3>
+<p>要在建立 vector 之後新增元素的話，我們可以使用 <code>push</code> 方法，如範例 8-3 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut v = Vec::new();
 
@@ -5351,15 +5327,10 @@ as shown in Listing 8-3.</p>
     v.push(8);
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-3: Using the <code>push</code> method to add values to a
-vector</span></p>
-<p>As with any variable, if we want to be able to change its value, we need to
-make it mutable using the <code>mut</code> keyword, as discussed in Chapter 3. The numbers
-we place inside are all of type <code>i32</code>, and Rust infers this from the data, so
-we don’t need the <code>Vec&lt;i32&gt;</code> annotation.</p>
-<h3><a class="header" href="#dropping-a-vector-drops-its-elements" id="dropping-a-vector-drops-its-elements">Dropping a Vector Drops Its Elements</a></h3>
-<p>Like any other <code>struct</code>, a vector is freed when it goes out of scope, as
-annotated in Listing 8-4.</p>
+<p><span class="caption">範例 8-3：使用 <code>push</code> 方法來新增數值到 vector</span></p>
+<p>與其他變數一樣，如果我們想要變更其數值的話，我們需要使用 <code>mut</code> 關鍵字使它成爲可變的，如同第三章提到的一樣。我們填入的數值所屬型別均爲 <code>i32</code>，然後 Rust 可以從資料推導，所以我們不必指明 <code>Vec&lt;i32&gt;</code>。</p>
+<h3><a class="header" href="#釋放-vector-的同時也會釋放其元素" id="釋放-vector-的同時也會釋放其元素">釋放 Vector 的同時也會釋放其元素</a></h3>
+<p>就像其它 <code>struct</code> 一樣，vector 會在作用域結束時被釋放，如範例 8-4 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    {
         let v = vec![1, 2, 3, 4];
@@ -5368,19 +5339,11 @@ annotated in Listing 8-4.</p>
     } // &lt;- v goes out of scope and is freed here
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-4: Showing where the vector and its elements
-are dropped</span></p>
-<p>When the vector gets dropped, all of its contents are also dropped, meaning
-those integers it holds will be cleaned up. This may seem like a
-straightforward point but can get a bit more complicated when you start to
-introduce references to the elements of the vector. Let’s tackle that next!</p>
-<h3><a class="header" href="#reading-elements-of-vectors" id="reading-elements-of-vectors">Reading Elements of Vectors</a></h3>
-<p>Now that you know how to create, update, and destroy vectors, knowing how to
-read their contents is a good next step. There are two ways to reference a
-value stored in a vector. In the examples, we’ve annotated the types of the
-values that are returned from these functions for extra clarity.</p>
-<p>Listing 8-5 shows both methods of accessing a value in a vector, either with
-indexing syntax or the <code>get</code> method.</p>
+<p><span class="caption">範例 8-4：顯示 vector 及其元素在哪裡被釋放</span></p>
+<p>當 vector 被釋放時，其所有內容也都會被釋放，代表它持有的那些整數都會被清除。這雖然聽起來很直觀，但是當我們開始引用 vector 中的元素時可能就會變得有點複雜。讓我們看看怎麼處理這種情形吧！</p>
+<h3><a class="header" href="#讀取-vector-元素" id="讀取-vector-元素">讀取 Vector 元素</a></h3>
+<p>現在你知道如何建立、更新與刪除 vector，接下來就是要知道如何讀取他們的內容了。要引用 vector 儲存的數值有兩種方式。爲了更加清楚說明此範例，我們詮釋了函式回傳值的型別。</p>
+<p>範例 8-5 顯示了取得 vector 中數值的方法，可以是用索引語法或者 <code>get</code> 方法。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v = vec![1, 2, 3, 4, 5];
 
@@ -5393,18 +5356,9 @@ indexing syntax or the <code>get</code> method.</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-5: Using indexing syntax or the <code>get</code> method to
-access an item in a vector</span></p>
-<p>Note two details here. First, we use the index value of <code>2</code> to get the third
-element: vectors are indexed by number, starting at zero. Second, the two ways
-to get the third element are by using <code>&amp;</code> and <code>[]</code>, which gives us a reference,
-or by using the <code>get</code> method with the index passed as an argument, which gives
-us an <code>Option&lt;&amp;T&gt;</code>.</p>
-<p>Rust has two ways to reference an element so you can choose how the program
-behaves when you try to use an index value that the vector doesn’t have an
-element for. As an example, let’s see what a program will do if it has a vector
-that holds five elements and then tries to access an element at index 100, as
-shown in Listing 8-6.</p>
+<p><span class="caption">範例 8-5：使用索引語法或 <code>get</code> 方法來取的 vector 項目</span></p>
+<p>我們要注意兩個地方。首先，我們使用了索引數值 <code>2</code> 來獲取地三個元素：vectors 可以用數字來索引，從零開始計算。第二，使用 <code>&amp;</code> 和 <code>[]</code> 會給我們一個引用，而使用 <code>get</code> 方法加上一個索引作爲引數，則會給我們 <code>Option&lt;&amp;T&gt;</code>。</p>
+<p>Rust 有兩種取得元素引用的方式，所以能以此決定程式的行爲。像是當你使用了一個索引但 vector 卻沒有對應的元素的情況。讓我們看看一個範例，我們有一個 vector 擁有五個元素，但我們嘗試用索引 100 來取得對應數值，如範例 8-6 所示。</p>
 <pre><pre class="playground"><code class="language-rust should_panic panics"><span class="boring">fn main() {
 </span>    let v = vec![1, 2, 3, 4, 5];
 
@@ -5412,28 +5366,10 @@ shown in Listing 8-6.</p>
     let does_not_exist = v.get(100);
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-6: Attempting to access the element at index
-100 in a vector containing five elements</span></p>
-<p>When we run this code, the first <code>[]</code> method will cause the program to panic
-because it references a nonexistent element. This method is best used when you
-want your program to crash if there’s an attempt to access an element past the
-end of the vector.</p>
-<p>When the <code>get</code> method is passed an index that is outside the vector, it returns
-<code>None</code> without panicking. You would use this method if accessing an element
-beyond the range of the vector happens occasionally under normal circumstances.
-Your code will then have logic to handle having either <code>Some(&amp;element)</code> or
-<code>None</code>, as discussed in Chapter 6. For example, the index could be coming from
-a person entering a number. If they accidentally enter a number that’s too
-large and the program gets a <code>None</code> value, you could tell the user how many
-items are in the current vector and give them another chance to enter a valid
-value. That would be more user-friendly than crashing the program due to a typo!</p>
-<p>When the program has a valid reference, the borrow checker enforces the
-ownership and borrowing rules (covered in Chapter 4) to ensure this reference
-and any other references to the contents of the vector remain valid. Recall the
-rule that states you can’t have mutable and immutable references in the same
-scope. That rule applies in Listing 8-7, where we hold an immutable reference to
-the first element in a vector and try to add an element to the end, which won’t
-work if we also try to refer to that element later in the function:</p>
+<p><span class="caption">範例 8-6：嘗試對只有五個元素的 vector 取得索引 100 的值</span></p>
+<p>當我們執行程式時，第一個 <code>[]</code> 方法會讓程式恐慌，因爲它引用了不存在的元素。此方法適用於當你希望一有無效索引時就讓程式崩潰的狀況。</p>
+<p>當你使用 <code>get</code> 方法來索取 vector 不存在的索引時，它會回傳 <code>None</code> 而不會恐慌。如果正常情況下偶而會不小心存取超出 vector 範圍索引的話，你就會想要只用此方法。你的程式碼就會有個邏輯專門處理 <code>Some(&amp;element)</code> 或 <code>None</code>，如同第六章所述。舉例來說，可能會有由使用者輸入的索引。如果他不小心輸入太大的數字的話，程式可以回傳 <code>None</code>，你可以告訴使用者目前 vector 有多少項目，並讓他們可以再輸入一次。這會比直接讓程式崩潰還來的親民，他們可能只是不小心打錯而已！</p>
+<p>當程式有個有效引用時，借用檢查器（borrow checker）會貫徹所有權以及借用規則（如第四章所述）來確保此引用及其他對 vector 內容的引用都是有效的。回想一下有個規則是我們不能在同個作用域同時擁有可變與不可變引用。這個規則一樣適用於範例 8-7，在此我們有一個 vector 第一個元素的不可變引用，然後我們嘗試在 vector 後方新增元素。如果我們嘗試在此動作後繼續使用第一個引用的話，程式會無法執行：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let mut v = vec![1, 2, 3, 4, 5];
 
@@ -5444,9 +5380,8 @@ work if we also try to refer to that element later in the function:</p>
     println!(&quot;The first element is: {}&quot;, first);
 <span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 8-7: Attempting to add an element to a vector
-while holding a reference to an item</span></p>
-<p>Compiling this code will result in this error:</p>
+<p><span class="caption">範例 8-7：在持有一個項目的引用時，還嘗試對 vector 新增元素</span></p>
+<p>編譯此程式會得到以下錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling collections v0.1.0 (file:///projects/collections)
 error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immutable
@@ -5468,23 +5403,12 @@ error: could not compile `collections`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>The code in Listing 8-7 might look like it should work: why should a reference
-to the first element care about what changes at the end of the vector? This
-error is due to the way vectors work: adding a new element onto the end of the
-vector might require allocating new memory and copying the old elements to the
-new space, if there isn’t enough room to put all the elements next to each
-other where the vector currently is. In that case, the reference to the first
-element would be pointing to deallocated memory. The borrowing rules prevent
-programs from ending up in that situation.</p>
+<p>範例 8-7 的程式碼看起來好像能執行。爲何第一個元素的引用要在意 vector 的最後端發生了什麼事呢？此錯誤其實跟 vector 運作的方式有關：在 vector 後方新增元素時，如果當前 vector 的空間不夠在塞入另一個值的話，可能會需要分配新的記憶體並複製舊的元素到新的空間中。這樣一來，第一個元素的索引可能就會指向已經被釋放的記憶體，借用規則會防止程式遇到這樣的情形。</p>
 <blockquote>
-<p>Note: For more on the implementation details of the <code>Vec&lt;T&gt;</code> type, see <a href="../nomicon/vec.html">“The
-Rustonomicon”</a>.</p>
+<p>注意：關於 <code>Vec&lt;T&gt;</code> 型別更多的實作細節，歡迎查閱<a href="../nomicon/vec.html">「Rust 葵花寶典」</a>。</p>
 </blockquote>
-<h3><a class="header" href="#iterating-over-the-values-in-a-vector" id="iterating-over-the-values-in-a-vector">Iterating over the Values in a Vector</a></h3>
-<p>If we want to access each element in a vector in turn, we can iterate through
-all of the elements rather than use indices to access one at a time. Listing
-8-8 shows how to use a <code>for</code> loop to get immutable references to each element
-in a vector of <code>i32</code> values and print them.</p>
+<h3><a class="header" href="#遍歷-vector-的元素" id="遍歷-vector-的元素">遍歷 Vector 的元素</a></h3>
+<p>如果我們想要依序存取 vector 中每個元素的話，我們可以遍歷所有元素而不必用索引一個一個取得。範例 8-8 闡釋了如何使用 <code>for</code> 迴圈來取得一個 <code>i32</code> vector 中每個元素的不可變引用並印出他們。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v = vec![100, 32, 57];
     for i in &amp;v {
@@ -5492,11 +5416,8 @@ in a vector of <code>i32</code> values and print them.</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-8: Printing each element in a vector by
-iterating over the elements using a <code>for</code> loop</span></p>
-<p>We can also iterate over mutable references to each element in a mutable vector
-in order to make changes to all the elements. The <code>for</code> loop in Listing 8-9
-will add <code>50</code> to each element.</p>
+<p><span class="caption">範例 8-8：使用 <code>for</code> 迴圈遍歷 vector 中每個元素</span></p>
+<p>我們還可以遍歷可變 vector 中的每個元素取得可變引用來改變每個元素。像是範例 8-9 就使用 <code>for</code> 迴圈來爲每個元素加上 <code>50</code>。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut v = vec![100, 32, 57];
     for i in &amp;mut v {
@@ -5504,25 +5425,11 @@ will add <code>50</code> to each element.</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-9: Iterating over mutable references to
-elements in a vector</span></p>
-<p>To change the value that the mutable reference refers to, we have to use the
-dereference operator (<code>*</code>) to get to the value in <code>i</code> before we can use the
-<code>+=</code> operator. We’ll talk more about the dereference operator in the
-<a href="ch15-02-deref.html#following-the-pointer-to-the-value-with-the-dereference-operator">“Following the Pointer to the Value with the Dereference Operator”</a>
-section of Chapter 15.</p>
-<h3><a class="header" href="#using-an-enum-to-store-multiple-types" id="using-an-enum-to-store-multiple-types">Using an Enum to Store Multiple Types</a></h3>
-<p>At the beginning of this chapter, we said that vectors can only store values
-that are the same type. This can be inconvenient; there are definitely use
-cases for needing to store a list of items of different types. Fortunately, the
-variants of an enum are defined under the same enum type, so when we need to
-store elements of a different type in a vector, we can define and use an enum!</p>
-<p>For example, say we want to get values from a row in a spreadsheet in which
-some of the columns in the row contain integers, some floating-point numbers,
-and some strings. We can define an enum whose variants will hold the different
-value types, and then all the enum variants will be considered the same type:
-that of the enum. Then we can create a vector that holds that enum and so,
-ultimately, holds different types. We’ve demonstrated this in Listing 8-10.</p>
+<p><span class="caption">範例 8-9：遍歷 vector 中的元素取得可變引用</span></p>
+<p>要改變可變引用指向的數值，在使用 <code>+=</code> 運算子之前，我們需要使用解引用運算子（<code>*</code>）來取得 <code>i</code> 的數值。我們會在第十五章的<a href="ch15-02-deref.html#following-the-pointer-to-the-value-with-the-dereference-operator">「使用解引用運算子追蹤指標的數值」</a>段落來講解更多解引用運算子的細節。</p>
+<h3><a class="header" href="#使用枚舉來儲存多種型別" id="使用枚舉來儲存多種型別">使用枚舉來儲存多種型別</a></h3>
+<p>在本章的一開始，我們說 vector 只能儲存同型別的數值。這在某些情況會很不方便，一定會有場合是要儲存不同型別到一個列表中的。幸運的是，枚舉的變體是定義在相同的枚舉型別，所以當我們需要在 vector 儲存不同型別的元素時，我們可以用枚舉來定義！</p>
+<p>舉例來說，假設我們想從表格中的一行取的數值，但是有些行內的列會包含整數、浮點數以及一些字串。我們可以定義一個枚舉，其變體會持有不同的數值型別，然後所有的枚舉變體都會被視爲相同型別：就是它們的枚舉。接著我們就可以建立一個擁有此枚舉型別的 vector，最終達成持有不同行邊。如範例 8-10 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum SpreadsheetCell {
         Int(i32),
@@ -5537,24 +5444,17 @@ ultimately, holds different types. We’ve demonstrated this in Listing 8-10.</p
     ];
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-10: Defining an <code>enum</code> to store values of
-different types in one vector</span></p>
-<p>Rust needs to know what types will be in the vector at compile time so it knows
-exactly how much memory on the heap will be needed to store each element. A
-secondary advantage is that we can be explicit about what types are allowed in
-this vector. If Rust allowed a vector to hold any type, there would be a chance
-that one or more of the types would cause errors with the operations performed
-on the elements of the vector. Using an enum plus a <code>match</code> expression means
-that Rust will ensure at compile time that every possible case is handled, as
-discussed in Chapter 6.</p>
-<p>When you’re writing a program, if you don’t know the exhaustive set of types
-the program will get at runtime to store in a vector, the enum technique won’t
-work. Instead, you can use a trait object, which we’ll cover in Chapter 17.</p>
-<p>Now that we’ve discussed some of the most common ways to use vectors, be sure
-to review <a href="../std/vec/struct.Vec.html">the API documentation</a> for all the many useful methods defined on
-<code>Vec&lt;T&gt;</code> by the standard library. For example, in addition to <code>push</code>, a <code>pop</code>
-method removes and returns the last element. Let’s move on to the next
-collection type: <code>String</code>!</p>
+<p><span class="caption">範例 8-10：用 <code>enum</code> 定義儲存不同型別的枚舉並作爲 vector 的型別</span></p>
+<p>Rust 需要在編譯時期知道 vector 的型別以及要在堆積上用到多少記憶體才能儲存每個元素。這樣做第二個好處是我們能知道此 vector 會顯式哪些型別。如果 Rust 允許 vector 一次持有任意型別的話，在對 vector 中每個元素進行處理時，可能就會有一或多種型別會產生錯誤。使用枚舉和 <code>match</code> 表達式讓 Rust 可以在編譯期間確保每個可能的情形都已經處理完善了，如同第六章提到的一樣。</p>
+<p>當你在寫程式時，如果你無法確切知道執行時程式所處理的所有型別的話，枚舉就不管用了。這時使用特徵物件會比較好，我們會在第十七章再來解釋。</p>
+<p>現在我們已經講了一些 vector 常見的用法，有時間的話記得到<a href="../std/vec/struct.Vec.html">vector 的 API 技術文件</a>瞭解標準函式庫中 <code>Vec&lt;T&gt;</code> 所有實用的方法。舉例來說，除了 <code>push</code> 方法以外，還有個 <code>pop</code> 方法可以移除並回傳最後一個元素。接下來讓我們看看下一個集合型別：<code>String</code>！</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch08-01-vectors.md">e5ed971</a></li>
+<li>updated: 2020-09-11</li>
+</ul>
+</blockquote>
 <h2><a class="header" href="#使用字串儲存-utf-8-編碼的文字" id="使用字串儲存-utf-8-編碼的文字">使用字串儲存 UTF-8 編碼的文字</a></h2>
 <p>We talked about strings in Chapter 4, but we’ll look at them in more depth now.
 New Rustaceans commonly get stuck on strings for a combination of three
@@ -16348,7 +16248,7 @@ build and the real <code>Box&lt;T&gt;</code>: our version will not store its dat
 We are focusing this example on <code>Deref</code>, so where the data is actually stored
 is less important than the pointer-like behavior.</p>
 </blockquote>
-<h3><a class="header" href="#following-the-pointer-to-the-value-with-the-dereference-operator" id="following-the-pointer-to-the-value-with-the-dereference-operator">Following the Pointer to the Value with the Dereference Operator</a></h3>
+<h3><a class="header" href="#使用解引用運算子追蹤指標的數值" id="使用解引用運算子追蹤指標的數值">使用解引用運算子追蹤指標的數值</a></h3>
 <p>A regular reference is a type of pointer, and one way to think of a pointer is
 as an arrow to a value stored somewhere else. In Listing 15-6, we create a
 reference to an <code>i32</code> value and then use the dereference operator to follow the
@@ -27541,6 +27441,7 @@ of Rust.</p>
 <tr><td>boolean</td><td>布林</td><td>參考：<a href="https://zh.wikipedia.org/wiki/%E5%B8%83%E7%88%BE_(%E6%95%B8%E6%93%9A%E9%A1%9E%E5%9E%8B)">維基百科</a></td></tr>
 <tr><td>bounds-check</td><td>邊界檢查</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%BE%B9%E7%95%8C%E6%A3%80%E6%9F%A5">維基百科</a></td></tr>
 <tr><td>borrowing</td><td>借用</td><td></td></tr>
+<tr><td>borrow checker</td><td>借用檢查器</td><td></td></tr>
 <tr><td>bug</td><td>程式錯誤</td><td></td></tr>
 <tr><td>Builder Pattern</td><td>生成器模式</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%BC%8F">維基百科</a></td></tr>
 <tr><td>byte</td><td>位元組</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E5%AD%97%E8%8A%82">維基百科</a></td></tr>
