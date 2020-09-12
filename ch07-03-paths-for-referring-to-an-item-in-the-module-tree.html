@@ -167,29 +167,15 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#paths-for-referring-to-an-item-in-the-module-tree" id="paths-for-referring-to-an-item-in-the-module-tree">Paths for Referring to an Item in the Module Tree</a></h2>
-<p>To show Rust where to find an item in a module tree, we use a path in the same
-way we use a path when navigating a filesystem. If we want to call a function,
-we need to know its path.</p>
-<p>A path can take two forms:</p>
+                        <h2><a class="header" href="#引用模組項目的路徑" id="引用模組項目的路徑">引用模組項目的路徑</a></h2>
+<p>要展示 Rust 如何從模組樹中找到一個項目，我們要使用和查閱檔案系統時一樣的路徑方法。如果我們想要呼叫函式，我們需要知道它的路徑：</p>
+<p>路徑可以有兩種形式：</p>
 <ul>
-<li>An <em>absolute path</em> starts from a crate root by using a crate name or a
-literal <code>crate</code>.</li>
-<li>A <em>relative path</em> starts from the current module and uses <code>self</code>, <code>super</code>, or
-an identifier in the current module.</li>
+<li>*絕對路徑（absolute path）*是從 crate 的源頭開始找起，用 crate 的名稱或 <code>crate</code> 作爲起頭。</li>
+<li>*相對路徑（relative path）*則是從本身的模組開始，使用 <code>self</code>、<code>super</code>或是當前模組的標識符（identifiers）。</li>
 </ul>
-<p>Both absolute and relative paths are followed by one or more identifiers
-separated by double colons (<code>::</code>).</p>
-<p>Let’s return to the example in Listing 7-1. How do we call the
-<code>add_to_waitlist</code> function? This is the same as asking, what’s the path of the
-<code>add_to_waitlist</code> function? In Listing 7-3, we simplified our code a bit by
-removing some of the modules and functions. We’ll show two ways to call the
-<code>add_to_waitlist</code> function from a new function <code>eat_at_restaurant</code> defined in
-the crate root. The <code>eat_at_restaurant</code> function is part of our library crate’s
-public API, so we mark it with the <code>pub</code> keyword. In the <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#exposing-paths-with-the-pub-keyword">”Exposing Paths with
-the <code>pub</code> Keyword”</a><!-- ignore --> section, we’ll go into more detail
-about <code>pub</code>. Note that this example won’t compile just yet; we’ll explain why
-in a bit.</p>
+<p>無論是絕對或相對路徑其後都會接著一或多個標識符，並使用雙冒號（<code>::</code>）區隔開來。</p>
+<p>讓我們回頭看看範例 7-1，我們要如何呼叫函式 <code>add_to_waitlist</code> 呢？這就和問函式 <code>add_to_waitlist</code> 在哪的問題是一樣的。在範例 7-3，我們移除了一些模組與函式來精簡程式碼的呈現方式。我們會展示兩種從 crate 源頭定義的 <code>eat_at_restaurant</code> 函式內呼叫 <code>add_to_waitlist</code> 的方法。<code>eat_at_restaurant</code> 函式是我們函式庫 crate 公開 API 的一部分，所以我們會加上 <code>pub</code> 關鍵字。在<a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#exposing-paths-with-the-pub-keyword">「使用 <code>pub</code> 關鍵字公開路徑」</a><!-- ignore -->的段落中，我們會提到更多 <code>pub</code> 的細節。請注意此範例還不能編譯，我們等等會解釋原因。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
     mod hosting {
@@ -205,36 +191,12 @@ pub fn eat_at_restaurant() {
     front_of_house::hosting::add_to_waitlist();
 }
 </code></pre>
-<p><span class="caption">範例 7-3: Calling the <code>add_to_waitlist</code> function using
-absolute and relative paths</span></p>
-<p>The first time we call the <code>add_to_waitlist</code> function in <code>eat_at_restaurant</code>,
-we use an absolute path. The <code>add_to_waitlist</code> function is defined in the same
-crate as <code>eat_at_restaurant</code>, which means we can use the <code>crate</code> keyword to
-start an absolute path.</p>
-<p>After <code>crate</code>, we include each of the successive modules until we make our way
-to <code>add_to_waitlist</code>. You can imagine a filesystem with the same structure, and
-we’d specify the path <code>/front_of_house/hosting/add_to_waitlist</code> to run the
-<code>add_to_waitlist</code> program; using the <code>crate</code> name to start from the crate root
-is like using <code>/</code> to start from the filesystem root in your shell.</p>
-<p>The second time we call <code>add_to_waitlist</code> in <code>eat_at_restaurant</code>, we use a
-relative path. The path starts with <code>front_of_house</code>, the name of the module
-defined at the same level of the module tree as <code>eat_at_restaurant</code>. Here the
-filesystem equivalent would be using the path
-<code>front_of_house/hosting/add_to_waitlist</code>. Starting with a name means that the
-path is relative.</p>
-<p>Choosing whether to use a relative or absolute path is a decision you’ll make
-based on your project. The decision should depend on whether you’re more likely
-to move item definition code separately from or together with the code that
-uses the item. For example, if we move the <code>front_of_house</code> module and the
-<code>eat_at_restaurant</code> function into a module named <code>customer_experience</code>, we’d
-need to update the absolute path to <code>add_to_waitlist</code>, but the relative path
-would still be valid. However, if we moved the <code>eat_at_restaurant</code> function
-separately into a module named <code>dining</code>, the absolute path to the
-<code>add_to_waitlist</code> call would stay the same, but the relative path would need to
-be updated. Our preference is to specify absolute paths because it’s more
-likely to move code definitions and item calls independently of each other.</p>
-<p>Let’s try to compile Listing 7-3 and find out why it won’t compile yet! The
-error we get is shown in Listing 7-4.</p>
+<p><span class="caption">範例 7-3：使用絕對與相對路徑呼叫 <code>add_to_waitlist</code> 函式</span></p>
+<p>我們在 <code>eat_at_restaurant</code> 中第一次呼叫 <code>add_to_waitlist</code> 函式的方式是用絕對路徑。<code>add_to_waitlist</code> 函式和 <code>eat_at_restaurant</code> 都是在同一個 crate 底下，所以我們可以使用 <code>crate</code> 關鍵字來作爲絕對路徑的開頭。</p>
+<p>在 <code>crate</code> 之後, 我們接續加上對應的模組直到抵達 <code>add_to_waitlist</code>。你可以想像一個有相同架構的檔案系統，然後我們指定 <code>/front_of_house/hosting/add_to_waitlist</code> 這樣的路徑來執行 <code>add_to_waitlist</code> 程式。使用 <code>crate</code> 這樣的名稱作爲 crate 源頭的開始，就像在你的 shell 使用 <code>/</code> 作爲檔案系統的根一樣。</p>
+<p>而我們第二次在 <code>eat_at_restaurant</code> 呼叫 <code>add_to_waitlist</code> 的方式是使用相對路徑。 路徑的起頭是 <code>front_of_house</code>，因爲它和 <code>eat_at_restaurant</code> 都被定義在模組樹的同一層中。這裡相對應的檔案系統路徑就是 <code>front_of_house/hosting/add_to_waitlist</code>。使用一個名稱作爲開頭通常就是代表相對路徑。</p>
+<p>何時該用相對或絕對路徑是你在你的專案中要做的選擇。選擇的依據通常會看你移動程式碼位置時，是會連帶它們一起移動，或是分開移動到不同地方。舉例來說，如果我們同時將 <code>front_of_house</code> 模組和 <code>eat_at_restaurant</code> 函式移入另一個模組叫做 <code>customer_experience</code> 的話，就會需要修改 <code>add_to_waitlist</code> 的絕對路徑，但是相對路徑就可以原封不動。而如果我們只單獨將 <code>eat_at_restaurant</code> 函式移入一個叫做 <code>dining</code> 模組的話，<code>add_to_waitlist</code> 的絕對路徑就不用修改，但相對路徑就需要更新。我們通常會傾向於指定絕對路徑，因爲分別移動程式碼定義與項目呼叫的位置通常是比較常見的。</p>
+<p>讓我們嘗試編譯範例 7-3 並看看爲何不能編譯吧！以下範例 7-4 是我們得到的錯誤資訊。</p>
 <pre><code class="language-console">$ cargo build
    Compiling restaurant v0.1.0 (file:///projects/restaurant)
 error[E0603]: module `hosting` is private
@@ -256,35 +218,13 @@ error: could not compile `restaurant`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p><span class="caption">範例 7-4: Compiler errors from building the code in
-Listing 7-3</span></p>
-<p>The error messages say that module <code>hosting</code> is private. In other words, we
-have the correct paths for the <code>hosting</code> module and the <code>add_to_waitlist</code>
-function, but Rust won’t let us use them because it doesn’t have access to the
-private sections.</p>
-<p>Modules aren’t useful only for organizing your code. They also define Rust’s
-<em>privacy boundary</em>: the line that encapsulates the implementation details
-external code isn’t allowed to know about, call, or rely on. So, if you want to
-make an item like a function or struct private, you put it in a module.</p>
-<p>The way privacy works in Rust is that all items (functions, methods, structs,
-enums, modules, and constants) are private by default. Items in a parent module
-can’t use the private items inside child modules, but items in child modules
-can use the items in their ancestor modules. The reason is that child modules
-wrap and hide their implementation details, but the child modules can see the
-context in which they’re defined. To continue with the restaurant metaphor,
-think of the privacy rules as being like the back office of a restaurant: what
-goes on in there is private to restaurant customers, but office managers can
-see and do everything in the restaurant in which they operate.</p>
-<p>Rust chose to have the module system function this way so that hiding inner
-implementation details is the default. That way, you know which parts of the
-inner code you can change without breaking outer code. But you can expose inner
-parts of child modules' code to outer ancestor modules by using the <code>pub</code>
-keyword to make an item public.</p>
-<h3><a class="header" href="#exposing-paths-with-the-pub-keyword" id="exposing-paths-with-the-pub-keyword">Exposing Paths with the <code>pub</code> Keyword</a></h3>
-<p>Let’s return to the error in Listing 7-4 that told us the <code>hosting</code> module is
-private. We want the <code>eat_at_restaurant</code> function in the parent module to have
-access to the <code>add_to_waitlist</code> function in the child module, so we mark the
-<code>hosting</code> module with the <code>pub</code> keyword, as shown in Listing 7-5.</p>
+<p><span class="caption">範例 7-4：範例 7-3 嘗試編譯程式碼出現的錯誤</span></p>
+<p>錯誤訊息表示 <code>hosting</code> 模組是私有地。換句話說，我們指定 <code>hosting</code> 模組與 <code>add_to_waitlist</code> 函式的路徑是正確的，但是因爲它沒有私有部分的存取權，所以 Rust 不讓我們使用。</p>
+<p>模組不僅用來組織你的程式碼，它們還定義了 Rust 的<em>隱私界限（privacy boundary）</em>：這是條封裝實作細節，讓外部程式碼無法看到、呼叫或依賴的界限。所以你想要建立私有的函式或結構體，你可以將它們放入模組內。</p>
+<p>Rust 隱私權的運作方式是預設所有的項目（函式、方法、結構體、枚舉、模組與常數）都是私有的。上層模組的項目無法使用下層模組的私有項目，但下層模組能使用它們上方所有模組的項目。這麼做的原因是因爲下層模組上用了來實現實作細節，而下層模組應該要能夠看到在自己所定義的地方的其他內容。讓我們繼續用餐廳做比喻的話，我們可以想像隱私權規則就像是餐廳的後臺辦公室。對餐廳顧客來說裡面發生什麼事情都是未知的，但是辦公室經理可以知道經營餐廳時的所有事物。</p>
+<p>Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來的。這樣一來，你就能知道內部哪些程式碼需要修改，而不會破壞到外部的程式碼。不過你可以使用 <code>pub</code> 關鍵字來讓下層模組內部的一些程式碼公開給上層模組來使用。</p>
+<h3><a class="header" href="#使用-pub-關鍵字公開路徑" id="使用-pub-關鍵字公開路徑">使用 <code>pub</code> 關鍵字公開路徑</a></h3>
+<p>讓我們在執行一次範例 7-4 的錯誤，它告訴我們 <code>hosting</code> 模組是私有的。我們希望上層模組中的 <code>eat_at_restaurant</code> 函式可以呼叫下層模組的 <code>add_to_waitlist</code> 函式，所以我們將 <code>hosting</code> 模組加上 <code>pub</code> 關鍵字，如範例 7-5 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
     pub mod hosting {
@@ -300,10 +240,8 @@ pub fn eat_at_restaurant() {
     front_of_house::hosting::add_to_waitlist();
 }
 </code></pre>
-<p><span class="caption">範例 7-5: Declaring the <code>hosting</code> module as <code>pub</code> to
-use it from <code>eat_at_restaurant</code></span></p>
-<p>Unfortunately, the code in Listing 7-5 still results in an error, as shown in
-Listing 7-6.</p>
+<p><span class="caption">範例 7-5：宣告 <code>hosting</code> 模組爲 <code>pub</code> 好讓 <code>eat_at_restaurant</code> 可以使用</span></p>
+<p>不幸的是範例 7-5 的程式碼仍然回傳了另一個錯誤，如範例 7-6 所示。</p>
 <pre><code class="language-console">$ cargo build
    Compiling restaurant v0.1.0 (file:///projects/restaurant)
 error[E0603]: function `add_to_waitlist` is private
@@ -325,18 +263,10 @@ error: could not compile `restaurant`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p><span class="caption">範例 7-6: Compiler errors from building the code in
-Listing 7-5</span></p>
-<p>What happened? Adding the <code>pub</code> keyword in front of <code>mod hosting</code> makes the
-module public. With this change, if we can access <code>front_of_house</code>, we can
-access <code>hosting</code>. But the <em>contents</em> of <code>hosting</code> are still private; making the
-module public doesn’t make its contents public. The <code>pub</code> keyword on a module
-only lets code in its ancestor modules refer to it.</p>
-<p>The errors in Listing 7-6 say that the <code>add_to_waitlist</code> function is private.
-The privacy rules apply to structs, enums, functions, and methods as well as
-modules.</p>
-<p>Let’s also make the <code>add_to_waitlist</code> function public by adding the <code>pub</code>
-keyword before its definition, as in Listing 7-7.</p>
+<p><span class="caption">範例 7-6：編譯範例 7-5 時產生的錯誤</span></p>
+<p>到底發生了什麼事？在 <code>mod hosting</code> 之前加上 <code>pub</code> 關鍵字確實公開了模組。有了這項修改後，我們的確可以在取得 <code>front_of_house</code> 的後繼續進入 <code>hosting</code>。但是 <code>hosting</code> 的所有<em>內容</em>仍然是私有的。模組中的 <code>pub</code> 關鍵字只會讓該模組公開讓上層模組使用而已。</p>
+<p>範例 7-6 的錯誤訊息表示 <code>add_to_waitlist</code> 函式是私有的。隱私權規則如同模組一樣適用於結構體、枚舉、函式與方法。</p>
+<p>讓我們在 <code>add_to_waitlist</code> 的函式定義加上 <code>pub</code> 公開它吧，如範例 7-7 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
@@ -354,36 +284,13 @@ pub fn eat_at_restaurant() {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-7: Adding the <code>pub</code> keyword to <code>mod hosting</code>
-and <code>fn add_to_waitlist</code> lets us call the function from
-<code>eat_at_restaurant</code></span></p>
-<p>Now the code will compile! Let’s look at the absolute and the relative path and
-double-check why adding the <code>pub</code> keyword lets us use these paths in
-<code>add_to_waitlist</code> with respect to the privacy rules.</p>
-<p>In the absolute path, we start with <code>crate</code>, the root of our crate’s module
-tree. Then the <code>front_of_house</code> module is defined in the crate root. The
-<code>front_of_house</code> module isn’t public, but because the <code>eat_at_restaurant</code>
-function is defined in the same module as <code>front_of_house</code> (that is,
-<code>eat_at_restaurant</code> and <code>front_of_house</code> are siblings), we can refer to
-<code>front_of_house</code> from <code>eat_at_restaurant</code>. Next is the <code>hosting</code> module marked
-with <code>pub</code>. We can access the parent module of <code>hosting</code>, so we can access
-<code>hosting</code>. Finally, the <code>add_to_waitlist</code> function is marked with <code>pub</code> and we
-can access its parent module, so this function call works!</p>
-<p>In the relative path, the logic is the same as the absolute path except for the
-first step: rather than starting from the crate root, the path starts from
-<code>front_of_house</code>. The <code>front_of_house</code> module is defined within the same module
-as <code>eat_at_restaurant</code>, so the relative path starting from the module in which
-<code>eat_at_restaurant</code> is defined works. Then, because <code>hosting</code> and
-<code>add_to_waitlist</code> are marked with <code>pub</code>, the rest of the path works, and this
-function call is valid!</p>
-<h3><a class="header" href="#starting-relative-paths-with-super" id="starting-relative-paths-with-super">Starting Relative Paths with <code>super</code></a></h3>
-<p>We can also construct relative paths that begin in the parent module by using
-<code>super</code> at the start of the path. This is like starting a filesystem path with
-the <code>..</code> syntax. Why would we want to do this?</p>
-<p>Consider the code in Listing 7-8 that models the situation in which a chef
-fixes an incorrect order and personally brings it out to the customer. The
-function <code>fix_incorrect_order</code> calls the function <code>serve_order</code> by specifying
-the path to <code>serve_order</code> starting with <code>super</code>:</p>
+<p><span class="caption">範例 7-7：將 <code>mod hosting</code> 和 <code>fn add_to_waitlist</code> 都加上 <code>pub</code> 關鍵字，讓我們可以從 <code>eat_at_restaurant</code> 呼叫函式</span></p>
+<p>現在程式碼就能成功編譯了！讓我們看看絕對與相對路徑，以及再次檢查爲何 <code>pub</code> 關鍵字是如何遵守隱私權規則，讓我們可以在 <code>add_to_waitlist</code> 取得這些路徑。</p>
+<p>在絕對路徑中，我們始於 <code>crate</code>，這是 crate 模組樹的源頭。再來 <code>front_of_house</code> 模組被定義在 crate 源頭中，<code>front_of_house</code> 模組不是公開，但因爲 <code>eat_at_restaurant</code> 函式被定義在與 <code>front_of_house</code> 同一層模組中（也就是 <code>eat_at_restaurant</code> 與 <code>front_of_house</code> 同輩（siblings）），我們可以從 <code>eat_at_restaurant</code> 引用 <code>front_of_house</code>。接下來是有 <code>pub</code> 標記的 <code>hosting</code> 模組，我們可以取得 <code>hosting</code> 的上層模組，所以我們可以取得 <code>hosting</code>。最後 <code>add_to_waitlist</code> 函式也有 <code>pub</code> 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！</p>
+<p>而在相對路徑中，基本邏輯與絕對路徑一樣，不過第一步有點不同。我們不是從 crate 源頭開始，路徑是從 <code>front_of_house</code> 開始。<code>front_of_house</code> 與 <code>eat_at_restaurant</code> 被定義在同一層模組中，所以從 <code>eat_at_restaurant</code> 開始定義的相對路徑是有效的。再來因爲 <code>hosting</code> 與 <code>add_to_waitlist</code> 都有 <code>pub</code> 標記，其餘的路徑也都是可以進入的，所以此函式呼叫也是有效的！</p>
+<h3><a class="header" href="#使用-super-作爲相對路徑的開頭" id="使用-super-作爲相對路徑的開頭">使用 <code>super</code> 作爲相對路徑的開頭</a></h3>
+<p>我們還可以在路徑開頭使用 <code>super</code> 來建構從上層模組出發的相對路徑。這就像在檔案系統中使用 <code>..</code> 作爲路徑開頭一樣。不過爲何我們想要這樣做呢？</p>
+<p>請考慮範例 7-8 的程式碼，這模擬了一個主廚修正一個錯誤的訂單，並親自提供給顧客的場景。函式 <code>fix_incorrect_order</code> 呼叫了函式 <code>serve_order</code>，不過這次是使用 <code>super</code> 來指定 <code>serve_order</code> 的路徑：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn serve_order() {}
 
@@ -398,27 +305,10 @@ mod back_of_house {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-8: Calling a function using a relative path
-starting with <code>super</code></span></p>
-<p>The <code>fix_incorrect_order</code> function is in the <code>back_of_house</code> module, so we can
-use <code>super</code> to go to the parent module of <code>back_of_house</code>, which in this case
-is <code>crate</code>, the root. From there, we look for <code>serve_order</code> and find it.
-Success! We think the <code>back_of_house</code> module and the <code>serve_order</code> function are
-likely to stay in the same relationship to each other and get moved together
-should we decide to reorganize the crate’s module tree. Therefore, we used
-<code>super</code> so we’ll have fewer places to update code in the future if this code
-gets moved to a different module.</p>
-<h3><a class="header" href="#making-structs-and-enums-public" id="making-structs-and-enums-public">Making Structs and Enums Public</a></h3>
-<p>We can also use <code>pub</code> to designate structs and enums as public, but there are a
-few extra details. If we use <code>pub</code> before a struct definition, we make the
-struct public, but the struct’s fields will still be private. We can make each
-field public or not on a case-by-case basis. In Listing 7-9, we’ve defined a
-public <code>back_of_house::Breakfast</code> struct with a public <code>toast</code> field but a
-private <code>seasonal_fruit</code> field. This models the case in a restaurant where the
-customer can pick the type of bread that comes with a meal, but the chef
-decides which fruit accompanies the meal based on what’s in season and in
-stock. The available fruit changes quickly, so customers can’t choose the fruit
-or even see which fruit they’ll get.</p>
+<p><span class="caption">範例 7-8：使用 <code>super</code> 作爲呼叫函式路徑的開頭</span></p>
+<p><code>fix_incorrect_order</code> 函式在 <code>back_of_house</code> 模組中，所以我們可以使用 <code>super</code> 前往 <code>back_of_house</code> 的上層模組，在此例的話就是源頭 <code>crate</code>。然後在此時我們就能找到 <code>serve_order</code>。成功！我們認定 <code>back_of_house</code> 模組與 <code>serve_order</code> 函式應該會維持這樣相同的關係，在我們要組織 crate 的模組樹時，它們理當一起被移動。因此我們使用 <code>super</code> 讓我們在未來程式碼被移動到不同模組時，我們不用更新太多程式路徑。</p>
+<h3><a class="header" href="#公開結構體與枚舉" id="公開結構體與枚舉">公開結構體與枚舉</a></h3>
+<p>我們也可以使用 <code>pub</code> 來公開結構體與枚舉，但是我們有些額外細節要考慮到。如果我們在結構體定義之前加上 <code>pub</code> 的話，我們的確能公開結構體，但是結構體內的欄位仍然會是私有的。我們可以視情況決定每個欄位要不要公開。在範例 7-9 我們定義了一個公開的結構體 <code>back_of_house::Breakfast</code> 並公開欄位 <code>toast</code>，不過將欄位 <code>seasonal_fruit</code> 維持是私有的。這次範例模擬的情境是，餐廳顧客可以選擇早餐要點什麼類型的麵包，但是由主廚視庫存與當季食材來決定提供何種水果。餐廳提供的水果種類隨季節變化很快，所以顧客無法選擇或預先知道他們會拿到何種水果。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -452,21 +342,10 @@ pub fn eat_at_restaurant() {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-9: A struct with some public fields and some
-private fields</span></p>
-<p>Because the <code>toast</code> field in the <code>back_of_house::Breakfast</code> struct is public,
-in <code>eat_at_restaurant</code> we can write and read to the <code>toast</code> field using dot
-notation. Notice that we can’t use the <code>seasonal_fruit</code> field in
-<code>eat_at_restaurant</code> because <code>seasonal_fruit</code> is private. Try uncommenting the
-line modifying the <code>seasonal_fruit</code> field value to see what error you get!</p>
-<p>Also, note that because <code>back_of_house::Breakfast</code> has a private field, the
-struct needs to provide a public associated function that constructs an
-instance of <code>Breakfast</code> (we’ve named it <code>summer</code> here). If <code>Breakfast</code> didn’t
-have such a function, we couldn’t create an instance of <code>Breakfast</code> in
-<code>eat_at_restaurant</code> because we couldn’t set the value of the private
-<code>seasonal_fruit</code> field in <code>eat_at_restaurant</code>.</p>
-<p>In contrast, if we make an enum public, all of its variants are then public. We
-only need the <code>pub</code> before the <code>enum</code> keyword, as shown in Listing 7-10.</p>
+<p><span class="caption">範例 7-9：一個有些欄位公開而有些是私有欄位的結構體</span></p>
+<p>因爲 <code>back_of_house::Breakfast</code> 結構體中的 <code>toast</code> 欄位是公開的，在 <code>eat_at_restaurant</code> 中我們可以加上句點來對 <code>toast</code> 欄位進行讀寫。注意我們不能在 <code>eat_at_restaurant</code> 使用 <code>seasonal_fruit</code> 欄位，因爲它是私有的。請嘗試解開修改 <code>seasonal_fruit</code> 欄位數值的那行程式註解，看看你會獲得什麼錯誤！</p>
+<p>另外因爲 <code>back_of_house::Breakfast</code> 擁有私有欄位，該結構體必須提供一個公開的關聯函式（associated function）才有辦法產生 <code>Breakfast</code> 的實例（我們在此例命名爲 <code>summer</code>）。如果 <code>Breakfast</code> 沒有這樣的函式的話，我們就無法在 <code>eat_at_restaurant</code> 建立 <code>Breakfast</code> 的實例，因爲我們無法在 <code>eat_at_restaurant</code> 設置私有欄位 <code>seasonal_fruit</code> 的數值。</p>
+<p>接下來，如果我們公開枚舉的話，那它所有的變體也都會公開。我們只需要在 <code>enum</code> 關鍵字之前加上 <code>pub</code> 就好，如範例 7-10 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -484,17 +363,16 @@ pub fn eat_at_restaurant() {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-10: Designating an enum as public makes all its
-variants public</span></p>
-<p>Because we made the <code>Appetizer</code> enum public, we can use the <code>Soup</code> and <code>Salad</code>
-variants in <code>eat_at_restaurant</code>. Enums aren’t very useful unless their variants
-are public; it would be annoying to have to annotate all enum variants with
-<code>pub</code> in every case, so the default for enum variants is to be public. Structs
-are often useful without their fields being public, so struct fields follow the
-general rule of everything being private by default unless annotated with <code>pub</code>.</p>
-<p>There’s one more situation involving <code>pub</code> that we haven’t covered, and that is
-our last module system feature: the <code>use</code> keyword. We’ll cover <code>use</code> by itself
-first, and then we’ll show how to combine <code>pub</code> and <code>use</code>.</p>
+<p><span class="caption">範例 7-10：公開枚舉會讓其所有變體也公開</span></p>
+<p>因爲我們公開了 <code>Appetizer</code> 枚舉，我們可以在 <code>eat_at_restaurant</code> 使用 <code>Soup</code> 和 <code>Salad</code>。枚舉的變體沒有全部都公開的話，通常會讓枚舉很不好用。要用 <code>pub</code> 標註所有的枚舉變體都公開的話又很麻煩。所以公開枚舉的話，預設就會公開其變體。相反地，結構體不讓它的欄位全部都公開的話，通常反而比較實用。因此結構體欄位的通用原則是預設爲私有，除非有 <code>pub</code> 標註。</p>
+<p>我們會還有一個 <code>pub</code> 的使用情境還沒提到，也就是我們模組系統最後一項功能：<code>use</code> 關鍵字。我們接下來會先解釋 <code>use</code>，再來研究如何組合 <code>pub</code> 和 <code>use</code>。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md">e5ed971</a></li>
+<li>updated: 2020-09-11</li>
+</ul>
+</blockquote>
 
                     </main>
 
