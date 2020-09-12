@@ -109,7 +109,7 @@ Rust 支援你所有想得到的數值型別基本運算：加法、減法、乘
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-09-char/src/main.rs}}
 ```
 
-Rust 的 `cahr` 型別大小爲四個位元組並表示爲一個 Unicode 純量數值，這代表它能擁有的字元比 ASCII 還來的多。舉凡標音字母（Accented letters）、中文、日文、韓文、表情符號以及零長度空格都 Rust `cahr` 的有效字元。Unicode 純量數值的範圍包含從 `U+0000` 到 `U+D7FF` 以及 `U+E000` 到 `U+10FFFF`。但是一個「字元」並不是真正的 Unicode 概念，所以你對於什麼是一個「字元」的看法可能會和 Rust 的 `char` 不一樣。我們將會在第八章的[「用字串儲存 UTF-8 編碼的文字」][strings]<!-- ignore -->來討論此議題。
+Rust 的 `cahr` 型別大小爲四個位元組並表示爲一個 Unicode 純量數值，這代表它能擁有的字元比 ASCII 還來的多。舉凡標音字母（Accented letters）、中文、日文、韓文、表情符號以及零長度空格都 Rust `cahr` 的有效字元。Unicode 純量數值的範圍包含從 `U+0000` 到 `U+D7FF` 以及 `U+E000` 到 `U+10FFFF`。但是一個「字元」並不是真正的 Unicode 概念，所以你對於什麼是一個「字元」的看法可能會和 Rust 的 `char` 不一樣。我們將會在第八章的[「使用字串儲存 UTF-8 編碼的文字」][strings]<!-- ignore -->來討論此議題。
 
 ### 複合型別
 

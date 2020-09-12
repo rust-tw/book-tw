@@ -44,10 +44,10 @@
     - [使用 `use` 關鍵字引入路徑](ch07-04-bringing-paths-into-scope-with-the-use-keyword.md)
     - [將模組拆成不同檔案](ch07-05-separating-modules-into-different-files.md)
 
-- [Common Collections](ch08-00-common-collections.md)
-    - [Storing Lists of Values with Vectors](ch08-01-vectors.md)
-    - [Storing UTF-8 Encoded Text with Strings](ch08-02-strings.md)
-    - [Storing Keys with Associated Values in Hash Maps](ch08-03-hash-maps.md)
+- [常見集合](ch08-00-common-collections.md)
+    - [使用 Vector 儲存列表](ch08-01-vectors.md)
+    - [使用字串儲存 UTF-8 編碼的文字](ch08-02-strings.md)
+    - [使用雜湊表儲存鍵值配對](ch08-03-hash-maps.md)
 
 - [Error Handling](ch09-00-error-handling.md)
     - [Unrecoverable Errors with `panic!`](ch09-01-unrecoverable-errors-with-panic.md)
