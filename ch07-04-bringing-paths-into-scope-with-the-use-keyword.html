@@ -167,18 +167,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#bringing-paths-into-scope-with-the-use-keyword" id="bringing-paths-into-scope-with-the-use-keyword">Bringing Paths into Scope with the <code>use</code> Keyword</a></h2>
-<p>It might seem like the paths we’ve written to call functions so far are
-inconveniently long and repetitive. For example, in Listing 7-7, whether we
-chose the absolute or relative path to the <code>add_to_waitlist</code> function, every
-time we wanted to call <code>add_to_waitlist</code> we had to specify <code>front_of_house</code> and
-<code>hosting</code> too. Fortunately, there’s a way to simplify this process. We can
-bring a path into a scope once and then call the items in that path as if
-they’re local items with the <code>use</code> keyword.</p>
-<p>In Listing 7-11, we bring the <code>crate::front_of_house::hosting</code> module into the
-scope of the <code>eat_at_restaurant</code> function so we only have to specify
-<code>hosting::add_to_waitlist</code> to call the <code>add_to_waitlist</code> function in
-<code>eat_at_restaurant</code>.</p>
+                        <h2><a class="header" href="#使用-use-關鍵字引入路徑" id="使用-use-關鍵字引入路徑">使用 <code>use</code> 關鍵字引入路徑</a></h2>
+<p>我們目前呼叫函式的路徑都很冗長、重複且不方便。舉例來說範例 7-7 我們在考慮要使用絕對或相對路徑來呼叫 <code>add_to_waitlist</code> 函式時，每次想要呼叫 <code>add_to_waitlist</code> 我們都得指明 <code>front_of_house</code> 以及
+<code>hosting</code>。幸運的是，我們有簡化過程的辦法。我們可以使用 <code>use</code> 關鍵字將路徑引入作用域，然後就像它們是本地項目一樣來呼叫它們。</p>
+<p>在範例 7-11 中，我們引入了 <code>crate::front_of_house::hosting</code> 模組進 <code>eat_at_restaurant</code> 函式的作用域中，所以我們要呼叫函式 <code>add_to_waitlist</code> 的話我們只需要指明 <code>hosting::add_to_waitlist</code>。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
@@ -196,16 +188,9 @@ pub fn eat_at_restaurant() {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-11: Bringing a module into scope with
-<code>use</code></span></p>
-<p>Adding <code>use</code> and a path in a scope is similar to creating a symbolic link in
-the filesystem. By adding <code>use crate::front_of_house::hosting</code> in the crate
-root, <code>hosting</code> is now a valid name in that scope, just as though the <code>hosting</code>
-module had been defined in the crate root. Paths brought into scope with <code>use</code>
-also check privacy, like any other paths.</p>
-<p>You can also bring an item into scope with <code>use</code> and a relative path. Listing
-7-12 shows how to specify a relative path to get the same behavior as in
-Listing 7-11.</p>
+<p><span class="caption">範例 7-11：使用 <code>use</code> 將模組引入</span></p>
+<p>使用 <code>use</code> 將路徑引入作用域就像是在檔案系統中產生符號連結一樣（symbolic link）。在 crate 源頭加上 <code>use crate::front_of_house::hosting</code> 後，<code>hosting</code> 在作用域內就是個有效的名稱了。使用 <code>use</code> 的路徑也會檢查隱私權，就像其他路徑一樣。</p>
+<p>你也可以使用 <code>use</code> 加上相對路徑來引入項目。範例 7-12 就展示了如何指明相對路徑來達到與範例 7-11 一樣的結果。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
@@ -223,12 +208,9 @@ pub fn eat_at_restaurant() {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-12: Bringing a module into scope with <code>use</code> and
-a relative path</span></p>
-<h3><a class="header" href="#creating-idiomatic-use-paths" id="creating-idiomatic-use-paths">Creating Idiomatic <code>use</code> Paths</a></h3>
-<p>In Listing 7-11, you might have wondered why we specified <code>use crate::front_of_house::hosting</code> and then called <code>hosting::add_to_waitlist</code> in
-<code>eat_at_restaurant</code> rather than specifying the <code>use</code> path all the way out to
-the <code>add_to_waitlist</code> function to achieve the same result, as in Listing 7-13.</p>
+<p><span class="caption">範例 7-12：使用 <code>use</code> 與相對路徑將項目引入作用域</span></p>
+<h3><a class="header" href="#建立慣用的-use-路徑" id="建立慣用的-use-路徑">建立慣用的 <code>use</code> 路徑</a></h3>
+<p>在範例 7-11 你可能會好奇爲何我們指明 <code>use crate::front_of_house::hosting</code> 然後在 <code>eat_at_restaurant</code> 呼叫，而不是直接用 <code>use</code> 指明 <code>add_to_waitlist</code> 函式的整個路徑就好。像範例 7-13 這樣寫。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
@@ -246,18 +228,9 @@ pub fn eat_at_restaurant() {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-13: Bringing the <code>add_to_waitlist</code> function
-into scope with <code>use</code>, which is unidiomatic</span></p>
-<p>Although both Listing 7-11 and 7-13 accomplish the same task, Listing 7-11 is
-the idiomatic way to bring a function into scope with <code>use</code>. Bringing the
-function’s parent module into scope with <code>use</code> so we have to specify the parent
-module when calling the function makes it clear that the function isn’t locally
-defined while still minimizing repetition of the full path. The code in Listing
-7-13 is unclear as to where <code>add_to_waitlist</code> is defined.</p>
-<p>On the other hand, when bringing in structs, enums, and other items with <code>use</code>,
-it’s idiomatic to specify the full path. Listing 7-14 shows the idiomatic way
-to bring the standard library’s <code>HashMap</code> struct into the scope of a binary
-crate.</p>
+<p><span class="caption">範例 7-13：使用 <code>use</code> 將 <code>add_to_waitlist</code> 函式引入作用域，但這較不符合習慣</span></p>
+<p>雖然範例 7-11 與範例 7-13 都能完成相同的任務，但是範例 7-11 使用 <code>use</code> 講函式引入作用域的方法比較符合習慣用法。使用 <code>use</code> 將函式的上層模組引入作用域，讓我們必須在呼叫函式時得指明對應模組。這樣清楚知道該函式並非本地定義的，同時一樣能簡化路徑。範例 7-13 的程式碼會不清楚 <code>add_to_waitlist</code> 是在哪定義的。</p>
+<p>另一方面，如果是要使用 <code>use</code> 引入結構體、枚舉或其他項目的話，直接指明完整路徑反而是符合習慣的方式。範例 7-14 顯示了將標準函式庫的 <code>HashMap</code> 引入二進制 crate 作用域的習慣用法。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::collections::HashMap;
 
@@ -266,14 +239,9 @@ fn main() {
     map.insert(1, 2);
 }
 </code></pre></pre>
-<p><span class="caption">範例 7-14: Bringing <code>HashMap</code> into scope in an
-idiomatic way</span></p>
-<p>There’s no strong reason behind this idiom: it’s just the convention that has
-emerged, and folks have gotten used to reading and writing Rust code this way.</p>
-<p>The exception to this idiom is if we’re bringing two items with the same name
-into scope with <code>use</code> statements, because Rust doesn’t allow that. Listing 7-15
-shows how to bring two <code>Result</code> types into scope that have the same name but
-different parent modules and how to refer to them.</p>
+<p><span class="caption">範例 7-14：引入 <code>HashMap</code> 進作用域的習慣用法</span></p>
+<p>此習慣沒什麼強硬的理由：就只是大家已經習慣這樣的用法來讀寫 Rust 的程式碼。</p>
+<p>這樣的習慣有個例外，那就是如果我們將兩個相同名稱的項目使用 <code>use</code> 陳述式引入作用域時，因爲 Rust 不會允許。範例 7-15 展示了如何引入兩個同名但屬於不同模組的 <code>Result</code> 型別進作用域中並使用的方法。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -292,17 +260,10 @@ fn function2() -&gt; io::Result&lt;()&gt; {
 </span>}
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-15: Bringing two types with the same name into
-the same scope requires using their parent modules.</span></p>
-<p>As you can see, using the parent modules distinguishes the two <code>Result</code> types.
-If instead we specified <code>use std::fmt::Result</code> and <code>use std::io::Result</code>, we’d
-have two <code>Result</code> types in the same scope and Rust wouldn’t know which one we
-meant when we used <code>Result</code>.</p>
-<h3><a class="header" href="#providing-new-names-with-the-as-keyword" id="providing-new-names-with-the-as-keyword">Providing New Names with the <code>as</code> Keyword</a></h3>
-<p>There’s another solution to the problem of bringing two types of the same name
-into the same scope with <code>use</code>: after the path, we can specify <code>as</code> and a new
-local name, or alias, for the type. Listing 7-16 shows another way to write the
-code in Listing 7-15 by renaming one of the two <code>Result</code> types using <code>as</code>.</p>
+<p><span class="caption">範例 7-15：要將兩個同名的型別引入相同作用域的話，必須使用它們所屬的模組</span></p>
+<p>如同你所見使用對應的模組可以分辨出是再使用哪個 <code>Result</code> 型別。如果我們直接指明 <code>use std::fmt::Result</code> 和 <code>use std::io::Result</code> 的話，我們會在同一個作用域中擁有兩個 <code>Result</code> 型別，這樣一來 Rust 就無法知道我們想用的 <code>Result</code> 是哪一個。</p>
+<h3><a class="header" href="#使用-as-關鍵字提供新名稱" id="使用-as-關鍵字提供新名稱">使用 <code>as</code> 關鍵字提供新名稱</a></h3>
+<p>要在相同作用域中使用 <code>use</code> 引入兩個同名型別的話，還有另一個辦法。在路徑之後，我們可以用 <code>as</code> 指定一個該型別在本地的新名稱，或者說別名。範例 7-16 展示重寫了範例 7-15，將其中一個 <code>Result</code> 型別使用 <code>as</code> 重新命名。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -321,21 +282,11 @@ fn function2() -&gt; IoResult&lt;()&gt; {
 </span>}
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-16: Renaming a type when it’s brought into
-scope with the <code>as</code> keyword</span></p>
-<p>In the second <code>use</code> statement, we chose the new name <code>IoResult</code> for the
-<code>std::io::Result</code> type, which won’t conflict with the <code>Result</code> from <code>std::fmt</code>
-that we’ve also brought into scope. Listing 7-15 and Listing 7-16 are
-considered idiomatic, so the choice is up to you!</p>
-<h3><a class="header" href="#re-exporting-names-with-pub-use" id="re-exporting-names-with-pub-use">Re-exporting Names with <code>pub use</code></a></h3>
-<p>When we bring a name into scope with the <code>use</code> keyword, the name available in
-the new scope is private. To enable the code that calls our code to refer to
-that name as if it had been defined in that code’s scope, we can combine <code>pub</code>
-and <code>use</code>. This technique is called <em>re-exporting</em> because we’re bringing
-an item into scope but also making that item available for others to bring into
-their scope.</p>
-<p>Listing 7-17 shows the code in Listing 7-11 with <code>use</code> in the root module
-changed to <code>pub use</code>.</p>
+<p><span class="caption">範例 7-16：使用 <code>as</code> 將型別引入作用域的同時重新命名</span></p>
+<p>在第二個 <code>use</code> 陳述式，我們選擇了將 <code>std::io::Result</code> 型別重新命名爲 <code>IoResult</code>，這樣就不會和同樣引入作用域內 <code>std::fmt</code> 的 <code>Result</code> 有所衝突。範例 7-15 與 範例 7-16 都屬於習慣用法，你可以選擇你比較喜歡的方式！</p>
+<h3><a class="header" href="#使用-pub-use-重新匯出名稱" id="使用-pub-use-重新匯出名稱">使用 <code>pub use</code> 重新匯出名稱</a></h3>
+<p>當我們使用 <code>use</code> 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 <code>pub</code> 和 <code>use</code>。這樣的技巧稱之爲 <em>重新匯出（re-exporting）</em>，因爲我們將項目引入作用域，並同時公開給其他作用域引用。</p>
+<p>範例 7-17 顯示將範例 7-11 在源頭模組中原本的 <code>use</code> 改成 <code>pub use</code>。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
@@ -353,24 +304,11 @@ pub fn eat_at_restaurant() {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-17: Making a name available for any code to use
-from a new scope with <code>pub use</code></span></p>
-<p>By using <code>pub use</code>, external code can now call the <code>add_to_waitlist</code> function
-using <code>hosting::add_to_waitlist</code>. If we hadn’t specified <code>pub use</code>, the
-<code>eat_at_restaurant</code> function could call <code>hosting::add_to_waitlist</code> in its
-scope, but external code couldn’t take advantage of this new path.</p>
-<p>Re-exporting is useful when the internal structure of your code is different
-from how programmers calling your code would think about the domain. For
-example, in this restaurant metaphor, the people running the restaurant think
-about “front of house” and “back of house.” But customers visiting a restaurant
-probably won’t think about the parts of the restaurant in those terms. With
-<code>pub use</code>, we can write our code with one structure but expose a different
-structure. Doing so makes our library well organized for programmers working on
-the library and programmers calling the library.</p>
-<h3><a class="header" href="#using-external-packages" id="using-external-packages">Using External Packages</a></h3>
-<p>In Chapter 2, we programmed a guessing game project that used an external
-package called <code>rand</code> to get random numbers. To use <code>rand</code> in our project, we
-added this line to <em>Cargo.toml</em>:</p>
+<p><span class="caption">範例 7-17：使用 <code>pub use</code> 使名稱公開給任何程式的作用域中引用</span></p>
+<p>使用 <code>pub use</code> 可以讓外部程式碼以 <code>hosting::add_to_waitlist</code> 的方式來呼叫函式 <code>add_to_waitlist</code>。如果我們沒有指明 <code>pub use</code>，函式 <code>eat_at_restaurant</code> 仍可以在它的作用域呼叫 <code>hosting::add_to_waitlist</code>，但外部程式碼就無法利用這個新的路徑。</p>
+<p>當程式碼的內部結構與使用程式的開發者對於該領域所想像的結構不同時，重新匯出會很有用。我們再次用餐廳做比喻的話就像是，經營餐廳的人可能會想像餐廳是由「前端」與「後端」所組成，但光顧的顧客可能不會用這些術語來描繪餐廳的每個部分。使用 <code>pub use</code> 的話，我們可以用某種架構寫出程式碼，再以不同的架構對外公開。這樣讓我們的的函式庫可以完整的組織起來，且對開發函式庫的開發者與使用函式庫的開發者都提供友善的架構。</p>
+<h3><a class="header" href="#使用外部套件" id="使用外部套件">使用外部套件</a></h3>
+<p>在第二章我們寫了一支猜謎遊戲專案時，有用到一個外部套件叫做 <code>rand</code> 來取得隨機數字。要在專案內使用 <code>rand</code> 的話，我們會在 <em>Cargo.toml</em> 加上此行：</p>
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
 * ch02-00-guessing-game-tutorial.md
@@ -380,14 +318,8 @@ added this line to <em>Cargo.toml</em>:</p>
 <pre><code class="language-toml">[dependencies]
 rand = &quot;0.5.5&quot;
 </code></pre>
-<p>Adding <code>rand</code> as a dependency in <em>Cargo.toml</em> tells Cargo to download the
-<code>rand</code> package and any dependencies from <a href="https://crates.io/">crates.io</a> and
-make <code>rand</code> available to our project.</p>
-<p>Then, to bring <code>rand</code> definitions into the scope of our package, we added a
-<code>use</code> line starting with the name of the crate, <code>rand</code>, and listed the items
-we wanted to bring into scope. Recall that in the <a href="ch02-00-guessing-game-tutorial.html#generating-a-random-number">“Generating a Random
-Number”</a><!-- ignore --> section in Chapter 2, we brought the <code>Rng</code> trait
-into scope and called the <code>rand::thread_rng</code> function:</p>
+<p>在 <em>Cargo.toml</em> 新增  <code>rand</code> 作爲依賴函式庫會告訴 Cargo 要從 <a href="https://crates.io/">crates.io</a> 下載  <code>rand</code> 以及其他相關的依賴，讓我們可專案可以使用 <code>rand</code>。</p>
+<p>接下來要將 <code>rand</code> 的定義引入我們套件的作用域的話，我們加上一行 <code>use</code> 後面接著 crate 的名稱 <code>rand</code> 然後列出我們想要引入作用域的項目。回想一下在第二章<a href="ch02-00-guessing-game-tutorial.html#generating-a-random-number">「產生隨機數字」</a><!-- ignore -->的段落，我們將 <code>Rng</code> 特徵引入作用域中，並呼叫函式 <code>rand::thread_rng</code>：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
 </span>use rand::Rng;
 
@@ -409,28 +341,17 @@ fn main() {
 </span><span class="boring">    println!(&quot;You guessed: {}&quot;, guess);
 </span>}
 </code></pre>
-<p>Members of the Rust community have made many packages available at
-<a href="https://crates.io/">crates.io</a>, and pulling any of them into your package
-involves these same steps: listing them in your package’s <em>Cargo.toml</em> file and
-using <code>use</code> to bring items from their crates into scope.</p>
-<p>Note that the standard library (<code>std</code>) is also a crate that’s external to our
-package. Because the standard library is shipped with the Rust language, we
-don’t need to change <em>Cargo.toml</em> to include <code>std</code>. But we do need to refer to
-it with <code>use</code> to bring items from there into our package’s scope. For example,
-with <code>HashMap</code> we would use this line:</p>
+<p>Rust 社群成員在 <a href="https://crates.io/">crates.io</a> 發佈了不少套件可供使用，要將這些套件引入到你的套件的步驟是一樣的。在你的套件的 <em>Cargo.toml</em> 檔案列出它們，然後使用 <code>use</code> 將這些 crate 內的項目引入作用域中。</p>
+<p>請注意到標準函式庫（<code>std</code>）對於我們的套件來說也是一個外部 crate。由於標準函式庫會跟著 Rust 語言發佈，所以我們不需要更改 <em>Cargo.toml</em> 來包含 <code>std</code>。但是我們仍然需使用 <code>use</code> 來將它的項目引入我們套件的作用域中。舉例來說，要使用 <code>HashMap</code> 我們可以這樣寫：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::collections::HashMap;
 <span class="boring">}
 </span></code></pre></pre>
-<p>This is an absolute path starting with <code>std</code>, the name of the standard library
-crate.</p>
-<h3><a class="header" href="#using-nested-paths-to-clean-up-large-use-lists" id="using-nested-paths-to-clean-up-large-use-lists">Using Nested Paths to Clean Up Large <code>use</code> Lists</a></h3>
-<p>If we’re using multiple items defined in the same crate or same module,
-listing each item on its own line can take up a lot of vertical space in our
-files. For example, these two <code>use</code> statements we had in the Guessing Game in
-Listing 2-4 bring items from <code>std</code> into scope:</p>
+<p>這是個用標準函式庫的 crate 名稱 <code>std</code> 起頭的絕對路徑。</p>
+<h3><a class="header" href="#使用巢狀路徑來大量的-use-行數" id="使用巢狀路徑來大量的-use-行數">使用巢狀路徑來大量的 <code>use</code> 行數</a></h3>
+<p>如果我們要使用在相同 crate 或是相同模組內定義的數個項目，針對每個項目都單獨寫一行的話，會佔據我們檔案內很多空間。舉例來說，範例 2-4 中的猜謎遊戲我們用了這兩個 <code>use</code> 陳述式來引入作用域中：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span>// --snip--
@@ -462,10 +383,7 @@ use std::io;
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p>Instead, we can use nested paths to bring the same items into scope in one
-line. We do this by specifying the common part of the path, followed by two
-colons, and then curly brackets around a list of the parts of the paths that
-differ, as shown in Listing 7-18.</p>
+<p>我們可以改使用巢狀路徑（nested paths）來只用一行就能將數個項目引入作用域中。我們先指明相同路徑的部分，加上雙冒號，然後在大括號內列出各自不同的路徑部分，如範例 7-18 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span>// --snip--
@@ -498,15 +416,9 @@ use std::{cmp::Ordering, io};
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 7-18: Specifying a nested path to bring multiple
-items with the same prefix into scope</span></p>
-<p>In bigger programs, bringing many items into scope from the same crate or
-module using nested paths can reduce the number of separate <code>use</code> statements
-needed by a lot!</p>
-<p>We can use a nested path at any level in a path, which is useful when combining
-two <code>use</code> statements that share a subpath. For example, Listing 7-19 shows two
-<code>use</code> statements: one that brings <code>std::io</code> into scope and one that brings
-<code>std::io::Write</code> into scope.</p>
+<p><span class="caption">範例 7-18：使用巢狀路徑引入有部分相同前綴的數個路徑至作用域中</span></p>
+<p>在較大的程式中，使用巢狀路徑將相同 crate 或相同模組中的許多項目引入作用域，可以大量減少 <code>use</code> 陳述式的數量！</p>
+<p>我們可以在路徑中的任何部分使用巢狀路徑，這在組合兩個享有相同子路徑的 <code>use</code> 陳述式時非常有用。舉例來說，範例 7-19 顯示了兩個 <code>use</code> 陳述式：一個將 <code>std::io</code> 引入作用域，另一個將 <code>std::io::Write</code> 引入作用域。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -515,11 +427,8 @@ two <code>use</code> statements that share a subpath. For example, Listing 7-19 
 use std::io::Write;
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-19: Two <code>use</code> statements where one is a subpath
-of the other</span></p>
-<p>The common part of these two paths is <code>std::io</code>, and that’s the complete first
-path. To merge these two paths into one <code>use</code> statement, we can use <code>self</code> in
-the nested path, as shown in Listing 7-20.</p>
+<p><span class="caption">範例 7-19：兩個 <code>use</code> 陳述式且其中一個是另一個的子路徑</span></p>
+<p>這兩個路徑的相同部分是 <code>std::io</code>，這也是整個第一個路徑。要將這兩個路徑合爲一個 <code>use</code> 陳述式的話，我們可以在巢狀路徑使用 <code>self</code>，如範例 7-20 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -527,28 +436,25 @@ the nested path, as shown in Listing 7-20.</p>
 </span>use std::io::{self, Write};
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 7-20: Combining the paths in Listing 7-19 into
-one <code>use</code> statement</span></p>
-<p>This line brings <code>std::io</code> and <code>std::io::Write</code> into scope.</p>
-<h3><a class="header" href="#the-glob-operator" id="the-glob-operator">The Glob Operator</a></h3>
-<p>If we want to bring <em>all</em> public items defined in a path into scope, we can
-specify that path followed by <code>*</code>, the glob operator:</p>
+<p><span class="caption">範例 7-20：組合範例 7-19 的路徑爲一個 <code>use</code> 陳述式</span></p>
+<p>此行就會將 <code>std::io</code> 和 <code>std::io::Write</code> 引入作用域。</p>
+<h3><a class="header" href="#全域運算子" id="全域運算子">全域運算子</a></h3>
+<p>如果我們想要將在一個路徑中所定義的<em>所有</em>公開項目引入作用域的話，我們可以在指明路徑之後加上全域（glob）運算子 <code>*</code>：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::collections::*;
 <span class="boring">}
 </span></code></pre></pre>
-<p>This <code>use</code> statement brings all public items defined in <code>std::collections</code> into
-the current scope. Be careful when using the glob operator! Glob can make it
-harder to tell what names are in scope and where a name used in your program
-was defined.</p>
-<p>The glob operator is often used when testing to bring everything under test
-into the <code>tests</code> module; we’ll talk about that in the <a href="ch11-01-writing-tests.html#how-to-write-tests">“How to Write
-Tests”</a><!-- ignore --> section in Chapter 11. The glob operator
-is also sometimes used as part of the prelude pattern: see <a href="../std/prelude/index.html#other-preludes">the standard
-library documentation</a><!-- ignore -->
-for more information on that pattern.</p>
+<p>此 <code>use</code> 陳述式會將 <code>std::collections</code> 定義的所有公開項目都引入作用域中。不過請小心使用全域運算子！它容易讓我們無法分辨作用域內的名稱，以及程式中使用的名稱是從哪定義來的。</p>
+<p>全域運算子很常用在 <code>tests</code> 模組下，將所有東西引入測試中。我們會在第十一章的<a href="ch11-01-writing-tests.html#how-to-write-tests">「如何寫測試」</a><!-- ignore -->段落來討論。 全域運算子也常拿來用在 prelude 模式中，你可以查閱<a href="../std/prelude/index.html#other-preludes">標準函式庫的技術文件</a><!-- ignore -->來瞭解此模式的更多資訊。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch07-04-bringing-paths-into-scope-with-the-use-keyword.md">e5ed971</a></li>
+<li>updated: 2020-09-11</li>
+</ul>
+</blockquote>
 
                     </main>
 
