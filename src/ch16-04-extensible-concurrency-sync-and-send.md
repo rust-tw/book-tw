@@ -1,4 +1,4 @@
-## Extensible Concurrency with the `Sync` and `Send` Traits
+## 可延展的並行與 `Sync` 及 `Send` 特徵
 
 Interestingly, the Rust language has *very* few concurrency features. Almost
 every concurrency feature we’ve talked about so far in this chapter has been
