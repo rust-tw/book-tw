@@ -5238,15 +5238,9 @@ use std::io::Write;
 <li>updated: 2020-09-11</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#separating-modules-into-different-files" id="separating-modules-into-different-files">Separating Modules into Different Files</a></h2>
-<p>So far, all the examples in this chapter defined multiple modules in one file.
-When modules get large, you might want to move their definitions to a separate
-file to make the code easier to navigate.</p>
-<p>For example, let’s start from the code in Listing 7-17 and move the
-<code>front_of_house</code> module to its own file <em>src/front_of_house.rs</em> by changing the
-crate root file so it contains the code shown in Listing 7-21. In this case,
-the crate root file is <em>src/lib.rs</em>, but this procedure also works with binary
-crates whose crate root file is <em>src/main.rs</em>.</p>
+<h2><a class="header" href="#將模組拆成不同檔案" id="將模組拆成不同檔案">將模組拆成不同檔案</a></h2>
+<p>本章節目前所有的範例將數個模組定義在同一個檔案中。當模組增長時，你可能會想要將它們的定義拆開到別的檔案中，好讓程式碼容易瀏覽。</p>
+<p>舉例來說，讓我修將範例 7-17 中的 <code>front_of_house</code> 模組移到它自己的檔案 <em>src/front_of_house.rs</em>，然後在 crate 源頭檔案加上這個模組，如範例 7-21 所示。在此例中，源頭檔案爲 <em>src/lib.rs</em> 不過這步驟在二進制執行檔 crate 的 src/main.rs* 一樣可行。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">mod front_of_house;
 
@@ -5258,28 +5252,19 @@ pub fn eat_at_restaurant() {
     hosting::add_to_waitlist();
 }
 </code></pre>
-<p><span class="caption">範例 7-21: Declaring the <code>front_of_house</code> module whose
-body will be in <em>src/front_of_house.rs</em></span></p>
-<p>And <em>src/front_of_house.rs</em> gets the definitions from the body of the
-<code>front_of_house</code> module, as shown in Listing 7-22.</p>
+<p><span class="caption">範例 7-21：宣告 <code>front_of_house</code> 模組，其本體位於 <em>src/front_of_house.rs</em></span></p>
+<p>然後 <code>front_of_house</code> 模組的本體會定義在 <em>src/front_of_house.rs</em>，如範例 7-22 所示。</p>
 <p><span class="filename">檔案名稱：src/front_of_house.rs</span></p>
 <pre><code class="language-rust ignore">pub mod hosting {
     pub fn add_to_waitlist() {}
 }
 </code></pre>
-<p><span class="caption">範例 7-22: Definitions inside the <code>front_of_house</code>
-module in <em>src/front_of_house.rs</em></span></p>
-<p>Using a semicolon after <code>mod front_of_house</code> rather than using a block tells
-Rust to load the contents of the module from another file with the same name as
-the module. To continue with our example and extract the <code>hosting</code> module to
-its own file as well, we change <em>src/front_of_house.rs</em> to contain only the
-declaration of the <code>hosting</code> module:</p>
+<p><span class="caption">範例 7-22：<code>front_of_house</code> 模組的定義位於 <em>src/front_of_house.rs</em></span></p>
+<p>在 <code>mod front_of_house</code> 之後用分號而不是大括號會告訴 Rust 讀取其他與模組同名的檔案以取得模組內容。讓我們繼續將範例中的 <code>hosting</code> 模組也取出並移到它自己的檔案中，我們可以變更 <em>src/front_of_house.rs</em> 成只包含 <code>hosting</code> 模組的宣告</p>
 <p><span class="filename">檔案名稱：src/front_of_house.rs</span></p>
 <pre><code class="language-rust ignore">pub mod hosting;
 </code></pre>
-<p>Then we create a <em>src/front_of_house</em> directory and a file
-<em>src/front_of_house/hosting.rs</em> to contain the definitions made in the
-<code>hosting</code> module:</p>
+<p>然後我們建立一個目錄 <em>src/front_of_house</em> 以及一個檔案 <em>src/front_of_house/hosting.rs</em> 來包含 <code>hosting</code> 模組的定義：</p>
 <p><span class="filename">檔案名稱：src/front_of_house/hosting.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -5287,24 +5272,18 @@ declaration of the <code>hosting</code> module:</p>
 </span>pub fn add_to_waitlist() {}
 <span class="boring">}
 </span></code></pre></pre>
-<p>The module tree remains the same, and the function calls in <code>eat_at_restaurant</code>
-will work without any modification, even though the definitions live in
-different files. This technique lets you move modules to new files as they grow
-in size.</p>
-<p>Note that the <code>pub use crate::front_of_house::hosting</code> statement in
-<em>src/lib.rs</em> also hasn’t changed, nor does <code>use</code> have any impact on what files
-are compiled as part of the crate. The <code>mod</code> keyword declares modules, and Rust
-looks in a file with the same name as the module for the code that goes into
-that module.</p>
-<h2><a class="header" href="#summary-1" id="summary-1">Summary</a></h2>
-<p>Rust lets you split a package into multiple crates and a crate into modules
-so you can refer to items defined in one module from another module. You can do
-this by specifying absolute or relative paths. These paths can be brought into
-scope with a <code>use</code> statement so you can use a shorter path for multiple uses of
-the item in that scope. Module code is private by default, but you can make
-definitions public by adding the <code>pub</code> keyword.</p>
-<p>In the next chapter, we’ll look at some collection data structures in the
-standard library that you can use in your neatly organized code.</p>
+<p>雖然定義都被移到不同的檔案了，但模組樹維持不變，而且在 <code>eat_at_restaurant</code> 的函式呼叫方式也不用做任何更改。此技巧讓你可以將增長中的模組移到新的檔案。</p>
+<p>另外 <em>src/lib.rs</em> 內的 <code>pub use crate::front_of_house::hosting</code> 陳述式沒有改變，在檔案作爲 crate 的一部分來編譯時，使用 <code>use</code> 的方式也沒有改變。<code>mod</code> 關鍵字能宣告模組，然後 Rust 會去同名的檔案尋找該模組的程式碼。</p>
+<h2><a class="header" href="#總結-5" id="總結-5">總結</a></h2>
+<p>Rust 讓你能夠將套件拆成數個 crate，然後 crate 能在分成數個模組，好讓你可以從一個模組內指定其他模組的項目。而你可以使用絕對或相對路徑來達成。這些路徑可以用 <code>use</code> 陳述式來引入作用域，讓你可以在該作用域用更短的路徑來多次呼叫該項目。模組程式碼預設爲私有的，但你可以使用 <code>pub</code> 關鍵字公開它的定義內容。</p>
+<p>在下個章節，我們將探討在標準函式庫中的一些資料結構集合，讓你可以利用它們寫出整潔有組織的程式碼。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch07-05-separating-modules-into-different-files.md">e5ed971</a></li>
+<li>updated: 2020-09-11</li>
+</ul>
+</blockquote>
 <h1><a class="header" href="#common-collections" id="common-collections">Common Collections</a></h1>
 <p>Rust’s standard library includes a number of very useful data structures called
 <em>collections</em>. Most other data types represent one specific value, but
@@ -6226,7 +6205,7 @@ provide hashers implementing many common hashing algorithms.</p>
 <div class="footnote-definition" id="siphash"><sup class="footnote-definition-label">1</sup>
 <p><a href="https://www.131002.net/siphash/siphash.pdf">https://www.131002.net/siphash/siphash.pdf</a></p>
 </div>
-<h2><a class="header" href="#summary-2" id="summary-2">Summary</a></h2>
+<h2><a class="header" href="#summary-1" id="summary-1">Summary</a></h2>
 <p>Vectors, strings, and hash maps will provide a large amount of functionality
 necessary in programs when you need to store, access, and modify data. Here are
 some exercises you should now be equipped to solve:</p>
@@ -7167,7 +7146,7 @@ hasn’t been checked by the conditions in the <code>Guess::new</code> function.
 <p>A function that has a parameter or returns only numbers between 1 and 100 could
 then declare in its signature that it takes or returns a <code>Guess</code> rather than an
 <code>i32</code> and wouldn’t need to do any additional checks in its body.</p>
-<h2><a class="header" href="#summary-3" id="summary-3">Summary</a></h2>
+<h2><a class="header" href="#summary-2" id="summary-2">Summary</a></h2>
 <p>Rust’s error handling features are designed to help you write more robust code.
 The <code>panic!</code> macro signals that your program is in a state it can’t handle and
 lets you tell the process to stop instead of trying to proceed with invalid or
@@ -9207,7 +9186,7 @@ before the function compares the lengths of the string slices, which is why the
 <code>Display</code> trait bound is necessary. Because lifetimes are a type of generic,
 the declarations of the lifetime parameter <code>'a</code> and the generic type parameter
 <code>T</code> go in the same list inside the angle brackets after the function name.</p>
-<h2><a class="header" href="#summary-4" id="summary-4">Summary</a></h2>
+<h2><a class="header" href="#summary-3" id="summary-3">Summary</a></h2>
 <p>We covered a lot in this chapter! Now that you know about generic type
 parameters, traits and trait bounds, and generic lifetime parameters, you’re
 ready to write code without repetition that works in many different situations.
@@ -10795,7 +10774,7 @@ library crate with <code>use</code> to make the important functionality availabl
 If the important functionality works, the small amount of code in the
 <em>src/main.rs</em> file will work as well, and that small amount of code doesn’t
 need to be tested.</p>
-<h2><a class="header" href="#summary-5" id="summary-5">Summary</a></h2>
+<h2><a class="header" href="#summary-4" id="summary-4">Summary</a></h2>
 <p>Rust’s testing features provide a way to specify how code should function to
 ensure it continues to work as you expect, even as you make changes. Unit tests
 exercise different parts of a library separately and can test private
@@ -13112,7 +13091,7 @@ How dreary to be somebody!
 </code></pre>
 <p>This demonstrates that we’re now using standard output for successful output
 and standard error for error output as appropriate.</p>
-<h2><a class="header" href="#summary-6" id="summary-6">Summary</a></h2>
+<h2><a class="header" href="#summary-5" id="summary-5">Summary</a></h2>
 <p>This chapter recapped some of the major concepts you’ve learned so far and
 covered how to perform common I/O operations in Rust. By using command line
 arguments, files, environment variables, and the <code>eprintln!</code> macro for printing
@@ -15158,7 +15137,7 @@ All these optimizations that Rust is able to apply make the resulting code
 extremely efficient. Now that you know this, you can use iterators and closures
 without fear! They make code seem like it’s higher level but don’t impose a
 runtime performance penalty for doing so.</p>
-<h2><a class="header" href="#summary-7" id="summary-7">Summary</a></h2>
+<h2><a class="header" href="#summary-6" id="summary-6">Summary</a></h2>
 <p>Closures and iterators are Rust features inspired by functional programming
 language ideas. They contribute to Rust’s capability to clearly express
 high-level ideas at low-level performance. The implementations of closures and
@@ -16051,7 +16030,7 @@ run it as if it was a Cargo subcommand by running <code>cargo something</code>. 
 commands like this are also listed when you run <code>cargo --list</code>. Being able to
 use <code>cargo install</code> to install extensions and then run them just like the
 built-in Cargo tools is a super convenient benefit of Cargo’s design!</p>
-<h2><a class="header" href="#summary-8" id="summary-8">Summary</a></h2>
+<h2><a class="header" href="#summary-7" id="summary-7">Summary</a></h2>
 <p>Sharing code with Cargo and <a href="https://crates.io/">crates.io</a><!-- ignore --> is
 part of what makes the Rust ecosystem useful for many different tasks. Rust’s
 standard library is small and stable, but crates are easy to share, use, and
@@ -18118,7 +18097,7 @@ specifying that the relationship from a child to its parent should be a
 <code>Weak&lt;T&gt;</code> reference in the definition of <code>Node</code>, you’re able to have parent
 nodes point to child nodes and vice versa without creating a reference cycle
 and memory leaks.</p>
-<h2><a class="header" href="#summary-9" id="summary-9">Summary</a></h2>
+<h2><a class="header" href="#summary-8" id="summary-8">Summary</a></h2>
 <p>This chapter covered how to use smart pointers to make different guarantees and
 trade-offs from those Rust makes by default with regular references. The
 <code>Box&lt;T&gt;</code> type has a known size and points to data allocated on the heap. The
@@ -19205,7 +19184,7 @@ information is that building new concurrent types not made up of <code>Send</cod
 <code>Sync</code> parts requires careful thought to uphold the safety guarantees. <a href="../nomicon/index.html">“The
 Rustonomicon”</a> has more information about these guarantees and how to
 uphold them.</p>
-<h2><a class="header" href="#summary-10" id="summary-10">Summary</a></h2>
+<h2><a class="header" href="#summary-9" id="summary-9">Summary</a></h2>
 <p>This isn’t the last you’ll see of concurrency in this book: the project in
 Chapter 20 will use the concepts in this chapter in a more realistic situation
 than the smaller examples discussed here.</p>
@@ -20657,7 +20636,7 @@ problem to take advantage of Rust’s features can provide benefits, such as
 preventing some bugs at compile time. Object-oriented patterns won’t always be
 the best solution in Rust due to certain features, like ownership, that
 object-oriented languages don’t have.</p>
-<h2><a class="header" href="#summary-11" id="summary-11">Summary</a></h2>
+<h2><a class="header" href="#summary-10" id="summary-10">Summary</a></h2>
 <p>No matter whether or not you think Rust is an object-oriented language after
 reading this chapter, you now know that you can use trait objects to get some
 object-oriented features in Rust. Dynamic dispatch can give your code some
@@ -21718,7 +21697,7 @@ reason is that we’ve used the struct field shorthand syntax. But we haven’t
 applied any test to the value in the <code>id</code> field in this arm, as we did with the
 first two arms: any value would match this pattern.</p>
 <p>Using <code>@</code> lets us test a value and save it in a variable within one pattern.</p>
-<h2><a class="header" href="#summary-12" id="summary-12">Summary</a></h2>
+<h2><a class="header" href="#summary-11" id="summary-11">Summary</a></h2>
 <p>Rust’s patterns are very useful in that they help distinguish between different
 kinds of data. When used in <code>match</code> expressions, Rust ensures your patterns
 cover every possible value, or your program won’t compile. Patterns in <code>let</code>
@@ -23903,7 +23882,7 @@ pub fn sql(input: TokenStream) -&gt; TokenStream {
 <p>This definition is similar to the custom derive macro’s signature: we receive
 the tokens that are inside the parentheses and return the code we wanted to
 generate.</p>
-<h2><a class="header" href="#summary-13" id="summary-13">Summary</a></h2>
+<h2><a class="header" href="#summary-12" id="summary-12">Summary</a></h2>
 <p>Whew! Now you have some Rust features in your toolbox that you won’t use often,
 but you’ll know they’re available in very particular circumstances. We’ve
 introduced several complex topics so that when you encounter them in error
@@ -26773,7 +26752,7 @@ some ideas:</p>
 similar web server using the crate instead. Then compare its API and
 robustness to the thread pool we implemented.</li>
 </ul>
-<h2><a class="header" href="#summary-14" id="summary-14">Summary</a></h2>
+<h2><a class="header" href="#summary-13" id="summary-13">Summary</a></h2>
 <p>Well done! You’ve made it to the end of the book! We want to thank you for
 joining us on this tour of Rust. You’re now ready to implement your own Rust
 projects and help with other peoples’ projects. Keep in mind that there is a
