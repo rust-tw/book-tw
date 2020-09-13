@@ -1,24 +1,11 @@
-# Error Handling
+# 錯誤處理
 
-Rust’s commitment to reliability extends to error handling. Errors are a fact
-of life in software, so Rust has a number of features for handling situations
-in which something goes wrong. In many cases, Rust requires you to acknowledge
-the possibility of an error and take some action before your code will compile.
-This requirement makes your program more robust by ensuring that you’ll
-discover errors and handle them appropriately before you’ve deployed your code
-to production!
+Rust 對可靠性的注重也包含錯誤處理。錯誤是重試開發中不可避免的一環，所以 Rust 有一些特色能夠處理發生錯誤的情形。在許多情況下，Rust 要求你要任知道可能出錯的地方，並在編譯前採取行動。這樣的要求能讓你的程式更穩定，確保你能發現錯誤並在程式碼發佈到生產環境前妥善處理它們！
 
-Rust groups errors into two major categories: *recoverable* and *unrecoverable*
-errors. For a recoverable error, such as a file not found error, it’s
-reasonable to report the problem to the user and retry the operation.
-Unrecoverable errors are always symptoms of bugs, like trying to access a
-location beyond the end of an array.
+Rust 將錯誤分成兩大類：*可復原的（recoverable）*和*不可復原的（unrecoverable）*錯誤。像是找不到檔案這種可復原的錯誤，回報問題給使用者並重試是很合理的。而不可復原的錯誤就會是程式錯誤的跡象，像是嘗試取得陣列結尾之後的位置。
 
-Most languages don’t distinguish between these two kinds of errors and handle
-both in the same way, using mechanisms such as exceptions. Rust doesn’t have
-exceptions. Instead, it has the type `Result<T, E>` for recoverable errors and
-the `panic!` macro that stops execution when the program encounters an
-unrecoverable error. This chapter covers calling `panic!` first and then talks
-about returning `Result<T, E>` values. Additionally, we’ll explore
-considerations when deciding whether to try to recover from an error or to stop
-execution.
+許多語言不會區分這兩種錯誤，並以相同的方式處理，使用像是例外（exceptions）這樣統一的機制處理。Rust 沒有例外處理機制，取而代之的是它對可復原的錯誤提供 `Result<T, E>` 型別，對不可復原的錯誤使用 `panic!` 將程式停止執行。本章節會先介紹 `panic!` 再來討論 `Result<T, E>` 數值的回傳。除此之外，我們也將探討何時該從錯誤中復原，何時該選擇停止程式。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch09-00-error-handling.md)
+> - updated: 2020-09-11

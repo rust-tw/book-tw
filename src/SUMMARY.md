@@ -49,10 +49,10 @@
     - [使用字串儲存 UTF-8 編碼的文字](ch08-02-strings.md)
     - [使用雜湊映射儲存鍵值配對](ch08-03-hash-maps.md)
 
-- [Error Handling](ch09-00-error-handling.md)
-    - [Unrecoverable Errors with `panic!`](ch09-01-unrecoverable-errors-with-panic.md)
-    - [Recoverable Errors with `Result`](ch09-02-recoverable-errors-with-result.md)
-    - [To `panic!` or Not To `panic!`](ch09-03-to-panic-or-not-to-panic.md)
+- [錯誤處理](ch09-00-error-handling.md)
+    - [`panic!` 與無法復原的錯誤](ch09-01-unrecoverable-errors-with-panic.md)
+    - [`Result` 與可復原的錯誤](ch09-02-recoverable-errors-with-result.md)
+    - [要 `panic!` 還是不要 `panic!`](ch09-03-to-panic-or-not-to-panic.md)
 
 - [Generic Types, Traits, and Lifetimes](ch10-00-generics.md)
     - [Generic Data Types](ch10-01-syntax.md)
