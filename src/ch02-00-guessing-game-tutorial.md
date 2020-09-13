@@ -202,7 +202,7 @@ immutable by default. Hence, you need to write `&mut guess` rather than
 `&guess` to make it mutable. (Chapter 4 will explain references more
 thoroughly.)
 
-### Handling Potential Failure with the `Result` Type
+### 使用 `Result` 型別處理可能的錯誤
 
 We’re still working on this line of code. Although we’re now discussing a third
 line of text, it’s still part of a single logical line of code. The next part
