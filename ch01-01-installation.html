@@ -178,7 +178,7 @@
 <p>在本章節到整本書爲止，我們講會顯示一些終端機會用到的命令。任一你會用到的命令都會始於 <code>$</code>。但你不需要去輸入 <code>$</code>，因爲這通常代表每一命令列的起始位置。而沒有出現 <code>$</code> 的行數，通常則代表前一行命列輸出的結果。除此之外，針對 PowerShell 的範例則將會使用 <code>&gt;</code> 而不是 <code>$</code>。</p>
 </blockquote>
 <h3><a class="header" href="#在-linux-或-macos-上安裝-rustup" id="在-linux-或-macos-上安裝-rustup">在 Linux 或 macOS 上安裝 <code>rustup</code></a></h3>
-<p>如果你使用的是 Linux 或 macOS，請開啓終端機然後輸入以下命令：</p>
+<p>如果你使用的是 Linux 或 macOS，請開啟終端機然後輸入以下命令：</p>
 <pre><code class="language-console">$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 </code></pre>
 <p>這道命令會下載一支腳本然後開始安裝 <code>rusup</code> 工具，接著安裝最新的穩定版 Rust。下載過程中可能會要求你輸入你的密碼。如果下載成功的話，將會出現以下內容：</p>
@@ -196,7 +196,7 @@
 <pre><code class="language-console">$ rustup self uninstall
 </code></pre>
 <h3><a class="header" href="#疑難排除" id="疑難排除">疑難排除</a></h3>
-<p>想簡單你是否有正確安裝 Rust 的話，請開啓 shell 然後輸入此命令：</p>
+<p>想簡單你是否有正確安裝 Rust 的話，請開啟 shell 然後輸入此命令：</p>
 <pre><code class="language-console">$ rustc --version
 </code></pre>
 <p>你應該會看到已發佈的最新穩定版本號、提交雜湊數以及提交日期如以下格式所示：</p>
@@ -204,7 +204,7 @@
 </code></pre>
 <p>如果你看到這則訊息代表你成功安裝 Rust 了！如果你沒有看到且你是在 Windows 上的話，請檢查 Rust 是否在你的 <code>%PATH%</code> 系統變數裡。如果都正確無誤，但還是無法執行 Rust 的話，你可以前往一些地方尋求協助。最簡單的辦法是前往<a href="https://discord.gg/rust-lang">官方 Rust Discord</a> 的 #beginners 頻道詢問。在那裡你可以與其他 Rustaceans（這是我們常用稱呼自己取的暱稱）交談並取得協助。另外也有其他不錯的資源像是<a href="https://users.rust-lang.org/">使用者討論區</a> 和 <a href="https://stackoverflow.com/questions/tagged/rust">Stack Overflow</a>。正體中文社群的話可以前往 rust-lang.tw，底下有 Facebook 或 Telegram 的連結一樣可以尋求協助。</p>
 <h3><a class="header" href="#本地端技術文件" id="本地端技術文件">本地端技術文件</a></h3>
-<p>安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 <code>rustup doc</code> 就可以用你的瀏覽器開啓本地文件。</p>
+<p>安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 <code>rustup doc</code> 就可以用你的瀏覽器開啟本地文件。</p>
 <p>每當有任何型態或函式出現而你卻不清楚如何使用時，你就可以使用應用程式介面（API）技術文件來知道！</p>
 <blockquote>
 <ul>

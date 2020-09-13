@@ -417,7 +417,7 @@ doesn’t compile.</p>
 <p>在本章節到整本書爲止，我們講會顯示一些終端機會用到的命令。任一你會用到的命令都會始於 <code>$</code>。但你不需要去輸入 <code>$</code>，因爲這通常代表每一命令列的起始位置。而沒有出現 <code>$</code> 的行數，通常則代表前一行命列輸出的結果。除此之外，針對 PowerShell 的範例則將會使用 <code>&gt;</code> 而不是 <code>$</code>。</p>
 </blockquote>
 <h3><a class="header" href="#在-linux-或-macos-上安裝-rustup" id="在-linux-或-macos-上安裝-rustup">在 Linux 或 macOS 上安裝 <code>rustup</code></a></h3>
-<p>如果你使用的是 Linux 或 macOS，請開啓終端機然後輸入以下命令：</p>
+<p>如果你使用的是 Linux 或 macOS，請開啟終端機然後輸入以下命令：</p>
 <pre><code class="language-console">$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 </code></pre>
 <p>這道命令會下載一支腳本然後開始安裝 <code>rusup</code> 工具，接著安裝最新的穩定版 Rust。下載過程中可能會要求你輸入你的密碼。如果下載成功的話，將會出現以下內容：</p>
@@ -435,7 +435,7 @@ doesn’t compile.</p>
 <pre><code class="language-console">$ rustup self uninstall
 </code></pre>
 <h3><a class="header" href="#疑難排除" id="疑難排除">疑難排除</a></h3>
-<p>想簡單你是否有正確安裝 Rust 的話，請開啓 shell 然後輸入此命令：</p>
+<p>想簡單你是否有正確安裝 Rust 的話，請開啟 shell 然後輸入此命令：</p>
 <pre><code class="language-console">$ rustc --version
 </code></pre>
 <p>你應該會看到已發佈的最新穩定版本號、提交雜湊數以及提交日期如以下格式所示：</p>
@@ -443,7 +443,7 @@ doesn’t compile.</p>
 </code></pre>
 <p>如果你看到這則訊息代表你成功安裝 Rust 了！如果你沒有看到且你是在 Windows 上的話，請檢查 Rust 是否在你的 <code>%PATH%</code> 系統變數裡。如果都正確無誤，但還是無法執行 Rust 的話，你可以前往一些地方尋求協助。最簡單的辦法是前往<a href="https://discord.gg/rust-lang">官方 Rust Discord</a> 的 #beginners 頻道詢問。在那裡你可以與其他 Rustaceans（這是我們常用稱呼自己取的暱稱）交談並取得協助。另外也有其他不錯的資源像是<a href="https://users.rust-lang.org/">使用者討論區</a> 和 <a href="https://stackoverflow.com/questions/tagged/rust">Stack Overflow</a>。正體中文社群的話可以前往 rust-lang.tw，底下有 Facebook 或 Telegram 的連結一樣可以尋求協助。</p>
 <h3><a class="header" href="#本地端技術文件" id="本地端技術文件">本地端技術文件</a></h3>
-<p>安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 <code>rustup doc</code> 就可以用你的瀏覽器開啓本地文件。</p>
+<p>安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 <code>rustup doc</code> 就可以用你的瀏覽器開啟本地文件。</p>
 <p>每當有任何型態或函式出現而你卻不清楚如何使用時，你就可以使用應用程式介面（API）技術文件來知道！</p>
 <blockquote>
 <ul>
@@ -459,7 +459,7 @@ doesn’t compile.</p>
 </blockquote>
 <h3><a class="header" href="#建立專案目錄" id="建立專案目錄">建立專案目錄</a></h3>
 <p>你將先建立一個目錄來儲存你的 Rust 程式碼。程式碼位於何處並不重要，但爲了能好好練習書中的範例和專案，我們建議你可以在你的 home 目錄建立一個 <em>projects</em> 目錄然後將你所有的專案保存在此。</p>
-<p>請開啓終端機然後輸入以下命令來建立 <em>projects</em> 目錄和另一個在 <em>projects</em> 目錄底下的真正要寫「Hello, world!」專案的目錄。</p>
+<p>請開啟終端機然後輸入以下命令來建立 <em>projects</em> 目錄和另一個在 <em>projects</em> 目錄底下的真正要寫「Hello, world!」專案的目錄。</p>
 <p>對於 Linux、macOS 和 Windows 的 PowerShell，請輸入：</p>
 <pre><code class="language-console">$ mkdir ~/projects
 $ cd ~/projects
@@ -474,7 +474,7 @@ $ cd hello_world
 </code></pre>
 <h3><a class="header" href="#編寫並執行-rust-程式" id="編寫並執行-rust-程式">編寫並執行 Rust 程式</a></h3>
 <p>接著，請產生一個原始文件並叫做 <em>main.rs</em>。Rust 的文件檔案都會以 <em>.rs</em> 副檔名稱作爲結尾。如果你用到不止一個單字的話，請用底線區隔開來。比方說，請使用 <em>hello_world.rs</em> 而不是 <em>helloworld.rs</em>。</p>
-<p>現在請開啓 <em>main.rs</em> 文件然而後輸入範例 1-1 中的程式碼。</p>
+<p>現在請開啟 <em>main.rs</em> 文件然而後輸入範例 1-1 中的程式碼。</p>
 <p><span class="filename">檔案名稱：main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
@@ -561,7 +561,7 @@ $ cd hello_cargo
 <blockquote>
 <p>注意：Git 是一個常見的版本控制系統。你可以加上 <code>--vcs</code> 來變更 <code>cargo new</code> 去使用不同的版本控制系統，或是不用任何版本控制系統。請執行 <code>cargo new --help</code> 來查看更多可使用的選項。</p>
 </blockquote>
-<p>請用任何你喜歡的編輯器開啓 <em>Cargo.toml</em>，它應該會看起來和範例 1-2 差不多。</p>
+<p>請用任何你喜歡的編輯器開啟 <em>Cargo.toml</em>，它應該會看起來和範例 1-2 差不多。</p>
 <p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[package]
 name = &quot;hello_cargo&quot;
@@ -576,7 +576,7 @@ edition = &quot;2018&quot;
 <p>第一行的 <code>[package]</code> 是一個段落（section）標題，說明以下的陳述語句會配置這個套件。隨著我們加入更多資訊到此文件，我們也會加上更多段落。</p>
 <p>接下來四行就是 Cargo 編譯你的程式所需的配置資訊：名稱、版本、誰寫的以及哪個 Rust <code>edition</code> 會用到。Cargo 會透過環境取得你的名字和電子郵件資訊，所以要是資訊不對的話，請現在編輯然後儲存檔案。我們會在附錄 E 介紹什麼是 <code>edition</code>。</p>
 <p>最後一行 <code>[dependencies]</code> 是用來列出你的專案會用到哪些依賴的段落。在 Rust 中，程式碼套件會被稱爲 <em>crates</em>。我們在此專案還不需要任何其他 crate。但是我們會在第二章開始用到，屆時我們會再來介紹。</p>
-<p>現在請開啓 <em>src/main.rs</em> 來看看：</p>
+<p>現在請開啟 <em>src/main.rs</em> 來看看：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
@@ -638,7 +638,7 @@ $ cargo build
 <ul>
 <li>使用 <code>rustup</code> 安裝最新穩定版 Rust</li>
 <li>更新到最新 Rust 版本</li>
-<li>開啓本地端安裝的技術文件</li>
+<li>開啟本地端安裝的技術文件</li>
 <li>直接使用 <code>rustup</code> 編寫並執行一支「Hello, world!」程式</li>
 <li>使用 Cargo 建立並執行一個新專案</li>
 </ul>
@@ -1720,7 +1720,7 @@ explains how enums work.</p>
 <h2><a class="header" href="#變數與可變性" id="變數與可變性">變數與可變性</a></h2>
 <p>如同第二章提到的，變數預設是不可變的。這是 Rust 推動你能充分利用 Rust 提供的安全性和簡單地並行性來寫程式的許多方法之一。不過，你還是有辦法能讓你的變數成爲可變的。讓我們來探討爲何 Rust 鼓勵你多多使用不可變，以及何時你會想要改爲可變的。</p>
 <p>當一個變數是不可變的，只要有數值綁定在一個名字上，你就無法改變其值。爲了方便說明，讓我們使用 <code>cargo new variables</code> 在 <em>projects</em> 目錄下產生一個新專案叫做 <em>variables</em>。</p>
-<p>再來在你的新 <em>variables</em> 目錄下開啓 <em>src/main.rs</em> 然後覆蓋程式碼爲以下內容，這是段還無法編譯的程式碼：</p>
+<p>再來在你的新 <em>variables</em> 目錄下開啟 <em>src/main.rs</em> 然後覆蓋程式碼爲以下內容，這是段還無法編譯的程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = 5;
@@ -2080,7 +2080,7 @@ fn another_function() {
 </code></pre></pre>
 <p>Rust 的函式定義從 <code>fn</code> 開始且在函式名稱後會有一組括號，大括號告訴編譯器函式本體的開始與結束位置。</p>
 <p>我們可以輸入函式的名稱並加上括號來呼叫任何我們定義過的函式。因爲 <code>another_function</code> 已經在程式中定義了，他就可以在 <code>main</code> 函式中呼叫。注意到我們是在原始程式碼中的 <code>main</code> 函式<em>之後</em>定義 <code>another_function</code> 的，我們當然也可以把它定義在前面。Rust 不在乎你的函式是在哪裡定義的，只需要知道它在某處有定義就好。</p>
-<p>讓我們開啓一個新的專案叫做 <em>functions</em> 來進一步探索。請將 <code>another_function</code> 範例放入 <em>src/main.rs</em> 然後執行它。你應該會看到以下輸出：</p>
+<p>讓我們開啟一個新的專案叫做 <em>functions</em> 來進一步探索。請將 <code>another_function</code> 範例放入 <em>src/main.rs</em> 然後執行它。你應該會看到以下輸出：</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
     Finished dev [unoptimized + debuginfo] target(s) in 0.28s
@@ -5881,34 +5881,21 @@ Blue: 10
 </ul>
 </blockquote>
 <h2><a class="header" href="#對無法復原的錯誤使用-panic" id="對無法復原的錯誤使用-panic">對無法復原的錯誤使用 <code>panic!</code></a></h2>
-<p>Sometimes, bad things happen in your code, and there’s nothing you can do about
-it. In these cases, Rust has the <code>panic!</code> macro. When the <code>panic!</code> macro
-executes, your program will print a failure message, unwind and clean up the
-stack, and then quit. This most commonly occurs when a bug of some kind has
-been detected and it’s not clear to the programmer how to handle the error.</p>
+<p>有時後壞事就是壞發生在你的程式中，這本來就是你沒辦法全部避免的。在這種情況，Rust 有提供 <code>panic!</code> 巨集。當 <code>panic!</code> 巨集執行時，你的程式就會印出程式出錯的訊息，展開並清理堆疊，然後離開程式。這常用來處理當程式遇到某種錯誤時，開發者不清楚如何處理該錯誤的狀況。</p>
 <blockquote>
-<h3><a class="header" href="#unwinding-the-stack-or-aborting-in-response-to-a-panic" id="unwinding-the-stack-or-aborting-in-response-to-a-panic">Unwinding the Stack or Aborting in Response to a Panic</a></h3>
-<p>By default, when a panic occurs, the program starts <em>unwinding</em>, which
-means Rust walks back up the stack and cleans up the data from each function
-it encounters. But this walking back and cleanup is a lot of work. The
-alternative is to immediately <em>abort</em>, which ends the program without
-cleaning up. Memory that the program was using will then need to be cleaned
-up by the operating system. If in your project you need to make the resulting
-binary as small as possible, you can switch from unwinding to aborting upon a
-panic by adding <code>panic = 'abort'</code> to the appropriate <code>[profile]</code> sections in
-your <em>Cargo.toml</em> file. For example, if you want to abort on panic in release
-mode, add this:</p>
+<h3><a class="header" href="#恐慌時該解開堆疊還是直接終止" id="恐慌時該解開堆疊還是直接終止">恐慌時該解開堆疊還是直接終止</a></h3>
+<p>當恐慌（panic）發生時，程式預設會開始做*解開（unwind）<em>堆疊的動作，這代表 Rust 會回溯整個堆疊，並清理裡每個它遇到的函式資料。但是這樣回溯並清理的動做很花力氣。另一種方式是直接</em>終止（abort）*程式而不清理，程式使用的記憶體會需要由作業系統來清理。如果你需要你的專案產生的二進制檔案越小越好，你可以從解開切換成終止，只要在 <em>Cargo.toml</em> 檔案中的 <code>[profile]</code> 段落加上 <code>panic = 'abort'</code> 就好。舉例來說，如果你希望在發佈模式（release mode）恐慌時直接終止，那就加上：</p>
 <pre><code class="language-toml">[profile.release]
 panic = 'abort'
 </code></pre>
 </blockquote>
-<p>Let’s try calling <code>panic!</code> in a simple program:</p>
+<p>讓我們先在小程式內試試呼叫 <code>panic!</code>：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic panics">fn main() {
     panic!(&quot;crash and burn&quot;);
 }
 </code></pre></pre>
-<p>When you run the program, you’ll see something like this:</p>
+<p>當你執行程式時，你會看到像這樣的結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling panic v0.1.0 (file:///projects/panic)
     Finished dev [unoptimized + debuginfo] target(s) in 0.25s
@@ -5916,23 +5903,10 @@ panic = 'abort'
 thread 'main' panicked at 'crash and burn', src/main.rs:2:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>The call to <code>panic!</code> causes the error message contained in the last two lines.
-The first line shows our panic message and the place in our source code where
-the panic occurred: <em>src/main.rs:2:5</em> indicates that it’s the second line,
-fifth character of our <em>src/main.rs</em> file.</p>
-<p>In this case, the line indicated is part of our code, and if we go to that
-line, we see the <code>panic!</code> macro call. In other cases, the <code>panic!</code> call might
-be in code that our code calls, and the filename and line number reported by
-the error message will be someone else’s code where the <code>panic!</code> macro is
-called, not the line of our code that eventually led to the <code>panic!</code> call. We
-can use the backtrace of the functions the <code>panic!</code> call came from to figure
-out the part of our code that is causing the problem. We’ll discuss what a
-backtrace is in more detail next.</p>
-<h3><a class="header" href="#using-a-panic-backtrace" id="using-a-panic-backtrace">Using a <code>panic!</code> Backtrace</a></h3>
-<p>Let’s look at another example to see what it’s like when a <code>panic!</code> call comes
-from a library because of a bug in our code instead of from our code calling
-the macro directly. Listing 9-1 has some code that attempts to access an
-element by index in a vector.</p>
+<p><code>panic!</code> 的呼叫導致印出了最後兩行的錯誤訊息。第一行顯示了我們的恐慌訊息以及該恐慌是在原始程式碼何處發生的：<em>src/main.rs:2:5</em> 指的是它發生在我們的 <em>src/main.rs</em> 檔案第二行第五個字元。</p>
+<p>在此例中，該行指的就是我們寫的程式碼。如果我們查看該行，我們會看到 <code>panic!</code> 巨集的呼叫。在其他情形，<code>panic!</code> 的呼叫可能會發生在我們呼叫的程式碼內，所以錯誤訊息回報的檔案名稱與行數可能就會是其他人呼叫 <code>panic!</code> 巨集的程式碼，而不是因爲我們的程式碼才導致 <code>panic!</code> 的呼叫。我們可以在呼叫 <code>panic!</code> 程式碼的地方使用 backtrace 來找出出現問題的地方。接下來我們就會深入瞭解 backtrace。</p>
+<h3><a class="header" href="#使用-panic-backtrace" id="使用-panic-backtrace">使用 <code>panic!</code> Backtrace</a></h3>
+<p>讓我們看看另一個例子，這是函式庫發生錯誤而呼叫 <code>panic!</code>，而不是來自於我們在程式碼自己呼叫的巨集。範例 9-1 是個嘗試從 vector 取得元素的例子。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic panics">fn main() {
     let v = vec![1, 2, 3];
@@ -5940,23 +5914,10 @@ element by index in a vector.</p>
     v[99];
 }
 </code></pre></pre>
-<p><span class="caption">範例 9-1: Attempting to access an element beyond the
-end of a vector, which will cause a call to <code>panic!</code></span></p>
-<p>Here, we’re attempting to access the 100th element of our vector (which is at
-index 99 because indexing starts at zero), but it has only 3 elements. In this
-situation, Rust will panic. Using <code>[]</code> is supposed to return an element, but if
-you pass an invalid index, there’s no element that Rust could return here that
-would be correct.</p>
-<p>In C, attempting to read beyond the end of a data structure is undefined
-behavior. You might get whatever is at the location in memory that would
-correspond to that element in the data structure, even though the memory
-doesn’t belong to that structure. This is called a <em>buffer overread</em> and can
-lead to security vulnerabilities if an attacker is able to manipulate the index
-in such a way as to read data they shouldn’t be allowed to that is stored after
-the data structure.</p>
-<p>To protect your program from this sort of vulnerability, if you try to read an
-element at an index that doesn’t exist, Rust will stop execution and refuse to
-continue. Let’s try it and see:</p>
+<p><span class="caption">範例 9-1：嘗試取得超出 vector 長度的元素，進而導致 <code>panic!</code> 被呼叫</span></p>
+<p>我們在這邊嘗試取得 vector 中第 100 個元素（不過因爲索引從零開始，所以是索引 99），但是它只有 3 個元素。在此情況下，Rust 就會恐慌。使用 <code>[]</code> 會回傳元素，但是如果你傳遞了無效的索引，Rust 就回傳不了正確的元素。</p>
+<p>在 C 中，嘗試讀取資料結構結束之後的元素屬於未定義行爲。你可能會得到該記憶體位置對應其資料結構的元素，即使該記憶體完全不屬於該資料結構。這就稱做*緩衝區過讀（buffer overread）*而且會導致安全漏洞。攻擊者可能故意操縱該索引來取得在資料結構後面他們原本不應該讀寫的值。</p>
+<p>爲了保護你的程式免於這樣的漏洞，如果你嘗試用一個不存在的索引讀取元素的話，Rust 會停止執行並拒絕繼續運作下去。讓我們嘗試執行並看看會如何：</p>
 <pre><code class="language-console">$ cargo run
    Compiling panic v0.1.0 (file:///projects/panic)
     Finished dev [unoptimized + debuginfo] target(s) in 0.27s
@@ -5964,21 +5925,8 @@ continue. Let’s try it and see:</p>
 thread 'main' panicked at 'index out of bounds: the len is 3 but the index is 99', /rustc/5e1a799842ba6ed4a57e91f7ab9435947482f7d8/src/libcore/slice/mod.rs:2806:10
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>This error points at a file we didn’t write, <em>libcore/slice/mod.rs</em>. That’s the
-implementation of <code>slice</code> in the Rust source code. The code that gets run when
-we use <code>[]</code> on our vector <code>v</code> is in <em>libcore/slice/mod.rs</em>, and that is where
-the <code>panic!</code> is actually happening.</p>
-<p>The next note line tells us that we can set the <code>RUST_BACKTRACE</code> environment
-variable to get a backtrace of exactly what happened to cause the error. A
-<em>backtrace</em> is a list of all the functions that have been called to get to this
-point. Backtraces in Rust work as they do in other languages: the key to
-reading the backtrace is to start from the top and read until you see files you
-wrote. That’s the spot where the problem originated. The lines above the lines
-mentioning your files are code that your code called; the lines below are code
-that called your code. These lines might include core Rust code, standard
-library code, or crates that you’re using. Let’s try getting a backtrace by
-setting the <code>RUST_BACKTRACE</code> environment variable to any value except 0.
-Listing 9-2 shows output similar to what you’ll see.</p>
+<p>此錯誤指向了一個不是我們寫的檔案 <em>libcore/slice/mod.rs</em>。這是實作 <code>slice</code> 的 Rust 原始程式碼。當我們在我們的 <code>v</code> 使用 <code>[]</code> 時就會執行 <em>libcore/slice/mod.rs</em> 內的程式碼，而這正是 <code>panic!</code> 實際發生的地方。</p>
+<p>下一行提示告訴我們可以設置 <code>RUST_BACKTRACE</code> 環境變數來取得 backtrace 以知道錯誤發生時到底發生什麼事。<em>backtrace</em> 是一個函式列表，指出得到此錯誤時到底依序呼叫了哪些函式。Rust 的 backtraces 運作方式和其他語言一樣：讀取 backtrace 關鍵是從最一開始讀取直到你看到你寫的檔案。那就會是問題發生的源頭。你寫的程式碼以上的行數就是你所呼叫的程式，而以下則是其他呼叫你的程式碼的程式。這些行數可能還會包含 Rust 核心程式碼、標準函式庫程式碼，或是你所使用的 crate。我們設置 <code>RUST_BACKTRACE</code> 環境變數的值不爲 0，來嘗試取得 backtrace 吧。你應該會看到和範例 9-2 類似的結果。</p>
 <!-- manual-regeneration
 cd listings/ch09-error-handling/listing-09-01
 RUST_BACKTRACE=1 cargo run
@@ -6041,26 +5989,17 @@ stack backtrace:
              at /rustc/5e1a799842ba6ed4a57e91f7ab9435947482f7d8/src/libstd/rt.rs:67
   26: panic::main
 </code></pre>
-<p><span class="caption">範例 9-2: The backtrace generated by a call to
-<code>panic!</code> displayed when the environment variable <code>RUST_BACKTRACE</code> is set</span></p>
-<p>That’s a lot of output! The exact output you see might be different depending
-on your operating system and Rust version. In order to get backtraces with this
-information, debug symbols must be enabled. Debug symbols are enabled by
-default when using <code>cargo build</code> or <code>cargo run</code> without the <code>--release</code> flag,
-as we have here.</p>
-<p>In the output in Listing 9-2, line 17 of the backtrace points to the line in
-our project that’s causing the problem: line 4 of <em>src/main.rs</em>. If we don’t
-want our program to panic, the location pointed to by the first line mentioning
-a file we wrote is where we should start investigating. In Listing 9-1, where
-we deliberately wrote code that would panic in order to demonstrate how to use
-backtraces, the way to fix the panic is to not request an element at index 99
-from a vector that only contains 3 items. When your code panics in the future,
-you’ll need to figure out what action the code is taking with what values to
-cause the panic and what the code should do instead.</p>
-<p>We’ll come back to <code>panic!</code> and when we should and should not use <code>panic!</code> to
-handle error conditions in the <a href="ch09-03-to-panic-or-not-to-panic.html#to-panic-or-not-to-panic">“To <code>panic!</code> or Not to
-<code>panic!</code>”</a><!-- ignore --> section later in this
-chapter. Next, we’ll look at how to recover from an error using <code>Result</code>.</p>
+<p><span class="caption">範例 9-2：當 <code>RUST_BACKTRACE</code> 設置時，透過呼叫 <code>panic!</code> 產生的 backtrace</span></p>
+<p>輸出結果有點多啊！你看到的實際輸出可能會因你的作業系統與 Rust 版本而有所不同。要取得這些資訊的 backtrace，除錯符號（debug symbols）必須啟用。當我們在使用 <code>cargo build</code> 或 <code>cargo run</code> 且沒有加上 <code>--release</code> 時，除錯符號預設是啟用的。</p>
+<p>在範例 9-2 的輸出結果中，第 17 行的 backtrace 指向了我們專案中產生問題的地方：<em>src/main.rs</em> 中的第四行。如果我們不想讓程式恐慌，我們就要來調查我們所寫的程式中第一個被錯誤訊息指向的位置。在範例 9-1 中，我們爲了寫是如何使用 backtrace，故意寫出會恐慌的程式碼。要修正的方法就是不要向只有 3 個元素的 vector 要求取得索引 99 的值。當在未來你的程式碼恐慌時，你會需要知道是程式碼中的什麼動作造成的、什麼數值導致恐慌以及正確的程式碼該怎麼處理。</p>
+<p>我們會在本章節<a href="ch09-03-to-panic-or-not-to-panic.html#to-panic-or-not-to-panic">「要 <code>panic!</code> 還是不要 <code>panic!</code>」</a><!-- ignore -->的段落中再回來看 <code>panic!</code> 並研究何時該與不該使用 <code>panic!</code> 來處理錯誤條件。接下來，我們要看如何使用 <code>Result</code>來處理可回復的錯誤。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch09-01-unrecoverable-errors-with-panic.md">e5ed971</a></li>
+<li>updated: 2020-09-11</li>
+</ul>
+</blockquote>
 <h2><a class="header" href="#recoverable-errors-with-result" id="recoverable-errors-with-result">Recoverable Errors with <code>Result</code></a></h2>
 <p>Most errors aren’t serious enough to require the program to stop entirely.
 Sometimes, when a function fails, it’s for a reason that you can easily

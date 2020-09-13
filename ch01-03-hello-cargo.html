@@ -185,7 +185,7 @@ $ cd hello_cargo
 <blockquote>
 <p>注意：Git 是一個常見的版本控制系統。你可以加上 <code>--vcs</code> 來變更 <code>cargo new</code> 去使用不同的版本控制系統，或是不用任何版本控制系統。請執行 <code>cargo new --help</code> 來查看更多可使用的選項。</p>
 </blockquote>
-<p>請用任何你喜歡的編輯器開啓 <em>Cargo.toml</em>，它應該會看起來和範例 1-2 差不多。</p>
+<p>請用任何你喜歡的編輯器開啟 <em>Cargo.toml</em>，它應該會看起來和範例 1-2 差不多。</p>
 <p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[package]
 name = &quot;hello_cargo&quot;
@@ -200,7 +200,7 @@ edition = &quot;2018&quot;
 <p>第一行的 <code>[package]</code> 是一個段落（section）標題，說明以下的陳述語句會配置這個套件。隨著我們加入更多資訊到此文件，我們也會加上更多段落。</p>
 <p>接下來四行就是 Cargo 編譯你的程式所需的配置資訊：名稱、版本、誰寫的以及哪個 Rust <code>edition</code> 會用到。Cargo 會透過環境取得你的名字和電子郵件資訊，所以要是資訊不對的話，請現在編輯然後儲存檔案。我們會在附錄 E 介紹什麼是 <code>edition</code>。</p>
 <p>最後一行 <code>[dependencies]</code> 是用來列出你的專案會用到哪些依賴的段落。在 Rust 中，程式碼套件會被稱爲 <em>crates</em>。我們在此專案還不需要任何其他 crate。但是我們會在第二章開始用到，屆時我們會再來介紹。</p>
-<p>現在請開啓 <em>src/main.rs</em> 來看看：</p>
+<p>現在請開啟 <em>src/main.rs</em> 來看看：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
@@ -262,7 +262,7 @@ $ cargo build
 <ul>
 <li>使用 <code>rustup</code> 安裝最新穩定版 Rust</li>
 <li>更新到最新 Rust 版本</li>
-<li>開啓本地端安裝的技術文件</li>
+<li>開啟本地端安裝的技術文件</li>
 <li>直接使用 <code>rustup</code> 編寫並執行一支「Hello, world!」程式</li>
 <li>使用 Cargo 建立並執行一個新專案</li>
 </ul>

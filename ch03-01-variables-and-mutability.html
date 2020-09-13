@@ -170,7 +170,7 @@
                         <h2><a class="header" href="#變數與可變性" id="變數與可變性">變數與可變性</a></h2>
 <p>如同第二章提到的，變數預設是不可變的。這是 Rust 推動你能充分利用 Rust 提供的安全性和簡單地並行性來寫程式的許多方法之一。不過，你還是有辦法能讓你的變數成爲可變的。讓我們來探討爲何 Rust 鼓勵你多多使用不可變，以及何時你會想要改爲可變的。</p>
 <p>當一個變數是不可變的，只要有數值綁定在一個名字上，你就無法改變其值。爲了方便說明，讓我們使用 <code>cargo new variables</code> 在 <em>projects</em> 目錄下產生一個新專案叫做 <em>variables</em>。</p>
-<p>再來在你的新 <em>variables</em> 目錄下開啓 <em>src/main.rs</em> 然後覆蓋程式碼爲以下內容，這是段還無法編譯的程式碼：</p>
+<p>再來在你的新 <em>variables</em> 目錄下開啟 <em>src/main.rs</em> 然後覆蓋程式碼爲以下內容，這是段還無法編譯的程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = 5;
