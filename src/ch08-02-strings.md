@@ -1,333 +1,199 @@
 ## 使用字串儲存 UTF-8 編碼的文字
 
-We talked about strings in Chapter 4, but we’ll look at them in more depth now.
-New Rustaceans commonly get stuck on strings for a combination of three
-reasons: Rust’s propensity for exposing possible errors, strings being a more
-complicated data structure than many programmers give them credit for, and
-UTF-8. These factors combine in a way that can seem difficult when you’re
-coming from other programming languages.
+我們已經在第四章提到字串（String），但現在我們要更加深入探討。Rustaceans 初心者常常會卡在三個環節：Rust 傾向於回報可能的錯誤、字串的資料結構比開發者所熟悉的還要複雜，以及 UTF-8。這些要素讓來自其他程式語言背景的開發者會遇到一些困難。
 
-It’s useful to discuss strings in the context of collections because strings
-are implemented as a collection of bytes, plus some methods to provide useful
-functionality when those bytes are interpreted as text. In this section, we’ll
-talk about the operations on `String` that every collection type has, such as
-creating, updating, and reading. We’ll also discuss the ways in which `String`
-is different from the other collections, namely how indexing into a `String` is
-complicated by the differences between how people and computers interpret
-`String` data.
+我們會在集合章節討論字串的原因是，字串本身就是位元組的集合，且位元組作爲文字呈現時，它會提供一些實用的方法。在此段落我們將和其他集合型別一樣討論 `String` 的操作，像是建立、更新與讀取。我們還會討論到 `String` 與其他集合不一樣的地方，像是 `String` 的索引就比其他集合還複雜，因爲它會依據人們對於 `String` 資料型別的理解而有所不同。
 
-### What Is a String?
+### 什麼是字串？
 
-We’ll first define what we mean by the term *string*. Rust has only one string
-type in the core language, which is the string slice `str` that is usually seen
-in its borrowed form `&str`. In Chapter 4, we talked about *string slices*,
-which are references to some UTF-8 encoded string data stored elsewhere. String
-literals, for example, are stored in the program’s binary and are therefore
-string slices.
+首先我們要好好定義*字串（String）*這個術語。Rust 在核心語言中只有一個字串型別，那就是字串 slice `str`，它通常是以借用的形式存在 `&str`。在第四章中我們提到*字串 slice*是一個針對存在某處的  UTF-8 編碼資料的引用。舉例來說，字串字面值（String literals）就儲存在程式的二進制檔案中，因此就是字串 slice。
 
-The `String` type, which is provided by Rust’s standard library rather than
-coded into the core language, is a growable, mutable, owned, UTF-8 encoded
-string type. When Rustaceans refer to “strings” in Rust, they usually mean the
-`String` and the string slice `&str` types, not just one of those types.
-Although this section is largely about `String`, both types are used heavily in
-Rust’s standard library, and both `String` and string slices are UTF-8 encoded.
+`String` 型別是 Rust 標準函式庫所提供的型別，並不是核心語言內建的型別，它是可增長的、可變的、可擁有所有權的 UTF-8 編碼字串型別。當 Rustaceans 提及 Rust 中的「字串」時，他們通常指的是 `String` 以及字串 slice `&str` 型別，而不只是其中一種型別。雖然此段落大部分都在討論 `String`，這兩個型別都時常用在 Rust 的標準函式庫中，且 `String` 與字串 slices 都是 UTF-8 編碼的。
 
-Rust’s standard library also includes a number of other string types, such as
-`OsString`, `OsStr`, `CString`, and `CStr`. Library crates can provide even
-more options for storing string data. See how those names all end in `String`
-or `Str`? They refer to owned and borrowed variants, just like the `String` and
-`str` types you’ve seen previously. These string types can store text in
-different encodings or be represented in memory in a different way, for
-example. We won’t discuss these other string types in this chapter; see their
-API documentation for more about how to use them and when each is appropriate.
+Rust 的標準函式庫還包含了其他種類的字串型別，像是 `OsString`、`OsStr`、`CString` 以及 `CStr`。函式庫 crates 更可以提供儲存字串資料的更多選項。你應該會注意到這些型別的結尾都是 `String` 和 `Str`，它們分別代表擁有所有權與借用的變體。就像你之前看到的 `String` 和 `str` 型別一樣。這些字串型別可以儲存不同編碼的文字或者以不同的記憶體形式呈現。我們不會在本章節討論這些字串型別，要是你想知道如何或何時使用它們的話，你可以查閱它們的 API 技術文件。
 
-### Creating a New String
+### 建立新的字串
 
-Many of the same operations available with `Vec<T>` are available with `String`
-as well, starting with the `new` function to create a string, shown in Listing
-8-11.
+許多 `Vec<T>` 可使用的方法在 `String` 也都能用，像是用 `new` 函式建立新的字串，如範例 8-11 所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-11/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-11: Creating a new, empty `String`</span>
+<span class="caption">範例 8-11：建立新的空 `String`</span>
 
-This line creates a new empty string called `s`, which we can then load data
-into. Often, we’ll have some initial data that we want to start the string
-with. For that, we use the `to_string` method, which is available on any type
-that implements the `Display` trait, as string literals do. Listing 8-12 shows
-two examples.
+此行會建立新的字串叫做 `s` ，我們之後可以在寫入資料。不過通常我們會希望建立字串的同時能夠初始化資料。爲此我們可以使用 `to_string` 方法，任何有實作 `Display` 特徵的型別都可以使用此方法，就像字串字面值的使用方式一樣。範例 8-12 就展示了兩種例子。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-12/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-12: Using the `to_string` method to create a
-`String` from a string literal</span>
+<span class="caption">範例 8-12：從字串字面值使用 `to_string` 方法來建立 `String`</span>
 
-This code creates a string containing `initial contents`.
+此程式碼建立了一個字串內容爲 `initial contents`。
 
-We can also use the function `String::from` to create a `String` from a string
-literal. The code in Listing 8-13 is equivalent to the code from Listing 8-12
-that uses `to_string`.
+我們也可以用函式 `String::from` 從字串字面值建立 `String`。範例 8-13 的程式碼和使用 `to_string` 的範例 8-12 效果一樣。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-13/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-13: Using the `String::from` function to create
-a `String` from a string literal</span>
+<span class="caption">範例 8-13：使用函式 `String::from` 從字串字面值建立 `String`</span>
 
-Because strings are used for so many things, we can use many different generic
-APIs for strings, providing us with a lot of options. Some of them can seem
-redundant, but they all have their place! In this case, `String::from` and
-`to_string` do the same thing, so which you choose is a matter of style.
+因爲字串用在許多地方，我們可以使用許多不同的通用字串 API 供我們選擇。有些看起來似乎是多餘的，但是它們都有一席之地的！在上面的範例中 `String::from` 和 `to_string` 都在做相同的事，所以你的選擇在於喜好風格上。
 
-Remember that strings are UTF-8 encoded, so we can include any properly encoded
-data in them, as shown in Listing 8-14.
+另外記得字串是 UTF-8 編碼的，所以我們可以包含任何正確編碼的資料，如範例 8-14 所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-14/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-14: Storing greetings in different languages in
-strings</span>
+<span class="caption">範例 8-14：用字串儲存各種語言打招呼的文字</span>
 
-All of these are valid `String` values.
+以上全是合理的 `String` 數值。
 
-### Updating a String
+### 更新字串
 
-A `String` can grow in size and its contents can change, just like the contents
-of a `Vec<T>`, if you push more data into it. In addition, you can conveniently
-use the `+` operator or the `format!` macro to concatenate `String` values.
+就和 `Vec<T>` 一樣，如果你填入更多資料的話，`String` 可以增長大小並變更其內容。除此之外你也可以使用 `+` 運算子或 `format!` 巨集來串接 `String` 數值。
 
-#### Appending to a String with `push_str` and `push`
+#### 使用 `push_str` 和 `push` 追加字串
 
-We can grow a `String` by using the `push_str` method to append a string slice,
-as shown in Listing 8-15.
+我們可以使用 `push_str` 方法來追加一個字串 slice 使字串增長，如範例 8-15 所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-15/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-15: Appending a string slice to a `String`
-using the `push_str` method</span>
+<span class="caption">範例 8-15：使用 `push_str` 方法向 `String` 追加字串 slice</span>
 
-After these two lines, `s` will contain `foobar`. The `push_str` method takes a
-string slice because we don’t necessarily want to take ownership of the
-parameter. For example, the code in Listing 8-16 shows that it would be
-unfortunate if we weren’t able to use `s2` after appending its contents to `s1`.
+在這兩行之後，`s` 會包含 `foobar`。`push_str` 方法取得的是字串 slice 因爲我們並不需要取得參數的所有權。舉例來說範例 8-16 就說明了如果 `s2` 在追加其內容給 `s1` 之後卻不能使用的話，就很不妙了。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-16/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-16: Using a string slice after appending its
-contents to a `String`</span>
+<span class="caption">範例 8-16：在內容追加給 `String` 後繼續使用字串 slice</span>
 
-If the `push_str` method took ownership of `s2`, we wouldn’t be able to print
-its value on the last line. However, this code works as we’d expect!
+如果 `push_str` 方法會取得 `s2` 的所有權，我們就無法在最後一行印出其數值了。幸好這段程式碼是可以執行的！
 
-The `push` method takes a single character as a parameter and adds it to the
-`String`. Listing 8-17 shows code that adds the letter *l* to a `String` using
-the `push` method.
+而 `push` 方法會取得一個字元作爲參數並加到 `String` 上。範例 8-17 顯示了一個使用 `push` 方法將字母 *l* 加到 `String` 的程式碼。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-17/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-17: Adding one character to a `String` value
-using `push`</span>
+<span class="caption">範例 8-17：使用 `push` 將一個字元加到 `String`</span>
 
-As a result of this code, `s` will contain `lol`.
+此程式碼的結果就是 `s` 會包含 `lol`。
 
-#### Concatenation with the `+` Operator or the `format!` Macro
+#### 使用 `+` 運算子或 `format!` 巨集串接字串
 
-Often, you’ll want to combine two existing strings. One way is to use the `+`
-operator, as shown in Listing 8-18.
+你通常會想要組合兩個字串在一起，其中一種方式是用 `+` 運算子。如範例 8-18 所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-18/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-18: Using the `+` operator to combine two
-`String` values into a new `String` value</span>
+<span class="caption">範例 8-18：使用 `+` 運算子組合兩個 `String` 數值成一個新的 `String` 數值</span>
 
-The string `s3` will contain `Hello, world!` as a result of this code. The
-reason `s1` is no longer valid after the addition and the reason we used a
-reference to `s2` has to do with the signature of the method that gets called
-when we use the `+` operator. The `+` operator uses the `add` method, whose
-signature looks something like this:
+程式碼最後的字串 `s3` 就會獲得 `Hello, world!`。`s1` 之所以在相加後不再有效，以及 `s2` 是使用引用的原因，都和我們使用 `+` 運算子時呼叫的方法簽名有關。`+` 運算子使用的是 `add` 方法，其簽名會長得像這樣：
 
 ```rust,ignore
 fn add(self, s: &str) -> String {
 ```
 
-This isn’t the exact signature that’s in the standard library: in the standard
-library, `add` is defined using generics. Here, we’re looking at the signature
-of `add` with concrete types substituted for the generic ones, which is what
-happens when we call this method with `String` values. We’ll discuss generics
-in Chapter 10. This signature gives us the clues we need to understand the
-tricky bits of the `+` operator.
+這不全是標準函式庫中實際的簽名，在標準函式庫中 `add` 是用泛型（generics）定義。我們在此看到的是使用實際型別指明泛型的 `add` 簽名。我們會在第十章討論到泛型。此簽名給了一些我們需要瞭解 `+` 運算子的一些線索。
 
-First, `s2` has an `&`, meaning that we’re adding a *reference* of the second
-string to the first string because of the `s` parameter in the `add` function:
-we can only add a `&str` to a `String`; we can’t add two `String` values
-together. But wait—the type of `&s2` is `&String`, not `&str`, as specified in
-the second parameter to `add`. So why does Listing 8-18 compile?
+首先 `s2` 有 `&` 代表我們是將第二個字串的*引用*與第一個字串相加，因爲函式 `add` 中的參數 `s` 說明我們只能將 `&str` 與 `String` 相加，我們無法將兩個 `String` 數值相加。但等等 `&s2` 是 `&String` 才對，並非 `add` 第二個參數所指定的 `&str`。爲何範例 8-18 可以編譯呢？
 
-The reason we’re able to use `&s2` in the call to `add` is that the compiler
-can *coerce* the `&String` argument into a `&str`. When we call the `add`
-method, Rust uses a *deref coercion*, which here turns `&s2` into `&s2[..]`.
-We’ll discuss deref coercion in more depth in Chapter 15. Because `add` does
-not take ownership of the `s` parameter, `s2` will still be a valid `String`
-after this operation.
+我們可以在 `add` 的呼叫中使用 `&s2` 的原因是因爲編譯器可以*強迫（coerce）* `&String` 引數轉換成 `&str`。當我們我們呼叫 `add` 方法時，Rust *強迫解引用（deref coercion*）*讓 `&s2` 變成 `&s2[..]`。我們會在第十五章深入探討強迫解引用。因爲 `add` 不會取得 `s` 參數的所有權，`s2` 在此運算後仍然是個有效的 `String`。
 
-Second, we can see in the signature that `add` takes ownership of `self`,
-because `self` does *not* have an `&`. This means `s1` in Listing 8-18 will be
-moved into the `add` call and no longer be valid after that. So although `let
-s3 = s1 + &s2;` looks like it will copy both strings and create a new one, this
-statement actually takes ownership of `s1`, appends a copy of the contents of
-`s2`, and then returns ownership of the result. In other words, it looks like
-it’s making a lot of copies but isn’t; the implementation is more efficient
-than copying.
+再來，我們可以看到 `add` 的簽名會取得 `self` 的所有權，因爲 `self` *沒有* `&`。這代表範例 8-18 的 `s1` 會移動到 `add` 的呼叫內，在之後就不再有效。所以雖然然 `let s3 = s1 + &s2;` 看起來像是它拷貝了兩個字串的值並產生了一個新的，但此陳述式實際上是取得 `s1` 的所有權、追加一份 `s2` 的複製內容、然後回傳最終結果的所有權。換句話說，雖然它看起來像是產生了很多拷貝，但實際上並不是。此實作反而比較有效率。
 
-If we need to concatenate multiple strings, the behavior of the `+` operator
-gets unwieldy:
+如果我們需要串接數個字串的話，`+` 運算子的行爲看起來就顯得有點笨重了：
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/no-listing-01-concat-multiple-strings/src/main.rs:here}}
 ```
 
-At this point, `s` will be `tic-tac-toe`. With all of the `+` and `"`
-characters, it’s difficult to see what’s going on. For more complicated string
-combining, we can use the `format!` macro:
+此時 `s` 會是 `tic-tac-toe`。有這麼多的 `+` 和 `"` 字元，我們很難看清楚發生什麼事。如果要完成更複雜的字串組合的話，我們可以使用 `format!` 巨集：
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/no-listing-02-format/src/main.rs:here}}
 ```
 
-This code also sets `s` to `tic-tac-toe`. The `format!` macro works in the same
-way as `println!`, but instead of printing the output to the screen, it returns
-a `String` with the contents. The version of the code using `format!` is much
-easier to read and doesn’t take ownership of any of its parameters.
+此程式碼一樣能設置 `s` 爲to `tic-tac-toe`。`format!` 巨集運作的方式和 `println!` 一樣，但不會將輸出結果顯示在螢幕上，它做的是回傳內容的 `String`。使用 `format!` 的程式碼版本看起來比較好讀懂，而且不會取走任何參數的所有權。
 
-### Indexing into Strings
+### 索引字串
 
-In many other programming languages, accessing individual characters in a
-string by referencing them by index is a valid and common operation. However,
-if you try to access parts of a `String` using indexing syntax in Rust, you’ll
-get an error. Consider the invalid code in Listing 8-19.
+在其他許多程式語言中，使用索引引用字串來取得獨立字元是有效且常見的操作。然而在 Rust 中如果你嘗試對 `String` 使用索引語法的話，你會得到錯誤。請看看範例 8-19 這段無效的程式碼。
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-19/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-19: Attempting to use indexing syntax with a
-String</span>
+<span class="caption">範例 8-19：嘗試在字串使用索引語法</span>
 
-This code will result in the following error:
+此程式會有以下錯誤結果：
 
 ```console
 {{#include ../listings/ch08-common-collections/listing-08-19/output.txt}}
 ```
 
-The error and the note tell the story: Rust strings don’t support indexing. But
-why not? To answer that question, we need to discuss how Rust stores strings in
-memory.
+錯誤訊息與提示告訴了我們 Rust 字串並不支援索引。但爲何不支援呢？要回答此問題，我們需要先討論 Rust 如何儲存字串進記憶體的。
 
-#### Internal Representation
+#### 內部呈現
 
-A `String` is a wrapper over a `Vec<u8>`. Let’s look at some of our properly
-encoded UTF-8 example strings from Listing 8-14. First, this one:
+`String` 基本上就是 `Vec<u8>` 的封裝。讓我們看看範例 8-14 中一些正確編碼爲 UTF-8 字串的例子，像是這一個：
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-14/src/main.rs:spanish}}
 ```
 
-In this case, `len` will be 4, which means the vector storing the string “Hola”
-is 4 bytes long. Each of these letters takes 1 byte when encoded in UTF-8. But
-what about the following line? (Note that this string begins with the capital
-Cyrillic letter Ze, not the Arabic number 3.)
+在此例中 `len` 會是 4，也就是 vector 儲存的字串「Hola」長度爲 4 個位元組。每個字母在用 UFT-8 編碼時長度均爲 1 個位元組。那接下來這段呢？（請注意字串的開頭是西里爾字母 Ze 的大寫，而不是阿拉伯數字 3）
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-14/src/main.rs:russian}}
 ```
 
-Asked how long the string is, you might say 12. However, Rust’s answer is 24:
-that’s the number of bytes it takes to encode “Здравствуйте” in UTF-8, because
-each Unicode scalar value in that string takes 2 bytes of storage. Therefore,
-an index into the string’s bytes will not always correlate to a valid Unicode
-scalar value. To demonstrate, consider this invalid Rust code:
+你可能會以爲這字串的長度爲 12，然而 Rust 給的答案卻是 24。這是將「Здравствуйте」用 UTF-8 編碼後的位元組長度，因爲該字串的每個 Unicode 純量都佔據兩個位元組。因此字串位元組的索引不會永遠都能對應到有效的 Unicode 純量數值。我們用以下無效的 Rust 程式碼進一步說明：
 
 ```rust,ignore,does_not_compile
 let hello = "Здравствуйте";
 let answer = &hello[0];
 ```
 
-What should the value of `answer` be? Should it be `З`, the first letter? When
-encoded in UTF-8, the first byte of `З` is `208` and the second is `151`, so
-`answer` should in fact be `208`, but `208` is not a valid character on its
-own. Returning `208` is likely not what a user would want if they asked for the
-first letter of this string; however, that’s the only data that Rust has at
-byte index 0. Users generally don’t want the byte value returned, even if the
-string contains only Latin letters: if `&"hello"[0]` were valid code that
-returned the byte value, it would return `104`, not `h`. To avoid returning an
-unexpected value and causing bugs that might not be discovered immediately,
-Rust doesn’t compile this code at all and prevents misunderstandings early in
-the development process.
+`answer` 的數值會是多少呢？會是第一個字母 `З` 嗎？當經過 UTF-8 編碼時，`З` 的第一個位元組會是 `208` 然後第二個是 `151`。所以 `answer` 實際上會拿到 `208`，但 `208` 本身又不是個有效字元。回傳 `208` 可能不會是使用者想要的，他們希望的應該是此字串的第一個字母，但這是 Rust 在位元組索引 0 唯一能回傳的資料。就算字串都只包含拉丁字母，使用者通常也不會希望看到位元組數值作爲回傳值。如果 `&"hello"[0]` 是有效程式碼且會回傳位元組數值的話，它會回傳的是 `104` 並非 `h`。爲了預防回傳意外數值進而導致無法立刻察覺的錯誤，Rust 不會成功編譯這段程式碼，並在開發過程前期就杜絕誤會發生。
 
-#### Bytes and Scalar Values and Grapheme Clusters! Oh My!
+#### 位元組、純量數值與形素群集！我的天啊！
 
-Another point about UTF-8 is that there are actually three relevant ways to
-look at strings from Rust’s perspective: as bytes, scalar values, and grapheme
-clusters (the closest thing to what we would call *letters*).
+UTF-8 還有一個重點是在 Rust 中我們實際上可以有三種觀點來理解字串：位元組、純量數值（scalar values）以及形素群集（grapheme clusters，最接近人們常說的「*字母*」）。
 
-If we look at the Hindi word “नमस्ते” written in the Devanagari script, it is
-stored as a vector of `u8` values that looks like this:
+如果我們觀察用天成體寫的印度語「नमस्ते」，它存在 vector 中的 `u8` 數值就會長這樣：
 
 ```text
 [224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
 224, 165, 135]
 ```
 
-That’s 18 bytes and is how computers ultimately store this data. If we look at
-them as Unicode scalar values, which are what Rust’s `char` type is, those
-bytes look like this:
+這 18 個位元組是電腦最終儲存的資料？如果我們用 Unicode 純量數值觀察的話，也就是 Rust 的 `char` 型別，這些位元組會組成像這樣：
 
 ```text
 ['न', 'म', 'स', '्', 'त', 'े']
 ```
 
-There are six `char` values here, but the fourth and sixth are not letters:
-they’re diacritics that don’t make sense on their own. Finally, if we look at
-them as grapheme clusters, we’d get what a person would call the four letters
-that make up the Hindi word:
-
+這邊有六個 `char` 數值，但第四個和第六個卻不是字母，它們是單獨存在不具任何意義的變音符號。最後如果我們以形素群集的角度來看的話，我們就會得到一般人所說的構成此印度語的四個字母：
 ```text
 ["न", "म", "स्", "ते"]
 ```
 
-Rust provides different ways of interpreting the raw string data that computers
-store so that each program can choose the interpretation it needs, no matter
-what human language the data is in.
+Rust 提拱多種不同的方式來解釋電腦中儲存的原始字串資料，讓每個程式無論是何種人類語言的資料，都可以選擇它們需要的呈現方式。
 
-A final reason Rust doesn’t allow us to index into a `String` to get a
-character is that indexing operations are expected to always take constant time
-(O(1)). But it isn’t possible to guarantee that performance with a `String`,
-because Rust would have to walk through the contents from the beginning to the
-index to determine how many valid characters there were.
+Rust 還有一個不允許索引 `String` 來取得字元的原因是因爲，索引運算必須永遠預期是花費常數時間（O(1)）。但在 `String` 上無法提供這樣的效能保證，因爲 Rust 會需要從索引的開頭遍歷每個內容才能決定多少有效字元存在。
 
-### Slicing Strings
+### 字串 slice
 
-Indexing into a string is often a bad idea because it’s not clear what the
-return type of the string-indexing operation should be: a byte value, a
-character, a grapheme cluster, or a string slice. Therefore, Rust asks you to
-be more specific if you really need to use indices to create string slices. To
-be more specific in your indexing and indicate that you want a string slice,
-rather than indexing using `[]` with a single number, you can use `[]` with a
-range to create a string slice containing particular bytes:
+索引字串通常不是個好點子，因爲字符串索引要回傳的型別是不明確的，是要一個位元組數值、一個字元、一個形素群集還是一個字串 slice 呢。因此如果你真的想要使用索引建立字串 slice 的話，Rust 會要你更明確些。要明確指定你的索引與你想要的字串 slice，與其在 `[]` 只使用一個數字來索引，你可以在 `[]` 指定一個範圍來建立包含特定位元組的字串 slice：
 
 ```rust
 let hello = "Здравствуйте";
@@ -335,28 +201,21 @@ let hello = "Здравствуйте";
 let s = &hello[0..4];
 ```
 
-Here, `s` will be a `&str` that contains the first 4 bytes of the string.
-Earlier, we mentioned that each of these characters was 2 bytes, which means
-`s` will be `Зд`.
+`s` 在此會是 `&str` 並包含字串前 4 個位元組。稍早我們提過這些字元各佔 2 個位元組，所以這裡的 `s` 就是 `Зд`。
 
-What would happen if we used `&hello[0..1]`? The answer: Rust would panic at
-runtime in the same way as if an invalid index were accessed in a vector:
+那如果我們只用 `&hello[0..1]` 呢？答案是 Rust 會和在 vector 中取得無效索引一樣在執行時恐慌：
 
 ```console
 {{#include ../listings/ch08-common-collections/output-only-01-not-char-boundary/output.txt}}
 ```
 
-You should use ranges to create string slices with caution, because doing so
-can crash your program.
+你在使用範圍來建立字串 slice 時要格外小心，因爲這樣做有可能會使你的程式崩潰。
 
-### Methods for Iterating Over Strings
+### 遍歷字串的方法
 
-Fortunately, you can access elements in a string in other ways.
+幸運的是你有其他方法來取得字串的元素。
 
-If you need to perform operations on individual Unicode scalar values, the best
-way to do so is to use the `chars` method. Calling `chars` on “नमस्ते” separates
-out and returns six values of type `char`, and you can iterate over the result
-to access each element:
+如果你需要對每個獨立的 Unicode 純量型別做運算的話，最好的方式是使用 `chars` 方法。對「नमस्ते」呼叫 `chars` 會將六個擁有 `char` 型別的數值拆開並回傳，這樣一來你就可以遍歷每個元素：
 
 ```rust
 for c in "नमस्ते".chars() {
@@ -364,7 +223,7 @@ for c in "नमस्ते".chars() {
 }
 ```
 
-This code will print the following:
+此程式碼會顯示以下輸出：
 
 ```text
 न
@@ -375,8 +234,7 @@ This code will print the following:
 े
 ```
 
-The `bytes` method returns each raw byte, which might be appropriate for your
-domain:
+而 `bytes` 方法會回傳每個原始位元組，可能會在某些場合適合你：
 
 ```rust
 for b in "नमस्ते".bytes() {
@@ -384,7 +242,7 @@ for b in "नमस्ते".bytes() {
 }
 ```
 
-This code will print the 18 bytes that make up this `String`:
+此程式碼會印出此 `String` 的 18 個位元組：
 
 ```text
 224
@@ -394,22 +252,16 @@ This code will print the 18 bytes that make up this `String`:
 135
 ```
 
-But be sure to remember that valid Unicode scalar values may be made up of more
-than 1 byte.
+請確定你已經瞭解有效的 Unicode 純量數值可能不止佔 1 個位元組。
 
-Getting grapheme clusters from strings is complex, so this functionality is not
-provided by the standard library. Crates are available on
-[crates.io](https://crates.io/) if this is the functionality you need.
+而要從字串取得形素群集的話就非常複雜了，所以標準函式庫並未提供這項功能。如果你需要的話，[crates.io](https://crates.io/) 上會有提供這項功能的 crate。
 
-### Strings Are Not So Simple
+### 字串並不簡單
 
-To summarize, strings are complicated. Different programming languages make
-different choices about how to present this complexity to the programmer. Rust
-has chosen to make the correct handling of `String` data the default behavior
-for all Rust programs, which means programmers have to put more thought into
-handling UTF-8 data upfront. This trade-off exposes more of the complexity of
-strings than is apparent in other programming languages, but it prevents you
-from having to handle errors involving non-ASCII characters later in your
-development life cycle.
+總結來說，字串是很複雜的。不同的程式語言會選擇不同的決定來呈現給程式設計師。Rust 選擇正確處理 `String` 的方式作爲所有Rust 程式的預設行爲，這也代表開發者在處理 UTF-8 資料時需要多加考量。這樣的取捨的確對比其他程式語言來說，增加了不少字串的複雜程度，但是這能讓你在開發週期免於處理非 ASCII 字元相關的錯誤。
 
-Let’s switch to something a bit less complex: hash maps!
+讓我們接下去開一個較簡單地集合吧：雜湊表（hash maps）！
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch08-02-strings.md)
+> - updated: 2020-09-11

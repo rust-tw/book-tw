@@ -26,6 +26,7 @@ byte                   | 位元組                        | 參考：[維基百�
 camel case             | 駝峰式大小寫                  | 參考：[維基百科][camel case]
 child                  | 下代                          |
 clone                  | 克隆                          |
+coerce                 | 強迫                          |
 collection             | 集合                          | 參考：[維基百科][collection]
 command line           | 命令列                        | 參考：[維基百科][command_line]
 commit                 | 提交                          |
