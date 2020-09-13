@@ -1,4 +1,4 @@
-## Validating References with Lifetimes
+## 使用生命週期驗證引用
 
 One detail we didn’t discuss in the [“References and
 Borrowing”][references-and-borrowing]<!-- ignore --> section in Chapter 4 is

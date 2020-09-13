@@ -59,7 +59,7 @@ formalization          | 正規化                        |
 function               | 函式                          | 參考：[維基百科][function]
 generics               | 泛型                          | 參考：[維基百科][generics]
 hash                   | 雜湊                          |
-hash map               | 雜湊表                        |
+hash map               | 雜湊映射                        |
 identifier             | 標識符                        | 參考：[維基百科][identifier]
 import                 | 匯入                          |
 index                  | 索引                          | 參考：[維基百科][index]

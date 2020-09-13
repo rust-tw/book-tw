@@ -54,7 +54,7 @@ Rust 的標準函式庫還包含了其他種類的字串型別，像是 `OsStrin
 
 ### 更新字串
 
-就和 `Vec<T>` 一樣，如果你填入更多資料的話，`String` 可以增長大小並變更其內容。除此之外你也可以使用 `+` 運算子或 `format!` 巨集來串接 `String` 數值。
+就和 `Vec<T>` 一樣，如果你插入更多資料的話，`String` 可以增長大小並變更其內容。除此之外你也可以使用 `+` 運算子或 `format!` 巨集來串接 `String` 數值。
 
 #### 使用 `push_str` 和 `push` 追加字串
 
@@ -260,7 +260,7 @@ for b in "नमस्ते".bytes() {
 
 總結來說，字串是很複雜的。不同的程式語言會選擇不同的決定來呈現給程式設計師。Rust 選擇正確處理 `String` 的方式作爲所有Rust 程式的預設行爲，這也代表開發者在處理 UTF-8 資料時需要多加考量。這樣的取捨的確對比其他程式語言來說，增加了不少字串的複雜程度，但是這能讓你在開發週期免於處理非 ASCII 字元相關的錯誤。
 
-讓我們接下去開一個較簡單地集合吧：雜湊表（hash maps）！
+讓我們接下去開一個較簡單地集合吧：雜湊映射（hash maps）！
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch08-02-strings.md)

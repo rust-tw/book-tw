@@ -1,4 +1,4 @@
-## Processing a Series of Items with Iterators
+## 使用疊代器來處理一系列的項目
 
 The iterator pattern allows you to perform some task on a sequence of items in
 turn. An iterator is responsible for the logic of iterating over each item and

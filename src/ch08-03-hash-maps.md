@@ -1,251 +1,140 @@
-## Storing Keys with Associated Values in Hash Maps
+## 使用雜湊映射儲存鍵值配對
 
-The last of our common collections is the *hash map*. The type `HashMap<K, V>`
-stores a mapping of keys of type `K` to values of type `V`. It does this via a
-*hashing function*, which determines how it places these keys and values into
-memory. Many programming languages support this kind of data structure, but
-they often use a different name, such as hash, map, object, hash table,
-dictionary, or associative array, just to name a few.
+我們最後一個常見的集合是*雜湊映射（hash map）*，`HashMap<K, V>` 型別會儲存一個鍵（key）型別 `K` 對應到一個數值（value）型別 `V`。它透過*雜湊函式（hashing function）*來決定要將這些鍵與值放在記憶體何處。許多程式語言都有支援這種類型的資料結構，不過通常它們會提供不同的名稱，像是 hash、map、object、hash table、dictionary 或 associative array 等等。
 
-Hash maps are useful when you want to look up data not by using an index, as
-you can with vectors, but by using a key that can be of any type. For example,
-in a game, you could keep track of each team’s score in a hash map in which
-each key is a team’s name and the values are each team’s score. Given a team
-name, you can retrieve its score.
+雜湊映射適合用於當你不想像 vector 那樣用索引搜尋資料，而是透過一個可以爲任意型別的鍵來搜尋的情況。舉例來說，在比賽中我們可以使用雜湊映射來儲存每隊的分數，每個鍵代表對與名稱，而每個值代表隊伍分數。給予一個隊伍名稱，你就能取得該隊伍分數。
 
-We’ll go over the basic API of hash maps in this section, but many more goodies
-are hiding in the functions defined on `HashMap<K, V>` by the standard library.
-As always, check the standard library documentation for more information.
+我們會在此段落介紹雜湊映射的基本 API，但還有很多實用的函式定義在標準函式庫的 `HashMap<K, V>` 中，所以別忘了查閱標準函式庫的技術文件來瞭解更多資訊。
 
-### Creating a New Hash Map
+### 建立新的雜湊映射
 
-You can create an empty hash map with `new` and add elements with `insert`. In
-Listing 8-20, we’re keeping track of the scores of two teams whose names are
-Blue and Yellow. The Blue team starts with 10 points, and the Yellow team
-starts with 50.
+你可以用 `new` 建立一個空的雜湊映射並用 `insert` 加入新元素。在範例 8-20 我們追蹤兩支隊伍的分數，分別爲藍隊與黃隊。藍隊初始分數有 10 分，黃隊則有 50 分。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-20/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-20: Creating a new hash map and inserting some
-keys and values</span>
+<span class="caption">範例 8-20：建立新的雜湊映射並插入一些鍵值</span>
 
-Note that we need to first `use` the `HashMap` from the collections portion of
-the standard library. Of our three common collections, this one is the least
-often used, so it’s not included in the features brought into scope
-automatically in the prelude. Hash maps also have less support from the
-standard library; there’s no built-in macro to construct them, for example.
+注意到我們需要先使用 `use` 將標準函式庫的 `HashMap` 集合引入。在我們介紹的三個常見集合中，此集合是最少被用到的，所以它並沒有包含在 prelude 內讓我們能自動引用。雜湊映射也沒有像前者那麼多標準函式庫提供的支援，像是內建建構它們的巨集。
 
-Just like vectors, hash maps store their data on the heap. This `HashMap` has
-keys of type `String` and values of type `i32`. Like vectors, hash maps are
-homogeneous: all of the keys must have the same type, and all of the values
-must have the same type.
+和 vector 一樣，雜湊映射會將它們的資料儲存在堆積上。此 `HashMap` 得鍵是 `String` 型別而值是 `i32` 型別。和 vector 一樣，雜湊函式宣告後就都得是同類的，所有的鍵都必須是同型別，且所有的值也都必須是同型別。
 
-Another way of constructing a hash map is by using iterators and the `collect`
-method on a vector of tuples, where each tuple consists of a key and its value.
-We’ll be going into more detail about iterators and their associated methods in
-the [”Processing a Series of Items with Iterators” section of Chapter
-13][iterators]<!-- ignore -->. The `collect` method gathers data into a number
-of collection types, including `HashMap`. For example, if we had the team names
-and initial scores in two separate vectors, we could use the `zip` method to
-create a vector of tuples where “Blue” is paired with 10, and so forth. Then we
-could use the `collect` method to turn that vector of tuples into a hash map,
-as shown in Listing 8-21.
+另一種建構雜湊映射的方式爲使用疊代器並在一個元組組成的 vector 中使用 `collect` 方法，其中每個元組都包含一個鍵與值的配對。我們會在第十三章的[「使用疊代器來處理一系列的項目」][iterators]<!-- ignore -->段落中深入探討疊代器與它們相關的方法。`collect` 方法會將收集的資料轉換成其他集合型別，包含 `HashMap`。舉例來說，如果我們有兩個 vector 分別是隊伍名稱與隊伍分數的話，我們可以使用 `zip` 方法來產生由元組組成的 vector，其中「Blue」會與 10 配對，以此類推。然後我們就能用 `collect` 方法將元組 vector 轉換成雜湊映射，如範例 8-21 所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-21/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-21: Creating a hash map from a list of teams
-and a list of scores</span>
+<span class="caption">範例 8-21：從隊伍列表與分數列表來產生雜湊映射</span>
 
-The type annotation `HashMap<_, _>` is needed here because it’s possible to
-`collect` into many different data structures and Rust doesn’t know which you
-want unless you specify. For the parameters for the key and value types,
-however, we use underscores, and Rust can infer the types that the hash map
-contains based on the types of the data in the vectors. In Listing 8-21, the
-key type will be `String` and the value type will be `i32`, just as the types
-were in Listing 8-20.
 
-### Hash Maps and Ownership
+`HashMap<_, _>` 的型別詮釋是必要的，因爲 `collect` 可以產生不同種類的資料結構，而除非你指明不然 Rust 無法知道你要何種型別。但在指明鍵值型別的參數中，我們卻使用底線。這是因爲 Rust 可以依據 vector
+的資料型別推導出雜湊映射的型別。在範例 8-21 中的鍵型別就會是 `String` 然後值的型別就會是 `i32`，如同範例 8-20 的型別一樣。
 
-For types that implement the `Copy` trait, like `i32`, the values are copied
-into the hash map. For owned values like `String`, the values will be moved and
-the hash map will be the owner of those values, as demonstrated in Listing 8-22.
+### 雜湊映射與所有權
+
+像是 `i32` 這種有實作 `Copy` 特徵的型別其數值可以被拷貝進雜湊映射之中。但對於像是 `String` 這種擁有所有權的數值則會被移動到雜湊映射，並成爲該數值新的擁有者，如範例 8-22 所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-22/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-22: Showing that keys and values are owned by
-the hash map once they’re inserted</span>
+<span class="caption">範例 8-22：展示當鍵值插入雜湊映射後就會擁有它們</span>
 
-We aren’t able to use the variables `field_name` and `field_value` after
-they’ve been moved into the hash map with the call to `insert`.
+我們之後就無法使用變數 `field_name` 和 `field_value`，因爲它們的值已經透過呼叫 `insert` 被移入雜湊映射之中。
 
-If we insert references to values into the hash map, the values won’t be moved
-into the hash map. The values that the references point to must be valid for at
-least as long as the hash map is valid. We’ll talk more about these issues in
-the [“Validating References with
-Lifetimes”][validating-references-with-lifetimes]<!-- ignore --> section in
-Chapter 10.
+如果我們插入雜湊映射的數值是引用的話，該值就不會被移動到雜湊映射之中。不過該值的引用就必須一直有效，至少直到該雜湊映射離開作用域爲止。我們會在第十章的[“使用生命週期驗證引用”][validating-references-with-lifetimes]<!-- ignore --> 段落討落更多細節。
 
-### Accessing Values in a Hash Map
+### 取得雜湊映射的數值
 
-We can get a value out of the hash map by providing its key to the `get`
-method, as shown in Listing 8-23.
+我們可以透過 `get` 方法並提供鍵來取得其在雜湊映射對應的值，如範例 8-23 所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-23/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-23: Accessing the score for the Blue team
-stored in the hash map</span>
+<span class="caption">範例 8-23：取得雜湊映射中藍隊的分數</span>
 
-Here, `score` will have the value that’s associated with the Blue team, and the
-result will be `Some(&10)`. The result is wrapped in `Some` because `get`
-returns an `Option<&V>`; if there’s no value for that key in the hash map,
-`get` will return `None`. The program will need to handle the `Option` in one
-of the ways that we covered in Chapter 6.
+`score` 在此將會是對應藍隊的分數，而且結果會是 `Some(&10)`。結果是使用 `Some` 的原因是因爲 `get` 回傳的是 `Option<&V>`。如果雜湊映射中該鍵沒有對應值的話，`get` 就會回傳 `None`。所以程式會需要透過我們在第六章談到的方式處理 `Option`。
 
-We can iterate over each key/value pair in a hash map in a similar manner as we
-do with vectors, using a `for` loop:
+我們也可以使用 `for` 迴圈用類似的方式來遍歷雜湊映射中每個鍵值配對：
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/no-listing-03-iterate-over-hashmap/src/main.rs:here}}
 ```
 
-This code will print each pair in an arbitrary order:
+此程式會以任意順序印出每個配對：
 
 ```text
 Yellow: 50
 Blue: 10
 ```
 
-### Updating a Hash Map
+### 更新雜湊映射
 
-Although the number of keys and values is growable, each key can only have one
-value associated with it at a time. When you want to change the data in a hash
-map, you have to decide how to handle the case when a key already has a value
-assigned. You could replace the old value with the new value, completely
-disregarding the old value. You could keep the old value and ignore the new
-value, only adding the new value if the key *doesn’t* already have a value. Or
-you could combine the old value and the new value. Let’s look at how to do each
-of these!
+雖然鍵值配對的數量可以增加，但每個鍵同一時間就只能有一個對應的值而已。當你想要改變雜湊映射的資料的話，你必須決定如何處理當一個鍵已經有一個值的情況。你可以不管舊的值，直接用新值取代。你也可以保留舊值、忽略新值，只有在該鍵*尚未*擁有對應數值時才賦值給它。或者你也可以將舊值與新值組合起來。讓我們看看分別怎麼處理吧！
 
-#### Overwriting a Value
+#### 覆蓋數值
 
-If we insert a key and a value into a hash map and then insert that same key
-with a different value, the value associated with that key will be replaced.
-Even though the code in Listing 8-24 calls `insert` twice, the hash map will
-only contain one key/value pair because we’re inserting the value for the Blue
-team’s key both times.
+如果我們在雜湊映射插入一個鍵值配對，然後又在相同鍵插入不同的數值的話，該鍵相對應的數值就會被取代。如範例 8-24 雖然我們呼叫了兩次 `insert`，但是雜湊映射只會保留一個鍵值配對，因爲我們向藍隊的鍵插入了兩次數值。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-24/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-24: Replacing a value stored with a particular
-key</span>
+<span class="caption">範例 8-24：替換某個特定鍵對應的數值</span>
 
-This code will print `{"Blue": 25}`. The original value of `10` has been
-overwritten.
+此程式碼會印出 `{"Blue": 25}`，原本的數值 `10` 會被覆蓋。
 
-#### Only Inserting a Value If the Key Has No Value
+#### 只在鍵沒有值的情況下插入數值
 
-It’s common to check whether a particular key has a value and, if it doesn’t,
-insert a value for it. Hash maps have a special API for this called `entry`
-that takes the key you want to check as a parameter. The return value of the
-`entry` method is an enum called `Entry` that represents a value that might or
-might not exist. Let’s say we want to check whether the key for the Yellow team
-has a value associated with it. If it doesn’t, we want to insert the value 50,
-and the same for the Blue team. Using the `entry` API, the code looks like
-Listing 8-25.
+通常檢查某個特定的鍵有沒有數值，如果沒有的話才插入數值是很常見的。雜湊映射提供了一個特別的 API 叫做 `entry` 讓你可以用想要檢查的鍵作爲參數。`entry` 方法的回傳值是一個枚舉叫做 `Entry`，它代表了一個可能存在或不存在的數值。假設我們想要檢查黃隊的鍵有沒有對應的數值。如果沒有的話，我們想插入 50。而對藍隊也一樣。使用 `entry` API 的話，程式碼會長得像範例 8-25。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-25/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-25: Using the `entry` method to only insert if
-the key does not already have a value</span>
+<span class="caption">範例 8-25：使用 `entry` 方法在只有該鍵尚無任何數值時插入數值</span>
 
-The `or_insert` method on `Entry` is defined to return a mutable reference to
-the value for the corresponding `Entry` key if that key exists, and if not,
-inserts the parameter as the new value for this key and returns a mutable
-reference to the new value. This technique is much cleaner than writing the
-logic ourselves and, in addition, plays more nicely with the borrow checker.
+`Entry` 中的 `or_insert` 方法定義了如果 `Entry` 的鍵有對應的數值的話，就回傳該值得可變引用；如果沒有的話，那就插入參數作爲新數值，並回傳此值的可變引用。這樣的技巧比我們親自寫邏輯還來的清楚，而且更有利於借用檢查器的檢查。
 
-Running the code in Listing 8-25 will print `{"Yellow": 50, "Blue": 10}`. The
-first call to `entry` will insert the key for the Yellow team with the value
-50 because the Yellow team doesn’t have a value already. The second call to
-`entry` will not change the hash map because the Blue team already has the
-value 10.
+執行範例 8-25 的程式碼會印出 `{"Yellow": 50, "Blue": 10}`。第一次 `entry` 的呼叫會對黃隊插入數值 50，因爲黃隊尚未有任何數值。第二次 `entry` 的呼叫則不會改變雜湊映射，因爲藍隊已經有數值 10。
 
-#### Updating a Value Based on the Old Value
+#### 依據舊值更新數值
 
-Another common use case for hash maps is to look up a key’s value and then
-update it based on the old value. For instance, Listing 8-26 shows code that
-counts how many times each word appears in some text. We use a hash map with
-the words as keys and increment the value to keep track of how many times we’ve
-seen that word. If it’s the first time we’ve seen a word, we’ll first insert
-the value 0.
+雜湊映射還有另一種常見的用法是，依照鍵的舊數值來更新它。舉例來說，範例 8-26 展示了一支如何計算一些文字內每個單字各出現多少次的程式碼。我們使用雜湊映射，鍵爲單字然後值爲我們每次追蹤計算對應單字出現多少次的次數。如果我們是第一次看到該單字的話，我們插入數值 0。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-26/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-26: Counting occurrences of words using a hash
-map that stores words and counts</span>
+<span class="caption">範例 8-26：使用雜湊映射儲存單字與次數來計算每個字出現的次數</span>
 
-This code will print `{"world": 2, "hello": 1, "wonderful": 1}`. The
-`or_insert` method actually returns a mutable reference (`&mut V`) to the value
-for this key. Here we store that mutable reference in the `count` variable, so
-in order to assign to that value, we must first dereference `count` using the
-asterisk (`*`). The mutable reference goes out of scope at the end of the `for`
-loop, so all of these changes are safe and allowed by the borrowing rules.
+此程式碼會印出 `{"world": 2, "hello": 1, "wonderful": 1}`。`or_insert` 方法會回傳該鍵對應數值的可變引用（`&mut V`）。在此我們將可變引用儲存在 `count` 變數中，所以要賦值的話，我們必須先使用 `*` 來解引用（dereference）`count`。可變引用會在 `for` 結束時離開作用域，所以所有的改變都是安全的且符合借用規則。
 
-### Hashing Functions
+### 雜湊函式
 
-By default, `HashMap` uses a “cryptographically strong”[^siphash] hashing
-function that can provide resistance to Denial of Service (DoS) attacks. This
-is not the fastest hashing algorithm available, but the trade-off for better
-security that comes with the drop in performance is worth it. If you profile
-your code and find that the default hash function is too slow for your
-purposes, you can switch to another function by specifying a different
-*hasher*. A hasher is a type that implements the `BuildHasher` trait. We’ll
-talk about traits and how to implement them in Chapter 10. You don’t
-necessarily have to implement your own hasher from scratch;
-[crates.io](https://crates.io/) has libraries shared by other Rust users that
-provide hashers implementing many common hashing algorithms.
+`HashMap` 預設是使用一種「密碼學安全（cryptographically strong）」[^siphash]的雜湊函式（hashing function），這可以抵禦阻斷服務（Denial of Service, DoS）的攻擊。這並不是最快的雜湊演算法，但爲了提升安全性唲犧牲一點效能是值得的。如果你做評測時覺得預設的雜湊函式太慢無法滿足你的需求的話，你可以指定不同的 *hasher* 來切換成其他雜湊函式。Hasher 是一個有實作 `BuildHasher` 特徵的型別。我們會在第十章討論到特徵以及如何實作它們。你不必從頭自己實作一個 hasher，[crates.io](https://crates.io/) 上有其他 Rust 使用者分享的函式庫，其中就有不少提供許多常見雜湊演算法的 hasher 實作。
 
 [^siphash]: [https://www.131002.net/siphash/siphash.pdf](https://www.131002.net/siphash/siphash.pdf)
 
-## Summary
+## 總結
 
-Vectors, strings, and hash maps will provide a large amount of functionality
-necessary in programs when you need to store, access, and modify data. Here are
-some exercises you should now be equipped to solve:
+當你的程式需要儲存、取得、修改資料時，vector、字串與雜湊映射可以提供大量的功能。以下是一些你應該能夠解決的練習題：
 
-* Given a list of integers, use a vector and return the mean (the average
-  value), median (when sorted, the value in the middle position), and mode (the
-  value that occurs most often; a hash map will be helpful here) of the list.
-* Convert strings to pig latin. The first consonant of each word is moved to
-  the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words
-  that start with a vowel have “hay” added to the end instead (“apple” becomes
-  “apple-hay”). Keep in mind the details about UTF-8 encoding!
-* Using a hash map and vectors, create a text interface to allow a user to add
-  employee names to a department in a company. For example, “Add Sally to
-  Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all
-  people in a department or all people in the company by department, sorted
-  alphabetically.
+* 給予一個整數列表，請使用 vector 並回傳算數平均數、中位數（排序列表後正中間的值）以及眾數（出現最多次的值，雜湊映射在此應該會很有用）。
+* 將字串轉換成 pig latin。每個單字的第一個字母爲子音的話，就將該字母移到單字後方，並加上「ay」，所以「first」會變成「irst-fay」。而單字第一個字母爲母音的話，就在單字後方加上「hay」，所以「apple」會變成「apple-hay」。請注意要考慮到 UTF-8 編碼！
+* 使用雜湊映射與 vector 來建立文字介面，讓使用者能新增員工名字到公司內的一個部門。舉來來說「Add Sally to Engineering」或「Add Amir to Sales」。然後讓使用者可以索取一個部門所有的員工列表，或是依據部門用字點順序排序，取得公司內所有的員工。
 
-The standard library API documentation describes methods that vectors, strings,
-and hash maps have that will be helpful for these exercises!
+標準函式庫的 API 技術文件有詳細介紹 vector、字串與雜湊映射的所有方法，這對於這些練習題應該會很有幫助！
 
-We’re getting into more complex programs in which operations can fail, so, it’s
-a perfect time to discuss error handling. We’ll do that next!
+我們現在已經開始遇到有可能會運作失敗的複雜程式了，所以接下來正是來討論錯誤處理的時候！
 
 [iterators]: ch13-02-iterators.html
 [validating-references-with-lifetimes]:
 ch10-03-lifetime-syntax.html#validating-references-with-lifetimes
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch08-03-hash-maps.md)
+> - updated: 2020-09-11

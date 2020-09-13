@@ -47,7 +47,7 @@
 - [常見集合](ch08-00-common-collections.md)
     - [使用 Vector 儲存列表](ch08-01-vectors.md)
     - [使用字串儲存 UTF-8 編碼的文字](ch08-02-strings.md)
-    - [使用雜湊表儲存鍵值配對](ch08-03-hash-maps.md)
+    - [使用雜湊映射儲存鍵值配對](ch08-03-hash-maps.md)
 
 - [Error Handling](ch09-00-error-handling.md)
     - [Unrecoverable Errors with `panic!`](ch09-01-unrecoverable-errors-with-panic.md)
@@ -57,7 +57,7 @@
 - [Generic Types, Traits, and Lifetimes](ch10-00-generics.md)
     - [Generic Data Types](ch10-01-syntax.md)
     - [Traits: Defining Shared Behavior](ch10-02-traits.md)
-    - [Validating References with Lifetimes](ch10-03-lifetime-syntax.md)
+    - [使用生命週期驗證引用](ch10-03-lifetime-syntax.md)
 
 - [Writing Automated Tests](ch11-00-testing.md)
     - [How to Write Tests](ch11-01-writing-tests.md)
@@ -76,7 +76,7 @@
 
 - [Functional Language Features: Iterators and Closures](ch13-00-functional-features.md)
     - [Closures: Anonymous Functions that Can Capture Their Environment](ch13-01-closures.md)
-    - [Processing a Series of Items with Iterators](ch13-02-iterators.md)
+    - [使用疊代器來處理一系列的項目](ch13-02-iterators.md)
     - [Improving Our I/O Project](ch13-03-improving-our-io-project.md)
     - [Comparing Performance: Loops vs. Iterators](ch13-04-performance.md)
 
