@@ -883,7 +883,7 @@ program. For now, all you need to know is that like variables, references are
 immutable by default. Hence, you need to write <code>&amp;mut guess</code> rather than
 <code>&amp;guess</code> to make it mutable. (Chapter 4 will explain references more
 thoroughly.)</p>
-<h3><a class="header" href="#handling-potential-failure-with-the-result-type" id="handling-potential-failure-with-the-result-type">Handling Potential Failure with the <code>Result</code> Type</a></h3>
+<h3><a class="header" href="#使用-result-型別處理可能的錯誤" id="使用-result-型別處理可能的錯誤">使用 <code>Result</code> 型別處理可能的錯誤</a></h3>
 <p>We’re still working on this line of code. Although we’re now discussing a third
 line of text, it’s still part of a single logical line of code. The next part
 is this method:</p>
@@ -6000,15 +6000,9 @@ stack backtrace:
 <li>updated: 2020-09-11</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#recoverable-errors-with-result" id="recoverable-errors-with-result">Recoverable Errors with <code>Result</code></a></h2>
-<p>Most errors aren’t serious enough to require the program to stop entirely.
-Sometimes, when a function fails, it’s for a reason that you can easily
-interpret and respond to. For example, if you try to open a file and that
-operation fails because the file doesn’t exist, you might want to create the
-file instead of terminating the process.</p>
-<p>Recall from <a href="ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-the-result-type">“Handling Potential Failure with the <code>Result</code>
-Type”</a><!-- ignore --> in Chapter 2 that the <code>Result</code> enum is
-defined as having two variants, <code>Ok</code> and <code>Err</code>, as follows:</p>
+<h2><a class="header" href="#result-與可復原的錯誤" id="result-與可復原的錯誤"><code>Result</code> 與可復原的錯誤</a></h2>
+<p>大多數的錯誤沒有嚴重到需要讓整個程式停止執行。有時後當函式失敗時，你是可以輕易理解並作出反應的。舉例來說，如果你嘗試開啟一個檔案，但該動作卻因爲沒有該檔案而失敗的話，你可能會想要建立檔案，而不是終止程序。</p>
+<p>回憶一下第二章的<a href="ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-the-result-type">“使用 <code>Result</code> 型別處理可能的錯誤”</a><!-- ignore -->提到 <code>Result</code> 枚舉的定義有兩個變體 <code>Ok</code> 和 <code>Err</code>，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6018,16 +6012,8 @@ defined as having two variants, <code>Ok</code> and <code>Err</code>, as follows
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The <code>T</code> and <code>E</code> are generic type parameters: we’ll discuss generics in more
-detail in Chapter 10. What you need to know right now is that <code>T</code> represents
-the type of the value that will be returned in a success case within the <code>Ok</code>
-variant, and <code>E</code> represents the type of the error that will be returned in a
-failure case within the <code>Err</code> variant. Because <code>Result</code> has these generic type
-parameters, we can use the <code>Result</code> type and the functions that the standard
-library has defined on it in many different situations where the successful
-value and error value we want to return may differ.</p>
-<p>Let’s call a function that returns a <code>Result</code> value because the function could
-fail. In Listing 9-3 we try to open a file.</p>
+<p><code>T</code> 和 <code>E</code> 是泛型型別參數，我們會在第十章深入討論泛型。你現在需要知道的事 <code>T</code> 代表我們在成功時會在 <code>Ok</code> 變體回傳的型別，而 <code>E</code> 則代表失敗時在 <code>Err</code> 變體會回傳的錯誤型別。因爲 <code>Result</code> 有這些泛型型別參數，我們可以將 <code>Result</code> 型別和標準函式庫運用到它的函式用在許多不同場合，讓成功與失敗時回傳的型別不相同。</p>
+<p>讓我們呼叫一個可能會失敗的函式並回傳 <code>Result</code> 型別。在範例 9-3 我們嘗試開啟一個檔案。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::fs::File;
 
@@ -6035,21 +6021,15 @@ fn main() {
     let f = File::open(&quot;hello.txt&quot;);
 }
 </code></pre></pre>
-<p><span class="caption">範例 9-3: Opening a file</span></p>
-<p>How do we know <code>File::open</code> returns a <code>Result</code>? We could look at the <a href="../std/index.html">standard
-library API documentation</a><!-- ignore -->, or we could ask
-the compiler! If we give <code>f</code> a type annotation that we know is <em>not</em> the return
-type of the function and then try to compile the code, the compiler will tell
-us that the types don’t match. The error message will then tell us what the
-type of <code>f</code> <em>is</em>. Let’s try it! We know that the return type of <code>File::open</code>
-isn’t of type <code>u32</code>, so let’s change the <code>let f</code> statement to this:</p>
+<p><span class="caption">範例 9-3：嘗試開啟一個檔案</span></p>
+<p>我們怎麼知道 <code>File::open</code> 會回傳 <code>Result</code>呢？我們可以查閱<a href="../std/index.html">標準函式庫的 API 技術文件</a><!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 <code>f</code> 一個型別詮釋，但是我們知道它和函式回傳值<em>並不</em>相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不服。錯誤訊息會告訴我們 <code>f</code> <em>該有</em>何種型別。讓我們試試看！我們知道 <code>File::open</code> 的回傳型別不是 <code>u32</code>，所以讓我們改變 <code>let f</code> 成這樣：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::fs::File;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span>    let f: u32 = File::open(&quot;hello.txt&quot;);
 <span class="boring">}
 </span></code></pre>
-<p>Attempting to compile now gives us the following output:</p>
+<p>嘗試編譯的話會給我們以下輸出結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling error-handling v0.1.0 (file:///projects/error-handling)
 error[E0308]: mismatched types
@@ -6070,25 +6050,10 @@ error: could not compile `error-handling`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>This tells us the return type of the <code>File::open</code> function is a <code>Result&lt;T, E&gt;</code>.
-The generic parameter <code>T</code> has been filled in here with the type of the success
-value, <code>std::fs::File</code>, which is a file handle. The type of <code>E</code> used in the
-error value is <code>std::io::Error</code>.</p>
-<p>This return type means the call to <code>File::open</code> might succeed and return a file
-handle that we can read from or write to. The function call also might fail:
-for example, the file might not exist, or we might not have permission to
-access the file. The <code>File::open</code> function needs to have a way to tell us
-whether it succeeded or failed and at the same time give us either the file
-handle or error information. This information is exactly what the <code>Result</code> enum
-conveys.</p>
-<p>In the case where <code>File::open</code> succeeds, the value in the variable <code>f</code> will be
-an instance of <code>Ok</code> that contains a file handle. In the case where it fails,
-the value in <code>f</code> will be an instance of <code>Err</code> that contains more information
-about the kind of error that happened.</p>
-<p>We need to add to the code in Listing 9-3 to take different actions depending
-on the value <code>File::open</code> returns. Listing 9-4 shows one way to handle the
-<code>Result</code> using a basic tool, the <code>match</code> expression that we discussed in
-Chapter 6.</p>
+<p>這告訴我們函式 <code>File::open</code> 的回傳型別爲 <code>Result&lt;T, E&gt;</code>。泛型參數 <code>T</code> 在此已經被指明成功時會用到的型別 <code>std::fs::File</code>，也就是檔案的句柄（handle）。用於錯誤時的 <code>E</code> 型別則是 <code>std::io::Error</code>。</p>
+<p>這樣的回傳型別代表 <code>File::open</code> 的呼叫在成功時會回傳我們可以讀寫的檔案句柄，但該函式呼叫也可能失敗。舉例來說，該檔案可能會不存在，或者我們沒有檔案的存取權限。<code>File::open</code> 需要有某種方式能告訴我們它的結果是成功或失敗，並回傳檔案句柄或是錯誤資訊。這樣的資訊正是 <code>Result</code> 枚舉想表達的。</p>
+<p>如果 <code>File::open</code> 成功的話，變數 <code>f</code> 的數值就會獲得包含檔案句柄的 <code>Ok</code> 實例。如果失敗的話，<code>f</code> 的值就會是包含爲何產生該錯誤的資訊的 <code>Err</code> 實例。</p>
+<p>我們需要讓範例 9-3 的程式碼依據 <code>File::open</code> 回傳不同的結果採取不同的動作。範例 9-4 展示了其中一種處理 <code>Result</code> 的方式，我們使用第六章提到的 <code>match</code> 表達式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic">use std::fs::File;
 
@@ -6101,19 +6066,10 @@ fn main() {
     };
 }
 </code></pre></pre>
-<p><span class="caption">範例 9-4: Using a <code>match</code> expression to handle the
-<code>Result</code> variants that might be returned</span></p>
-<p>Note that, like the <code>Option</code> enum, the <code>Result</code> enum and its variants have been
-brought into scope by the prelude, so we don’t need to specify <code>Result::</code>
-before the <code>Ok</code> and <code>Err</code> variants in the <code>match</code> arms.</p>
-<p>Here we tell Rust that when the result is <code>Ok</code>, return the inner <code>file</code> value
-out of the <code>Ok</code> variant, and we then assign that file handle value to the
-variable <code>f</code>. After the <code>match</code>, we can use the file handle for reading or
-writing.</p>
-<p>The other arm of the <code>match</code> handles the case where we get an <code>Err</code> value from
-<code>File::open</code>. In this example, we’ve chosen to call the <code>panic!</code> macro. If
-there’s no file named <em>hello.txt</em> in our current directory and we run this
-code, we’ll see the following output from the <code>panic!</code> macro:</p>
+<p><span class="caption">範例 9-4：使用 <code>match</code> 表達式來處理回傳的 <code>Result</code> 變體</span></p>
+<p>和 <code>Option</code> 枚舉一樣，<code>Result</code> 枚舉與其變體都會透過 prelude 引入作用域，所以我們不需要指明 <code>Result::</code>，可以直接在 <code>match</code> 的分支中使用 <code>Ok</code> 和 <code>Err</code> 變體。</p>
+<p>我們在此告訴 Rust 結果是 <code>Ok</code> 的話，就回傳 <code>Ok</code> 變體中內部的 <code>file</code>，然後我們就可以將檔案句柄賦值給變數 <code>f</code>。在 <code>match</code> 之後，我們就可以適用檔案句柄來讀寫。</p>
+<p><code>match</code> 的另一個分支則負責處理我們從 <code>File::open</code> 中取得的 <code>Err</code> 數值。在此範例中，我們選擇呼叫 <code>panic!</code> 巨集。如果檔案 <em>hello.txt</em> 不存在我們當前的目錄的話，我們就會執行此程式碼，接著就會看到來自 <code>panic!</code> 巨集的輸出結果：</p>
 <pre><code class="language-text">$ cargo run
    Compiling error-handling v0.1.0 (file:///projects/error-handling)
     Finished dev [unoptimized + debuginfo] target(s) in 0.73s
@@ -6121,15 +6077,9 @@ code, we’ll see the following output from the <code>panic!</code> macro:</p>
 thread 'main' panicked at 'Problem opening the file: Os { code: 2, kind: NotFound, message: &quot;No such file or directory&quot; }', src/main.rs:8:23
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>As usual, this output tells us exactly what has gone wrong.</p>
-<h3><a class="header" href="#matching-on-different-errors" id="matching-on-different-errors">Matching on Different Errors</a></h3>
-<p>The code in Listing 9-4 will <code>panic!</code> no matter why <code>File::open</code> failed. What
-we want to do instead is take different actions for different failure reasons:
-if <code>File::open</code> failed because the file doesn’t exist, we want to create the
-file and return the handle to the new file. If <code>File::open</code> failed for any
-other reason—for example, because we didn’t have permission to open the file—we
-still want the code to <code>panic!</code> in the same way as it did in Listing 9-4. Look
-at Listing 9-5, which adds an inner <code>match</code> expression.</p>
+<p>如往常一樣，此輸出告訴我們哪裡出錯了。</p>
+<h3><a class="header" href="#配對不同種的錯誤" id="配對不同種的錯誤">配對不同種的錯誤</a></h3>
+<p>範例 9-4 的程式碼不管 <code>File::open</code> 爲何失敗都會呼叫 <code>panic!</code>。我們希望做的是依據不同的錯誤原因採取不同的動作，如果 <code>File::open</code> 是因爲檔案不存在的話，我們想要建立檔案並回傳新檔案的句柄。如果 <code>File::open</code> 是因爲其他原因失敗的話，像是我們沒有開啟檔案的權限，我們仍然要像範例 9-4 這樣呼叫 <code>panic!</code>。範例 9-5 就這樣對 <code>match</code> 表達式加了更多條件。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- ignore this test because otherwise it creates hello.txt which causes other
 tests to fail lol -->
@@ -6153,27 +6103,10 @@ fn main() {
     };
 }
 </code></pre>
-<p><span class="caption">範例 9-5: Handling different kinds of errors in
-different ways</span></p>
-<p>The type of the value that <code>File::open</code> returns inside the <code>Err</code> variant is
-<code>io::Error</code>, which is a struct provided by the standard library. This struct
-has a method <code>kind</code> that we can call to get an <code>io::ErrorKind</code> value. The enum
-<code>io::ErrorKind</code> is provided by the standard library and has variants
-representing the different kinds of errors that might result from an <code>io</code>
-operation. The variant we want to use is <code>ErrorKind::NotFound</code>, which indicates
-the file we’re trying to open doesn’t exist yet. So we match on <code>f</code>, but we
-also have an inner match on <code>error.kind()</code>.</p>
-<p>The condition we want to check in the inner match is whether the value returned
-by <code>error.kind()</code> is the <code>NotFound</code> variant of the <code>ErrorKind</code> enum. If it is,
-we try to create the file with <code>File::create</code>. However, because <code>File::create</code>
-could also fail, we need a second arm in the inner <code>match</code> expression. When the
-file can’t be created, a different error message is printed. The second arm of
-the outer <code>match</code> stays the same, so the program panics on any error besides
-the missing file error.</p>
-<p>That’s a lot of <code>match</code>! The <code>match</code> expression is very useful but also very
-much a primitive. In Chapter 13, you’ll learn about closures; the <code>Result&lt;T, E&gt;</code> type has many methods that accept a closure and are implemented using
-<code>match</code> expressions. Using those methods will make your code more concise. A
-more seasoned Rustacean might write this code instead of Listing 9-5:</p>
+<p><span class="caption">範例 9-5：針對不同種類的錯誤採取不同動作</span></p>
+<p><code>File::open</code> 在 <code>Err</code> 變體的回傳型別爲 <code>io::Error</code>，這是標準函式庫提供的結構體。此結構體有個 <code>kind</code> 方法讓我們可以取得 <code>io::ErrorKind</code> 數值。標準函式庫提供的枚舉 <code>io::ErrorKind</code> 有從 <code>io</code> 運算可能發生的各種錯誤。我們想處理的變體是 <code>ErrorKind::NotFound</code>，這指的是我們嘗試開啟的檔案還不存在。所以我們對 <code>f</code> 配對並在用 <code>error.kind()</code> 繼續配對下去。</p>
+<p>我們像從內部配對檢查 <code>error.kind()</code> 的回傳值是否是 <code>ErrorKind</code> 枚舉中的 <code>NotFound</code> 變體。如果是的話，我們就嘗試使用 <code>File::create</code> 建立檔案。不過 <code>File::create</code> 也可能會失敗，所以我們需要第二個內部 <code>match</code> 表達式來處理。如果檔案無法建立的話，我們就會印出不同的錯誤訊息。第二個分支的外部 <code>match</code> 分支保持不變，如果程式遇到其他錯誤的話就會恐慌。</p>
+<p>我們用的 <code>match</code> 的確有點多！<code>match</code> 表達式雖然很實用，不過它的行爲非常基本。在第十三章你會學到閉包（closure），<code>Result&lt;T, E&gt;</code> 型別有很多接收閉包並採用 <code>match</code> 實作的方法。使用那些方法可以讓你的程式碼更簡潔。更熟練的 Rustacean 可能會像這樣寫範例 9-5 的程式數碼：</p>
 <pre><code class="language-rust ignore">use std::fs::File;
 use std::io::ErrorKind;
 
@@ -6189,19 +6122,9 @@ fn main() {
     });
 }
 </code></pre>
-<p>Although this code has the same behavior as Listing 9-5, it doesn’t contain any
-<code>match</code> expressions and is cleaner to read. Come back to this example after
-you’ve read Chapter 13, and look up the <code>unwrap_or_else</code> method in the standard
-library documentation. Many more of these methods can clean up huge nested
-<code>match</code> expressions when you’re dealing with errors.</p>
-<h3><a class="header" href="#shortcuts-for-panic-on-error-unwrap-and-expect" id="shortcuts-for-panic-on-error-unwrap-and-expect">Shortcuts for Panic on Error: <code>unwrap</code> and <code>expect</code></a></h3>
-<p>Using <code>match</code> works well enough, but it can be a bit verbose and doesn’t always
-communicate intent well. The <code>Result&lt;T, E&gt;</code> type has many helper methods
-defined on it to do various tasks. One of those methods, called <code>unwrap</code>, is a
-shortcut method that is implemented just like the <code>match</code> expression we wrote in
-Listing 9-4. If the <code>Result</code> value is the <code>Ok</code> variant, <code>unwrap</code> will return
-the value inside the <code>Ok</code>. If the <code>Result</code> is the <code>Err</code> variant, <code>unwrap</code> will
-call the <code>panic!</code> macro for us. Here is an example of <code>unwrap</code> in action:</p>
+<p>雖然此程式碼的行爲和範例 9-5 一樣，但他沒有包含任何 <code>match</code> 表達式而且更易閱讀。當你讀完第十三章後，別忘了回來看看此範例，並查閱標準函式庫中的 <code>unwrap_or_else</code> 方法。除此方法以外，還有更多方法可以來解決處理錯誤時龐大的 <code>match</code> 表達式。</p>
+<h3><a class="header" href="#錯誤發生時產生恐慌的捷徑unwrap-與-expect" id="錯誤發生時產生恐慌的捷徑unwrap-與-expect">錯誤發生時產生恐慌的捷徑：<code>unwrap</code> 與 <code>expect</code></a></h3>
+<p>雖然 <code>match</code> 已經足以勝任指派的任務了，但它還是有點冗長，而且可能無法正確傳遞錯誤的嚴重性。<code>Result&lt;T, E&gt;</code> 型別有非常多的輔助方法來執行不同的任務。其中一個方法就是 <code>unwrap</code>，這是和我們在範例 9-4 所寫的 <code>match</code> 表達式一樣，擁有類似效果的捷徑方法。如果 <code>Result</code> 的值是 <code>Ok</code> 變體，<code>unwrap</code>會回傳 <code>Ok</code> 裡面的值；如果 <code>Result</code> 是 <code>Err</code> 變體的話，<code>unwrap</code> 會呼叫 <code>panic!</code> 巨集。以下是使用 <code>unwrap</code> 的方式：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic">use std::fs::File;
 
@@ -6209,16 +6132,12 @@ fn main() {
     let f = File::open(&quot;hello.txt&quot;).unwrap();
 }
 </code></pre></pre>
-<p>If we run this code without a <em>hello.txt</em> file, we’ll see an error message from
-the <code>panic!</code> call that the <code>unwrap</code> method makes:</p>
+<p>如果我們沒有 <em>hello.txt</em> 這個檔案並執行此程式碼的話，我們會看到從 <code>unwrap</code> 方法所呼叫的 <code>panic!</code> 回傳訊息：</p>
 <pre><code class="language-text">thread 'main' panicked at 'called `Result::unwrap()` on an `Err` value: Error {
 repr: Os { code: 2, message: &quot;No such file or directory&quot; } }',
 src/libcore/result.rs:906:4
 </code></pre>
-<p>Another method, <code>expect</code>, which is similar to <code>unwrap</code>, lets us also choose the
-<code>panic!</code> error message. Using <code>expect</code> instead of <code>unwrap</code> and providing good
-error messages can convey your intent and make tracking down the source of a
-panic easier. The syntax of <code>expect</code> looks like this:</p>
+<p>還有另一個方法 <code>expect</code> 和 <code>unwrap</code> 類似，不過能讓我們選擇 <code>panic!</code> 回傳的錯誤訊息。使用 <code>expect</code> 而非 <code>unwrap</code> 並提供完善的錯誤訊息哦可以表明你的意圖，讓追蹤恐慌的源頭更容易。<code>expect</code> 的語法看起來就像這樣：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic">use std::fs::File;
 
@@ -6226,27 +6145,14 @@ fn main() {
     let f = File::open(&quot;hello.txt&quot;).expect(&quot;Failed to open hello.txt&quot;);
 }
 </code></pre></pre>
-<p>We use <code>expect</code> in the same way as <code>unwrap</code>: to return the file handle or call
-the <code>panic!</code> macro. The error message used by <code>expect</code> in its call to <code>panic!</code>
-will be the parameter that we pass to <code>expect</code>, rather than the default
-<code>panic!</code> message that <code>unwrap</code> uses. Here’s what it looks like:</p>
+<p>我們使用 <code>expect</code> 的方式和 <code>unwrap</code> 一樣，不是回傳檔案句柄就是呼叫 <code>panic!</code> 巨集。使用 <code>expect</code> 呼叫 <code>panic!</code> 時的錯誤訊息會是我們傳遞給 <code>expect</code> 的參數，而不是像 <code>unwrap</code> 使用 <code>panic!</code> 預設的訊息。訊息看起來就會像這樣：</p>
 <pre><code class="language-text">thread 'main' panicked at 'Failed to open hello.txt: Error { repr: Os { code:
 2, message: &quot;No such file or directory&quot; } }', src/libcore/result.rs:906:4
 </code></pre>
-<p>Because this error message starts with the text we specified, <code>Failed to open hello.txt</code>, it will be easier to find where in the code this error message is
-coming from. If we use <code>unwrap</code> in multiple places, it can take more time to
-figure out exactly which <code>unwrap</code> is causing the panic because all <code>unwrap</code>
-calls that panic print the same message.</p>
-<h3><a class="header" href="#propagating-errors" id="propagating-errors">Propagating Errors</a></h3>
-<p>When you’re writing a function whose implementation calls something that might
-fail, instead of handling the error within this function, you can return the
-error to the calling code so that it can decide what to do. This is known as
-<em>propagating</em> the error and gives more control to the calling code, where there
-might be more information or logic that dictates how the error should be
-handled than what you have available in the context of your code.</p>
-<p>For example, Listing 9-6 shows a function that reads a username from a file. If
-the file doesn’t exist or can’t be read, this function will return those errors
-to the code that called this function.</p>
+<p>由於此錯誤訊息指明了我們想表達的訊息「Failed to open hello.txt」，我們比較能知道此錯誤訊息是從哪裡發生的。如果我們在多處使用 <code>unwrap</code>，我們會需要一些時間才能理解 <code>unwrap</code> 是從哪裡引發恐慌的，因爲 <code>unwrap</code> 很可能會顯示相同的訊息。</p>
+<h3><a class="header" href="#傳播錯誤" id="傳播錯誤">傳播錯誤</a></h3>
+<p>當你在寫某函式實作時，要是它的呼叫的程式碼可能會失敗，與其直接在此函式處理錯誤，你可以回傳錯誤給呼叫此程式的程式碼，由它們絕對如何處理。這稱之爲*傳播（propagating）*錯誤並讓呼叫者可以有更多的控制權，因爲比起你程式碼當下的內容，回傳的錯誤可能提供更多資訊與邏輯以利處理。</p>
+<p>舉例來說，範例 9-6 展示了一個從檔案讀取使用者名稱的函式。如果檔案不存在或無法讀取的話，此函式會回傳該錯誤給呼叫此函式的程式碼。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- Deliberately not using rustdoc_include here; the `main` function in the
 file panics. We do want to include it for reader experimentation purposes, but
@@ -6275,51 +6181,13 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 9-6: A function that returns errors to the
-calling code using <code>match</code></span></p>
-<p>This function can be written in a much shorter way, but we’re going to start by
-doing a lot of it manually in order to explore error handling; at the end,
-we’ll show the shorter way. Let’s look at the return type of the function first:
-<code>Result&lt;String, io::Error&gt;</code>. This means the function is returning a value of
-the type <code>Result&lt;T, E&gt;</code> where the generic parameter <code>T</code> has been filled in
-with the concrete type <code>String</code> and the generic type <code>E</code> has been filled in
-with the concrete type <code>io::Error</code>. If this function succeeds without any
-problems, the code that calls this function will receive an <code>Ok</code> value that
-holds a <code>String</code>—the username that this function read from the file. If this
-function encounters any problems, the code that calls this function will
-receive an <code>Err</code> value that holds an instance of <code>io::Error</code> that contains
-more information about what the problems were. We chose <code>io::Error</code> as the
-return type of this function because that happens to be the type of the error
-value returned from both of the operations we’re calling in this function’s
-body that might fail: the <code>File::open</code> function and the <code>read_to_string</code>
-method.</p>
-<p>The body of the function starts by calling the <code>File::open</code> function. Then we
-handle the <code>Result</code> value returned with a <code>match</code> similar to the <code>match</code> in
-Listing 9-4, only instead of calling <code>panic!</code> in the <code>Err</code> case, we return
-early from this function and pass the error value from <code>File::open</code> back to the
-calling code as this function’s error value. If <code>File::open</code> succeeds, we store
-the file handle in the variable <code>f</code> and continue.</p>
-<p>Then we create a new <code>String</code> in variable <code>s</code> and call the <code>read_to_string</code>
-method on the file handle in <code>f</code> to read the contents of the file into <code>s</code>. The
-<code>read_to_string</code> method also returns a <code>Result</code> because it might fail, even
-though <code>File::open</code> succeeded. So we need another <code>match</code> to handle that
-<code>Result</code>: if <code>read_to_string</code> succeeds, then our function has succeeded, and we
-return the username from the file that’s now in <code>s</code> wrapped in an <code>Ok</code>. If
-<code>read_to_string</code> fails, we return the error value in the same way that we
-returned the error value in the <code>match</code> that handled the return value of
-<code>File::open</code>. However, we don’t need to explicitly say <code>return</code>, because this
-is the last expression in the function.</p>
-<p>The code that calls this code will then handle getting either an <code>Ok</code> value
-that contains a username or an <code>Err</code> value that contains an <code>io::Error</code>. We
-don’t know what the calling code will do with those values. If the calling code
-gets an <code>Err</code> value, it could call <code>panic!</code> and crash the program, use a
-default username, or look up the username from somewhere other than a file, for
-example. We don’t have enough information on what the calling code is actually
-trying to do, so we propagate all the success or error information upward for
-it to handle appropriately.</p>
-<p>This pattern of propagating errors is so common in Rust that Rust provides the
-question mark operator <code>?</code> to make this easier.</p>
-<h4><a class="header" href="#a-shortcut-for-propagating-errors-the--operator" id="a-shortcut-for-propagating-errors-the--operator">A Shortcut for Propagating Errors: the <code>?</code> Operator</a></h4>
+<p><span class="caption">範例 9-6：使用 <code>match</code> 回傳錯誤給呼叫者的函式</span></p>
+<p>此函式還能在更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 <code>Result&lt;String, io::Error&gt;</code>。這代表此函式回傳的型別爲 <code>Result&lt;T, E&gt;</code>，而泛型型別 <code>T</code> 已經指明爲實際型別 <code>String</code> 然後泛型型別 <code>E</code> 也已經指明爲實際型別 <code>io::Error</code>。如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 <code>String</code> 的 <code>Ok</code> 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含有關問題發生資訊的 <code>io::Error</code> 實例的 <code>Err</code> 數值。我們選擇 <code>io::Error</code> 作爲使函式的回傳值是因爲它正是 <code>File::open</code> 函式和 <code>read_to_string</code> 方法失敗時的回傳的錯誤型別。</p>
+<p>函式本體從呼叫 <code>File::open</code> 開始，然後我們使用 <code>match</code> 回傳 <code>Result</code> 數值，就和範例 9-4 的 <code>match</code> 類似，但與其在 <code>Err</code> 情形時呼叫 <code>panic!</code>，我們儘早回傳 <code>File::open</code> 的錯誤型別給呼叫者。如果 <code>File::open</code> 成功的話，我們就將檔案句柄賦值給變數 <code>f</code> 並繼續執行下去。</p>
+<p>接著我們在變數 <code>s</code> 建立新的 <code>String</code> 並對檔案句柄 <code>f</code> 呼叫 <code>read_to_string</code> 方法來讀取檔案內容至 <code>s</code>。<code>read_to_string</code> 也會回傳 <code>Result</code> 因爲它也可能失敗，就算 <code>File::open</code> 是執行成功的。所以我們需要另一個 <code>match</code> 來處理該 <code>Result</code>，如果 <code>read_to_string</code> 成功的話，我們的函式就是成功的，然後在 <code>Ok</code> 回傳 <code>s</code> 中該檔案的使用者名稱。如果 <code>read_to_string</code> 失敗的話，我們就像處理 <code>File::open</code> 的 <code>match</code> 一樣回傳錯誤值。不過我們不需要顯式寫出 <code>return</code>，因爲這是函式中的最後一個表達式。</p>
+<p>呼叫此程式碼的程式就會需要處理包含使用者名稱的 <code>Ok</code> 數值以及包含 <code>io::Error</code> 的 <code>Err</code> 數值。我們不會知道呼叫此程式碼的人會如何處理這些數值。舉例來說，如果呼叫此程式碼而獲得錯誤的話，它可能選擇呼叫 <code>panic!</code> 讓程式崩潰，或者使用預設的使用者名稱從檔案以外的地方尋找該使用者。所以我們傳播所有成功或錯誤的資訊給呼叫者，讓它們能妥善處理。</p>
+<p>這樣傳播錯誤的模式是非常常見的，所以 Rust 提供了 <code>?</code> 來簡化流程。</p>
+<h4><a class="header" href="#傳播錯誤的捷徑-運算子" id="傳播錯誤的捷徑-運算子">傳播錯誤的捷徑：<code>?</code> 運算子</a></h4>
 <p>Listing 9-7 shows an implementation of <code>read_username_from_file</code> that has the
 same functionality as it had in Listing 9-6, but this implementation uses the
 <code>?</code> operator.</p>
