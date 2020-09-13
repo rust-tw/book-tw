@@ -8,7 +8,7 @@
 
 你將先建立一個目錄來儲存你的 Rust 程式碼。程式碼位於何處並不重要，但爲了能好好練習書中的範例和專案，我們建議你可以在你的 home 目錄建立一個 *projects* 目錄然後將你所有的專案保存在此。
 
-請開啓終端機然後輸入以下命令來建立 *projects* 目錄和另一個在 *projects* 目錄底下的真正要寫「Hello, world!」專案的目錄。
+請開啟終端機然後輸入以下命令來建立 *projects* 目錄和另一個在 *projects* 目錄底下的真正要寫「Hello, world!」專案的目錄。
 
 對於 Linux、macOS 和 Windows 的 PowerShell，請輸入：
 
@@ -32,7 +32,7 @@ $ cd hello_world
 
 接著，請產生一個原始文件並叫做 *main.rs*。Rust 的文件檔案都會以 *.rs* 副檔名稱作爲結尾。如果你用到不止一個單字的話，請用底線區隔開來。比方說，請使用 *hello_world.rs* 而不是 *helloworld.rs*。
 
-現在請開啓 *main.rs* 文件然而後輸入範例 1-1 中的程式碼。
+現在請開啟 *main.rs* 文件然而後輸入範例 1-1 中的程式碼。
 
 <span class="filename">檔案名稱：main.rs</span>
 

@@ -4,7 +4,7 @@
 
 當一個變數是不可變的，只要有數值綁定在一個名字上，你就無法改變其值。爲了方便說明，讓我們使用 `cargo new variables` 在 *projects* 目錄下產生一個新專案叫做 *variables*。
 
-再來在你的新 *variables* 目錄下開啓 *src/main.rs* 然後覆蓋程式碼爲以下內容，這是段還無法編譯的程式碼：
+再來在你的新 *variables* 目錄下開啟 *src/main.rs* 然後覆蓋程式碼爲以下內容，這是段還無法編譯的程式碼：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 

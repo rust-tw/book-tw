@@ -14,7 +14,7 @@ Rust 的函式定義從 `fn` 開始且在函式名稱後會有一組括號，大
 
 我們可以輸入函式的名稱並加上括號來呼叫任何我們定義過的函式。因爲 `another_function` 已經在程式中定義了，他就可以在 `main` 函式中呼叫。注意到我們是在原始程式碼中的 `main` 函式*之後*定義 `another_function` 的，我們當然也可以把它定義在前面。Rust 不在乎你的函式是在哪裡定義的，只需要知道它在某處有定義就好。
 
-讓我們開啓一個新的專案叫做 *functions* 來進一步探索。請將 `another_function` 範例放入 *src/main.rs* 然後執行它。你應該會看到以下輸出：
+讓我們開啟一個新的專案叫做 *functions* 來進一步探索。請將 `another_function` 範例放入 *src/main.rs* 然後執行它。你應該會看到以下輸出：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-16-functions/output.txt}}

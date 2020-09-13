@@ -12,7 +12,7 @@
 
 ### 在 Linux 或 macOS 上安裝 `rustup`
 
-如果你使用的是 Linux 或 macOS，請開啓終端機然後輸入以下命令：
+如果你使用的是 Linux 或 macOS，請開啟終端機然後輸入以下命令：
 
 ```console
 $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
@@ -51,7 +51,7 @@ $ rustup self uninstall
 
 ### 疑難排除
 
-想簡單你是否有正確安裝 Rust 的話，請開啓 shell 然後輸入此命令：
+想簡單你是否有正確安裝 Rust 的話，請開啟 shell 然後輸入此命令：
 
 ```console
 $ rustc --version
@@ -71,7 +71,7 @@ rustc x.y.z (abcabcabc yyyy-mm-dd)
 
 ### 本地端技術文件
 
-安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 `rustup doc` 就可以用你的瀏覽器開啓本地文件。
+安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 `rustup doc` 就可以用你的瀏覽器開啟本地文件。
 
 每當有任何型態或函式出現而你卻不清楚如何使用時，你就可以使用應用程式介面（API）技術文件來知道！
 

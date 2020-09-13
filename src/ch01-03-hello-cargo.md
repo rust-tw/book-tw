@@ -29,7 +29,7 @@ $ cd hello_cargo
 
 > 注意：Git 是一個常見的版本控制系統。你可以加上 `--vcs` 來變更 `cargo new` 去使用不同的版本控制系統，或是不用任何版本控制系統。請執行 `cargo new --help` 來查看更多可使用的選項。
 
-請用任何你喜歡的編輯器開啓 *Cargo.toml*，它應該會看起來和範例 1-2 差不多。
+請用任何你喜歡的編輯器開啟 *Cargo.toml*，它應該會看起來和範例 1-2 差不多。
 
 <span class="filename">檔案名稱：Cargo.toml</span>
 
@@ -53,7 +53,7 @@ edition = "2018"
 
 最後一行 `[dependencies]` 是用來列出你的專案會用到哪些依賴的段落。在 Rust 中，程式碼套件會被稱爲 *crates*。我們在此專案還不需要任何其他 crate。但是我們會在第二章開始用到，屆時我們會再來介紹。
 
-現在請開啓 *src/main.rs* 來看看：
+現在請開啟 *src/main.rs* 來看看：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -152,7 +152,7 @@ $ cargo build
 
 * 使用 `rustup` 安裝最新穩定版 Rust
 * 更新到最新 Rust 版本
-* 開啓本地端安裝的技術文件
+* 開啟本地端安裝的技術文件
 * 直接使用 `rustup` 編寫並執行一支「Hello, world!」程式
 * 使用 Cargo 建立並執行一個新專案
 
