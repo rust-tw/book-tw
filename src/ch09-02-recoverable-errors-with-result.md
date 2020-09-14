@@ -238,3 +238,7 @@ don't want to include it for rustdoc testing purposes. -->
 現在我們已經討論了呼叫 `panic!` 與回傳 `Result` 的細節。現在讓我們回到何時該使用何種辦法的主題上吧。
 
 [trait-objects]: ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch09-02-recoverable-errors-with-result.md)
+> - updated: 2020-09-14
