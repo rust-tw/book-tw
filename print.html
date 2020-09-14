@@ -183,7 +183,7 @@ contains a number of changes to reflect those improvements:</p>
 <li>Chapter 7, “Managing Growing Projects with Packages, Crates, and Modules,”
 has been mostly rewritten. The module system and the way paths work in the
 2018 Edition were made more consistent.</li>
-<li>Chapter 10 has new sections titled “Traits as Parameters” and “Returning
+<li>Chapter 10 has new sections titled “特徵作爲參數” and “Returning
 Types that Implement Traits” that explain the new <code>impl Trait</code> syntax.</li>
 <li>Chapter 11 has a new section titled “Using <code>Result&lt;T, E&gt;</code> in Tests” that
 shows how to write tests that use the <code>?</code> operator.</li>
@@ -6305,7 +6305,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 </ul>
 </blockquote>
 <h2><a class="header" href="#要-panic-還是不要-panic" id="要-panic-還是不要-panic">要 panic! 還是不要 panic!</a></h2>
-<p>所以你該如何決定何時要呼叫 panic! 還是要回傳 Result 呢？當程式碼恐慌時，就沒有任何回復的方式。你可以在任何錯誤場合呼叫 panic!<code>，無論是可能或不可能復原的情況。不過這樣你就等於替呼叫你的程式碼的呼叫者做出決定，讓情況變成無法復原的錯誤了。當你選擇回傳 </code>Result 數值，你將決定權交給呼叫者的程式碼。呼叫者可能會選擇符合當下場合的方式嘗試復原錯誤，或者它可以選擇 Err 內的數值是不可回復的，所以它就呼叫 panic! 讓你原本可回復的錯誤轉成不可回復。因此，當你定義可能失敗的函式時預設回傳 Result 是不錯的選擇。</p>
+<p>所以你該如何決定何時要呼叫 panic! 還是要回傳 Result 呢？當程式碼恐慌時，就沒有任何回復的方式。你可以在任何錯誤場合呼叫 <code>panic!</code>，無論是可能或不可能復原的情況。不過這樣你就等於替呼叫你的程式碼的呼叫者做出決定，讓情況變成無法復原的錯誤了。當你選擇回傳 <code>Result</code> 數值，你將決定權交給呼叫者的程式碼。呼叫者可能會選擇符合當下場合的方式嘗試復原錯誤，或者它可以選擇 Err 內的數值是不可回復的，所以它就呼叫 panic! 讓你原本可回復的錯誤轉成不可回復。因此，當你定義可能失敗的函式時預設回傳 Result 是不錯的選擇。</p>
 <p>在少數情況下，程式碼恐慌會比回傳 Result 來得恰當。讓我們來探討為何在範例、程式碼原型與測試選擇恐慌會比較好。然後我們將討論到一種編譯器無法辨別出不可能失敗，但人類的你卻可以的情況。本章節會總結一些通用指導原則來決定何時在函式庫程式碼中恐慌。</p>
 <h3><a class="header" href="#範例程式碼原型與測試" id="範例程式碼原型與測試">範例、程式碼原型與測試</a></h3>
 <p>當你在寫解釋一些概念的範例時，寫出完善錯誤處理的範例，反而會讓範例變得較不清楚。在範例中，，使用像是 unwrap 這樣會恐慌的方法可以被視為是一種要求使用者自行決定如何處理錯誤的表現，因為他們可以依據程式碼執行的方式來修改此方法。</p>
@@ -6523,18 +6523,11 @@ fn main() {
 <li>updated: 2020-09-14</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#generic-data-types" id="generic-data-types">Generic Data Types</a></h2>
-<p>We can use generics to create definitions for items like function signatures or
-structs, which we can then use with many different concrete data types. Let’s
-first look at how to define functions, structs, enums, and methods using
-generics. Then we’ll discuss how generics affect code performance.</p>
-<h3><a class="header" href="#in-function-definitions" id="in-function-definitions">In Function Definitions</a></h3>
-<p>When defining a function that uses generics, we place the generics in the
-signature of the function where we would usually specify the data types of the
-parameters and return value. Doing so makes our code more flexible and provides
-more functionality to callers of our function while preventing code duplication.</p>
-<p>Continuing with our <code>largest</code> function, Listing 10-4 shows two functions that
-both find the largest value in a slice.</p>
+<h2><a class="header" href="#泛型資料型別" id="泛型資料型別">泛型資料型別</a></h2>
+<p>我們可以使用泛型（generics）來建立項目的定義，像是函式簽名或結構體，讓我們在之後可以使用在不同的實際資料型別。讓我們先看看如何使用泛型定義函式、枚舉與方法。然後我們會在來看泛型對程式碼的效能影響如何。</p>
+<h3><a class="header" href="#在函式中定義" id="在函式中定義">在函式中定義</a></h3>
+<p>當要使用泛型定義函數時，我們通常會將泛型置於函式簽名中指定參數與回傳值資料型別的位置。照樣做能讓我們的程式碼更具彈性並向呼叫者提供更多功能，同時還能防止重複程式碼。</p>
+<p>接續我們 <code>largest</code> 函式的例子，範例 10-4 展示了兩個都在 slice 上尋找最大值的函式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn largest_i32(list: &amp;[i32]) -&gt; &amp;i32 {
     let mut largest = &amp;list[0];
@@ -6574,34 +6567,14 @@ fn main() {
 <span class="boring">    assert_eq!(result, &amp;'y');
 </span>}
 </code></pre></pre>
-<p><span class="caption">範例 10-4: Two functions that differ only in their
-names and the types in their signatures</span></p>
-<p>The <code>largest_i32</code> function is the one we extracted in Listing 10-3 that finds
-the largest <code>i32</code> in a slice. The <code>largest_char</code> function finds the largest
-<code>char</code> in a slice. The function bodies have the same code, so let’s eliminate
-the duplication by introducing a generic type parameter in a single function.</p>
-<p>To parameterize the types in the new function we’ll define, we need to name the
-type parameter, just as we do for the value parameters to a function. You can
-use any identifier as a type parameter name. But we’ll use <code>T</code> because, by
-convention, parameter names in Rust are short, often just a letter, and Rust’s
-type-naming convention is CamelCase. Short for “type,” <code>T</code> is the default
-choice of most Rust programmers.</p>
-<p>When we use a parameter in the body of the function, we have to declare the
-parameter name in the signature so the compiler knows what that name means.
-Similarly, when we use a type parameter name in a function signature, we have
-to declare the type parameter name before we use it. To define the generic
-<code>largest</code> function, place type name declarations inside angle brackets, <code>&lt;&gt;</code>,
-between the name of the function and the parameter list, like this:</p>
+<p><span class="caption">範例 10-4：兩個名稱與其簽名中的型別都不同的函式</span></p>
+<p><code>largest_i32</code> 函式和我們在範例 10-3 提取的函式一樣都是尋找 slice 中最大的 <code>i32</code>。而 <code>largest_char</code> 函式則尋找 slice 中最大的 <code>char</code>。函式本體都擁有相同的程式碼，讓我以讓我們來開始用泛型型別參數來消除重複的部分，轉變成只有一個函式吧。</p>
+<p>要在我們新定義的函式中參數化型別的話，我們需要爲參數型別命名，就和我們在函式中的參數數值所做的一樣。你可以用任何標識符來命名型別參數名稱。但我們習慣上會用 <code>T</code>，因爲 Rust 的參數名稱都盡量很短，常常只會有一個字母，而且 Rust 對於型別命名的慣用規則是駝峰式大小寫（CamelCase）。所以 <code>T</code> 作爲「type」的簡稱是大多數 Rust 程式設計師的選擇。</p>
+<p>當我們在函式本體使用參數時，我們必須在簽名中宣告參數名稱，編譯器才能之當該名稱代表什麼。同樣地，當我們要在函式簽名中使用型別參數名稱，我們必須在使用前宣告該型別參數名稱。要定義泛型 <code>largest</code> 函式的話，我們在函式名稱與參數列表之間加上尖括號，其內就是型別名稱的宣告，如以下所示：</p>
 <pre><code class="language-rust ignore">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {
 </code></pre>
-<p>We read this definition as: the function <code>largest</code> is generic over some type
-<code>T</code>. This function has one parameter named <code>list</code>, which is a slice of values
-of type <code>T</code>. The <code>largest</code> function will return a reference to a value of the
-same type <code>T</code>.</p>
-<p>Listing 10-5 shows the combined <code>largest</code> function definition using the generic
-data type in its signature. The listing also shows how we can call the function
-with either a slice of <code>i32</code> values or <code>char</code> values. Note that this code won’t
-compile yet, but we’ll fix it later in this chapter.</p>
+<p>我們可以這樣理解定義：函式 <code>largest</code> 有泛型型別 <code>T</code>，此函式有一個參數叫做 <code>list</code>，他的型別爲數值 <code>T</code> 的 slice。<code>largest</code> 函式會回傳與型別 <code>T</code> 相同型別的值。</p>
+<p>範例 10-5 顯示了使用泛型資料型別於函式簽名組合出的 <code>largest</code> 函式。此範例還展示了我們如何依序用 <code>i32</code> 和 <code>cahr</code> 的 slice 呼叫函式。注意此程式碼尚未能編譯，不過我們會在本章之後修改它。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {
     let mut largest = &amp;list[0];
@@ -6627,9 +6600,8 @@ fn main() {
     println!(&quot;The largest char is {}&quot;, result);
 }
 </code></pre>
-<p><span class="caption">範例 10-5: A definition of the <code>largest</code> function that
-uses generic type parameters but doesn’t compile yet</span></p>
-<p>If we compile this code right now, we’ll get this error:</p>
+<p><span class="caption">範例 10-5：使用函式型別參數定義的 <code>largest</code> 函式，但現在還不能編譯</span></p>
+<p>如果我們現在就編譯程式碼的話，我們會得到此錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0369]: binary operation `&gt;` cannot be applied to type `T`
@@ -6649,20 +6621,9 @@ error: could not compile `chapter10`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>The note mentions <code>std::cmp::PartialOrd</code>, which is a <em>trait</em>. We’ll talk about
-traits in the next section. For now, this error states that the body of
-<code>largest</code> won’t work for all possible types that <code>T</code> could be. Because we want
-to compare values of type <code>T</code> in the body, we can only use types whose values
-can be ordered. To enable comparisons, the standard library has the
-<code>std::cmp::PartialOrd</code> trait that you can implement on types (see Appendix C
-for more on this trait). You’ll learn how to specify that a generic type has a
-particular trait in the <a href="ch10-02-traits.html#traits-as-parameters">“Traits as Parameters”</a><!--
-ignore --> section, but let’s first explore other ways of using generic type
-parameters.</p>
-<h3><a class="header" href="#in-struct-definitions" id="in-struct-definitions">In Struct Definitions</a></h3>
-<p>We can also define structs to use a generic type parameter in one or more
-fields using the <code>&lt;&gt;</code> syntax. Listing 10-6 shows how to define a <code>Point&lt;T&gt;</code>
-struct to hold <code>x</code> and <code>y</code> coordinate values of any type.</p>
+<p>註釋中提到了 <code>std::cmp::PartialOrd</code> 這個<em>特徵（trait）</em>。我們會在下個段落來討論特徵。現在此錯誤告訴我們 <code>largest</code> 本體無法適用於所有可能的 <code>T</code> 型別，因爲我們想要在本體中比較型別 <code>T</code> 的數值，我們只能在能夠排序的型別中做比較。要能夠比較的話，標準函式庫有提供 <code>std::cmp::PartialOrd</code> 特徵讓你可以針對你的型別來實作（請查閱附錄 C 來瞭解更多此特徵的細節）。你會在<a href="ch10-02-traits.html#traits-as-parameters">「特徵作爲參數」</a><!-- ignore -->的段落學習到如何指定特定泛型型別擁有特定特徵。不過先讓先我們探索其他泛型型別參數使用的方式。</p>
+<h3><a class="header" href="#在結構體中定義" id="在結構體中定義">在結構體中定義</a></h3>
+<p>我們一樣能以 <code>&lt;&gt;</code> 語法來對結構體中一或多個欄位使用泛型型別參數。範例 10-6 顯示了如何定義 <code>Point&lt;T&gt;</code> 結構體並讓 <code>x</code> 與 <code>y</code> 可以是任意型別數值。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T&gt; {
     x: T,
@@ -6674,18 +6635,9 @@ fn main() {
     let float = Point { x: 1.0, y: 4.0 };
 }
 </code></pre></pre>
-<p><span class="caption">範例 10-6: A <code>Point&lt;T&gt;</code> struct that holds <code>x</code> and <code>y</code>
-values of type <code>T</code></span></p>
-<p>The syntax for using generics in struct definitions is similar to that used in
-function definitions. First, we declare the name of the type parameter inside
-angle brackets just after the name of the struct. Then we can use the generic
-type in the struct definition where we would otherwise specify concrete data
-types.</p>
-<p>Note that because we’ve used only one generic type to define <code>Point&lt;T&gt;</code>, this
-definition says that the <code>Point&lt;T&gt;</code> struct is generic over some type <code>T</code>, and
-the fields <code>x</code> and <code>y</code> are <em>both</em> that same type, whatever that type may be. If
-we create an instance of a <code>Point&lt;T&gt;</code> that has values of different types, as in
-Listing 10-7, our code won’t compile.</p>
+<p><span class="caption">範例 10-6：<code>Point&lt;T&gt;</code> 結構體的 <code>x</code> 與 <code>y</code> 會有型別 <code>T</code> 的數值</span></p>
+<p>在結構體定義使用泛型的語法與函式定義類似。首先，我們在結構體名稱後方加上尖括號，並在其內宣告型別參數名稱。接著我們能在原本指定實際資料型別的地方，使用泛型型別來定義結構體。</p>
+<p>注意到我們使用了一個泛型型別來定義 <code>Point&lt;T&gt;</code>，此定義代表 <code>Point&lt;T&gt;</code> 是某型別 <code>T</code> 下之通用的，而且欄位 <code>x</code> 與 <code>y</code> 擁有<em>相同</em>型別，無論最終是何種型別。如果我們用不同的型別數值來建立 <code>Point&lt;T&gt;</code> 實例，我們的程式碼會無法編譯，如範例 10-7 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">struct Point&lt;T&gt; {
     x: T,
@@ -6696,12 +6648,8 @@ fn main() {
     let wont_work = Point { x: 5, y: 4.0 };
 }
 </code></pre>
-<p><span class="caption">範例 10-7: The fields <code>x</code> and <code>y</code> must be the same
-type because both have the same generic data type <code>T</code>.</span></p>
-<p>In this example, when we assign the integer value 5 to <code>x</code>, we let the
-compiler know that the generic type <code>T</code> will be an integer for this instance of
-<code>Point&lt;T&gt;</code>. Then when we specify 4.0 for <code>y</code>, which we’ve defined to have the
-same type as <code>x</code>, we’ll get a type mismatch error like this:</p>
+<p><span class="caption">範例 10-7：欄位 <code>x</code> 與 <code>y</code> 必須是相同型別，因爲它們擁有相同的泛型資料型別 <code>T</code></span></p>
+<p>在此例中，當我們賦值 5 給 <code>x</code> 時，我們讓編譯器知道 <code>Point&lt;T&gt;</code> 實例中的泛型型別 <code>T</code> 會是整數。然後我們將 4.0 賦值給 <code>y</code>，這應該要和 <code>x</code> 有相同型別，所以我們會獲得以下錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0308]: mismatched types
@@ -6717,10 +6665,7 @@ error: could not compile `chapter10`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>To define a <code>Point</code> struct where <code>x</code> and <code>y</code> are both generics but could have
-different types, we can use multiple generic type parameters. For example, in
-Listing 10-8, we can change the definition of <code>Point</code> to be generic over types
-<code>T</code> and <code>U</code> where <code>x</code> is of type <code>T</code> and <code>y</code> is of type <code>U</code>.</p>
+<p>要將結構體 <code>Point</code> 的 <code>x</code> 與 <code>y</code> 定義成擁有不同型別確仍然是泛型的話，我們可以使用多個泛型參數型別。舉例來說，在範例 10-8 我們改變了 <code>Point</code> 的定義爲擁有兩個泛型型別 <code>T</code> 與 <code>U</code>，<code>x</code> 擁有型別 <code>T</code> 而 <code>y</code> 擁有型別 <code>U</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T, U&gt; {
     x: T,
@@ -6733,16 +6678,10 @@ fn main() {
     let integer_and_float = Point { x: 5, y: 4.0 };
 }
 </code></pre></pre>
-<p><span class="caption">範例 10-8: A <code>Point&lt;T, U&gt;</code> generic over two types so
-that <code>x</code> and <code>y</code> can be values of different types</span></p>
-<p>Now all the instances of <code>Point</code> shown are allowed! You can use as many generic
-type parameters in a definition as you want, but using more than a few makes
-your code hard to read. When you need lots of generic types in your code, it
-could indicate that your code needs restructuring into smaller pieces.</p>
-<h3><a class="header" href="#in-enum-definitions" id="in-enum-definitions">In Enum Definitions</a></h3>
-<p>As we did with structs, we can define enums to hold generic data types in their
-variants. Let’s take another look at the <code>Option&lt;T&gt;</code> enum that the standard
-library provides, which we used in Chapter 6:</p>
+<p><span class="caption">範例 10-8：<code>Point&lt;T, U&gt;</code> 擁有兩個泛型惜別，所以 <code>x</code> 和 <code>y</code> 可以有不同的型別數值</span></p>
+<p>現在這些所有的 <code>Point</code> 實例都是允許的了！你要在定義中使用多少泛型型別參數都沒問題，但用太多的話會讓你的程式碼難以閱讀。當你的程式碼需要使用大量泛型的話，通常代表你的程式碼需要重新組織成更小的元件。</p>
+<h3><a class="header" href="#在枚舉中定義" id="在枚舉中定義">在枚舉中定義</a></h3>
+<p>如同結構體一樣，我們可以定義枚舉讓它們的變體擁有泛型資料型別。讓我們看看我們在第六章標準函式庫提供的 <code>Option&lt;T&gt;</code> 枚舉：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6752,14 +6691,8 @@ library provides, which we used in Chapter 6:</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>This definition should now make more sense to you. As you can see, <code>Option&lt;T&gt;</code>
-is an enum that is generic over type <code>T</code> and has two variants: <code>Some</code>, which
-holds one value of type <code>T</code>, and a <code>None</code> variant that doesn’t hold any value.
-By using the <code>Option&lt;T&gt;</code> enum, we can express the abstract concept of having an
-optional value, and because <code>Option&lt;T&gt;</code> is generic, we can use this abstraction
-no matter what the type of the optional value is.</p>
-<p>Enums can use multiple generic types as well. The definition of the <code>Result</code>
-enum that we used in Chapter 9 is one example:</p>
+<p>此定義現在對你來說應該就說的通了。如同你所看到的 <code>Option&lt;T&gt;</code> 枚舉有個泛型型別參數 <code>T</code> 以及兩個變體：<code>Some</code> 擁有型別 <code>T</code> 的數值；而 <code>None</code> 則是不具任何數值的變體。使用 <code>Option&lt;T&gt;</code> 枚舉我們可以表達出一個可能擁有的數值這樣的抽象概念。而且因爲 <code>Option&lt;T&gt;</code> 是泛型，不管可能的數值型別爲何，我們都能使用此抽象。</p>
+<p>枚舉也能有數個泛型型別。我們在第九章所使用枚舉 <code>Result</code> 的定義就是個例子：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6769,21 +6702,10 @@ enum that we used in Chapter 9 is one example:</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The <code>Result</code> enum is generic over two types, <code>T</code> and <code>E</code>, and has two variants:
-<code>Ok</code>, which holds a value of type <code>T</code>, and <code>Err</code>, which holds a value of type
-<code>E</code>. This definition makes it convenient to use the <code>Result</code> enum anywhere we
-have an operation that might succeed (return a value of some type <code>T</code>) or fail
-(return an error of some type <code>E</code>). In fact, this is what we used to open a
-file in Listing 9-3, where <code>T</code> was filled in with the type <code>std::fs::File</code> when
-the file was opened successfully and <code>E</code> was filled in with the type
-<code>std::io::Error</code> when there were problems opening the file.</p>
-<p>When you recognize situations in your code with multiple struct or enum
-definitions that differ only in the types of the values they hold, you can
-avoid duplication by using generic types instead.</p>
-<h3><a class="header" href="#in-method-definitions" id="in-method-definitions">In Method Definitions</a></h3>
-<p>We can implement methods on structs and enums (as we did in Chapter 5) and use
-generic types in their definitions, too. Listing 10-9 shows the <code>Point&lt;T&gt;</code>
-struct we defined in Listing 10-6 with a method named <code>x</code> implemented on it.</p>
+<p><code>Result</code> 枚舉有兩個泛型型別 <code>T</code> 和 <code>E</code> 且有兩個變體：<code>Ok</code> 擁有型別 <code>T</code> 的數值；而 <code>Err</code> 擁有型別 <code>E</code> 的數值。這樣的定義讓我們很方便能表達 <code>Result</code> 枚舉可能擁有一個成功的數值（返回型別 <code>T</code> 的數值）或失敗的數值（回傳型別爲 <code>E</code> 的錯誤值）。事實上這就是我們在範例 9-3 開啓檔案的方式，當我們成功開啟檔案時的 <code>T</code> 就會是型別 <code>std::fs::File</code>，然後當開啟檔案會發生問題時 <code>E</code> 就會是型別 <code>std::io::Error</code>。</p>
+<p>當你發現你的程式碼有許多結構體或枚舉都只有儲存的值有所不同時，你可以使用泛型行別來避免重複。</p>
+<h3><a class="header" href="#在方法中定義" id="在方法中定義">在方法中定義</a></h3>
+<p>我們可以對結構體或枚舉定義方法（如第五章所述）並也可以使用泛型型別來定義。範例 10-9 展示了我們在範例 10-6 定義的結構體 <code>Point&lt;T&gt;</code> 並實作了一個叫做 <code>x</code> 的方法。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T&gt; {
     x: T,
@@ -6802,18 +6724,10 @@ fn main() {
     println!(&quot;p.x = {}&quot;, p.x());
 }
 </code></pre></pre>
-<p><span class="caption">範例 10-9: Implementing a method named <code>x</code> on the
-<code>Point&lt;T&gt;</code> struct that will return a reference to the <code>x</code> field of type
-<code>T</code></span></p>
-<p>Here, we’ve defined a method named <code>x</code> on <code>Point&lt;T&gt;</code> that returns a reference
-to the data in the field <code>x</code>.</p>
-<p>Note that we have to declare <code>T</code> just after <code>impl</code> so we can use it to specify
-that we’re implementing methods on the type <code>Point&lt;T&gt;</code>.  By declaring <code>T</code> as a
-generic type after <code>impl</code>, Rust can identify that the type in the angle
-brackets in <code>Point</code> is a generic type rather than a concrete type.</p>
-<p>We could, for example, implement methods only on <code>Point&lt;f32&gt;</code> instances rather
-than on <code>Point&lt;T&gt;</code> instances with any generic type. In Listing 10-10 we use the
-concrete type <code>f32</code>, meaning we don’t declare any types after <code>impl</code>.</p>
+<p><span class="caption">範例 10-9：在 <code>Point&lt;T&gt;</code> 結構體實作一個方法叫叫做 <code>x</code>，其會回傳 <code>x</code> 欄位中型別爲 <code>T</code> 的引用</span></p>
+<p>我們在這 <code>Point&lt;T&gt;</code> 定義了一個方法叫做 <code>x</code> 並回傳欄位 <code>x</code> 的資料引用。</p>
+<p>注意到我們需要在 <code>impl</code> 宣告 <code>T</code>，這樣才代表我們指的是在型別 <code>Point&lt;T&gt;</code> 實作方法。在 <code>impl</code> 之後宣告泛型型別 <code>T</code>，Rust 可以識別出 <code>Point</code> 尖括號內的型別爲泛型型別而非實際型別。</p>
+<p>舉例來說，我們可以只針對 <code>Point&lt;f32&gt;</code> 的實例來實作方法，而非適用於任何泛型型別的 <code>Point&lt;T&gt;</code> 實例。在範例 10-10 我們使用了實例型別 <code>f32</code> 而沒有在 <code>impl</code> 宣告任何型別。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Point&lt;T&gt; {
 </span><span class="boring">    x: T,
@@ -6838,20 +6752,9 @@ concrete type <code>f32</code>, meaning we don’t declare any types after <code
 </span><span class="boring">    println!(&quot;p.x = {}&quot;, p.x());
 </span><span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 10-10: An <code>impl</code> block that only applies to a
-struct with a particular concrete type for the generic type parameter <code>T</code></span></p>
-<p>This code means the type <code>Point&lt;f32&gt;</code> will have a method named
-<code>distance_from_origin</code> and other instances of <code>Point&lt;T&gt;</code> where <code>T</code> is not of
-type <code>f32</code> will not have this method defined. The method measures how far our
-point is from the point at coordinates (0.0, 0.0) and uses mathematical
-operations that are available only for floating point types.</p>
-<p>Generic type parameters in a struct definition aren’t always the same as those
-you use in that struct’s method signatures. For example, Listing 10-11 defines
-the method <code>mixup</code> on the <code>Point&lt;T, U&gt;</code> struct from Listing 10-8. The method
-takes another <code>Point</code> as a parameter, which might have different types from the
-<code>self</code> <code>Point</code> we’re calling <code>mixup</code> on. The method creates a new <code>Point</code>
-instance with the <code>x</code> value from the <code>self</code> <code>Point</code> (of type <code>T</code>) and the <code>y</code>
-value from the passed-in <code>Point</code> (of type <code>W</code>).</p>
+<p><span class="caption">範例 10-10：一個只適用於擁有泛型 <code>T</code> 結構體其中的特定實際型別的 <code>impl</code> 區塊</span></p>
+<p>此程式碼代表 <code>Point&lt;f32&gt;</code> 會有個方法叫做 <code>distance_from_origin</code> 但其他 <code>Point&lt;T&gt;</code> 只要 <code>T</code> 不是型別 <code>f32</code> 的實例都不會定義此方法。此方法測量我們的點距離座標 (0.0, 0.0) 有多遠並使用只有浮點數型別能使用的數學運算。</p>
+<p>在結構體定義中的泛型型別參數不總會是和結構體方法簽名中的會是相同型別。舉例來說，範例 10-11 在範例 10-8 的 <code>Point&lt;T, U&gt;</code> 定義了一個方法 <code>mixup</code>。該方法會取得另一個 <code>Point</code> 作爲參數，不過其可能會與我們噓覺的 <code>mixup</code> 方法中<code>self</code> <code>Point</code> 的型別有所相異。此方法使用 <code>self</code> 的 <code>Point</code>（型別爲 <code>T</code>）的 <code>x</code> 值與由參數傳進來的 <code>Point</code>（型別爲 <code>W</code>）的 <code>y</code> 值。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T, U&gt; {
     x: T,
@@ -6876,35 +6779,14 @@ fn main() {
     println!(&quot;p3.x = {}, p3.y = {}&quot;, p3.x, p3.y);
 }
 </code></pre></pre>
-<p><span class="caption">範例 10-11: A method that uses different generic types
-from its struct’s definition</span></p>
-<p>In <code>main</code>, we’ve defined a <code>Point</code> that has an <code>i32</code> for <code>x</code> (with value <code>5</code>)
-and an <code>f64</code> for <code>y</code> (with value <code>10.4</code>). The <code>p2</code> variable is a <code>Point</code> struct
-that has a string slice for <code>x</code> (with value <code>&quot;Hello&quot;</code>) and a <code>char</code> for <code>y</code>
-(with value <code>c</code>). Calling <code>mixup</code> on <code>p1</code> with the argument <code>p2</code> gives us <code>p3</code>,
-which will have an <code>i32</code> for <code>x</code>, because <code>x</code> came from <code>p1</code>. The <code>p3</code> variable
-will have a <code>char</code> for <code>y</code>, because <code>y</code> came from <code>p2</code>. The <code>println!</code> macro
-call will print <code>p3.x = 5, p3.y = c</code>.</p>
-<p>The purpose of this example is to demonstrate a situation in which some generic
-parameters are declared with <code>impl</code> and some are declared with the method
-definition. Here, the generic parameters <code>T</code> and <code>U</code> are declared after <code>impl</code>,
-because they go with the struct definition. The generic parameters <code>V</code> and <code>W</code>
-are declared after <code>fn mixup</code>, because they’re only relevant to the method.</p>
-<h3><a class="header" href="#performance-of-code-using-generics" id="performance-of-code-using-generics">Performance of Code Using Generics</a></h3>
-<p>You might be wondering whether there is a runtime cost when you’re using
-generic type parameters. The good news is that Rust implements generics in such
-a way that your code doesn’t run any slower using generic types than it would
-with concrete types.</p>
-<p>Rust accomplishes this by performing monomorphization of the code that is using
-generics at compile time. <em>Monomorphization</em> is the process of turning generic
-code into specific code by filling in the concrete types that are used when
-compiled.</p>
-<p>In this process, the compiler does the opposite of the steps we used to create
-the generic function in Listing 10-5: the compiler looks at all the places
-where generic code is called and generates code for the concrete types the
-generic code is called with.</p>
-<p>Let’s look at how this works with an example that uses the standard library’s
-<code>Option&lt;T&gt;</code> enum:</p>
+<p><span class="caption">範例 10-11：結構體定義中使用不同的泛型型別的方法</span></p>
+<p>在 <code>main</code> 中，我們定義了一個 <code>Point</code>，其 <code>x</code> 型別爲 <code>i32</code>（數值爲 <code>5</code>），<code>y</code> 型別爲 <code>f64</code>（數值爲 <code>10.4</code>）。變數 <code>p2</code> 是個 <code>Point</code> 結構體，<code>x</code> 爲字串 slice（數值爲 <code>&quot;Hello&quot;</code>），<code>y</code> 爲 <code>char</code>（數值爲 <code>c</code>）。在 <code>p1</code> 呼叫 <code>mixup</code> 並加上引數 <code>p2</code> 的話會給我們 <code>p3</code>，它的 <code>x</code> 會有型別 <code>i32</code>，因爲 <code>x</code> 來自 <code>p1</code>。而且變數 <code>p3</code> 還會有型別爲 <code>char</code> 的 <code>y</code>，因爲 <code>y</code> 來自 <code>p2</code>。<code>println!</code> 巨集的呼叫就會顯示 <code>p3.x = 5, p3.y = c</code>。</p>
+<p>此例是是爲了展示一些泛型參數是透過 <code>impl</code> 宣告而有些則是透過方法定義來得。在此，泛型參數 <code>T</code> 和 <code>U</code> 是宣告在 <code>impl</code> 之後，因爲它們與結構體定義有關聯。而在 <code>fn mixup</code> 之後宣告的泛型參數只和該方法有關。</p>
+<h3><a class="header" href="#使用泛型的程式碼效能" id="使用泛型的程式碼效能">使用泛型的程式碼效能</a></h3>
+<p>你可能會好奇當你使用泛型型別參數會不會有執行時的消耗。好消息是 Rust 實作泛型的方式讓你使用泛型的的程式碼跑得不會比使用實際型別還來的慢。</p>
+<p>Rust 在編譯時對使用泛型的程式碼進行單態化（monomorphization）。<em>單態化</em>是個讓泛型程式碼轉換成特定程式碼的過程，在編譯時填入實際的型別。</p>
+<p>在此過程中，編譯器會做與我們在範例 10-5 建立泛型函式相反的事：編譯器檢查所有泛型程式碼被呼叫的地方，並依據泛型程式碼被呼叫的情況產生實際型別的程式碼。</p>
+<p>讓我們看看這在標準函式庫的枚舉 <code>Option&lt;T&gt;</code> 中是怎麼做到的：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6912,14 +6794,8 @@ generic code is called with.</p>
 let float = Some(5.0);
 <span class="boring">}
 </span></code></pre></pre>
-<p>When Rust compiles this code, it performs monomorphization. During that
-process, the compiler reads the values that have been used in <code>Option&lt;T&gt;</code>
-instances and identifies two kinds of <code>Option&lt;T&gt;</code>: one is <code>i32</code> and the other
-is <code>f64</code>. As such, it expands the generic definition of <code>Option&lt;T&gt;</code> into
-<code>Option_i32</code> and <code>Option_f64</code>, thereby replacing the generic definition with
-the specific ones.</p>
-<p>The monomorphized version of the code looks like the following. The generic
-<code>Option&lt;T&gt;</code> is replaced with the specific definitions created by the compiler:</p>
+<p>當 Rust 編譯此程式碼時中，他會進行單態話。在此過程中，會讀取 <code>Option&lt;T&gt;</code> 實例中使用的數值並識別出兩種 <code>Option&lt;T&gt;</code>：一種是 <code>i32</code> 而另一種是 <code>f64</code>。接著它就會將 <code>Option&lt;T&gt;</code> 的泛型定義展開爲 <code>Option_i32</code> 和 <code>Option_f64</code>，以此替換函式定義爲特定型別。</p>
+<p>單態化的版本看起來會像這樣，泛型 <code>Option&lt;T&gt;</code> 會被替換成編譯器定義的特定定義：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum Option_i32 {
     Some(i32),
@@ -6936,11 +6812,14 @@ fn main() {
     let float = Option_f64::Some(5.0);
 }
 </code></pre></pre>
-<p>Because Rust compiles generic code into code that specifies the type in each
-instance, we pay no runtime cost for using generics. When the code runs, it
-performs just as it would if we had duplicated each definition by hand. The
-process of monomorphization makes Rust’s generics extremely efficient at
-runtime.</p>
+<p>因爲 Rust 會編譯泛型程式碼成個別實例的特定型別，我們使用泛型就不會造成任何執行時消耗。當程式執行時，它就會和我們親自寫重複定義的版本一樣。單態化的過程讓 Rust 的泛型在執行時十分有效率。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch10-01-syntax.md">e5ed971</a></li>
+<li>updated: 2020-09-14</li>
+</ul>
+</blockquote>
 <h2><a class="header" href="#traits-defining-shared-behavior" id="traits-defining-shared-behavior">Traits: Defining Shared Behavior</a></h2>
 <p>A <em>trait</em> tells the Rust compiler about functionality a particular type has and
 can share with other types. We can use traits to define shared behavior in an
@@ -7233,7 +7112,7 @@ definition of <code>summarize_author</code> that we’ve provided. Because we’
 <p>This code prints <code>1 new tweet: (Read more from @horse_ebooks...)</code>.</p>
 <p>Note that it isn’t possible to call the default implementation from an
 overriding implementation of that same method.</p>
-<h3><a class="header" href="#traits-as-parameters" id="traits-as-parameters">Traits as Parameters</a></h3>
+<h3><a class="header" href="#特徵作爲參數" id="特徵作爲參數">特徵作爲參數</a></h3>
 <p>Now that you know how to define and implement traits, we can explore how to use
 traits to define functions that accept many different types.</p>
 <p>For example, in Listing 10-13, we implemented the <code>Summary</code> trait on the
