@@ -192,7 +192,7 @@ This code prints `1 new tweet: (Read more from @horse_ebooks...)`.
 Note that it isn’t possible to call the default implementation from an
 overriding implementation of that same method.
 
-### Traits as Parameters
+### 特徵作爲參數
 
 Now that you know how to define and implement traits, we can explore how to use
 traits to define functions that accept many different types.

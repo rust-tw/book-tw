@@ -15,7 +15,7 @@ contains a number of changes to reflect those improvements:
 - Chapter 7, “Managing Growing Projects with Packages, Crates, and Modules,”
   has been mostly rewritten. The module system and the way paths work in the
   2018 Edition were made more consistent.
-- Chapter 10 has new sections titled “Traits as Parameters” and “Returning
+- Chapter 10 has new sections titled “特徵作爲參數” and “Returning
   Types that Implement Traits” that explain the new `impl Trait` syntax.
 - Chapter 11 has a new section titled “Using `Result<T, E>` in Tests” that
   shows how to write tests that use the `?` operator.
