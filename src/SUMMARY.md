@@ -103,7 +103,7 @@
 
 - [Object Oriented Programming Features of Rust](ch17-00-oop.md)
     - [Characteristics of Object-Oriented Languages](ch17-01-what-is-oo.md)
-    - [Using Trait Objects That Allow for Values of Different Types](ch17-02-trait-objects.md)
+    - [允許不同型別數值的特徵物件](ch17-02-trait-objects.md)
     - [Implementing an Object-Oriented Design Pattern](ch17-03-oo-design-patterns.md)
 
 ## 進階主題

@@ -1,4 +1,4 @@
-## Using Trait Objects that Allow for Values of Different Types
+## 允許不同型別數值的特徵物件
 
 The second edition of the book is no longer distributed with Rust's documentation.
 

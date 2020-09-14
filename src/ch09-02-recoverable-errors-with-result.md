@@ -157,9 +157,7 @@ don't want to include it for rustdoc testing purposes. -->
 
 #### 傳播錯誤的捷徑：`?` 運算子
 
-Listing 9-7 shows an implementation of `read_username_from_file` that has the
-same functionality as it had in Listing 9-6, but this implementation uses the
-`?` operator.
+範例 9-7 是另一個 `read_username_from_file`的實作，擁有和範例 9-6 一樣的效果，不過這次使用了 `?` 運算子。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -171,38 +169,15 @@ don't want to include it for rustdoc testing purposes. -->
 {{#include ../listings/ch09-error-handling/listing-09-07/src/main.rs:here}}
 ```
 
-<span class="caption">範例 9-7: A function that returns errors to the
-calling code using the `?` operator</span>
+<span class="caption">範例 9-7：使用 `?` 運算子回傳錯誤給呼叫者的函式</span>
 
-The `?` placed after a `Result` value is defined to work in almost the same way
-as the `match` expressions we defined to handle the `Result` values in Listing
-9-6. If the value of the `Result` is an `Ok`, the value inside the `Ok` will
-get returned from this expression, and the program will continue. If the value
-is an `Err`, the `Err` will be returned from the whole function as if we had
-used the `return` keyword so the error value gets propagated to the calling
-code.
+定義在 `Result` 數值後的 `?` 運作方式幾乎與範例 9-6 的 `match` 表達式處理 `Result` 的方式一樣。如果 `Result` 的數值是 `Ok` 的話，`Ok` 內的數值就會從此表達式回傳，然後程式就會繼續執行。如果數值是 `Err` 的話，`Err` 就會使用 `return` 關鍵字作為整個函式的回傳值回傳，讓錯誤數值可以傳遞給呼叫者的程式碼。
 
-There is a difference between what the `match` expression from Listing 9-6 does
-and what the `?` operator does: error values that have the `?` operator called
-on them go through the `from` function, defined in the `From` trait in the
-standard library, which is used to convert errors from one type into another.
-When the `?` operator calls the `from` function, the error type received is
-converted into the error type defined in the return type of the current
-function. This is useful when a function returns one error type to represent all
-the ways a function might fail, even if parts might fail for many different
-reasons. As long as each error type implements the `from` function to define how
-to convert itself to the returned error type, the `?` operator takes care of the
-conversion automatically.
+不過範例 9-6 的 `match` 表達式做的事和 `?` 運算子做的事還是有不同的地方：`?` 運算子呼叫所使用的錯誤數值會傳遞到 `from` 函式中，這是定義在標準函式庫的 `From` 特徵中，用來將錯誤從一種型別轉換另一種型別。當 `?` 運算子呼叫 `from` 函式時，接收到的錯誤型別會轉換成目前函式回傳值的錯誤型別。這在當函式要回傳一個錯誤型別來代表所有函式可能的失敗是很有用的，即使可能會失敗的原因有很多種。只要每個錯誤型別都有實作 `from` 函式來將自己轉換成要回傳的錯誤型別，`?` 運算子就能自動作轉換。
 
-In the context of Listing 9-7, the `?` at the end of the `File::open` call will
-return the value inside an `Ok` to the variable `f`. If an error occurs, the
-`?` operator will return early out of the whole function and give any `Err`
-value to the calling code. The same thing applies to the `?` at the end of the
-`read_to_string` call.
+在範例 9-7 中，在 `File::open` 的結尾中 `?` 回傳 `Ok` 中的數值給變數 `f`。如果有錯誤發生時，`?` 運算子會提早回傳整個函式並將 `Err` 的數值傳給呼叫的程式碼。同理也適用在呼叫 `read_to_string` 結尾的 `?`。
 
-The `?` operator eliminates a lot of boilerplate and makes this function’s
-implementation simpler. We could even shorten this code further by chaining
-method calls immediately after the `?`, as shown in Listing 9-8.
+`?` 運算子可以消除大量樣板程式碼並讓函式實作更簡單。我們還可以再進一步將方法直接串接到 `?` 後來簡化程式碼，如範例 9-8 所示。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -214,20 +189,11 @@ don't want to include it for rustdoc testing purposes. -->
 {{#include ../listings/ch09-error-handling/listing-09-08/src/main.rs:here}}
 ```
 
-<span class="caption">範例 9-8: Chaining method calls after the `?`
-operator</span>
+<span class="caption">範例 9-8：在 `?` 運算子後方串接方法呼叫</span>
 
-We’ve moved the creation of the new `String` in `s` to the beginning of the
-function; that part hasn’t changed. Instead of creating a variable `f`, we’ve
-chained the call to `read_to_string` directly onto the result of
-`File::open("hello.txt")?`. We still have a `?` at the end of the
-`read_to_string` call, and we still return an `Ok` value containing the
-username in `s` when both `File::open` and `read_to_string` succeed rather than
-returning errors. The functionality is again the same as in Listing 9-6 and
-Listing 9-7; this is just a different, more ergonomic way to write it.
+我們將建立新 `String` 的變數 `s` 移到函式的開頭，這部分沒有任何改變。再來與建立變數 `f` 的地方不同的是，我們直接將 `read_to_string` 串接到 `File::open("hello.txt")?` 的結果後方。我們在 `read_to_string` 呼叫的結尾還是有 `?`，然後我們還是在 `File::open` 和 `read_to_string` 成功沒有失敗時，回傳包含 `s` 的 `Ok` 數值。函式達成的效果仍然與範例 9-6 與 9-7 相同。這只是一個比較不同但慣用的寫法。
 
-Speaking of different ways to write this function, Listing 9-9 shows that
-there’s a way to make this even shorter.
+說到此函式不同的寫法，範例 9-9 展示了另一個更短的寫法。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -239,63 +205,36 @@ don't want to include it for rustdoc testing purposes. -->
 {{#include ../listings/ch09-error-handling/listing-09-09/src/main.rs:here}}
 ```
 
-<span class="caption">範例 9-9: Using `fs::read_to_string` instead of
-opening and then reading the file</span>
+<span class="caption">範例 9-9：使用 `fs::read_to_string` 而不是開啟檔案後才讀取</span>
 
-Reading a file into a string is a fairly common operation, so Rust provides the
-convenient `fs::read_to_string` function that opens the file, creates a new
-`String`, reads the contents of the file, puts the contents into that `String`,
-and returns it. Of course, using `fs::read_to_string` doesn’t give us the
-opportunity to explain all the error handling, so we did it the longer way
-first.
+讀取檔案至字串中算是個常見動作，所以 Rust 提供了一個方便的函式 `fs::read_to_string` 來開啟檔案、建立新的 `String`、讀取檔案內容、將內容放入該 `String` 並回傳它。不過使用 `fs::read_to_string` 就沒有機會讓我們來解釋所有的錯誤處理，所以我們一開始才用比較長的寫法。
 
-#### The `?` Operator Can Be Used in Functions That Return `Result`
+#### `?` 運算子可以用在回傳 `Result` 的函式
 
-The `?` operator can be used in functions that have a return type of
-`Result`, because it is defined to work in the same way as the `match`
-expression we defined in Listing 9-6. The part of the `match` that requires a
-return type of `Result` is `return Err(e)`, so the return type of the function
-can be a `Result` to be compatible with this `return`.
+`?` 可以用在回傳型別為 `Result` 的函式，因為它與範例 9-6 的 `match` 表達式有相同的運作方式。`match` 的 `return Err(e)` 會要求 `Result` 作為回傳型別。所以函式回傳值也需要是 `Result` 才能與此 `return` 相容。
 
-Let’s look at what happens if we use the `?` operator in the `main` function,
-which you’ll recall has a return type of `()`:
+讓我們看看如果我們在 `main` 使用 `?` 運算子的話會發生什麼事情，你應該還記得此函式的回傳型別為 `()`：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch09-error-handling/no-listing-06-question-mark-in-main/src/main.rs}}
 ```
 
-When we compile this code, we get the following error message:
+當我們編譯此程式碼時，我們會獲得以下錯誤訊息：
 
 ```console
 {{#include ../listings/ch09-error-handling/no-listing-06-question-mark-in-main/output.txt}}
 ```
 
-This error points out that we’re only allowed to use the `?` operator in a
-function that returns `Result` or `Option` or another type that implements
-`std::ops::Try`. When you’re writing code in a function
-that doesn’t return one of these types, and you want to use `?` when you call other
-functions that return `Result<T, E>`, you have two choices to fix this problem.
-One technique is to change the return type of your function to be `Result<T,
-E>` if you have no restrictions preventing that. The other technique is to use
-a `match` or one of the `Result<T, E>` methods to handle the `Result<T, E>` in
-whatever way is appropriate.
+此錯誤告訴我們只能在回傳型別為 `Result` 或 `Option` 或其他有實作 `std::ops::Try` 的型別的函式才能使用 `?` 運算子。如果你寫的程式碼函式中沒有回傳任何這些型別，而你想要在呼叫回傳型別為 `Result<T, E>` 的函式使用 `?`，你有兩種解決辦法。第一個辦法是如果沒有任何限制阻止你的話，你可以變更你函式的回傳型別為 `Result<T, E>`。另一個則是依據你認為合適的情形下使用 `match` 或任何一種 `Result<T, E>` 的方法來處理 `Result<T, E>`。
 
-The `main` function is special, and there are restrictions on what its return
-type must be. One valid return type for main is `()`, and conveniently, another
-valid return type is `Result<T, E>`, as shown here:
+`main` 是特別的函式，所以我們必須限制它的回傳型別。其中一種 main 的有效回傳型別是 `()`，而為了方便，它還能有另一個有效回傳型別 `Result<T, E>`，如以下所示：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch09-error-handling/no-listing-07-main-returning-result/src/main.rs}}
 ```
 
-The `Box<dyn Error>` type is called a trait object, which we’ll talk about in
-the [“Using Trait Objects that Allow for Values of Different
-Types”][trait-objects]<!-- ignore --> section in Chapter 17. For now, you can
-read `Box<dyn Error>` to mean “any kind of error.” Using `?` in a `main`
-function with this return type is allowed.
+`Box<dyn Error>` 型別使用了特徵物件（trait object）我們會在第十七章的[「允許不同型別數值的特徵物件」“允許不同型別數值的特徵物件”][trait-objects]<!-- ignore -->討論到。現在你可以將 `Box<dyn Error>` 視為它是「任何種類的錯誤」。這樣 `main` 中的回傳型別就會允許 `?` 了。
 
-Now that we’ve discussed the details of calling `panic!` or returning `Result`,
-let’s return to the topic of how to decide which is appropriate to use in which
-cases.
+現在我們已經討論了呼叫 `panic!` 與回傳 `Result` 的細節。現在讓我們回到何時該使用何種辦法的主題上吧。
 
 [trait-objects]: ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
