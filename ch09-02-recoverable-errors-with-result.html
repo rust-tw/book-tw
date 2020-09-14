@@ -464,6 +464,13 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 </code></pre>
 <p><code>Box&lt;dyn Error&gt;</code> 型別使用了特徵物件（trait object）我們會在第十七章的<a href="ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">「允許不同型別數值的特徵物件」“允許不同型別數值的特徵物件”</a><!-- ignore -->討論到。現在你可以將 <code>Box&lt;dyn Error&gt;</code> 視為它是「任何種類的錯誤」。這樣 <code>main</code> 中的回傳型別就會允許 <code>?</code> 了。</p>
 <p>現在我們已經討論了呼叫 <code>panic!</code> 與回傳 <code>Result</code> 的細節。現在讓我們回到何時該使用何種辦法的主題上吧。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch09-02-recoverable-errors-with-result.md">e5ed971</a></li>
+<li>updated: 2020-09-14</li>
+</ul>
+</blockquote>
 
                     </main>
 
