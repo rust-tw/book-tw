@@ -54,9 +54,9 @@
     - [`Result` 與可復原的錯誤](ch09-02-recoverable-errors-with-result.md)
     - [要 `panic!` 還是不要 `panic!`](ch09-03-to-panic-or-not-to-panic.md)
 
-- [Generic Types, Traits, and Lifetimes](ch10-00-generics.md)
-    - [Generic Data Types](ch10-01-syntax.md)
-    - [Traits: Defining Shared Behavior](ch10-02-traits.md)
+- [泛型型別、特徵與生命週期](ch10-00-generics.md)
+    - [泛型資料型別](ch10-01-syntax.md)
+    - [特徵：定義共享行爲](ch10-02-traits.md)
     - [使用生命週期驗證引用](ch10-03-lifetime-syntax.md)
 
 - [Writing Automated Tests](ch11-00-testing.md)
