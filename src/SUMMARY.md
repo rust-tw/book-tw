@@ -25,7 +25,7 @@
     - [引用與借用](ch04-02-references-and-borrowing.md)
     - [Slice 型別](ch04-03-slices.md)
 
-- [使用結構體組織相關資料](ch05-00-structs.md)
+- [透過結構體組織相關資料](ch05-00-structs.md)
     - [定義與實例化結構體](ch05-01-defining-structs.md)
     - [使用結構體的程式範例](ch05-02-example-structs.md)
     - [方法語法](ch05-03-method-syntax.md)
@@ -33,21 +33,21 @@
 - [枚舉與模式配對](ch06-00-enums.md)
     - [定義枚舉](ch06-01-defining-an-enum.md)
     - [`match` 控制流運算子](ch06-02-match.md)
-    - [使用 `if let` 簡化控制流](ch06-03-if-let.md)
+    - [透過 `if let` 簡化控制流](ch06-03-if-let.md)
 
 ## Basic Rust Literacy
 
-- [使用套件、Crate與模組管理成長中的專案](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
+- [透過套件、Crate與模組管理成長中的專案](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
     - [套件與 Crates](ch07-01-packages-and-crates.md)
     - [定義模組來控制作用域與隱私權](ch07-02-defining-modules-to-control-scope-and-privacy.md)
     - [引用模組項目的路徑](ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
-    - [使用 `use` 關鍵字引入路徑](ch07-04-bringing-paths-into-scope-with-the-use-keyword.md)
+    - [透過 `use` 關鍵字引入路徑](ch07-04-bringing-paths-into-scope-with-the-use-keyword.md)
     - [將模組拆成不同檔案](ch07-05-separating-modules-into-different-files.md)
 
 - [常見集合](ch08-00-common-collections.md)
-    - [使用 Vector 儲存列表](ch08-01-vectors.md)
-    - [使用字串儲存 UTF-8 編碼的文字](ch08-02-strings.md)
-    - [使用雜湊映射儲存鍵值配對](ch08-03-hash-maps.md)
+    - [透過 Vector 儲存列表](ch08-01-vectors.md)
+    - [透過字串儲存 UTF-8 編碼的文字](ch08-02-strings.md)
+    - [透過雜湊映射儲存鍵值配對](ch08-03-hash-maps.md)
 
 - [錯誤處理](ch09-00-error-handling.md)
     - [`panic!` 與無法復原的錯誤](ch09-01-unrecoverable-errors-with-panic.md)
@@ -56,8 +56,8 @@
 
 - [泛型型別、特徵與生命週期](ch10-00-generics.md)
     - [泛型資料型別](ch10-01-syntax.md)
-    - [特徵：定義共享行爲](ch10-02-traits.md)
-    - [使用生命週期驗證引用](ch10-03-lifetime-syntax.md)
+    - [特徵：定義共同行爲](ch10-02-traits.md)
+    - [透過生命週期驗證引用](ch10-03-lifetime-syntax.md)
 
 - [Writing Automated Tests](ch11-00-testing.md)
     - [How to Write Tests](ch11-01-writing-tests.md)

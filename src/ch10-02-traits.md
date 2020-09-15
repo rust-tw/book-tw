@@ -1,31 +1,16 @@
-## Traits: Defining Shared Behavior
+## 特徵：定義共同行爲
 
-A *trait* tells the Rust compiler about functionality a particular type has and
-can share with other types. We can use traits to define shared behavior in an
-abstract way. We can use trait bounds to specify that a generic can be any type
-that has certain behavior.
+*特徵（trait）*會告訴 Rust 編譯器特定型能與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行爲。我們可以使用特徵界限（trait bounds）來指定泛型爲擁有特定行爲的任意型態。
 
-> Note: Traits are similar to a feature often called *interfaces* in other
-> languages, although with some differences.
+> 注意：特徵類似於其他語言常稱作*介面（interfaces）*的功能，但還是有些差異。
 
-### Defining a Trait
+### 定義特徵
 
-A type’s behavior consists of the methods we can call on that type. Different
-types share the same behavior if we can call the same methods on all of those
-types. Trait definitions are a way to group method signatures together to
-define a set of behaviors necessary to accomplish some purpose.
+一個型別的行爲包含我們對該型別可以呼叫的方法。如果我們可以對不同型別呼叫相同的方法，這些型別就能定義共同行爲了。特徵定義是一個將方法簽名統整起來，來達成一些目的而定義一系列行爲的方法。
 
-For example, let’s say we have multiple structs that hold various kinds and
-amounts of text: a `NewsArticle` struct that holds a news story filed in a
-particular location and a `Tweet` that can have at most 280 characters along
-with metadata that indicates whether it was a new tweet, a retweet, or a reply
-to another tweet.
+舉例來說，如果我們有數個結構體各自擁有不同種類與不同數量的文字：結構體 `NewsArticle` 儲存特定地點的新聞故事，然後 `Tweet` 則有最多 280 字元的內容，且有個欄位來判斷是全新的推文、轉推或其他推文的回覆。
 
-We want to make a media aggregator library that can display summaries of data
-that might be stored in a `NewsArticle` or `Tweet` instance. To do this, we
-need a summary from each type, and we need to request that summary by calling a
-`summarize` method on an instance. Listing 10-12 shows the definition of a
-`Summary` trait that expresses this behavior.
+我們想要建立個多媒體資料庫來顯示可能存在 `NewsArticle` 或 `Tweet` 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們需要呼該要該實例的 `summarize` 方法來索取總結。範例 10-12 顯示了表達此行爲的 `Summary` 特徵定義。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -33,32 +18,17 @@ need a summary from each type, and we need to request that summary by calling a
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-12/src/lib.rs}}
 ```
 
-<span class="caption">範例 10-12: A `Summary` trait that consists of the
-behavior provided by a `summarize` method</span>
+<span class="caption">範例 10-12：`Summary` 特徵包含 `summarize` 方法所定義的行爲</span>
 
-Here, we declare a trait using the `trait` keyword and then the trait’s name,
-which is `Summary` in this case. Inside the curly brackets, we declare the
-method signatures that describe the behaviors of the types that implement this
-trait, which in this case is `fn summarize(&self) -> String`.
+我們在此使用 `trait` 關鍵字定義一個特徵，其名稱爲 `Summary`。在大括號中，我們宣告方法簽名來描述有實作此特徵的型別行爲，在此例就是 `fn summarize(&self) -> String`。
 
-After the method signature, instead of providing an implementation within curly
-brackets, we use a semicolon. Each type implementing this trait must provide
-its own custom behavior for the body of the method. The compiler will enforce
-that any type that has the `Summary` trait will have the method `summarize`
-defined with this signature exactly.
+在方法簽名之後，我們並沒有加上大括號提供實作細節，而是使用分號。每個有實作此特徵的型別必須提供其自訂行爲的方法本體。編譯器會強制要求任何有 `Summary` 特徵的型別都要有定義相同簽名的 `summarize` 方法。
 
-A trait can have multiple methods in its body: the method signatures are listed
-one per line and each line ends in a semicolon.
+特徵本體中可以有多個方法，每行會有一個方法簽名並都以分號做結尾。
 
-### Implementing a Trait on a Type
+### 爲型別實作特徵
 
-Now that we’ve defined the desired behavior using the `Summary` trait, we can
-implement it on the types in our media aggregator. Listing 10-13 shows an
-implementation of the `Summary` trait on the `NewsArticle` struct that uses the
-headline, the author, and the location to create the return value of
-`summarize`. For the `Tweet` struct, we define `summarize` as the username
-followed by the entire text of the tweet, assuming that tweet content is
-already limited to 280 characters.
+現在我們已經用 `Summary` 特徵定義了所需的行爲。我們可以在我們多媒體資料庫的型別中實作它。範例 10-13 顯示了 `NewsArticle` 結構體實作 `Summary` 特徵的方式，其使用頭條、作者、位置來建立 `summerize` 的回傳值。至於結構體 `Tweet`，我們使用使用者名稱加上整個推文的文字來定義 `summarize`，因爲推文的內容長度已經被限制在 280 個字元以內了。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -66,67 +36,30 @@ already limited to 280 characters.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-13/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 10-13: Implementing the `Summary` trait on the
-`NewsArticle` and `Tweet` types</span>
+<span class="caption">範例 10-13：在型別 `NewsArticle` 與 `Tweet` 實作 `Summary` 特徵</span>
 
-Implementing a trait on a type is similar to implementing regular methods. The
-difference is that after `impl`, we put the trait name that we want to
-implement, then use the `for` keyword, and then specify the name of the type we
-want to implement the trait for. Within the `impl` block, we put the method
-signatures that the trait definition has defined. Instead of adding a semicolon
-after each signature, we use curly brackets and fill in the method body with
-the specific behavior that we want the methods of the trait to have for the
-particular type.
+爲一個型別實作一個特徵類似於實作一般的方法。不同的地方在於在 `impl` 之後我們加上的是想要實作的特徵，然後在用 `for` 關鍵字加上我們想要實作特徵的型別名稱。在 `impl` 的區塊內我們置入該特徵所定義的方法簽名，我們使用大括號並填入方法本體來爲對特定型別實作出特徵方法的指定行爲。
 
-After implementing the trait, we can call the methods on instances of
-`NewsArticle` and `Tweet` in the same way we call regular methods, like this:
+在實作完後，我們就能像呼叫正常方法一樣，來呼叫 `NewsArticle` 和 `Tweet` 實例的方法，如以下所示：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-01-calling-trait-method/src/main.rs:here}}
 ```
 
-This code prints `1 new tweet: horse_ebooks: of course, as you probably already
-know, people`.
+此程式碼會印出「1 new tweet: horse_ebooks: of course, as you probably already
+know, people」。
 
-Note that because we defined the `Summary` trait and the `NewsArticle` and
-`Tweet` types in the same *lib.rs* in Listing 10-13, they’re all in the same
-scope. Let’s say this *lib.rs* is for a crate we’ve called `aggregator` and
-someone else wants to use our crate’s functionality to implement the `Summary`
-trait on a struct defined within their library’s scope. They would need to
-bring the trait into their scope first. They would do so by specifying `use
-aggregator::Summary;`, which then would enable them to implement `Summary` for
-their type. The `Summary` trait would also need to be a public trait for
-another crate to implement it, which it is because we put the `pub` keyword
-before `trait` in Listing 10-12.
+注意到因爲我們將範例 10-13 的 `Summary` 特徵、`NewsArticle` 和 `Tweet` 型別都定義在 *lib.rs* ，所以它們都在同個作用域下。如果我們說此 *lib.rs* 對應的 crate 叫做 `aggregator`，然後有人想要使用我們 crate 的功能來對他們函式庫作用域中定義的結構體實作 `Summary` 特徵的話。他們會需要將該特徵引入作用域，可以像這樣指定 `use aggregator::Summary;`，如此一來就能對他們的型別實作 `Summary`。`Summary` 特徵一樣也必須是公開的才能讓其他 crate 使用。這就是爲何我們在範例 10-12 的 `trait` 前面就加上 `pub` 關鍵字。
 
-One restriction to note with trait implementations is that we can implement a
-trait on a type only if either the trait or the type is local to our crate.
-For example, we can implement standard library traits like `Display` on a
-custom type like `Tweet` as part of our `aggregator` crate functionality,
-because the type `Tweet` is local to our `aggregator` crate. We can also
-implement `Summary` on `Vec<T>` in our `aggregator` crate, because the
-trait `Summary` is local to our `aggregator` crate.
+實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說我們可以對自訂型別像是 `Tweet` 來實作標準函式庫的 `Display` 特徵來爲我們 crate `aggregator` 增加更多功能。因爲 `Tweet` 位於我們的 `aggregator` crate 裡面。我們也可以在我們的 crate `aggregator` 內對 `Vec<T>` 實作 `Summary`。因爲特徵 `Summary` 也位於我們的 `aggregator` crate 裡面。
 
-But we can’t implement external traits on external types. For example, we can’t
-implement the `Display` trait on `Vec<T>` within our `aggregator` crate,
-because `Display` and `Vec<T>` are defined in the standard library and aren’t
-local to our `aggregator` crate. This restriction is part of a property of
-programs called *coherence*, and more specifically the *orphan rule*, so named
-because the parent type is not present. This rule ensures that other people’s
-code can’t break your code and vice versa. Without the rule, two crates could
-implement the same trait for the same type, and Rust wouldn’t know which
-implementation to use.
+但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 `aggregator` crate 裡面對 `Vec<T>` 實作 `Display` 特徵。因爲 `Display` 與 `Vec<T>` 都定義在表準函式庫中，並沒有在我們 `aggregator` crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因爲上代（parent）型別不存這在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。
 
-### Default Implementations
+### 預設實作
 
-Sometimes it’s useful to have default behavior for some or all of the methods
-in a trait instead of requiring implementations for all methods on every type.
-Then, as we implement the trait on a particular type, we can keep or override
-each method’s default behavior.
+有時候對特徵內的一些或所有方法定義預設行爲是很實用的，而不必要求每個型別都實作所有方法。然後當我們對特定型別實作特徵時，我們可以保留或覆蓋每個方法的預設行爲。
 
-Listing 10-14 shows how to specify a default string for the `summarize` method
-of the `Summary` trait instead of only defining the method signature, as we did
-in Listing 10-12.
+範例 10-14 展示如何在 `Summary` 特徵內指定  `summarize` 方法的預設字串，而不必像範例 10-12 只定義了方法簽名。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -134,92 +67,58 @@ in Listing 10-12.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-14/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 10-14: Definition of a `Summary` trait with a
-default implementation of the `summarize` method</span>
+<span class="caption">範例 10-14：`Summary` 特徵定義了 `summarize` 方法的預設實作</span>
 
-To use a default implementation to summarize instances of `NewsArticle` instead
-of defining a custom implementation, we specify an empty `impl` block with
-`impl Summary for NewsArticle {}`.
+要使用預設實作來總結 `NewsArticle` 而不是定義自訂實作的話，我們可以指定一個空的 `impl` 區塊，像是 `impl Summary for NewsArticle {}`。
 
-Even though we’re no longer defining the `summarize` method on `NewsArticle`
-directly, we’ve provided a default implementation and specified that
-`NewsArticle` implements the `Summary` trait. As a result, we can still call
-the `summarize` method on an instance of `NewsArticle`, like this:
+我們沒有直接對 `NewsArticle` 定義 `summarize` 方法，因爲我們使用的是預設實作並聲明對 `NewsArticle` 實作 `Summary` 特徵。所以最後我們仍然能在 `NewsArticle` 實例中呼叫 `summarize`，如以下所示：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-02-calling-default-impl/src/main.rs:here}}
 ```
 
-This code prints `New article available! (Read more...)`.
+此程式碼會印出 `New article available! (Read more...)`。
 
-Creating a default implementation for `summarize` doesn’t require us to change
-anything about the implementation of `Summary` on `Tweet` in Listing 10-13. The
-reason is that the syntax for overriding a default implementation is the same
-as the syntax for implementing a trait method that doesn’t have a default
-implementation.
+建立 `summarize` 的預設實作不會影響範例 10-13 中 `Tweet` 實作的 `Summary`。因爲要取代預設射實作的語法，與當沒有預設實作時實作特徵方法的語法是一樣的。
 
-Default implementations can call other methods in the same trait, even if those
-other methods don’t have a default implementation. In this way, a trait can
-provide a lot of useful functionality and only require implementors to specify
-a small part of it. For example, we could define the `Summary` trait to have a
-`summarize_author` method whose implementation is required, and then define a
-`summarize` method that has a default implementation that calls the
-`summarize_author` method:
+預設實作也能呼叫同特徵中的其他方法，就算那些方法沒有預設實作。這樣一來，特徵就可以提供一堆實用的功能，並要求實作者只需處理一小部分就好。舉例來說，我們可以定義 `Summary` 特徵，使其擁有一個必須要實作的`summarize_author` 方法，以及另一個擁有預設實作會呼叫 `summarize_author` 的方法：
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-03-default-impl-calls-other-methods/src/lib.rs:here}}
 ```
 
-To use this version of `Summary`, we only need to define `summarize_author`
-when we implement the trait on a type:
+要使用這個版本的 `Summary`，我們只需要在對型別實作特徵時定義 `summarize_author` 就好：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-03-default-impl-calls-other-methods/src/lib.rs:impl}}
 ```
 
-After we define `summarize_author`, we can call `summarize` on instances of the
-`Tweet` struct, and the default implementation of `summarize` will call the
-definition of `summarize_author` that we’ve provided. Because we’ve implemented
-`summarize_author`, the `Summary` trait has given us the behavior of the
-`summarize` method without requiring us to write any more code.
+在我們定義 `summarize_author` 之後，我們可以在結構體 `Tweet` 的實例呼叫 `summarize`，然後 `summarize` 的預設實作會呼叫我們提供的 `summarize_author`。因爲我們已經定義了`summarize_author`，且 `Summary` 特徵有提供 `summarize` 方法的預設實作，所以我們不必在寫任何程式碼。
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-03-default-impl-calls-other-methods/src/main.rs:here}}
 ```
 
-This code prints `1 new tweet: (Read more from @horse_ebooks...)`.
+此程式碼會印出 `1 new tweet: (Read more from @horse_ebooks...)`。
 
-Note that it isn’t possible to call the default implementation from an
-overriding implementation of that same method.
+注意要是有對相同方法覆寫實作的話，就無法呼叫預設實作。
 
 ### 特徵作爲參數
 
-Now that you know how to define and implement traits, we can explore how to use
-traits to define functions that accept many different types.
+現在你知道如何定義與實作特徵，我們可以來探討如何使用特徵來定義函式來接受多種不同的型別。
 
-For example, in Listing 10-13, we implemented the `Summary` trait on the
-`NewsArticle` and `Tweet` types. We can define a `notify` function that calls
-the `summarize` method on its `item` parameter, which is of some type that
-implements the `Summary` trait. To do this, we can use the `impl Trait`
-syntax, like this:
+舉例來說，在範例 10-13 我們對 `NewsArticle` 與 `Tweet` 實作了 `Summary` 特徵。我們可以定義一個函式 `notify` 使用它自己的參數 `item` 來呼叫 `summarize` 方法，所以此參數的型別預期有實作 `Summary` 特徵。
+爲此我們可以使用 `impl Trait` 語法，如以下所示：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-04-traits-as-parameters/src/lib.rs:here}}
 ```
 
-Instead of a concrete type for the `item` parameter, we specify the `impl`
-keyword and the trait name. This parameter accepts any type that implements the
-specified trait. In the body of `notify`, we can call any methods on `item`
-that come from the `Summary` trait, such as `summarize`. We can call `notify`
-and pass in any instance of `NewsArticle` or `Tweet`. Code that calls the
-function with any other type, such as a `String` or an `i32`, won’t compile
-because those types don’t implement `Summary`.
+與其在 `item` 參數指定實際型別，我們用的是 `impl` 關鍵字並加上特徵名稱。這樣此參數就會接受任何有實作指定特徵的型別。在 `notify` 本體中我們就可以用 `item` 呼叫 `Summary` 特徵的任何方法，像是 `summarize`。我們可以呼叫 `notify` 並傳遞任何 `NewsArticle` 或 `Tweet` 的實例。但如果用其他型別像是 `String` 或 `i32` 來呼叫此程式碼的話會無法編譯，因爲那些型別沒有實作 `Summary`。
 
-#### Trait Bound Syntax
+#### 特徵界限語法
 
-The `impl Trait` syntax works for straightforward cases but is actually
-syntax sugar for a longer form, which is called a *trait bound*; it looks like
-this:
+`impl Trait` 語法看起來很直觀，不過它其實是一個更長格式的語法糖，這個格式稱之爲「特徵界限（trait bound）」，它長得會像這樣：
 
 ```rust,ignore
 pub fn notify<T: Summary>(item: &T) {
@@ -227,66 +126,48 @@ pub fn notify<T: Summary>(item: &T) {
 }
 ```
 
-This longer form is equivalent to the example in the previous section but is
-more verbose. We place trait bounds with the declaration of the generic type
-parameter after a colon and inside angle brackets.
+此格式等同於之前段落的範例，只是比較長一點。我們將特徵界限置於泛型型別參數的宣告中，在尖括號內接在冒號之後。
 
-The `impl Trait` syntax is convenient and makes for more concise code in simple
-cases. The trait bound syntax can express more complexity in other cases. For
-example, we can have two parameters that implement `Summary`. Using the `impl
-Trait` syntax looks like this:
+`impl Trait` 語法比較方便，而且在簡單的案例中可以讓程式碼比較簡潔；特徵界限語法則適合用於其他比較複雜的案例。舉例來說我們可以有兩個有實作 `Summary` 的參數，使用 `impl Trait` 語法看起來會像這樣：
 
 ```rust,ignore
 pub fn notify(item1: &impl Summary, item2: &impl Summary) {
 ```
 
-If we wanted this function to allow `item1` and `item2` to have different
-types, using `impl Trait` would be appropriate (as long as both types implement
-`Summary`). If we wanted to force both parameters to have the same type, that’s
-only possible to express using a trait bound, like this:
+如果我們想要此函式允許 `item1` 和 `item2` 是不同型別的話，使用 `impl Trait` 的確是正確的（只要它們都有實作 `Summary`）。不過如果我們希望兩個參數都是同一型別的話，我們就得使用特徵界限來表達，如以下所示：
 
 ```rust,ignore
 pub fn notify<T: Summary>(item1: &T, item2: &T) {
 ```
 
-The generic type `T` specified as the type of the `item1` and `item2`
-parameters constrains the function such that the concrete type of the value
-passed as an argument for `item1` and `item2` must be the same.
+泛型型別 `T` 作爲 `item1` 和 `item2` 的參數會限制函式，讓傳遞給 `item1` 和 `item2` 參數的數值型別必須相同。
 
-#### Specifying Multiple Trait Bounds with the `+` Syntax
+#### 透過 `+` 來指定多個特徵界限
 
-We can also specify more than one trait bound. Say we wanted `notify` to use
-display formatting on `item` as well as the `summarize` method: we specify in
-the `notify` definition that `item` must implement both `Display` and
-`Summary`. We can do so using the `+` syntax:
+我們也可以指定不只一個特徵界限。假設我們還想要 `notify` 中的 `item` 不只能夠呼叫 `summarize` 方法，還能顯示格式化訊息的話，我們可以在 `notify` 定義中指定 `item` 必須同時要有 `Display` 和
+`Summary`。這可以使用 `+` 語法來達成：
 
 ```rust,ignore
 pub fn notify(item: &(impl Summary + Display)) {
 ```
 
-The `+` syntax is also valid with trait bounds on generic types:
+`+` 也能用在泛型型別的特徵界限中：
 
 ```rust,ignore
 pub fn notify<T: Summary + Display>(item: &T) {
 ```
 
-With the two trait bounds specified, the body of `notify` can call `summarize`
-and use `{}` to format `item`.
+有了這兩個特徵界限，`notify` 本體就能呼叫 `summarize` 以及使用 `{}` 來格式化 `item`。
 
-#### Clearer Trait Bounds with `where` Clauses
+#### 透過 `where` 來使特徵界限更清楚
 
-Using too many trait bounds has its downsides. Each generic has its own trait
-bounds, so functions with multiple generic type parameters can contain lots of
-trait bound information between the function’s name and its parameter list,
-making the function signature hard to read. For this reason, Rust has alternate
-syntax for specifying trait bounds inside a `where` clause after the function
-signature. So instead of writing this:
+使用太多特徵界限也會帶來壞處。每個泛型都有自己的特徵界限，所以有數個泛型型別的函式可以在函式名稱與參數列表之間包含大量的特徵界限資訊，讓函式簽名難以閱讀。因此 Rust 有提供另一個在函式簽名之後指定特徵界限的語法 `where`。所以與其這樣寫：
 
 ```rust,ignore
 fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {
 ```
 
-we can use a `where` clause, like this:
+我們可以這樣寫 `where` 的語法，如以下所示：
 
 ```rust,ignore
 fn some_function<T, U>(t: &T, u: &U) -> i32
@@ -295,91 +176,51 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 {
 ```
 
-This function’s signature is less cluttered: the function name, parameter list,
-and return type are close together, similar to a function without lots of trait
-bounds.
+此函式簽名就沒有這麼複雜了，函式名稱、參數列表與回傳型別能靠得比較近，就像沒有一堆特徵界限的函式一樣。
 
-### Returning Types that Implement Traits
+### 返回有實作特徵的型別
 
-We can also use the `impl Trait` syntax in the return position to return a
-value of some type that implements a trait, as shown here:
+我們也能在回傳的位置使用 `impl Trait` 語法來回傳某個有實作特徵的型別數值，如以下所示：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-05-returning-impl-trait/src/lib.rs:here}}
 ```
 
-By using `impl Summary` for the return type, we specify that the
-`returns_summarizable` function returns some type that implements the `Summary`
-trait without naming the concrete type. In this case, `returns_summarizable`
-returns a `Tweet`, but the code calling this function doesn’t know that.
+將 `impl Summary` 作爲回傳型別的同時，我們在函式 `returns_summarizable` 指定回傳有實作 `Summary` 特徵的型別而不必指出實際型別。在此例中，`returns_summarizable` 回傳 `Tweet`，但呼叫此函式的程式碼不會知道。
 
-The ability to return a type that is only specified by the trait it implements
-is especially useful in the context of closures and iterators, which we cover
-in Chapter 13. Closures and iterators create types that only the compiler knows
-or types that are very long to specify. The `impl Trait` syntax lets you
-concisely specify that a function returns some type that implements the
-`Iterator` trait without needing to write out a very long type.
+回傳一個只有指定所需實作特徵的型別的能力在閉包（closures）與疊代器（iterators）中非常有用，我們會在第十三章介紹它們。閉包與疊代器能建立只有編譯器知道的型別，或是太長而難以指定的型別。`impl Trait` 語法允許你不用寫出很長的型別，而是只要指定函數會回傳有實作 `Iterator` 特徵的型別就好。
 
-However, you can only use `impl Trait` if you’re returning a single type. For
-example, this code that returns either a `NewsArticle` or a `Tweet` with the
-return type specified as `impl Summary` wouldn’t work:
+然而如果你使用 `impl Trait` 的話，你就只能回傳單一型別。舉例來說此程式碼指定回傳型別爲 `impl Summary` ，但是寫說可能會回傳 `NewsArticle` 或 `Tweet` 的話就會無法執行：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-06-impl-trait-returns-one-type/src/lib.rs:here}}
 ```
 
-Returning either a `NewsArticle` or a `Tweet` isn’t allowed due to restrictions
-around how the `impl Trait` syntax is implemented in the compiler. We’ll cover
-how to write a function with this behavior in the [“Using Trait Objects That
-Allow for Values of Different
-Types”][using-trait-objects-that-allow-for-values-of-different-types]<!--
-ignore --> section of Chapter 17.
+寫說可能返回 `NewsArticle` 或 `Tweet` 的話是不被允許的，因爲 `impl Trait` 語法會限制在編譯器中最終決定的型別。我們會在第十七章的[「允許不同型別數值的特徵物件」][using-trait-objects-that-allow-for-values-of-different-types]<!-- ignore -->來討論如何寫出這種行爲的函式。
 
-### Fixing the `largest` Function with Trait Bounds
+### 透過特徵界限修正 `largest` 函式
 
-Now that you know how to specify the behavior you want to use using the generic
-type parameter’s bounds, let’s return to Listing 10-5 to fix the definition of
-the `largest` function that uses a generic type parameter! Last time we tried
-to run that code, we received this error:
+現在你既然已經知道如何使用泛型型別參數來指定你想使用的行爲，就讓我們回到範例 10-5 來使用泛型型別參數來修正 `largest` 函式的定義吧！上次我們試著執行此程式時，我們獲得這樣的錯誤：
 
 ```text
 {{#include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-05/output.txt}}
 ```
 
-In the body of `largest` we wanted to compare two values of type `T` using the
-greater than (`>`) operator. Because that operator is defined as a default
-method on the standard library trait `std::cmp::PartialOrd`, we need to specify
-`PartialOrd` in the trait bounds for `T` so the `largest` function can work on
-slices of any type that we can compare. We don’t need to bring `PartialOrd`
-into scope because it’s in the prelude. Change the signature of `largest` to
-look like this:
+在 `largest` 我們想要用大於（`>`）運算子比較兩個型別的爲 `T` 的數值。由於該運算子是從標準函式庫中的特徵 `std::cmp::PartialOrd` 的預設方法所定義的，我們希望在 `T` 中加上 `PartialOrd` 的特徵界限，讓函式可以比較任意型別的 slice。我們不需要將 `PartialOrd` 引入作用域因爲它由 prelude 提供。請變更 `largest` 的簽名如以下所示：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-07-fixing-listing-10-05/src/main.rs:here}}
 ```
 
-This time when we compile the code, we get a different set of errors:
+這次編譯程式碼時，我們會得到不同的錯誤：
 
 ```console
 {{#include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-07-fixing-listing-10-05/output.txt}}
 ```
 
-The key line in this error is `cannot move out of type [T], a non-copy slice`.
-With our non-generic versions of the `largest` function, we were only trying to
-find the largest `i32` or `char`. As discussed in the [“Stack-Only Data:
-Copy”][stack-only-data-copy]<!-- ignore --> section in Chapter 4, types like
-`i32` and `char` that have a known size can be stored on the stack, so they
-implement the `Copy` trait. But when we made the `largest` function generic,
-it became possible for the `list` parameter to have types in it that don’t
-implement the `Copy` trait. Consequently, we wouldn’t be able to move the
-value out of `list[0]` and into the `largest` variable, resulting in this
-error.
+此錯誤的關鍵在 `cannot move out of type [T], a non-copy slice`。在我們非泛型版本的函式 `largest` 中，我們只有嘗試尋找 `i32` 或 `char` 的最大值。如同第四章[「只在堆疊上的資料：拷貝（Copy）」][stack-only-data-copy]<!-- ignore -->段落所提到的，像 `i32` 和 `char` 這樣的型別是已知大小可以存在堆疊上，所以它們有實作 `Copy` 特徵。但當我們建立泛型函式 `largest` 時，`list` 參數就有可能拿到沒有實作 `Copy` 特徵的型別。隨後導致我們無法將 `list[0]` 移出給變數 `largest`，最後產生錯誤。
 
-To call this code with only those types that implement the `Copy` trait, we can
-add `Copy` to the trait bounds of `T`! Listing 10-15 shows the complete code of
-a generic `largest` function that will compile as long as the types of the
-values in the slice that we pass into the function implement the `PartialOrd`
-*and* `Copy` traits, like `i32` and `char` do.
+要限制此程式碼只允許有實作 `Copy` 特徵的型別，我們可以再 `T` 的特徵界限中加上 `Copy`！範例 10-15 展示了泛型函式 `largest` 完整的程式碼，只要我們傳遞給函式的 slice 數值型別有實作 `PartialOrd`*和* `Copy` 特徵的話（像是 `i32` 和 `char`），就能編譯成功。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -387,32 +228,15 @@ values in the slice that we pass into the function implement the `PartialOrd`
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-15/src/main.rs}}
 ```
 
-<span class="caption">範例 10-15: A working definition of the `largest`
-function that works on any generic type that implements the `PartialOrd` and
-`Copy` traits</span>
+<span class="caption">範例 10-15：一個適用於任何實作 `PartialOrd` 與 `Copy` 特徵的泛型的 `largest` 函式</span>
 
-If we don’t want to restrict the `largest` function to the types that implement
-the `Copy` trait, we could specify that `T` has the trait bound `Clone` instead
-of `Copy`. Then we could clone each value in the slice when we want the
-`largest` function to have ownership. Using the `clone` function means we’re
-potentially making more heap allocations in the case of types that own heap
-data like `String`, and heap allocations can be slow if we’re working with
-large amounts of data.
+如果我們不想要限制函式 `largest` 只接受實作 `Copy` 特徵的型別，我們可以在 `T` 中改指定 `Clone` 而非 `Copy`。這樣當我們想要 `largest` 取得所有權，我們就可以克隆 slice 的數值。使用 `clone` 函式代表我們對於像是 `String` 這樣擁有堆積資料的型別，可能會產生更多堆積分配。而如果我們處理的資料很龐大的話，堆積分配的速度可能就會很慢。
 
-Another way we could implement `largest` is for the function to return a
-reference to a `T` value in the slice. If we change the return type to `&T`
-instead of `T`, thereby changing the body of the function to return a
-reference, we wouldn’t need the `Clone` or `Copy` trait bounds and we could
-avoid heap allocations. Try implementing these alternate solutions on your own!
+另一種實作 `largest` 的方法是我們可以來回傳 slcie 中 `T` 數值的引用。如果我們將回傳型別改成 `&T` 而非 `T`，也就是改變函式本體來回傳引用的話，我們就不需要 `Clone` 或 `Copy` 特徵界限，也能避免堆積分配。請試著自己實作這個解決辦法看看吧！
 
-### Using Trait Bounds to Conditionally Implement Methods
+### 透過特徵界限來選擇性實作方法
 
-By using a trait bound with an `impl` block that uses generic type parameters,
-we can implement methods conditionally for types that implement the specified
-traits. For example, the type `Pair<T>` in Listing 10-16 always implements the
-`new` function. But `Pair<T>` only implements the `cmp_display` method if its
-inner type `T` implements the `PartialOrd` trait that enables comparison *and*
-the `Display` trait that enables printing.
+在有使用泛型型別參數 `impl` 區塊中使用特徵界限，我們可以選擇性地對有實作特定特徵的型別來時錯方法。舉例來說，範例 10-16 的 `Pair<T>` 只有在其內部型別 `T` 有實作能夠做比較的 `PartialOrd` 特徵以及能夠顯示在螢幕的 `Display` 特徵的話，才會實作 `cmp_display` 方法。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -420,15 +244,9 @@ the `Display` trait that enables printing.
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-16/src/lib.rs}}
 ```
 
-<span class="caption">範例 10-16: Conditionally implement methods on a
-generic type depending on trait bounds</span>
+<span class="caption">範例 10-16：依據特徵界限來選擇性地在泛型型別實作方法</span>
 
-We can also conditionally implement a trait for any type that implements
-another trait. Implementations of a trait on any type that satisfies the trait
-bounds are called *blanket implementations* and are extensively used in the
-Rust standard library. For example, the standard library implements the
-`ToString` trait on any type that implements the `Display` trait. The `impl`
-block in the standard library looks similar to this code:
+我們還可以對有實作其他特徵的型別選擇性地來實作特徵。對滿足特徵界限的型別實作特徵會稱之爲*毯子實作（blanket implementations）*，這被廣泛地用在 Rust 標準函式庫中。舉例來說，標準函式庫會對任何有實作 `Display` 特徵的型別實作 `ToString`。標準函式庫中的 `impl` 區塊會有類似這樣的程式碼：
 
 ```rust,ignore
 impl<T: Display> ToString for T {
@@ -436,36 +254,23 @@ impl<T: Display> ToString for T {
 }
 ```
 
-Because the standard library has this blanket implementation, we can call the
-`to_string` method defined by the `ToString` trait on any type that implements
-the `Display` trait. For example, we can turn integers into their corresponding
-`String` values like this because integers implement `Display`:
+因爲標準函式庫有此毯子實作，我們可以在任何有實作 `Display` 特徵的型別呼叫 `ToString` 特徵的 `to_string` 方法。舉例來說，我們可以像這樣將整數轉變成對應的 `String` 數值，因爲整數有實作 `Display`：
 
 ```rust
 let s = 3.to_string();
 ```
 
-Blanket implementations appear in the documentation for the trait in the
-“Implementors” section.
+毯子實作在特徵技術文件的「Implementors」段落有做說明。
 
-Traits and trait bounds let us write code that uses generic type parameters to
-reduce duplication but also specify to the compiler that we want the generic
-type to have particular behavior. The compiler can then use the trait bound
-information to check that all the concrete types used with our code provide the
-correct behavior. In dynamically typed languages, we would get an error at
-runtime if we called a method on a type which didn’t define the method. But Rust
-moves these errors to compile time so we’re forced to fix the problems before
-our code is even able to run. Additionally, we don’t have to write code that
-checks for behavior at runtime because we’ve already checked at compile time.
-Doing so improves performance without having to give up the flexibility of
-generics.
+特徵與特徵界限讓我們能使用泛型型別參數來減少重複的程式碼的同時，告訴編譯器該泛型型別該擁有何種行爲。編譯器可以利用特徵界限資訊來檢查程式碼提供的實際型別有沒有符合特定行爲。在動態語言中，我們要是呼叫一個該型別沒有的方法的話，我們會在執行時才發生錯誤。但是 Rust 將此錯誤移到執行期間，讓我們必須在程式能夠執行之前確保有修正此問題。除此之外，我們還不用寫在執行時檢查此行爲的程式碼，因爲我們已經在編譯時就檢查了。這麼做我們可以在不失去泛型彈性的情況下，提升效能。
 
-Another kind of generic that we’ve already been using is called *lifetimes*.
-Rather than ensuring that a type has the behavior we want, lifetimes ensure
-that references are valid as long as we need them to be. Let’s look at how
-lifetimes do that.
+另一種我們已經看過的泛型爲*生命週期（lifetimes）*。不同於確保一個型別有沒有我們要的行爲，生命週期確保我們在需要引用的時候，它們都是有效的。讓我們來看看生命週期是怎麼做到的。
 
 [stack-only-data-copy]:
 ch04-01-what-is-ownership.html#stack-only-data-copy
 [using-trait-objects-that-allow-for-values-of-different-types]:
 ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch10-02-traits.md)
+> - updated: 2020-09-15

@@ -110,8 +110,7 @@ We can use a trait object:
 ```
 
 This code will compile just fine. For more about trait objects, refer to the
-section [“Using Trait Objects That Allow for Values of Different
-Types”][using-trait-objects-that-allow-for-values-of-different-types]<!--
+section [“允許不同型別數值的特徵物件”][using-trait-objects-that-allow-for-values-of-different-types]<!--
 ignore --> in Chapter 17.
 
 Next, let’s look at macros!
