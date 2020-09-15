@@ -255,7 +255,7 @@ To learn more, run the command again with --verbose.
 }
 </code></pre>
 <p><span class="caption">範例 10-20：<code>main</code> 函式呼叫 <code>longest</code> 函式來找出兩個字串 slice 中較長的</span></p>
-<p>注意我們需要函式接收的字串 slice 屬於引用，因爲我們不希望 <code>longest</code> 函式會取得它參數的所有權。第四章的<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2-Slice-%E4%BD%9C%E7%88%B2%E5%8F%83%E6%95%B8">「字串 Slice 作爲參數」</a><!-- ignore -->段落有提到爲何範例 10-20 的參數正是我們所想要使用的參數。</p>
+<p>注意我們需要函式接收的字串 slice 屬於引用，因爲我們不希望 <code>longest</code> 函式會取得它參數的所有權。第四章的<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2-slice-%E4%BD%9C%E7%88%B2%E5%8F%83%E6%95%B8">「字串 Slice 作爲參數」</a><!-- ignore -->段落有提到爲何範例 10-20 的參數正是我們所想要使用的參數。</p>
 <p>如果我們嘗試實作 <code>longest</code> 函式時，如範例 10-21 所示，它不會編譯過。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
