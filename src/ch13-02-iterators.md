@@ -44,7 +44,7 @@ could potentially mess up. Iterators give you more flexibility to use the same
 logic with many different kinds of sequences, not just data structures you can
 index into, like vectors. Let’s examine how iterators do that.
 
-### The `Iterator` Trait and the `next` Method
+### `Iterator` 特徵與 `next` 方法
 
 All iterators implement a trait named `Iterator` that is defined in the
 standard library. The definition of the trait looks like this:

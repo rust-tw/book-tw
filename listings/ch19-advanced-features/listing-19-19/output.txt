@@ -2,4 +2,4 @@ $ cargo run
    Compiling traits-example v0.1.0 (file:///projects/traits-example)
     Finished dev [unoptimized + debuginfo] target(s) in 0.54s
      Running `target/debug/traits-example`
-A baby dog is called a Spot
+幼犬被稱作小不點

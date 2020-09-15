@@ -1,4 +1,4 @@
-## Traits: Defining Shared Behavior
+## 特徵：定義共享行爲
 
 A *trait* tells the Rust compiler about functionality a particular type has and
 can share with other types. We can use traits to define shared behavior in an
@@ -50,7 +50,7 @@ defined with this signature exactly.
 A trait can have multiple methods in its body: the method signatures are listed
 one per line and each line ends in a semicolon.
 
-### Implementing a Trait on a Type
+### 對型別實作特徵
 
 Now that we’ve defined the desired behavior using the `Summary` trait, we can
 implement it on the types in our media aggregator. Listing 10-13 shows an
