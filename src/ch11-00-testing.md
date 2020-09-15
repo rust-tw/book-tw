@@ -1,34 +1,15 @@
-# Writing Automated Tests
+# 編寫自動化測試
 
-In his 1972 essay “The Humble Programmer,” Edsger W. Dijkstra said that
-“Program testing can be a very effective way to show the presence of bugs, but
-it is hopelessly inadequate for showing their absence.” That doesn’t mean we
-shouldn’t try to test as much as we can!
+Edsger W. Dijkstra 曾在 1972 年的演講「謙遜的程式設計師」中提到：「程式測試是個證明程式錯誤存在非常有效的方法，但要證明它不存在卻反而顯得十分無力。」這不代表我們不應該盡可能地做測試！
 
-Correctness in our programs is the extent to which our code does what we intend
-it to do. Rust is designed with a high degree of concern about the correctness
-of programs, but correctness is complex and not easy to prove. Rust’s type
-system shoulders a huge part of this burden, but the type system cannot catch
-every kind of incorrectness. As such, Rust includes support for writing
-automated software tests within the language.
+程式碼的正確性意謂著我們的程式碼可以如我們的預期執行。Rust 就被設計爲特別注重程式的正確性，但正確性是很複雜且難以證明的。Rust 的型別系統就承擔來很大一部分的負擔，但是型別系統還是沒辦法抓到所有不正確的地方。所以 Rust 在語言內提供了編寫自動化程式測試的支援。
 
-As an example, say we write a function called `add_two` that adds 2 to whatever
-number is passed to it. This function’s signature accepts an integer as a
-parameter and returns an integer as a result. When we implement and compile
-that function, Rust does all the type checking and borrow checking that you’ve
-learned so far to ensure that, for instance, we aren’t passing a `String` value
-or an invalid reference to this function. But Rust *can’t* check that this
-function will do precisely what we intend, which is return the parameter plus 2
-rather than, say, the parameter plus 10 or the parameter minus 50! That’s where
-tests come in.
+舉例來說，假設我們要寫個程式叫做 `add_two`，其會將傳入任意數字加上 2。此函式簽名接受整數作爲參數並回傳一個整數作爲結果。當我們實作並編譯函式時，Rust 會做所有你已經學過的型別檢查與借用檢查，來確保像是我們不會中傳入 `String` 數值或任意無效引用至此函式。但 Rust *無法*檢查會不會執行我們預期此函式會完成的任務，也就是回傳加上 2 的參數。說不等它會將參數加上 10 或減 50！這就是我們要做測試的地方。
 
-We can write tests that assert, for example, that when we pass `3` to the
-`add_two` function, the returned value is `5`. We can run these tests whenever
-we make changes to our code to make sure any existing correct behavior has not
-changed.
+舉例來說，我們可以寫測試來判定當我們傳入 `3` 給函式 `add_two` 時，回傳值是不是 `5`。我們可以再變更我們的程式碼時來執行這些測試，以確保原本就正確的行爲不會被改變。
 
-Testing is a complex skill: although we can’t cover every detail about how to
-write good tests in one chapter, we’ll discuss the mechanics of Rust’s testing
-facilities. We’ll talk about the annotations and macros available to you when
-writing your tests, the default behavior and options provided for running your
-tests, and how to organize tests into unit tests and integration tests.
+測試是個複雜的技能，雖然我們無法在一個章節就涵蓋如何寫出好測試的細節，但我們還是會討論 Rust 測試功能機制。我們會介紹當你寫測時時可以用的詮釋與巨集、執行測試時的預設行爲與選項以及如何組織測試成單元測試與整合測試。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch11-00-testing.md)
+> - updated: 2020-09-15

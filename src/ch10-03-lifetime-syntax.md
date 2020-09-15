@@ -325,7 +325,7 @@ let s: &'static str = "I have a static lifetime.";
 [references-and-borrowing]:
 ch04-02-references-and-borrowing.html#引用與借用
 [string-slices-as-parameters]:
-ch04-03-slices.html#字串-Slice-作爲參數
+ch04-03-slices.html#字串-slice-作爲參數
 [reference]: ../reference/index.html
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
