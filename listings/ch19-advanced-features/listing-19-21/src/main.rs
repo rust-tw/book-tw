@@ -6,18 +6,18 @@ struct Dog;
 
 impl Dog {
     fn baby_name() -> String {
-        String::from("Spot")
+        String::from("小不點")
     }
 }
 
 impl Animal for Dog {
     fn baby_name() -> String {
-        String::from("puppy")
+        String::from("小狗崽")
     }
 }
 
 // ANCHOR: here
 fn main() {
-    println!("A baby dog is called a {}", <Dog as Animal>::baby_name());
+    println!("幼犬被稱作{}", <Dog as Animal>::baby_name());
 }
 // ANCHOR_END: here
