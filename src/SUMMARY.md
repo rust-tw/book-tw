@@ -116,7 +116,7 @@
 - [進階特色](ch19-00-advanced-features.md)
     - [Unsafe Rust](ch19-01-unsafe-rust.md)
     - [進階特徵](ch19-03-advanced-traits.md)
-    - [Advanced Types](ch19-04-advanced-types.md)
+    - [進階型別](ch19-04-advanced-types.md)
     - [Advanced Functions and Closures](ch19-05-advanced-functions-and-closures.md)
     - [Macros](ch19-06-macros.md)
 
