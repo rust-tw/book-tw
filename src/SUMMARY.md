@@ -61,7 +61,7 @@
 
 - [Writing Automated Tests](ch11-00-testing.md)
     - [How to Write Tests](ch11-01-writing-tests.md)
-    - [Controlling How Tests Are Run](ch11-02-running-tests.md)
+    - [控制程式如何執行](ch11-02-running-tests.md)
     - [Test Organization](ch11-03-test-organization.md)
 
 - [An I/O Project: Building a Command Line Program](ch12-00-an-io-project.md)
@@ -128,7 +128,7 @@
 - [Appendix](appendix-00.md)
     - [A - Keywords](appendix-01-keywords.md)
     - [B - Operators and Symbols](appendix-02-operators.md)
-    - [C - Derivable Traits](appendix-03-derivable-traits.md)
+    - [C - 可推導的特徵](appendix-03-derivable-traits.md)
     - [D - Useful Development Tools](appendix-04-useful-development-tools.md)
     - [E - Editions](appendix-05-editions.md)
     - [F - Translations of the Book](appendix-06-translation.md)

@@ -1,4 +1,4 @@
-## Controlling How Tests Are Run
+## 控制程式如何執行
 
 Just as `cargo run` compiles your code and then runs the resulting binary,
 `cargo test` compiles your code in test mode and runs the resulting test

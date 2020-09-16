@@ -1,4 +1,4 @@
-## Appendix C: Derivable Traits
+## Appendix C: 可推導的特徵
 
 In various places in the book, we’ve discussed the `derive` attribute, which
 you can apply to a struct or enum definition. The `derive` attribute generates
@@ -30,7 +30,7 @@ allowed to see? What parts would they find relevant? What format of the data
 would be most relevant to them? The Rust compiler doesn’t have this insight, so
 it can’t provide appropriate default behavior for you.
 
-The list of derivable traits provided in this appendix is not comprehensive:
+The list of 可推導的特徵 provided in this appendix is not comprehensive:
 libraries can implement `derive` for their own traits, making the list of
 traits you can use `derive` with truly open-ended. Implementing `derive`
 involves using a procedural macro, which is covered in the

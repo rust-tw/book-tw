@@ -1,39 +1,22 @@
 ## 如何寫測試
 
-Tests are Rust functions that verify that the non-test code is functioning in
-the expected manner. The bodies of test functions typically perform these three
-actions:
+測試是一種 Rust 函式來驗證非測試程式碼是否以預期的方式執行。測試函式的本體通常會做三件動作：
 
-1. Set up any needed data or state.
-2. Run the code you want to test.
-3. Assert the results are what you expect.
+1. 設置任何鎖需要的資料或狀態。
+2. 執行你希望測試的程式碼
+3. 判定結果是否與你預期的相符。
 
-Let’s look at the features Rust provides specifically for writing tests that
-take these actions, which include the `test` attribute, a few macros, and the
-`should_panic` attribute.
+讓我們看看 Rust 特地提供給測試的功能：包含 `test` 屬性（attribute）、一些巨集以及 `should_panic` 屬性。
 
-### The Anatomy of a Test Function
+### 測試函式剖析
 
-At its simplest, a test in Rust is a function that’s annotated with the `test`
-attribute. Attributes are metadata about pieces of Rust code; one example is
-the `derive` attribute we used with structs in Chapter 5. To change a function
-into a test function, add `#[test]` on the line before `fn`. When you run your
-tests with the `cargo test` command, Rust builds a test runner binary that runs
-the functions annotated with the `test` attribute and reports on whether each
-test function passes or fails.
+最簡單的形式來看，測試在 Rust 中就是附有 `test` 屬性的函式。屬性（Attributes）是一種關於某段 Rust 程式碼的詮釋資料（metadata），其中一個例子是我們在第五章使用的 `derive` 屬性。要將一個函式轉換成測試函式，在 `fn` 前一行加上 `#[test]` 即可。當你用 `cargo test` 命令來執行你的測試時，Rust 會建構一個測試執行檔並執行標有 `test` 屬性的程式，並回報每個測試函式是否通過或失敗。
 
-When we make a new library project with Cargo, a test module with a test
-function in it is automatically generated for us. This module helps you start
-writing your tests so you don’t have to look up the exact structure and syntax
-of test functions every time you start a new project. You can add as many
-additional test functions and as many test modules as you want!
+當我們用 Cargo 建立新的函式庫專案時，同時會自動建立一個擁有測試函式的測試模組。此模組能協助我們開始寫測試，讓你不必在每次建立新專案時，尋找特定結構體與測試函式的語法。你可以新增多少測試函式與多少測試模組都沒問題！
 
-We’ll explore some aspects of how tests work by experimenting with the template
-test generated for us without actually testing any code. Then we’ll write some
-real-world tests that call some code that we’ve written and assert that its
-behavior is correct.
+我們將會透過實驗測試產生的樣板而非實際測試任何程式碼，來探索測試如何運作的每個環節。然後我們會寫些現實世界會寫得測試，呼叫我們寫的程式碼並判定其行爲是否正確。
 
-Let’s create a new library project called `adder`:
+讓我們建立個函式庫專案叫做 `adder`：
 
 ```console
 $ cargo new adder --lib
@@ -41,8 +24,7 @@ $ cargo new adder --lib
 $ cd adder
 ```
 
-The contents of the *src/lib.rs* file in your `adder` library should look like
-Listing 11-1.
+函式庫專案 `adder` 中的 *src/lib.rs* 檔案內容會長得像範例 11-1 所示。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -50,60 +32,31 @@ Listing 11-1.
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-01/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 11-1: The test module and function generated
-automatically by `cargo new`</span>
+<span class="caption">範例 11-1：透過 `cargo new` 自動產生的測試模組與函式</span>
 
-For now, let’s ignore the top two lines and focus on the function to see how it
-works. Note the `#[test]` annotation before the `fn` line: this attribute
-indicates this is a test function, so the test runner knows to treat this
-function as a test. We could also have non-test functions in the `tests` module
-to help set up common scenarios or perform common operations, so we need to
-indicate which functions are tests by using the `#[test]` attribute.
+現在我們先忽略開頭前兩行並專注在函式，看看它執行的。注意到 `fn` 上一行的 `#[test]` 詮釋：此屬性指出這是測試函式，所以測試者會知道此函式是用來測試的。我們也可以在 `tests` 模組中加入非測試函式來協助設置常見場景或是執行常見運算，所以我們需要在想要測試的函式前加上 `#[test]` 屬性。
 
-The function body uses the `assert_eq!` macro to assert that 2 + 2 equals 4.
-This assertion serves as an example of the format for a typical test. Let’s run
-it to see that this test passes.
+函式本體使用 `assert_eq!` 巨集來判定 2 + 2 等於 4。此判定是作爲典型測試的範例格式。讓我們執行它來看看此測試是否會通過。
 
-The `cargo test` command runs all tests in our project, as shown in Listing
-11-2.
+`cargo test` 命令會執行專案中的所有測試，如範例 11-2 所示。
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/listing-11-01/output.txt}}
 ```
 
-<span class="caption">範例 11-2: The output from running the automatically
-generated test</span>
+<span class="caption">範例 11-2：執行自動產生的測試的輸出結果</span>
 
-Cargo compiled and ran the test. After the `Compiling`, `Finished`, and
-`Running` lines is the line `running 1 test`. The next line shows the name
-of the generated test function, called `it_works`, and the result of running
-that test, `ok`. The overall summary of running the tests appears next. The
-text `test result: ok.` means that all the tests passed, and the portion that
-reads `1 passed; 0 failed` totals the number of tests that passed or failed.
+Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之後會出現 `running 1 test` 此行。下一行會顯示自動產生的測試函式 `it_works` 以及測試執行的結果 `ok`。再來可以看到整體總結，`test result: ok.` 代表所有測試都有通過，然後 `1 passed; 0 failed` 指出所有測試成功或失敗的數量。
 
-Because we don’t have any tests we’ve marked as ignored, the summary shows `0
-ignored`. We also haven’t filtered the tests being run, so the end of the
-summary shows `0 filtered out`. We’ll talk about ignoring and filtering out
-tests in the next section, [“Controlling How Tests Are
-Run.”][controlling-how-tests-are-run]<!-- ignore -->
+因爲我們尚未有任何會忽略的程式碼，所以總結會顯示 `0 ignored`。我們也沒有過濾會值行的測試，所以總結最後顯示 `0 filtered out`。我們會在下個段落 [「控制程式如何執行」][controlling-how-tests-are-run]<!-- ignore --> 來討論忽略與過濾測試。
 
-The `0 measured` statistic is for benchmark tests that measure performance.
-Benchmark tests are, as of this writing, only available in nightly Rust. See
-[the documentation about benchmark tests][bench] to learn more.
+`0 measured` 的統計數值是指評測效能的效能測試。效能測試（Benchmark tests）在本書撰寫時，仍然僅在 nightly Rust 可用。請查閱[效能測試的技術文件][bench]來瞭解詳情。
 
 [bench]: ../unstable-book/library-features/test.html
 
-The next part of the test output, which starts with `Doc-tests adder`, is for
-the results of any documentation tests. We don’t have any documentation tests
-yet, but Rust can compile any code examples that appear in our API
-documentation. This feature helps us keep our docs and our code in sync! We’ll
-discuss how to write documentation tests in the [“Documentation Comments as
-Tests”][doc-comments]<!-- ignore --> section of Chapter 14. For now, we’ll
-ignore the `Doc-tests` output.
+測試輸出結果的下一部分，也就是 `Doc-tests adder`，是指任何技術文件測試的結果。我們還沒有任何技術文件測試，但是 Rust 可以編譯在 API 技術文件中的任何程式碼範例。此功能能幫助我們將技術文件與程式碼保持同步！我們會在第十四章的 [「將技術文件註解作爲測試」][doc-comments]<!-- ignore -->段落討論如何寫技術文件測試。現在我們會先忽略 `Doc-tests` 的輸出結果。
 
-Let’s change the name of our test to see how that changes the test output.
-Change the `it_works` function to a different name, such as `exploration`, like
-so:
+讓我們變更程式碼的名稱來看看測試輸出會變成什麼。將 `it_works` 函式變更名稱，像是以下改成 `exploration` 這樣：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -111,19 +64,13 @@ so:
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-01-changing-test-name/src/lib.rs:here}}
 ```
 
-Then run `cargo test` again. The output now shows `exploration` instead of
-`it_works`:
+然後在執行一次 `cargo test`，輸出會顯示 `exploration` 而非 `it_works`：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/no-listing-01-changing-test-name/output.txt}}
 ```
 
-Let’s add another test, but this time we’ll make a test that fails! Tests fail
-when something in the test function panics. Each test is run in a new thread,
-and when the main thread sees that a test thread has died, the test is marked
-as failed. We talked about the simplest way to cause a panic in Chapter 9,
-which is to call the `panic!` macro. Enter the new test, `another`, so your
-*src/lib.rs* file looks like Listing 11-3.
+讓我們在加上另一個測試，不過這次我們要讓測試失敗！測試會在測試函式恐慌時失敗，每個測試會跑在新的執行緒（thread）上，然後當主執行緒看到測試執行緒死亡時，就會將該測試標記爲失敗的。我們有在第九章提及引發恐慌最簡單的辦法，那就是呼叫 `panic!` 巨集。將它寫入新的測試 `another` 中，所以你在 *src/lib.rs* 的檔案中會看到向範例 11-3 這樣。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -131,49 +78,27 @@ which is to call the `panic!` macro. Enter the new test, `another`, so your
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-03/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 11-3: Adding a second test that will fail because
-we call the `panic!` macro</span>
+<span class="caption">範例 11-3：新增第二個會失敗的測試，因爲我們會呼叫 `panic!` 巨集</span>
 
-Run the tests again using `cargo test`. The output should look like Listing
-11-4, which shows that our `exploration` test passed and `another` failed.
+使用 `cargo test` 再執行一次測試，輸出結果應該會像範例 11-4 這樣，顯示出我們的 `exploration` 測試通過但 `another` 失敗。
 
 ```text
 {{#include ../listings/ch11-writing-automated-tests/listing-11-03/output.txt}}
 ```
 
-<span class="caption">範例 11-4: Test results when one test passes and one
-test fails</span>
+<span class="caption">範例 11-4：其中一個測試通過，而另一個失敗的輸出結果</span>
 
-Instead of `ok`, the line `test tests::another` shows `FAILED`. Two new
-sections appear between the individual results and the summary: the first
-section displays the detailed reason for each test failure. In this case,
-`another` failed because it `panicked at 'Make this test fail'`, which happened
-on line 10 in the *src/lib.rs* file. The next section lists just the names of
-all the failing tests, which is useful when there are lots of tests and lots of
-detailed failing test output. We can use the name of a failing test to run just
-that test to more easily debug it; we’ll talk more about ways to run tests in
-the [“Controlling How Tests Are Run”][controlling-how-tests-are-run]<!-- ignore
---> section.
+`test tests::another` 這行會顯示 `FAILED` 而非 `ok`。在獨立結果與總結之間出現了兩個新的段落，第一個段落會顯示每個測試失敗的原因細節。在此例中，`another` 因爲 *src/lib.rs* 檔案中第十行的恐慌 `panicked at 'Make this test fail'` 而失敗。下一個段落則是會列出所有失敗的測試，要是測試很多且失敗測試輸出結果很長的話，此資訊就很實用。我們可以使用失敗測試的名稱來只執行這個測試以便除錯。我們會在[「控制程式如何執行」][controlling-how-tests-are-run]<!-- ignore -->段落討論更多執行測試的方法。
 
-The summary line displays at the end: overall, our test result is `FAILED`.
-We had one test pass and one test fail.
+總結會顯示在最後一行，在此例中它表示我們有一個測試結果是 `FAILED`。也就是我們有一個測試通過，一個測試失敗。
 
-Now that you’ve seen what the test results look like in different scenarios,
-let’s look at some macros other than `panic!` that are useful in tests.
+現在你知道測試結果在不同場合看起來的樣子，讓我們來看看除了 `panic!` 以外對測試也很有幫助的巨集吧。
 
-### Checking Results with the `assert!` Macro
+### 透過 `assert!` 巨集檢查結果
 
-The `assert!` macro, provided by the standard library, is useful when you want
-to ensure that some condition in a test evaluates to `true`. We give the
-`assert!` macro an argument that evaluates to a Boolean. If the value is
-`true`, `assert!` does nothing and the test passes. If the value is `false`,
-the `assert!` macro calls the `panic!` macro, which causes the test to fail.
-Using the `assert!` macro helps us check that our code is functioning in the
-way we intend.
+標準函式庫提供的 `assert!` 巨集可以在你要確保測試中的一些條件評估爲 `true` 時使用。我們給予 `assert!` 巨集一個引數來計算出布林值。如果數值爲 `true`，`assert!` 不會做任何動作然後測試就會通過。如果數值爲 `false`，`assert!` 巨集會呼叫 `panic!` 巨集導致測試失敗。使用 `assert!` 巨集能幫助我們檢查我們的程式碼是否以我們預期的方式運作。
 
-In Chapter 5, Listing 5-15, we used a `Rectangle` struct and a `can_hold`
-method, which are repeated here in Listing 11-5. Let’s put this code in the
-*src/lib.rs* file and write some tests for it using the `assert!` macro.
+在第五章的範例 5-15，我們有結構體 `Rectangle` 與方法 `can_hold`，我們在範例 11-5 再看一次。讓我們將此程式碼寫入 *src/lib.rs* 檔案中，並寫些對它使用 `assert!` 巨集的測試。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -181,14 +106,9 @@ method, which are repeated here in Listing 11-5. Let’s put this code in the
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-05/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 11-5: Using the `Rectangle` struct and its
-`can_hold` method from Chapter 5</span>
+<span class="caption">範例 11-5：第五章中的結構體 `Rectangle` 與其方法 `can_hold`</span>
 
-The `can_hold` method returns a Boolean, which means it’s a perfect use case
-for the `assert!` macro. In Listing 11-6, we write a test that exercises the
-`can_hold` method by creating a `Rectangle` instance that has a width of 8 and
-a height of 7 and asserting that it can hold another `Rectangle` instance that
-has a width of 5 and a height of 1.
+`can_hold` 方法會回傳布林值，這代表它是 `assert!` 巨集的絕佳展示機會。在範例 11-6 中，我們寫了個測試來練習 `can_hold` 方法，我們建立了一個寬度爲 8 長度爲 7 的 `Rectangle` 實例，並判定它可以包含另一個寬度爲 5 長度爲 1 的 `Rectangle` 實例。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -196,29 +116,17 @@ has a width of 5 and a height of 1.
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-06/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 11-6: A test for `can_hold` that checks whether a
-larger rectangle can indeed hold a smaller rectangle</span>
+<span class="caption">範例 11-6：一支檢查一個大長方形是否能包含一個小長方形的 `can_hold` 測試</span>
 
-Note that we’ve added a new line inside the `tests` module: `use super::*;`.
-The `tests` module is a regular module that follows the usual visibility rules
-we covered in Chapter 7 in the [“Paths for Referring to an Item in the Module
-Tree”][paths-for-referring-to-an-item-in-the-module-tree]<!-- ignore -->
-section. Because the `tests` module is an inner module, we need to bring the
-code under test in the outer module into the scope of the inner module. We use
-a glob here so anything we define in the outer module is available to this
-`tests` module.
+注意到我們已經在 `tests` 模組中加了一行 `use super::*;`。`tests` 和一般的模組一樣都遵循我們在第七章[「引用模組項目的路徑」][paths-for-referring-to-an-item-in-the-module-tree]<!-- ignore -->提及的常見能見度規則。因爲 `tests` 模組是內部模組，我們需要將外部模組的程式碼引入內部模組的作用域中。我們使用全域運算子（glob）讓外部模組定義的所有程式碼在此 `tests` 模組都可以使用。
 
-We’ve named our test `larger_can_hold_smaller`, and we’ve created the two
-`Rectangle` instances that we need. Then we called the `assert!` macro and
-passed it the result of calling `larger.can_hold(&smaller)`. This expression
-is supposed to return `true`, so our test should pass. Let’s find out!
+我們將我們的測試命名爲 `larger_can_hold_smaller`，然後我們建立兩個我們需要用到的 `Rectangle` 實例。然後我們呼叫 `assert!` 巨集並將 `larger.can_hold(&smaller)` 的結果傳給它。此表達式應該要回傳 `true`，所以我們的程式應該會通過。讓我們看看結果吧！
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/listing-11-06/output.txt}}
 ```
 
-It does pass! Let’s add another test, this time asserting that a smaller
-rectangle cannot hold a larger rectangle:
+它通過了！讓我們再加另一個測試，這是是判定小長方形無法包含大長方形：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -226,49 +134,31 @@ rectangle cannot hold a larger rectangle:
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-02-adding-another-rectangle-test/src/lib.rs:here}}
 ```
 
-Because the correct result of the `can_hold` function in this case is `false`,
-we need to negate that result before we pass it to the `assert!` macro. As a
-result, our test will pass if `can_hold` returns `false`:
+因爲函式 `can_hold` 的正確結果在此例爲 `false`，我們需要將該結果反轉後才能傳給 `assert!` 巨集。因此我們的測試在 `can_hold` 回傳 `false` 時才會通過：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/no-listing-02-adding-another-rectangle-test/output.txt}}
 ```
 
-Two tests that pass! Now let’s see what happens to our test results when we
-introduce a bug in our code. Let’s change the implementation of the `can_hold`
-method by replacing the greater than sign with a less than sign when it
-compares the widths:
+兩個測試都過了！現在讓我們看看當我們在程式碼中引入程式錯誤的話，測試結果會爲何。讓我們來改變 `can_hold` 方法的實作將比較時的大於符號改成小於符號：
 
 ```rust,not_desired_behavior
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-03-introducing-a-bug/src/lib.rs:here}}
 ```
 
-Running the tests now produces the following:
+執行測試的話現在就會顯示以下結果：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/no-listing-03-introducing-a-bug/output.txt}}
 ```
 
-Our tests caught the bug! Because `larger.width` is 8 and `smaller.width` is
-5, the comparison of the widths in `can_hold` now returns `false`: 8 is not
-less than 5.
+我們的測試抓到了錯誤！因爲 `larger.width` 是 8 而 `smaller.width` 是 5，`can_hold` 比較寬度時現在會回傳 `false`，因爲 8 沒有比 5 小。
 
-### Testing Equality with the `assert_eq!` and `assert_ne!` Macros
+### 透過 `assert_eq!` 與 `assert_ne!` Macros測試相等
 
-A common way to test functionality is to compare the result of the code under
-test to the value you expect the code to return to make sure they’re equal. You
-could do this using the `assert!` macro and passing it an expression using the
-`==` operator. However, this is such a common test that the standard library
-provides a pair of macros—`assert_eq!` and `assert_ne!`—to perform this test
-more conveniently. These macros compare two arguments for equality or
-inequality, respectively. They’ll also print the two values if the assertion
-fails, which makes it easier to see *why* the test failed; conversely, the
-`assert!` macro only indicates that it got a `false` value for the `==`
-expression, not the values that lead to the `false` value.
+有一種常見的測試程式的方式是將程式碼的結果與你預期程式碼會回傳的數值做比較，檢查它們是否相等。你可以使用 `assert!` 巨集並傳入使用 `==` 運算子的表達式來辦到。不過這種測試方法是很常見的，所以標準函式庫提供了一對巨集 `assert_eq!` 與 `assert_ne!` 來讓你能更方便地測試。這兩個巨集分別比較兩個引數是否相等或不相等。如果判定失敗的話，它們還會印出兩個數值，讓我們能清楚看到*爲何*測試失敗。相對地，`assert!` 巨集只會說明它在 `==` 表達式中取得 `false` 值，而不會告訴你導致 `false` 的那兩個值。
 
-In Listing 11-7, we write a function named `add_two` that adds `2` to its
-parameter and returns the result. Then we test this function using the
-`assert_eq!` macro.
+在範例 11-7 中，我們寫了個函式叫做 `add_two` 並對參數加上 `2` 然後回傳爲結果。然後我們使用 `assert_eq!` 巨集來測試此函式。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -276,85 +166,42 @@ parameter and returns the result. Then we test this function using the
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-07/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 11-7: Testing the function `add_two` using the
-`assert_eq!` macro</span>
+<span class="caption">範例 11-7：使用 `assert_eq!` 巨集測試函式 `add_two`</span>
 
-Let’s check that it passes!
+讓我們檢查後它的確通過了！
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/listing-11-07/output.txt}}
 ```
 
-The first argument we gave to the `assert_eq!` macro, `4`, is equal to the
-result of calling `add_two(2)`. The line for this test is `test
-tests::it_adds_two ... ok`, and the `ok` text indicates that our test passed!
+我們給予 `assert_eq!` 巨集的第一個引數 `4` 與呼叫 `add_two(2)` 的結果相等。測試的結果爲 `test
+tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 
-Let’s introduce a bug into our code to see what it looks like when a test that
-uses `assert_eq!` fails. Change the implementation of the `add_two` function to
-instead add `3`:
+讓我們在我們的程式碼引入個錯誤，看看使使用 `assert_eq!` 的測試失敗時看起來爲何。變更函式 `add_two` 的實作改成加 `3`：
 
 ```rust,not_desired_behavior
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-04-bug-in-add-two/src/lib.rs:here}}
 ```
 
-Run the tests again:
+再執行一次測試：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/no-listing-04-bug-in-add-two/output.txt}}
 ```
 
-Our test caught the bug! The `it_adds_two` test failed, displaying the message
-`` assertion failed: `(left == right)` `` and showing that `left` was `4` and
-`right` was `5`. This message is useful and helps us start debugging: it means
-the `left` argument to `assert_eq!` was `4` but the `right` argument, where we
-had `add_two(2)`, was `5`.
+我們的測試抓到了錯誤！`it_adds_two` 測試失敗了，並顯示`` assertion failed: `(left == right)` `` 然後接著顯示 `left` 是 `4` 且 `right` 是 `5`。此訊息非常有用，且能幫助我們開始除錯，它代表 `assert_eq!` 的引數 `left` 是 `4` 但是擁有 `add_two(2)` 的引數 `right` 卻是 `5`。
 
-Note that in some languages and test frameworks, the parameters to the
-functions that assert two values are equal are called `expected` and `actual`,
-and the order in which we specify the arguments matters. However, in Rust,
-they’re called `left` and `right`, and the order in which we specify the value
-we expect and the value that the code under test produces doesn’t matter. We
-could write the assertion in this test as `assert_eq!(add_two(2), 4)`, which
-would result in a failure message that displays `` assertion failed: `(left ==
-right)` `` and that `left` was `5` and `right` was `4`.
+注意到在有些語言或測試框架中，判定兩個數值是否相等的函式的參數會稱作 `expected` 和 `actual`，然後它們會因爲指定的引數順序而有差。但在 Rust 中它們被稱爲 `left` 和 `right`，且我們預期的值與測試中程式碼產生的值之間的順序沒有任何影響。我們可以在此程式這樣寫判定 `assert_eq!(add_two(2), 4)`，而錯誤訊息就會顯示成 `` assertion failed: `(left == right)` ``，然後 `left` 會是 `5` 而 `right` 會是 `4`。
 
-The `assert_ne!` macro will pass if the two values we give it are not equal and
-fail if they’re equal. This macro is most useful for cases when we’re not sure
-what a value *will* be, but we know what the value definitely *won’t* be if our
-code is functioning as we intend. For example, if we’re testing a function that
-is guaranteed to change its input in some way, but the way in which the input
-is changed depends on the day of the week that we run our tests, the best thing
-to assert might be that the output of the function is not equal to the input.
+`assert_ne!` 巨集會在我們給予的兩個值不相等時通過，相等時失敗。此巨集適用於當我們不確定一個數值*會是*什麼樣子，但是我們確定知道如果我們程式如預期執行的話，該數值*不會*是某種樣子。舉例來說，如果我們要測試一個保證會以某種形式更改其輸入的函式，但輸入變更的方式是依照我們執行程式時的當天是星期幾來決定，此時最好的判定方式就是檢查函式的輸出不等於輸入。
 
-Under the surface, the `assert_eq!` and `assert_ne!` macros use the operators
-`==` and `!=`, respectively. When the assertions fail, these macros print their
-arguments using debug formatting, which means the values being compared must
-implement the `PartialEq` and `Debug` traits. All the primitive types and most
-of the standard library types implement these traits. For structs and enums
-that you define, you’ll need to implement `PartialEq` to assert that values of
-those types are equal or not equal. You’ll need to implement `Debug` to print
-the values when the assertion fails. Because both traits are derivable traits,
-as mentioned in Listing 5-12 in Chapter 5, this is usually as straightforward
-as adding the `#[derive(PartialEq, Debug)]` annotation to your struct or enum
-definition. See Appendix C, [“Derivable Traits,”][derivable-traits]<!-- ignore
---> for more details about these and other derivable traits.
+`assert_eq!` 和 `assert_ne!` 巨集底下分別使用了 `==` 和 `!=` 運算子。當判定失敗時，巨集會透過除錯格式化資訊來顯示它們的引數，代表要比較的數值必須要實作 `PartialEq` 和 `Debug` 特徵。所有的基本型別與大多數標準函式庫中提供的型別都有實作這些特徵。對於你自己定義的結構體與枚舉，你需要實作 `PartialEq`，這樣該型別的數值才能判定相等或不相等。你需要實作 `Debug` 來顯示判定失敗時的數值。因爲這兩個特徵都是可推導的特徵，就像第五章的範例 5-12 所寫的那樣，我們通常只要在你定義的結構體或枚舉前加上 `#[derive(PartialEq, Debug)]` 的詮釋就好。你可以查閱附錄 C [“可推導的特徵,”][derivable-traits]<!-- ignore --> 來發現更多可推導的特徵。
 
-### Adding Custom Failure Messages
+### 加入自訂失敗訊息
 
-You can also add a custom message to be printed with the failure message as
-optional arguments to the `assert!`, `assert_eq!`, and `assert_ne!` macros. Any
-arguments specified after the one required argument to `assert!` or the two
-required arguments to `assert_eq!` and `assert_ne!` are passed along to the
-`format!` macro (discussed in Chapter 8 in the [“Concatenation with the `+`
-Operator or the `format!`
-Macro”][concatenation-with-the--operator-or-the-format-macro]<!-- ignore -->
-section), so you can pass a format string that contains `{}` placeholders and
-values to go in those placeholders. Custom messages are useful to document
-what an assertion means; when a test fails, you’ll have a better idea of what
-the problem is with the code.
+你可以寫一個一個與失敗訊息一同顯示的自訂訊息，作爲 `assert!`、`assert_eq!` 與 `assert_ne!` 巨集的選擇性引數。任何指定在 `assert!` 一個必要引數或 `assert_eq!` 和 `assert_ne!` 兩個必要引數後方的任何引數都會傳給 `format!` 巨集（我們在第八章[“Concatenation with the `+` Operator or the `format!` Macro”][concatenation-with-the--operator-or-the-format-macro]<!-- ignore -->的段落討論過），所以你可以傳入一個包含 `{}` placeholder 的格式化字串以及其對應的數值。自訂訊息可以用來紀錄判定的意義，當測試失敗時，你可以更清楚知道程式碼的問題。
 
-For example, let’s say we have a function that greets people by name and we
-want to test that the name we pass into the function appears in the output:
+舉例來說，假設我們有個函式會以收到的名字像人們打招呼，而且我們希望測試我們傳入的名字有出現在輸出：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -362,61 +209,41 @@ want to test that the name we pass into the function appears in the output:
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-05-greeter/src/lib.rs:here}}
 ```
 
-The requirements for this program haven’t been agreed upon yet, and we’re
-pretty sure the `Hello` text at the beginning of the greeting will change. We
-decided we don’t want to have to update the test when the requirements change,
-so instead of checking for exact equality to the value returned from the
-`greeting` function, we’ll just assert that the output contains the text of the
-input parameter.
+此函式的要求還沒完全確定，而我們招呼開頭的文字 `Hello` 很可能會在之後改變。我們決定當需求改變時，我們不想要得同時更新測試。所以我們不打算檢查 `greeting` 函式回傳的整個數值，我們只需要判定輸出有沒有包含輸入參數。
 
-Let’s introduce a bug into this code by changing `greeting` to not include
-`name` to see what this test failure looks like:
+讓我們將錯誤引進程式中吧，將 `greeting` 改成不會包含 `name` 然後看看測試會怎麼失敗：
 
 ```rust,not_desired_behavior
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-06-greeter-with-bug/src/lib.rs:here}}
 ```
 
-Running this test produces the following:
+執行此程式會產生以下錯誤：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/no-listing-06-greeter-with-bug/output.txt}}
 ```
 
-This result just indicates that the assertion failed and which line the
-assertion is on. A more useful failure message in this case would print the
-value we got from the `greeting` function. Let’s change the test function,
-giving it a custom failure message made from a format string with a placeholder
-filled in with the actual value we got from the `greeting` function:
+此結果指出判定失敗以及發生的位置。現在要是錯誤訊息可以提供我們從 `greeting` 函式取得的數值就更好了。讓我們來在測試函式中加入自訂訊息，該訊息會是個格式化字串，並有個 placeholder 來填入我們從 `greeting` 函式取得的確切數值：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-07-custom-failure-message/src/lib.rs:here}}
 ```
 
-Now when we run the test, we’ll get a more informative error message:
+現在當我們執行測試，我們能從錯誤訊息得到更多資訊：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/no-listing-07-custom-failure-message/output.txt}}
 ```
 
-We can see the value we actually got in the test output, which would help us
-debug what happened instead of what we were expecting to happen.
+我們可以看到我們實際從測試輸出拿到的數值，這能幫助我們除錯找到實際發生什麼，而不只是預期會是什麼。
 
-### Checking for Panics with `should_panic`
+### 透過 `should_panic` 檢查恐慌
 
-In addition to checking that our code returns the correct values we expect,
-it’s also important to check that our code handles error conditions as we
-expect. For example, consider the `Guess` type that we created in Chapter 9,
-Listing 9-10. Other code that uses `Guess` depends on the guarantee that `Guess`
-instances will contain only values between 1 and 100. We can write a test that
-ensures that attempting to create a `Guess` instance with a value outside that
-range panics.
+除了檢查我們的程式碼有沒有回傳我們預期的正確數值，檢查我們的程式碼有沒有如我們預期處理錯誤條件也是很重要的。舉例來說，考慮我們在第九章範例 9-10 建立的 `Guess` 型別。其他使用 `Guess` 的程式碼保證會拿到數值爲 1 到 100 的 `Guess` 實例。我們可以寫個會恐慌的程式，嘗試用範圍之外的數字建立 `Guess` 實例。
 
-We do this by adding another attribute, `should_panic`, to our test function.
-This attribute makes a test pass if the code inside the function panics; the
-test will fail if the code inside the function doesn’t panic.
+爲此我們可以加上另一個屬性 `should_panic` 到我們的測試函式。此屬性讓函式的程式碼恐慌時才會通過測試，反之如果函式的程式碼沒有恐慌的話測試就會失敗。
 
-Listing 11-8 shows a test that checks that the error conditions of `Guess::new`
-happen when we expect them to.
+範例 11-8 展示一支檢查 `Guess::new` 是否以我們預期的錯誤條件出錯的測試。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -424,42 +251,29 @@ happen when we expect them to.
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-08/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 11-8: Testing that a condition will cause a
-`panic!`</span>
+<span class="caption">範例 11-8：測試造成 `panic!` 的條件</span>
 
-We place the `#[should_panic]` attribute after the `#[test]` attribute and
-before the test function it applies to. Let’s look at the result when this test
-passes:
+我們將 `#[should_panic]` 屬性置於 `#[test]` 屬性之後與測試函式之前。讓我們看看測試通過的結果：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/listing-11-08/output.txt}}
 ```
 
-Looks good! Now let’s introduce a bug in our code by removing the condition
-that the `new` function will panic if the value is greater than 100:
+看起來不錯！現在讓我們將錯誤引入程式碼中，移除會讓 `new` 函式在數值大於 100 會恐慌的程式碼：
 
 ```rust,not_desired_behavior
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-08-guess-with-bug/src/lib.rs:here}}
 ```
 
-When we run the test in Listing 11-8, it will fail:
+當我們執行範例 11-8 的測試，它就會失敗：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/no-listing-08-guess-with-bug/output.txt}}
 ```
 
-We don’t get a very helpful message in this case, but when we look at the test
-function, we see that it’s annotated with `#[should_panic]`. The failure we got
-means that the code in the test function did not cause a panic.
+我們在此情況得到的訊息並不是很有用，但是當我們查看測試函式，我們會看到它詮釋了 `#[should_panic]`。這個測試失敗代表測試函式內的程式碼沒有造成恐慌。
 
-Tests that use `should_panic` can be imprecise because they only indicate that
-the code has caused some panic. A `should_panic` test would pass even if the
-test panics for a different reason from the one we were expecting to happen. To
-make `should_panic` tests more precise, we can add an optional `expected`
-parameter to the `should_panic` attribute. The test harness will make sure that
-the failure message contains the provided text. For example, consider the
-modified code for `Guess` in Listing 11-9 where the `new` function panics with
-different messages depending on whether the value is too small or too large.
+使用 `should_panic` 的測試可能會有點模棱兩可，因爲它們只代表該程式碼會造成某種恐慌而已。`should_panic` 測試只要是有恐慌都會通過，就算是不同於我們預期發生地恐慌而造成的也一樣。要讓測試 `should_panic` 更精準的話，我們可以加上選擇性的 `expected` 參數到 `should_panic` 中。這樣測試就會確保錯誤訊息會包含我們所寫的文字。舉例來說，範例 11-9 更改了 `Guess` 讓 `new` 函式會依據數值太大或大小而有不同的錯誤訊息。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -467,70 +281,48 @@ different messages depending on whether the value is too small or too large.
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-09/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 11-9: Testing that a condition will cause a
-`panic!` with a particular panic message</span>
+<span class="caption">範例 11-9：只在造成 `panic!` 的特定錯誤訊息會通過的測試</span>
 
-This test will pass because the value we put in the `should_panic` attribute’s
-`expected` parameter is a substring of the message that the `Guess::new`
-function panics with. We could have specified the entire panic message that we
-expect, which in this case would be `Guess value must be less than or equal to
-100, got 200.` What you choose to specify in the expected parameter for
-`should_panic` depends on how much of the panic message is unique or dynamic
-and how precise you want your test to be. In this case, a substring of the
-panic message is enough to ensure that the code in the test function executes
-the `else if value > 100` case.
+此測試會通過是因爲我們在 `should_panic` 屬性加上的 `expected` 就是 `Guess::new` 函式恐慌時的子字串。我們也可以指定整個恐慌訊息，在此例的話就是 `Guess value must be less than or equal to 100, got 200.`。你在 `should_panic` 所指定的預期參數取決於該恐慌訊息是獨特或動態的，以及你希望你的測試要多精準。在此例中，恐慌訊息的子訊息就足以確認測試函式中的程式碼會執行 `else if value > 100` 的分支。
 
-To see what happens when a `should_panic` test with an `expected` message
-fails, let’s again introduce a bug into our code by swapping the bodies of the
-`if value < 1` and the `else if value > 100` blocks:
+爲了觀察擁有 `expected` 訊息的 `should_panic` 失敗時會發生什麼事。讓我同樣再次將錯誤引入程式中，將 `if value < 1` 與 `else if value > 100` 的區塊本體對調：
 
 ```rust,ignore,not_desired_behavior
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-09-guess-with-panic-msg-bug/src/lib.rs:here}}
 ```
 
-This time when we run the `should_panic` test, it will fail:
+這次當我們執行 `should_panic` 測試，它就會失敗：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/no-listing-09-guess-with-panic-msg-bug/output.txt}}
 ```
 
-The failure message indicates that this test did indeed panic as we expected,
-but the panic message did not include the expected string `'Guess value must be
-less than or equal to 100'`. The panic message that we did get in this case was
-`Guess value must be greater than or equal to 1, got 200.` Now we can start
-figuring out where our bug is!
+錯誤訊息表示此程式碼的確有如我們預期地恐慌，但是恐慌訊息並沒有包含預期的字串 `'Guess value must be less than or equal to 100'`。在此例我們的會得到的恐慌訊息爲 `Guess value must be greater than or equal to 1, got 200.`。這樣我們就能尋找錯誤在哪了！
 
-### Using `Result<T, E>` in Tests
+### 在測試中使用 `Result<T, E>`
 
-So far, we’ve written tests that panic when they fail. We can also write tests
-that use `Result<T, E>`! Here’s the test from Listing 11-1, rewritten to use
-`Result<T, E>` and return an `Err` instead of panicking:
+目前爲止，我們的測試在失敗時就會恐慌。我們也可以寫出使用 `Result<T, E>` 的測試！以下是範例 11-1 的測試，不過重寫成 `Result<T, E>` 的版本並回傳 `Err` 而非恐慌：
 
 ```rust
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-10-result-in-tests/src/lib.rs:here}}
 ```
 
-The `it_works` function now has a return type, `Result<(), String>`. In the
-body of the function, rather than calling the `assert_eq!` macro, we return
-`Ok(())` when the test passes and an `Err` with a `String` inside when the test
-fails.
+`it_works` 函式現在有個回傳型別 `Result<(), String>`。在函式本體中，我們不再呼叫 `assert_eq!` 巨集，而是當測試成功時回傳 `Ok(())`，當程式失敗時回傳存有 `String` 的 `Err`。
 
-Writing tests so they return a `Result<T, E>` enables you to use the question
-mark operator in the body of tests, which can be a convenient way to write
-tests that should fail if any operation within them returns an `Err` variant.
+測試中回傳 `Result<T, E>` 讓你可以在測試本體中使用問號運算子，這樣能方便地寫出任何運算回傳 `Err` 時該失敗的測試。
 
-You can’t use the `#[should_panic]` annotation on tests that use `Result<T,
-E>`. Instead, you should return an `Err` value directly when the test should
-fail.
+不過你就不能將 `#[should_panic]` 詮釋用在使用 `Result<T, E>` 的測試。當程式該失敗時，你必須直接回傳 `Err` 數值。
 
-Now that you know several ways to write tests, let’s look at what is happening
-when we run our tests and explore the different options we can use with `cargo
-test`.
+現在你知道了各種寫測試的方法，讓我們看看執行程式時發生了什麼事，並探索我們可以對 `cargo test` 使用的選項。
 
 [concatenation-with-the--operator-or-the-format-macro]:
-ch08-02-strings.html#concatenation-with-the--operator-or-the-format-macro
+ch08-02-strings.html#使用-運算子或-format-巨集串接字串
 [controlling-how-tests-are-run]:
-ch11-02-running-tests.html#controlling-how-tests-are-run
+ch11-02-running-tests.html#控制程式如何執行
 [derivable-traits]: appendix-03-derivable-traits.html
-[doc-comments]: ch14-02-publishing-to-crates-io.html#documentation-comments-as-tests
+[doc-comments]: ch14-02-publishing-to-crates-io.html#將技術文件註解作爲測試
 [paths-for-referring-to-an-item-in-the-module-tree]: ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch11-01-writing-tests.md)
+> - updated: 2020-09-15

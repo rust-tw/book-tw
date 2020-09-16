@@ -77,6 +77,7 @@ literal                | 字面值                        |
 loop                   | 迴圈、循環                    | 參考：[維基百科][loop]
 macro                  | 巨集                          | 參考：[維基百科][macro]
 main function          | 主函式                        | 參考：[維基百科][main function]
+metadata               | 詮釋資料                      |
 method                 | 方法                          | 參考：[維基百科][method]
 module                 | 模組                          | 參考：[維基百科][module]
 monomorphism           | 單型                          |
