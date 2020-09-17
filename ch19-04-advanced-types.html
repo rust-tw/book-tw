@@ -187,7 +187,7 @@
 </span><span class="boring">    println!(&quot;x + y = {}&quot;, x + y);
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>現在，<code>Kilometers</code>  別名就是 <code>i32</code> 的「同義詞」。不像我們在範例 19-15 建立的 <code>Millimeters</code> 與 <code>Meters</code> 型別，<code>Kilometers</code> 並非獨立的新型別。型別為 <code>Kilometers</code> 的值會被當作型別是 <code>i32</code> 的值。</p>
+<p>現在，<code>Kilometers</code>  別名就是 <code>i32</code> 的<strong>同義詞</strong>。不像我們在範例 19-15 建立的 <code>Millimeters</code> 與 <code>Meters</code> 型別，<code>Kilometers</code> 並非獨立的新型別。型別為 <code>Kilometers</code> 的值會被當作型別是 <code>i32</code> 的值。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    type Kilometers = i32;
 
@@ -233,7 +233,7 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 19-25：導入型別別名 <code>Thunk</code> 來減少重複</span></p>
-<p>這段程式碼更容易讀寫了！選擇有意義的型別別名也有助於溝通傳達你的意圖（「thunk」 是一個表示會在未來對此程式碼求值，所以很適用表達儲存起來的閉包（closure））。</p>
+<p>這段程式碼更容易讀寫了！選擇有意義的型別別名也有助於溝通傳達你的意圖（<strong>thunk</strong> 是一個表示會在未來對此程式碼求值，所以很適用表達儲存起來的閉包（closure））。</p>
 <p>型別別名同樣十分常用在 <code>Result&lt;T, E&gt;</code> 來減少重複。試想標準函式庫的 <code>std::io</code> 模組，輸入輸出（I/O）操作通常會藉由回傳 <code>Result&lt;T, E&gt;</code> 來處理失敗的操作。標準函式庫有個 <code>std::io::Error</code> 結構體來表示所有可能的 I/O 錯誤。許多在 <code>std::io</code> 內的函式會回傳 <code>E</code> 為 <code>std::io::Error</code> 的 <code>Result&lt;T, E&gt;</code> ，例如這些 <code>Write</code> 特徵下的函式：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -280,9 +280,9 @@ pub trait Write {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p>型別別名有助於兩個面向：讓程式碼更容易撰寫，「且」對所有 <code>std::io</code> 提供一致的介面。因為它僅僅是別名，所以就是一個 <code>Result&lt;T, E&gt;</code> 而已，這意味著我們能使用任何可與 <code>Result&lt;T, E&gt;</code> 互動的方法，以及使用類似 <code>?</code> 運算子這種特殊語法。</p>
+<p>型別別名有助於兩個面向：讓程式碼更容易撰寫，<strong>且</strong>對所有 <code>std::io</code> 提供一致的介面。因為它僅僅是別名，所以就是一個 <code>Result&lt;T, E&gt;</code> 而已，這意味著我們能使用任何可與 <code>Result&lt;T, E&gt;</code> 互動的方法，以及使用類似 <code>?</code> 運算子這種特殊語法。</p>
 <h3><a class="header" href="#永不回傳的永不型別" id="永不回傳的永不型別">永不回傳的永不型別</a></h3>
-<p>Rust 有一個特殊的型別叫做 <code>!</code>，由於它沒有任何值，在型別理論的行話中又稱為「空型別（empty type）」。不過我們更喜歡稱之為「永不型別（never type）」，因為當一個函式永遠不會回傳，永不型別將會替代原本的回傳型別。這裡來個範例:</p>
+<p>Rust 有一個特殊的型別叫做 <code>!</code>，由於它沒有任何值，在型別理論的行話中又稱為<strong>空型別（empty type）</strong>。不過我們更喜歡稱之為<strong>永不型別（never type）</strong>，因為當一個函式永遠不會回傳，永不型別將會替代原本的回傳型別。這裡來個範例:</p>
 <pre><pre class="playground"><code class="language-rust">fn bar() -&gt; ! {
     // --snip--
 <span class="boring">    panic!();
@@ -290,7 +290,7 @@ pub trait Write {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p>這段程式碼可讀作「函式 <code>bar</code> 永不回傳」。永不回傳的函數稱為「發散函式（diverging function）」，我們無法建立 <code>!</code> 型別，所以 <code>bar</code> 永遠無法回傳。</p>
+<p>這段程式碼可讀作「函式 <code>bar</code> 永不回傳」。永不回傳的函數稱為<strong>發散函式（diverging function）</strong>，我們無法建立 <code>!</code> 型別，所以 <code>bar</code> 永遠無法回傳。</p>
 <p>不過，若永遠無法替這個型別建立值，那要這個型別幹嘛呢？回想一下，範例 2-5 的程式碼，在我們的範例 19-26 又重現了。</p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span><span class="boring">use std::cmp::Ordering;
@@ -344,7 +344,7 @@ pub trait Write {
     };
 <span class="boring">}
 </span></code></pre>
-<p>這段程式碼中 <code>guess</code> 的型別必須是「同時是」整數與字串，並且 Rust 要求 <code>guess</code> 只能是一種型別。那 <code>contiunue</code> 回傳了什麼？範例 19-26 中，為什麼允許一個分支回傳 <code>u32</code> 但同時有另一分支結束在 <code>continue</code>？</p>
+<p>這段程式碼中 <code>guess</code> 的型別必須是<strong>同時是</strong>整數與字串，並且 Rust 要求 <code>guess</code> 只能是一種型別。那 <code>contiunue</code> 回傳了什麼？範例 19-26 中，為什麼允許一個分支回傳 <code>u32</code> 但同時有另一分支結束在 <code>continue</code>？</p>
 <p>如你所猜，<code>continue</code> 具有 <code>!</code> 值。意即當 Rust 根據兩個分支來推算 <code>guess</code> 型別時，會觀察到前者會是 <code>u32</code>，而後者是 <code>!</code>。因為 <code>!</code> 永遠不會有值，Rust 於是決定 <code>guess</code> 的型別為 <code>u32</code>。</p>
 <p>描述這種行為的正確方式是：<code>!</code> 型別的表達式能夠轉型為任意其他型別。我們允許 <code>match</code> 分支結束在 <code>continue</code> 就是因為 <code>continue</code> 不會回傳任何值，相反地，它將控制流移至迴圈的最上面，所以在 <code>Err</code> 的情況，我們不會對 <code>guess</code> 賦值。</p>
 <p>永不型別在使用 <code>panic!</code> 巨集很實用。還記得當我們對 <code>Option&lt;T&gt;</code> 呼叫 <code>unwrap</code> 函式，會產生一個值或是恐慌嗎？這裡就是它的定義：</p>
@@ -376,7 +376,7 @@ pub trait Write {
 </span></code></pre>
 <p>這裡迴圈永不結束，所以 <code>!</code> 就是迴圈表達式的值。但當我們有一個 <code>break</code> 時，這就不成立了，因為迴圈會在抵達 <code>break</code> 時終止。</p>
 <h3><a class="header" href="#動態大小型別與-sized-特徵" id="動態大小型別與-sized-特徵">動態大小型別與 <code>Sized</code> 特徵</a></h3>
-<p>由於 Rust 需要了解特定細節，例如需替特定型別之值分配多少空間，導致其類型系統有個地方令人困惑，就是「動態大小型別（dynamically sized type）」的概念。 有時稱為「DST」或「不定大小（unsize）型別」，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
+<p>由於 Rust 需要了解特定細節，例如需替特定型別之值分配多少空間，導致其類型系統有個地方令人困惑，就是<strong>動態大小型別（dynamically sized type）<strong>的概念。 有時稱為</strong>DST</strong>或<strong>不定大小（unsize）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
 <p>讓我們深入研究一個貫穿全書到處使用的動態大小型別 <code>str</code> 的細節。你沒看錯，不是 <code>&amp;str</code> 而是 <code>str</code> 本身就是 DST。在執行期前我們無從得知字串多長，也就表示無法建立一個型別為 <code>str</code> 的變數，更不能將 <code>str</code> 型別作為引數。試想以下不能執行的程式碼：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1: str = &quot;Hello there!&quot;;
@@ -385,7 +385,7 @@ pub trait Write {
 </span></code></pre>
 <p>Rust 必須知道該配置多少記憶體給特定型別之值，且所有該型別之值都會使用相同的記憶體量。若 Rust 允許我們寫出這種程式碼，代表這兩個 <code>str</code> 值會用相同的空間大小，但它們長度不同：<code>s1</code> 需要 12 位元組來儲存，而 <code>s2</code> 需要 15 位元組。這就是為什麼不可能建立一個持有動態大小型別的變數。</p>
 <p>那我們該如何是好？這種情況下，你其實已經知道答案：將 <code>s1</code> 與 <code>s2</code> 的型別從 <code>str</code> 改成 <code>&amp;str</code>。回憶以下，第四章<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2-slice">「字串 Slice」</a>一節我們說了，slice 資料結構會儲存該 slice 的開始位置與長度。</p>
-<p>雖然 <code>&amp;T</code> 是單一的值，儲存了 <code>T</code> 所在的記憶體位址，<code>&amp;str</code> 卻儲存「兩個」值：<code>str</code> 的位址與它的長度。如此一來，無論 <code>&amp;str</code> 指向的字串有多長，我們都可以在編譯期得知 <code>&amp;str</code> 的大小。一般來說，這就是動態大小型別在 Rust 中的使用方式，通常具有額外的後設資料（metadata）紀錄動態資訊的大小。動態大小型別的黃金法則即是我們必將動態大小型別的值放在指向某種指標之後。</p>
+<p>雖然 <code>&amp;T</code> 是單一的值，儲存了 <code>T</code> 所在的記憶體位址，<code>&amp;str</code> 卻儲存<strong>兩個</strong>值：<code>str</code> 的位址與它的長度。如此一來，無論 <code>&amp;str</code> 指向的字串有多長，我們都可以在編譯期得知 <code>&amp;str</code> 的大小。一般來說，這就是動態大小型別在 Rust 中的使用方式，通常具有額外的資料紀錄動態資訊的大小。動態大小型別的黃金法則即是我們必將動態大小型別的值放在指向某種指標之後。</p>
 <p>我們將各種指標與 <code>str</code> 結合，例如 <code>Box&lt;str&gt;</code> 或 <code>Rc&lt;str&gt;</code>。事實上，你早已看過此類作法，不過是在其他動態大小型別上看過，那個型別就是特徵（trait）。每個特徵都是一個動態大小型別，我們可以透過使用特徵的名字來指涉它。在第十七章的<a href="ch17-02-trait-objects.html#%E5%85%81%E8%A8%B1%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%88%A5%E6%95%B8%E5%80%BC%E7%9A%84%E7%89%B9%E5%BE%B5%E7%89%A9%E4%BB%B6">「允許不同型別數值的特徵物件」</a>部分，我們提及欲將特徵做為特徵物件（trait object）來使用，必須將特徵放在指標之後，例如 <code>&amp;dyn Trait</code> 或 <code>Box&lt;dyn Trait&gt;</code>（<code>Rc&lt;dyn Trait&gt;</code> 也行）。</p>
 <p>為了使用 DST，Rust 提供一個 <code>Sized</code> 特徵，來決定一個型別的大小可否在編譯期就確定下來。對於能在編譯期得知大小的所有東西，都會自動實作這個特徵。此外 Rust 自動替所有泛型函式隱含加上 <code>Sized</code> 的約束（bound）。也就是說若一泛型函數定義如下：</p>
 <pre><code class="language-rust ignore">fn generic&lt;T&gt;(t: T) {
