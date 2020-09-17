@@ -59,10 +59,10 @@
     - [特徵：定義共同行爲](ch10-02-traits.md)
     - [透過生命週期驗證引用](ch10-03-lifetime-syntax.md)
 
-- [Writing Automated Tests](ch11-00-testing.md)
-    - [How to Write Tests](ch11-01-writing-tests.md)
+- [編寫自動化測試](ch11-00-testing.md)
+    - [如何寫測試](ch11-01-writing-tests.md)
     - [控制程式如何執行](ch11-02-running-tests.md)
-    - [Test Organization](ch11-03-test-organization.md)
+    - [測試組織架構](ch11-03-test-organization.md)
 
 - [An I/O Project: Building a Command Line Program](ch12-00-an-io-project.md)
     - [Accepting Command Line Arguments](ch12-01-accepting-command-line-arguments.md)

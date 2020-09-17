@@ -1,39 +1,18 @@
-## Test Organization
+## 測試組織架構
 
-As mentioned at the start of the chapter, testing is a complex discipline, and
-different people use different terminology and organization. The Rust community
-thinks about tests in terms of two main categories: *unit tests* and
-*integration tests*. Unit tests are small and more focused, testing one module
-in isolation at a time, and can test private interfaces. Integration tests are
-entirely external to your library and use your code in the same way any other
-external code would, using only the public interface and potentially exercising
-multiple modules per test.
+如同本章開頭提到的，測試是個複雜的領域，不同的人可能使用不同的術語與組織架構。Rust 社群將測試分爲兩大分類術語：*單元測試（unit tests）*和*整合測試（integration tests）*。單元測試比較小且較專注，傾向在隔離環境中一次只測試一個模組，且能夠測試私有介面。整合測試對於你的函式庫來說是個完全外部的程式碼，所以會如其他外部程式碼一樣使用你的程式碼，只能使用公開介面且每個測試可能會有數個模組。
 
-Writing both kinds of tests is important to ensure that the pieces of your
-library are doing what you expect them to, separately and together.
+這兩種測試都很重要，且能確保函式庫每個部分能在分別或一起執行的情況下，如你預期的方式運作。
 
-### Unit Tests
+### 單元測試
 
-The purpose of unit tests is to test each unit of code in isolation from the
-rest of the code to quickly pinpoint where code is and isn’t working as
-expected. You’ll put unit tests in the *src* directory in each file with the
-code that they’re testing. The convention is to create a module named `tests`
-in each file to contain the test functions and to annotate the module with
-`cfg(test)`.
+單元測試的目的是要在隔離其他程式碼的狀況下測試每個程式碼單元，迅速查明程式碼有沒有如預期或非預期的方式運作。你會將單元測試放在 *src* 目錄中每個你要測試的程式同個檔案下。我們常見的做法是在每個檔案建立一個模組 `tests` 來包含測試函式，並用 `cfg(test)` 來詮釋模組
 
-#### The Tests Module and `#[cfg(test)]`
+#### 測試模組與 `#[cfg(test)]`
 
-The `#[cfg(test)]` annotation on the tests module tells Rust to compile and run
-the test code only when you run `cargo test`, not when you run `cargo build`.
-This saves compile time when you only want to build the library and saves space
-in the resulting compiled artifact because the tests are not included. You’ll
-see that because integration tests go in a different directory, they don’t need
-the `#[cfg(test)]` annotation. However, because unit tests go in the same files
-as the code, you’ll use `#[cfg(test)]` to specify that they shouldn’t be
-included in the compiled result.
+測試模組上的 `#[cfg(test)]` 詮釋會告訴 Rust 當你執行 `cargo test` 才會編譯並執行測試程式碼。而不是當你執行 `cargo build`。當你想要建構函式庫時，這能節省編譯時間並降低編譯出的檔案所佔的空間，因爲這些測試沒有被包含到。整合測試位於不同目錄，所以它們不需要 `#[cfg(test)]`。但是因爲單元測試與程式碼位於相同的檔案下，你需要使用 `#[cfg(test)]` 來指明它們不應該被包含在編譯結果。
 
-Recall that when we generated the new `adder` project in the first section of
-this chapter, Cargo generated this code for us:
+回想一下本章節第一個段落中我們建立了一個新專案 `adder`，並用 Cargo 爲我們產生以下程式碼：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -41,22 +20,11 @@ this chapter, Cargo generated this code for us:
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-01/src/lib.rs:here}}
 ```
 
-This code is the automatically generated test module. The attribute `cfg`
-stands for *configuration* and tells Rust that the following item should only
-be included given a certain configuration option. In this case, the
-configuration option is `test`, which is provided by Rust for compiling and
-running tests. By using the `cfg` attribute, Cargo compiles our test code only
-if we actively run the tests with `cargo test`. This includes any helper
-functions that might be within this module, in addition to the functions
-annotated with `#[test]`.
+此程式碼是自動產生的測試模組。`cfg` 屬性代表的是 *configuration* 並告訴 Rust 以下項目只有在給予特定配置選項時才會被考慮。在此例中配置選項是 `test`，這是 Rust 提供用來編譯與執行測試的選項。使用 `cfg` 屬性的話，Cargo 只有在我們透過 `cargo test` 執行測試時才會編譯我們的測試程式碼。這包含此模組能可能需要的輔助函式，以及用 `#[test]` 詮釋的測試函式。
 
-#### Testing Private Functions
+#### 測試私有函式
 
-There’s debate within the testing community about whether or not private
-functions should be tested directly, and other languages make it difficult or
-impossible to test private functions. Regardless of which testing ideology you
-adhere to, Rust’s privacy rules do allow you to test private functions.
-Consider the code in Listing 11-12 with the private function `internal_adder`.
+在測試領域的社群中對於是否應該直接測試私有函式一直存在著爭議，而且有些其他語言會讓測試私有函式變得很困難，甚至不可能。不管你認爲哪個論點比較理想，Rust 的隱私權規則還是能讓你肏是私有函式。考慮以下範例 11-12 擁有私有函式 `internal_adder` 的程式碼。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -64,34 +32,19 @@ Consider the code in Listing 11-12 with the private function `internal_adder`.
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-12/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 11-12: Testing a private function</span>
+<span class="caption">範例 11-12：測試私有函式</span>
 
-Note that the `internal_adder` function is not marked as `pub`, but because
-tests are just Rust code and the `tests` module is just another module, you can
-bring `internal_adder` into a test’s scope and call it. If you don’t think
-private functions should be tested, there’s nothing in Rust that will compel
-you to do so.
+注意到函式 `internal_adder` 沒有標記爲 `pub`，但是因爲測試也只是 Rust 的程式碼，且 `tests` 也只是另一個模組，你可以將 `internal_adder` 引入測試的作用域並呼叫它。如果你不認爲私有函式不應該測試，Rust 也沒有什麼好阻止你的地方。
 
-### Integration Tests
+### 整合測試
 
-In Rust, integration tests are entirely external to your library. They use your
-library in the same way any other code would, which means they can only call
-functions that are part of your library’s public API. Their purpose is to test
-whether many parts of your library work together correctly. Units of code that
-work correctly on their own could have problems when integrated, so test
-coverage of the integrated code is important as well. To create integration
-tests, you first need a *tests* directory.
+在 Rust 中，整合測試對你的函式庫來說是完全外部的程式。它們使用你的函式庫的方式與其他程式碼一樣，所以它們只能呼叫屬於函式庫中公開 API 的函式。它們的目的是要測試你的函式庫屬個部分一起運作時有沒有正確無誤。單獨運作無誤的程式碼單元可能會在整合時出現問題，所以整合測試的程式碼的涵蓋率也很重要。要建立整合測試，你需要先有個 *tests* 目錄。
 
-#### The *tests* Directory
+#### *tests* 目錄
 
-We create a *tests* directory at the top level of our project directory, next
-to *src*. Cargo knows to look for integration test files in this directory. We
-can then make as many test files as we want to in this directory, and Cargo
-will compile each of the files as an individual crate.
+我們在專案目錄最上層在 *src* 旁建立一個 *tests* 目錄。Cargo 知道要從此目錄來尋找整合測試。我們接著就可以在此目錄建立多少個測試都沒問題，Cargo會編譯每個檔案成獨立的 crate。
 
-Let’s create an integration test. With the code in Listing 11-12 still in the
-*src/lib.rs* file, make a *tests* directory, create a new file named
-*tests/integration_test.rs*, and enter the code in Listing 11-13.
+讓我們來建立一個整合測試，將範例 11-12 的程式碼保留在 *src/lib.rs* 檔案中，然後建立一個 *tests* 目錄、一個叫做 *tests/integration_test.rs* 的檔案並輸入範例 11-13 的程式碼。
 
 <span class="filename">檔案名稱：tests/integration_test.rs</span>
 
@@ -99,70 +52,37 @@ Let’s create an integration test. With the code in Listing 11-12 still in the
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-13/tests/integration_test.rs}}
 ```
 
-<span class="caption">範例 11-13: An integration test of a function in the
-`adder` crate</span>
+<span class="caption">範例 11-13：`adder` crate 中函式的整合測試</span>
 
-We’ve added `use adder` at the top of the code, which we didn’t need in the
-unit tests. The reason is that each file in the `tests` directory is a separate
-crate, so we need to bring our library into each test crate’s scope.
+我們在程式最上方加了 `use adder`，這在單元測試是不需要的。這裡要用到的原因是因爲 `tests` 目錄的每個檔案都是獨立的 crate，所以我們需要將函式庫引入每個測試 crate 的作用域中。
 
-We don’t need to annotate any code in *tests/integration_test.rs* with
-`#[cfg(test)]`. Cargo treats the `tests` directory specially and compiles files
-in this directory only when we run `cargo test`. Run `cargo test` now:
+我們不用對 *tests/integration_test.rs* 的任何程式碼詮釋 `#[cfg(test)]`。Cargo 會特別對待 `tests` 目錄並只在我們執行 `cargo test` 時，編譯此目錄的檔案。現在請執行 `cargo test`：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/listing-11-13/output.txt}}
 ```
 
-The three sections of output include the unit tests, the integration test, and
-the doc tests. The first section for the unit tests is the same as we’ve been
-seeing: one line for each unit test (one named `internal` that we added in
-Listing 11-12) and then a summary line for the unit tests.
+輸出結果中有三個段落，包含單元測試、整合測試與技術文件測試。第一個段落的單元測試與我們看過的相同：每行會是每個單元測試（在此例是我們在範例 11-12 寫得 `internal`）最後附上單元測試的總結。
 
-The integration tests section starts with the line `Running
-target/debug/deps/integration_test-ce99bcc2479f4607` (the hash at the end of
-your output will be different). Next, there is a line for each test function in
-that integration test and a summary line for the results of the integration
-test just before the `Doc-tests adder` section starts.
+整合測試段落從 `Running target/debug/deps/integration_test-ce99bcc2479f4607` 開始（最後的雜湊值（hash）可能會與你的輸出不同），接著每行會是每個整合測試的測試函式，最後在 `Doc-tests adder` 段落開始前的那一行則是整合測試的總結結果。
 
-Similarly to how adding more unit test functions adds more result lines to the
-unit tests section, adding more test functions to the integration test file
-adds more result lines to this integration test file’s section. Each
-integration test file has its own section, so if we add more files in the
-*tests* directory, there will be more integration test sections.
+當我們加入更多單元測試時，單元測試段落就會顯示更多結果。同樣地當我們將更多測試函式加入整合測試檔案內的話，該整合測試段落就會顯示更多結果。每個整合測試檔案會有自己的段落，如果如果我們在 *tests* 目錄加入更多檔案的話，就會出現更多整合測試段落。
 
-We can still run a particular integration test function by specifying the test
-function’s name as an argument to `cargo test`. To run all the tests in a
-particular integration test file, use the `--test` argument of `cargo test`
-followed by the name of the file:
+我們一樣能用測試函式的名稱來作爲 `cargo test` 的引數，來執行特定整合測試。要執行特定整合測試檔案內的所有測試，可以用 `--test` 作爲 `cargo test` 的引數並加上檔案名稱：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/output-only-05-single-integration/output.txt}}
 ```
 
-This command runs only the tests in the *tests/integration_test.rs* file.
+此命令會只執行 *tests/integration_test.rs* 檔案內的測試。
 
-#### Submodules in Integration Tests
+#### 整合測試的子模組
 
-As you add more integration tests, you might want to make more than one file in
-the *tests* directory to help organize them; for example, you can group the
-test functions by the functionality they’re testing. As mentioned earlier, each
-file in the *tests* directory is compiled as its own separate crate.
+隨著你加入的整合測試越多，你可能會想要在 *tests* 目錄下產生更多檔案來協助組織它們。舉例來說，你以用測試函式測試的功能來組織它們。如同稍早提到的，*tests*  目錄下的每個檔案都會編譯成自己獨立的 crate。
 
-Treating each integration test file as its own crate is useful to create
-separate scopes that are more like the way end users will be using your crate.
-However, this means files in the *tests* directory don’t share the same
-behavior as files in *src* do, as you learned in Chapter 7 regarding how to
-separate code into modules and files.
+將每個整合測試檔案視爲獨立的 crate 有助於建立不同的作用域，這就像是使用者使用你的 crate 的可能環境。然而這也代表 *tests* 目錄的檔案不會和 *src* 的檔案行爲一樣，也就是你在第七章學到如何拆開程式碼成模組與檔案的部分。
 
-The different behavior of files in the *tests* directory is most noticeable
-when you have a set of helper functions that would be useful in multiple
-integration test files and you try to follow the steps in the [“Separating
-Modules into Different Files”][separating-modules-into-files]<!-- ignore -->
-section of Chapter 7 to extract them into a common module. For example, if we
-create *tests/common.rs* and place a function named `setup` in it, we can add
-some code to `setup` that we want to call from multiple test functions in
-multiple test files:
+當你希望擁有一些能協助數個整合測試檔案的輔助函式，並遵循第七章的[「將模組拆成不同檔案」][separating-modules-into-files]<!-- ignore -->段落來提取它們到一個通用模組時，你就會發現 *tests* 目錄下的檔案行爲是不同的。舉例來說，我們建立了 *tests/common.rs* 並寫了一個函式 `setup`，然後我們希望 `setup` 能被不同測試檔案的數個測試函式呼叫：
 
 <span class="filename">檔案名稱：tests/common.rs</span>
 
@@ -170,30 +90,17 @@ multiple test files:
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-12-shared-test-code-problem/tests/common.rs}}
 ```
 
-When we run the tests again, we’ll see a new section in the test output for the
-*common.rs* file, even though this file doesn’t contain any test functions nor
-did we call the `setup` function from anywhere:
+當我們再次執行程式時，我們會看到測試輸出多了一個 *common.rs* 檔案的段落，就算該檔案沒有包含任何測試函式，而且我們也還沒有在任何地方呼叫 `setup` 函式：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/no-listing-12-shared-test-code-problem/output.txt}}
 ```
 
-Having `common` appear in the test results with `running 0 tests` displayed for
-it is not what we wanted. We just wanted to share some code with the other
-integration test files.
+讓 `common` 出現在測試結果並顯示 `running 0 tests` 並不是我們想做的事。我們只是想要分享一些程式碼給其他整合測試檔案而已。
 
-To avoid having `common` appear in the test output, instead of creating
-*tests/common.rs*, we’ll create *tests/common/mod.rs*. This is an alternate
-naming convention that Rust also understands. Naming the file this way tells
-Rust not to treat the `common` module as an integration test file. When we move
-the `setup` function code into *tests/common/mod.rs* and delete the
-*tests/common.rs* file, the section in the test output will no longer appear.
-Files in subdirectories of the *tests* directory don’t get compiled as separate
-crates or have sections in the test output.
+要防止 `common` 出現在測試輸出，我們不該建立 *tests/common.rs*，而是要建立 *tests/common/mod.rs*。這是另一個 Rust 知道的常用命名手段。這樣命名檔案的話會告訴 Rust 不要將 `common` 模組視爲整合測試檔案。當我們將 `setup` 函式程式碼移到 *tests/common/mod.rs* 並刪除 *tests/common.rs* 檔案時，原本的段落就不會再出現在測試輸出。*tests* 目錄下子目錄的檔案不會被編譯成獨立 crate 或在測試輸出顯示段落。
 
-After we’ve created *tests/common/mod.rs*, we can use it from any of the
-integration test files as a module. Here’s an example of calling the `setup`
-function from the `it_adds_two` test in *tests/integration_test.rs*:
+在我們建立 *tests/common/mod.rs* 之後，我們可以將它以模組的形式用在任何整合測試檔案中。以下是在 *tests/integration_test.rs* 的 `it_adds_two` 測試中呼叫函式 `setup` 的範例：
 
 <span class="filename">檔案名稱：tests/integration_test.rs</span>
 
@@ -201,39 +108,23 @@ function from the `it_adds_two` test in *tests/integration_test.rs*:
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-13-fix-shared-test-code-problem/tests/integration_test.rs}}
 ```
 
-Note that the `mod common;` declaration is the same as the module declaration
-we demonstrated in Listing 7-21. Then in the test function, we can call the
-`common::setup()` function.
+注意到 `mod common;` 的宣告與我們在範例 7-21 說明的模組宣告方式一樣。然而後在測試函式中，我們就可以呼叫函式 `common::setup()`。
 
-#### Integration Tests for Binary Crates
+#### 二進制執行檔 Crate 的整合測試
 
-If our project is a binary crate that only contains a *src/main.rs* file and
-doesn’t have a *src/lib.rs* file, we can’t create integration tests in the
-*tests* directory and bring functions defined in the *src/main.rs* file into
-scope with a `use` statement. Only library crates expose functions that other
-crates can use; binary crates are meant to be run on their own.
+如果我們的專案是只包含 *src/main.rs* 檔案的二進制執行檔 crate 而沒有 *src/lib.rs* 檔案的話，我們無法在 *tests* 目錄下建立整合測試，也無法將 *src/main.rs* 檔案中定義的函式透過 `use` 陳述式引入作用域。只有函式庫 crate 能公開函式給其他 crate 使用，二進制 crate 只用於獨自執行。
 
-This is one of the reasons Rust projects that provide a binary have a
-straightforward *src/main.rs* file that calls logic that lives in the
-*src/lib.rs* file. Using that structure, integration tests *can* test the
-library crate with `use` to make the important functionality available.
-If the important functionality works, the small amount of code in the
-*src/main.rs* file will work as well, and that small amount of code doesn’t
-need to be tested.
+這也是爲何 Rust 專案爲二進制執行檔提供直白的 *src/main.rs* 檔案並允許呼叫 *src/lib.rs* 檔案中的邏輯程式碼。使用這樣子的架構的話，整合測試*可以*透過 `use` 來測試函式庫 crate，並讓重點功能可以公開使用。如果重點功能可以運作的話，那 *src/main.rs* 檔案中剩下的程式碼部分也能夠如期執行，而這一小部分就不必特定做測試。
 
-## Summary
+## 總結
 
-Rust’s testing features provide a way to specify how code should function to
-ensure it continues to work as you expect, even as you make changes. Unit tests
-exercise different parts of a library separately and can test private
-implementation details. Integration tests check that many parts of the library
-work together correctly, and they use the library’s public API to test the code
-in the same way external code will use it. Even though Rust’s type system and
-ownership rules help prevent some kinds of bugs, tests are still important to
-reduce logic bugs having to do with how your code is expected to behave.
+Rust 的測試功能提供了判定程式碼怎樣才算正常運作的方法，以確保它能以你預期的方式運作，就算當你做了改變時也是如此。單元測試分別測試函式庫中每個不同的部分，且能測試私有實作細節。整合測試檢查函式庫數個部分一起執行時是否正確無誤，且它們使用函式庫公開 API 來測試程式碼的行爲與外部程式碼使用的方式一樣。雖然 Rust 型別系統與所有權規則能避免某些種類的程式錯誤，測試還是減少邏輯程式錯誤的重要辦法，讓你的程式碼能如預期行爲運作。
 
-Let’s combine the knowledge you learned in this chapter and in previous
-chapters to work on a project!
+讓我們統整此章節以及之前的章節所學到的知識來寫一支專案吧！
 
 [separating-modules-into-files]:
 ch07-05-separating-modules-into-different-files.html
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch11-03-test-organization.md)
+> - updated: 2020-09-17
