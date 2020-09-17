@@ -117,7 +117,7 @@
     - [Unsafe Rust](ch19-01-unsafe-rust.md)
     - [進階特徵](ch19-03-advanced-traits.md)
     - [進階型別](ch19-04-advanced-types.md)
-    - [Advanced Functions and Closures](ch19-05-advanced-functions-and-closures.md)
+    - [進階函式與閉包](ch19-05-advanced-functions-and-closures.md)
     - [Macros](ch19-06-macros.md)
 
 - [Final Project: Building a Multithreaded Web Server](ch20-00-final-project-a-web-server.md)
