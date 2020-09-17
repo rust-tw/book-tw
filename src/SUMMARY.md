@@ -74,11 +74,11 @@
 
 ## Thinking in Rust
 
-- [Functional Language Features: Iterators and Closures](ch13-00-functional-features.md)
-    - [Closures: Anonymous Functions that Can Capture Their Environment](ch13-01-closures.md)
+- [函式語言功能：疊代器與閉包](ch13-00-functional-features.md)
+    - [閉包：能獲取其環境的匿名函式](ch13-01-closures.md)
     - [使用疊代器來處理一系列的項目](ch13-02-iterators.md)
-    - [Improving Our I/O Project](ch13-03-improving-our-io-project.md)
-    - [Comparing Performance: Loops vs. Iterators](ch13-04-performance.md)
+    - [改善我們的 I/O 專案](ch13-03-improving-our-io-project.md)
+    - [比較效能：迴圈 vs. 疊代器](ch13-04-performance.md)
 
 - [More about Cargo and Crates.io](ch14-00-more-about-cargo.md)
     - [Customizing Builds with Release Profiles](ch14-01-release-profiles.md)
