@@ -1,31 +1,14 @@
-## Closures: Anonymous Functions that Can Capture Their Environment
+## 函式語言功能：疊代器與閉包
 
-Rust’s closures are anonymous functions you can save in a variable or pass as
-arguments to other functions. You can create the closure in one place and then
-call the closure to evaluate it in a different context. Unlike functions,
-closures can capture values from the scope in which they’re defined. We’ll
-demonstrate how these closure features allow for code reuse and behavior
-customization.
+Rust 的閉包（closures）是個你能賦值給變數或作爲其他函式引數的匿名函式。你可以在某處建立閉包，然後在不同的地方呼叫閉包還執行它。而且不像函式，閉包可以從它們所定義的作用域中獲取數值。我們講會解釋這些閉包功能如何允許程式碼重用以及自訂行爲。
 
-### Creating an Abstraction of Behavior with Closures
+### 透過閉包建立抽象行爲
 
-Let’s work on an example of a situation in which it’s useful to store a closure
-to be executed later. Along the way, we’ll talk about the syntax of closures,
-type inference, and traits.
+讓我們處理一個範例是當儲存閉包並在之後才執行是很實況的情況。在過程中，我們會討論到閉包語法、型別推導以及特徵。
 
-Consider this hypothetical situation: we work at a startup that’s making an app
-to generate custom exercise workout plans. The backend is written in Rust, and
-the algorithm that generates the workout plan takes into account many factors,
-such as the app user’s age, body mass index, exercise preferences, recent
-workouts, and an intensity number they specify. The actual algorithm used isn’t
-important in this example; what’s important is that this calculation takes a
-few seconds. We want to call this algorithm only when we need to and only call
-it once so we don’t make the user wait more than necessary.
+讓我們考慮以下假設情境：我們在一家新創公司上班並正在推出一支會產生自訂重訓方案的應用程式。其後端就是用 Rust 寫的，且產生重訓方案的演算法有很多因素要考量，像是使用者的年齡、身高體重指數、健身喜好、最近鍛鍊的項目以及他們指定的重訓強度。此例中實際使用的演算法並不重要，重要的是此運算會花費數秒鐘。我們只想要在我們需要時呼叫此演算法並只會呼叫一次，讓使用者不會等待太久。
 
-We’ll simulate calling this hypothetical algorithm with the function
-`simulated_expensive_calculation` shown in Listing 13-1, which will print
-`calculating slowly...`, wait for two seconds, and then return whatever number
-we passed in.
+我們會模擬這個假設的演算法爲函式 `simulated_expensive_calculation`，如範例 13-1 所示，他會印出 `calculating slowly...`、等待兩秒鐘，然後回傳我們傳入的數值。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -33,24 +16,16 @@ we passed in.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-01/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-1: A function to stand in for a hypothetical
-calculation that takes about 2 seconds to run</span>
+<span class="caption">範例 13-1：一支作爲假想需要運算 2 秒鐘的函式</span>
 
-Next is the `main` function, which contains the parts of the workout app
-important for this example. This function represents the code that the app will
-call when a user asks for a workout plan. Because the interaction with the
-app’s frontend isn’t relevant to the use of closures, we’ll hardcode values
-representing inputs to our program and print the outputs.
+接下來 `main` 函式會包含此健身應用程式中最重要的部分。此函式代表當使用者請求健身方案時應用程式會呼叫的程式碼。由於應用程式的前端與我們的閉包使用並沒有任何關聯，我們將會用寫死的數值來代表我們程式得輸入並印出輸出結果。
 
-The required inputs are these:
+必要的輸入如以下所示：
 
-* An intensity number from the user, which is specified when they request
-  a workout to indicate whether they want a low-intensity workout or a
-  high-intensity workout
-* A random number that will generate some variety in the workout plans
+* 使用者想要的重訓強度，用來指明他們想要的訓練是低強度訓練或是高強度訓練
+* 一個用來產生重訓方案變化的隨機數值
 
-The output will be the recommended workout plan. Listing 13-2 shows the `main`
-function we’ll use.
+輸出結果會是建議的重訓方案，範例 13-2 展示了我們使用的 `main` 函式。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -58,20 +33,11 @@ function we’ll use.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-02/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-2: A `main` function with hardcoded values to
-simulate user input and random number generation</span>
+<span class="caption">範例 13-2：一支有寫死的數值來模擬使用者輸入與隨機生成數字的 `main` 函式</span>
 
-We’ve hardcoded the variable `simulated_user_specified_value` as 10 and the
-variable `simulated_random_number` as 7 for simplicity’s sake; in an actual
-program, we’d get the intensity number from the app frontend, and we’d use the
-`rand` crate to generate a random number, as we did in the Guessing Game
-example in Chapter 2. The `main` function calls a `generate_workout` function
-with the simulated input values.
+爲了方便我們將變數 `simulated_user_specified_value` 寫死爲 10 且變數 `simulated_random_number` 寫死爲 7。在實際程式中，我們會從應用程式前端取得強度數字，並用 `rand` crate 來產生隨機數字，如同第二章猜謎遊戲所做的一樣。`main` 函式會用模擬的輸入數值呼叫 `generate_workout` 函式。
 
-Now that we have the context, let’s get to the algorithm. The function
-`generate_workout` in Listing 13-3 contains the business logic of the
-app that we’re most concerned with in this example. The rest of the code
-changes in this example will be made to this function.
+現在我們有了內容，讓我們看看演算法吧。範例 13-3 的函式 `generate_workout` 包含了應用程式的業務邏輯，也就是我們在此例最在意的地方。此例中接下來的程式碼都在此函式中進行：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -79,41 +45,21 @@ changes in this example will be made to this function.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-03/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-3: The business logic that prints the workout
-plans based on the inputs and calls to the `simulated_expensive_calculation`
-function</span>
+<span class="caption">範例 13-3：依據輸入印出重訓方案並呼叫函式 `simulated_expensive_calculation` 的業務邏輯</span>
 
-The code in Listing 13-3 has multiple calls to the slow calculation function.
-The first `if` block calls `simulated_expensive_calculation` twice, the `if`
-inside the outer `else` doesn’t call it at all, and the code inside the
-second `else` case calls it once.
+範例 13-3 的程式碼會多次呼叫計算緩慢的函式。第一個 `if` 區塊會呼叫 `simulated_expensive_calculation` 兩四，然後在 `else` 區塊內的 `if` 不會呼叫它，然後第二個 `else` 會呼叫它一次。
 
-The desired behavior of the `generate_workout` function is to first check
-whether the user wants a low-intensity workout (indicated by a number less than
-25) or a high-intensity workout (a number of 25 or greater).
+`generate_workout` 函式預期的行爲是先檢查使用者想要低強度的重夐方案（也就是強度低於 25）或者高強度的方案（大於等於 25）。
 
-Low-intensity workout plans will recommend a number of push-ups and sit-ups
-based on the complex algorithm we’re simulating.
+低強度重訓方案會依據我們麼體的複雜演算法來建議一些伏地挺身和仰臥起坐。
 
-If the user wants a high-intensity workout, there’s some additional logic: if
-the value of the random number generated by the app happens to be 3, the app
-will recommend a break and hydration. If not, the user will get a number of
-minutes of running based on the complex algorithm.
+如果使用者想要高強度重用，就會有額外的邏輯：如果應用程式產生的隨機數字是 3 的話，應用程式會建議休息並多喝水；如果不是的話，使用者會依據複雜演算法得到數分鐘的跑步訓練。
 
-This code works the way the business wants it to now, but let’s say the data
-science team decides that we need to make some changes to the way we call the
-`simulated_expensive_calculation` function in the future. To simplify the
-update when those changes happen, we want to refactor this code so it calls the
-`simulated_expensive_calculation` function only once. We also want to cut the
-place where we’re currently unnecessarily calling the function twice without
-adding any other calls to that function in the process. That is, we don’t want
-to call it if the result isn’t needed, and we still want to call it only once.
+此程式碼能夠應付業務邏輯了，但是假設未來資料科學團隊決定要求我們需要更改我們呼叫 `simulated_expensive_calculation` 函式的方式。爲了簡化這些更新步驟，我們想要重構此程式碼好讓 `simulated_expensive_calculation` 只會呼叫一次。同時我們也想要去掉我們目前呼叫兩次的多餘程式碼，我們不希望再對此程序加上更多的函式呼叫。也就是說，我們不希望在沒有需要取得結果實呼叫程式碼，且我們希望它只會被呼叫一次。
 
-#### Refactoring Using Functions
+#### 透過函式重構
 
-We could restructure the workout program in many ways. First, we’ll try
-extracting the duplicated call to the `simulated_expensive_calculation`
-function into a variable, as shown in Listing 13-4.
+我們可以用許多方式重構此重訓程式。首先我們先將重複呼叫 `simulated_expensive_calculation` 的地方改成變數，如範例 13-4 所示。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -121,26 +67,15 @@ function into a variable, as shown in Listing 13-4.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-04/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-4: Extracting the calls to
-`simulated_expensive_calculation` to one place and storing the result in the
-`expensive_result` variable</span>
+<span class="caption">範例 13-4：提取 `simulated_expensive_calculation` 的呼叫到同個位置並用變數 `expensive_result` 儲存結果</span>
 
-This change unifies all the calls to `simulated_expensive_calculation` and
-solves the problem of the first `if` block unnecessarily calling the function
-twice. Unfortunately, we’re now calling this function and waiting for the
-result in all cases, which includes the inner `if` block that doesn’t use the
-result value at all.
+此變更統一了所有 `simulated_expensive_calculation` 的呼叫並解決第一個 `if` 區塊重複呼叫函式兩次的問題。不幸的是，現在我們一定得呼叫此函式並在所有行情形下都得等待，這包含沒有使用到此結果的 `if` 區塊。
 
-We want to define code in one place in our program, but only *execute* that
-code where we actually need the result. This is a use case for closures!
+我們想在程式某處定義程式碼，並在我們確實需要它時*執行*程式碼就好。這就是閉包能使用的場合！
 
-#### Refactoring with Closures to Store Code
+#### 透過閉包重構來儲存程式碼
 
-Instead of always calling the `simulated_expensive_calculation` function before
-the `if` blocks, we can define a closure and store the *closure* in a variable
-rather than storing the result of the function call, as shown in Listing 13-5.
-We can actually move the whole body of `simulated_expensive_calculation` within
-the closure we’re introducing here.
+與其在 `if` 區塊之前就呼叫 `simulated_expensive_calculation` 函式，我們可以定義一個閉包並將*閉包*存入變數中，而不是儲存函式呼叫的結果，如範例 13-5 所示。我們可以將 `simulated_expensive_calculation` 的本體移入這個閉包中。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -148,34 +83,15 @@ the closure we’re introducing here.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-05/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-5: Defining a closure and storing it in the
-`expensive_closure` variable</span>
+<span class="caption">範例 13-5：定義閉包並存入 `expensive_closure` 變數中</span>
 
-The closure definition comes after the `=` to assign it to the variable
-`expensive_closure`. To define a closure, we start with a pair of vertical
-pipes (`|`), inside which we specify the parameters to the closure; this syntax
-was chosen because of its similarity to closure definitions in Smalltalk and
-Ruby. This closure has one parameter named `num`: if we had more than one
-parameter, we would separate them with commas, like `|param1, param2|`.
+閉包定義位於 `expensive_closure` 賦值時 `=` 後面的部分。要定義閉包，我們先從一對直線（`|`）開始，其內我們會指定閉包的參數，選擇此語法的原因是因爲這與 Smalltalk 和 Ruby 的閉包閉包定義類似。此閉包有一個參數 `num`，如果我們想要不止一個的話，我們可以用逗號來分隔，像是這樣 `|param1, param2|`。
 
-After the parameters, we place curly brackets that hold the body of the
-closure—these are optional if the closure body is a single expression. The end
-of the closure, after the curly brackets, needs a semicolon to complete the
-`let` statement. The value returned from the last line in the closure body
-(`num`) will be the value returned from the closure when it’s called, because
-that line doesn’t end in a semicolon; just as in function bodies.
+在參數之後，我們加上大括號來作爲閉包的本體，不過如果閉包本體只是一個表達式的話就不必這樣寫。在閉包結束後，也就是大括號之後，我們要加上分號才能完成 `let` 陳述式的動作。在閉包本體最後一行的回傳數值就會是當閉包被呼叫時的回傳數值，因爲該行沒有以分號做結尾，就像函式本體一樣。
 
-Note that this `let` statement means `expensive_closure` contains the
-*definition* of an anonymous function, not the *resulting value* of calling the
-anonymous function. Recall that we’re using a closure because we want to define
-the code to call at one point, store that code, and call it at a later point;
-the code we want to call is now stored in `expensive_closure`.
+注意到此 `let` 陳述式代表 `expensive_closure` 包含了匿名函式的*定義*，而不是呼叫匿名函式的*回傳數值*。回想一下我們使用閉包是爲了讓我們能在某處定義程式碼、儲存這段程式碼然後在之後別的地方呼叫它。我們想呼叫的程式碼現在儲存在 `expensive_closure` 中。
 
-With the closure defined, we can change the code in the `if` blocks to call the
-closure to execute the code and get the resulting value. We call a closure like
-we do a function: we specify the variable name that holds the closure
-definition and follow it with parentheses containing the argument values we
-want to use, as shown in Listing 13-6.
+有了閉包定義，我們就可以變更 `if` 區塊內的程式碼呼叫閉包來執行其程式碼並取得結果數值。我們呼叫閉包的方式與呼叫函式一樣：我們指定握有閉包定義的變數名稱，然後在括號內加上我們想使用的引數數值，如範例 13-6 所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -183,44 +99,21 @@ want to use, as shown in Listing 13-6.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-06/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-6: Calling the `expensive_closure` we’ve
-defined</span>
+<span class="caption">範例 13-6：呼叫我們定義的 `expensive_closure`</span>
 
-Now the expensive calculation is called in only one place, and we’re only
-executing that code where we need the results.
+現在耗時的計算只會在一處呼叫了，而且我們只會在需要結果時才會執行該程式碼。
 
-However, we’ve reintroduced one of the problems from Listing 13-3: we’re still
-calling the closure twice in the first `if` block, which will call the
-expensive code twice and make the user wait twice as long as they need to. We
-could fix this problem by creating a variable local to that `if` block to hold
-the result of calling the closure, but closures provide us with another
-solution. We’ll talk about that solution in a bit. But first let’s talk about
-why there aren’t type annotations in the closure definition and the traits
-involved with closures.
+然而我們又重新引入了範例 13-3 其中一個問題，我們仍然會在第一個 `if` 區塊呼叫閉包兩次，也就是會呼叫耗時的程式碼兩次，讓使用者需要多等一倍的時間。我們可以透過在 `if` 區塊內建立變數並取得呼叫閉包的結果來修正這個問題，但是閉包還能提供我們另一種解決辦法。我們稍後會介紹這個解決辦法。但在這之前讓我們先討論爲何閉包定義中不用型別詮釋，以及與閉包相關的特徵。
 
-### Closure Type Inference and Annotation
+### 閉包型別推導與詮釋
 
-Closures don’t require you to annotate the types of the parameters or the
-return value like `fn` functions do. Type annotations are required on functions
-because they’re part of an explicit interface exposed to your users. Defining
-this interface rigidly is important for ensuring that everyone agrees on what
-types of values a function uses and returns. But closures aren’t used in an
-exposed interface like this: they’re stored in variables and used without
-naming them and exposing them to users of our library.
+閉包不必像 `fn` 函式那樣要求你要詮釋參數或回傳值的型別。函式需要型別詮釋是因爲它們是顯式公開給使用者的介面。嚴格定義此介面是很重要的，這能確保每個人同意函式使用或回傳的數值型別爲何。但是閉包並不是爲了對外公開使用，它們儲存在變數且沒有名稱能公開給我們函式庫的使用者。
 
-Closures are usually short and relevant only within a narrow context rather
-than in any arbitrary scenario. Within these limited contexts, the compiler is
-reliably able to infer the types of the parameters and the return type, similar
-to how it’s able to infer the types of most variables.
+閉包通常很短，而且只與小範圍內的程式碼有關，而非適用於任何場合。有了這樣限制的環境，編譯器能可靠地推導出參數與回傳值的型別，如同其如何推導出大部分的變數型別一樣。
 
-Making programmers annotate the types in these small, anonymous functions would
-be annoying and largely redundant with the information the compiler already has
-available.
+要求開發者得爲這些小小的匿名函式詮釋型別的話會變得很惱人且非常多餘，因爲編譯器早就有足夠的資訊能推導出來了。
 
-As with variables, we can add type annotations if we want to increase
-explicitness and clarity at the cost of being more verbose than is strictly
-necessary. Annotating the types for the closure we defined in Listing 13-5
-would look like the definition shown in Listing 13-7.
+至於變數的話，雖然不是必要的，但如果我們希望能夠增加閱讀性與清楚程度，我們還是可以加上型別詮釋。要對我們在範例 13-5 定義的閉包詮釋型別的話，會如以下範例 13-7 所定義的所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -228,15 +121,9 @@ would look like the definition shown in Listing 13-7.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-07/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-7: Adding optional type annotations of the
-parameter and return value types in the closure</span>
+<span class="caption">範例 13-7：對閉包加上選擇性的參數與回傳值型別詮釋</span>
 
-With type annotations added, the syntax of closures looks more similar to the
-syntax of functions. The following is a vertical comparison of the syntax for
-the definition of a function that adds 1 to its parameter and a closure that
-has the same behavior. We’ve added some spaces to line up the relevant parts.
-This illustrates how closure syntax is similar to function syntax except for
-the use of pipes and the amount of syntax that is optional:
+加上型別詮釋後，閉包的語法看起來就更像函式的語法了。以下對一個參數加 1 的函式定義語法與有相同行爲的閉包的比較表。我們加了一些空格來對齊相對應的部分。這顯示了閉包語法和函式語法有多類似，只是改用直線以及有些語法是選擇性的。
 
 ```rust,ignore
 fn  add_one_v1   (x: u32) -> u32 { x + 1 }
@@ -245,21 +132,9 @@ let add_one_v3 = |x|             { x + 1 };
 let add_one_v4 = |x|               x + 1  ;
 ```
 
-The first line shows a function definition, and the second line shows a fully
-annotated closure definition. The third line removes the type annotations from
-the closure definition, and the fourth line removes the brackets, which are
-optional because the closure body has only one expression. These are all valid
-definitions that will produce the same behavior when they’re called. Calling
-the closures is required for `add_one_v3` and `add_one_v4` to be able to
-compile because the types will be inferred from their usage.
+第一行顯示的是函式定義，而第二行則顯示有完成型別詮釋的閉包定義。第三行移除了閉包定義的型別詮釋，然後第四行移除了大括號，因爲閉包本體只有一個表達式，所以這是選擇性的。這些都是有效的定義，並會在被呼叫時產生相同行爲。而 `add_one_v3` 和 `add_one_v4` 一定要被呼叫，這樣編譯器才能從它們的使用方式中推導出型別。
 
-Closure definitions will have one concrete type inferred for each of their
-parameters and for their return value. For instance, Listing 13-8 shows the
-definition of a short closure that just returns the value it receives as a
-parameter. This closure isn’t very useful except for the purposes of this
-example. Note that we haven’t added any type annotations to the definition: if
-we then try to call the closure twice, using a `String` as an argument the
-first time and a `u32` the second time, we’ll get an error.
+閉包定義會對每個參數與它們的回傳值推導出一個實際型別。舉例來說，範例 13-8 展示一支只會將收到的參數作爲回傳值的閉包定義。此閉包並沒有什麼意義，純粹作爲範例解釋。注意到我們沒有在定義中加上任何型別詮釋。如果我們嘗試呼叫閉包兩次，一次使用 `String` 作爲引數，而另一次使用 `u32` 的話，我們就會得到錯誤。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -267,56 +142,29 @@ first time and a `u32` the second time, we’ll get an error.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-08/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-8: Attempting to call a closure whose types
-are inferred with two different types</span>
+<span class="caption">範例 13-8：嘗試呼叫被推導出兩個不同型別的閉包</span>
 
-The compiler gives us this error:
+編譯器會給我們以下錯誤：
 
 ```console
 {{#include ../listings/ch13-functional-features/listing-13-08/output.txt}}
 ```
 
-The first time we call `example_closure` with the `String` value, the compiler
-infers the type of `x` and the return type of the closure to be `String`. Those
-types are then locked in to the closure in `example_closure`, and we get a type
-error if we try to use a different type with the same closure.
+當我們第一次使用 `String` 數值呼叫 `example_closure` 時，編譯器會推導 `x` 與閉包回傳值的型別爲 `String`。這樣 `example_closure` 閉包內的型別就會鎖定，然後我們如果對同樣的閉包嘗試使用不同的型別的話，我們就會得到型別錯誤。
 
-### Storing Closures Using Generic Parameters and the `Fn` Traits
+### 透過泛型參數與 `Fn` 特徵儲存閉包
 
-Let’s return to our workout generation app. In Listing 13-6, our code was still
-calling the expensive calculation closure more times than it needed to. One
-option to solve this issue is to save the result of the expensive closure in a
-variable for reuse and use the variable in each place we need the result,
-instead of calling the closure again. However, this method could result in a
-lot of repeated code.
+讓我們回到我們的重訓生成應用程式。在範例 13-6 中，我們的程式碼仍然會呼叫耗時的閉包不止一次。其中一個解決此問題的選項是將耗時閉包的結果存入變數中，並在我們需要結果的地方使用該變數，而不是再呼叫閉包一次。不過此方法可能會增加很多重複的程式碼。
 
-Fortunately, another solution is available to us. We can create a struct that
-will hold the closure and the resulting value of calling the closure. The
-struct will execute the closure only if we need the resulting value, and it
-will cache the resulting value so the rest of our code doesn’t have to be
-responsible for saving and reusing the result. You may know this pattern as
-*memoization* or *lazy evaluation*.
+幸運的是我們還有另一個解決辦法。我們可以建立一個結構體來儲存閉包以及呼叫閉包的結果數值。此結構體只會在我們需要結果數值時執行閉包，然後它會獲取結果數值，所以我們的程式碼就不必負責儲存要重複使用的結果。你可能會聽過這種模式叫做*記憶化（memoization）*或*惰性求值（lazy evaluation）*。
 
-To make a struct that holds a closure, we need to specify the type of the
-closure, because a struct definition needs to know the types of each of its
-fields. Each closure instance has its own unique anonymous type: that is, even
-if two closures have the same signature, their types are still considered
-different. To define structs, enums, or function parameters that use closures,
-we use generics and trait bounds, as we discussed in Chapter 10.
+要定義一個結構體儲存一個閉包，我們需要指定閉包的型別，因爲結構體定義需要知道它每個欄位的型別。每個閉包實例都有自己獨特的匿名型別，也就是說就算有兩個閉包的簽名一模一樣，它們的型別還是會被視爲不同的。要定義有使用閉包的結構體、枚舉或函式參數的話，我們可以使用在第十章所提到的泛型與特徵界限。
 
-The `Fn` traits are provided by the standard library. All closures implement at
-least one of the traits: `Fn`, `FnMut`, or `FnOnce`. We’ll discuss the
-difference between these traits in the [“Capturing the Environment with
-Closures”](#capturing-the-environment-with-closures)<!-- ignore --> section; in
-this example, we can use the `Fn` trait.
+標準函式庫有提供 `Fn` 特徵，所有閉包都有實作至少以下一種特徵：`Fn`、`FnMut` 或 `FnOnce`。我們會在[「透過閉包獲取環境」](#透過閉包獲取環境)<!-- ignore -->段落中討論這些特徵的不同。在此例中，我們可以使用 `Fn` 特徵。
 
-We add types to the `Fn` trait bound to represent the types of the parameters
-and return values the closures must have to match this trait bound. In this
-case, our closure has a parameter of type `u32` and returns a `u32`, so the
-trait bound we specify is `Fn(u32) -> u32`.
+我們在 `Fn` 特徵界限加上了型別來表示閉包參數與回傳值必須擁有的型別。在此例中，我們的閉包參數型別爲 `u32` 且回傳 `u32`，所以我們指定的特徵界限爲 `Fn(u32) -> u32`。
 
-Listing 13-9 shows the definition of the `Cacher` struct that holds a closure
-and an optional result value.
+範例 13-9 顯示了擁有一個閉包與一個 Option 結果數值的 `Cacher` 結構體定義。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -324,29 +172,15 @@ and an optional result value.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-09/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-9: Defining a `Cacher` struct that holds a
-closure in `calculation` and an optional result in `value`</span>
+<span class="caption">範例 13-9：定義結構體 `Cacher` 而 `calculation` 會存有閉包且 `value` 存放  Option 結果</span>
 
-The `Cacher` struct has a `calculation` field of the generic type `T`. The
-trait bounds on `T` specify that it’s a closure by using the `Fn` trait. Any
-closure we want to store in the `calculation` field must have one `u32`
-parameter (specified within the parentheses after `Fn`) and must return a
-`u32` (specified after the `->`).
+`Cacher` 結構體有個欄位 `calculation` 其泛型型別爲 `T`。`T` 的特徵界限指定這是一個使用 `Fn` 特徵的閉包。任何我們想存入的 `calculation` 欄位的閉包都必須只有一個 `u32` 參數（在 `Fn` 後方的括號內指定）以及回傳一個 `u32`（在 `->` 之後指定）。
 
-> Note: Functions can implement all three of the `Fn` traits too. If what we
-> want to do doesn’t require capturing a value from the environment, we can use
-> a function rather than a closure where we need something that implements an
-> `Fn` trait.
+> 注意：函式也會實作這三個 `Fn` 特徵。如果我們想做的事情不需要獲取環境數值，我們可以使用實現 `Fn` 特徵的函式而非閉包。
 
-The `value` field is of type `Option<u32>`. Before we execute the closure,
-`value` will be `None`. When code using a `Cacher` asks for the *result* of the
-closure, the `Cacher` will execute the closure at that time and store the
-result within a `Some` variant in the `value` field. Then if the code asks for
-the result of the closure again, instead of executing the closure again, the
-`Cacher` will return the result held in the `Some` variant.
+`value` 欄位型別爲 `Option<u32>`。在我們執行閉包前，`value` 會是 `None`。當有程式碼使用 `Cacher` 要求取得閉包*結果*時，`Cacher` 就會在那時候執行閉包並以 `Some` 變體儲存結果到 `value` 欄位。然後如果有程式碼再次要求閉包結果實，我們就不必再執行閉包一次，可以靠 `Cacher` 回傳 `Some` 變體內的結果。
 
-The logic around the `value` field we’ve just described is defined in Listing
-13-10.
+我們討論這個有關 `value` 欄位的邏輯定義就如範例 13-10 所示。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -354,30 +188,17 @@ The logic around the `value` field we’ve just described is defined in Listing
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-10/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-10: The caching logic of `Cacher`</span>
+<span class="caption">範例 13-10：`Cacher` 的快取（Caching）邏輯</span>
 
-We want `Cacher` to manage the struct fields’ values rather than letting the
-calling code potentially change the values in these fields directly, so these
-fields are private.
+我們想要 `Cacher` 來管理結構體的欄位數值，而不是讓呼叫者有機會直接改變這些欄位的數值，所以這些欄位是私有的。
 
-The `Cacher::new` function takes a generic parameter `T`, which we’ve defined
-as having the same trait bound as the `Cacher` struct. Then `Cacher::new`
-returns a `Cacher` instance that holds the closure specified in the
-`calculation` field and a `None` value in the `value` field, because we haven’t
-executed the closure yet.
+`Cacher::new` 函式接收一個泛型參數 `T`，其特徵界限與我們在 `Cacher` 結構體定義的是相同的。接著 `Cacher::new` 回傳一個 `Cacher` 實例，其 `calculation` 欄位擁有指定的閉包而 `value` 欄位則是 `None`，因爲我們還沒有執行閉包。
 
-When the calling code needs the result of evaluating the closure, instead of
-calling the closure directly, it will call the `value` method. This method
-checks whether we already have a resulting value in `self.value` in a `Some`;
-if we do, it returns the value within the `Some` without executing the closure
-again.
+當呼叫者需要閉包計算的結果時，不是直接呼叫閉包，而是呼叫 `value` 方法。此方法會檢查我們的 `self.value` 是否已經有個結果數值在 `Some` 內。如果有的話，它會回傳 `Some` 內的數值而不用再次執行閉包。
 
-If `self.value` is `None`, the code calls the closure stored in
-`self.calculation`, saves the result in `self.value` for future use, and
-returns the value as well.
+如果 `self.value` 是 `None`，程式碼會呼叫存在 `self.calculation` 的閉包、儲存結果到 `self.value` 以便未來使用，並回傳數值。
 
-Listing 13-11 shows how we can use this `Cacher` struct in the function
-`generate_workout` from Listing 13-6.
+範例 13-11 展示我們如何在範例 13-6 的 `generate_workout` 函式中使用此 `Cacher` 結構體。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -385,77 +206,41 @@ Listing 13-11 shows how we can use this `Cacher` struct in the function
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-11/src/main.rs:here}}
 ```
 
-<span class="caption">範例 13-11: Using `Cacher` in the `generate_workout`
-function to abstract away the caching logic</span>
+<span class="caption">範例 13-11：在函式 `generate_workout` 使用 `Cacher` 來抽象化快取邏輯</span>
 
-Instead of saving the closure in a variable directly, we save a new instance of
-`Cacher` that holds the closure. Then, in each place we want the result, we
-call the `value` method on the `Cacher` instance. We can call the `value`
-method as many times as we want, or not call it at all, and the expensive
-calculation will be run a maximum of once.
+不同於將閉包儲存給變數，我們建立一個新的 `Cacher` 實例來儲存閉包。然後在每個我們需要結果的地方，我們呼叫 `Cacher` 實例的 `value` 方法。我們要呼叫 `value` 方法幾次都行，或者不叫也行，無論如何耗時計算最多就只會被執行一次。
 
-Try running this program with the `main` function from Listing 13-2. Change the
-values in the `simulated_user_specified_value` and `simulated_random_number`
-variables to verify that in all the cases in the various `if` and `else`
-blocks, `calculating slowly...` appears only once and only when needed. The
-`Cacher` takes care of the logic necessary to ensure we aren’t calling the
-expensive calculation more than we need to so `generate_workout` can focus on
-the business logic.
+請嘗試從範例 13-2 的 `main` 函式執行此程式。變更 `simulated_user_specified_value` 與 `simulated_random_number` 的數值來驗證看看在所有情況下與數個 `if` 和 `else` 區塊中，`calculating slowly...` 只會出現一次且只有在需要時才會出現。`Cacher` 負責確保我們不會呼叫超過耗時計算所需的邏輯，讓 `generate_workout` 可以專注在業務邏輯。
 
-### Limitations of the `Cacher` Implementation
+### `Cacher` 實作的限制
 
-Caching values is a generally useful behavior that we might want to use in
-other parts of our code with different closures. However, there are two
-problems with the current implementation of `Cacher` that would make reusing it
-in different contexts difficult.
+快取數值是個廣泛實用的行爲，我們可能會希望在程式碼中的其他不同閉包也使用到。然而目前`Cacher` 的實作有兩個問題可能會在不同場合重複使用變得有點困難。
 
-The first problem is that a `Cacher` instance assumes it will always get the
-same value for the parameter `arg` to the `value` method. That is, this test of
-`Cacher` will fail:
+第一個問題是 `Cacher` 實例假設它永遠會從方法 `value` 的參數 `arg` 中取得相同數值，所以說以下 `Cacher` 的測試就會失敗：
 
 ```rust,ignore,panics
 {{#rustdoc_include ../listings/ch13-functional-features/no-listing-01-failing-cacher-test/src/lib.rs:here}}
 ```
 
-This test creates a new `Cacher` instance with a closure that returns the value
-passed into it. We call the `value` method on this `Cacher` instance with an
-`arg` value of 1 and then an `arg` value of 2, and we expect the call to
-`value` with the `arg` value of 2 to return 2.
+此測試透過一個回傳傳入值的閉包建立一個新的 `Cacher` 實例。我們透過一個 `arg` 數值 1 與另一個 `arg` 數值 2 來呼叫此 `Cacher` 實例的 `value` 方法兩次，且我們預期 `arg` 爲 2 的 `value` 會回傳 2。
 
-Run this test with the `Cacher` implementation in Listing 13-9 and Listing
-13-10, and the test will fail on the `assert_eq!` with this message:
+使用範例 13-9 和範例 13-10 的 `Cacher` 實作執行此測試的話，測試會在 `assert_eq!` 失敗並附上此訊息：
 
 ```console
 {{#include ../listings/ch13-functional-features/no-listing-01-failing-cacher-test/output.txt}}
 ```
 
-The problem is that the first time we called `c.value` with 1, the `Cacher`
-instance saved `Some(1)` in `self.value`. Thereafter, no matter what we pass in
-to the `value` method, it will always return 1.
+問題在於我們第一次會使用 1 呼叫 `c.value`，`Cacher` 實例會儲存 `Some(1)` 給 `self.value`。因此無論我們再傳入任何值給 `value` 方法，它永遠只會回傳 1。
 
-Try modifying `Cacher` to hold a hash map rather than a single value. The keys
-of the hash map will be the `arg` values that are passed in, and the values of
-the hash map will be the result of calling the closure on that key. Instead of
-looking at whether `self.value` directly has a `Some` or a `None` value, the
-`value` function will look up the `arg` in the hash map and return the value if
-it’s present. If it’s not present, the `Cacher` will call the closure and save
-the resulting value in the hash map associated with its `arg` value.
+我們可以嘗試將 `Cacher` 改成儲存雜湊映射（hash map）而非單一數值。雜湊映射的鍵會是傳入的 `arg` 數值，而雜湊映射的值則是用該鍵呼叫閉包的結果。所以不同於查看 `self.value` 是 `Some` 還是 `None` 值， `value` 函式將會查看 `arg` 有沒有在雜湊映射內，而如果有的話就會傳對應數值。如果沒有的話，`Cacher` 會呼叫閉包並儲存 `arg` 數值與對應的結果數值到雜湊映射中。
 
-The second problem with the current `Cacher` implementation is that it only
-accepts closures that take one parameter of type `u32` and return a `u32`. We
-might want to cache the results of closures that take a string slice and return
-`usize` values, for example. To fix this issue, try introducing more generic
-parameters to increase the flexibility of the `Cacher` functionality.
+第二個問題是目前的 `Cacher` 實作只會接受參數型別爲 `u32` 並回傳 `u32` 的閉包。舉例來說，我們可能會想要快取給予字串並回傳 `usize` 的閉包結果數值。要修正此問題，你可以嘗試加上更多泛型參數來增加 `Cacher` 功能的彈性。
 
-### Capturing the Environment with Closures
+### 透過閉包獲取環境
 
-In the workout generator example, we only used closures as inline anonymous
-functions. However, closures have an additional capability that functions don’t
-have: they can capture their environment and access variables from the scope in
-which they’re defined.
+在重訓生成範例中，我們只將閉包作爲行內匿名函式。但是閉包還有個函式所沒有的能力：它們可以獲取它們的環境並取得在它們所定義的作用域內的變數。
 
-Listing 13-12 has an example of a closure stored in the `equal_to_x` variable
-that uses the `x` variable from the closure’s surrounding environment.
+範例 13-12 有一個儲存在變數 `equal_to_x` 的閉包，其使用變數 `x` 來取得閉包周圍的環境。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -463,15 +248,11 @@ that uses the `x` variable from the closure’s surrounding environment.
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-12/src/main.rs}}
 ```
 
-<span class="caption">範例 13-12: Example of a closure that refers to a
-variable in its enclosing scope</span>
+<span class="caption">範例 13-12：引用周圍作用域中變數的閉包範例</span>
 
-Here, even though `x` is not one of the parameters of `equal_to_x`, the
-`equal_to_x` closure is allowed to use the `x` variable that’s defined in the
-same scope that `equal_to_x` is defined in.
+`x` 在此雖然不是 `equal_to_x` 的參數，`equal_to_x` 閉包卻允許使用變數 `x`，因爲它與 `equal_to_x` 都定義在同個作用域。
 
-We can’t do the same with functions; if we try with the following example, our
-code won’t compile:
+我們用函式就做不到，如果我們嘗試執行以下範例，我們的程式碼會無法編譯：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -479,52 +260,27 @@ code won’t compile:
 {{#rustdoc_include ../listings/ch13-functional-features/no-listing-02-functions-cant-capture/src/main.rs}}
 ```
 
-We get an error:
+我們得到以下錯誤：
 
 ```console
 {{#include ../listings/ch13-functional-features/no-listing-02-functions-cant-capture/output.txt}}
 ```
 
-The compiler even reminds us that this only works with closures!
+編譯器甚至會提醒我們這只有閉包才能做到！
 
-When a closure captures a value from its environment, it uses memory to store
-the values for use in the closure body. This use of memory is overhead that we
-don’t want to pay in more common cases where we want to execute code that
-doesn’t capture its environment. Because functions are never allowed to capture
-their environment, defining and using functions will never incur this overhead.
+當閉包從它的環境獲取數值時，它會在閉包本體中使用記憶體來儲存這個數值。這種儲存記憶體的方式會產生額外開銷。在更常見的場合中，也就是不需要獲取程式碼的環境時，我們並不希望產生這種開銷。因爲函式並不允許獲取它們的環境，定義與使用函式就不會產生這種開銷。
 
-Closures can capture values from their environment in three ways, which
-directly map to the three ways a function can take a parameter: taking
-ownership, borrowing mutably, and borrowing immutably. These are encoded in the
-three `Fn` traits as follows:
+閉包可以用三種方式獲取它們的環境，這剛好能對應到函式取得參數的三種方式：取得所有權、可變借用與不可變借用。這就被定義成以下三種 `Fn` 特徵：
 
-* `FnOnce` consumes the variables it captures from its enclosing scope, known
-  as the closure’s *environment*. To consume the captured variables, the
-  closure must take ownership of these variables and move them into the closure
-  when it is defined. The `Once` part of the name represents the fact that the
-  closure can’t take ownership of the same variables more than once, so it can
-  be called only once.
-* `FnMut` can change the environment because it mutably borrows values.
-* `Fn` borrows values from the environment immutably.
+* `FnOnce` 會消耗周圍作用域中，也就是閉包的*環境*，所獲取變數。要消耗掉所獲取的變數，閉包必須取得這些變數的所有權並在定義時將它們移入閉包中。特徵名稱中的 `Once` 指的是因爲閉包無法取得相同變數的所有權一次以上，所以它只能被呼叫一次。
+* `FnMut` 可以改變環境，因爲它取得的事可變的借用數值。
+* `Fn` 則取得環境中不可變的借用數值。
 
-When you create a closure, Rust infers which trait to use based on how the
-closure uses the values from the environment. All closures implement `FnOnce`
-because they can all be called at least once. Closures that don’t move the
-captured variables also implement `FnMut`, and closures that don’t need mutable
-access to the captured variables also implement `Fn`. In Listing 13-12, the
-`equal_to_x` closure borrows `x` immutably (so `equal_to_x` has the `Fn` trait)
-because the body of the closure only needs to read the value in `x`.
+當你建立閉包時，Rust 會依據閉包如何使用環境的數值來推導該使用何種特徵。所有的閉包都會實作 `FnOnce` 因爲它們都可以至少被呼叫一次。不會移動獲取變數的閉包還會實作 `FnMut`，最後不需要向獲取變數取得可變引用的閉包會再實作 `Fn`。在範例 13-12 中，`equal_to_x` 閉包會取得 `x` 的不可變借用（所以 `equal_to_x` 擁有 `Fn` 特徵），因爲閉包本體只會讀取 `x` 數值。
 
-If you want to force the closure to take ownership of the values it uses in the
-environment, you can use the `move` keyword before the parameter list. This
-technique is mostly useful when passing a closure to a new thread to move the
-data so it’s owned by the new thread.
+如果你希望強制閉包會取得周圍環境數值的所有權，你可以在參數列表前使用 `move` 關鍵字。此技巧在要將閉包傳給新的執行緒以便將資料移動到新執行緒時會很實用。
 
-We’ll have more examples of `move` closures in Chapter 16 when we talk about
-concurrency. For now, here’s the code from Listing 13-12 with the `move`
-keyword added to the closure definition and using vectors instead of integers,
-because integers can be copied rather than moved; note that this code will not
-yet compile.
+當我們在第十六章討論並行的時候，我們會遇到更多 `move` 閉包的範例。現在的話可以先看看範例 13-12 怎麼使用 `move` 關鍵字到閉包定義中 ，並使用 vector 而非整數，因爲整數可以被拷貝而不是移動。注意此程式還不能編譯過。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -532,20 +288,19 @@ yet compile.
 {{#rustdoc_include ../listings/ch13-functional-features/no-listing-03-move-closures/src/main.rs}}
 ```
 
-We receive the following error:
+我們會獲得以下錯誤：
 
 ```console
 {{#include ../listings/ch13-functional-features/no-listing-03-move-closures/output.txt}}
 ```
 
-The `x` value is moved into the closure when the closure is defined, because we
-added the `move` keyword. The closure then has ownership of `x`, and `main`
-isn’t allowed to use `x` anymore in the `println!` statement. Removing
-`println!` will fix this example.
+當閉包定義時，數值 `x` 會移入閉包中，因爲我們加上了 `move` 關鍵字。閉包因此取得 `x` 的所有權，然後 `main` 就會不允許 `x` 在 `println!` 陳述式中使用。移除此例的 `println!` 就能修正問題。
 
-Most of the time when specifying one of the `Fn` trait bounds, you can start
-with `Fn` and the compiler will tell you if you need `FnMut` or `FnOnce` based
-on what happens in the closure body.
+大多數要指定 `Fn` 特徵界限時，你可以先從 `Fn` 開始，然後編譯器會依據閉包本體的使用情況來告訴你該使用 `FnMut` 或 `FnOnce`。
 
-To illustrate situations where closures that can capture their environment are
-useful as function parameters, let’s move on to our next topic: iterators.
+
+接下來爲了講解閉包獲取環境的行爲很適合用於函式參數的情形，讓我們移至下個主題：疊代器。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch13-01-closures.md)
+> - updated: 2020-09-17
