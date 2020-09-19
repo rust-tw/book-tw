@@ -80,12 +80,12 @@
     - [改善我們的 I/O 專案](ch13-03-improving-our-io-project.md)
     - [比較效能：迴圈 vs. 疊代器](ch13-04-performance.md)
 
-- [More about Cargo and Crates.io](ch14-00-more-about-cargo.md)
-    - [Customizing Builds with Release Profiles](ch14-01-release-profiles.md)
-    - [Publishing a Crate to Crates.io](ch14-02-publishing-to-crates-io.md)
-    - [Cargo Workspaces](ch14-03-cargo-workspaces.md)
-    - [Installing Binaries from Crates.io with `cargo install`](ch14-04-installing-binaries.md)
-    - [Extending Cargo with Custom Commands](ch14-05-extending-cargo.md)
+- [更多關於 Cargo 與 Crates.io 的內容](ch14-00-more-about-cargo.md)
+    - [透過發佈設定檔自訂建構](ch14-01-release-profiles.md)
+    - [發佈 Crate 到 Crates.io](ch14-02-publishing-to-crates-io.md)
+    - [Cargo 工作空間](ch14-03-cargo-workspaces.md)
+    - [透過 `cargo install` 從 Crates.io 安裝二進制執行檔](ch14-04-installing-binaries.md)
+    - [透過自訂命命來擴展 Cargo 的功能](ch14-05-extending-cargo.md)
 
 - [Smart Pointers](ch15-00-smart-pointers.md)
     - [Using `Box<T>` to Point to Data on the Heap](ch15-01-box.md)
