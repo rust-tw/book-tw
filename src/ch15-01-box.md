@@ -1,39 +1,20 @@
-## Using `Box<T>` to Point to Data on the Heap
+## 使用 `Box<T>` 指向堆積上的資料
 
-The most straightforward smart pointer is a *box*, whose type is written
-`Box<T>`. Boxes allow you to store data on the heap rather than the stack. What
-remains on the stack is the pointer to the heap data. Refer to Chapter 4 to
-review the difference between the stack and the heap.
+最直白的智慧指標是 *box* 其型別爲 `Box<T>`。Box 允許你儲存資料到堆積上，而不是堆疊。留在堆疊上的會是指向堆積資料的指標。你可以回顧第四章瞭解堆疊與堆積的差別。
 
-Boxes don’t have performance overhead, other than storing their data on the
-heap instead of on the stack. But they don’t have many extra capabilities
-either. You’ll use them most often in these situations:
+Box 沒有額外的效能開銷，就只是將它們的資料儲存在堆積上而非堆疊而已。不過相對地它們也沒有多少額外功能。你大概會在這些場合用到它們：
 
-* When you have a type whose size can’t be known at compile time and you want
-  to use a value of that type in a context that requires an exact size
-* When you have a large amount of data and you want to transfer ownership but
-  ensure the data won’t be copied when you do so
-* When you want to own a value and you care only that it’s a type that
-  implements a particular trait rather than being of a specific type
+* 當你有個型別無法在編譯時期確定大小，而你又想在需要知道確切大小的情況下使用該型別的數值
+* 當你有個龐大的資料，而你想要轉移所有權並確保資料不會被拷貝。
+* 當你想要擁有某個值，但你只在意該型別有實作特定的特徵，而不再是何種特定型別
 
-We’ll demonstrate the first situation in the [“Enabling Recursive Types with
-Boxes”](#enabling-recursive-types-with-boxes)<!-- ignore --> section. In the
-second case, transferring ownership of a large amount of data can take a long
-time because the data is copied around on the stack. To improve performance in
-this situation, we can store the large amount of data on the heap in a box.
-Then, only the small amount of pointer data is copied around on the stack,
-while the data it references stays in one place on the heap. The third case is
-known as a *trait object*, and Chapter 17 devotes an entire section, [“Using
-Trait Objects That Allow for Values of Different Types,”][trait-objects]<!--
-ignore --> just to that topic. So what you learn here you’ll apply again in
-Chapter 17!
+我們會在[「透過 Box 建立遞迴型別」](#enabling-recursive-types-with-boxes)<!-- ignore -->段落解說第一種情形。而在第二種情形，轉移龐大的資料的所有權可能會很花費時間，因爲在堆疊上的話會拷貝所有資料。要改善此情形，我們可以用 box 將龐大的資料儲存在堆積上。這樣就只有少量的指標資料在堆疊上被拷貝，而其引用的資料仍然保留在堆積上的同個位置。第三種情況被*特徵物件（trait object）*，第十七章會花整個[「允許不同型別數值的特徵物件」][trait-objects]<!-- ignore -->段落來討論此議題。所以你在此學到的到第十七章會再次用上！
 
-### Using a `Box<T>` to Store Data on the Heap
+### 使用 `Box<T>` 儲存資料到堆積上
 
-Before we discuss this use case for `Box<T>`, we’ll cover the syntax and how to
-interact with values stored within a `Box<T>`.
+在我們討論 `Box<T>` 的使用場合前，我們會先介紹語法以及如何對 `Box<T>` 內儲存的數值進行互動。
 
-Listing 15-1 shows how to use a box to store an `i32` value on the heap:
+範例 15-1 顯示如何使用 box 在堆積上儲存一個 `i32` 數值：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -41,67 +22,29 @@ Listing 15-1 shows how to use a box to store an `i32` value on the heap:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-01/src/main.rs}}
 ```
 
-<span class="caption">範例 15-1: Storing an `i32` value on the heap using a
-box</span>
+<span class="caption">範例 15-1：使用 box 在堆積上儲存一個 `i32` 數值</span>
 
-We define the variable `b` to have the value of a `Box` that points to the
-value `5`, which is allocated on the heap. This program will print `b = 5`; in
-this case, we can access the data in the box similar to how we would if this
-data were on the stack. Just like any owned value, when a box goes out of
-scope, as `b` does at the end of `main`, it will be deallocated. The
-deallocation happens for the box (stored on the stack) and the data it points
-to (stored on the heap).
+我們定義了變數 `b` 其數值爲 `Box` 分配在堆積上指向的數值 `5`。程式在此例會印出 `b = 5`，在此例中我們可以用在堆疊上相同的方式取得 box 的資料。就像任何有所有權的數值一樣，當 box 離開作用域時會釋放記憶體，在此例就是當 `b` 抵達 `main` 結尾的時候。釋放記憶體作用於 box（儲存在堆疊上）以及其所指向的資料（儲存在堆積上）。
 
-Putting a single value on the heap isn’t very useful, so you won’t use boxes by
-themselves in this way very often. Having values like a single `i32` on the
-stack, where they’re stored by default, is more appropriate in the majority of
-situations. Let’s look at a case where boxes allow us to define types that we
-wouldn’t be allowed to if we didn’t have boxes.
+將單一數值放在堆積上的確沒什麼用處，所以你不會對這種類型經常使用 box。在大多數情況下將像 `i32` 這種單一數值預設儲存在堆疊的確比較適合。
 
-### Enabling Recursive Types with Boxes
+### 透過 Box 建立遞迴型別
 
-At compile time, Rust needs to know how much space a type takes up. One type
-whose size can’t be known at compile time is a *recursive type*, where a value
-can have as part of itself another value of the same type. Because this nesting
-of values could theoretically continue infinitely, Rust doesn’t know how much
-space a value of a recursive type needs. However, boxes have a known size, so
-by inserting a box in a recursive type definition, you can have recursive types.
+在編譯時期，Rust 需要知道一個型別佔用的空間有多少。其中一種無法在編譯期間知道大小的型別就是*遞迴型別（recursive type）*，其值的一部分可以是相同型別的另一個值。由於這種巢狀數值理論上可以無限循環下去，Rust無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。
 
-Let’s explore the *cons list*, which is a data type common in functional
-programming languages, as an example of a recursive type. The cons list type
-we’ll define is straightforward except for the recursion; therefore, the
-concepts in the example we’ll work with will be useful any time you get into
-more complex situations involving recursive types.
+讓我們來探索 *cons list*，這是個在函式程式語言中常見的資料型別，很適合作爲遞迴型別的範例。我們要定義的 cons list 型別除了遞迴的部分以外都很直白，因此這個例子的概念在往後你遇到更複雜的遞迴型別時會很實用。
 
-#### More Information About the Cons List
+#### 更多關於 Cons List 的資訊
 
-A *cons list* is a data structure that comes from the Lisp programming language
-and its dialects. In Lisp, the `cons` function (short for “construct function”)
-constructs a new pair from its two arguments, which usually are a single value
-and another pair. These pairs containing pairs form a list.
+*cons list* 是個起源於 Lisp 程式設計語言與其方言的資料結構。在 Lisp 中，`cons` 函式（「construct function」的縮寫）會從兩個引數建構一個新的配對，而這通常是一個數值與另一個配對，而這些配對就包含了列表中的配對。
 
-The cons function concept has made its way into more general functional
-programming jargon: “to cons *x* onto *y*” informally means to construct a new
-container instance by putting the element *x* at the start of this new
-container, followed by the container *y*.
+cons 函式的概念在往後成了常見的函式語言術語：「將 *x* cons 到 *y*」通常代表的是建立一個新的容器實例，將元素 *x* 置於此容器的開頭，而後方則是連接到容器 *y*。
 
-Each item in a cons list contains two elements: the value of the current item
-and the next item. The last item in the list contains only a value called `Nil`
-without a next item. A cons list is produced by recursively calling the `cons`
-function. The canonical name to denote the base case of the recursion is `Nil`.
-Note that this is not the same as the “null” or “nil” concept in Chapter 6,
-which is an invalid or absent value.
+每個 cons list 的項目都包含兩個元素：目前項目的數值與下一個項目。列表中的最後一個項目只會包含一個數值叫做 `Nil`，並不會再連接下一個項目。cons list 透過遞迴呼叫 `cons` 函式來產生。表示遞迴終止條件的名稱爲 `Nil`。注意這和第六章提到的「null」或「nil」的概念不全然相同，這些代表的是無效或空缺的數值。
 
-Although functional programming languages use cons lists frequently, the cons
-list isn’t a commonly used data structure in Rust. Most of the time when you
-have a list of items in Rust, `Vec<T>` is a better choice to use. Other, more
-complex recursive data types *are* useful in various situations, but by
-starting with the cons list, we can explore how boxes let us define a recursive
-data type without much distraction.
+雖然函式程式設計語言很常使用 cons lists，但在 Rust 中 cons lists 卻不是常見的資料結構。大多數當你在 Rust 需要項目列表時，`Vec<T>` 會是比較好的選擇。而其他時候夠複雜的遞迴資料型別*確實*在各種特殊情形會很實用，不過先從 cons list 開始的話，我們可以專注探討 box 如何讓我們定義遞迴資料型別。
 
-Listing 15-2 contains an enum definition for a cons list. Note that this code
-won’t compile yet because the `List` type doesn’t have a known size, which
-we’ll demonstrate.
+範例 15-2 包含了 cons list 的枚舉定義。注意到此程式碼還不能編譯過，因爲 `List` 型別並沒有以已知大小，我們接下來會繼續說明。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -109,16 +52,11 @@ we’ll demonstrate.
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-02/src/main.rs:here}}
 ```
 
-<span class="caption">範例 15-2: The first attempt at defining an enum to
-represent a cons list data structure of `i32` values</span>
+<span class="caption">範例 15-2：第一次嘗試定義一個枚舉來代表有 `i32` 數值的 cons list 資料結構</span>
 
-> Note: We’re implementing a cons list that holds only `i32` values for the
-> purposes of this example. We could have implemented it using generics, as we
-> discussed in Chapter 10, to define a cons list type that could store values of
-> any type.
+> 注意：我們定義的 cons list 只有 `i32` 數值是爲了範例考量。我們當然可以使用第十章討論過的泛型來定義它，讓 cons list 定義的型別可以儲存任何型別數值。
 
-Using the `List` type to store the list `1, 2, 3` would look like the code in
-Listing 15-3:
+使用 `List` 型別來儲存 `1, 2, 3` 列表的話會如範例 15-3 的程式碼所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -126,66 +64,39 @@ Listing 15-3:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-03/src/main.rs:here}}
 ```
 
-<span class="caption">範例 15-3: Using the `List` enum to store the list `1,
-2, 3`</span>
+<span class="caption">範例 15-3：使用 `List` 枚舉儲存列表 `1, 2, 3`</span>
 
-The first `Cons` value holds `1` and another `List` value. This `List` value is
-another `Cons` value that holds `2` and another `List` value. This `List` value
-is one more `Cons` value that holds `3` and a `List` value, which is finally
-`Nil`, the non-recursive variant that signals the end of the list.
+第一個 `Cons` 值會得到 `1` 與另一個 `List` 數值。此 `List` 數值是另一個 `Cons` 數值且持有 `2` 與另一個 `List` 數值。此 `List` 數值是另一個 `Cons` 數值且擁有 `3` 與一個 `List` 數值，其就是最後的 `Nil`，這是傳遞列表結尾訊號的非遞迴變體。
 
-If we try to compile the code in Listing 15-3, we get the error shown in
-Listing 15-4:
+如果我們嘗試編譯範例 15-3 的程式碼，我們會得到範例 15-4 的錯誤：
 
 ```console
 {{#include ../listings/ch15-smart-pointers/listing-15-03/output.txt}}
 ```
 
-<span class="caption">範例 15-4: The error we get when attempting to define
-a recursive enum</span>
+<span class="caption">範例 15-4：嘗試定義遞迴枚舉所得到的錯誤</span>
 
-The error shows this type “has infinite size.” The reason is that we’ve defined
-`List` with a variant that is recursive: it holds another value of itself
-directly. As a result, Rust can’t figure out how much space it needs to store a
-`List` value. Let’s break down why we get this error a bit. First, let’s look
-at how Rust decides how much space it needs to store a value of a non-recursive
-type.
+錯誤顯示此型別的「大小爲無限」，原因是因爲我們定義的 `List` 有個變體是遞迴：它直接存有另一個相同類型的數值。所以 Rust 無法判別出它需要多少空間才能儲存一個 `List` 的數值。讓我進一步研究爲何我們會得到這樣的錯誤，首先來看 Rust 如何決定要分配多少空間來儲存非遞迴型別。
 
-#### Computing the Size of a Non-Recursive Type
+#### 計算非遞迴型別的大小
 
-Recall the `Message` enum we defined in Listing 6-2 when we discussed enum
-definitions in Chapter 6:
+回想一下第六章中，當我們在討論枚舉定義時，我們在範例 6-2 定義的 `Message` 枚舉：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-02/src/main.rs:here}}
 ```
 
-To determine how much space to allocate for a `Message` value, Rust goes
-through each of the variants to see which variant needs the most space. Rust
-sees that `Message::Quit` doesn’t need any space, `Message::Move` needs enough
-space to store two `i32` values, and so forth. Because only one variant will be
-used, the most space a `Message` value will need is the space it would take to
-store the largest of its variants.
+要決定一個 `Message` 數值需要分配多少空間，Rust 會遍歷每個變體來看哪個變體需要最大的空間。Rust 會看到 `Message::Quit` 不佔任何空間、`Message::Move` 需要能夠儲存兩個 `i32` 的空間，以此類推。因爲只有一個變體會被使用，一個 `Message` 數值所需的最大空間就是其最大變體的大小。
 
-Contrast this with what happens when Rust tries to determine how much space a
-recursive type like the `List` enum in Listing 15-2 needs. The compiler starts
-by looking at the `Cons` variant, which holds a value of type `i32` and a value
-of type `List`. Therefore, `Cons` needs an amount of space equal to the size of
-an `i32` plus the size of a `List`. To figure out how much memory the `List`
-type needs, the compiler looks at the variants, starting with the `Cons`
-variant. The `Cons` variant holds a value of type `i32` and a value of type
-`List`, and this process continues infinitely, as shown in Figure 15-1.
+將此對應到當 Rust 嘗試檢查像是範例 15-2 的 `List` 枚舉來決定遞迴型別需要多少空間時，究竟會發生什麼事。編譯器先從查看 `Cons` 的變體開始，其存有一個 `i32` 型別與一個 `List` 型別。因此 `Cons` 需要的空間大小爲 `i32` 的大小加上 `List` 的大小。爲了要瞭解 `List` 型別需要的多少記憶體，編譯器在進一步看它的變體，也是從 `Cons` 變體開始。`Cons` 變體存有一個型別 `i32` 與一個型別 `List`，而這樣的過程就無限處理下去，如圖示 15-1 所示。
 
 <img alt="An infinite Cons list" src="img/trpl15-01.svg" class="center" style="width: 50%;" />
 
-<span class="caption">圖示 15-1: An infinite `List` consisting of infinite
-`Cons` variants</span>
+<span class="caption">圖示 15-1：無限個 `List` 包含著無限個 `Cons` 變體</span>
 
-#### Using `Box<T>` to Get a Recursive Type with a Known Size
+#### 使用 `Box<T>` 取得已知大小的遞迴型別
 
-Rust can’t figure out how much space to allocate for recursively defined types,
-so the compiler gives the error in Listing 15-4. But the error does include
-this helpful suggestion:
+Rust 無法判別出遞迴定義型別要分配多少空間，所以編譯器給了範例 15-4 的錯誤，但是此錯誤有提供實用的建議：
 
 <!-- manual-regeneration
 after doing automatic regeneration, look at listings/ch15-smart-pointers/listing-15-03/output.txt and copy the relevant line
@@ -195,21 +106,11 @@ after doing automatic regeneration, look at listings/ch15-smart-pointers/listing
   = help: insert indirection (e.g., a `Box`, `Rc`, or `&`) at some point to make `List` representable
 ```
 
-In this suggestion, “indirection” means that instead of storing a value
-directly, we’ll change the data structure to store the value indirectly by
-storing a pointer to the value instead.
+在此建議中，「indirection」代表與其直接儲存數值，我們可以變更資料結構，間接儲存指向數值的指標。
 
-Because a `Box<T>` is a pointer, Rust always knows how much space a `Box<T>`
-needs: a pointer’s size doesn’t change based on the amount of data it’s
-pointing to. This means we can put a `Box<T>` inside the `Cons` variant instead
-of another `List` value directly. The `Box<T>` will point to the next `List`
-value that will be on the heap rather than inside the `Cons` variant.
-Conceptually, we still have a list, created with lists “holding” other lists,
-but this implementation is now more like placing the items next to one another
-rather than inside one another.
+因爲 `Box<T>` 是個指標，Rust 永遠知道 `Box<T>` 需要多少空間：指標的大小不會隨著指向的資料數量而改變。這代表我們可以將 `Box<T>` 存入 `Cons` 變體而非直接儲存另一個 `List` 數值。`Box<T>` 會指向另一個存在於堆積上的 `List` 數值而不是存在 `Cons` 變體中。概念上我們仍然有建立一個*持有*其他列表的列表，但此實作更像是將項目接著另一個項目排列，而非包含另一個在內。
 
-We can change the definition of the `List` enum in Listing 15-2 and the usage
-of the `List` in Listing 15-3 to the code in Listing 15-5, which will compile:
+我們可以改變範例 15-2 的 `List` 枚舉定義以及範例 15-3 `List` 的使用方式，將其寫入範例 15-5，這次就能夠編譯過了：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -217,35 +118,21 @@ of the `List` in Listing 15-3 to the code in Listing 15-5, which will compile:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-05/src/main.rs}}
 ```
 
-<span class="caption">範例 15-5: Definition of `List` that uses `Box<T>` in
-order to have a known size</span>
+<span class="caption">範例 15-5：使用 `Box<T>` 定義的 `List` 就有已知大小</span>
 
-The `Cons` variant will need the size of an `i32` plus the space to store the
-box’s pointer data. The `Nil` variant stores no values, so it needs less space
-than the `Cons` variant. We now know that any `List` value will take up the
-size of an `i32` plus the size of a box’s pointer data. By using a box, we’ve
-broken the infinite, recursive chain, so the compiler can figure out the size
-it needs to store a `List` value. Figure 15-2 shows what the `Cons` variant
-looks like now.
+`Cons` 變體需要的大小爲 `i32` 加上儲存 box 指標的空間。`Nil` 變體沒有儲存任何數值，所以它需要的空間比 `Cons` 變體少。現在我們知道任何
+We now know that any `List` 數值會佔的空間都是一個 `i32` 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 `List` 數值鎖需要的大小。圖示 15-2 顯示了 `Cons` 變體看起來的樣子。
 
 <img alt="A finite Cons list" src="img/trpl15-02.svg" class="center" />
 
-<span class="caption">圖示 15-2: A `List` that is not infinitely sized
-because `Cons` holds a `Box`</span>
+<span class="caption">圖示 15-2：不再是無限大小的 `List`，因爲其 `Cons` 存的是 `Box`</span>
 
-Boxes provide only the indirection and heap allocation; they don’t have any
-other special capabilities, like those we’ll see with the other smart pointer
-types. They also don’t have any performance overhead that these special
-capabilities incur, so they can be useful in cases like the cons list where the
-indirection is the only feature we need. We’ll look at more use cases for boxes
-in Chapter 17, too.
+Boxes 只提供了間接儲存與堆積分配，它們沒有其他任何特殊功能，比如我們等下就會看到的其他智慧指標型別。它們也沒有任何因這些特殊功能產生的額外效能開銷，所以它們很適合用於像是 cons list 這種我們只需要間接儲存的場合。我們在第十七章還會再介紹到更多 box 的使用情境。
 
-The `Box<T>` type is a smart pointer because it implements the `Deref` trait,
-which allows `Box<T>` values to be treated like references. When a `Box<T>`
-value goes out of scope, the heap data that the box is pointing to is cleaned
-up as well because of the `Drop` trait implementation. Let’s explore these two
-traits in more detail. These two traits will be even more important to the
-functionality provided by the other smart pointer types we’ll discuss in the
-rest of this chapter.
+`Box<T>` 型別是智慧指標是因爲它有實作 `Deref` 特徵，讓 `Box<T>` 的數值可以被視爲引用所使用。當 `Box<T>` 數值離開作用域時，該 box 指向的堆積資料也會被清除，因爲其有 `Drop` 特徵實作。讓我們來探討這兩種特徵的細節吧。這兩種特徵對於本章將會討論的其他智慧指標型別所提供的功能，將會更加重要。
 
-[trait-objects]: ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
+[trait-objects]: ch17-02-trait-objects.html
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-01-box.md)
+> - updated: 2020-09-19
