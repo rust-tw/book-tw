@@ -259,7 +259,7 @@
 </code></pre>
 <p>這不全是標準函式庫中實際的簽名，在標準函式庫中 <code>add</code> 是用泛型（generics）定義。我們在此看到的是使用實際型別指明泛型的 <code>add</code> 簽名。我們會在第十章討論到泛型。此簽名給了一些我們需要瞭解 <code>+</code> 運算子的一些線索。</p>
 <p>首先 <code>s2</code> 有 <code>&amp;</code> 代表我們是將第二個字串的<em>引用</em>與第一個字串相加，因爲函式 <code>add</code> 中的參數 <code>s</code> 說明我們只能將 <code>&amp;str</code> 與 <code>String</code> 相加，我們無法將兩個 <code>String</code> 數值相加。但等等 <code>&amp;s2</code> 是 <code>&amp;String</code> 才對，並非 <code>add</code> 第二個參數所指定的 <code>&amp;str</code>。爲何範例 8-18 可以編譯呢？</p>
-<p>我們可以在 <code>add</code> 的呼叫中使用 <code>&amp;s2</code> 的原因是因爲編譯器可以<em>強迫（coerce）</em> <code>&amp;String</code> 引數轉換成 <code>&amp;str</code>。當我們我們呼叫 <code>add</code> 方法時，Rust <em>強迫解引用（deref coercion</em>）*讓 <code>&amp;s2</code> 變成 <code>&amp;s2[..]</code>。我們會在第十五章深入探討強迫解引用。因爲 <code>add</code> 不會取得 <code>s</code> 參數的所有權，<code>s2</code> 在此運算後仍然是個有效的 <code>String</code>。</p>
+<p>我們可以在 <code>add</code> 的呼叫中使用 <code>&amp;s2</code> 的原因是因爲編譯器可以<em>強制（coerce）</em> <code>&amp;String</code> 引數轉換成 <code>&amp;str</code>。當我們我們呼叫 <code>add</code> 方法時，Rust <em>強制解引用（deref coercion</em>）*讓 <code>&amp;s2</code> 變成 <code>&amp;s2[..]</code>。我們會在第十五章深入探討強制解引用。因爲 <code>add</code> 不會取得 <code>s</code> 參數的所有權，<code>s2</code> 在此運算後仍然是個有效的 <code>String</code>。</p>
 <p>再來，我們可以看到 <code>add</code> 的簽名會取得 <code>self</code> 的所有權，因爲 <code>self</code> <em>沒有</em> <code>&amp;</code>。這代表範例 8-18 的 <code>s1</code> 會移動到 <code>add</code> 的呼叫內，在之後就不再有效。所以雖然然 <code>let s3 = s1 + &amp;s2;</code> 看起來像是它拷貝了兩個字串的值並產生了一個新的，但此陳述式實際上是取得 <code>s1</code> 的所有權、追加一份 <code>s2</code> 的複製內容、然後回傳最終結果的所有權。換句話說，雖然它看起來像是產生了很多拷貝，但實際上並不是。此實作反而比較有效率。</p>
 <p>如果我們需要串接數個字串的話，<code>+</code> 運算子的行爲看起來就顯得有點笨重了：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
