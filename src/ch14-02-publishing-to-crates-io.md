@@ -1,30 +1,14 @@
-## Publishing a Crate to Crates.io
+## 發佈 Crate 到 Crates.io
 
-We’ve used packages from [crates.io](https://crates.io/)<!-- ignore --> as
-dependencies of our project, but you can also share your code with other people
-by publishing your own packages. The crate registry at
-[crates.io](https://crates.io/)<!-- ignore --> distributes the source code of
-your packages, so it primarily hosts code that is open source.
+我們已經使用過 [crates.io](https://crates.io/)<!-- ignore --> 的套件來作爲我們專案的依賴函式庫，但是你也可以發佈你自己的套件來將你的程式碼提供給其他人使用。[crates.io](https://crates.io/)<!-- ignore --> 會發行套件的原始程式碼，所以它主要用來託管開源程式碼。
 
-Rust and Cargo have features that help make your published package easier for
-people to use and to find in the first place. We’ll talk about some of these
-features next and then explain how to publish a package.
+Rust 與 Cargo 有許多功能可以幫助其他人更容易找到並使用你發佈的套件。我們會介紹其中一些功能並解釋如何發佈套件。
 
-### Making Useful Documentation Comments
+### 寫上有幫助的技術文件註解
 
-Accurately documenting your packages will help other users know how and when to
-use them, so it’s worth investing the time to write documentation. In Chapter
-3, we discussed how to comment Rust code using two slashes, `//`. Rust also has
-a particular kind of comment for documentation, known conveniently as a
-*documentation comment*, that will generate HTML documentation. The HTML
-displays the contents of documentation comments for public API items intended
-for programmers interested in knowing how to *use* your crate as opposed to how
-your crate is *implemented*.
+準確地加上套件的技術文件有助於其他使用者知道如何及何時使用它們，所以投資時間在寫技術文件上是值得的。在第三章我們提過如何使用兩條斜線 `//` 來加上 Rust 程式碼註解。Rust 還有個特別的註解用來作爲技術文件，俗稱爲*技術文件註解（documentation comment）*，這能用來產生 HTML 技術文件。這些 HTML 顯示公開 API 項目中技術文件註解的內容，讓對此函式庫有興趣的開發者知道如何*使用*你的 crate，而不需知道 crate 是如何*實作*的。
 
-Documentation comments use three slashes, `///`, instead of two and support
-Markdown notation for formatting the text. Place documentation comments just
-before the item they’re documenting. Listing 14-1 shows documentation comments
-for an `add_one` function in a crate named `my_crate`:
+技術文件註解使用三條斜線 `///` 而不是兩條，並支援 Markdown 符號來格式化文字。技術文件註解位於它們對應項目的上方。範例 14-1 顯示了 `my_crate` crate 中 `add_one` 的技術文件註解：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -32,57 +16,29 @@ for an `add_one` function in a crate named `my_crate`:
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-01/src/lib.rs}}
 ```
 
-<span class="caption">範例 14-1: A documentation comment for a
-function</span>
+<span class="caption">範例 14-1：函式的技術文件註解</span>
 
-Here, we give a description of what the `add_one` function does, start a
-section with the heading `Examples`, and then provide code that demonstrates
-how to use the `add_one` function. We can generate the HTML documentation from
-this documentation comment by running `cargo doc`. This command runs the
-`rustdoc` tool distributed with Rust and puts the generated HTML documentation
-in the *target/doc* directory.
+我們在這裡加上了解釋函式 `add_one` 行爲的描述、加上一個標題爲 `Examples` 的段落並附上展示如何使用 `add_one` 函式的程式碼。我們可以透過執行 `cargo doc` 來從技術文件註解產生 HTML 技術文件。此命令會執行隨著 Rust 一起發佈的工具 `rustdoc`，並在 *target/doc* 目錄下產生 HTML 技術文件。
 
-For convenience, running `cargo doc --open` will build the HTML for your
-current crate’s documentation (as well as the documentation for all of your
-crate’s dependencies) and open the result in a web browser. Navigate to the
-`add_one` function and you’ll see how the text in the documentation comments is
-rendered, as shown in Figure 14-1:
+爲了方便起見，你可以執行 `cargo doc --open` 來建構當前 crate 的 HTML 技術文件（以及 crate 所有依賴的技術文件）並在網頁瀏覽器中開啟結果。導向到函式 `add_one` 而你就能看到技術文件註解是如何呈現的，如圖示 14-1 所示：
 
 <img alt="Rendered HTML documentation for the `add_one` function of `my_crate`" src="img/trpl14-01.png" class="center" />
 
-<span class="caption">圖示 14-1: HTML documentation for the `add_one`
-function</span>
+<span class="caption">圖示 14-1：函式 `add_one` 的 HTML 技術文件</span>
 
-#### Commonly Used Sections
+#### 常見技術文件段落
 
-We used the `# Examples` Markdown heading in Listing 14-1 to create a section
-in the HTML with the title “Examples.” Here are some other sections that crate
-authors commonly use in their documentation:
+我們在範例 14-1 使用 `# Examples` Markdown 標題來在 HTML 中建立一個標題爲「Examples」的段落。以下是 crate 技術文件中常見的段落標題：
 
-* **Panics**: The scenarios in which the function being documented could
-  panic. Callers of the function who don’t want their programs to panic should
-  make sure they don’t call the function in these situations.
-* **Errors**: If the function returns a `Result`, describing the kinds of
-  errors that might occur and what conditions might cause those errors to be
-  returned can be helpful to callers so they can write code to handle the
-  different kinds of errors in different ways.
-* **Safety**: If the function is `unsafe` to call (we discuss unsafety in
-  Chapter 19), there should be a section explaining why the function is unsafe
-  and covering the invariants that the function expects callers to uphold.
+* **Panics**：該函式可能會導致恐慌的可能場合。函式的呼叫者不希望他們的程式恐慌的話，就要確保他們沒有在這些情況下呼叫該函式。
+* **Errors**：如果函式回傳 `Result`，解釋發生錯誤的可能種類以及在何種條件下可能會回傳這些錯誤有助於呼叫者，讓他們可以用不同方式來寫出處理不同種錯誤的程式碼。
+* **Safety**: 如果呼叫的函式是 `unsafe` 的話（我們會在第十九章討論不安全的議題），就必須要有個段亂解釋爲何該函式是不安全的，並提及函式預期呼叫者要確保哪些不變條件（invariants）。
 
-Most documentation comments don’t need all of these sections, but this is a
-good checklist to remind you of the aspects of your code that people calling
-your code will be interested in knowing about.
+大多數的技術文件註解不全都需要這些段落，但這些是呼叫程式碼的人可能有興趣瞭解的內容，你可以作爲提醒你的檢查列表。
 
 #### 將技術文件註解作爲測試
 
-Adding example code blocks in your documentation comments can help demonstrate
-how to use your library, and doing so has an additional bonus: running `cargo
-test` will run the code examples in your documentation as tests! Nothing is
-better than documentation with examples. But nothing is worse than examples
-that don’t work because the code has changed since the documentation was
-written. If we run `cargo test` with the documentation for the `add_one`
-function from Listing 14-1, we will see a section in the test results like this:
+在技術文件註解加上範例程式碼區塊有助於解釋如何使用你的函式庫，而且這麼做還有個額外好處：執行 `cargo test` 也會將你的技術文件視爲測試來執行！在技術文件加上範例的確是最佳示範，但是如果程式碼在技術文件寫完之後變更的話，該範例可能就會無法執行了。如果我們對範例 14-1 中有附上技術文件的函式 `add_one` 執行 `cargo test` 的話，我們會看見測試結果有以下這樣的段落：
 
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/listing-14-01/
@@ -99,22 +55,13 @@ test src/lib.rs - add_one (line 5) ... ok
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
 
-Now if we change either the function or the example so the `assert_eq!` in the
-example panics and run `cargo test` again, we’ll see that the doc tests catch
-that the example and the code are out of sync with each other!
+現在如果我們變更函式或範例使其內的 `assert_eq!` 會恐慌並再次執行 `cargo test` 的話，我們會看到技術文件測試能互獲取錯誤，告訴我們範例與程式碼已經不同不了！
 
-#### Commenting Contained Items
+#### 包含項目結構的註解
 
-Another style of doc comment, `//!`, adds documentation to the item that
-contains the comments rather than adding documentation to the items following
-the comments. We typically use these doc comments inside the crate root file
-(*src/lib.rs* by convention) or inside a module to document the crate or the
-module as a whole.
+還有另一種技術文件註解的風格爲 `//!`，這是對其包含該註解的項目所加上的技術文件，而不是對註解後的項目所加上的技術文件。我通常將此技術文件註解用於 crate 源頭檔（通常爲 *src/lib.rs*）或模組來對整個 crate 或模組加上技術文件。
 
-For example, if we want to add documentation that describes the purpose of the
-`my_crate` crate that contains the `add_one` function, we can add documentation
-comments that start with `//!` to the beginning of the *src/lib.rs* file, as
-shown in Listing 14-2:
+舉例來說，如果我們希望能加上技術文件來描述包含 `add_one` 函式的 `my_crate` 目的，我們可以用  `//!` 在 *src/lib.rs* 檔案開頭加上技術文件註解，如範例 14-2 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -122,57 +69,27 @@ shown in Listing 14-2:
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-02/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 14-2: Documentation for the `my_crate` crate as a
-whole</span>
+<span class="caption">範例 14-2：描述整個 `my_crate` crate 的技術文件</span>
 
-Notice there isn’t any code after the last line that begins with `//!`. Because
-we started the comments with `//!` instead of `///`, we’re documenting the item
-that contains this comment rather than an item that follows this comment. In
-this case, the item that contains this comment is the *src/lib.rs* file, which
-is the crate root. These comments describe the entire crate.
+注意到 `//!` 最後一行之後並沒有緊貼任何程式碼，因爲我們是用 `//!` 而非 `///` 來下註解，我們是對包含此註解的整個項目加上技術文件，而不是此註解之後的項目。在此例中，包含此註解的項目爲 *src/lib.rs* 檔案，也就是 crate 的源頭。這些註解會描述整個 crate。
 
-When we run `cargo doc --open`, these comments will display on the front
-page of the documentation for `my_crate` above the list of public items in the
-crate, as shown in Figure 14-2:
+當我們執行 `cargo doc --open`，這些註解會顯示在 `my_crate` 技術文件的首頁，位於 crate 公開項目列表的上方，如圖示 14-2 所示：
 
 <img alt="Rendered HTML documentation with a comment for the crate as a whole" src="img/trpl14-02.png" class="center" />
 
-<span class="caption">圖示 14-2: Rendered documentation for `my_crate`,
-including the comment describing the crate as a whole</span>
+<span class="caption">圖示 14-2：`my_crate` 的技術文件，包含描述整個 crate 的註解</span>
 
-Documentation comments within items are useful for describing crates and
-modules especially. Use them to explain the overall purpose of the container to
-help your users understand the crate’s organization.
+項目中的技術文件註解可以用來分別描述 crate 和模組。用它們來將解釋容器整體的目的有助於你的使用者瞭解該 crate 的程式碼組織架構。
 
-### Exporting a Convenient Public API with `pub use`
+### 透過 `pub use` 匯出合適的公開 API
 
-In Chapter 7, we covered how to organize our code into modules using the `mod`
-keyword, how to make items public using the `pub` keyword, and how to bring
-items into a scope with the `use` keyword. However, the structure that makes
-sense to you while you’re developing a crate might not be very convenient for
-your users. You might want to organize your structs in a hierarchy containing
-multiple levels, but then people who want to use a type you’ve defined deep in
-the hierarchy might have trouble finding out that type exists. They might also
-be annoyed at having to enter `use`
-`my_crate::some_module::another_module::UsefulType;` rather than `use`
-`my_crate::UsefulType;`.
+在第七章中，我們介紹了如何使用 `mod` 關鍵字來組織我們的程式碼成模組、如何使用 `pub` 關鍵字來公開項目，以及如何使用 `use` 關鍵字在將項目引入作用域。然而在開發 crate 時的架構雖然對你來說是合理的，但對你的使用者來說可能就不是那麼合適了。你可能會希望用有數個層級的分層架構來組織你的程式碼，但是要是有人想使用你定義在分層架構裡的型別時，它們可能就很難發現這些型別的存在。而且輸入 `use my_crate::some_module::another_module::UsefulType;` 是非常惱人的，我們會希望輸入 `use my_crate::UsefulType;` 就好。
 
-The structure of your public API is a major consideration when publishing a
-crate. People who use your crate are less familiar with the structure than you
-are and might have difficulty finding the pieces they want to use if your crate
-has a large module hierarchy.
+公開 API 的架構是發佈 crate 時要考量到的一大重點。使用 crate 的人可能並沒有你那麼熟悉其中的架構，而且如果你的 crate 模組分層越深的話，他們可能就難以找到他們想使用的部分。
 
-The good news is that if the structure *isn’t* convenient for others to use
-from another library, you don’t have to rearrange your internal organization:
-instead, you can re-export items to make a public structure that’s different
-from your private structure by using `pub use`. Re-exporting takes a public
-item in one location and makes it public in another location, as if it were
-defined in the other location instead.
+好消息是如果你的架構*不便於*其他函式庫所使用的話，你不必重新組織你的內部架構：你可以透過使用 `pub use`選擇重新匯出（re-export）項目來建立一個不同於內部私有架構的公開架構。重新匯出會先取得某處的公開項目，再從其他地方使其公開，讓它像是被定義在其他地方一樣。
 
-For example, say we made a library named `art` for modeling artistic concepts.
-Within this library are two modules: a `kinds` module containing two enums
-named `PrimaryColor` and `SecondaryColor` and a `utils` module containing a
-function named `mix`, as shown in Listing 14-3:
+舉例來說，我們建立了一個函式庫叫做 `art` 來模擬美術概念。在函式庫中有兩個模組：`kinds` 模組包含兩個枚舉 `PrimaryColor` 和 `SecondaryColor`；而 `utils` 模組包含一個函式 `mix`，如範例 14-3 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -180,25 +97,17 @@ function named `mix`, as shown in Listing 14-3:
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-03/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 14-3: An `art` library with items organized into
-`kinds` and `utils` modules</span>
+<span class="caption">範例 14-3：函式庫 `art` 有兩個模組項目 `kinds` 和 `utils`</span>
 
-Figure 14-3 shows what the front page of the documentation for this crate
-generated by `cargo doc` would look like:
+圖示 14-3 顯示了此 crate 透過 `cargo doc` 產生的技術文件首頁：
 
 <img alt="Rendered documentation for the `art` crate that lists the `kinds` and `utils` modules" src="img/trpl14-03.png" class="center" />
 
-<span class="caption">圖示 14-3: Front page of the documentation for `art`
-that lists the `kinds` and `utils` modules</span>
+<span class="caption">圖示 14-3：`art` 的技術文件首頁陳列了 `kinds` 和 `utils` 模組</span>
 
-Note that the `PrimaryColor` and `SecondaryColor` types aren’t listed on the
-front page, nor is the `mix` function. We have to click `kinds` and `utils` to
-see them.
+注意到 `PrimaryColor` 與 `SecondaryColor` 型別沒有列在首頁，而函式 `mix` 也沒有。我們必須點擊 `kinds` 與 `utils` 才能看到它們。
 
-Another crate that depends on this library would need `use` statements that
-bring the items from `art` into scope, specifying the module structure that’s
-currently defined. Listing 14-4 shows an example of a crate that uses the
-`PrimaryColor` and `mix` items from the `art` crate:
+其他依賴此函式庫的 crate 需要使用 `use` 陳述式來將 `art` 的項目引入作用域中，並指定當前模組定義的架構。範例 14-4 顯示了從 `art` crate 使用 `PrimaryColor` 和 `mix` 項目的 crate 範例：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -206,23 +115,11 @@ currently defined. Listing 14-4 shows an example of a crate that uses the
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-04/src/main.rs}}
 ```
 
-<span class="caption">範例 14-4: A crate using the `art` crate’s items with
-its internal structure exported</span>
+<span class="caption">範例 14-4：一個使用 `art` 並匯出內部架構項目的 crate</span>
 
-The author of the code in Listing 14-4, which uses the `art` crate, had to
-figure out that `PrimaryColor` is in the `kinds` module and `mix` is in the
-`utils` module. The module structure of the `art` crate is more relevant to
-developers working on the `art` crate than to developers using the `art` crate.
-The internal structure that organizes parts of the crate into the `kinds`
-module and the `utils` module doesn’t contain any useful information for
-someone trying to understand how to use the `art` crate. Instead, the `art`
-crate’s module structure causes confusion because developers have to figure out
-where to look, and the structure is inconvenient because developers must
-specify the module names in the `use` statements.
+範例 14-4 中使用 `art` crate 的程式碼作者必須搞清楚 `PrimaryColor` 位於 `kinds` 模組中而 `mix` 位於 `utils` 模組中。`art` crate 的模組架構對開發 `art` crate 的開發者才比較有意義，對使用 `art` crate 的開發者來說就沒那麼重要。內部架構是爲了組織 crate 的不同部分至 `kinds` 模組與 `utils` 模組，這對想要知道如何使用 `art` crate 的人來說沒有提供什麼有用的資訊。`art` crate 模組架構還容易造成混淆，因爲開發者得自己搞清楚要從何處找起。而且這樣的架構也很不方便，因爲開發者必須在 `use` 陳述式中指定每個模組名稱。
 
-To remove the internal organization from the public API, we can modify the
-`art` crate code in Listing 14-3 to add `pub use` statements to re-export the
-items at the top level, as shown in Listing 14-5:
+要從公開 API 移除內部架構，我們可以修改範例 14-3 中 `art` crate 的程式碼，並加上 `pub use` 陳述式來在頂層重新匯出項目，如範例 14-5 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -230,21 +127,15 @@ items at the top level, as shown in Listing 14-5:
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-05/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 14-5: Adding `pub use` statements to re-export
-items</span>
+<span class="caption">範例 14-5：加上 `pub use` 陳述式來重新匯出項目</span>
 
-The API documentation that `cargo doc` generates for this crate will now list
-and link re-exports on the front page, as shown in Figure 14-4, making the
-`PrimaryColor` and `SecondaryColor` types and the `mix` function easier to find.
+`cargo doc` 對此 crate 產生的 API 技術文件現在就會顯示與連結重新匯出的項目到首頁中，如圖示 14-4 所示。讓`PrimaryColor` 與 `SecondaryColor` 型別以及函式 `mix` 更容易被找到。
 
 <img alt="Rendered documentation for the `art` crate with the re-exports on the front page" src="img/trpl14-04.png" class="center" />
 
-<span class="caption">圖示 14-4: The front page of the documentation for `art`
-that lists the re-exports</span>
+<span class="caption">圖示 14-：`art` 的技術文件首頁會連結重新匯出的結果</span>
 
-The `art` crate users can still see and use the internal structure from Listing
-14-3 as demonstrated in Listing 14-4, or they can use the more convenient
-structure in Listing 14-5, as shown in Listing 14-6:
+`art` crate 使用者仍可以看到並使用範例 14-3 的內部架構，如範例 14-4 所展示的方式，或者它們可以使用像範例 14-5 這樣更方便的架構，如範例 14-6 所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -252,55 +143,27 @@ structure in Listing 14-5, as shown in Listing 14-6:
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-06/src/main.rs:here}}
 ```
 
-<span class="caption">範例 14-6: A program using the re-exported items from
-the `art` crate</span>
+<span class="caption">範例 14-6：使用從 `art` crate 重新匯出項目的程式</span>
 
-In cases where there are many nested modules, re-exporting the types at the top
-level with `pub use` can make a significant difference in the experience of
-people who use the crate.
+如果你有許多巢狀模組（nested modules）的話，在頂層透過 `pub use` 重新匯出型別可以大大提升使用 crate 的體驗。
 
-Creating a useful public API structure is more of an art than a science, and
-you can iterate to find the API that works best for your users. Choosing `pub
-use` gives you flexibility in how you structure your crate internally and
-decouples that internal structure from what you present to your users. Look at
-some of the code of crates you’ve installed to see if their internal structure
-differs from their public API.
+提供實用的公開 API 架構更像是一門藝術而不只是科學，而你可以一步步來尋找最適合使用者的 API 架構。使用 `pub use` 可以給你更多組織 crate 內部架構的彈性，並將內部架構與你要呈現給使用者的介面互相解偶（decouple）。你可以觀察一些你安裝過的程式碼，看看它嗎的內部架構是不是不同於它們的公開 API。
 
-### Setting Up a Crates.io Account
+### 設定 Crates.io 帳號
 
-Before you can publish any crates, you need to create an account on
-[crates.io](https://crates.io/)<!-- ignore --> and get an API token. To do so,
-visit the home page at [crates.io](https://crates.io/)<!-- ignore --> and log in
-via a GitHub account. (The GitHub account is currently a requirement, but the
-site might support other ways of creating an account in the future.) Once
-you’re logged in, visit your account settings at
-[https://crates.io/me/](https://crates.io/me/)<!-- ignore --> and retrieve your
-API key. Then run the `cargo login` command with your API key, like this:
+在你可以發佈任何 crate 之前，你需要建立一個 [crates.io](https://crates.io/)<!-- ignore --> 的帳號並取得一個 API token。請前往 [crates.io](https://crates.io/)<!-- ignore --> 的首頁並透過 GitHub 帳號來登入（GitHub 目前是必要的，但未來可能會支援其他建立帳號的方式）一旦你登入好了之後，到你的帳號設定 [https://crates.io/me/](https://crates.io/me/)<!-- ignore --> 並索取你的 API key，然後用這個 API key 來執行  `cargo login` 命令，如以下所示：
 
 ```console
 $ cargo login abcdefghijklmnopqrstuvwxyz012345
 ```
 
-This command will inform Cargo of your API token and store it locally in
-*~/.cargo/credentials*. Note that this token is a *secret*: do not share it
-with anyone else. If you do share it with anyone for any reason, you should
-revoke it and generate a new token on [crates.io](https://crates.io/)<!-- ignore
--->.
+此命令會傳遞你的 API token 給 Cargo 並儲存在本地的 *~/.cargo/credentials*。注意此 token 是個*祕密（secret）*，千萬不要分享給其他人。如果你因爲任何原因分享給任何人的話，你最好撤銷掉並回到 [crates.io](https://crates.io/)<!-- ignore --> 產生新的 token。
 
-### Adding Metadata to a New Crate
+### 新增詮釋資料到新的 Crate
 
-Now that you have an account, let’s say you have a crate you want to publish.
-Before publishing, you’ll need to add some metadata to your crate by adding it
-to the `[package]` section of the crate’s *Cargo.toml* file.
+現在你已經有個帳號，然後讓我們假設你有個 crate 想要發佈。在發佈之前，你需要對你的 crate 加上一些詮釋資料（metadata），也就是在 crate 的 *Cargo.toml* 檔案中 `[package]` 的段落內加上更多資料。
 
-Your crate will need a unique name. While you’re working on a crate locally,
-you can name a crate whatever you’d like. However, crate names on
-[crates.io](https://crates.io/)<!-- ignore --> are allocated on a first-come,
-first-served basis. Once a crate name is taken, no one else can publish a crate
-with that name. Before attempting to publish a crate, search for the name you
-want to use on the site. If the name has been used by another crate, you will
-need to find another name and edit the `name` field in the *Cargo.toml* file
-under the `[package]` section to use the new name for publishing, like so:
+你的 crate 必須要有個獨特的名稱。雖然你在本地端開發 crate 時，你的 crate 可以是任何你想要的名稱。但是 [crates.io](https://crates.io/)<!-- ignore --> 上的 crate 名稱採先搶先贏制。一旦有 crate 名稱被取走了，其他人就不能再使用該名稱來發佈 crate。在嘗試發佈 crate 前，最好先在 [crates.io](https://crates.io/)<!-- ignore --> 上搜尋你想使用的名稱。如果該名稱已被其他 crate 使用，你就需要想另一個名稱，並在 *Cargo.toml* 檔案中 `[package]` 段落的 `name` 欄位使用新的名稱來發佈，如以下所示：
 
 <span class="filename">檔案名稱：Cargo.toml</span>
 
@@ -309,8 +172,7 @@ under the `[package]` section to use the new name for publishing, like so:
 name = "guessing_game"
 ```
 
-Even if you’ve chosen a unique name, when you run `cargo publish` to publish
-the crate at this point, you’ll get a warning and then an error:
+當你選好獨特名稱後，此時執行 `cargo publish` 來發佈 crate 的話，你會得到以下警告與錯誤：
 
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/listing-14-01/
@@ -327,17 +189,10 @@ See https://doc.rust-lang.org/cargo/reference/manifest.html#package-metadata for
 error: api errors (status 200 OK): missing or empty metadata fields: description, license. Please see https://doc.rust-lang.org/cargo/reference/manifest.html for how to upload metadata
 ```
 
-The reason is that you’re missing some crucial information: a description and
-license are required so people will know what your crate does and under what
-terms they can use it. To rectify this error, you need to include this
-information in the *Cargo.toml* file.
+原因是因爲你還缺少一些關鍵資訊：描述與授權條款是必須的，所以人們才能知道你的 crate 在做什麼以及在何種情況下允許使用。要修正此錯誤，你就需要將這些資訊加到 *Cargo.toml* 檔案中。
 
-Add a description that is just a sentence or two, because it will appear with
-your crate in search results. For the `license` field, you need to give a
-*license identifier value*. The [Linux Foundation’s Software Package Data
-Exchange (SPDX)][spdx] lists the identifiers you can use for this value. For
-example, to specify that you’ve licensed your crate using the MIT License, add
-the `MIT` identifier:
+加上一兩句描述，它就會顯示在你的 crate 的搜尋結果中。置於 `license` 欄位，你需要給予 *license identifier value*。[Linux Foundation’s Software Package Data
+Exchange (SPDX)][spdx] 有列出你可以使用的標識符數值。舉例來說，要指定你的 crate 使用 MIT 授權條款的話，就加上 `MIT` 標識符：
 
 [spdx]: http://spdx.org/licenses/
 
@@ -349,20 +204,11 @@ name = "guessing_game"
 license = "MIT"
 ```
 
-If you want to use a license that doesn’t appear in the SPDX, you need to place
-the text of that license in a file, include the file in your project, and then
-use `license-file` to specify the name of that file instead of using the
-`license` key.
+如果你想使用沒有出現在 SPDX 的授權條款，你需要將該授權條款的文字儲存在一個檔案中、將該檔案加入你的專案中並使用 `license-file` 來指定該檔案名稱，而不使用 `license`。
 
-Guidance on which license is appropriate for your project is beyond the scope
-of this book. Many people in the Rust community license their projects in the
-same way as Rust by using a dual license of `MIT OR Apache-2.0`. This practice
-demonstrates that you can also specify multiple license identifiers separated
-by `OR` to have multiple licenses for your project.
+你的專案適合使用什麼樣的授權條款超出了本書的範疇。不過 Rust 社群中許多人都會用 `MIT OR Apache-2.0` 雙授權條款作爲它們專案的授權方式，這和 Rust 的授權條款一樣。這也剛好展示你也可以用 `OR` 指定數個授權條款，讓你的專案擁有數個不同的授權方式。
 
-With a unique name, the version, the author details that `cargo new` added
-when you created the crate, your description, and a license added, the
-*Cargo.toml* file for a project that is ready to publish might look like this:
+有了當你用 `cargo new` 建立 crate 時就會產生的獨特名稱、版本與作者資訊，以及你的手動加入的描述與授權條款，已經準備好發佈的 *Cargo.toml* 檔案會如以下所示：
 
 <span class="filename">檔案名稱：Cargo.toml</span>
 
@@ -378,26 +224,15 @@ license = "MIT OR Apache-2.0"
 [dependencies]
 ```
 
-[Cargo’s documentation](https://doc.rust-lang.org/cargo/) describes other
-metadata you can specify to ensure others can discover and use your crate more
-easily.
+[Cargo 技術文件](https://doc.rust-lang.org/cargo/)還介紹了其他你可以指定的詮釋資料，讓你的 crate 更容易被其他人發掘並使用。
 
-### Publishing to Crates.io
+### 發佈至 Crates.io
 
-Now that you’ve created an account, saved your API token, chosen a name for
-your crate, and specified the required metadata, you’re ready to publish!
-Publishing a crate uploads a specific version to
-[crates.io](https://crates.io/)<!-- ignore --> for others to use.
+現在你已經建立了帳號、儲存了 API token、選擇了 crate 的獨特名稱並指定了所需的詮釋資料，你現在已經準備好發佈了！發佈 crate 會上傳一個指定版本到 [crates.io](https://crates.io/)<!-- ignore --> 供其他人使用。
 
-Be careful when publishing a crate because a publish is *permanent*. The
-version can never be overwritten, and the code cannot be deleted. One major
-goal of [crates.io](https://crates.io/)<!-- ignore --> is to act as a permanent
-archive of code so that builds of all projects that depend on crates from
-[crates.io](https://crates.io/)<!-- ignore --> will continue to work. Allowing
-version deletions would make fulfilling that goal impossible. However, there is
-no limit to the number of crate versions you can publish.
+發佈 crate 時請格外小心，因爲發佈是會*永遠*存在的。該版本無法被覆寫，而且程式碼無法被刪除。[crates.io](https://crates.io/)<!-- ignore --> 其中一個主要目標就是要作爲儲存程式碼的永久伺服器，讓所有依賴 [crates.io](https://crates.io/)<!-- ignore --> 的 crate 的專案可以持續正常運作。允許刪除版本會讓此目標幾乎無法達成。不過你能發佈的 crate 版本不會有數量限制。
 
-Run the `cargo publish` command again. It should succeed now:
+再次執行 `cargo publish` 命令，這次就應該會成功了：
 
 <!-- manual-regeneration
 go to some valid crate, publish a new version
@@ -416,8 +251,7 @@ $ cargo publish
    Uploading guessing_game v0.1.0 (file:///projects/guessing_game)
 ```
 
-Congratulations! You’ve now shared your code with the Rust community, and
-anyone can easily add your crate as a dependency of their project.
+恭喜！你現在將你的程式碼分享給 Rust 社群了，任何人現在都可以輕鬆將你的 crate 加到他們的專案中作爲依賴了。
 
 ### Publishing a New Version of an Existing Crate
 
@@ -429,33 +263,26 @@ Then run `cargo publish` to upload the new version.
 
 [semver]: http://semver.org/
 
-### Removing Versions from Crates.io with `cargo yank`
+### 透過 `cargo yank` 移除 Crates.io 的版本
 
-Although you can’t remove previous versions of a crate, you can prevent any
-future projects from adding them as a new dependency. This is useful when a
-crate version is broken for one reason or another. In such situations, Cargo
-supports *yanking* a crate version.
+雖然你無法刪除 crate 之前的版本，你還是可以防止任何未來的專案加入它們作爲依賴。這在 crate 版本因某些原因而被破壞時會很有用。在這樣的情況下，Cargo 支援*撤回（yanking）* crate 版本。
 
-Yanking a version prevents new projects from starting to depend on that version
-while allowing all existing projects that depend on it to continue to download
-and depend on that version. Essentially, a yank means that all projects with a
-*Cargo.lock* will not break, and any future *Cargo.lock* files generated will
-not use the yanked version.
+撤回一個版本能防止新專案用該版本作爲依賴，同時允許現存依賴它的專案能夠繼續下載並依賴該版本。實際上，撤回代表所有專案的 *Cargo.lock* 都不會被破壞，且任何未來產生的 *Cargo.lock* 檔案不會使用被撤回的版本。
 
-To yank a version of a crate, run `cargo yank` and specify which version you
-want to yank:
+要撤回一個 crate 的版本，執行 `cargo yank` 並指定你想撤回的版本：
 
 ```console
 $ cargo yank --vers 1.0.1
 ```
 
-By adding `--undo` to the command, you can also undo a yank and allow projects
-to start depending on a version again:
+而對命令加上 `--undo` 的話，你還可以在復原撤回的動作，允許其他專案可以再次依賴該版本：
 
 ```console
 $ cargo yank --vers 1.0.1 --undo
 ```
 
-A yank *does not* delete any code. For example, the yank feature is not
-intended for deleting accidentally uploaded secrets. If that happens, you must
-reset those secrets immediately.
+撤回*並不會*刪除任何程式碼。舉例來說，撤回此功能並不會刪除任何不小心上傳的祕密訊息。如果真的出現這種情形，你必須立即重設那些資訊。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-02-publishing-to-crates-io.md)
+> - updated: 2020-09-19
