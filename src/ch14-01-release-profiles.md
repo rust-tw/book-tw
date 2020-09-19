@@ -1,16 +1,10 @@
-## Customizing Builds with Release Profiles
+## 透過發佈設定檔自訂建構
 
-In Rust, *release profiles* are predefined and customizable profiles with
-different configurations that allow a programmer to have more control over
-various options for compiling code. Each profile is configured independently of
-the others.
+在 Rust 中*發佈設定檔（release profiles）*是個預先定義好並可用不同設置選項來自訂設定檔的，能讓程式設計師掌控更多選項來編譯程式碼。每個設定檔的設置彼此互相獨立。
 
-Cargo has two main profiles: the `dev` profile Cargo uses when you run `cargo
-build` and the `release` profile Cargo uses when you run `cargo build
---release`. The `dev` profile is defined with good defaults for development,
-and the `release` profile has good defaults for release builds.
+Cargo 有兩個主要的設定檔：`dev` 設定檔會在當你對 Cargo 執行 `cargo build` 時所使用；`release` 設定檔會在當你對 Cargo 執行 `cargo build --release` 時所使用。`dev` 設定檔預設定義爲適用於開發時使用，而`release` 設定檔預設定義爲適用於發佈時使用。
 
-These profile names might be familiar from the output of your builds:
+你可能會覺得這些設定檔名稱很眼熟，因爲它們就已經顯示在輸出結果過：
 
 <!-- manual-regeneration
 anywhere, run:
@@ -26,14 +20,9 @@ $ cargo build --release
     Finished release [optimized] target(s) in 0.0s
 ```
 
-The `dev` and `release` shown in this build output indicate that the compiler
-is using different profiles.
+此建構輸出顯示的 `dev` 與 `release` 代表編譯器會使用不同的設定檔。
 
-Cargo has default settings for each of the profiles that apply when there
-aren’t any `[profile.*]` sections in the project’s *Cargo.toml* file. By adding
-`[profile.*]` sections for any profile you want to customize, you can override
-any subset of the default settings. For example, here are the default values
-for the `opt-level` setting for the `dev` and `release` profiles:
+當專案的 *Cargo.toml* 中沒有任何 `[profile.*]` 段落的話，Cargo 就會使用每個設定檔的預設設置。透過對你想要自訂的任何設定檔加上 `[profile.*]` 段落，你可以覆寫任何預設設定的子集。舉例來說，以下是 `dev` 與 `release` 設定檔中 `opt-level` 設定的預設數值：
 
 <span class="filename">檔案名稱：Cargo.toml</span>
 
@@ -45,20 +34,9 @@ opt-level = 0
 opt-level = 3
 ```
 
-The `opt-level` setting controls the number of optimizations Rust will apply to
-your code, with a range of 0 to 3. Applying more optimizations extends
-compiling time, so if you’re in development and compiling your code often,
-you’ll want faster compiling even if the resulting code runs slower. That is
-the reason the default `opt-level` for `dev` is `0`. When you’re ready to
-release your code, it’s best to spend more time compiling. You’ll only compile
-in release mode once, but you’ll run the compiled program many times, so
-release mode trades longer compile time for code that runs faster. That is why
-the default `opt-level` for the `release` profile is `3`.
+`opt-level` 設定控制了 Rust 對程式碼進行優化的程度，範圍從 0 到 3。提高優化程度會增加編譯時間，所以如果你在開發過程中得時常編譯程式碼的話，你會比較想要編譯快一點，就算結果程式碼會執行的比較慢。這就是 `dev` 的 `opt-level` 預設爲 0 的原因。當你準備好要發佈你的程式碼時，則最好花多點時間來編譯。你只需要在發佈模式編譯一次，但你的編譯程式則會被執行很多次，所以發佈模式選擇花費多點編譯時間來讓程式跑得比較快。這就是 `release` 的 `opt-level` 預設爲 3 的原因。
 
-You can override any default setting by adding a different value for it in
-*Cargo.toml*. For example, if we want to use optimization level 1 in the
-development profile, we can add these two lines to our project’s *Cargo.toml*
-file:
+你可以在 *Cargo.toml* 加上不同的數值來覆蓋任何預設設定。舉例來說，如果我們希望在開發設定檔使用優化等級 1 的話，我們可以在專案的 *Cargo.toml* 檔案中加上這兩行：
 
 <span class="filename">檔案名稱：Cargo.toml</span>
 
@@ -67,10 +45,10 @@ file:
 opt-level = 1
 ```
 
-This code overrides the default setting of `0`. Now when we run `cargo build`,
-Cargo will use the defaults for the `dev` profile plus our customization to
-`opt-level`. Because we set `opt-level` to `1`, Cargo will apply more
-optimizations than the default, but not as many as in a release build.
+這樣就會覆蓋預設設定 `0`。現在當我們執行 `cargo build`，Cargo 就會使用 `dev` 設定檔的預設值以及我們自訂的 `opt-level`。因爲我們將 `opt-level` 設爲 `1`，Cargo 會比原本的預設進行更多優化，但沒有發佈建構那麼多。
 
-For the full list of configuration options and defaults for each profile, see
-[Cargo’s documentation](https://doc.rust-lang.org/cargo/reference/profiles.html).
+對於完整的設置選項與每個設定檔的預設列表，請查閱 [Cargo 的技術文件](https://doc.rust-lang.org/cargo/reference/profiles.html)。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-01-release-profiles.md)
+> - updated: 2020-09-19
