@@ -13671,93 +13671,36 @@ cargo install something you don't have, copy relevant output below
 <li>updated: 2020-09-19</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#using-boxt-to-point-to-data-on-the-heap" id="using-boxt-to-point-to-data-on-the-heap">Using <code>Box&lt;T&gt;</code> to Point to Data on the Heap</a></h2>
-<p>The most straightforward smart pointer is a <em>box</em>, whose type is written
-<code>Box&lt;T&gt;</code>. Boxes allow you to store data on the heap rather than the stack. What
-remains on the stack is the pointer to the heap data. Refer to Chapter 4 to
-review the difference between the stack and the heap.</p>
-<p>Boxes don’t have performance overhead, other than storing their data on the
-heap instead of on the stack. But they don’t have many extra capabilities
-either. You’ll use them most often in these situations:</p>
+<h2><a class="header" href="#使用-boxt-指向堆積上的資料" id="使用-boxt-指向堆積上的資料">使用 <code>Box&lt;T&gt;</code> 指向堆積上的資料</a></h2>
+<p>最直白的智慧指標是 <em>box</em> 其型別爲 <code>Box&lt;T&gt;</code>。Box 允許你儲存資料到堆積上，而不是堆疊。留在堆疊上的會是指向堆積資料的指標。你可以回顧第四章瞭解堆疊與堆積的差別。</p>
+<p>Box 沒有額外的效能開銷，就只是將它們的資料儲存在堆積上而非堆疊而已。不過相對地它們也沒有多少額外功能。你大概會在這些場合用到它們：</p>
 <ul>
-<li>When you have a type whose size can’t be known at compile time and you want
-to use a value of that type in a context that requires an exact size</li>
-<li>When you have a large amount of data and you want to transfer ownership but
-ensure the data won’t be copied when you do so</li>
-<li>When you want to own a value and you care only that it’s a type that
-implements a particular trait rather than being of a specific type</li>
+<li>當你有個型別無法在編譯時期確定大小，而你又想在需要知道確切大小的情況下使用該型別的數值</li>
+<li>當你有個龐大的資料，而你想要轉移所有權並確保資料不會被拷貝。</li>
+<li>當你想要擁有某個值，但你只在意該型別有實作特定的特徵，而不再是何種特定型別</li>
 </ul>
-<p>We’ll demonstrate the first situation in the <a href="ch15-01-box.html#enabling-recursive-types-with-boxes">“Enabling Recursive Types with
-Boxes”</a><!-- ignore --> section. In the
-second case, transferring ownership of a large amount of data can take a long
-time because the data is copied around on the stack. To improve performance in
-this situation, we can store the large amount of data on the heap in a box.
-Then, only the small amount of pointer data is copied around on the stack,
-while the data it references stays in one place on the heap. The third case is
-known as a <em>trait object</em>, and Chapter 17 devotes an entire section, <a href="ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“Using
-Trait Objects That Allow for Values of Different Types,”</a><!--
-ignore --> just to that topic. So what you learn here you’ll apply again in
-Chapter 17!</p>
-<h3><a class="header" href="#using-a-boxt-to-store-data-on-the-heap" id="using-a-boxt-to-store-data-on-the-heap">Using a <code>Box&lt;T&gt;</code> to Store Data on the Heap</a></h3>
-<p>Before we discuss this use case for <code>Box&lt;T&gt;</code>, we’ll cover the syntax and how to
-interact with values stored within a <code>Box&lt;T&gt;</code>.</p>
-<p>Listing 15-1 shows how to use a box to store an <code>i32</code> value on the heap:</p>
+<p>我們會在<a href="ch15-01-box.html#enabling-recursive-types-with-boxes">「透過 Box 建立遞迴型別」</a><!-- ignore -->段落解說第一種情形。而在第二種情形，轉移龐大的資料的所有權可能會很花費時間，因爲在堆疊上的話會拷貝所有資料。要改善此情形，我們可以用 box 將龐大的資料儲存在堆積上。這樣就只有少量的指標資料在堆疊上被拷貝，而其引用的資料仍然保留在堆積上的同個位置。第三種情況被<em>特徵物件（trait object）</em>，第十七章會花整個<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->段落來討論此議題。所以你在此學到的到第十七章會再次用上！</p>
+<h3><a class="header" href="#使用-boxt-儲存資料到堆積上" id="使用-boxt-儲存資料到堆積上">使用 <code>Box&lt;T&gt;</code> 儲存資料到堆積上</a></h3>
+<p>在我們討論 <code>Box&lt;T&gt;</code> 的使用場合前，我們會先介紹語法以及如何對 <code>Box&lt;T&gt;</code> 內儲存的數值進行互動。</p>
+<p>範例 15-1 顯示如何使用 box 在堆積上儲存一個 <code>i32</code> 數值：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let b = Box::new(5);
     println!(&quot;b = {}&quot;, b);
 }
 </code></pre></pre>
-<p><span class="caption">範例 15-1: Storing an <code>i32</code> value on the heap using a
-box</span></p>
-<p>We define the variable <code>b</code> to have the value of a <code>Box</code> that points to the
-value <code>5</code>, which is allocated on the heap. This program will print <code>b = 5</code>; in
-this case, we can access the data in the box similar to how we would if this
-data were on the stack. Just like any owned value, when a box goes out of
-scope, as <code>b</code> does at the end of <code>main</code>, it will be deallocated. The
-deallocation happens for the box (stored on the stack) and the data it points
-to (stored on the heap).</p>
-<p>Putting a single value on the heap isn’t very useful, so you won’t use boxes by
-themselves in this way very often. Having values like a single <code>i32</code> on the
-stack, where they’re stored by default, is more appropriate in the majority of
-situations. Let’s look at a case where boxes allow us to define types that we
-wouldn’t be allowed to if we didn’t have boxes.</p>
-<h3><a class="header" href="#enabling-recursive-types-with-boxes" id="enabling-recursive-types-with-boxes">Enabling Recursive Types with Boxes</a></h3>
-<p>At compile time, Rust needs to know how much space a type takes up. One type
-whose size can’t be known at compile time is a <em>recursive type</em>, where a value
-can have as part of itself another value of the same type. Because this nesting
-of values could theoretically continue infinitely, Rust doesn’t know how much
-space a value of a recursive type needs. However, boxes have a known size, so
-by inserting a box in a recursive type definition, you can have recursive types.</p>
-<p>Let’s explore the <em>cons list</em>, which is a data type common in functional
-programming languages, as an example of a recursive type. The cons list type
-we’ll define is straightforward except for the recursion; therefore, the
-concepts in the example we’ll work with will be useful any time you get into
-more complex situations involving recursive types.</p>
-<h4><a class="header" href="#more-information-about-the-cons-list" id="more-information-about-the-cons-list">More Information About the Cons List</a></h4>
-<p>A <em>cons list</em> is a data structure that comes from the Lisp programming language
-and its dialects. In Lisp, the <code>cons</code> function (short for “construct function”)
-constructs a new pair from its two arguments, which usually are a single value
-and another pair. These pairs containing pairs form a list.</p>
-<p>The cons function concept has made its way into more general functional
-programming jargon: “to cons <em>x</em> onto <em>y</em>” informally means to construct a new
-container instance by putting the element <em>x</em> at the start of this new
-container, followed by the container <em>y</em>.</p>
-<p>Each item in a cons list contains two elements: the value of the current item
-and the next item. The last item in the list contains only a value called <code>Nil</code>
-without a next item. A cons list is produced by recursively calling the <code>cons</code>
-function. The canonical name to denote the base case of the recursion is <code>Nil</code>.
-Note that this is not the same as the “null” or “nil” concept in Chapter 6,
-which is an invalid or absent value.</p>
-<p>Although functional programming languages use cons lists frequently, the cons
-list isn’t a commonly used data structure in Rust. Most of the time when you
-have a list of items in Rust, <code>Vec&lt;T&gt;</code> is a better choice to use. Other, more
-complex recursive data types <em>are</em> useful in various situations, but by
-starting with the cons list, we can explore how boxes let us define a recursive
-data type without much distraction.</p>
-<p>Listing 15-2 contains an enum definition for a cons list. Note that this code
-won’t compile yet because the <code>List</code> type doesn’t have a known size, which
-we’ll demonstrate.</p>
+<p><span class="caption">範例 15-1：使用 box 在堆積上儲存一個 <code>i32</code> 數值</span></p>
+<p>我們定義了變數 <code>b</code> 其數值爲 <code>Box</code> 分配在堆積上指向的數值 <code>5</code>。程式在此例會印出 <code>b = 5</code>，在此例中我們可以用在堆疊上相同的方式取得 box 的資料。就像任何有所有權的數值一樣，當 box 離開作用域時會釋放記憶體，在此例就是當 <code>b</code> 抵達 <code>main</code> 結尾的時候。釋放記憶體作用於 box（儲存在堆疊上）以及其所指向的資料（儲存在堆積上）。</p>
+<p>將單一數值放在堆積上的確沒什麼用處，所以你不會對這種類型經常使用 box。在大多數情況下將像 <code>i32</code> 這種單一數值預設儲存在堆疊的確比較適合。</p>
+<h3><a class="header" href="#透過-box-建立遞迴型別" id="透過-box-建立遞迴型別">透過 Box 建立遞迴型別</a></h3>
+<p>在編譯時期，Rust 需要知道一個型別佔用的空間有多少。其中一種無法在編譯期間知道大小的型別就是<em>遞迴型別（recursive type）</em>，其值的一部分可以是相同型別的另一個值。由於這種巢狀數值理論上可以無限循環下去，Rust無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。</p>
+<p>讓我們來探索 <em>cons list</em>，這是個在函式程式語言中常見的資料型別，很適合作爲遞迴型別的範例。我們要定義的 cons list 型別除了遞迴的部分以外都很直白，因此這個例子的概念在往後你遇到更複雜的遞迴型別時會很實用。</p>
+<h4><a class="header" href="#更多關於-cons-list-的資訊" id="更多關於-cons-list-的資訊">更多關於 Cons List 的資訊</a></h4>
+<p><em>cons list</em> 是個起源於 Lisp 程式設計語言與其方言的資料結構。在 Lisp 中，<code>cons</code> 函式（「construct function」的縮寫）會從兩個引數建構一個新的配對，而這通常是一個數值與另一個配對，而這些配對就包含了列表中的配對。</p>
+<p>cons 函式的概念在往後成了常見的函式語言術語：「將 <em>x</em> cons 到 <em>y</em>」通常代表的是建立一個新的容器實例，將元素 <em>x</em> 置於此容器的開頭，而後方則是連接到容器 <em>y</em>。</p>
+<p>每個 cons list 的項目都包含兩個元素：目前項目的數值與下一個項目。列表中的最後一個項目只會包含一個數值叫做 <code>Nil</code>，並不會再連接下一個項目。cons list 透過遞迴呼叫 <code>cons</code> 函式來產生。表示遞迴終止條件的名稱爲 <code>Nil</code>。注意這和第六章提到的「null」或「nil」的概念不全然相同，這些代表的是無效或空缺的數值。</p>
+<p>雖然函式程式設計語言很常使用 cons lists，但在 Rust 中 cons lists 卻不是常見的資料結構。大多數當你在 Rust 需要項目列表時，<code>Vec&lt;T&gt;</code> 會是比較好的選擇。而其他時候夠複雜的遞迴資料型別<em>確實</em>在各種特殊情形會很實用，不過先從 cons list 開始的話，我們可以專注探討 box 如何讓我們定義遞迴資料型別。</p>
+<p>範例 15-2 包含了 cons list 的枚舉定義。注意到此程式碼還不能編譯過，因爲 <code>List</code> 型別並沒有以已知大小，我們接下來會繼續說明。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">enum List {
     Cons(i32, List),
@@ -13766,16 +13709,11 @@ we’ll demonstrate.</p>
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre>
-<p><span class="caption">範例 15-2: The first attempt at defining an enum to
-represent a cons list data structure of <code>i32</code> values</span></p>
+<p><span class="caption">範例 15-2：第一次嘗試定義一個枚舉來代表有 <code>i32</code> 數值的 cons list 資料結構</span></p>
 <blockquote>
-<p>Note: We’re implementing a cons list that holds only <code>i32</code> values for the
-purposes of this example. We could have implemented it using generics, as we
-discussed in Chapter 10, to define a cons list type that could store values of
-any type.</p>
+<p>注意：我們定義的 cons list 只有 <code>i32</code> 數值是爲了範例考量。我們當然可以使用第十章討論過的泛型來定義它，讓 cons list 定義的型別可以儲存任何型別數值。</p>
 </blockquote>
-<p>Using the <code>List</code> type to store the list <code>1, 2, 3</code> would look like the code in
-Listing 15-3:</p>
+<p>使用 <code>List</code> 型別來儲存 <code>1, 2, 3</code> 列表的話會如範例 15-3 的程式碼所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">enum List {
 </span><span class="boring">    Cons(i32, List),
@@ -13788,13 +13726,9 @@ fn main() {
     let list = Cons(1, Cons(2, Cons(3, Nil)));
 }
 </code></pre>
-<p><span class="caption">範例 15-3: Using the <code>List</code> enum to store the list <code>1, 2, 3</code></span></p>
-<p>The first <code>Cons</code> value holds <code>1</code> and another <code>List</code> value. This <code>List</code> value is
-another <code>Cons</code> value that holds <code>2</code> and another <code>List</code> value. This <code>List</code> value
-is one more <code>Cons</code> value that holds <code>3</code> and a <code>List</code> value, which is finally
-<code>Nil</code>, the non-recursive variant that signals the end of the list.</p>
-<p>If we try to compile the code in Listing 15-3, we get the error shown in
-Listing 15-4:</p>
+<p><span class="caption">範例 15-3：使用 <code>List</code> 枚舉儲存列表 <code>1, 2, 3</code></span></p>
+<p>第一個 <code>Cons</code> 值會得到 <code>1</code> 與另一個 <code>List</code> 數值。此 <code>List</code> 數值是另一個 <code>Cons</code> 數值且持有 <code>2</code> 與另一個 <code>List</code> 數值。此 <code>List</code> 數值是另一個 <code>Cons</code> 數值且擁有 <code>3</code> 與一個 <code>List</code> 數值，其就是最後的 <code>Nil</code>，這是傳遞列表結尾訊號的非遞迴變體。</p>
+<p>如果我們嘗試編譯範例 15-3 的程式碼，我們會得到範例 15-4 的錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
 error[E0072]: recursive type `List` has infinite size
@@ -13824,17 +13758,10 @@ error: could not compile `cons-list`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p><span class="caption">範例 15-4: The error we get when attempting to define
-a recursive enum</span></p>
-<p>The error shows this type “has infinite size.” The reason is that we’ve defined
-<code>List</code> with a variant that is recursive: it holds another value of itself
-directly. As a result, Rust can’t figure out how much space it needs to store a
-<code>List</code> value. Let’s break down why we get this error a bit. First, let’s look
-at how Rust decides how much space it needs to store a value of a non-recursive
-type.</p>
-<h4><a class="header" href="#computing-the-size-of-a-non-recursive-type" id="computing-the-size-of-a-non-recursive-type">Computing the Size of a Non-Recursive Type</a></h4>
-<p>Recall the <code>Message</code> enum we defined in Listing 6-2 when we discussed enum
-definitions in Chapter 6:</p>
+<p><span class="caption">範例 15-4：嘗試定義遞迴枚舉所得到的錯誤</span></p>
+<p>錯誤顯示此型別的「大小爲無限」，原因是因爲我們定義的 <code>List</code> 有個變體是遞迴：它直接存有另一個相同類型的數值。所以 Rust 無法判別出它需要多少空間才能儲存一個 <code>List</code> 的數值。讓我進一步研究爲何我們會得到這樣的錯誤，首先來看 Rust 如何決定要分配多少空間來儲存非遞迴型別。</p>
+<h4><a class="header" href="#計算非遞迴型別的大小" id="計算非遞迴型別的大小">計算非遞迴型別的大小</a></h4>
+<p>回想一下第六章中，當我們在討論枚舉定義時，我們在範例 6-2 定義的 <code>Message</code> 枚舉：</p>
 <pre><pre class="playground"><code class="language-rust">enum Message {
     Quit,
     Move { x: i32, y: i32 },
@@ -13844,45 +13771,20 @@ definitions in Chapter 6:</p>
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p>To determine how much space to allocate for a <code>Message</code> value, Rust goes
-through each of the variants to see which variant needs the most space. Rust
-sees that <code>Message::Quit</code> doesn’t need any space, <code>Message::Move</code> needs enough
-space to store two <code>i32</code> values, and so forth. Because only one variant will be
-used, the most space a <code>Message</code> value will need is the space it would take to
-store the largest of its variants.</p>
-<p>Contrast this with what happens when Rust tries to determine how much space a
-recursive type like the <code>List</code> enum in Listing 15-2 needs. The compiler starts
-by looking at the <code>Cons</code> variant, which holds a value of type <code>i32</code> and a value
-of type <code>List</code>. Therefore, <code>Cons</code> needs an amount of space equal to the size of
-an <code>i32</code> plus the size of a <code>List</code>. To figure out how much memory the <code>List</code>
-type needs, the compiler looks at the variants, starting with the <code>Cons</code>
-variant. The <code>Cons</code> variant holds a value of type <code>i32</code> and a value of type
-<code>List</code>, and this process continues infinitely, as shown in Figure 15-1.</p>
+<p>要決定一個 <code>Message</code> 數值需要分配多少空間，Rust 會遍歷每個變體來看哪個變體需要最大的空間。Rust 會看到 <code>Message::Quit</code> 不佔任何空間、<code>Message::Move</code> 需要能夠儲存兩個 <code>i32</code> 的空間，以此類推。因爲只有一個變體會被使用，一個 <code>Message</code> 數值所需的最大空間就是其最大變體的大小。</p>
+<p>將此對應到當 Rust 嘗試檢查像是範例 15-2 的 <code>List</code> 枚舉來決定遞迴型別需要多少空間時，究竟會發生什麼事。編譯器先從查看 <code>Cons</code> 的變體開始，其存有一個 <code>i32</code> 型別與一個 <code>List</code> 型別。因此 <code>Cons</code> 需要的空間大小爲 <code>i32</code> 的大小加上 <code>List</code> 的大小。爲了要瞭解 <code>List</code> 型別需要的多少記憶體，編譯器在進一步看它的變體，也是從 <code>Cons</code> 變體開始。<code>Cons</code> 變體存有一個型別 <code>i32</code> 與一個型別 <code>List</code>，而這樣的過程就無限處理下去，如圖示 15-1 所示。</p>
 <img alt="An infinite Cons list" src="img/trpl15-01.svg" class="center" style="width: 50%;" />
-<p><span class="caption">圖示 15-1: An infinite <code>List</code> consisting of infinite
-<code>Cons</code> variants</span></p>
-<h4><a class="header" href="#using-boxt-to-get-a-recursive-type-with-a-known-size" id="using-boxt-to-get-a-recursive-type-with-a-known-size">Using <code>Box&lt;T&gt;</code> to Get a Recursive Type with a Known Size</a></h4>
-<p>Rust can’t figure out how much space to allocate for recursively defined types,
-so the compiler gives the error in Listing 15-4. But the error does include
-this helpful suggestion:</p>
+<p><span class="caption">圖示 15-1：無限個 <code>List</code> 包含著無限個 <code>Cons</code> 變體</span></p>
+<h4><a class="header" href="#使用-boxt-取得已知大小的遞迴型別" id="使用-boxt-取得已知大小的遞迴型別">使用 <code>Box&lt;T&gt;</code> 取得已知大小的遞迴型別</a></h4>
+<p>Rust 無法判別出遞迴定義型別要分配多少空間，所以編譯器給了範例 15-4 的錯誤，但是此錯誤有提供實用的建議：</p>
 <!-- manual-regeneration
 after doing automatic regeneration, look at listings/ch15-smart-pointers/listing-15-03/output.txt and copy the relevant line
 -->
 <pre><code class="language-text">  = help: insert indirection (e.g., a `Box`, `Rc`, or `&amp;`) at some point to make `List` representable
 </code></pre>
-<p>In this suggestion, “indirection” means that instead of storing a value
-directly, we’ll change the data structure to store the value indirectly by
-storing a pointer to the value instead.</p>
-<p>Because a <code>Box&lt;T&gt;</code> is a pointer, Rust always knows how much space a <code>Box&lt;T&gt;</code>
-needs: a pointer’s size doesn’t change based on the amount of data it’s
-pointing to. This means we can put a <code>Box&lt;T&gt;</code> inside the <code>Cons</code> variant instead
-of another <code>List</code> value directly. The <code>Box&lt;T&gt;</code> will point to the next <code>List</code>
-value that will be on the heap rather than inside the <code>Cons</code> variant.
-Conceptually, we still have a list, created with lists “holding” other lists,
-but this implementation is now more like placing the items next to one another
-rather than inside one another.</p>
-<p>We can change the definition of the <code>List</code> enum in Listing 15-2 and the usage
-of the <code>List</code> in Listing 15-3 to the code in Listing 15-5, which will compile:</p>
+<p>在此建議中，「indirection」代表與其直接儲存數值，我們可以變更資料結構，間接儲存指向數值的指標。</p>
+<p>因爲 <code>Box&lt;T&gt;</code> 是個指標，Rust 永遠知道 <code>Box&lt;T&gt;</code> 需要多少空間：指標的大小不會隨著指向的資料數量而改變。這代表我們可以將 <code>Box&lt;T&gt;</code> 存入 <code>Cons</code> 變體而非直接儲存另一個 <code>List</code> 數值。<code>Box&lt;T&gt;</code> 會指向另一個存在於堆積上的 <code>List</code> 數值而不是存在 <code>Cons</code> 變體中。概念上我們仍然有建立一個<em>持有</em>其他列表的列表，但此實作更像是將項目接著另一個項目排列，而非包含另一個在內。</p>
+<p>我們可以改變範例 15-2 的 <code>List</code> 枚舉定義以及範例 15-3 <code>List</code> 的使用方式，將其寫入範例 15-5，這次就能夠編譯過了：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum List {
     Cons(i32, Box&lt;List&gt;),
@@ -13895,31 +13797,20 @@ fn main() {
     let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
 }
 </code></pre></pre>
-<p><span class="caption">範例 15-5: Definition of <code>List</code> that uses <code>Box&lt;T&gt;</code> in
-order to have a known size</span></p>
-<p>The <code>Cons</code> variant will need the size of an <code>i32</code> plus the space to store the
-box’s pointer data. The <code>Nil</code> variant stores no values, so it needs less space
-than the <code>Cons</code> variant. We now know that any <code>List</code> value will take up the
-size of an <code>i32</code> plus the size of a box’s pointer data. By using a box, we’ve
-broken the infinite, recursive chain, so the compiler can figure out the size
-it needs to store a <code>List</code> value. Figure 15-2 shows what the <code>Cons</code> variant
-looks like now.</p>
+<p><span class="caption">範例 15-5：使用 <code>Box&lt;T&gt;</code> 定義的 <code>List</code> 就有已知大小</span></p>
+<p><code>Cons</code> 變體需要的大小爲 <code>i32</code> 加上儲存 box 指標的空間。<code>Nil</code> 變體沒有儲存任何數值，所以它需要的空間比 <code>Cons</code> 變體少。現在我們知道任何
+We now know that any <code>List</code> 數值會佔的空間都是一個 <code>i32</code> 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 <code>List</code> 數值鎖需要的大小。圖示 15-2 顯示了 <code>Cons</code> 變體看起來的樣子。</p>
 <img alt="A finite Cons list" src="img/trpl15-02.svg" class="center" />
-<p><span class="caption">圖示 15-2: A <code>List</code> that is not infinitely sized
-because <code>Cons</code> holds a <code>Box</code></span></p>
-<p>Boxes provide only the indirection and heap allocation; they don’t have any
-other special capabilities, like those we’ll see with the other smart pointer
-types. They also don’t have any performance overhead that these special
-capabilities incur, so they can be useful in cases like the cons list where the
-indirection is the only feature we need. We’ll look at more use cases for boxes
-in Chapter 17, too.</p>
-<p>The <code>Box&lt;T&gt;</code> type is a smart pointer because it implements the <code>Deref</code> trait,
-which allows <code>Box&lt;T&gt;</code> values to be treated like references. When a <code>Box&lt;T&gt;</code>
-value goes out of scope, the heap data that the box is pointing to is cleaned
-up as well because of the <code>Drop</code> trait implementation. Let’s explore these two
-traits in more detail. These two traits will be even more important to the
-functionality provided by the other smart pointer types we’ll discuss in the
-rest of this chapter.</p>
+<p><span class="caption">圖示 15-2：不再是無限大小的 <code>List</code>，因爲其 <code>Cons</code> 存的是 <code>Box</code></span></p>
+<p>Boxes 只提供了間接儲存與堆積分配，它們沒有其他任何特殊功能，比如我們等下就會看到的其他智慧指標型別。它們也沒有任何因這些特殊功能產生的額外效能開銷，所以它們很適合用於像是 cons list 這種我們只需要間接儲存的場合。我們在第十七章還會再介紹到更多 box 的使用情境。</p>
+<p><code>Box&lt;T&gt;</code> 型別是智慧指標是因爲它有實作 <code>Deref</code> 特徵，讓 <code>Box&lt;T&gt;</code> 的數值可以被視爲引用所使用。當 <code>Box&lt;T&gt;</code> 數值離開作用域時，該 box 指向的堆積資料也會被清除，因爲其有 <code>Drop</code> 特徵實作。讓我們來探討這兩種特徵的細節吧。這兩種特徵對於本章將會討論的其他智慧指標型別所提供的功能，將會更加重要。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-01-box.md">e5ed971</a></li>
+<li>updated: 2020-09-19</li>
+</ul>
+</blockquote>
 <h2><a class="header" href="#透過-deref-特徵將智慧指標視為一般引用" id="透過-deref-特徵將智慧指標視為一般引用">透過 <code>Deref</code> 特徵將智慧指標視為一般引用</a></h2>
 <p>Implementing the <code>Deref</code> trait allows you to customize the behavior of the
 <em>dereference operator</em>, <code>*</code> (as opposed to the multiplication or glob
