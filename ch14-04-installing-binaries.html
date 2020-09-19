@@ -167,25 +167,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#installing-binaries-from-cratesio-with-cargo-install" id="installing-binaries-from-cratesio-with-cargo-install">Installing Binaries from Crates.io with <code>cargo install</code></a></h2>
-<p>The <code>cargo install</code> command allows you to install and use binary crates
-locally. This isn’t intended to replace system packages; it’s meant to be a
-convenient way for Rust developers to install tools that others have shared on
-<a href="https://crates.io/">crates.io</a><!-- ignore -->. Note that you can only install
-packages that have binary targets. A <em>binary target</em> is the runnable program
-that is created if the crate has a <em>src/main.rs</em> file or another file specified
-as a binary, as opposed to a library target that isn’t runnable on its own but
-is suitable for including within other programs. Usually, crates have
-information in the <em>README</em> file about whether a crate is a library, has a
-binary target, or both.</p>
-<p>All binaries installed with <code>cargo install</code> are stored in the installation
-root’s <em>bin</em> folder. If you installed Rust using <em>rustup.rs</em> and don’t have any
-custom configurations, this directory will be <em>$HOME/.cargo/bin</em>. Ensure that
-directory is in your <code>$PATH</code> to be able to run programs you’ve installed with
-<code>cargo install</code>.</p>
-<p>For example, in Chapter 12 we mentioned that there’s a Rust implementation of
-the <code>grep</code> tool called <code>ripgrep</code> for searching files. If we want to install
-<code>ripgrep</code>, we can run the following:</p>
+                        <h2><a class="header" href="#透過-cargo-install-從-cratesio-安裝二進制執行檔" id="透過-cargo-install-從-cratesio-安裝二進制執行檔">透過 <code>cargo install</code> 從 Crates.io 安裝二進制執行檔</a></h2>
+<p><code>cargo install</code> 命令讓你能本地安裝並使用二進制執行檔 crates。這並不是打算要取代系統套件，這是爲了方便讓 Rust 開發者可以安裝 <a href="https://crates.io/">crates.io</a><!-- ignore --> 上分享的工具。注意你只能安裝有二進制目標的套件。*二進制目標（binary target）*是在 crate 有 <em>src/main.rs</em> 檔案或其他指定的二進制檔案時，所建立的可執行程式。而相反地，函式庫目標就無法單獨執行，因爲它提供給其他程式使用的函式庫。通常 crate 都會提供 <em>README</em> 檔案說明此 crate 是函式庫還是二進制目標，或者兩者都是。</p>
+<p>所有透過 <code>cargo install</code> 安裝的二進制檔案都儲存在安裝根目錄的 <em>bin</em> 資料夾中。如果你是用 <em>rustup.rs</em>  安裝 Rust 且沒有任何自訂設置的話，此目錄會是 <em>$HOME/.cargo/bin</em>。請確定該目錄有在你的 <code>$PATH</code> 中，這樣才能夠執行 <code>cargo install</code> 安裝的程式。</p>
+<p>舉例來說，範例 12 我們提到有個 Rust 版本的 <code>grep</code> 工具叫做 <code>ripgrep</code> 能用來搜尋檔案。如果我們想要安裝 <code>ripgrep</code> 的話，我們可以執行以下命令：</p>
 <!-- manual-regeneration
 cargo install something you don't have, copy relevant output below
 -->
@@ -200,10 +185,14 @@ cargo install something you don't have, copy relevant output below
   Installing ~/.cargo/bin/rg
    Installed package `ripgrep v11.0.2` (executable `rg`)
 </code></pre>
-<p>The second-to-last line of the output shows the location and the name of the
-installed binary, which in the case of <code>ripgrep</code> is <code>rg</code>. As long as the
-installation directory is in your <code>$PATH</code>, as mentioned previously, you can
-then run <code>rg --help</code> and start using a faster, rustier tool for searching files!</p>
+<p>輸出的最後兩行顯示了二進制檔案的安裝位置與名稱，在 <code>ripgrep</code> 此例中就是 <code>rg</code>。如稍早提到的，只要你的 <code>$PATH</code> 有包含安裝目錄，你就可以執行 <code>rg --help</code> 並開始使用更快更鏽的搜尋檔案工具！</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-04-installing-binaries.md">e5ed971</a></li>
+<li>updated: 2020-09-19</li>
+</ul>
+</blockquote>
 
                     </main>
 
