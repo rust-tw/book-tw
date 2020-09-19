@@ -90,7 +90,7 @@
 - [智慧指標](ch15-00-smart-pointers.md)
     - [使用 `Box<T>` 指向堆積上的資料](ch15-01-box.md)
     - [透過 `Deref` 特徵將智慧指標視為一般引用](ch15-02-deref.md)
-    - [透過Running Code on Cleanup with the `Drop` 特徵執行清除程式碼](ch15-03-drop.md)
+    - [透過 `Drop` 特徵執行清除程式碼](ch15-03-drop.md)
     - [`Rc<T>` 引用計數智慧指標](ch15-04-rc.md)
     - [`RefCell<T>` 與內部可變性模式](ch15-05-interior-mutability.md)
     - [引用循環會導致記憶體泄漏](ch15-06-reference-cycles.md)

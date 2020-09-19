@@ -1,31 +1,12 @@
-## Running Code on Cleanup with the `Drop` Trait
+## 透過 `Drop` 特徵執行清除程式碼
 
-The second trait important to the smart pointer pattern is `Drop`, which lets
-you customize what happens when a value is about to go out of scope. You can
-provide an implementation for the `Drop` trait on any type, and the code you
-specify can be used to release resources like files or network connections.
-We’re introducing `Drop` in the context of smart pointers because the
-functionality of the `Drop` trait is almost always used when implementing a
-smart pointer. For example, when a `Box<T>` is dropped it will deallocate the space
-on the heap that the box points to.
+第二個對智慧指標模式很重要的特徵是 `Drop`，這讓你能自訂數值離開作用域時的行爲。你可以對任何型別實作 `Drop` 特徵，然後你指定的程式碼就能用來釋放像是檔案或網路連線等資源。我們在智慧指標的章節介紹 `Drop` 的原因是因爲 `Drop` 特徵的功能幾乎永遠會在實作智慧指標時用到。舉例來說，當 `Box<T>` 離開作用域時，它會釋放該 box 在堆積上指向的記憶體空間。
 
-In some languages, the programmer must call code to free memory or resources
-every time they finish using an instance of a smart pointer. If they forget,
-the system might become overloaded and crash. In Rust, you can specify that a
-particular bit of code be run whenever a value goes out of scope, and the
-compiler will insert this code automatically. As a result, you don’t need to be
-careful about placing cleanup code everywhere in a program that an instance of
-a particular type is finished with—you still won’t leak resources!
+在某些語言中，當程式設計師使用完智慧指標的實例後，每次都得呼叫釋放記憶體與資源的程式碼。如果他們忘記的話，系統可能就會過載並崩潰。在 Rust 中你可以對數值離開作用域時指定一些程式碼，然後編譯器就會自動插入此程式碼。所以你就不用每次在特定型別實例使用完時，在程式的每個地方都寫上清理程式碼。而且你還不會泄漏資源！
 
-Specify the code to run when a value goes out of scope by implementing the
-`Drop` trait. The `Drop` trait requires you to implement one method named
-`drop` that takes a mutable reference to `self`. To see when Rust calls `drop`,
-let’s implement `drop` with `println!` statements for now.
+透過實作 `Drop` 特徵我們可以指定當數值離開作用域時要執行的程式碼。`Drop` 特徵會要求我們實作一個方法叫做 `drop`，這會取得 `self` 的可變引用。爲了觀察 Rust 何時會呼叫 `drop`，讓我們先用 `println!` 陳述式實作 `drop`。
 
-Listing 15-14 shows a `CustomSmartPointer` struct whose only custom
-functionality is that it will print `Dropping CustomSmartPointer!` when the
-instance goes out of scope. This example demonstrates when Rust runs the `drop`
-function.
+範例 15-14 的結構體 `CustomSmartPointer` 只有一個功能那就是在實例離開作用域時印出 `Dropping CustomSmartPointer!`。此範例能夠展示 Rust 何時會執行 `drop` 函式。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -33,49 +14,25 @@ function.
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-14/src/main.rs}}
 ```
 
-<span class="caption">範例 15-14: A `CustomSmartPointer` struct that
-implements the `Drop` trait where we would put our cleanup code</span>
+<span class="caption">範例 15-14：`CustomSmartPointer` 結構體實作了會放置清理程式碼的 `Drop` 特徵</span>
 
-The `Drop` trait is included in the prelude, so we don’t need to bring it into
-scope. We implement the `Drop` trait on `CustomSmartPointer` and provide an
-implementation for the `drop` method that calls `println!`. The body of the
-`drop` function is where you would place any logic that you wanted to run when
-an instance of your type goes out of scope. We’re printing some text here to
-demonstrate when Rust will call `drop`.
+`Drop` 特徵包含在 prelude 中，所以我們不需要特地引入作用域。我們對 `CustomSmartPointer` 實作 `Drop` 特徵並提供會呼叫 `println!` 的 `drop` 方法實作。`drop` 的函式本體用來放置你想要在型別實例離開作用域時執行的邏輯。我們在此印出一些文字來展示 Rust 如何呼叫 `drop`。
 
-In `main`, we create two instances of `CustomSmartPointer` and then print
-`CustomSmartPointers created`. At the end of `main`, our instances of
-`CustomSmartPointer` will go out of scope, and Rust will call the code we put
-in the `drop` method, printing our final message. Note that we didn’t need to
-call the `drop` method explicitly.
+在 `main` 中，我們建立了兩個 `CustomSmartPointer` 實例並印出 `CustomSmartPointers created`。在 `main` 結尾，我們的 `CustomSmartPointer` 實例會離開作用域，然後 Rust 就會呼叫我們放在 `drop` 方法的程式碼，也就是印出我們的最終訊息。注意到我們不需要顯式呼叫 `drop` 方法。
 
-When we run this program, we’ll see the following output:
+當我們執行此程式時，我們會看到以下輸出：
 
 ```console
 {{#include ../listings/ch15-smart-pointers/listing-15-14/output.txt}}
 ```
 
-Rust automatically called `drop` for us when our instances went out of scope,
-calling the code we specified. Variables are dropped in the reverse order of
-their creation, so `d` was dropped before `c`. This example gives you a visual
-guide to how the `drop` method works; usually you would specify the cleanup
-code that your type needs to run rather than a print message.
+當我們的實例離開作用域時，Rust 會自動呼叫 `drop`，呼叫我們指定的程式碼。變數會以與建立時相反的順序被釋放，所以 `d` 會在 `c` 之前被釋放。此範例給了我們一個觀察 `drop` 如何執行的視覺化指引，通常你會指定該型別所須得清除程式碼，而不是印出訊息。
 
-### Dropping a Value Early with `std::mem::drop`
+### 透過 `std::mem::drop` 提早釋放數值
 
-Unfortunately, it’s not straightforward to disable the automatic `drop`
-functionality. Disabling `drop` isn’t usually necessary; the whole point of the
-`Drop` trait is that it’s taken care of automatically. Occasionally, however,
-you might want to clean up a value early. One example is when using smart
-pointers that manage locks: you might want to force the `drop` method that
-releases the lock so that other code in the same scope can acquire the lock.
-Rust doesn’t let you call the `Drop` trait’s `drop` method manually; instead
-you have to call the `std::mem::drop` function provided by the standard library
-if you want to force a value to be dropped before the end of its scope.
+不幸的是，我們無法值接了當地取消自動 `drop` 的功能。停用 `drop` 通常是不必要的整個 `Drop` 的目的本來就是要能自動處理。不過有些時候你可能會想要提早清除數值。其中一個例子是使用智慧指標來管理鎖：你可能會想要強制呼叫 `drop` 方法來釋放鎖，好讓作用域中的其他程式碼可以取得該鎖。Rust 不會讓你手動呼叫 `Drop` 特徵的 `drop` 方法。不過如果你想要一個數值在離開作用域前就被釋放的話，你可以使用標準函式庫提供的 `std::mem::drop` 函式來呼叫。
 
-If we try to call the `Drop` trait’s `drop` method manually by modifying the
-`main` function from Listing 15-14, as shown in Listing 15-15, we’ll get a
-compiler error:
+如果我們嘗試修改範例 15-14 的 `main` 函式來手動呼叫 `Drop` 特徵的 `drop` 方法，如範例 15-15 所示，我們會得到編譯錯誤：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -83,34 +40,21 @@ compiler error:
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-15/src/main.rs:here}}
 ```
 
-<span class="caption">範例 15-15: Attempting to call the `drop` method from
-the `Drop` trait manually to clean up early</span>
+<span class="caption">範例 15-15：嘗試呼叫 `Drop` 特徵的 `drop` 方法來手動提早清除</span>
 
-When we try to compile this code, we’ll get this error:
+當我們嘗試編譯此程式碼，我們會獲得以下錯誤：
 
 ```console
 {{#include ../listings/ch15-smart-pointers/listing-15-15/output.txt}}
 ```
 
-This error message states that we’re not allowed to explicitly call `drop`. The
-error message uses the term *destructor*, which is the general programming term
-for a function that cleans up an instance. A *destructor* is analogous to a
-*constructor*, which creates an instance. The `drop` function in Rust is one
-particular destructor.
+此錯誤訊息表示我們不允許顯式呼叫 `drop`。錯誤訊息使用了一個術語*解構子（destructor）*，這是通用程式設計術語中表達會清除實例的函式。*解構子*對應的術語就是*建構子（constructor）*，這會建立實例。Rust 中的 `drop` 函式就是一種特定的解構子。
 
-Rust doesn’t let us call `drop` explicitly because Rust would still
-automatically call `drop` on the value at the end of `main`. This would be a
-*double free* error because Rust would be trying to clean up the same value
-twice.
+Rust 不讓我們顯式呼叫 `drop`，因爲 Rust 還是會在 `main` 結束時自動呼叫 `drop`。這樣可能會導致*重複釋放（double free）*的錯誤，因爲 Rust 可能會嘗試清除相同的數值兩次。
 
-We can’t disable the automatic insertion of `drop` when a value goes out of
-scope, and we can’t call the `drop` method explicitly. So, if we need to force
-a value to be cleaned up early, we can use the `std::mem::drop` function.
+當數值離開作用域時我們無法停用自動插入的 `drop`，而且我們無法顯式呼叫 `drop` 方法，所以如果我必須強制讓一個數值提早清除的話，我們可以用 `std::mem::drop` 函式。
 
-The `std::mem::drop` function is different from the `drop` method in the `Drop`
-trait. We call it by passing the value we want to force to be dropped early as
-an argument. The function is in the prelude, so we can modify `main` in Listing
-15-15 to call the `drop` function, as shown in Listing 15-16:
+`std::mem::drop` 函式不同於 `Drop` 中的 `drop` 方法，我們將我們想要強制提早釋放的數值作爲引數傳遞並呼叫它。此函式也包含在 prelude，所以我們可以修改範例 15-15 的 `main` 來呼叫 `drop` 函式，如範例 15-16 所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -118,30 +62,22 @@ an argument. The function is in the prelude, so we can modify `main` in Listing
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-16/src/main.rs:here}}
 ```
 
-<span class="caption">範例 15-16: Calling `std::mem::drop` to explicitly
-drop a value before it goes out of scope</span>
+<span class="caption">範例 15-16：在數值離開作用域前呼叫 `std::mem::drop` 來顯示釋放數值</span>
 
-Running this code will print the following:
+執行此程式會印出以下結果：
 
 ```console
 {{#include ../listings/ch15-smart-pointers/listing-15-16/output.txt}}
 ```
 
-The text ```Dropping CustomSmartPointer with data `some data`!``` is printed
-between the `CustomSmartPointer created.` and `CustomSmartPointer dropped
-before the end of main.` text, showing that the `drop` method code is called to
-drop `c` at that point.
+```Dropping CustomSmartPointer with data `some data`!``` 這段文字會在 `CustomSmartPointer created.` 與 `CustomSmartPointer dropped before the end of main.` 文字之間印出，顯示  `drop` 方法會在那時釋放 `c`。
 
-You can use code specified in a `Drop` trait implementation in many ways to
-make cleanup convenient and safe: for instance, you could use it to create your
-own memory allocator! With the `Drop` trait and Rust’s ownership system, you
-don’t have to remember to clean up because Rust does it automatically.
+你可以在許多地方使用 `Drop` 特徵實作所指定的程式碼，讓清除實例變得方便又安全。舉例來說，你可以用它來建立你自己的記憶體分配器！透過 `Drop` 特徵與 Rust 的所有權系統，你不必去擔心要既得清理，因爲 Rust 會自動處理。
 
-You also don’t have to worry about problems resulting from accidentally
-cleaning up values still in use: the ownership system that makes sure
-references are always valid also ensures that `drop` gets called only once when
-the value is no longer being used.
+你也不必擔心會意外清理仍在使用的數值：所有權系統會確保所有引用永遠有效，並確保當數值不再需要使用時只會呼叫 `drop` 一次。
 
-Now that we’ve examined `Box<T>` and some of the characteristics of smart
-pointers, let’s look at a few other smart pointers defined in the standard
-library.
+現在你看過 `Box<T>` 以及一些智慧指標的特性了，讓我們來看看一些其他定義在標準函式庫的智慧指標吧。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-03-drop.md)
+> - updated: 2020-09-19
