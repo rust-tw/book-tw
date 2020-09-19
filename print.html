@@ -13639,20 +13639,17 @@ cargo install something you don't have, copy relevant output below
 <li>updated: 2020-09-19</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#extending-cargo-with-custom-commands" id="extending-cargo-with-custom-commands">Extending Cargo with Custom Commands</a></h2>
-<p>Cargo is designed so you can extend it with new subcommands without having to
-modify Cargo. If a binary in your <code>$PATH</code> is named <code>cargo-something</code>, you can
-run it as if it was a Cargo subcommand by running <code>cargo something</code>. Custom
-commands like this are also listed when you run <code>cargo --list</code>. Being able to
-use <code>cargo install</code> to install extensions and then run them just like the
-built-in Cargo tools is a super convenient benefit of Cargo’s design!</p>
-<h2><a class="header" href="#summary-3" id="summary-3">Summary</a></h2>
-<p>Sharing code with Cargo and <a href="https://crates.io/">crates.io</a><!-- ignore --> is
-part of what makes the Rust ecosystem useful for many different tasks. Rust’s
-standard library is small and stable, but crates are easy to share, use, and
-improve on a timeline different from that of the language. Don’t be shy about
-sharing code that’s useful to you on <a href="https://crates.io/">crates.io</a><!-- ignore
--->; it’s likely that it will be useful to someone else as well!</p>
+<h2><a class="header" href="#透過自訂命命來擴展-cargo-的功能" id="透過自訂命命來擴展-cargo-的功能">透過自訂命命來擴展 Cargo 的功能</a></h2>
+<p>Cargo 的設計能讓你在不用修改 Cargo 的情況下擴展新的子命令。如果你 <code>$PATH</code> 中有任何叫做 <code>cargo-something</code> 的二進制檔案，你就可以用像是執行 Cargo 子命令的方式 <code>cargo something</code> 來執行它。像這樣的自訂命令在你執行 <code>cargo --list</code> 時也會顯示出來。能夠透過 <code>cargo install</code> 來安裝擴展插件並有如內建 Cargo 工具般來執行使用是 Cargo 設計上的一大方便優勢！</p>
+<h2><a class="header" href="#總結-10" id="總結-10">總結</a></h2>
+<p>透過 Cargo 與 <a href="https://crates.io/">crates.io</a><!-- ignore --> 分享程式碼是讓 Rust 生態系統能適用於許多不同任務的重要部分之一。Rust 的標準函式庫既小又穩定，但是 crate 可以很容易地分享、使用，並在語言本身不同的時間線來進行改善。千萬別吝嗇於分享你認爲實用的程式碼到 <a href="https://crates.io/">crates.io</a><!-- ignore -->，其他人可能也會覺得它很有幫助！</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-05-extending-cargo.md">e5ed971</a></li>
+<li>updated: 2020-09-19</li>
+</ul>
+</blockquote>
 <h1><a class="header" href="#smart-pointers" id="smart-pointers">Smart Pointers</a></h1>
 <p>A <em>pointer</em> is a general concept for a variable that contains an address in
 memory. This address refers to, or “points at,” some other data. The most
@@ -15713,7 +15710,7 @@ specifying that the relationship from a child to its parent should be a
 <code>Weak&lt;T&gt;</code> reference in the definition of <code>Node</code>, you’re able to have parent
 nodes point to child nodes and vice versa without creating a reference cycle
 and memory leaks.</p>
-<h2><a class="header" href="#summary-4" id="summary-4">Summary</a></h2>
+<h2><a class="header" href="#summary-3" id="summary-3">Summary</a></h2>
 <p>This chapter covered how to use smart pointers to make different guarantees and
 trade-offs from those Rust makes by default with regular references. The
 <code>Box&lt;T&gt;</code> type has a known size and points to data allocated on the heap. The
@@ -16800,7 +16797,7 @@ information is that building new concurrent types not made up of <code>Send</cod
 <code>Sync</code> parts requires careful thought to uphold the safety guarantees. <a href="../nomicon/index.html">“The
 Rustonomicon”</a> has more information about these guarantees and how to
 uphold them.</p>
-<h2><a class="header" href="#summary-5" id="summary-5">Summary</a></h2>
+<h2><a class="header" href="#summary-4" id="summary-4">Summary</a></h2>
 <p>This isn’t the last you’ll see of concurrency in this book: the project in
 Chapter 20 will use the concepts in this chapter in a more realistic situation
 than the smaller examples discussed here.</p>
@@ -18252,7 +18249,7 @@ problem to take advantage of Rust’s features can provide benefits, such as
 preventing some bugs at compile time. Object-oriented patterns won’t always be
 the best solution in Rust due to certain features, like ownership, that
 object-oriented languages don’t have.</p>
-<h2><a class="header" href="#summary-6" id="summary-6">Summary</a></h2>
+<h2><a class="header" href="#summary-5" id="summary-5">Summary</a></h2>
 <p>No matter whether or not you think Rust is an object-oriented language after
 reading this chapter, you now know that you can use trait objects to get some
 object-oriented features in Rust. Dynamic dispatch can give your code some
@@ -19313,7 +19310,7 @@ reason is that we’ve used the struct field shorthand syntax. But we haven’t
 applied any test to the value in the <code>id</code> field in this arm, as we did with the
 first two arms: any value would match this pattern.</p>
 <p>Using <code>@</code> lets us test a value and save it in a variable within one pattern.</p>
-<h2><a class="header" href="#summary-7" id="summary-7">Summary</a></h2>
+<h2><a class="header" href="#summary-6" id="summary-6">Summary</a></h2>
 <p>Rust’s patterns are very useful in that they help distinguish between different
 kinds of data. When used in <code>match</code> expressions, Rust ensures your patterns
 cover every possible value, or your program won’t compile. Patterns in <code>let</code>
@@ -20957,7 +20954,7 @@ pub fn sql(input: TokenStream) -&gt; TokenStream {
 <p>This definition is similar to the custom derive macro’s signature: we receive
 the tokens that are inside the parentheses and return the code we wanted to
 generate.</p>
-<h2><a class="header" href="#summary-8" id="summary-8">Summary</a></h2>
+<h2><a class="header" href="#summary-7" id="summary-7">Summary</a></h2>
 <p>Whew! Now you have some Rust features in your toolbox that you won’t use often,
 but you’ll know they’re available in very particular circumstances. We’ve
 introduced several complex topics so that when you encounter them in error
@@ -23827,7 +23824,7 @@ some ideas:</p>
 similar web server using the crate instead. Then compare its API and
 robustness to the thread pool we implemented.</li>
 </ul>
-<h2><a class="header" href="#summary-9" id="summary-9">Summary</a></h2>
+<h2><a class="header" href="#summary-8" id="summary-8">Summary</a></h2>
 <p>Well done! You’ve made it to the end of the book! We want to thank you for
 joining us on this tour of Rust. You’re now ready to implement your own Rust
 projects and help with other peoples’ projects. Keep in mind that there is a
