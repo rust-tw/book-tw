@@ -138,7 +138,7 @@ Rust 並沒有限制不同特徵之間不能有同名的方法，也沒有阻止
 
 因為 `fly` 方法有個 `self` 參數，所以我們若有兩個*型別*都實作了同個特徵，Rust 可以透過 `self` 的型別理出該用哪個特徵的實作。
 
-然而，當特徵上的關聯函式（associated function）沒有 `self` 參數時，當同個範圍下的兩個型別都實作同個特徵，除非使用*完全限定語法（fully qualified syntax）*，否則 Rusti 無法推斷你指涉哪個型別。舉例來說，範例 19-19 的 `Animal` 特徵有個對 `Dog` 實作 `Animal` 所得的關聯函式 `baby_name`，同時也有直接在 `Dog` 上實作的關聯函式 `baby_name`。
+然而，當特徵上的關聯函式（associated function）沒有 `self` 參數時，當同個作用域下的兩個型別都實作同個特徵，除非使用「完全限定語法（fully qualified syntax）」，否則 Rusti 無法推斷你指涉哪個型別。舉例來說，範例 19-19 的 `Animal` 特徵有個對 `Dog` 實作 `Animal` 所得的關聯函式 `baby_name`，同時也有直接在 `Dog` 上實作的關聯函式 `baby_name`。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -220,7 +220,7 @@ Rust 並沒有限制不同特徵之間不能有同名的方法，也沒有阻止
 
 <span class="caption">範例 19-22: 實作要求 `Display` 功能的 `OutlinePrint` 特徵</span>
 
-因為我們已指明 `OutlinePrint` 需要 `Display` 特徵，且只要有實作 `Display` 的型別都會自動實作 `to_string` 這個函式，所以我們可以使用 `to_string`。若我們嘗試使用 `to_string` 但並沒有在該特徵後加上冒號並指明 `Display`，會得到一個錯誤，告訴我們在當前範圍下的 `&Self` 型別找不到名為 `to_string` 函數。
+因為我們已指明 `OutlinePrint` 需要 `Display` 特徵，且只要有實作 `Display` 的型別都會自動實作 `to_string` 這個函式，所以我們可以使用 `to_string`。若我們嘗試使用 `to_string` 但並沒有在該特徵後加上冒號並指明 `Display`，會得到一個錯誤，告訴我們在當前作用域下的 `&Self` 型別找不到名為 `to_string` 函數。
 
 我們嘗試看看在一個沒有實作 `Display` 的型別上實作 `OutlinePrint`（如 `Point` 結構體）會發生什麼事：
 
