@@ -167,77 +167,35 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#refcellt-and-the-interior-mutability-pattern" id="refcellt-and-the-interior-mutability-pattern"><code>RefCell&lt;T&gt;</code> and the Interior Mutability Pattern</a></h2>
-<p><em>Interior mutability</em> is a design pattern in Rust that allows you to mutate
-data even when there are immutable references to that data; normally, this
-action is disallowed by the borrowing rules. To mutate data, the pattern uses
-<code>unsafe</code> code inside a data structure to bend Rust’s usual rules that govern
-mutation and borrowing. We haven’t yet covered unsafe code; we will in Chapter
-19. We can use types that use the interior mutability pattern when we can
-ensure that the borrowing rules will be followed at runtime, even though the
-compiler can’t guarantee that. The <code>unsafe</code> code involved is then wrapped in a
-safe API, and the outer type is still immutable.</p>
-<p>Let’s explore this concept by looking at the <code>RefCell&lt;T&gt;</code> type that follows the
-interior mutability pattern.</p>
-<h3><a class="header" href="#enforcing-borrowing-rules-at-runtime-with-refcellt" id="enforcing-borrowing-rules-at-runtime-with-refcellt">Enforcing Borrowing Rules at Runtime with <code>RefCell&lt;T&gt;</code></a></h3>
-<p>Unlike <code>Rc&lt;T&gt;</code>, the <code>RefCell&lt;T&gt;</code> type represents single ownership over the data
-it holds. So, what makes <code>RefCell&lt;T&gt;</code> different from a type like <code>Box&lt;T&gt;</code>?
-Recall the borrowing rules you learned in Chapter 4:</p>
+                        <h2><a class="header" href="#refcellt-與內部可變性模式" id="refcellt-與內部可變性模式"><code>RefCell&lt;T&gt;</code> 與內部可變性模式</a></h2>
+<p>*內部可變性（Interior mutability）*是 Rust 中的一種設計模式，能讓你能對即使是不可變引用的資料也能改變。正常狀況下，借用規則是不允許這種動作的。爲了改變資料，這樣的模式會在資料結構內使用 <code>unsafe</code> 程式碼來繞過 Rust 的常見可變性與借用規則。我們尚未介紹什麼是不安全（unsafe）的程式碼，我們會在第十九章談到。當編譯器無法保障，但我們可以確保借用規則在執行時能夠遵循的話，我們就可以使用擁有內部可變性模式的型別。其內的 <code>unsafe</code> 程式碼會透過安全的 API 封裝起來，讓外部型別仍然是不可變的。</p>
+<p>讓我們觀察擁有內部可變性模式的 <code>RefCell&lt;T&gt;</code> 型別來探討此概念。</p>
+<h3><a class="header" href="#透過-refcellt-在執行時強制檢測借用規則" id="透過-refcellt-在執行時強制檢測借用規則">透過 <code>RefCell&lt;T&gt;</code> 在執行時強制檢測借用規則</a></h3>
+<p>不像 <code>Rc&lt;T&gt;</code>，<code>RefCell&lt;T&gt;</code> 型別的資料只會有一個所有權。所以 <code>RefCell&lt;T&gt;</code> 與 <code>Box&lt;T&gt;</code> 這種型別有何差別呢？回憶一下你在第四章學到的借用規則：</p>
 <ul>
-<li>At any given time, you can have <em>either</em> (but not both of) one mutable
-reference or any number of immutable references.</li>
-<li>References must always be valid.</li>
+<li>在任何時候，我們要麼<em>只能有</em>一個可變引用，要麼可以有<em>任意數量</em>的不可變引用。</li>
+<li>引用必須永遠有效。</li>
 </ul>
-<p>With references and <code>Box&lt;T&gt;</code>, the borrowing rules’ invariants are enforced at
-compile time. With <code>RefCell&lt;T&gt;</code>, these invariants are enforced <em>at runtime</em>.
-With references, if you break these rules, you’ll get a compiler error. With
-<code>RefCell&lt;T&gt;</code>, if you break these rules, your program will panic and exit.</p>
-<p>The advantages of checking the borrowing rules at compile time are that errors
-will be caught sooner in the development process, and there is no impact on
-runtime performance because all the analysis is completed beforehand. For those
-reasons, checking the borrowing rules at compile time is the best choice in the
-majority of cases, which is why this is Rust’s default.</p>
-<p>The advantage of checking the borrowing rules at runtime instead is that
-certain memory-safe scenarios are then allowed, whereas they are disallowed by
-the compile-time checks. Static analysis, like the Rust compiler, is inherently
-conservative. Some properties of code are impossible to detect by analyzing the
-code: the most famous example is the Halting Problem, which is beyond the scope
-of this book but is an interesting topic to research.</p>
-<p>Because some analysis is impossible, if the Rust compiler can’t be sure the
-code complies with the ownership rules, it might reject a correct program; in
-this way, it’s conservative. If Rust accepted an incorrect program, users
-wouldn’t be able to trust in the guarantees Rust makes. However, if Rust
-rejects a correct program, the programmer will be inconvenienced, but nothing
-catastrophic can occur. The <code>RefCell&lt;T&gt;</code> type is useful when you’re sure your
-code follows the borrowing rules but the compiler is unable to understand and
-guarantee that.</p>
-<p>Similar to <code>Rc&lt;T&gt;</code>, <code>RefCell&lt;T&gt;</code> is only for use in single-threaded scenarios
-and will give you a compile-time error if you try using it in a multithreaded
-context. We’ll talk about how to get the functionality of <code>RefCell&lt;T&gt;</code> in a
-multithreaded program in Chapter 16.</p>
-<p>Here is a recap of the reasons to choose <code>Box&lt;T&gt;</code>, <code>Rc&lt;T&gt;</code>, or <code>RefCell&lt;T&gt;</code>:</p>
+<p>對於引用與 <code>Box&lt;T&gt;</code>，借用規則會在編譯期強制檢測。對於 <code>RefCell&lt;T&gt;</code>，這些規則會在<em>執行時</em>才強制執行。對於引用來說，如果你打破這些規則，你會得到編譯錯誤。而對 <code>RefCell&lt;T&gt;</code> 來說，如果你打破這些規則，你的程式會恐慌並離開。</p>
+<p>在編譯時期檢查借用規則的優勢在於錯誤能在開發過程及早獲取，而且這對執行時的效能沒有任何影響，因爲所有的分析都預先完成了。基於這些原因，在編譯時檢查借用規則在大多數情形都是最佳選擇，這也是爲何這是 Rust 預設設置的原因。</p>
+<p>在執行時檢查借用規則的優勢則在於能允許一些特定記憶體安全的場合，而這些原本是不被編譯時檢查所允許的。像 Rust 編譯器這種靜態分析本質上是保守的。有些程式碼特性是無法透過分析程式碼檢測出的，最註明的範例就是停機問題（Halting Problem），這超出本書的範疇，但是是個有趣的研究議題。</p>
+<p>因爲有些分析是不可能的，如果 Rust 編譯器無法確定程式碼是否符合所有權規則，它可能會拒絕一支正確的程式，所以由此觀點來看能知道 Rust 編譯器是保守的。如果 Rust 接受不正確的程式，使用者就無法信任 Rust 帶來的保障。然而如果 Rust 拒絕正確的程式，對程式設計師就會很不方便，但沒有任何嚴重的災難會發生。<code>RefCell&lt;T&gt;</code> 型別就適用於當你確定你的程式碼有遵循借用規則，但是編譯器無法理解並保證的時候。</p>
+<p>類似於 <code>Rc&lt;T&gt;</code>，<code>RefCell&lt;T&gt;</code> 也只能用於單一執行緒（single-threaded）的場合，所以如果你嘗試用在多執行緒上的話就會出現編譯時錯誤。我們會在第十六章討論如何在多執行緒程式擁有 <code>RefCell&lt;T&gt;</code> 的功能。</p>
+<p>以下是何時選擇 <code>Box&lt;T&gt;</code>、<code>Rc&lt;T&gt;</code> 或 <code>RefCell&lt;T&gt;</code> 的理由:</p>
 <ul>
-<li><code>Rc&lt;T&gt;</code> enables multiple owners of the same data; <code>Box&lt;T&gt;</code> and <code>RefCell&lt;T&gt;</code>
-have single owners.</li>
-<li><code>Box&lt;T&gt;</code> allows immutable or mutable borrows checked at compile time; <code>Rc&lt;T&gt;</code>
-allows only immutable borrows checked at compile time; <code>RefCell&lt;T&gt;</code> allows
-immutable or mutable borrows checked at runtime.</li>
-<li>Because <code>RefCell&lt;T&gt;</code> allows mutable borrows checked at runtime, you can
-mutate the value inside the <code>RefCell&lt;T&gt;</code> even when the <code>RefCell&lt;T&gt;</code> is
-immutable.</li>
+<li><code>Rc&lt;T&gt;</code> 讓數個擁有者能共享相同資料；<code>Box&lt;T&gt;</code> 與 <code>RefCell&lt;T&gt;</code> 只能有一個擁有者。</li>
+<li><code>Box&lt;T&gt;</code> 能有不可變或可變的借用並在編譯時檢查；<code>Rc&lt;T&gt;</code> 則只能有不可變借用並在編譯時檢查：<code>RefCell&lt;T&gt;</code> 能有不可變或可變借用但是在執行時檢查。</li>
+<li>由於 <code>RefCell&lt;T&gt;</code> 允許在執行時檢查可變引用，你可以改變 <code>RefCell&lt;T&gt;</code> 內部的數值，就算 <code>RefCell&lt;T&gt;</code> 是不可變的。</li>
 </ul>
-<p>Mutating the value inside an immutable value is the <em>interior mutability</em>
-pattern. Let’s look at a situation in which interior mutability is useful and
-examine how it’s possible.</p>
-<h3><a class="header" href="#interior-mutability-a-mutable-borrow-to-an-immutable-value" id="interior-mutability-a-mutable-borrow-to-an-immutable-value">Interior Mutability: A Mutable Borrow to an Immutable Value</a></h3>
-<p>A consequence of the borrowing rules is that when you have an immutable value,
-you can’t borrow it mutably. For example, this code won’t compile:</p>
+<p>改變不可變數值內部的值就<em>內部可變性</em>模式。讓我們看看內部可變性何時會有用，且觀察爲何是可行的。</p>
+<h3><a class="header" href="#內部可變性不可變數值的可變借用" id="內部可變性不可變數值的可變借用">內部可變性：不可變數值的可變借用</a></h3>
+<p>借用規則的影響是當你有個不可變數值，你就無法取得可變引用。舉例來說，以下程式碼會無法編譯：</p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = 5;
     let y = &amp;mut x;
 }
 </code></pre>
-<p>If you tried to compile this code, you’d get the following error:</p>
+<p>如果你嘗試編譯此程式碼，你會獲得以下錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling borrowing v0.1.0 (file:///projects/borrowing)
 error[E0596]: cannot borrow `x` as mutable, as it is not declared as mutable
@@ -255,36 +213,13 @@ error: could not compile `borrowing`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>However, there are situations in which it would be useful for a value to mutate
-itself in its methods but appear immutable to other code. Code outside the
-value’s methods would not be able to mutate the value. Using <code>RefCell&lt;T&gt;</code> is
-one way to get the ability to have interior mutability. But <code>RefCell&lt;T&gt;</code>
-doesn’t get around the borrowing rules completely: the borrow checker in the
-compiler allows this interior mutability, and the borrowing rules are checked
-at runtime instead. If you violate the rules, you’ll get a <code>panic!</code> instead of
-a compiler error.</p>
-<p>Let’s work through a practical example where we can use <code>RefCell&lt;T&gt;</code> to mutate
-an immutable value and see why that is useful.</p>
-<h4><a class="header" href="#a-use-case-for-interior-mutability-mock-objects" id="a-use-case-for-interior-mutability-mock-objects">A Use Case for Interior Mutability: Mock Objects</a></h4>
-<p>A <em>test double</em> is the general programming concept for a type used in place of
-another type during testing. <em>Mock objects</em> are specific types of test doubles
-that record what happens during a test so you can assert that the correct
-actions took place.</p>
-<p>Rust doesn’t have objects in the same sense as other languages have objects,
-and Rust doesn’t have mock object functionality built into the standard library
-as some other languages do. However, you can definitely create a struct that
-will serve the same purposes as a mock object.</p>
-<p>Here’s the scenario we’ll test: we’ll create a library that tracks a value
-against a maximum value and sends messages based on how close to the maximum
-value the current value is. This library could be used to keep track of a
-user’s quota for the number of API calls they’re allowed to make, for example.</p>
-<p>Our library will only provide the functionality of tracking how close to the
-maximum a value is and what the messages should be at what times. Applications
-that use our library will be expected to provide the mechanism for sending the
-messages: the application could put a message in the application, send an
-email, send a text message, or something else. The library doesn’t need to know
-that detail. All it needs is something that implements a trait we’ll provide
-called <code>Messenger</code>. Listing 15-20 shows the library code:</p>
+<p>然而在某些特定情況，我們會想要能夠有個方法可以改變一個數值，但該數值對其他程式碼而言仍然是不可變的。數值提供的方法以外的程式碼都無法改變其值。使用 <code>RefCell&lt;T&gt;</code> 是取得內部可變性的方式之一。但 <code>RefCell&lt;T&gt;</code> 仍然要完全遵守借用規則：編譯器的借用檢查器會允許這些內部可變性，然後在執行時才檢查借用規則。如果你違反規則，你就會得到 <code>panic!</code> 而非編譯錯誤。</p>
+<p>讓我們用一個實際例子來探討如何使用 <code>RefCell&lt;T&gt;</code> 來改變不可變數值，並瞭解爲何這是很實用的。</p>
+<h4><a class="header" href="#內部可變性的使用案例模擬物件" id="內部可變性的使用案例模擬物件">內部可變性的使用案例：模擬物件</a></h4>
+<p>*測試替身（test double）*是一個通用程式設計概念，表示一個在測試中替代某種型別的型別。*模擬物件（Mock objects）*是測試替身其中一種特定型別，這能紀錄測試過程中發生什麼事並讓你能判斷動作是否正確。</p>
+<p>Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 的標準函式庫內也沒有如其他語言會內建的模擬物件功能。不過你還是可以有方法來建立結構體來作爲模擬物件。</p>
+<p>以下是我們要測試的情境：我們建立一個函式庫來追蹤一個數值與最大值的差距，並依據該差距傳送訊息。舉例來說，此函式庫就能用來追蹤使用者允許呼叫 API 次數的上限。</p>
+<p>我們的函式庫提供的功能這只有追蹤與最大值的距離以及何時該傳送什麼訊息。使用函式庫的應用程式要提供傳送訊息的機制，應用程式可以將訊息存在應用程式內、傳送電子郵件、傳送文字訊息或其他等等。函式庫不需要知道細節，它只需要在意會有項目實作我們提供的 <code>Messenger</code> 特徵。範例 15-20 顯示了函式庫的程式碼：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -329,24 +264,9 @@ where
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 15-20: A library to keep track of how close a
-value is to a maximum value and warn when the value is at certain levels</span></p>
-<p>One important part of this code is that the <code>Messenger</code> trait has one method
-called <code>send</code> that takes an immutable reference to <code>self</code> and the text of the
-message. This is the interface our mock object needs to have. The other
-important part is that we want to test the behavior of the <code>set_value</code> method
-on the <code>LimitTracker</code>. We can change what we pass in for the <code>value</code> parameter,
-but <code>set_value</code> doesn’t return anything for us to make assertions on. We want
-to be able to say that if we create a <code>LimitTracker</code> with something that
-implements the <code>Messenger</code> trait and a particular value for <code>max</code>, when we pass
-different numbers for <code>value</code>, the messenger is told to send the appropriate
-messages.</p>
-<p>We need a mock object that, instead of sending an email or text message when we
-call <code>send</code>, will only keep track of the messages it’s told to send. We can
-create a new instance of the mock object, create a <code>LimitTracker</code> that uses the
-mock object, call the <code>set_value</code> method on <code>LimitTracker</code>, and then check that
-the mock object has the messages we expect. Listing 15-21 shows an attempt to
-implement a mock object to do just that, but the borrow checker won’t allow it:</p>
+<p><span class="caption">範例 15-20：追蹤某個值與最大值差距的函式庫並以此值的特定層級傳送警告</span></p>
+<p>此程式碼其中一個重點是 <code>Messenger</code> 特徵有個方法叫做 <code>send</code>，這會接收一個 <code>self</code> 的不可變引用與一串訊息文字。這就是我們的模擬物件所需的介面。另一個重點是我們想要測試 <code>LimitTracker</code> 中 <code>set_value</code> 方法的行爲。我們可以改變傳給參數 <code>value</code> 的值，但是 <code>set_value</code> 沒有回傳任何東西好讓我們做判斷。我們希望如果我們透過某個實作 <code>Messenger</code> 的型別與特定數值 <code>max</code> 來建立 <code>LimitTracker</code> 時，傳送訊息者能被通知要傳遞合適的訊息。</p>
+<p>我們需要有個模擬物件，而不是在呼叫 <code>send</code> 時真的傳送電子郵件或文字訊息，我們只想紀錄訊息被通知要傳送了。我們可以建立模擬物件的實例，以此建立 <code>LimitTracker</code>、呼叫 <code>LimitTracker</code> 的 <code>set_value</code>，並檢查模擬物件有我們預期的訊息。範例 15-21 展示一個嘗試實作此事的模擬物件，但借用檢查器卻不允許：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">pub trait Messenger {
 </span><span class="boring">    fn send(&amp;self, msg: &amp;str);
@@ -420,25 +340,10 @@ mod tests {
     }
 }
 </code></pre>
-<p><span class="caption">範例 15-21: An attempt to implement a <code>MockMessenger</code>
-that isn’t allowed by the borrow checker</span></p>
-<p>This test code defines a <code>MockMessenger</code> struct that has a <code>sent_messages</code>
-field with a <code>Vec</code> of <code>String</code> values to keep track of the messages it’s told
-to send. We also define an associated function <code>new</code> to make it convenient to
-create new <code>MockMessenger</code> values that start with an empty list of messages. We
-then implement the <code>Messenger</code> trait for <code>MockMessenger</code> so we can give a
-<code>MockMessenger</code> to a <code>LimitTracker</code>. In the definition of the <code>send</code> method, we
-take the message passed in as a parameter and store it in the <code>MockMessenger</code>
-list of <code>sent_messages</code>.</p>
-<p>In the test, we’re testing what happens when the <code>LimitTracker</code> is told to set
-<code>value</code> to something that is more than 75 percent of the <code>max</code> value. First, we
-create a new <code>MockMessenger</code>, which will start with an empty list of messages.
-Then we create a new <code>LimitTracker</code> and give it a reference to the new
-<code>MockMessenger</code> and a <code>max</code> value of 100. We call the <code>set_value</code> method on the
-<code>LimitTracker</code> with a value of 80, which is more than 75 percent of 100. Then
-we assert that the list of messages that the <code>MockMessenger</code> is keeping track
-of should now have one message in it.</p>
-<p>However, there’s one problem with this test, as shown here:</p>
+<p><span class="caption">範例 15-21：嘗試實作 <code>MockMessenger</code> 但借用檢查器不允許</span></p>
+<p>此測試程式碼定義了一個結構體 <code>MockMessenger</code> 其有個 <code>sent_messages</code> 欄位並存有 <code>String</code> 數值的 <code>Vec</code> 來追蹤被通知要傳送的訊息。我們也定義了一個關聯函式 <code>new</code> 讓我們可以方便建立起始訊息列表爲空的 <code>MockMessenger</code>。我們對 <code>MockMessenger</code> 實作 <code>Messenger</code> 特徵，這樣我們才能將 <code>MockMessenger</code> 交給 <code>LimitTracker</code>。在 <code>send</code> 方法的定義中，我們取得由參數傳遞的訊息，並存入 <code>MockMessenger</code> 的 <code>sent_messages</code> 列表中。</p>
+<p>在測試中，我們測試當 <code>LimitTracker</code> 被通知將 <code>value</code> 設爲超過 <code>max</code> 數值 75% 的某個值。首先，我們建立新的 <code>MockMessenger</code>，其起始爲一個空的訊息列表。然後我們建立一個新的 <code>LimitTracker</code> 並將 <code>MockMessenger</code> 的引用與一個 <code>max</code> 爲 100 的數值賦值給它。我們用數值 80 來呼叫 <code>LimitTracker</code> 的 <code>set_value</code> 方法，此值會超過 100 的 75%。然後我們判定 <code>MockMessenger</code> 追蹤的訊息列表需要至守有一個訊息。</p>
+<p>但是此測試有個問題，如以下所示：</p>
 <pre><code class="language-text">$ cargo test
    Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
 error[E0596]: cannot borrow `self.sent_messages` as mutable, as it is behind a `&amp;` reference
@@ -456,15 +361,8 @@ error: could not compile `limit-tracker`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>We can’t modify the <code>MockMessenger</code> to keep track of the messages, because the
-<code>send</code> method takes an immutable reference to <code>self</code>. We also can’t take the
-suggestion from the error text to use <code>&amp;mut self</code> instead, because then the
-signature of <code>send</code> wouldn’t match the signature in the <code>Messenger</code> trait
-definition (feel free to try and see what error message you get).</p>
-<p>This is a situation in which interior mutability can help! We’ll store the
-<code>sent_messages</code> within a <code>RefCell&lt;T&gt;</code>, and then the <code>send</code> message will be
-able to modify <code>sent_messages</code> to store the messages we’ve seen. Listing 15-22
-shows what that looks like:</p>
+<p>我們無法修改 <code>MockMessenger</code> 來追蹤訊息，因爲 <code>send</code> 方法取得的是 <code>self</code> 的不可變引用。而我們也無法使用錯誤訊息中推薦使用的 <code>&amp;mut self</code>，因爲 <code>send</code> 的簽名就會與 <code>Messenger</code> 特徵所定義的不相符（你可以是看看並觀察錯誤訊息）。</p>
+<p>這就是內部可變性能帶來幫助的場合！我們會將 <code>sent_messages</code> 存入 <code>RefCell&lt;T&gt;</code> 內，然後 <code>send</code> 訊息就也能夠進行修改存入訊息。範例 15-22 顯示了變更後的程式碼：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub trait Messenger {
 </span><span class="boring">    fn send(&amp;self, msg: &amp;str);
@@ -542,40 +440,15 @@ mod tests {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 15-22: Using <code>RefCell&lt;T&gt;</code> to mutate an inner
-value while the outer value is considered immutable</span></p>
-<p>The <code>sent_messages</code> field is now of type <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> instead of
-<code>Vec&lt;String&gt;</code>. In the <code>new</code> function, we create a new <code>RefCell&lt;Vec&lt;String&gt;&gt;</code>
-instance around the empty vector.</p>
-<p>For the implementation of the <code>send</code> method, the first parameter is still an
-immutable borrow of <code>self</code>, which matches the trait definition. We call
-<code>borrow_mut</code> on the <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> in <code>self.sent_messages</code> to get a
-mutable reference to the value inside the <code>RefCell&lt;Vec&lt;String&gt;&gt;</code>, which is
-the vector. Then we can call <code>push</code> on the mutable reference to the vector to
-keep track of the messages sent during the test.</p>
-<p>The last change we have to make is in the assertion: to see how many items are
-in the inner vector, we call <code>borrow</code> on the <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> to get an
-immutable reference to the vector.</p>
-<p>Now that you’ve seen how to use <code>RefCell&lt;T&gt;</code>, let’s dig into how it works!</p>
+<p><span class="caption">範例 15-22：在外部數值爲不可變時，使用 <code>RefCell&lt;T&gt;</code> 來改變內部數值</span></p>
+<p><code>sent_messages</code> 欄位現在是型別 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> 而非 <code>Vec&lt;String&gt;</code>。在 <code>new</code> 函式中，我們用空的 vector 來建立新的 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code>。</p>
+<p>至於 <code>send</code> 方法的實作，第一個參數仍然是 <code>self</code> 的不可變借用，這就符合特徵所定義的。我們在 <code>self.sent_messages</code> 對 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> 呼叫 <code>borrow_mut</code> 來取得 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> 內的可變引用數值，也就是 vector。然後我們對 vector 的可變引用呼叫 <code>push</code> 來追蹤測試中的訊息。</p>
+<p>最後一項改變是判定：要看到內部 vector 有多少項目的話，我們對 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> 呼叫 <code>borrow</code> 來取得 vector 的不可變引用。</p>
+<p>現在你已經知道如何使用 <code>RefCell&lt;T&gt;</code>，讓我們進一步探討它如何運作的吧！</p>
 <h4><a class="header" href="#keeping-track-of-borrows-at-runtime-with-refcellt" id="keeping-track-of-borrows-at-runtime-with-refcellt">Keeping Track of Borrows at Runtime with <code>RefCell&lt;T&gt;</code></a></h4>
-<p>When creating immutable and mutable references, we use the <code>&amp;</code> and <code>&amp;mut</code>
-syntax, respectively. With <code>RefCell&lt;T&gt;</code>, we use the <code>borrow</code> and <code>borrow_mut</code>
-methods, which are part of the safe API that belongs to <code>RefCell&lt;T&gt;</code>. The
-<code>borrow</code> method returns the smart pointer type <code>Ref&lt;T&gt;</code>, and <code>borrow_mut</code>
-returns the smart pointer type <code>RefMut&lt;T&gt;</code>. Both types implement <code>Deref</code>, so we
-can treat them like regular references.</p>
-<p>The <code>RefCell&lt;T&gt;</code> keeps track of how many <code>Ref&lt;T&gt;</code> and <code>RefMut&lt;T&gt;</code> smart
-pointers are currently active. Every time we call <code>borrow</code>, the <code>RefCell&lt;T&gt;</code>
-increases its count of how many immutable borrows are active. When a <code>Ref&lt;T&gt;</code>
-value goes out of scope, the count of immutable borrows goes down by one. Just
-like the compile-time borrowing rules, <code>RefCell&lt;T&gt;</code> lets us have many immutable
-borrows or one mutable borrow at any point in time.</p>
-<p>If we try to violate these rules, rather than getting a compiler error as we
-would with references, the implementation of <code>RefCell&lt;T&gt;</code> will panic at
-runtime. Listing 15-23 shows a modification of the implementation of <code>send</code> in
-Listing 15-22. We’re deliberately trying to create two mutable borrows active
-for the same scope to illustrate that <code>RefCell&lt;T&gt;</code> prevents us from doing this
-at runtime.</p>
+<p>當建立不可變與可變引用時，我們分別使用 <code>&amp;</code> 和 <code>&amp;mut</code> 語法。而對於 <code>RefCell&lt;T&gt;</code> 的話，我們使用 <code>borrow</code> 和 <code>borrow_mut</code> 方法，這是 <code>RefCell&lt;T&gt;</code> 所提供的安全 API 之一。<code>borrow</code> 方法回傳一個智慧指標型別 <code>Ref&lt;T&gt;</code>，而 <code>borrow_mut</code> 回傳智慧指標型別 <code>RefMut&lt;T&gt;</code>。這兩個型別都有實作 <code>Deref</code>，所以我們可以像一般引用來對待它們。</p>
+<p><code>RefCell&lt;T&gt;</code> 會追蹤當前有多少 <code>Ref&lt;T&gt;</code> 和 <code>RefMut&lt;T&gt;</code> 智慧指標存在。每次我們呼叫 <code>borrow</code> 時，<code>RefCell&lt;T&gt;</code> 會增加不可變借用計數。當 <code>Ref&lt;T&gt;</code> 離開作用域時，不可變借用計數就會減一。就和編譯時借用規則一樣，<code>RefCell&lt;T&gt;</code> 讓我們同一時間要麼只能有一個可變引用，要麼可以有數個不可變引用。</p>
+<p>如果我們嘗試違法這些規則，我們不會像引用那樣得到編譯器錯誤，<code>RefCell&lt;T&gt;</code> 的實作會在執行時恐慌。 範例 15-23 修改了範例 15-22 的 <code>send</code> 實作。我們故意嘗試在同個作用域下建立兩個可變引用，來說明 <code>RefCell&lt;T&gt;</code> 會不允許我們在執行時這樣做。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore panics"><span class="boring">pub trait Messenger {
 </span><span class="boring">    fn send(&amp;self, msg: &amp;str);
@@ -654,13 +527,8 @@ at runtime.</p>
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 15-23: Creating two mutable references in the
-same scope to see that <code>RefCell&lt;T&gt;</code> will panic</span></p>
-<p>We create a variable <code>one_borrow</code> for the <code>RefMut&lt;T&gt;</code> smart pointer returned
-from <code>borrow_mut</code>. Then we create another mutable borrow in the same way in the
-variable <code>two_borrow</code>. This makes two mutable references in the same scope,
-which isn’t allowed. When we run the tests for our library, the code in Listing
-15-23 will compile without any errors, but the test will fail:</p>
+<p><span class="caption">範例 15-23：在同個作用域建立兩個可變引用並觀察到 <code>RefCell&lt;T&gt;</code> 會恐慌</span></p>
+<p>我們從 <code>borrow_mut</code> 回傳的 <code>RefMut&lt;T&gt;</code> 智慧指標來建立變數 <code>one_borrow</code>。然後我們再以相同方式建立另一個變數 <code>two_borrow</code>。這在同個作用域下產生了兩個可變引用，而這是不允許的。我們執行函式庫的測試時，範例 15-23 可以編譯通過，但是執行測試會失敗：</p>
 <pre><code class="language-console">$ cargo test
    Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
     Finished test [unoptimized + debuginfo] target(s) in 0.91s
@@ -683,29 +551,11 @@ test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 
 error: test failed, to rerun pass '--lib'
 </code></pre>
-<p>Notice that the code panicked with the message <code>already borrowed: BorrowMutError</code>. This is how <code>RefCell&lt;T&gt;</code> handles violations of the borrowing
-rules at runtime.</p>
-<p>Catching borrowing errors at runtime rather than compile time means that you
-would find a mistake in your code later in the development process and possibly
-not until your code was deployed to production. Also, your code would incur a
-small runtime performance penalty as a result of keeping track of the borrows
-at runtime rather than compile time. However, using <code>RefCell&lt;T&gt;</code> makes it
-possible to write a mock object that can modify itself to keep track of the
-messages it has seen while you’re using it in a context where only immutable
-values are allowed. You can use <code>RefCell&lt;T&gt;</code> despite its trade-offs to get more
-functionality than regular references provide.</p>
-<h3><a class="header" href="#having-multiple-owners-of-mutable-data-by-combining-rct-and-refcellt" id="having-multiple-owners-of-mutable-data-by-combining-rct-and-refcellt">Having Multiple Owners of Mutable Data by Combining <code>Rc&lt;T&gt;</code> and <code>RefCell&lt;T&gt;</code></a></h3>
-<p>A common way to use <code>RefCell&lt;T&gt;</code> is in combination with <code>Rc&lt;T&gt;</code>. Recall that
-<code>Rc&lt;T&gt;</code> lets you have multiple owners of some data, but it only gives immutable
-access to that data. If you have an <code>Rc&lt;T&gt;</code> that holds a <code>RefCell&lt;T&gt;</code>, you can
-get a value that can have multiple owners <em>and</em> that you can mutate!</p>
-<p>For example, recall the cons list example in Listing 15-18 where we used
-<code>Rc&lt;T&gt;</code> to allow multiple lists to share ownership of another list. Because
-<code>Rc&lt;T&gt;</code> holds only immutable values, we can’t change any of the values in the
-list once we’ve created them. Let’s add in <code>RefCell&lt;T&gt;</code> to gain the ability to
-change the values in the lists. Listing 15-24 shows that by using a
-<code>RefCell&lt;T&gt;</code> in the <code>Cons</code> definition, we can modify the value stored in all
-the lists:</p>
+<p>注意到程式碼恐慌時的訊息 <code>already borrowed: BorrowMutError</code>。這就是 <code>RefCell&lt;T&gt;</code> 如何在執行時處理違反借用規則的情況。</p>
+<p>在執行時獲取借用錯誤而不是在編譯時代表你會在開發過程之後才找到程式碼錯誤，並有可能一直到程式碼部署到生產環境後才查覺。而且你的程式碼也會多了一寫小小的執行時效能開銷，作爲在執行時而非編譯時檢查的代價。不過使用 <code>RefCell&lt;T&gt;</code>  讓你能在只允許有不可變數值的環境中寫出能夠變更內部追蹤訊息的模擬物件。這是想獲得 <code>RefCell&lt;T&gt;</code> 帶來的功能時，要與一般引用之間作出的取捨。</p>
+<h3><a class="header" href="#組合-rct-與-refcellt-來擁有多個可變資料的擁有者" id="組合-rct-與-refcellt-來擁有多個可變資料的擁有者">組合 <code>Rc&lt;T&gt;</code> 與 <code>RefCell&lt;T&gt;</code> 來擁有多個可變資料的擁有者</a></h3>
+<p><code>RefCell&lt;T&gt;</code> 的常見使用方法是搭配 <code>Rc&lt;T&gt;</code>。回想一下 <code>Rc&lt;T&gt;</code> 讓你可以對數個擁有者共享相同資料，但是它只能用於不可變資料。如果你有一個 <code>Rc&lt;T&gt;</code> 並存有 <code>RefCell&lt;T&gt;</code> 的話，你就可以取得一個有數個擁有者<em>而且</em>可變的數值！</p>
+<p>舉例來說，回憶一下範例 15-18 cons list 的範例我們使用了 <code>Rc&lt;T&gt;</code> 來讓數個列表可以共享另一個列表的所有權。因爲 <code>Rc&lt;T&gt;</code> 只能有不可變數值，我們一旦建立它們後就無法變更列表中的任何數值。讓我們加上 <code>RefCell&lt;T&gt;</code> 來獲得能改變列表數值的能力吧。範例 15-24 顯示了在 <code>Cons</code> 定義中使用 <code>RefCell&lt;T&gt;</code>，這樣一來我們就可以變更儲存在列表中的所有數值：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
 enum List {
@@ -732,25 +582,11 @@ fn main() {
     println!(&quot;c after = {:?}&quot;, c);
 }
 </code></pre></pre>
-<p><span class="caption">範例 15-24: Using <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> to create a
-<code>List</code> that we can mutate</span></p>
-<p>We create a value that is an instance of <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> and store it in a
-variable named <code>value</code> so we can access it directly later. Then we create a
-<code>List</code> in <code>a</code> with a <code>Cons</code> variant that holds <code>value</code>. We need to clone
-<code>value</code> so both <code>a</code> and <code>value</code> have ownership of the inner <code>5</code> value rather
-than transferring ownership from <code>value</code> to <code>a</code> or having <code>a</code> borrow from
-<code>value</code>.</p>
-<p>We wrap the list <code>a</code> in an <code>Rc&lt;T&gt;</code> so when we create lists <code>b</code> and <code>c</code>, they
-can both refer to <code>a</code>, which is what we did in Listing 15-18.</p>
-<p>After we’ve created the lists in <code>a</code>, <code>b</code>, and <code>c</code>, we add 10 to the value in
-<code>value</code>. We do this by calling <code>borrow_mut</code> on <code>value</code>, which uses the
-automatic dereferencing feature we discussed in Chapter 5 (see the section
-<a href="ch05-03-method-syntax.html#wheres-the---operator">“Where’s the <code>-&gt;</code> Operator?”</a><!-- ignore -->) to
-dereference the <code>Rc&lt;T&gt;</code> to the inner <code>RefCell&lt;T&gt;</code> value. The <code>borrow_mut</code>
-method returns a <code>RefMut&lt;T&gt;</code> smart pointer, and we use the dereference operator
-on it and change the inner value.</p>
-<p>When we print <code>a</code>, <code>b</code>, and <code>c</code>, we can see that they all have the modified
-value of 15 rather than 5:</p>
+<p><span class="caption">範例 15-24：使用 <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> 建立一個可變的 <code>List</code></span></p>
+<p>我們建立了一個 <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> 實例數值並將其存入變數 <code>value</code> 好像我們之後可以直接取得。然後我們在 <code>a</code> 用持有 <code>value</code> 的 <code>Cons</code> 變體來建立 <code>List</code>。我們需要克隆 <code>value</code>，這樣 <code>a</code> 和 <code>value</code> 才能都有內部數值 <code>5</code> 的所有權，而不是從 <code>value</code> 轉移所有權給 <code>a</code>，或是讓 <code>a</code> 借用 <code>value</code>。</p>
+<p>我們用 <code>Rc&lt;T&gt;</code> 封裝列表 <code>a</code>，所以當我們建立列表 <code>b</code> 和 <code>c</code> 時，它們都可以引用 <code>a</code>，就像範例 15-18 一樣。</p>
+<p>在我們建立完列表 <code>a</code>、<code>b</code> 和 <code>c</code> 之後，我們對 <code>value</code> 的數值加上 10。我們對 <code>value</code> 呼叫 <code>borrow_mut</code>，其中使用到了我們在第五章討論過的自動解引用功能（請查閱<a href="ch05-03-method-syntax.html#%E9%81%8B%E7%AE%97%E5%AD%90%E8%B7%91%E5%8E%BB%E5%93%AA%E4%BA%86">「<code>-&gt;</code> 運算子跑去哪了？」</a><!-- ignore -->的段落）來解引用 <code>Rc&lt;T&gt;</code> 成內部的 <code>RefCell&lt;T&gt;</code> 數值。<code>borrow_mut</code> 方法會回傳 <code>RefMut&lt;T&gt;</code> 智慧指標，而我們使用解引用運算子並改變其內部數值。</p>
+<p>當我們印出 <code>a</code>、<code>b</code> 和 <code>c</code> 時，我們可以看到它們的數值都改成了 15 而非 5：</p>
 <pre><code class="language-console">$ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
     Finished dev [unoptimized + debuginfo] target(s) in 0.63s
@@ -759,18 +595,15 @@ a after = Cons(RefCell { value: 15 }, Nil)
 b after = Cons(RefCell { value: 3 }, Cons(RefCell { value: 15 }, Nil))
 c after = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
 </code></pre>
-<p>This technique is pretty neat! By using <code>RefCell&lt;T&gt;</code>, we have an outwardly
-immutable <code>List</code> value. But we can use the methods on <code>RefCell&lt;T&gt;</code> that provide
-access to its interior mutability so we can modify our data when we need to.
-The runtime checks of the borrowing rules protect us from data races, and it’s
-sometimes worth trading a bit of speed for this flexibility in our data
-structures.</p>
-<p>The standard library has other types that provide interior mutability, such as
-<code>Cell&lt;T&gt;</code>, which is similar except that instead of giving references to the
-inner value, the value is copied in and out of the <code>Cell&lt;T&gt;</code>. There’s also
-<code>Mutex&lt;T&gt;</code>, which offers interior mutability that’s safe to use across threads;
-we’ll discuss its use in Chapter 16. Check out the standard library docs for
-more details on the differences between these types.</p>
+<p>此技巧是不是很厲害！透過使用 <code>RefCell&lt;T&gt;</code>，我們可以得到一個外部是不可變的 <code>List</code> 數值，但是我們可以使用 <code>RefCell&lt;T&gt;</code> 提供的方法來取得其內部可變性，讓我們可以在我們想要時改變我們的資料。執行時的借用規則檢查檢查能防止資料競爭，並在某些場合犧牲一點速度來換取資料結構的彈性。</p>
+<p>標準函式庫也提供了其他具有內部可變性的型別。像是 <code>Cell&lt;T&gt;</code>，這類似 <code>RefCell&lt;T&gt;</code> 但不同於給予內部數值的引用，<code>Cell&lt;T&gt;</code> 的數值會被拷貝出去。還有 <code>Mutex&lt;T&gt;</code> 能提供跨執行緒安全的內部可變性，我們會在第十六章討論如何使用它。歡迎查閱標準函式庫的計數文件來瞭解這些型別之間的細節差異。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-05-interior-mutability.md">e5ed971</a></li>
+<li>updated: 2020-09-20</li>
+</ul>
+</blockquote>
 
                     </main>
 

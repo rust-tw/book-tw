@@ -229,7 +229,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 13-15：對疊代器呼叫 <code>next</code> 方法</span></p>
 <p>注意到 <code>v1_iter</code> 需要是可變的：在疊代器上呼叫 <code>next</code> 方法會改變疊代器內部用來紀錄序列位置的狀態。換句話說，此程式碼<em>消耗</em>或者說使用了疊代器。每次 <code>next</code> 的呼叫會從疊代器消耗一個項目。而我們不必在 <code>for</code> 迴圈指定 <code>v1_iter</code> 爲可變是因爲迴圈會取得 <code>v1_iter</code> 的所有權並在內部將其改爲可變。</p>
-<p>另外還要注意的是我們從 <code>next</code> 呼叫取得的是 vector 中數值的不可便引用。<code>iter</code> 方法會從疊代器中產生不可便引用。如果我們想要一個取得 <code>v1</code> 所有權的疊代器，我們可以呼叫 <code>into_iter</code> 而非 <code>iter</code>。同樣地，如果我們想要遍歷可變引用，我們可以呼叫 <code>iter_mut</code> 而非 <code>iter</code>。</p>
+<p>另外還要注意的是我們從 <code>next</code> 呼叫取得的是 vector 中數值的不可變引用。<code>iter</code> 方法會從疊代器中產生不可變引用。如果我們想要一個取得 <code>v1</code> 所有權的疊代器，我們可以呼叫 <code>into_iter</code> 而非 <code>iter</code>。同樣地，如果我們想要遍歷可變引用，我們可以呼叫 <code>iter_mut</code> 而非 <code>iter</code>。</p>
 <h3><a class="header" href="#消耗疊代器的方法" id="消耗疊代器的方法">消耗疊代器的方法</a></h3>
 <p>標準函式庫提供的 <code>Iterator</code> 特徵有一些不同的預設實作方法，你可以查閱標準函式庫的 <code>Iterator</code> 特徵 API 技術文件來找到這些方法。其中有些方法就是在它們的定義呼叫 <code>next</code> 方法，這就是爲何當你實作 <code>Iterator</code> 特徵時需要提供 <code>next</code> 方法的實作。</p>
 <p>會呼叫 <code>next</code> 的方法被稱之爲<em>消耗配接器（consuming adaptors）</em>，因爲呼叫它們會使用掉疊代器。其中一個例子就是方法 <code>sum</code>，這會取得疊代器的所有權並重複呼叫 <code>next</code> 來遍歷所有項目，因而消耗掉疊代器。隨著遍歷的過程中，他會將每個項目加到總計中，並在疊代完成時回傳總計數值。範例 13-16 展示了一個使用 <code>sum</code> 方法的測試：</p>
