@@ -167,44 +167,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#rct-the-reference-counted-smart-pointer" id="rct-the-reference-counted-smart-pointer"><code>Rc&lt;T&gt;</code>, the Reference Counted Smart Pointer</a></h2>
-<p>In the majority of cases, ownership is clear: you know exactly which variable
-owns a given value. However, there are cases when a single value might have
-multiple owners. For example, in graph data structures, multiple edges might
-point to the same node, and that node is conceptually owned by all of the edges
-that point to it. A node shouldn’t be cleaned up unless it doesn’t have any
-edges pointing to it.</p>
-<p>To enable multiple ownership, Rust has a type called <code>Rc&lt;T&gt;</code>, which is an
-abbreviation for <em>reference counting</em>. The <code>Rc&lt;T&gt;</code> type keeps track of the
-number of references to a value which determines whether or not a value is
-still in use. If there are zero references to a value, the value can be cleaned
-up without any references becoming invalid.</p>
-<p>Imagine <code>Rc&lt;T&gt;</code> as a TV in a family room. When one person enters to watch TV,
-they turn it on. Others can come into the room and watch the TV. When the last
-person leaves the room, they turn off the TV because it’s no longer being used.
-If someone turns off the TV while others are still watching it, there would be
-uproar from the remaining TV watchers!</p>
-<p>We use the <code>Rc&lt;T&gt;</code> type when we want to allocate some data on the heap for
-multiple parts of our program to read and we can’t determine at compile time
-which part will finish using the data last. If we knew which part would finish
-last, we could just make that part the data’s owner, and the normal ownership
-rules enforced at compile time would take effect.</p>
-<p>Note that <code>Rc&lt;T&gt;</code> is only for use in single-threaded scenarios. When we discuss
-concurrency in Chapter 16, we’ll cover how to do reference counting in
-multithreaded programs.</p>
-<h3><a class="header" href="#using-rct-to-share-data" id="using-rct-to-share-data">Using <code>Rc&lt;T&gt;</code> to Share Data</a></h3>
-<p>Let’s return to our cons list example in Listing 15-5. Recall that we defined
-it using <code>Box&lt;T&gt;</code>. This time, we’ll create two lists that both share ownership
-of a third list. Conceptually, this looks similar to Figure 15-3:</p>
+                        <h2><a class="header" href="#rct-引用計數智慧指標" id="rct-引用計數智慧指標"><code>Rc&lt;T&gt;</code> 引用計數智慧指標</a></h2>
+<p>在大多數的場合，所有權是很明確的：你能確切知道哪些變數擁有哪些數值。然而還是有些情況會需要讓一個數值能有數個擁有者。舉例來說，在資料結構中數個邊可能就會指向同個節點，而該節點概念上就被所有指向它的邊所擁有。節點直到沒有任何邊指向它時才會被清除。</p>
+<p>要有多重所有權的話，Rust 有一個型別叫做 <code>Rc&lt;T&gt;</code>，這是*引用計數（reference counting）*的簡寫。<code>Rc&lt;T&gt;</code> 型別會追蹤引用其數值的數量來決定該數值是否還在使用中。如果數值沒有任何引用的話，該數值就可以被清除，因爲不會產生任何無效引用。</p>
+<p>想像 <code>Rc&lt;T&gt;</code> 是個在客廳裡的電視，當有人進入客廳要看電視時，它們就會打開它。其他人也能進來觀看電視。當最後一個人離開客廳時，它們會關掉電視，因爲沒有任何人會再看了。如果當其他人還在看電視時，有人關掉了它，其他在看電視的人肯定會生氣。</p>
+<p><code>Rc&lt;T&gt;</code> 型別的使用時機在於當我們想要在堆積上分配一些資料給程式中數個部分讀取，但是我們無法在編譯時期決定哪個部分會最後一個結束使用數值的部分。如果我們知道哪個部分會最後結束的話，我們可以將那個部分作爲資料的擁有者就好，然後正常的所有權規則就會在編譯時生效。</p>
+<p>注意到 <code>Rc&lt;T&gt;</code> 只適用於單一執行緒（single-threaded）的場合。當我們在第十六章討論並行（concurrency）時，我們會介紹如何在多執行緒程式達成引用計數。</p>
+<h3><a class="header" href="#使用-rct-來分享資料" id="使用-rct-來分享資料">使用 <code>Rc&lt;T&gt;</code> 來分享資料</a></h3>
+<p>讓我們回顧範例 15-5 的 cons list 範例。回想一下我們當時適用 <code>Box&lt;T&gt;</code> 定義。這次我們會建立兩個列表，它們會同時共享第三個列表的所有權。概念上會如圖示 15-3 所示：</p>
 <img alt="Two lists that share ownership of a third list" src="img/trpl15-03.svg" class="center" />
-<p><span class="caption">圖示 15-3: Two lists, <code>b</code> and <code>c</code>, sharing ownership of
-a third list, <code>a</code></span></p>
-<p>We’ll create list <code>a</code> that contains 5 and then 10. Then we’ll make two more
-lists: <code>b</code> that starts with 3 and <code>c</code> that starts with 4. Both <code>b</code> and <code>c</code>
-lists will then continue on to the first <code>a</code> list containing 5 and 10. In other
-words, both lists will share the first list containing 5 and 10.</p>
-<p>Trying to implement this scenario using our definition of <code>List</code> with <code>Box&lt;T&gt;</code>
-won’t work, as shown in Listing 15-17:</p>
+<p><span class="caption">圖示 15-3：兩個列表 <code>b</code> 和 <code>c</code> 共享第三個列表 <code>a</code> 的所有權</span></p>
+<p>我們會建立列表 <code>a</code> 來包含 5 然後是 10。然後我們會在建立兩個列表：<code>b</code> 以 3 爲開頭而 <code>c</code> 以 4 爲開頭。<code>b</code> 與 <code>c</code> 列表會同時連接包含 5 與 10 的第一個列表 <code>a</code>。換句話說，兩個列表會同時共享包含 5 與 10 的第一個列表。</p>
+<p>嘗試使用 <code>Box&lt;T&gt;</code> 來定義這種情境的 <code>List</code> 的話會無法成功，如範例 15-17 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">enum List {
     Cons(i32, Box&lt;List&gt;),
@@ -219,9 +193,8 @@ fn main() {
     let c = Cons(4, Box::new(a));
 }
 </code></pre>
-<p><span class="caption">範例 15-17: Demonstrating we’re not allowed to have
-two lists using <code>Box&lt;T&gt;</code> that try to share ownership of a third list</span></p>
-<p>When we compile this code, we get this error:</p>
+<p><span class="caption">範例 15-17：展示我們無法用 <code>Box&lt;T&gt;</code> 讓兩個列表嘗試共享第三個列表的所有權</span></p>
+<p>當我們編譯此程式碼，我們會得到以下錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
 error[E0382]: use of moved value: `a`
@@ -241,25 +214,9 @@ error: could not compile `cons-list`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>The <code>Cons</code> variants own the data they hold, so when we create the <code>b</code> list, <code>a</code>
-is moved into <code>b</code> and <code>b</code> owns <code>a</code>. Then, when we try to use <code>a</code> again when
-creating <code>c</code>, we’re not allowed to because <code>a</code> has been moved.</p>
-<p>We could change the definition of <code>Cons</code> to hold references instead, but then
-we would have to specify lifetime parameters. By specifying lifetime
-parameters, we would be specifying that every element in the list will live at
-least as long as the entire list. The borrow checker wouldn’t let us compile
-<code>let a = Cons(10, &amp;Nil);</code> for example, because the temporary <code>Nil</code> value would
-be dropped before <code>a</code> could take a reference to it.</p>
-<p>Instead, we’ll change our definition of <code>List</code> to use <code>Rc&lt;T&gt;</code> in place of
-<code>Box&lt;T&gt;</code>, as shown in Listing 15-18. Each <code>Cons</code> variant will now hold a value
-and an <code>Rc&lt;T&gt;</code> pointing to a <code>List</code>. When we create <code>b</code>, instead of taking
-ownership of <code>a</code>, we’ll clone the <code>Rc&lt;List&gt;</code> that <code>a</code> is holding, thereby
-increasing the number of references from one to two and letting <code>a</code> and <code>b</code>
-share ownership of the data in that <code>Rc&lt;List&gt;</code>. We’ll also clone <code>a</code> when
-creating <code>c</code>, increasing the number of references from two to three. Every time
-we call <code>Rc::clone</code>, the reference count to the data within the <code>Rc&lt;List&gt;</code> will
-increase, and the data won’t be cleaned up unless there are zero references to
-it.</p>
+<p><code>Cons</code> 變體擁有它們存有的資料，所以當我們建立列表 <code>b</code> 時，<code>a</code> 會移動到 <code>b</code>，所以 <code>b</code> 就擁有 <code>a</code>。然後當我們嘗試再次使用 <code>a</code> 來建立 <code>c</code> 時，這就不會被允許，因爲 <code>a</code> 已經被移走了。</p>
+<p>我們可以嘗試改用引用來變更 <code>Cons</code> 的定義，但是這樣我們就必須指定生命週期參數。透過指定生命週期參數，我們會指定列表中的每個元素會至少活得跟整個列表一樣久。舉例來說，這樣借用檢查器就不會讓我們編譯過 <code>let a = Cons(10, &amp;Nil);</code>，因爲暫時的數值 <code>Nil</code> 會在 <code>a</code> 取得引用之前就被釋放。</p>
+<p>我們最後可以改用 <code>Rc&lt;T&gt;</code> 來變更 <code>List</code> 的定義，如範例 15-18 所示。每個 <code>Cons</code> 變體都會存有一個數值以及一個由 <code>Rc&lt;T&gt;</code> 指向的 <code>List</code>。當我們建立 <code>b</code> 時，不會取走 <code>a</code> 的所有權，我們會克隆（clone） <code>a</code> 存有的 <code>Rc&lt;List&gt;</code>，因而增加引用的數量從一增加到二，並讓 <code>a</code> 與 <code>b</code> 共享 <code>Rc&lt;List&gt;</code> 資料的所有權。我們也在在建立 <code>c</code> 時克隆 <code>a</code>，增加引用的數量從二增加到三。每次我們呼叫 <code>Rc::clone</code> 時，對 <code>Rc&lt;List&gt;</code> 資料的引用計數就會成增加，然後資料不會被清除直到沒有任何引用爲止。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum List {
     Cons(i32, Rc&lt;List&gt;),
@@ -275,28 +232,12 @@ fn main() {
     let c = Cons(4, Rc::clone(&amp;a));
 }
 </code></pre></pre>
-<p><span class="caption">範例 15-18: A definition of <code>List</code> that uses
-<code>Rc&lt;T&gt;</code></span></p>
-<p>We need to add a <code>use</code> statement to bring <code>Rc&lt;T&gt;</code> into scope because it’s not
-in the prelude. In <code>main</code>, we create the list holding 5 and 10 and store it in
-a new <code>Rc&lt;List&gt;</code> in <code>a</code>. Then when we create <code>b</code> and <code>c</code>, we call the
-<code>Rc::clone</code> function and pass a reference to the <code>Rc&lt;List&gt;</code> in <code>a</code> as an
-argument.</p>
-<p>We could have called <code>a.clone()</code> rather than <code>Rc::clone(&amp;a)</code>, but Rust’s
-convention is to use <code>Rc::clone</code> in this case. The implementation of
-<code>Rc::clone</code> doesn’t make a deep copy of all the data like most types’
-implementations of <code>clone</code> do. The call to <code>Rc::clone</code> only increments the
-reference count, which doesn’t take much time. Deep copies of data can take a
-lot of time. By using <code>Rc::clone</code> for reference counting, we can visually
-distinguish between the deep-copy kinds of clones and the kinds of clones that
-increase the reference count. When looking for performance problems in the
-code, we only need to consider the deep-copy clones and can disregard calls to
-<code>Rc::clone</code>.</p>
+<p><span class="caption">範例 15-18：使用 <code>Rc&lt;T&gt;</code> 來定義 <code>List</code></span></p>
+<p>我們需要使用 <code>use</code> 陳述式來將 <code>Rc&lt;T&gt;</code> 引入作用域，因爲它沒有被包含在 prelude 中。在 <code>main</code> 中，我們建立了一個包含 5 與 10 的列表並存入 <code>a</code> 的 <code>Rc&lt;List&gt;</code>。然後當我們建立 <code>b</code> 與 <code>c</code> 時，我們會呼叫函式 <code>Rc::clone</code> 來將 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 引用作爲引數傳入。</p>
+<p>當然我們可以呼叫 <code>a.clone()</code> 而非 <code>Rc::clone(&amp;a)</code>，但是在此情形中 Rust 的慣例是使用 <code>Rc::clone</code>。<code>Rc::clone</code> 的實作不會像大多數型別的 <code>clone</code> 實作會深拷貝（deep copy）所有的資料。 <code>Rc::clone</code> 的呼叫只會增加引用計數，這花費的時間就相對很少。深拷貝通常會花費比較多的時間。透過使用 <code>Rc::clone</code> 來引用計數，我們可以以視覺辨別出這是深拷貝的克隆還是增加引用計數的克隆。當我們需要調查程式碼的效能問題時，我們就只需要考慮深拷貝的克隆，而不必在意 <code>Rc::clone</code>。</p>
 <h3><a class="header" href="#cloning-an-rct-increases-the-reference-count" id="cloning-an-rct-increases-the-reference-count">Cloning an <code>Rc&lt;T&gt;</code> Increases the Reference Count</a></h3>
-<p>Let’s change our working example in Listing 15-18 so we can see the reference
-counts changing as we create and drop references to the <code>Rc&lt;List&gt;</code> in <code>a</code>.</p>
-<p>In Listing 15-19, we’ll change <code>main</code> so it has an inner scope around list <code>c</code>;
-then we can see how the reference count changes when <code>c</code> goes out of scope.</p>
+<p>讓我們改變範例 15-18 的範例，好讓我們能觀察引用計數在我們建立與釋放 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 引用時產生的變化。</p>
+<p>範例 15-19，我們改變了 <code>main</code> 讓列表 <code>c</code> 寫在一個內部作用域中，然後我們就能觀察到當 <code>c</code> 離開作用域時引用計數產生的改變。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum List {
 </span><span class="boring">    Cons(i32, Rc&lt;List&gt;),
@@ -318,14 +259,9 @@ then we can see how the reference count changes when <code>c</code> goes out of 
     println!(&quot;count after c goes out of scope = {}&quot;, Rc::strong_count(&amp;a));
 }
 </code></pre></pre>
-<p><span class="caption">範例 15-19: Printing the reference count</span></p>
-<p>At each point in the program where the reference count changes, we print the
-reference count, which we can get by calling the <code>Rc::strong_count</code> function.
-This function is named <code>strong_count</code> rather than <code>count</code> because the <code>Rc&lt;T&gt;</code>
-type also has a <code>weak_count</code>; we’ll see what <code>weak_count</code> is used for in the
-<a href="ch15-06-reference-cycles.html#preventing-reference-cycles-turning-an-rct-into-a-weakt">“Preventing Reference Cycles: Turning an <code>Rc&lt;T&gt;</code> into a
-<code>Weak&lt;T&gt;</code>”</a><!-- ignore --> section.</p>
-<p>This code prints the following:</p>
+<p><span class="caption">範例 15-19：印出引用計數</span></p>
+<p>在程式中每次引用計數產生改變的地方，我們就印出引用計數，我們可以透過呼叫函式 <code>Rc::strong_count</code> 來取得。此函式叫做 <code>strong_count</code> 而非 <code>count</code> 是因爲 <code>Rc&lt;T&gt;</code> 型別還有個 <code>weak_count</code>，我們會在 <a href="ch15-06-reference-cycles.html#%E9%81%BF%E5%85%8D%E5%BC%95%E7%94%A8%E5%BE%AA%E7%92%B0%E5%B0%87-rct-%E8%BD%89%E6%8F%9B%E6%88%90-weakt">「避免引用循環：將 <code>Rc&lt;T&gt;</code> 轉換成 <code>Weak&lt;T&gt;</code>」</a><!-- ignore --> 段落看到 <code>weak_count</code> 的使用方式。</p>
+<p>此程式碼印出以下結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
     Finished dev [unoptimized + debuginfo] target(s) in 0.45s
@@ -335,25 +271,16 @@ count after creating b = 2
 count after creating c = 3
 count after c goes out of scope = 2
 </code></pre>
-<p>We can see that the <code>Rc&lt;List&gt;</code> in <code>a</code> has an initial reference count of 1; then
-each time we call <code>clone</code>, the count goes up by 1. When <code>c</code> goes out of scope,
-the count goes down by 1. We don’t have to call a function to decrease the
-reference count like we have to call <code>Rc::clone</code> to increase the reference
-count: the implementation of the <code>Drop</code> trait decreases the reference count
-automatically when an <code>Rc&lt;T&gt;</code> value goes out of scope.</p>
-<p>What we can’t see in this example is that when <code>b</code> and then <code>a</code> go out of scope
-at the end of <code>main</code>, the count is then 0, and the <code>Rc&lt;List&gt;</code> is cleaned up
-completely at that point. Using <code>Rc&lt;T&gt;</code> allows a single value to have
-multiple owners, and the count ensures that the value remains valid as long as
-any of the owners still exist.</p>
-<p>Via immutable references, <code>Rc&lt;T&gt;</code> allows you to share data between multiple
-parts of your program for reading only. If <code>Rc&lt;T&gt;</code> allowed you to have multiple
-mutable references too, you might violate one of the borrowing rules discussed
-in Chapter 4: multiple mutable borrows to the same place can cause data races
-and inconsistencies. But being able to mutate data is very useful! In the next
-section, we’ll discuss the interior mutability pattern and the <code>RefCell&lt;T&gt;</code>
-type that you can use in conjunction with an <code>Rc&lt;T&gt;</code> to work with this
-immutability restriction.</p>
+<p>我們可以看到 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 會有個初始引用計數 1，然後我們每次呼叫 <code>clone</code> 時，計數會加 1。當 <code>c</code> 離開作用域時，計數會減 1。我們不必呼叫任何函式來減少引用計數，像呼叫 <code>Rc::clone</code> 時才會增加引用計數那樣。當 <code>Rc&lt;T&gt;</code> 數值離開作用域時，<code>Drop</code> 特徵的實作就會自動減少引用計數。</p>
+<p>我們無法從此例觀察到的是當 <code>b</code> 然後是 <code>a</code> 從 <code>main</code> 的結尾離開作用域時，計數會是 0，然後 <code>Rc&lt;List&gt;</code> 在此時就會完全被清除。使用 <code>Rc&lt;T&gt;</code> 能允許單一數值能有數個擁有者，然後計數會確保只要有任何擁有者還存在的狀況下，數值會保持是有效的。</p>
+<p>透過不可變引用，<code>Rc&lt;T&gt;</code> 能讓你分享資料給程式中數個部分來只做讀取的動作。如果 <code>Rc&lt;T&gt;</code> 允許你也擁有數個可變引用的話，你可能就違反了第四章提及的借用規則：數個對相同位置的可變借用會導致資料競爭（data races）與不一致。但可變資料還是非常實用的！在下個段落，我們會討論內部可變性模式與 <code>RefCell&lt;T&gt;</code> 型別，此型別能讓你搭配 <code>Rc&lt;T&gt;</code> 使用來處理不可變的限制。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-04-rc.md">e5ed971</a></li>
+<li>updated: 2020-09-19</li>
+</ul>
+</blockquote>
 
                     </main>
 
