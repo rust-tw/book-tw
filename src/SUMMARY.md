@@ -95,11 +95,11 @@
     - [`RefCell<T>` 與內部可變性模式](ch15-05-interior-mutability.md)
     - [引用循環會導致記憶體泄漏](ch15-06-reference-cycles.md)
 
-- [Fearless Concurrency](ch16-00-concurrency.md)
-    - [Using Threads to Run Code Simultaneously](ch16-01-threads.md)
-    - [Using Message Passing to Transfer Data Between Threads](ch16-02-message-passing.md)
-    - [Shared-State Concurrency](ch16-03-shared-state.md)
-    - [Extensible Concurrency with the `Sync` and `Send` Traits](ch16-04-extensible-concurrency-sync-and-send.md)
+- [無懼並行](ch16-00-concurrency.md)
+    - [使用執行緒同時執行程式碼](ch16-01-threads.md)
+    - [使用訊息傳遞在執行緒間傳送資料](ch16-02-message-passing.md)
+    - [共享狀態並行](ch16-03-shared-state.md)
+    - [透過 `Sync` 與 `Send` 特徵擴展並行性](ch16-04-extensible-concurrency-sync-and-send.md)
 
 - [Object Oriented Programming Features of Rust](ch17-00-oop.md)
     - [Characteristics of Object-Oriented Languages](ch17-01-what-is-oo.md)

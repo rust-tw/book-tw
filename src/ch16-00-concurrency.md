@@ -1,49 +1,20 @@
-# Fearless Concurrency
+# 無懼並行
 
-Handling concurrent programming safely and efficiently is another of Rust’s
-major goals. *Concurrent programming*, where different parts of a program
-execute independently, and *parallel programming*, where different parts of a
-program execute at the same time, are becoming increasingly important as more
-computers take advantage of their multiple processors. Historically,
-programming in these contexts has been difficult and error prone: Rust hopes to
-change that.
+能夠安全高效處理並行程式設計是 Rust 的另一像主要目標。*並行程式設計（Concurrent programming）*會讓程式的不同部分獨立執行，而*平行程式設計（parallel programming）*則是程式的不同部分同時執行。這些隨著電腦越能善用多處理器時也越顯得重要。歷史上，這種程式設計是很困難且容易出錯的，Rust 希望能改善這點。
 
-Initially, the Rust team thought that ensuring memory safety and preventing
-concurrency problems were two separate challenges to be solved with different
-methods. Over time, the team discovered that the ownership and type systems are
-a powerful set of tools to help manage memory safety *and* concurrency
-problems! By leveraging ownership and type checking, many concurrency errors
-are compile-time errors in Rust rather than runtime errors. Therefore, rather
-than making you spend lots of time trying to reproduce the exact circumstances
-under which a runtime concurrency bug occurs, incorrect code will refuse to
-compile and present an error explaining the problem. As a result, you can fix
-your code while you’re working on it rather than potentially after it has been
-shipped to production. We’ve nicknamed this aspect of Rust *fearless*
-*concurrency*. Fearless concurrency allows you to write code that is free of
-subtle bugs and is easy to refactor without introducing new bugs.
+起初 Rust 團隊認爲確保記憶體安全與預防並行問題是兩個分別的問題，要用不同的解決方案。隨著時間過去，團隊發現所有權與型別系統同時是管理記憶體安全*以及*並行問題的強大工具！透過藉助所有權與型別檢查，許多並行錯誤在 Rust 中都是編譯時錯誤而非執行時錯誤。因此，你不用花大量時間嘗試重現編譯時並行錯誤出現時的特定情況，不正確的程式碼會在編譯時就被拒絕，並顯示錯誤解釋問題原因。這樣一來，你就可以在開發時就修正問題，而不用等到可能都部署到生產環境了才發現問題。我們稱呼這個 Rust 的特色爲*無懼並行（fearless concurrency）*。無懼並行可以避免你寫出有微妙錯誤的程式碼，並能輕鬆重構，不用擔心產生新的程式錯誤。
 
-> Note: For simplicity’s sake, we’ll refer to many of the problems as
-> *concurrent* rather than being more precise by saying *concurrent and/or
-> parallel*. If this book were about concurrency and/or parallelism, we’d be
-> more specific. For this chapter, please mentally substitute *concurrent
-> and/or parallel* whenever we use *concurrent*.
+> 注意：出於簡潔考量，我們將把許多問題歸類爲*並行*，而不是精確地區分是*並行與/或平行*。如果本書是本專注在並行與/或平行的書，我們才會更在意用詞。至於本章節，當我們使用*並行*的詞彙時，請記得這代表 *並行與/或平行*。
 
-Many languages are dogmatic about the solutions they offer for handling
-concurrent problems. For example, Erlang has elegant functionality for
-message-passing concurrency but has only obscure ways to share state between
-threads. Supporting only a subset of possible solutions is a reasonable
-strategy for higher-level languages, because a higher-level language promises
-benefits from giving up some control to gain abstractions. However, lower-level
-languages are expected to provide the solution with the best performance in any
-given situation and have fewer abstractions over the hardware. Therefore, Rust
-offers a variety of tools for modeling problems in whatever way is appropriate
-for your situation and requirements.
+許多語言對於處理並行問題所提供的解決方案都很有特色。舉例來說，Erlang 有非常優雅的訊息傳遞並行功能，但跨執行緒共享狀態就只有比較隱晦的方法。只提供支援可能解決方案的子集對於高階語言來說是合理的策略，因爲高階語言所承諾的效益來自於犧牲一些掌控以換取大量的抽象層面。然而，低階語言則預期會提供在任何給定場合中能有最佳效能的解決方案，而且對硬體的抽象較少。因此 Rust 提供了多種工具來針對適合你的場合與需求將問題定義出來。
 
-Here are the topics we’ll cover in this chapter:
+本章節中我們會涵蓋這些主題：
 
-* How to create threads to run multiple pieces of code at the same time
-* *Message-passing* concurrency, where channels send messages between threads
-* *Shared-state* concurrency, where multiple threads have access to some piece
-  of data
-* The `Sync` and `Send` traits, which extend Rust’s concurrency guarantees to
-  user-defined types as well as types provided by the standard library
+* 如何建立執行緒（threads）來同時執行多段程式碼
+* *訊息傳遞（Message-passing）*並行提供通道（channels）在執行緒間傳遞訊息
+* *共享狀態（Shared-state）*並行提供多執行緒可以存取同一位置的資料
+* `Sync` 與 `Send` 特徵擴展 Rust 的並行保障至使用者定義的型別與標準函式庫的型別中
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch16-00-concurrency.md)
+> - updated: 2020-09-20
