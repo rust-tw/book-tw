@@ -273,7 +273,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>範例 8-7 的程式碼看起來好像能執行。爲何第一個元素的引用要在意 vector 的最後端發生了什麼事呢？此錯誤其實跟 vector 運作的方式有關：在 vector 後方新增元素時，如果當前 vector 的空間不夠在塞入另一個值的話，可能會需要分配新的記憶體並複製舊的元素到新的空間中。這樣一來，第一個元素的索引可能就會指向已經被釋放的記憶體，借用規則會防止程式遇到這樣的情形。</p>
 <blockquote>
-<p>注意：關於 <code>Vec&lt;T&gt;</code> 型別更多的實作細節，歡迎查閱<a href="../nomicon/vec.html">「Rust 葵花寶典」</a>。</p>
+<p>注意：關於 <code>Vec&lt;T&gt;</code> 型別更多的實作細節，歡迎查閱<a href="../nomicon/vec.html">「The Rustonomicon」</a>。</p>
 </blockquote>
 <h3><a class="header" href="#遍歷-vector-的元素" id="遍歷-vector-的元素">遍歷 Vector 的元素</a></h3>
 <p>如果我們想要依序存取 vector 中每個元素的話，我們可以遍歷所有元素而不必用索引一個一個取得。範例 8-8 闡釋了如何使用 <code>for</code> 迴圈來取得一個 <code>i32</code> vector 中每個元素的不可變引用並印出他們。</p>

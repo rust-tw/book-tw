@@ -4735,7 +4735,7 @@ main.rs
          └── take_payment
 </code></pre>
 <p><span class="caption">範例 7-2：範例 7-1 的模組樹</span></p>
-<p>此樹顯示了有些模組是包含在其他模組內的（比方說 <code>hosting</code> 就在 <code>front_of_house</code> 底下）。此樹也顯示了有些模組是其他模組的<em>同輩（siblings）</em>，代表它們是在同模組底下定義的（<code>hosting</code> 和 <code>serving</code> 都在 <code>front_of_house</code> 底下定義）。繼續沿用家庭來譬喻的話，如果模組 A 被包含在模組 B 中，我們會說模組 A 是模組 B 的<em>下代（child）</em>，而模組 B 是模組 A 的<em>上代（parent）</em>。注意到整個模組樹的源頭是一個隱性模組叫做 <code>crate</code>。</p>
+<p>此樹顯示了有些模組是包含在其他模組內的（比方說 <code>hosting</code> 就在 <code>front_of_house</code> 底下）。此樹也顯示了有些模組是其他模組的<em>同輩（siblings）</em>，代表它們是在同模組底下定義的（<code>hosting</code> 和 <code>serving</code> 都在 <code>front_of_house</code> 底下定義）。繼續沿用家庭來譬喻的話，如果模組 A 被包含在模組 B 中，我們會說模組 A 是模組 B 的<em>下一代（child）</em>，而模組 B 是模組 A 的<em>上一代（parent）</em>。注意到整個模組樹的源頭是一個隱性模組叫做 <code>crate</code>。</p>
 <p>模組樹可能會讓你想到電腦中檔案系統的目錄樹，這是一個非常恰當的比喻！就像檔案系統中的目錄，你使用模組來組織你的程式碼。而且就像目錄中的檔案，我們需要有方法可以找到我們的模組。</p>
 <blockquote>
 <ul>
@@ -5405,7 +5405,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>範例 8-7 的程式碼看起來好像能執行。爲何第一個元素的引用要在意 vector 的最後端發生了什麼事呢？此錯誤其實跟 vector 運作的方式有關：在 vector 後方新增元素時，如果當前 vector 的空間不夠在塞入另一個值的話，可能會需要分配新的記憶體並複製舊的元素到新的空間中。這樣一來，第一個元素的索引可能就會指向已經被釋放的記憶體，借用規則會防止程式遇到這樣的情形。</p>
 <blockquote>
-<p>注意：關於 <code>Vec&lt;T&gt;</code> 型別更多的實作細節，歡迎查閱<a href="../nomicon/vec.html">「Rust 葵花寶典」</a>。</p>
+<p>注意：關於 <code>Vec&lt;T&gt;</code> 型別更多的實作細節，歡迎查閱<a href="../nomicon/vec.html">「The Rustonomicon」</a>。</p>
 </blockquote>
 <h3><a class="header" href="#遍歷-vector-的元素" id="遍歷-vector-的元素">遍歷 Vector 的元素</a></h3>
 <p>如果我們想要依序存取 vector 中每個元素的話，我們可以遍歷所有元素而不必用索引一個一個取得。範例 8-8 闡釋了如何使用 <code>for</code> 迴圈來取得一個 <code>i32</code> vector 中每個元素的不可變引用並印出他們。</p>
@@ -6901,7 +6901,7 @@ impl Summary for Tweet {
 know, people」。</p>
 <p>注意到因爲我們將範例 10-13 的 <code>Summary</code> 特徵、<code>NewsArticle</code> 和 <code>Tweet</code> 型別都定義在 <em>lib.rs</em> ，所以它們都在同個作用域下。如果我們說此 <em>lib.rs</em> 對應的 crate 叫做 <code>aggregator</code>，然後有人想要使用我們 crate 的功能來對他們函式庫作用域中定義的結構體實作 <code>Summary</code> 特徵的話。他們會需要將該特徵引入作用域，可以像這樣指定 <code>use aggregator::Summary;</code>，如此一來就能對他們的型別實作 <code>Summary</code>。<code>Summary</code> 特徵一樣也必須是公開的才能讓其他 crate 使用。這就是爲何我們在範例 10-12 的 <code>trait</code> 前面就加上 <code>pub</code> 關鍵字。</p>
 <p>實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說我們可以對自訂型別像是 <code>Tweet</code> 來實作標準函式庫的 <code>Display</code> 特徵來爲我們 crate <code>aggregator</code> 增加更多功能。因爲 <code>Tweet</code> 位於我們的 <code>aggregator</code> crate 裡面。我們也可以在我們的 crate <code>aggregator</code> 內對 <code>Vec&lt;T&gt;</code> 實作 <code>Summary</code>。因爲特徵 <code>Summary</code> 也位於我們的 <code>aggregator</code> crate 裡面。</p>
-<p>但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 <code>aggregator</code> crate 裡面對 <code>Vec&lt;T&gt;</code> 實作 <code>Display</code> 特徵。因爲 <code>Display</code> 與 <code>Vec&lt;T&gt;</code> 都定義在表準函式庫中，並沒有在我們 <code>aggregator</code> crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因爲上代（parent）型別不存這在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。</p>
+<p>但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 <code>aggregator</code> crate 裡面對 <code>Vec&lt;T&gt;</code> 實作 <code>Display</code> 特徵。因爲 <code>Display</code> 與 <code>Vec&lt;T&gt;</code> 都定義在表準函式庫中，並沒有在我們 <code>aggregator</code> crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因爲上一代（parent）型別不存這在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。</p>
 <h3><a class="header" href="#預設實作" id="預設實作">預設實作</a></h3>
 <p>有時候對特徵內的一些或所有方法定義預設行爲是很實用的，而不必要求每個型別都實作所有方法。然後當我們對特定型別實作特徵時，我們可以保留或覆蓋每個方法的預設行爲。</p>
 <p>範例 10-14 展示如何在 <code>Summary</code> 特徵內指定  <code>summarize</code> 方法的預設字串，而不必像範例 10-12 只定義了方法簽名。</p>
@@ -14721,19 +14721,10 @@ c after = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
 <li>updated: 2020-09-20</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#reference-cycles-can-leak-memory" id="reference-cycles-can-leak-memory">Reference Cycles Can Leak Memory</a></h2>
-<p>Rust’s memory safety guarantees make it difficult, but not impossible, to
-accidentally create memory that is never cleaned up (known as a <em>memory leak</em>).
-Preventing memory leaks entirely is not one of Rust’s guarantees in the same
-way that disallowing data races at compile time is, meaning memory leaks are
-memory safe in Rust. We can see that Rust allows memory leaks by using <code>Rc&lt;T&gt;</code>
-and <code>RefCell&lt;T&gt;</code>: it’s possible to create references where items refer to each
-other in a cycle. This creates memory leaks because the reference count of each
-item in the cycle will never reach 0, and the values will never be dropped.</p>
-<h3><a class="header" href="#creating-a-reference-cycle" id="creating-a-reference-cycle">Creating a Reference Cycle</a></h3>
-<p>Let’s look at how a reference cycle might happen and how to prevent it,
-starting with the definition of the <code>List</code> enum and a <code>tail</code> method in Listing
-15-25:</p>
+<h2><a class="header" href="#引用循環會導致記憶體泄漏" id="引用循環會導致記憶體泄漏">引用循環會導致記憶體泄漏</a></h2>
+<p>Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情況（通稱爲<em>記憶體泄漏, memory leak</em>）難以發生，但這並不是絕對不可能。和在編譯期間不允許資料競爭的情況不同，Rust 並不保證能完全避免記憶體泄漏，代表記憶體泄漏 Rust 中被視爲是記憶體安全的。我們可以透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 觀察到 Rust 仍會產生記憶體泄漏，產生引用循環是有可能的，這會導致記憶體泄漏，因爲循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
+<h3><a class="header" href="#產生引用循環" id="產生引用循環">產生引用循環</a></h3>
+<p>讓我們看看引用循環是怎麼發生的，以及如何避免它。我們從範例 15-25 的 <code>List</code> 枚舉定義與一個 <code>tail</code> 方法開始：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use crate::List::{Cons, Nil};
 use std::cell::RefCell;
@@ -14756,19 +14747,9 @@ impl List {
 
 fn main() {}
 </code></pre></pre>
-<p><span class="caption">範例 15-25: A cons list definition that holds a
-<code>RefCell&lt;T&gt;</code> so we can modify what a <code>Cons</code> variant is referring to</span></p>
-<p>We’re using another variation of the <code>List</code> definition from Listing 15-5. The
-second element in the <code>Cons</code> variant is now <code>RefCell&lt;Rc&lt;List&gt;&gt;</code>, meaning that
-instead of having the ability to modify the <code>i32</code> value as we did in Listing
-15-24, we want to modify which <code>List</code> value a <code>Cons</code> variant is pointing to.
-We’re also adding a <code>tail</code> method to make it convenient for us to access the
-second item if we have a <code>Cons</code> variant.</p>
-<p>In Listing 15-26, we’re adding a <code>main</code> function that uses the definitions in
-Listing 15-25. This code creates a list in <code>a</code> and a list in <code>b</code> that points to
-the list in <code>a</code>. Then it modifies the list in <code>a</code> to point to <code>b</code>, creating a
-reference cycle. There are <code>println!</code> statements along the way to show what the
-reference counts are at various points in this process.</p>
+<p><span class="caption">範例 15-25：一個 cons list 定義並持有 <code>RefCell&lt;T&gt;</code>，所以我們可以修改 <code>Cons</code> 變體引用的值</span></p>
+<p>我們用的是範例 15-5 中 <code>List</code> 的另一種定義寫法。<code>Cons</code> 變體的第二個元素現在是 <code>RefCell&lt;Rc&lt;List&gt;&gt;</code>，代表不同於範例 15-24 那樣能修改 <code>i32</code> 數值，我們想要能修改 <code>Cons</code> 變體指向的 <code>List</code> 數值。我們也加了一個 <code>tail</code> 方法讓我們如果有 <code>Cons</code> 變體的話，能方便取得第二個項目。</p>
+<p>在範例 15-26 我們要加入 <code>main</code> 函式並使用範例 15-25 的定義。此程式碼建立了列表 <code>a</code> 與指向列表 <code>a</code> 的列表 <code>b</code>。然後它修改了列表 <code>a</code> 來指向 <code>b</code>，因而產生循環引用。在程序過程中 <code>println!</code> 陳述式會顯示不同位置時的引用計數。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use crate::List::{Cons, Nil};
 </span><span class="boring">use std::cell::RefCell;
@@ -14813,19 +14794,10 @@ reference counts are at various points in this process.</p>
     // println!(&quot;a next item = {:?}&quot;, a.tail());
 }
 </code></pre></pre>
-<p><span class="caption">範例 15-26: Creating a reference cycle of two <code>List</code>
-values pointing to each other</span></p>
-<p>We create an <code>Rc&lt;List&gt;</code> instance holding a <code>List</code> value in the variable <code>a</code>
-with an initial list of <code>5, Nil</code>. We then create an <code>Rc&lt;List&gt;</code> instance
-holding another <code>List</code> value in the variable <code>b</code> that contains the value 10 and
-points to the list in <code>a</code>.</p>
-<p>We modify <code>a</code> so it points to <code>b</code> instead of <code>Nil</code>, creating a cycle. We
-do that by using the <code>tail</code> method to get a reference to the
-<code>RefCell&lt;Rc&lt;List&gt;&gt;</code> in <code>a</code>, which we put in the variable <code>link</code>. Then we use
-the <code>borrow_mut</code> method on the <code>RefCell&lt;Rc&lt;List&gt;&gt;</code> to change the value inside
-from an <code>Rc&lt;List&gt;</code> that holds a <code>Nil</code> value to the <code>Rc&lt;List&gt;</code> in <code>b</code>.</p>
-<p>When we run this code, keeping the last <code>println!</code> commented out for the
-moment, we’ll get this output:</p>
+<p><span class="caption">範例 15-26：透過兩個彼此指向對方的 <code>List</code> 數值來產生引用循環</span></p>
+<p>我們在變數 <code>a</code> 建立了一個 <code>Rc&lt;List&gt;</code> 實例的 <code>List</code> 數值並持有 <code>5, Nil</code> 初始列表的 。我們然後在變數  <code>b</code> 建立另一個 <code>Rc&lt;List&gt;</code> 實例的 <code>List</code> 數值並持有數值 10 與指向的列表 <code>a</code>。</p>
+<p>我們將 <code>a</code> 修改爲指向 <code>b</code> 而非 <code>Nil</code> 來產生循環。我們透過使用 <code>tail</code> 方法來取得 <code>a</code> 的 <code>RefCell&lt;Rc&lt;List&gt;&gt;</code> 引用，並放入變數 <code>link</code> 中。然後我們對 <code>RefCell&lt;Rc&lt;List&gt;&gt;</code> 使用 <code>borrow_mut</code> 方法來改變 <code>Rc&lt;List&gt;</code> 的值，從數值 <code>Nil</code> 改成 <code>b</code> 的 <code>Rc&lt;List&gt;</code>。</p>
+<p>當我們執行此程式並維持將最後一行的 <code>println!</code> 註解掉的話，我們會得到以下輸出：</p>
 <pre><code class="language-console">$ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
     Finished dev [unoptimized + debuginfo] target(s) in 0.53s
@@ -14838,72 +14810,21 @@ b next item = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
 b rc count after changing a = 2
 a rc count after changing a = 2
 </code></pre>
-<p>The reference count of the <code>Rc&lt;List&gt;</code> instances in both <code>a</code> and <code>b</code> are 2
-after we change the list in <code>a</code> to point to <code>b</code>. At the end of <code>main</code>, Rust
-will try to drop <code>b</code> first, which will decrease the count of the <code>Rc&lt;List&gt;</code>
-instance in <code>b</code> by 1.</p>
-<p>However, because <code>a</code> is still referencing the <code>Rc&lt;List&gt;</code> that was in <code>b</code>, that
-<code>Rc&lt;List&gt;</code> has a count of 1 rather than 0, so the memory the <code>Rc&lt;List&gt;</code> has on
-the heap won’t be dropped. The memory will just sit there with a count of 1,
-forever. To visualize this reference cycle, we’ve created a diagram in Figure
-15-4.</p>
+<p>在我們變更列表 <code>a</code> 來指向 <code>b</code> 後，<code>a</code> 和 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例引用計數都是 2。在 <code>main</code> 結束後，Rust 會先嘗試釋放 <code>b</code>，讓 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例計數減一。</p>
+<p>然而，因爲 <code>a</code> 仍然引用 <code>b</code> 的 <code>Rc&lt;List&gt;</code>，該 <code>Rc&lt;List&gt;</code> 的計數會是 1 而非 0，所以 <code>Rc&lt;List&gt;</code> 在堆積上的記憶體不會被釋放。記憶體會永遠維持在那並保持計數爲 1。爲了視覺化引用循環，我們用圖示 15-4 表示。</p>
 <img alt="Reference cycle of lists" src="img/trpl15-04.svg" class="center" />
-<p><span class="caption">圖示 15-4: A reference cycle of lists <code>a</code> and <code>b</code>
-pointing to each other</span></p>
-<p>If you uncomment the last <code>println!</code> and run the program, Rust will try to
-print this cycle with <code>a</code> pointing to <code>b</code> pointing to <code>a</code> and so forth until it
-overflows the stack.</p>
-<p>In this case, right after we create the reference cycle, the program ends. The
-consequences of this cycle aren’t very dire. However, if a more complex program
-allocated lots of memory in a cycle and held onto it for a long time, the
-program would use more memory than it needed and might overwhelm the system,
-causing it to run out of available memory.</p>
-<p>Creating reference cycles is not easily done, but it’s not impossible either.
-If you have <code>RefCell&lt;T&gt;</code> values that contain <code>Rc&lt;T&gt;</code> values or similar nested
-combinations of types with interior mutability and reference counting, you must
-ensure that you don’t create cycles; you can’t rely on Rust to catch them.
-Creating a reference cycle would be a logic bug in your program that you should
-use automated tests, code reviews, and other software development practices to
-minimize.</p>
-<p>Another solution for avoiding reference cycles is reorganizing your data
-structures so that some references express ownership and some references don’t.
-As a result, you can have cycles made up of some ownership relationships and
-some non-ownership relationships, and only the ownership relationships affect
-whether or not a value can be dropped. In Listing 15-25, we always want <code>Cons</code>
-variants to own their list, so reorganizing the data structure isn’t possible.
-Let’s look at an example using graphs made up of parent nodes and child nodes
-to see when non-ownership relationships are an appropriate way to prevent
-reference cycles.</p>
-<h3><a class="header" href="#preventing-reference-cycles-turning-an-rct-into-a-weakt" id="preventing-reference-cycles-turning-an-rct-into-a-weakt">Preventing Reference Cycles: Turning an <code>Rc&lt;T&gt;</code> into a <code>Weak&lt;T&gt;</code></a></h3>
-<p>So far, we’ve demonstrated that calling <code>Rc::clone</code> increases the
-<code>strong_count</code> of an <code>Rc&lt;T&gt;</code> instance, and an <code>Rc&lt;T&gt;</code> instance is only cleaned
-up if its <code>strong_count</code> is 0. You can also create a <em>weak reference</em> to the
-value within an <code>Rc&lt;T&gt;</code> instance by calling <code>Rc::downgrade</code> and passing a
-reference to the <code>Rc&lt;T&gt;</code>. When you call <code>Rc::downgrade</code>, you get a smart
-pointer of type <code>Weak&lt;T&gt;</code>. Instead of increasing the <code>strong_count</code> in the
-<code>Rc&lt;T&gt;</code> instance by 1, calling <code>Rc::downgrade</code> increases the <code>weak_count</code> by 1.
-The <code>Rc&lt;T&gt;</code> type uses <code>weak_count</code> to keep track of how many <code>Weak&lt;T&gt;</code>
-references exist, similar to <code>strong_count</code>. The difference is the <code>weak_count</code>
-doesn’t need to be 0 for the <code>Rc&lt;T&gt;</code> instance to be cleaned up.</p>
-<p>Strong references are how you can share ownership of an <code>Rc&lt;T&gt;</code> instance. Weak
-references don’t express an ownership relationship. They won’t cause a
-reference cycle because any cycle involving some weak references will be broken
-once the strong reference count of values involved is 0.</p>
-<p>Because the value that <code>Weak&lt;T&gt;</code> references might have been dropped, to do
-anything with the value that a <code>Weak&lt;T&gt;</code> is pointing to, you must make sure the
-value still exists. Do this by calling the <code>upgrade</code> method on a <code>Weak&lt;T&gt;</code>
-instance, which will return an <code>Option&lt;Rc&lt;T&gt;&gt;</code>. You’ll get a result of <code>Some</code>
-if the <code>Rc&lt;T&gt;</code> value has not been dropped yet and a result of <code>None</code> if the
-<code>Rc&lt;T&gt;</code> value has been dropped. Because <code>upgrade</code> returns an <code>Option&lt;Rc&lt;T&gt;&gt;</code>,
-Rust will ensure that the <code>Some</code> case and the <code>None</code> case are handled, and
-there won’t be an invalid pointer.</p>
-<p>As an example, rather than using a list whose items know only about the next
-item, we’ll create a tree whose items know about their children items <em>and</em>
-their parent items.</p>
-<h4><a class="header" href="#creating-a-tree-data-structure-a-node-with-child-nodes" id="creating-a-tree-data-structure-a-node-with-child-nodes">Creating a Tree Data Structure: a <code>Node</code> with Child Nodes</a></h4>
-<p>To start, we’ll build a tree with nodes that know about their child nodes.
-We’ll create a struct named <code>Node</code> that holds its own <code>i32</code> value as well as
-references to its children <code>Node</code> values:</p>
+<p><span class="caption">圖示 15-4：列表 <code>a</code> 與 <code>b</code> 彼此指向對方的引用循環</span></p>
+<p>如果你解除最後一個 <code>println!</code> 的註解並執行程式的話，Rust 會嘗試印出此循環，因爲 <code>a</code> 會指向 <code>b</code> 會指向 <code>a</code> 以此循環下去，直到堆疊溢位（stack overflow）。</p>
+<p>在此例中，當我們建立完循環引用，程式究詰數了。此循環造成的影響並不嚴重。不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很常一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
+<p>要產生循環引用並不是件容易的事，但也不是絕對不可能。如果你有包含 <code>Rc&lt;T&gt;</code> 數值的 <code>RefCell&lt;T&gt;</code> 數值，或是有類似具內部可變性與引用計數巢狀組合的話，你必須確保不會產生循環引用，你無法依靠 Rust 來檢查它們。產生循環引用是程式中的邏輯錯誤，你需要使用自動化測試、程式碼審查以及其他軟體開發技巧來最小化問題。</p>
+<p>另一個避免引用循環的解決辦法是重新組織你的資料結構，確定哪些引用要有所有權，哪些引用不用。這樣一來，循環會由一些有所有權的關係與沒有所有權的關係所組成，而只有所有權關係能影響數值是否能被釋放。在範例 15-25 中。我們永遠會希望 <code>Cons</code> 變體擁有它們的列表，讓重新組織資料結構變得有可能。讓我們看看一個由父節點與子節點的圖形結構，來看看無所有權的關係何時適合用來避免循環引用。</p>
+<h3><a class="header" href="#避免引用循環將-rct-轉換成-weakt" id="避免引用循環將-rct-轉換成-weakt">避免引用循環：將 <code>Rc&lt;T&gt;</code> 轉換成 <code>Weak&lt;T&gt;</code></a></h3>
+<p>目前，我們解釋過呼叫 <code>Rc::clone</code> 會增加 <code>Rc&lt;T&gt;</code> 實例的 <code>strong_count</code>，而 <code>Rc&lt;T&gt;</code> 只會在 <code>strong_count</code> 爲 0 時被清除。你也可以對 <code>Rc&lt;T&gt;</code> 實例呼叫 <code>Rc::downgrade</code> 並傳入 <code>Rc&lt;T&gt;</code> 的引用來建立<em>弱引用（weak reference）</em>。當你呼叫 <code>Rc::downgrade</code> 時，你會得到一個型別爲 <code>Weak&lt;T&gt;</code> 的智慧指標。不同於對 <code>Rc&lt;T&gt;</code> 實例的 <code>strong_count</code> 增加 1，呼叫 <code>Rc::downgrade</code> 會對 <code>weak_count</code> 增加 1。<code>Rc&lt;T&gt;</code> 型別使用 <code>weak_count</code> 來追蹤有多少 <code>Weak&lt;T&gt;</code> 的引用存在，這類似於 <code>strong_count</code>。不同的地方在於 <code>weak_count</code> 不需要歸零才能將 <code>Rc&lt;T&gt;</code> 清除。</p>
+<p>強引用是你分享 <code>Rc&lt;T&gt;</code> 實例的方式。弱引用不會表達所有權關係。它們不會造成引用循環，因爲弱引用的循環會在其強引用計數歸零時解除。</p>
+<p>由於 <code>Weak&lt;T&gt;</code> 的引用數值可能會被釋放，要對 <code>Weak&lt;T&gt;</code> 指向的數值做任何事情時，你都必須確保該數值還存在。你可以透過對 <code>Weak&lt;T&gt;</code> 實例呼叫 <code>upgrade</code> 方法，這會回傳 <code>Option&lt;Rc&lt;T&gt;&gt;</code>。如果 <code>Rc&lt;T&gt;</code> 數值還沒被釋放的話，你就會得到 <code>Some</code>；而如果 <code>Rc&lt;T&gt;</code> 數值已經被釋放的話，就會得到 <code>None</code>。因爲 <code>upgrade</code> 回傳 <code>Option&lt;Rc&lt;T&gt;&gt;</code>，Rust 會確保 <code>Some</code> 與 <code>None</code> 的分支都有處理好，所以不會取得無效指標。</p>
+<p>爲了做示範，與其使用知道下一項的列表的例子，我們會建立一個樹狀結構，每一個項目會知道它們的子項目<em>以及</em>它們的父項目。</p>
+<h4><a class="header" href="#建立樹狀資料結構帶有子節點的-node" id="建立樹狀資料結構帶有子節點的-node">建立樹狀資料結構：帶有子節點的 <code>Node</code></a></h4>
+<p>首先我們建立一個帶有節點的樹，每個節點知道它們的子節點。我們會定義一個結構體 <code>Node</code> 來存有它自己的 <code>i32</code> 數值以及其子數值 <code>Node</code> 的引用：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::cell::RefCell;
 use std::rc::Rc;
@@ -14926,14 +14847,8 @@ struct Node {
 </span><span class="boring">    });
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>We want a <code>Node</code> to own its children, and we want to share that ownership with
-variables so we can access each <code>Node</code> in the tree directly. To do this, we
-define the <code>Vec&lt;T&gt;</code> items to be values of type <code>Rc&lt;Node&gt;</code>. We also want to
-modify which nodes are children of another node, so we have a <code>RefCell&lt;T&gt;</code> in
-<code>children</code> around the <code>Vec&lt;Rc&lt;Node&gt;&gt;</code>.</p>
-<p>Next, we’ll use our struct definition and create one <code>Node</code> instance named
-<code>leaf</code> with the value 3 and no children, and another instance named <code>branch</code>
-with the value 5 and <code>leaf</code> as one of its children, as shown in Listing 15-27:</p>
+<p>我們想要 <code>Node</code> 擁有自己的子節點，而且我們想要透過變數分享所有權，讓我們可以在樹中取得每個 <code>Node</code>。爲此我們定義 <code>Vec&lt;T&gt;</code> 項目作爲型別 <code>Rc&lt;Node&gt;</code> 的數值。我們還想要能夠修改哪些節點才是該項目的子節點，所以我們將 <code>children</code> 中的 <code>Vec&lt;Rc&lt;Node&gt;&gt;</code> 加進 <code>RefCell&lt;T&gt;</code>。</p>
+<p>接著，我們使用我們定義的結構體來建立一個 <code>Node</code> 實例叫做 <code>leaf</code>，其數值爲 3 且沒有子節點；我們再建立另一個實例叫做 <code>branch</code>，其數值爲 5 且有個子節點 <code>leaf</code>。如範例 15-27 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">use std::rc::Rc;
@@ -14956,28 +14871,12 @@ with the value 5 and <code>leaf</code> as one of its children, as shown in Listi
     });
 }
 </code></pre></pre>
-<p><span class="caption">範例 15-27: Creating a <code>leaf</code> node with no children
-and a <code>branch</code> node with <code>leaf</code> as one of its children</span></p>
-<p>We clone the <code>Rc&lt;Node&gt;</code> in <code>leaf</code> and store that in <code>branch</code>, meaning the
-<code>Node</code> in <code>leaf</code> now has two owners: <code>leaf</code> and <code>branch</code>. We can get from
-<code>branch</code> to <code>leaf</code> through <code>branch.children</code>, but there’s no way to get from
-<code>leaf</code> to <code>branch</code>. The reason is that <code>leaf</code> has no reference to <code>branch</code> and
-doesn’t know they’re related. We want <code>leaf</code> to know that <code>branch</code> is its
-parent. We’ll do that next.</p>
-<h4><a class="header" href="#adding-a-reference-from-a-child-to-its-parent" id="adding-a-reference-from-a-child-to-its-parent">Adding a Reference from a Child to Its Parent</a></h4>
-<p>To make the child node aware of its parent, we need to add a <code>parent</code> field to
-our <code>Node</code> struct definition. The trouble is in deciding what the type of
-<code>parent</code> should be. We know it can’t contain an <code>Rc&lt;T&gt;</code>, because that would
-create a reference cycle with <code>leaf.parent</code> pointing to <code>branch</code> and
-<code>branch.children</code> pointing to <code>leaf</code>, which would cause their <code>strong_count</code>
-values to never be 0.</p>
-<p>Thinking about the relationships another way, a parent node should own its
-children: if a parent node is dropped, its child nodes should be dropped as
-well. However, a child should not own its parent: if we drop a child node, the
-parent should still exist. This is a case for weak references!</p>
-<p>So instead of <code>Rc&lt;T&gt;</code>, we’ll make the type of <code>parent</code> use <code>Weak&lt;T&gt;</code>,
-specifically a <code>RefCell&lt;Weak&lt;Node&gt;&gt;</code>. Now our <code>Node</code> struct definition looks
-like this:</p>
+<p><span class="caption">範例 15-27：建立一個沒有子節點的 <code>leaf</code> 節點與一個有 <code>leaf</code> 作爲子節點的 <code>branch</code> 節點</span></p>
+<p>我們克隆 <code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 並存入 <code>branch</code>，代表 <code>leaf</code> 的 <code>Node</code> 現在有兩個擁有者：<code>leaf</code> 和 <code>branch</code>。我們可以透過 <code>branch.children</code> 從 <code>branch</code> 取得 <code>leaf</code>，但是從 <code>leaf</code> 無法取得 <code>branch</code>。云因是因爲 <code>leaf</code> 沒有 <code>branch</code> 的引用且不知道它們之間是有關聯的。我們想要 <code>leaf</code> 能知道 <code>branch</code> 是它的父節點。這就是我們接下來要做的事。</p>
+<h4><a class="header" href="#新增從子節點到父節點的引用" id="新增從子節點到父節點的引用">新增從子節點到父節點的引用</a></h4>
+<p>要讓子節點意識到它的父節點，我們需要在我們的 <code>Node</code> 結構體定義中加個 <code>parent</code> 欄位。問題在於 <code>parent</code> 應該要是什麼型別。我們知道它不能包含 <code>Rc&lt;T&gt;</code>，因爲那就會造成引用循環，<code>leaf.parent</code> 就會指向 <code>branch</code> 且 <code>branch.children</code> 就會指向 <code>leaf</code>，導致同名的 <code>strong_count</code> 數值無法歸零。</p>
+<p>讓我們換種方式思考此關係，父節點必須擁有它的子節點，如果父節點釋放的話，它的子節點也應該要被釋放。但子節點不應該擁有它的父節點，如果我們釋放子節點的話，父節點應該要還存在。這就是弱引用的使用時機！</p>
+<p>所以與其使用 <code>Rc&lt;T&gt;</code>，我們使用 <code>Weak&lt;T&gt;</code> 來建立 <code>parent</code> 的型別，更明確的話就是 <code>RefCell&lt;Weak&lt;Node&gt;&gt;</code>。現在我們的 <code>Node</code> 結構體定義看起來會像這樣：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::cell::RefCell;
 use std::rc::{Rc, Weak};
@@ -15009,9 +14908,7 @@ struct Node {
 </span><span class="boring">    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>A node will be able to refer to its parent node but doesn’t own its parent.
-In Listing 15-28, we update <code>main</code> to use this new definition so the <code>leaf</code>
-node will have a way to refer to its parent, <code>branch</code>:</p>
+<p>節點能夠引用其父節點但不會擁有它。在範例 15-28 中我們更新了 <code>main</code> 來使用新的定義，讓 <code>leaf</code> 節點有辦法引用它的父節點 <code>branch</code>：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">use std::rc::{Rc, Weak};
@@ -15043,41 +14940,20 @@ node will have a way to refer to its parent, <code>branch</code>:</p>
     println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
 }
 </code></pre></pre>
-<p><span class="caption">範例 15-28: A <code>leaf</code> node with a weak reference to its
-parent node <code>branch</code></span></p>
-<p>Creating the <code>leaf</code> node looks similar to how creating the <code>leaf</code> node looked
-in Listing 15-27 with the exception of the <code>parent</code> field: <code>leaf</code> starts out
-without a parent, so we create a new, empty <code>Weak&lt;Node&gt;</code> reference instance.</p>
-<p>At this point, when we try to get a reference to the parent of <code>leaf</code> by using
-the <code>upgrade</code> method, we get a <code>None</code> value. We see this in the output from the
-first <code>println!</code> statement:</p>
+<p><span class="caption">範例 15-28：<code>leaf</code> 節點有其父節點 <code>branch</code> 的弱引用</span></p>
+<p>建立 <code>leaf</code> 節點與建立範例 15-27 的 <code>leaf</code> 節點類似，只是要多加個 <code>parent</code> 欄位：<code>leaf</code> 一開始沒有任何父節點，所以我們建立一個空的 <code>Weak&lt;Node&gt;</code> 引用實例。</p>
+<p>此時當我們透過 <code>upgrade</code> 方法嘗試取得 <code>leaf</code> 的父節點引用的話，我們會取得 <code>None</code> 數值。我們能在輸出結果的第一個 <code>println!</code> 陳述式看到：</p>
 <pre><code class="language-text">leaf parent = None
 </code></pre>
-<p>When we create the <code>branch</code> node, it will also have a new <code>Weak&lt;Node&gt;</code>
-reference in the <code>parent</code> field, because <code>branch</code> doesn’t have a parent node.
-We still have <code>leaf</code> as one of the children of <code>branch</code>. Once we have the
-<code>Node</code> instance in <code>branch</code>, we can modify <code>leaf</code> to give it a <code>Weak&lt;Node&gt;</code>
-reference to its parent. We use the <code>borrow_mut</code> method on the
-<code>RefCell&lt;Weak&lt;Node&gt;&gt;</code> in the <code>parent</code> field of <code>leaf</code>, and then we use the
-<code>Rc::downgrade</code> function to create a <code>Weak&lt;Node&gt;</code> reference to <code>branch</code> from
-the <code>Rc&lt;Node&gt;</code> in <code>branch.</code></p>
-<p>When we print the parent of <code>leaf</code> again, this time we’ll get a <code>Some</code> variant
-holding <code>branch</code>: now <code>leaf</code> can access its parent! When we print <code>leaf</code>, we
-also avoid the cycle that eventually ended in a stack overflow like we had in
-Listing 15-26; the <code>Weak&lt;Node&gt;</code> references are printed as <code>(Weak)</code>:</p>
+<p>當我們建立 <code>branch</code> 節點，它的 <code>parent</code> 欄位也會有個新的 <code>Weak&lt;Node&gt;</code> 引用，因爲 <code>branch</code> 沒有父節點。我們仍然有 <code>leaf</code> 作爲 <code>branch</code> 其中一個子節點。一旦我們有了 <code>branch</code> 的 <code>Node</code> 實例，我們可以修改 <code>leaf</code> 使其擁有父節點的 <code>Weak&lt;Node&gt;</code> 引用。我們對 <code>leaf</code> 中 <code>parent</code> 欄位的 <code>RefCell&lt;Weak&lt;Node&gt;&gt;</code> 使用 <code>borrow_mut</code> 方法，然後我們使用 <code>Rc::downgrade</code> 函式來從 <code>branch</code> 的 <code>Rc&lt;Node&gt;</code> 建立一個 <code>branch</code> 的 <code>Weak&lt;Node&gt;</code> 引用。</p>
+<p>當我們再次印出 <code>leaf</code> 的父節點，這次我們就會取得 <code>Some</code> 變體其內就是 <code>branch</code>，現在 <code>leaf</code> 可以取得它的父節點了！當我們印出 <code>leaf</code>，我們也能避免產生像範例 15-26 那樣最終導致堆疊溢位（stack overflow）的循環，<code>Weak&lt;Node&gt;</code> 會印成 <code>(Weak)</code>：</p>
 <pre><code class="language-text">leaf parent = Some(Node { value: 5, parent: RefCell { value: (Weak) },
 children: RefCell { value: [Node { value: 3, parent: RefCell { value: (Weak) },
 children: RefCell { value: [] } }] } })
 </code></pre>
-<p>The lack of infinite output indicates that this code didn’t create a reference
-cycle. We can also tell this by looking at the values we get from calling
-<code>Rc::strong_count</code> and <code>Rc::weak_count</code>.</p>
-<h4><a class="header" href="#visualizing-changes-to-strong_count-and-weak_count" id="visualizing-changes-to-strong_count-and-weak_count">Visualizing Changes to <code>strong_count</code> and <code>weak_count</code></a></h4>
-<p>Let’s look at how the <code>strong_count</code> and <code>weak_count</code> values of the <code>Rc&lt;Node&gt;</code>
-instances change by creating a new inner scope and moving the creation of
-<code>branch</code> into that scope. By doing so, we can see what happens when <code>branch</code> is
-created and then dropped when it goes out of scope. The modifications are shown
-in Listing 15-29:</p>
+<p>沒有無限的輸出代表此程式碼沒有產生引用循環。我們也能透過呼叫 <code>Rc::strong_count</code> 與 <code>Rc::weak_count</code> 的數值看出。</p>
+<h4><a class="header" href="#視覺化-strong_count-與-weak_count-的變化" id="視覺化-strong_count-與-weak_count-的變化">視覺化 <code>strong_count</code> 與 <code>weak_count</code> 的變化</a></h4>
+<p>讓我們看看 <code>Rc&lt;Node&gt;</code> 實例中 <code>strong_count</code> 與 <code>weak_count</code> 的數值如何變化，我們建立一個新的內部作用域，並將 <code>branch</code> 的產生移入作用域中。這樣我們就能看到 <code>branch</code> 建立與離開作用域而釋放時發生了什麼事。如範例 15-29 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">use std::rc::{Rc, Weak};
@@ -15132,47 +15008,23 @@ in Listing 15-29:</p>
     );
 }
 </code></pre></pre>
-<p><span class="caption">範例 15-29: Creating <code>branch</code> in an inner scope and
-examining strong and weak reference counts</span></p>
-<p>After <code>leaf</code> is created, its <code>Rc&lt;Node&gt;</code> has a strong count of 1 and a weak
-count of 0. In the inner scope, we create <code>branch</code> and associate it with
-<code>leaf</code>, at which point when we print the counts, the <code>Rc&lt;Node&gt;</code> in <code>branch</code>
-will have a strong count of 1 and a weak count of 1 (for <code>leaf.parent</code> pointing
-to <code>branch</code> with a <code>Weak&lt;Node&gt;</code>). When we print the counts in <code>leaf</code>, we’ll see
-it will have a strong count of 2, because <code>branch</code> now has a clone of the
-<code>Rc&lt;Node&gt;</code> of <code>leaf</code> stored in <code>branch.children</code>, but will still have a weak
-count of 0.</p>
-<p>When the inner scope ends, <code>branch</code> goes out of scope and the strong count of
-the <code>Rc&lt;Node&gt;</code> decreases to 0, so its <code>Node</code> is dropped. The weak count of 1
-from <code>leaf.parent</code> has no bearing on whether or not <code>Node</code> is dropped, so we
-don’t get any memory leaks!</p>
-<p>If we try to access the parent of <code>leaf</code> after the end of the scope, we’ll get
-<code>None</code> again. At the end of the program, the <code>Rc&lt;Node&gt;</code> in <code>leaf</code> has a strong
-count of 1 and a weak count of 0, because the variable <code>leaf</code> is now the only
-reference to the <code>Rc&lt;Node&gt;</code> again.</p>
-<p>All of the logic that manages the counts and value dropping is built into
-<code>Rc&lt;T&gt;</code> and <code>Weak&lt;T&gt;</code> and their implementations of the <code>Drop</code> trait. By
-specifying that the relationship from a child to its parent should be a
-<code>Weak&lt;T&gt;</code> reference in the definition of <code>Node</code>, you’re able to have parent
-nodes point to child nodes and vice versa without creating a reference cycle
-and memory leaks.</p>
-<h2><a class="header" href="#summary-3" id="summary-3">Summary</a></h2>
-<p>This chapter covered how to use smart pointers to make different guarantees and
-trade-offs from those Rust makes by default with regular references. The
-<code>Box&lt;T&gt;</code> type has a known size and points to data allocated on the heap. The
-<code>Rc&lt;T&gt;</code> type keeps track of the number of references to data on the heap so
-that data can have multiple owners. The <code>RefCell&lt;T&gt;</code> type with its interior
-mutability gives us a type that we can use when we need an immutable type but
-need to change an inner value of that type; it also enforces the borrowing
-rules at runtime instead of at compile time.</p>
-<p>Also discussed were the <code>Deref</code> and <code>Drop</code> traits, which enable a lot of the
-functionality of smart pointers. We explored reference cycles that can cause
-memory leaks and how to prevent them using <code>Weak&lt;T&gt;</code>.</p>
-<p>If this chapter has piqued your interest and you want to implement your own
-smart pointers, check out <a href="../nomicon/index.html">“The Rustonomicon”</a> for more useful
-information.</p>
-<p>Next, we’ll talk about concurrency in Rust. You’ll even learn about a few new
-smart pointers.</p>
+<p><span class="caption">範例 15-29：在內部作用域建立 <code>branch</code> 並觀察強與弱引用計數</span></p>
+<p>在 <code>leaf</code> 建立後，它的 <code>Rc&lt;Node&gt;</code> 有強計數爲 1 與弱計數爲 0。在內部作用域中，我們建立了 <code>branch</code> 並與 <code>leaf</code> 做連結，此時當我們印出計數時，<code>branch</code> 的 <code>Rc&lt;Node&gt;</code> 會有強計數爲 1 與弱計數爲 1（因爲 <code>leaf.parent</code> 透過 <code>Weak&lt;Node&gt;</code> 指向 <code>branch</code>）。當我們印出 <code>leaf</code> 的計數時，我們會看到它會有強計數爲 2，因爲 <code>branch</code> 現在有個 <code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 克隆儲存在 <code>branch.children</code>，但弱計數仍爲 0。</p>
+<p>當內部作用域結束時，<code>branch</code> 會離開作用域且 <code>Rc&lt;Node&gt;</code> 的強計數會歸零，所以它的 <code>Node</code> 就會被釋放。<code>leaf.parent</code> 的弱計數 1 與 <code>Node</code> 是否被釋放無關，所以我們沒有產生任何記憶體泄漏！</p>
+<p>如果我們嘗試在作用域結束後取得 <code>leaf</code> 的父節點，我們會再次獲得 <code>None</code>。在程式的最後，<code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 強計數爲 1 且弱計數爲 0，因爲變數 <code>leaf</code> 現在是 <code>Rc&lt;Node&gt;</code> 唯一的引用。</p>
+<p>所有管理計數與數值釋放都已經實作在 <code>Rc&lt;T&gt;</code> 與 <code>Weak&lt;T&gt;</code>，它們都有 <code>Drop</code> 特的實作。在 <code>Node</code> 的定義中指定子節點對父節點的關係應爲 <code>Weak&lt;T&gt;</code> 引用，讓你能夠將父節點與子節點彼此關聯，且不必擔心產生引用循環與記憶體泄漏。</p>
+<h2><a class="header" href="#總結-11" id="總結-11">總結</a></h2>
+<p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設引用所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料分配到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的引用數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，其會在執行時強制檢測借用規則，而非編譯時。</p>
+<p>我們也討論了 <code>Deref</code> 與 <code>Drop</code> 特徵，這些對智慧指標提供了許多功能。我們探討了引用循環可能會導致記憶體泄漏以及如何使用 <code>Weak&lt;T&gt;</code> 避免它們。</p>
+<p>如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱<a href="../nomicon/index.html">「The Rustonomicon」</a>來學習更多實用資訊。</p>
+<p>接下來，我們將討論 Rust 的並行性。你還會在學到一些新的智慧指標。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-06-reference-cycles.md">e5ed971</a></li>
+<li>updated: 2020-09-20</li>
+</ul>
+</blockquote>
 <h1><a class="header" href="#fearless-concurrency" id="fearless-concurrency">Fearless Concurrency</a></h1>
 <p>Handling concurrent programming safely and efficiently is another of Rust’s
 major goals. <em>Concurrent programming</em>, where different parts of a program
@@ -16243,7 +16095,7 @@ information is that building new concurrent types not made up of <code>Send</cod
 <code>Sync</code> parts requires careful thought to uphold the safety guarantees. <a href="../nomicon/index.html">“The
 Rustonomicon”</a> has more information about these guarantees and how to
 uphold them.</p>
-<h2><a class="header" href="#summary-4" id="summary-4">Summary</a></h2>
+<h2><a class="header" href="#summary-3" id="summary-3">Summary</a></h2>
 <p>This isn’t the last you’ll see of concurrency in this book: the project in
 Chapter 20 will use the concepts in this chapter in a more realistic situation
 than the smaller examples discussed here.</p>
@@ -17695,7 +17547,7 @@ problem to take advantage of Rust’s features can provide benefits, such as
 preventing some bugs at compile time. Object-oriented patterns won’t always be
 the best solution in Rust due to certain features, like ownership, that
 object-oriented languages don’t have.</p>
-<h2><a class="header" href="#summary-5" id="summary-5">Summary</a></h2>
+<h2><a class="header" href="#summary-4" id="summary-4">Summary</a></h2>
 <p>No matter whether or not you think Rust is an object-oriented language after
 reading this chapter, you now know that you can use trait objects to get some
 object-oriented features in Rust. Dynamic dispatch can give your code some
@@ -18756,7 +18608,7 @@ reason is that we’ve used the struct field shorthand syntax. But we haven’t
 applied any test to the value in the <code>id</code> field in this arm, as we did with the
 first two arms: any value would match this pattern.</p>
 <p>Using <code>@</code> lets us test a value and save it in a variable within one pattern.</p>
-<h2><a class="header" href="#summary-6" id="summary-6">Summary</a></h2>
+<h2><a class="header" href="#summary-5" id="summary-5">Summary</a></h2>
 <p>Rust’s patterns are very useful in that they help distinguish between different
 kinds of data. When used in <code>match</code> expressions, Rust ensures your patterns
 cover every possible value, or your program won’t compile. Patterns in <code>let</code>
@@ -23042,7 +22894,7 @@ some ideas:</p>
 similar web server using the crate instead. Then compare its API and
 robustness to the thread pool we implemented.</li>
 </ul>
-<h2><a class="header" href="#summary-7" id="summary-7">Summary</a></h2>
+<h2><a class="header" href="#summary-6" id="summary-6">Summary</a></h2>
 <p>Well done! You’ve made it to the end of the book! We want to thank you for
 joining us on this tour of Rust. You’re now ready to implement your own Rust
 projects and help with other peoples’ projects. Keep in mind that there is a
@@ -23842,7 +23694,6 @@ of Rust.</p>
 <tr><td>Builder Pattern</td><td>生成器模式</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%BC%8F">維基百科</a></td></tr>
 <tr><td>byte</td><td>位元組</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E5%AD%97%E8%8A%82">維基百科</a></td></tr>
 <tr><td>camel case</td><td>駝峰式大小寫</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E9%A7%9D%E5%B3%B0%E5%BC%8F%E5%A4%A7%E5%B0%8F%E5%AF%AB">維基百科</a></td></tr>
-<tr><td>child</td><td>下代</td><td></td></tr>
 <tr><td>clone</td><td>克隆</td><td></td></tr>
 <tr><td>coerce</td><td>強制</td><td></td></tr>
 <tr><td>collection</td><td>集合</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E9%9B%86%E5%90%88_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">維基百科</a></td></tr>
@@ -23908,7 +23759,6 @@ of Rust.</p>
 <tr><td>ownership</td><td>所有權</td><td></td></tr>
 <tr><td>package</td><td>套件</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%BD%AF%E4%BB%B6%E5%8C%85">維基百科</a></td></tr>
 <tr><td>panic</td><td>恐慌</td><td></td></tr>
-<tr><td>parent</td><td>上代</td><td></td></tr>
 <tr><td>parse</td><td>分析、分析語法</td><td></td></tr>
 <tr><td>parser</td><td>語法分析器</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%AA%9E%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8">維基百科</a></td></tr>
 <tr><td>pattern</td><td>模式</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_(%E8%AE%A1%E7%AE%97%E6%9C%BA)">維基百科</a></td></tr>

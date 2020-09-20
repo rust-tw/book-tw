@@ -208,7 +208,7 @@
          └── take_payment
 </code></pre>
 <p><span class="caption">範例 7-2：範例 7-1 的模組樹</span></p>
-<p>此樹顯示了有些模組是包含在其他模組內的（比方說 <code>hosting</code> 就在 <code>front_of_house</code> 底下）。此樹也顯示了有些模組是其他模組的<em>同輩（siblings）</em>，代表它們是在同模組底下定義的（<code>hosting</code> 和 <code>serving</code> 都在 <code>front_of_house</code> 底下定義）。繼續沿用家庭來譬喻的話，如果模組 A 被包含在模組 B 中，我們會說模組 A 是模組 B 的<em>下代（child）</em>，而模組 B 是模組 A 的<em>上代（parent）</em>。注意到整個模組樹的源頭是一個隱性模組叫做 <code>crate</code>。</p>
+<p>此樹顯示了有些模組是包含在其他模組內的（比方說 <code>hosting</code> 就在 <code>front_of_house</code> 底下）。此樹也顯示了有些模組是其他模組的<em>同輩（siblings）</em>，代表它們是在同模組底下定義的（<code>hosting</code> 和 <code>serving</code> 都在 <code>front_of_house</code> 底下定義）。繼續沿用家庭來譬喻的話，如果模組 A 被包含在模組 B 中，我們會說模組 A 是模組 B 的<em>下一代（child）</em>，而模組 B 是模組 A 的<em>上一代（parent）</em>。注意到整個模組樹的源頭是一個隱性模組叫做 <code>crate</code>。</p>
 <p>模組樹可能會讓你想到電腦中檔案系統的目錄樹，這是一個非常恰當的比喻！就像檔案系統中的目錄，你使用模組來組織你的程式碼。而且就像目錄中的檔案，我們需要有方法可以找到我們的模組。</p>
 <blockquote>
 <ul>
