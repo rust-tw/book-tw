@@ -4,7 +4,7 @@ struct Pancakes;
 
 impl HelloMacro for Pancakes {
     fn hello_macro() {
-        println!("Hello, Macro! My name is Pancakes!");
+        println!("你好，巨集！我叫作鬆餅！");
     }
 }
 
