@@ -19,7 +19,7 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
     let gen = quote! {
         impl HelloMacro for #name {
             fn hello_macro() {
-                println!("Hello, Macro! My name is {}!", stringify!(#name));
+                println!("你好，巨集，我叫作{}！", stringify!(#name));
             }
         }
     };
