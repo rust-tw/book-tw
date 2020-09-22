@@ -1,89 +1,43 @@
 ## 可延展的並行與 `Sync` 及 `Send` 特徵
 
-Interestingly, the Rust language has *very* few concurrency features. Almost
-every concurrency feature we’ve talked about so far in this chapter has been
-part of the standard library, not the language. Your options for handling
-concurrency are not limited to the language or the standard library; you can
-write your own concurrency features or use those written by others.
+有一個有趣的點是 Rust 語言提供的並行功能並*沒有很多*。本章節討論到的並行功能幾乎都來自於標準函式庫，並不是語言本身。你能處理並行的選項並不限於語言或標準函式庫，你可以寫出你自己的並行功能或使用其他人提供的。
 
-However, two concurrency concepts are embedded in the language: the
-`std::marker` traits `Sync` and `Send`.
+然而，還有有兩個並行概念深植於語言中，那就是 `std::marker` 中的 `Sync` 與 `Send` 特徵。
 
-### Allowing Transference of Ownership Between Threads with `Send`
+### 透過 `Send` 來允許所有權能在執行緒間轉移
 
-The `Send` marker trait indicates that ownership of the type implementing
-`Send` can be transferred between threads. Almost every Rust type is `Send`,
-but there are some exceptions, including `Rc<T>`: this cannot be `Send` because
-if you cloned an `Rc<T>` value and tried to transfer ownership of the clone to
-another thread, both threads might update the reference count at the same time.
-For this reason, `Rc<T>` is implemented for use in single-threaded situations
-where you don’t want to pay the thread-safe performance penalty.
+`Send` 標記特徵（marker traits）指定有實作 `Send` 特徵的型別才能將其所有權在執行緒間轉移。幾乎所有的 Rust 型別都有 `Send`，但有些例外。這包含 `Rc<T>`，此型別沒有 `Send` 是因爲如果你克隆了 `Rc<T>` 數值並嘗試轉移克隆的所有權到其他執行緒，會有兩條執行緒可能同時更新引用引用計數。基於此原因，`Rc<T>` 是用於當你不想要付出執行緒安全效能開銷時而在單一執行緒使用的情況。
 
-Therefore, Rust’s type system and trait bounds ensure that you can never
-accidentally send an `Rc<T>` value across threads unsafely. When we tried to do
-this in Listing 16-14, we got the error `the trait Send is not implemented for
-Rc<Mutex<i32>>`. When we switched to `Arc<T>`, which is `Send`, the code
-compiled.
+因此 Rust 的型別系統與特徵界限確保你無法意外不安全地傳送 `Rc<T>` 數值到其他執行緒。當我們嘗試範例 16-14 時，我們就會得到錯誤 `the trait Send is not implemented for Rc<Mutex<i32>>`。當我們切換成有實作 `Send` 的 `Arc<T>` 的話，程式碼就能編譯通過。
 
-Any type composed entirely of `Send` types is automatically marked as `Send` as
-well. Almost all primitive types are `Send`, aside from raw pointers, which
-we’ll discuss in Chapter 19.
+任何由具有 `Send` 的型別所組成的型別也都會自動標記爲 `Send`。幾乎所有原始型別都是 `Send`，除了我們將在第十九章提及的裸指標（raw pointers）。
 
-### Allowing Access from Multiple Threads with `Sync`
+### 透過 `Sync` 來允許多重執行緒存取
 
-The `Sync` marker trait indicates that it is safe for the type implementing
-`Sync` to be referenced from multiple threads. In other words, any type `T` is
-`Sync` if `&T` (a reference to `T`) is `Send`, meaning the reference can be
-sent safely to another thread. Similar to `Send`, primitive types are `Sync`,
-and types composed entirely of types that are `Sync` are also `Sync`.
+`Sync` 標記特徵指定有實作 `Sync` 的型別都能安全從多個執行緒來引用。換句話說，對於任何型別 `T`，如果 `&T`（對 `T` 的引用）有 `Send` 的話，`T` 就是 `Sync` 的，這代表引用可以安全地傳給其他執行緒。與 `Send` 類似，原始型別都是 `Sync`，所以由具有 `Sync` 的型別所組成的型別也都有 `Sync`。
 
-The smart pointer `Rc<T>` is also not `Sync` for the same reasons that it’s not
-`Send`. The `RefCell<T>` type (which we talked about in Chapter 15) and the
-family of related `Cell<T>` types are not `Sync`. The implementation of borrow
-checking that `RefCell<T>` does at runtime is not thread-safe. The smart
-pointer `Mutex<T>` is `Sync` and can be used to share access with multiple
-threads as you saw in the [“Sharing a `Mutex<T>` Between Multiple
-Threads”][sharing-a-mutext-between-multiple-threads]<!-- ignore --> section.
+智慧指標 `Rc<T>` 沒有 `Sync` 的原因和沒有 `Send` 的原因一樣。`RefCell<T>` 型別（我們在第十五章提過）與其 `Cell<T>` 也都沒有 `Sync`。 `RefCell<T>` 在執行時的借用檢查實作沒有執行緒安全。智慧指標 `Mutex<T>` 才有 `Sync` 並能像你在[「在數個執行緒間共享 `Mutex<T>`」][sharing-a-mutext-between-multiple-threads]<!-- ignore -->段落看到的那樣用來在多個執行緒間分享存取。
 
-### Implementing `Send` and `Sync` Manually Is Unsafe
+### 手動實作 `Send` 與 `Sync` 是不安全的
 
-Because types that are made up of `Send` and `Sync` traits are automatically
-also `Send` and `Sync`, we don’t have to implement those traits manually. As
-marker traits, they don’t even have any methods to implement. They’re just
-useful for enforcing invariants related to concurrency.
+因爲由具有 `Send` 與 `Sync` 的型別組成的型別自動就會有 `Send` 與 `Sync`，我們不需要親自實作這些特徵。至於標記特徵，它們甚至沒有任何方法需要實作。它們只是用於強制確保並行相關的不變性。
 
-Manually implementing these traits involves implementing unsafe Rust code.
-We’ll talk about using unsafe Rust code in Chapter 19; for now, the important
-information is that building new concurrent types not made up of `Send` and
-`Sync` parts requires careful thought to uphold the safety guarantees. [“The
-Rustonomicon”][nomicon] has more information about these guarantees and how to
-uphold them.
+要手動實作這些特徵會需要實作不安全（unsafe）的 Rust 程式碼。我們會在第十九章討論如何使用不安全的 Rust 程式碼，現在最重要的資訊是要從不具有 `Send` 與 `Sync` 的元件來組成新的並行型別需要格外小心才能確保其安全保障。[「The Rustonomicon」][nomicon] 有更多關於這些保障與如何維持它們的資訊。
 
-## Summary
+## 總結
 
-This isn’t the last you’ll see of concurrency in this book: the project in
-Chapter 20 will use the concepts in this chapter in a more realistic situation
-than the smaller examples discussed here.
+這不會是你在本書中最後一次看到並行程式碼，第二十章的專案將會在更實際的場合中使用本章節的概念，而非這裡討論的簡單範例。
 
-As mentioned earlier, because very little of how Rust handles concurrency is
-part of the language, many concurrency solutions are implemented as crates.
-These evolve more quickly than the standard library, so be sure to search
-online for the current, state-of-the-art crates to use in multithreaded
-situations.
+如之前提過的，因爲 Rust 語言本身很少處理並行的部分，許多並行解決方案都實作成 crate。這些 crate 通常發展的比標準函式庫還快，所以別忘了到線上尋找目前最先進的 crate 來在多執行緒場合中使用喔。
 
-The Rust standard library provides channels for message passing and smart
-pointer types, such as `Mutex<T>` and `Arc<T>`, that are safe to use in
-concurrent contexts. The type system and the borrow checker ensure that the
-code using these solutions won’t end up with data races or invalid references.
-Once you get your code to compile, you can rest assured that it will happily
-run on multiple threads without the kinds of hard-to-track-down bugs common in
-other languages. Concurrent programming is no longer a concept to be afraid of:
-go forth and make your programs concurrent, fearlessly!
+Rust 標準函式庫提供訊息傳遞的通道與智慧指標，像是 `Mutex<T>` 與 `Arc<T>`，能夠在並行環境中安全使用。型別系統與借用檢查器中確保使用這些解決方案的程式碼不會發生資料競爭或是無效引用。一旦你讓你的程式碼能編譯通過後，你可以放心地認定它會開開心心地在多執行緒中執行，並且不會發生任何在其他語言中常見且難以追蹤的程式錯誤。並行程式設計就不再是個令人害怕的概念，無畏無懼地開發並行程式吧！
 
-Next, we’ll talk about idiomatic ways to model problems and structure solutions
-as your Rust programs get bigger. In addition, we’ll discuss how Rust’s idioms
-relate to those you might be familiar with from object-oriented programming.
+接下來，我們要討論當你的 Rust 程式成長時，定義出問題並組織解決辦法的慣用方案。除此之外，我們也將討論 Rust 有哪些與物件導向程式設計（object-oriented programming）類似的概念。
 
 [sharing-a-mutext-between-multiple-threads]:
-ch16-03-shared-state.html#sharing-a-mutext-between-multiple-threads
+ch16-03-shared-state.html#在數個執行緒間共享-mutext
 [nomicon]: ../nomicon/index.html
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch16-04-extensible-concurrency-sync-and-send.md)
+> - updated: 2020-09-22
