@@ -1,55 +1,27 @@
-## Shared-State Concurrency
+## 共享狀態並行
 
-Message passing is a fine way of handling concurrency, but it’s not the only
-one. Consider this part of the slogan from the Go language documentation again:
-“do not communicate by sharing memory.”
+訊息傳遞是個很好的並行處理方式，但它不是唯一。回憶一下之前 Go 語言技術文件中的口號：「別透過共享記憶體來溝通。」
 
-What would communicating by sharing memory look like? In addition, why would
-message-passing enthusiasts not use it and do the opposite instead?
+透過共享記憶體來溝通會是什麼樣子呢？除此之外，爲何訊息傳遞愛好者不喜歡這種方式並反其道而行呢？
 
-In a way, channels in any programming language are similar to single ownership,
-because once you transfer a value down a channel, you should no longer use that
-value. Shared memory concurrency is like multiple ownership: multiple threads
-can access the same memory location at the same time. As you saw in Chapter 15,
-where smart pointers made multiple ownership possible, multiple ownership can
-add complexity because these different owners need managing. Rust’s type system
-and ownership rules greatly assist in getting this management correct. For an
-example, let’s look at mutexes, one of the more common concurrency primitives
-for shared memory.
+任何程式語言的通道某方面來說類似於單一所有權，因爲一旦你轉移數值給通道，你就不該使用該數值。共享記憶體並行則像多重所有權，數個執行緒可以同時存取同個記憶體位置。如同你在第十五章所見到的，智慧指標讓多重所有權成爲可能，但多重所有權會增加複雜度，因爲我們會需要管理這些不同的擁有者。Rust 的型別系統與所有權規則大幅地協助了正確管理這些所有權。作爲範例就讓我們看看互斥鎖（mutexes），這是共享記憶體中常見的並行原始元件之一。
 
-### Using Mutexes to Allow Access to Data from One Thread at a Time
+### 使用互斥鎖在同時間只允許一條執行緒存取資料
 
-*Mutex* is an abbreviation for *mutual exclusion*, as in, a mutex allows only
-one thread to access some data at any given time. To access the data in a
-mutex, a thread must first signal that it wants access by asking to acquire the
-mutex’s *lock*. The lock is a data structure that is part of the mutex that
-keeps track of who currently has exclusive access to the data. Therefore, the
-mutex is described as *guarding* the data it holds via the locking system.
+*互斥鎖（Mutex）*是 *mutual exclusion* 的縮寫，顧名思義互斥鎖在任意時刻只允許一條執行緒可以存取一些資料。要取得互斥鎖中的資料，執行緒必須先透過獲取互斥鎖的*鎖（lock）*來表示它想要進行存取。鎖是互斥鎖其中一部分的資料結構，用來追蹤當前誰擁有資料的獨佔存取權。因此互斥鎖被描述爲會透過鎖定系統*守護（guarding）*其所持有的資料。
 
-Mutexes have a reputation for being difficult to use because you have to
-remember two rules:
+互斥鎖以難以使用著名，因爲你必須記住兩個規則：
 
-* You must attempt to acquire the lock before using the data.
-* When you’re done with the data that the mutex guards, you must unlock the
-  data so other threads can acquire the lock.
+* 你必須在使用資料前獲取鎖。
+* 當你用完互斥鎖守護的資料，你必須解鎖資料，所以其他的執行緒才能獲取鎖。
 
-For a real-world metaphor for a mutex, imagine a panel discussion at a
-conference with only one microphone. Before a panelist can speak, they have to
-ask or signal that they want to use the microphone. When they get the
-microphone, they can talk for as long as they want to and then hand the
-microphone to the next panelist who requests to speak. If a panelist forgets to
-hand the microphone off when they’re finished with it, no one else is able to
-speak. If management of the shared microphone goes wrong, the panel won’t work
-as planned!
+要用真實世界來比喻互斥鎖的話，想像在會議中有個座談會只有一支麥克風。如果有講者想要發言時，他們需要請求或示意他們想要使用麥克風。當他們取得麥克風時，他們想講多久都沒問題，直到將麥克風遞給下個要求發言的講者。如果講者講完後忘記將麥克風遞給其他人的話，就沒有人有辦法發言。如果麥克風的分享出狀況的話，座談會就無法如期進行！
 
-Management of mutexes can be incredibly tricky to get right, which is why so
-many people are enthusiastic about channels. However, thanks to Rust’s type
-system and ownership rules, you can’t get locking and unlocking wrong.
+互斥鎖的管理要正確處理是極爲困難的，這也是爲何這麼多人傾向於使用通道。然而有了 Rust 的型別系統與所有權規則，你就不會在鎖定與解鎖之間出錯了。
 
-#### The API of `Mutex<T>`
+#### `Mutex<T>` 的 API
 
-As an example of how to use a mutex, let’s start by using a mutex in a
-single-threaded context, as shown in Listing 16-12:
+作爲使用互斥鎖的範例，讓我們先在單執行緒使用互斥鎖，如範例 16-12 所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -57,44 +29,21 @@ single-threaded context, as shown in Listing 16-12:
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-12/src/main.rs}}
 ```
 
-<span class="caption">範例 16-12: Exploring the API of `Mutex<T>` in a
-single-threaded context for simplicity</span>
+<span class="caption">範例 16-12：基於簡便考量先用單一執行緒探討 `Mutex<T>` 的 API</span>
 
-As with many types, we create a `Mutex<T>` using the associated function `new`.
-To access the data inside the mutex, we use the `lock` method to acquire the
-lock. This call will block the current thread so it can’t do any work until
-it’s our turn to have the lock.
+就像許多型別一樣，我們使用關聯函式 `new` 建立 `Mutex<T>`。要取得互斥鎖內的資料，我們使用 `lock` 方法來獲取鎖。此呼叫會阻擋當前執行緒做任何事，直到輪到它取得鎖。
 
-The call to `lock` would fail if another thread holding the lock panicked. In
-that case, no one would ever be able to get the lock, so we’ve chosen to
-`unwrap` and have this thread panic if we’re in that situation.
+如果其他持有鎖的執行緒恐慌的話 `lock` 的呼該要就會失敗。在這樣的情況下，就沒有任何人可以獲得鎖，因此當我們遇到這種情況時，我們選擇 `unwrap` 並讓此執行緒恐慌。
 
-After we’ve acquired the lock, we can treat the return value, named `num` in
-this case, as a mutable reference to the data inside. The type system ensures
-that we acquire a lock before using the value in `m`: `Mutex<i32>` is not an
-`i32`, so we *must* acquire the lock to be able to use the `i32` value. We
-can’t forget; the type system won’t let us access the inner `i32` otherwise.
+在我們獲取鎖之後，我們在此例可以將回傳的數值取作 `num`，作爲內部資料的可變引用。型別系統能確保我們在使用數值 `m` 之前有獲取鎖，`Mutex<i32>` 並不是 `i32`，所以我們*必須*取得鎖才能使用 `i32` 數值。我們不可能會忘記這麼做，不然型別系統不會讓我們存取內部的 `i32`。
 
-As you might suspect, `Mutex<T>` is a smart pointer. More accurately, the call
-to `lock` *returns* a smart pointer called `MutexGuard`, wrapped in a
-`LockResult` that we handled with the call to `unwrap`. The `MutexGuard` smart
-pointer implements `Deref` to point at our inner data; the smart pointer also
-has a `Drop` implementation that releases the lock automatically when a
-`MutexGuard` goes out of scope, which happens at the end of the inner scope in
-Listing 16-12. As a result, we don’t risk forgetting to release the lock and
-blocking the mutex from being used by other threads because the lock release
-happens automatically.
+如同你所想像的，`Mutex<T>` 就是個智慧指標。更精確的來說，`lock` 的呼叫會*回傳*一個智慧指標叫做 `MutexGuard`，這是我們從 `LockResult` 呼叫 `unwrap` 取得的型別。`MutexGuard` 智慧指標有實作 `Deref` 特徵來指向我們的內部資料。此智慧指標也有 `Drop` 的實作，這會在 `MutexGuard` 離開作用域時自動釋放鎖，在範例 16-12 的內部作用域結尾就會執行此動作。這樣一來，我們就不會忘記釋放鎖，怕互斥鎖會阻擋其他執行緒，因爲鎖會自動被釋放。
 
-After dropping the lock, we can print the mutex value and see that we were able
-to change the inner `i32` to 6.
+在釋放鎖之後，我們就能印出互斥鎖的數值並觀察到我們能夠變更內部的 `i32` 爲 6。
 
-#### Sharing a `Mutex<T>` Between Multiple Threads
+#### 在數個執行緒間共享 `Mutex<T>`
 
-Now, let’s try to share a value between multiple threads using `Mutex<T>`.
-We’ll spin up 10 threads and have them each increment a counter value by 1, so
-the counter goes from 0 to 10. The next example in Listing 16-13 will have
-a compiler error, and we’ll use that error to learn more about using
-`Mutex<T>` and how Rust helps us use it correctly.
+現在讓我們來透過 `Mutex<T>` 來在數個執行緒間分享數值。我們會建立 10 個執行緒並讓它們都會對一個計數增加 1，讓計數能從 0 加到 10。作爲下個例子的範例 16-13 會出現一個編譯錯誤，我們會用此錯誤瞭解如何使用 `Mutex<T>` 以及 Rust 如何協助我們來正確使用它。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -102,41 +51,23 @@ a compiler error, and we’ll use that error to learn more about using
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-13/src/main.rs}}
 ```
 
-<span class="caption">範例 16-13: Ten threads each increment a counter
-guarded by a `Mutex<T>`</span>
+<span class="caption">範例 16-13：十個執行緒都會對 `Mutex<T>` 守護的計數增加 1</span>
 
-We create a `counter` variable to hold an `i32` inside a `Mutex<T>`, as we
-did in Listing 16-12. Next, we create 10 threads by iterating over a range
-of numbers. We use `thread::spawn` and give all the threads the same closure,
-one that moves the counter into the thread, acquires a lock on the `Mutex<T>`
-by calling the `lock` method, and then adds 1 to the value in the mutex. When a
-thread finishes running its closure, `num` will go out of scope and release the
-lock so another thread can acquire it.
+我們建立個變數 `counter` 並在 `Mutex<T>` 內存有 `i32`，就像我們在範例 16-12 所做的一樣。接著我們透過指定的範圍建立 10 個執行緒。我們使用 `thread::spawn` 讓所有的執行緒都有相同的閉包，此閉包會將計數移入執行緒、呼叫 `lock` 以獲取 `Mutex<T>` 的鎖，然後將互斥鎖內的數值加 1。當有執行緒執行完它的閉包時，`num` 會離開作用域並釋放鎖，讓其他的執行緒可以獲取它。
 
-In the main thread, we collect all the join handles. Then, as we did in Listing
-16-2, we call `join` on each handle to make sure all the threads finish. At
-that point, the main thread will acquire the lock and print the result of this
-program.
+在主執行緒中，我們要收集所有的執行緒。然後如同我們在範例 16-2 所做的，我們呼叫每個執行緒的 `join` 來確保所有執行緒都有完成。在這時候，主執行緒就能獲取鎖並印出此程式的結果。
 
-We hinted that this example wouldn’t compile. Now let’s find out why!
+我們曾暗示範例不會編譯過，讓我們看看是爲何吧！
 
 ```console
 {{#include ../listings/ch16-fearless-concurrency/listing-16-13/output.txt}}
 ```
 
-The error message states that the `counter` value was moved in the previous
-iteration of the loop. So Rust is telling us that we can’t move the ownership
-of lock `counter` into multiple threads. Let’s fix the compiler error with a
-multiple-ownership method we discussed in Chapter 15.
+錯誤訊息表示 `counter` 數值在之前的迴圈循環中被移動了，所以 Rust 告訴我們我們無法將 `counter` 鎖的所有權移至數個執行緒中。讓我們用第十五章提到的多重所有權方法來修正此編譯錯誤吧。
 
-#### Multiple Ownership with Multiple Threads
+#### 多重執行緒中的多重所有權
 
-In Chapter 15, we gave a value multiple owners by using the smart pointer
-`Rc<T>` to create a reference counted value. Let’s do the same here and see
-what happens. We’ll wrap the `Mutex<T>` in `Rc<T>` in Listing 16-14 and clone
-the `Rc<T>` before moving ownership to the thread. Now that we’ve seen the
-errors, we’ll also switch back to using the `for` loop, and we’ll keep the
-`move` keyword with the closure.
+在第十五章中，我們透過智慧指標 `Rc<T>` 來建立引用計數數值讓該資料可以擁有數個擁有者。讓我們在此也做同樣的動作來看看會發生什麼事。我們會在範例 16-14 將 `Mutex<T>` 封裝進 `Rc<T>` 並在將所有權移至執行緒前克隆 `Rc<T>`。現在既然我們已經知道到錯誤的原因，讓我們也改回使用 `for` 迴圈，並保留閉包的 `move` 關鍵字。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -144,54 +75,27 @@ errors, we’ll also switch back to using the `for` loop, and we’ll keep the
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-14/src/main.rs}}
 ```
 
-<span class="caption">範例 16-14: Attempting to use `Rc<T>` to allow
-multiple threads to own the `Mutex<T>`</span>
+<span class="caption">範例 16-14：嘗試使用 `Rc<T>` 來允許數個執行緒擁有 `Mutex<T>`</span>
 
-Once again, we compile and get... different errors! The compiler is teaching us
-a lot.
+再編譯一次的話我們會得到... 不同的錯誤！編譯器真的是教了我們很多事。
 
 ```console
 {{#include ../listings/ch16-fearless-concurrency/listing-16-14/output.txt}}
 ```
 
-Wow, that error message is very wordy! Here’s the important part to focus
-on: `` `Rc<Mutex<i32>>` cannot be sent between threads safely ``. The compiler
-is also telling us the reason why: ``the trait `Send` is not implemented for
-`Rc<Mutex<i32>>` ``. We’ll talk about `Send` in the next section: it’s one of
-the traits that ensures the types we use with threads are meant for use in
-concurrent situations.
+哇，這個錯誤訊息的內容真多！這是我們需要注意到的部分：`` `Rc<Mutex<i32>>` cannot be sent between threads safely ``。編譯器也告訴了我們原因：``the trait `Send` is not implemented for `Rc<Mutex<i32>>` ``。我們會在下一個段落討論 `Send`，這是其中一種確保我們在執行緒中所使用的型別可以用於並行場合的特徵。
 
-Unfortunately, `Rc<T>` is not safe to share across threads. When `Rc<T>`
-manages the reference count, it adds to the count for each call to `clone` and
-subtracts from the count when each clone is dropped. But it doesn’t use any
-concurrency primitives to make sure that changes to the count can’t be
-interrupted by another thread. This could lead to wrong counts—subtle bugs that
-could in turn lead to memory leaks or a value being dropped before we’re done
-with it. What we need is a type exactly like `Rc<T>` but one that makes changes
-to the reference count in a thread-safe way.
+不幸的是 `Rc<T>` 無法安全地跨執行緒分享。當 `Rc<T>` 管理引用計數時，它會在每個 `clone` 的呼叫增加計數，並在每個克隆釋放時減少計數。但是它沒有使用任何並行原始元件來確保計數的改變不會被其他執行緒中斷。這樣的計數可能會導致微妙的程式錯誤，像是記憶體泄漏或是在數值釋放時嘗試使用其值。我們需要一個型別和 `Rc<T>` 一模一樣，但是其引用計數在執行緒間是安全的。
 
-#### Atomic Reference Counting with `Arc<T>`
+#### 原子引用計數 `Arc<T>`
 
-Fortunately, `Arc<T>` *is* a type like `Rc<T>` that is safe to use in
-concurrent situations. The *a* stands for *atomic*, meaning it’s an *atomically
-reference counted* type. Atomics are an additional kind of concurrency
-primitive that we won’t cover in detail here: see the standard library
-documentation for [`std::sync::atomic`] for more details. At this point, you just
-need to know that atomics work like primitive types but are safe to share
-across threads.
+幸運的是 `Arc<T>` *正是*一個類似 `Rc<T>` 且能安全用在並行場合的型別。字母 *A* 指的是*原子性（atomic）* 代表這是個*原子性引用的計數*型別。原子型別是另一種我們不會在此討論的並行原始元件，你可以查閱標準函式庫的 [`std::sync::atomic`] 技術文件以瞭解更多詳情。在此你只需要知道原子型別和原始型別類似，但它們可以安全在執行緒間共享。
 
 [`std::sync::atomic`]: ../std/sync/atomic/index.html
 
-You might then wonder why all primitive types aren’t atomic and why standard
-library types aren’t implemented to use `Arc<T>` by default. The reason is that
-thread safety comes with a performance penalty that you only want to pay when
-you really need to. If you’re just performing operations on values within a
-single thread, your code can run faster if it doesn’t have to enforce the
-guarantees atomics provide.
+你可能會好奇爲何原始型別不是原子性的，以及爲何標準函式庫的型別預設不使用 `Arc<T>` 來實作。原因是因爲執行緒安全意味著效能開銷，你會希望在你真的需要時才買單。如果你只是在單一執行緒對數值做運算的話，你的程式碼就不必強制具有原子性的保障並能執行地更快。
 
-Let’s return to our example: `Arc<T>` and `Rc<T>` have the same API, so we fix
-our program by changing the `use` line, the call to `new`, and the call to
-`clone`. The code in Listing 16-15 will finally compile and run:
+讓我們回到我們的範例：`Arc<T>` 與 `Rc<T>` 具有相同的 API，所以我們透過更改 `use` 這行、`new` 的呼叫以及 `clone` 的呼叫來修正我們程式，。範例 16-15 的程式碼最終將能夠編譯並執行：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -199,10 +103,9 @@ our program by changing the `use` line, the call to `new`, and the call to
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-15/src/main.rs}}
 ```
 
-<span class="caption">範例 16-15: Using an `Arc<T>` to wrap the `Mutex<T>`
-to be able to share ownership across multiple threads</span>
+<span class="caption">範例 16-15：使用 `Arc<T>` 封裝 `Mutex<T>` 來在數個執行緒間分享所有權</span>
 
-This code will print the following:
+此程式碼會印出以下結果：
 
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
@@ -212,32 +115,16 @@ changes in the compiler -->
 Result: 10
 ```
 
-We did it! We counted from 0 to 10, which may not seem very impressive, but it
-did teach us a lot about `Mutex<T>` and thread safety. You could also use this
-program’s structure to do more complicated operations than just incrementing a
-counter. Using this strategy, you can divide a calculation into independent
-parts, split those parts across threads, and then use a `Mutex<T>` to have each
-thread update the final result with its part.
+我們辦到了！我們從 0 數到了 10，雖然看起來不是很令人印象深刻，但這的確教會了我們很多有關 `Mutex<T>` 與執行緒安全的知識。你也可以使用此程式結構來做更多複雜的運算，而不只是數數而已。使用此策略，你可以將運算拆成數個獨立部分，將它們分配給執行緒，然後使用 `Mutex<T>` 來讓每個執行緒更新該部分的結果。
 
-### Similarities Between `RefCell<T>`/`Rc<T>` and `Mutex<T>`/`Arc<T>`
+### `RefCell<T>`/`Rc<T>` 與 `Mutex<T>`/`Arc<T>` 之間的相似度
 
-You might have noticed that `counter` is immutable but we could get a mutable
-reference to the value inside it; this means `Mutex<T>` provides interior
-mutability, as the `Cell` family does. In the same way we used `RefCell<T>` in
-Chapter 15 to allow us to mutate contents inside an `Rc<T>`, we use `Mutex<T>`
-to mutate contents inside an `Arc<T>`.
+你可能已經注意到 `counter` 是不可變的，但我們卻可以取得數值其內部的可變引用，這代表 `Mutex<T>` 有提供內部可變性，就像 `Cell` 家族一樣。我們在第十五章也以相同的方式使用 `RefCell<T>` 來讓我們能改變 `Rc<T>` 內部的數值，而在此我們使用 `Mutex<T>` 改變 `Arc<T>` 內部的內容。
 
-Another detail to note is that Rust can’t protect you from all kinds of logic
-errors when you use `Mutex<T>`. Recall in Chapter 15 that using `Rc<T>` came
-with the risk of creating reference cycles, where two `Rc<T>` values refer to
-each other, causing memory leaks. Similarly, `Mutex<T>` comes with the risk of
-creating *deadlocks*. These occur when an operation needs to lock two resources
-and two threads have each acquired one of the locks, causing them to wait for
-each other forever. If you’re interested in deadlocks, try creating a Rust
-program that has a deadlock; then research deadlock mitigation strategies for
-mutexes in any language and have a go at implementing them in Rust. The
-standard library API documentation for `Mutex<T>` and `MutexGuard` offers
-useful information.
+另一個值得注意的細節是當你使用 `Mutex<T>` 時，Rust 無法避免所有種類的邏輯錯誤。 回憶一下第十五章使用 `Rc<T>` 時會有可能產生引用循環的風險，兩個 `Rc<T>` 數值可能會彼此引用，造成記憶體泄漏。同樣地，`Mutex<T>` 有產生*死結（deadlocks）*的風險。這會發生在當有個動作需要鎖定兩個資源，而有兩個執行緒分別擁有其中一個鎖，導致它們永遠都在等待彼此。如果你對此有興趣的話，歡迎嘗試建立一個有死結的 Rust 程式，然後研究看看任何語言中避免的互斥鎖死結的策略，並嘗試實作它們在 Rust 中。標準函式庫中 `Mutex<T>` 與 `MutexGuard` 的 API 技術文件可以提供些實用資訊。
 
-We’ll round out this chapter by talking about the `Send` and `Sync` traits and
-how we can use them with custom types.
+接下來在本章結尾我們會來討論 `Send` 與 `Sync` 特徵以及我們如何在自訂型別中使用它們。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch16-03-shared-state.md)
+> - updated: 2020-09-22
