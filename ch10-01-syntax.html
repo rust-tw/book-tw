@@ -309,7 +309,7 @@ error: could not compile `chapter10`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>要將結構體 <code>Point</code> 的 <code>x</code> 與 <code>y</code> 定義成擁有不同型別確仍然是泛型的話，我們可以使用多個泛型參數型別。舉例來說，在範例 10-8 我們改變了 <code>Point</code> 的定義爲擁有兩個泛型型別 <code>T</code> 與 <code>U</code>，<code>x</code> 擁有型別 <code>T</code> 而 <code>y</code> 擁有型別 <code>U</code>。</p>
+<p>要將結構體 <code>Point</code> 的 <code>x</code> 與 <code>y</code> 定義成擁有不同型別確仍然是泛型的話，我們可以使用多個泛型型別參數。舉例來說，在範例 10-8 我們改變了 <code>Point</code> 的定義爲擁有兩個泛型型別 <code>T</code> 與 <code>U</code>，<code>x</code> 擁有型別 <code>T</code> 而 <code>y</code> 擁有型別 <code>U</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T, U&gt; {
     x: T,
