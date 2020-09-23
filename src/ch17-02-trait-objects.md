@@ -1,70 +1,20 @@
 ## 允許不同型別數值的特徵物件
 
-In Chapter 8, we mentioned that one limitation of vectors is that they can
-store elements of only one type. We created a workaround in Listing 8-10 where
-we defined a `SpreadsheetCell` enum that had variants to hold integers, floats,
-and text. This meant we could store different types of data in each cell and
-still have a vector that represented a row of cells. This is a perfectly good
-solution when our interchangeable items are a fixed set of types that we know
-when our code is compiled.
+在第八章中，我們提及 vector 其中一項限制是它儲存的元素只能有一種型別。我們在範例 8-10 提出一個替代方案，那就是我們定義 `SpreadsheetCell` 枚舉且其變體能存有整數、浮點數與文字。這讓我們可以對每個元素儲存不同的型別，且 vector 仍能代表元素的集合。當我們的可變換的項目有固定的型別集合，而且我們在編譯程式碼時就知道的話，這的確是完美的解決方案。
 
-However, sometimes we want our library user to be able to extend the set of
-types that are valid in a particular situation. To show how we might achieve
-this, we’ll create an example graphical user interface (GUI) tool that iterates
-through a list of items, calling a `draw` method on each one to draw it to the
-screen—a common technique for GUI tools. We’ll create a library crate called
-`gui` that contains the structure of a GUI library. This crate might include
-some types for people to use, such as `Button` or `TextField`. In addition,
-`gui` users will want to create their own types that can be drawn: for
-instance, one programmer might add an `Image` and another might add a
-`SelectBox`.
+然而，有時我們會希望函式庫的使用者能夠在特定的情形下擴展型別的集合。爲了展示我們如何達成，我們來建立個圖形使用者介面（graphical user interface, GUI）工具範例來遍歷一個項目列表，呼叫其內每個項目的 `draw` 方法將其顯示在螢幕上，這是 GUI 工具常見的技巧。我們會建立個函式庫 crate 叫做 `gui`，這會包含 GUI 函式庫的結構體。此 crate 可能會包含一些人們會使用到的型別，像是 `Button` 或 `TextField`。除此之外，`gui` 使用者也能夠建立他們自己的型別來顯示出來。舉例來說，有些開發者可以加上 `Image` 而其他人可能會加上 `SelectBox`。
 
-We won’t implement a fully fledged GUI library for this example but will show
-how the pieces would fit together. At the time of writing the library, we can’t
-know and define all the types other programmers might want to create. But we do
-know that `gui` needs to keep track of many values of different types, and it
-needs to call a `draw` method on each of these differently typed values. It
-doesn’t need to know exactly what will happen when we call the `draw` method,
-just that the value will have that method available for us to call.
+我們在此例中不會實作出整個 GUI 函式庫，但會展示各個元件是怎麼組合起來的。在寫函式庫時，我們無法知道並定義開發者想建立出來的所有型別。但我們知道 `gui` 需要追蹤許多不同型別的數值，且它需要能夠對這些不同的型別數值呼叫 `draw` 方法。它不需要知道當我們呼叫 `draw` 方法時實際發生了什麼事，只需要知道該數值有我們可以呼叫的方法。
 
-To do this in a language with inheritance, we might define a class named
-`Component` that has a method named `draw` on it. The other classes, such as
-`Button`, `Image`, and `SelectBox`, would inherit from `Component` and thus
-inherit the `draw` method. They could each override the `draw` method to define
-their custom behavior, but the framework could treat all of the types as if
-they were `Component` instances and call `draw` on them. But because Rust
-doesn’t have inheritance, we need another way to structure the `gui` library to
-allow users to extend it with new types.
+在有具盛得語言中，我們可能會定義一個類型（class）叫做 `Component` 且其有個方法叫做 `draw`。其他的類型像是 `Button`、`Image` 和 `SelectBox` 等等，可以繼承 `Component` 以取得 `draw` 方法。它們可以覆寫 `draw` 方法來定義它們自己的自訂行爲，但是整個框架能將所有型別視爲像是 `Component` 實例來對待，並對它們呼叫 `draw`。但由於 Rust 並沒有繼承，我們需要其他方式來組織 `gui` 函式庫，好讓使用者可以透過新的型別來擴展它。
 
-### Defining a Trait for Common Behavior
+### 定義共同行爲的特徵
 
-To implement the behavior we want `gui` to have, we’ll define a trait named
-`Draw` that will have one method named `draw`. Then we can define a vector that
-takes a *trait object*. A trait object points to both an instance of a type
-implementing our specified trait as well as a table used to look up trait
-methods on that type at runtime. We create a trait object by specifying some
-sort of pointer, such as a `&` reference or a `Box<T>` smart pointer, then the
-`dyn` keyword, and then specifying the relevant trait. (We’ll talk about the
-reason trait objects must use a pointer in Chapter 19 in the section
-[“Dynamically Sized Types and the `Sized` Trait.”][dynamically-sized]<!--
-ignore -->) We can use trait objects in place of a generic or concrete type.
-Wherever we use a trait object, Rust’s type system will ensure at compile time
-that any value used in that context will implement the trait object’s trait.
-Consequently, we don’t need to know all the possible types at compile time.
+要定義我們希望 `gui` 能擁有的行爲，我們定義一個特徵叫做 `Draw` 並有個方法叫做 `draw`。然後我們可以定義一個接收*特徵物件（trait object）*的 vector。一個特徵物件會指向有實作指定特徵的型別以及一個在執行時尋找該型別方法的尋找表（look up table）。要建立特徵物件，我們指定一些指標，像是引用 `&` 或者智慧指標 `Box<T>`，然後加上 `dyn` 關鍵字與指定的相關特徵。（我們會在第十九章的[「動態大小型別與 `Sized` 特徵」][dynamically-sized]<!-- ignore -->段落討論特徵物件必須使用指標的原因）我們可以對泛型或實際型別使用特徵物件。當我們使用特徵物件時，Rust 的型別系統會確保在編譯時該段落使用到的任何數值都有實作特徵物件的特徵。於是我們就不必在編譯時知道所有可能的型別。
 
-We’ve mentioned that in Rust, we refrain from calling structs and enums
-“objects” to distinguish them from other languages’ objects. In a struct or
-enum, the data in the struct fields and the behavior in `impl` blocks are
-separated, whereas in other languages, the data and behavior combined into one
-concept is often labeled an object. However, trait objects *are* more like
-objects in other languages in the sense that they combine data and behavior.
-But trait objects differ from traditional objects in that we can’t add data to
-a trait object. Trait objects aren’t as generally useful as objects in other
-languages: their specific purpose is to allow abstraction across common
-behavior.
+我們提到在 Rust 中，我們避免將結構體和枚舉稱爲「物件」，來與其他語言的物件做區別。在結構體或枚舉中，結構你欄位中的資料與 `impl` 區塊的行爲是分開來的。在其他語言中，資料與行爲會組合成一個概念，也就是所謂的物件。然而特徵物件才比較像是其他語言中的物件，因爲這才會將資料與行爲組合起來。但特徵物件與傳統物件不同的地方在於，我們無法向特徵物件新增資料。特徵物件不像其他語言的物件那麼通用，它們是特別用於對共同行爲產生的抽象概念。
 
-Listing 17-3 shows how to define a trait named `Draw` with one method named
-`draw`:
+範例 17-3 定義了一個特徵叫做 `Draw` 以及一個方法叫做 `draw`：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -72,13 +22,9 @@ Listing 17-3 shows how to define a trait named `Draw` with one method named
 {{#rustdoc_include ../listings/ch17-oop/listing-17-03/src/lib.rs}}
 ```
 
-<span class="caption">範例 17-3: Definition of the `Draw` trait</span>
+<span class="caption">範例 17-3：`Draw` 特徵的定義</span>
 
-This syntax should look familiar from our discussions on how to define traits
-in Chapter 10. Next comes some new syntax: Listing 17-4 defines a struct named
-`Screen` that holds a vector named `components`. This vector is of type
-`Box<dyn Draw>`, which is a trait object; it’s a stand-in for any type inside
-a `Box` that implements the `Draw` trait.
+此語法和我們在第十章介紹過的特徵定義方式相同。接下來才是新語法用到的地方，範例 17-4 定義了一個結構體叫做 `Screen` 並持有個 vector 叫做 `components`。此 vector 的型別爲 `Box<dyn Draw>`，這是一個特徵物件，這代表 `Box` 內的任何型別都得有實作 `Draw` 特徵。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -86,12 +32,9 @@ a `Box` that implements the `Draw` trait.
 {{#rustdoc_include ../listings/ch17-oop/listing-17-04/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-4: Definition of the `Screen` struct with a
-`components` field holding a vector of trait objects that implement the `Draw`
-trait</span>
+<span class="caption">範例 17-4：定義結構體 `Screen` 且有個 `components` 欄位來持有一個實作 `Draw` 特徵的特徵物件 vector</span>
 
-On the `Screen` struct, we’ll define a method named `run` that will call the
-`draw` method on each of its `components`, as shown in Listing 17-5:
+在 `Screen` 結構體中，我們定義了一個方法叫做 `run` 來對其 `components` 呼叫 `draw` 方法，如範例 17-5 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -99,15 +42,9 @@ On the `Screen` struct, we’ll define a method named `run` that will call the
 {{#rustdoc_include ../listings/ch17-oop/listing-17-05/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-5: A `run` method on `Screen` that calls the
-`draw` method on each component</span>
+<span class="caption">範例 17-5：`Screen` 的方法 `run` 會呼叫每個 `component` 的 `draw` 方法</span>
 
-This works differently from defining a struct that uses a generic type
-parameter with trait bounds. A generic type parameter can only be substituted
-with one concrete type at a time, whereas trait objects allow for multiple
-concrete types to fill in for the trait object at runtime. For example, we
-could have defined the `Screen` struct using a generic type and a trait bound
-as in Listing 17-6:
+這與定義一個結構體並使用附有特徵界限的泛型型別參數的方式不相同。泛型型別參數一次只能替換成一個實際型別，特徵物件則是在執行時允許數個實際型別能填入特徵物件中。舉例來說，我們可以使用泛型型別與特徵界限來定義 `Screen`，如範例 17-6 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -115,26 +52,15 @@ as in Listing 17-6:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-06/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-6: An alternate implementation of the `Screen`
-struct and its `run` method using generics and trait bounds</span>
+<span class="caption">範例 17-6：`Screen` 結構體的另種實作方式，它的方法 `run` 則使用泛型與特徵界限</span>
 
-This restricts us to a `Screen` instance that has a list of components all of
-type `Button` or all of type `TextField`. If you’ll only ever have homogeneous
-collections, using generics and trait bounds is preferable because the
-definitions will be monomorphized at compile time to use the concrete types.
+這樣我們會限制 `Screen` 實例必須擁有一串全是 `Button` 型別或全是 `TextField` 型別的列表。如果你只會有同型別的集合，使用泛型與特徵界限的確是比較合適的，因爲其定義就會在編譯時單態化爲使用實際型別。
 
-On the other hand, with the method using trait objects, one `Screen` instance
-can hold a `Vec<T>` that contains a `Box<Button>` as well as a
-`Box<TextField>`. Let’s look at how this works, and then we’ll talk about the
-runtime performance implications.
+另一方面，透過使用特徵物件的方法，`Screen` 實例就能有個同時包含 `Box<Button>` 與 `Box<TextField>` 的 `Vec<T>`。 讓我們看看這如何辦到的，然後我們會討論其對執行時效能的影響。
 
-### Implementing the Trait
+### 實作特徵
 
-Now we’ll add some types that implement the `Draw` trait. We’ll provide the
-`Button` type. Again, actually implementing a GUI library is beyond the scope
-of this book, so the `draw` method won’t have any useful implementation in its
-body. To imagine what the implementation might look like, a `Button` struct
-might have fields for `width`, `height`, and `label`, as shown in Listing 17-7:
+現在我們來加上一些有實作 `Draw` 特徵的型別。我們會提供 `Button` 型別。再次重申 GUI 函式庫的實際實作超出了本書的範疇，所以 `draw` 的本體不會有任何有意義的實作。爲了想像該實作會像是什麼，`Button` 型別可能會有欄位 `width`、`height` 與 `label`，如範例 17-7 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -142,22 +68,11 @@ might have fields for `width`, `height`, and `label`, as shown in Listing 17-7:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-07/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-7: A `Button` struct that implements the
-`Draw` trait</span>
+<span class="caption">範例 17-7：結構體 `Button` 實作了 `Draw` 特徵</span>
 
-The `width`, `height`, and `label` fields on `Button` will differ from the
-fields on other components, such as a `TextField` type, that might have those
-fields plus a `placeholder` field instead. Each of the types we want to draw on
-the screen will implement the `Draw` trait but will use different code in the
-`draw` method to define how to draw that particular type, as `Button` has here
-(without the actual GUI code, which is beyond the scope of this chapter). The
-`Button` type, for instance, might have an additional `impl` block containing
-methods related to what happens when a user clicks the button. These kinds of
-methods won’t apply to types like `TextField`.
+在 `Button` 中的 `width`、`height` 與 `label` 欄位會與其他元件不同，像是 `TextField` 可能就會有前面所有的欄位在加上 `placeholder` 欄位。每個我們想在螢幕上顯示的型別都會實作 `Draw` 特徵，但在 `draw` 方法會使用不同程式碼來定義如何印出該特定型別，像是這裡的 `Button` 型別（不包含實際 GUI 程式碼，因爲這超出本章範疇）。舉例來說，`Button` 可能會有額外的 `impl` 區塊來包含使用者點擊按鈕時該如何反應的方法。這種方法就不適用於 `TextField`。
 
-If someone using our library decides to implement a `SelectBox` struct that has
-`width`, `height`, and `options` fields, they implement the `Draw` trait on the
-`SelectBox` type as well, as shown in Listing 17-8:
+如果有人想用我們的函式庫來實作個 `SelectBox` 結構體並擁有 `width`、`height` 與 `options` 欄位的話，他們也可以對 `SelectBox` 實作 `Draw` 特徵，如範例 17-8 所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -165,14 +80,9 @@ If someone using our library decides to implement a `SelectBox` struct that has
 {{#rustdoc_include ../listings/ch17-oop/listing-17-08/src/main.rs:here}}
 ```
 
-<span class="caption">範例 17-8: Another crate using `gui` and implementing
-the `Draw` trait on a `SelectBox` struct</span>
+<span class="caption">範例 17-8：別的 crate 使用 `gui` 來對 `SelectBox` 結構體實作 `Draw` 特徵</span>
 
-Our library’s user can now write their `main` function to create a `Screen`
-instance. To the `Screen` instance, they can add a `SelectBox` and a `Button`
-by putting each in a `Box<T>` to become a trait object. They can then call the
-`run` method on the `Screen` instance, which will call `draw` on each of the
-components. Listing 17-9 shows this implementation:
+我們的函式庫使用者現在可以在他們的 `main` 建立個 `Screen` 實例。在 `Screen` 實例中，他們可以透過將 `SelectBox` 會 `Button` 放入 `Box<T>` 來成爲特徵物件並加入元件中。他們接著就可以對 `Screen` 實例呼叫 `run` 方法，這會呼叫每個元件的 `draw` 方法。如範例 17-9 所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -180,33 +90,15 @@ components. Listing 17-9 shows this implementation:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-09/src/main.rs:here}}
 ```
 
-<span class="caption">範例 17-9: Using trait objects to store values of
-different types that implement the same trait</span>
+<span class="caption">範例 17-9：使用特徵物件來儲存實作相同特徵的不同型別數值</span>
 
-When we wrote the library, we didn’t know that someone might add the
-`SelectBox` type, but our `Screen` implementation was able to operate on the
-new type and draw it because `SelectBox` implements the `Draw` trait, which
-means it implements the `draw` method.
+我們在寫函式庫時，我們並不知道有人會想要新增 `SelectBox` 型別，但我們的 `Screen` 實作能夠運用新的型別並顯示出來，因爲 `SelectBox` 有實作 `Draw` 特徵，這代表它就有實作 `draw` 方法。
 
-This concept—of being concerned only with the messages a value responds to
-rather than the value’s concrete type—is similar to the concept of *duck
-typing* in dynamically typed languages: if it walks like a duck and quacks
-like a duck, then it must be a duck! In the implementation of `run` on `Screen`
-in Listing 17-5, `run` doesn’t need to know what the concrete type of each
-component is. It doesn’t check whether a component is an instance of a `Button`
-or a `SelectBox`, it just calls the `draw` method on the component. By
-specifying `Box<dyn Draw>` as the type of the values in the `components`
-vector, we’ve defined `Screen` to need values that we can call the `draw`
-method on.
+這種只在意數值回應的訊息而非數值實際型別的概念，類似於動態型別語言中*鴨子型別（duck typing）*的概念。如果它走起來像隻鴨子、叫起來像隻鴨子，那它必定是隻鴨子！在範例 17-5 中 `Screen` 的 `run` 實作不需要知道每個元件的實際型別爲何。它不會檢查一個元件是 `Button` 還是 `SelectBox` 實例，它只會呼叫元件的 `draw` 方法。透過指定 `Box<dyn Draw>` 來作爲 `components` vector 中的數值型別，我們定義 `Screen` 需要我們能夠呼叫 `draw` 方法的數值。
 
-The advantage of using trait objects and Rust’s type system to write code
-similar to code using duck typing is that we never have to check whether a
-value implements a particular method at runtime or worry about getting errors
-if a value doesn’t implement a method but we call it anyway. Rust won’t compile
-our code if the values don’t implement the traits that the trait objects need.
+我們使用特徵物件與 Rust 型別系統能寫出類似鴨子型別的程式碼，這樣的優勢在於我們在執行時永遠不必檢查一個數值有沒有實作特定方法，或擔心我們會不會呼叫了一個沒有實作該方法的數值而產生錯誤。如果數值沒有實作特徵物件要求的特徵的話，Rust 不會編譯通過我們的程式碼。
 
-For example, Listing 17-10 shows what happens if we try to create a `Screen`
-with a `String` as a component:
+舉例來說，範例 17-10 展示了要是我們嘗試使用 `String` 作爲元件來建立 `Screen` 的話會發生什麼事：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -214,68 +106,32 @@ with a `String` as a component:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-10/src/main.rs}}
 ```
 
-<span class="caption">範例 17-10: Attempting to use a type that doesn’t
-implement the trait object’s trait</span>
+<span class="caption">範例 17-10：嘗試使用沒有實作特徵物件的特徵的型別</span>
 
-We’ll get this error because `String` doesn’t implement the `Draw` trait:
+我們會因爲 `String` 沒有實作 `Draw` 特徵而得到錯誤：
 
 ```console
 {{#include ../listings/ch17-oop/listing-17-10/output.txt}}
 ```
 
-This error lets us know that either we’re passing something to `Screen` we
-didn’t mean to pass and we should pass a different type or we should implement
-`Draw` on `String` so that `Screen` is able to call `draw` on it.
+此錯誤讓我們知道要麼我們傳遞了不希望傳給 `Screen` 的型別所以應該要傳遞其他型別，要麼我們應該要對 `String` 實作 `Draw`，這樣 `Screen` 才能對其呼叫 `draw`。
 
-### Trait Objects Perform Dynamic Dispatch
+### 特徵物件執行動態調度
 
-Recall in the [“Performance of Code Using
-Generics”][performance-of-code-using-generics]<!-- ignore --> section in
-Chapter 10 our discussion on the monomorphization process performed by the
-compiler when we use trait bounds on generics: the compiler generates
-nongeneric implementations of functions and methods for each concrete type
-that we use in place of a generic type parameter. The code that results from
-monomorphization is doing *static dispatch*, which is when the compiler knows
-what method you’re calling at compile time. This is opposed to *dynamic
-dispatch*, which is when the compiler can’t tell at compile time which method
-you’re calling. In dynamic dispatch cases, the compiler emits code that at
-runtime will figure out which method to call.
+回想一下第十章的[「使用泛型的程式碼效能」][performance-of-code-using-generics]<!-- ignore -->段落我們討論過，當我們對泛型使用閉包時，編譯器會執行單態化（monomorphization）的過程。編譯器會在我們對每個用泛型型別參數取代的實際型別產生非泛型的函式與方法實作。單態化產生程式碼的動作會稱爲「靜態調度（static dispatch）」，這代表編譯器在編譯時知道我們呼叫的方法爲何。與其相反的則是*動態調度（dynamic dispatch）*，這種方式時編譯器在編譯時無法知道你呼叫的方法爲何。在動態調度的情況下，編譯器會生成在執行時能夠確定會呼叫何種方法的程式碼。
 
-When we use trait objects, Rust must use dynamic dispatch. The compiler doesn’t
-know all the types that might be used with the code that is using trait
-objects, so it doesn’t know which method implemented on which type to call.
-Instead, at runtime, Rust uses the pointers inside the trait object to know
-which method to call. There is a runtime cost when this lookup happens that
-doesn’t occur with static dispatch. Dynamic dispatch also prevents the compiler
-from choosing to inline a method’s code, which in turn prevents some
-optimizations. However, we did get extra flexibility in the code that we wrote
-in Listing 17-5 and were able to support in Listing 17-9, so it’s a trade-off
-to consider.
+當我們使用特徵物件時，Rust 必須使用動態調度。編譯器無法知道使用特徵物件的程式碼會使用到的所有型別爲何，所以它會不知道該呼叫哪個型別的哪個實作方法。取而代之的是，Rust 在執行時會使用特徵物件內部的指標來知道該呼叫哪個方法。這樣尋找的動作會產生靜待調度所沒有的執行時開銷。動態調度也讓編譯器無法選擇內聯（inline）方法的程式碼，這樣會因而阻止一些優化。不過我們的確對範例 17-5 的程式碼增加了額外的彈性，並能夠支援範例 17-9，所以這是個權衡取捨。
 
-### Object Safety Is Required for Trait Objects
+### 特徵物件要求物件安全
 
-You can only make *object-safe* traits into trait objects. Some complex rules
-govern all the properties that make a trait object safe, but in practice, only
-two rules are relevant. A trait is object safe if all the methods defined in
-the trait have the following properties:
+特徵物件只能使用*物件安全（object-safe）*的特徵。Rust 會有一些複雜的規則來檢測其屬性以確保特徵物件安全，不過實際上，我們只需要在意兩條規則。如果特徵定義的所有方法撙守以下屬性的話，該特徵就是物件安全的：
 
-* The return type isn’t `Self`.
-* There are no generic type parameters.
+* 回傳值不是 `Self`。
+* 沒有泛型型別參數。
 
-The `Self` keyword is an alias for the type we’re implementing the traits or
-methods on. Trait objects must be object safe because once you’ve used a trait
-object, Rust no longer knows the concrete type that’s implementing that trait.
-If a trait method returns the concrete `Self` type, but a trait object forgets
-the exact type that `Self` is, there is no way the method can use the original
-concrete type. The same is true of generic type parameters that are filled in
-with concrete type parameters when the trait is used: the concrete types become
-part of the type that implements the trait. When the type is forgotten through
-the use of a trait object, there is no way to know what types to fill in the
-generic type parameters with.
+`Self` 關鍵字是我們所實作特徵或方法的型別的別名。特徵物件必須是物件安全的，因爲一旦你使用特徵物件後，Rust 就無法知道實作該特徵的型別爲何。如果特徵方法回傳實際 `Self` 型別，但特徵物件忘記 `Self` 的確切型別的話，, 該方法不可能有辦法使用原本的實際型別。同理對於泛型型別參數來說，當特徵被使用到時，其就會填入實際的型別參數，實際型別變成了實作特徵的型別的一部分。當型別被使用的特徵物件遺忘時，就無從得知該填素何種泛型型別參數。
 
-An example of a trait whose methods are not object safe is the standard
-library’s `Clone` trait. The signature for the `clone` method in the `Clone`
-trait looks like this:
+標準函式庫中其中一個不是物件安全的特徵範例是 `Clone` 特徵。`Clone` 特徵中的 `clone` 方法簽名長得像這樣：
 
 ```rust
 pub trait Clone {
@@ -283,32 +139,28 @@ pub trait Clone {
 }
 ```
 
-The `String` type implements the `Clone` trait, and when we call the `clone`
-method on an instance of `String` we get back an instance of `String`.
-Similarly, if we call `clone` on an instance of `Vec<T>`, we get back an
-instance of `Vec<T>`. The signature of `clone` needs to know what type will
-stand in for `Self`, because that’s the return type.
+`String` 型別有實作 `Clone` 特徵，而當我們呼叫 `String` 實例的 `clone` 方法時，我們會取得 `String` 的實例。同樣地，如果我們呼叫 `Vec<T>` 的 `clone`，我們就會得到 `Vec<T>` 的實例。`clone` 的簽名需要知道 `Self` 的實際型別爲何，因爲這是它的回傳型別。
 
-The compiler will indicate when you’re trying to do something that violates the
-rules of object safety in regard to trait objects. For example, let’s say we
-tried to implement the `Screen` struct in Listing 17-4 to hold types that
-implement the `Clone` trait instead of the `Draw` trait, like this:
+當你嘗試違反特徵物件的物件安全規則時，編譯器會提醒警告你。舉例來說，假設我們嘗試實作範例 17-4 的 `Screen` 結構體爲改儲存實作 `Clone` 特徵的型別而非 `Draw` 特徵，如以下所示：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch17-oop/no-listing-01-trait-object-of-clone/src/lib.rs}}
 ```
 
-We would get this error:
+我們就會得到此錯誤：
 
 ```console
 {{#include ../listings/ch17-oop/no-listing-01-trait-object-of-clone/output.txt}}
 ```
 
-This error means you can’t use this trait as a trait object in this way. If
-you’re interested in more details on object safety, see [Rust RFC 255].
+此錯誤表示你不能這樣在特徵物件使用此特徵。如果你對物件安全的細節有興趣的話，歡迎查閱 [Rust RFC 255]。
 
 [Rust RFC 255]: https://github.com/rust-lang/rfcs/blob/master/text/0255-object-safety.md
 
 [performance-of-code-using-generics]:
-ch10-01-syntax.html#performance-of-code-using-generics
-[dynamically-sized]: ch19-04-advanced-types.html#dynamically-sized-types-and-the-sized-trait
+ch10-01-syntax.html#使用泛型的程式碼效能
+[dynamically-sized]: ch19-04-advanced-types.html#動態大小型別與-sized-特徵
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch17-02-trait-objects.md)
+> - updated: 2020-09-23

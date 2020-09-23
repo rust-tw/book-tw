@@ -76,7 +76,7 @@ fn largest<T>(list: &[T]) -> &T {
 {{#include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-07/output.txt}}
 ```
 
-要將結構體 `Point` 的 `x` 與 `y` 定義成擁有不同型別確仍然是泛型的話，我們可以使用多個泛型參數型別。舉例來說，在範例 10-8 我們改變了 `Point` 的定義爲擁有兩個泛型型別 `T` 與 `U`，`x` 擁有型別 `T` 而 `y` 擁有型別 `U`。
+要將結構體 `Point` 的 `x` 與 `y` 定義成擁有不同型別確仍然是泛型的話，我們可以使用多個泛型型別參數。舉例來說，在範例 10-8 我們改變了 `Point` 的定義爲擁有兩個泛型型別 `T` 與 `U`，`x` 擁有型別 `T` 而 `y` 擁有型別 `U`。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
