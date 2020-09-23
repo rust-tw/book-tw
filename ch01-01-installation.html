@@ -184,7 +184,7 @@
 <p>這道命令會下載一支腳本然後開始安裝 <code>rusup</code> 工具，接著安裝最新的穩定版 Rust。下載過程中可能會要求你輸入你的密碼。如果下載成功的話，將會出現以下內容：</p>
 <pre><code class="language-text">Rust is installed now. Great!
 </code></pre>
-<p>除此之外，你還會需要某種類型的連結器（linker）。這通常在你的系統上都已經安裝了，但如果你嘗試編譯 Rust 程式卻遇到連結器無法執行的錯誤時，這代表你的系統並未安裝，而你需要自行安裝一個。C 編譯器通常都會帶有一個正確的連結器，你可以檢查你的平台文件，查看如何下載 C 編譯器。此外，一些常見的 Rust 套件也會依賴 C 的程式，所以也需要 C 編譯器。因此最好還是一個比較好。</p>
+<p>除此之外，你還會需要某種類型的連結器（linker）。這通常在你的系統上都已經安裝了，但如果你嘗試編譯 Rust 程式卻遇到連結器無法執行的錯誤時，這代表你的系統並未安裝，而你需要自行安裝一個。C 編譯器通常都會帶有一個正確的連結器，你可以檢查你的平台文件，查看如何下載 C 編譯器。此外，一些常見的 Rust 套件也會依賴 C 的程式，所以也需要 C 編譯器。因此現在最好還是有安裝一個比較好。</p>
 <h3><a class="header" href="#在-windows-上安裝-rustup" id="在-windows-上安裝-rustup">在 Windows 上安裝 <code>rustup</code></a></h3>
 <p>在 Windows 上請前往<a href="https://www.rust-lang.org/zh-TW/tools/install">下載頁面</a>並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Build Tools for Visual Studio</a>。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，以及 Windows 10 SDK 和 英文語言包套件有包含在內。</p>
 <p>本書接下來使用的命令都相容於 <em>cmd.exe</em> 和 PowerShell。如果有特別不同的地方，我們會解釋該怎麼使用。</p>

@@ -167,45 +167,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#characteristics-of-object-oriented-languages" id="characteristics-of-object-oriented-languages">Characteristics of Object-Oriented Languages</a></h2>
-<p>There is no consensus in the programming community about what features a
-language must have to be considered object oriented. Rust is influenced by many
-programming paradigms, including OOP; for example, we explored the features
-that came from functional programming in Chapter 13. Arguably, OOP languages
-share certain common characteristics, namely objects, encapsulation, and
-inheritance. Let’s look at what each of those characteristics means and whether
-Rust supports it.</p>
-<h3><a class="header" href="#objects-contain-data-and-behavior" id="objects-contain-data-and-behavior">Objects Contain Data and Behavior</a></h3>
-<p>The book <em>Design Patterns: Elements of Reusable Object-Oriented Software</em> by
-Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides (Addison-Wesley
-Professional, 1994) colloquially referred to as <em>The Gang of Four</em> book, is a
-catalog of object-oriented design patterns. It defines OOP this way:</p>
+                        <h2><a class="header" href="#物件導向語言的特色" id="物件導向語言的特色">物件導向語言的特色</a></h2>
+<p>對於一個被視爲物件導向的語言該有哪些功能，在程式設計語言社群中並沒有達成共識。Rust 受到許多程式設計理念影響，這當然包括 OOP。舉例來說，我們在第十三章探討了源自於函式語言的特性。同樣地，OOP 語言有一些特定常見特色，諸如物件、封裝（encapsulation）與繼承（inheritance）。讓我們看看這些特色分別是什麼意思以及 Rust 有沒有支援。</p>
+<h3><a class="header" href="#物件包含資料與行爲" id="物件包含資料與行爲">物件包含資料與行爲</a></h3>
+<p>由 Erich Gamma、Richard Helm、Ralph Johnson 與 John Vlissides（Addison-Wesley Professional, 1994) 所寫的書 <em>Design Patterns: Elements of Reusable Object-Oriented Software</em> 俗稱爲 <em>The Gang of Four</em>，這是本物件導向設計模式的目錄。它是這樣定義 OOP 的：</p>
 <blockquote>
-<p>Object-oriented programs are made up of objects. An <em>object</em> packages both
-data and the procedures that operate on that data. The procedures are
-typically called <em>methods</em> or <em>operations</em>.</p>
+<p>物件導向程式由物件所組成。<em>物件</em>會包裝資料以及運作在資料上的行爲。此行爲常稱爲<em>方法（methods）<em>或</em>操作（operations）</em>。</p>
 </blockquote>
-<p>Using this definition, Rust is object oriented: structs and enums have data,
-and <code>impl</code> blocks provide methods on structs and enums. Even though structs and
-enums with methods aren’t <em>called</em> objects, they provide the same
-functionality, according to the Gang of Four’s definition of objects.</p>
+<p>在此定義下，Rust 是物件導向的，結構體與枚舉擁有資料，而 <code>impl</code> 區塊對結構體與枚舉提供方法。就算有方法的結構體與枚舉不會被稱爲<em>物件</em>，依據 Gang of Four 對物件的定義，它們還是有提供相同的功能。</p>
 <h3><a class="header" href="#隱藏實作細節的封裝" id="隱藏實作細節的封裝">隱藏實作細節的封裝</a></h3>
-<p>Another aspect commonly associated with OOP is the idea of <em>encapsulation</em>,
-which means that the implementation details of an object aren’t accessible to
-code using that object. Therefore, the only way to interact with an object is
-through its public API; code using the object shouldn’t be able to reach into
-the object’s internals and change data or behavior directly. This enables the
-programmer to change and refactor an object’s internals without needing to
-change the code that uses the object.</p>
-<p>We discussed how to control encapsulation in Chapter 7: we can use the <code>pub</code>
-keyword to decide which modules, types, functions, and methods in our code
-should be public, and by default everything else is private. For example, we
-can define a struct <code>AveragedCollection</code> that has a field containing a vector
-of <code>i32</code> values. The struct can also have a field that contains the average of
-the values in the vector, meaning the average doesn’t have to be computed
-on demand whenever anyone needs it. In other words, <code>AveragedCollection</code> will
-cache the calculated average for us. Listing 17-1 has the definition of the
-<code>AveragedCollection</code> struct:</p>
+<p>另外一個常和 OOP 相關的概念就是<em>封裝（encapsulation）</em>，這指的是物件的實作細節不會讓使用物件的程式碼取得。因此要與該物件互動的方式是透過它的公開 API，使用物件的程式碼不該有辦法觸及物件內部並直接變更資料的行爲。這讓程式設計師能變更並重構物件內部，無需擔心要變更使用物件的程式碼。</p>
+<p>我們在第七章討論過如何控制封裝，我們可以使用 <code>pub</code> 關鍵字來決定程式中的哪些模組、型別、函式與方法要公開出來，且預設一切都是私有的。舉例來說，我們可以定義個結構體 <code>AveragedCollection</code> 並有個欄位包含一個 <code>i32</code> 數值的 vector。此結構體還有個欄位包含 vector 數值的平均值，讓我們不必在每次呼叫時都得重新計算平均值。換句話說，<code>AveragedCollection</code> 會爲我們快取計算出的平均值。範例 17-1 展示了結構體 <code>AveragedCollection</code> 的定義：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -216,14 +188,9 @@ cache the calculated average for us. Listing 17-1 has the definition of the
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 17-1: An <code>AveragedCollection</code> struct that
-maintains a list of integers and the average of the items in the
+<p><span class="caption">範例 17-1：結構體 <code>AveragedCollection</code> 有個整數列表與集合中的項目平均值
 collection</span></p>
-<p>The struct is marked <code>pub</code> so that other code can use it, but the fields within
-the struct remain private. This is important in this case because we want to
-ensure that whenever a value is added or removed from the list, the average is
-also updated. We do this by implementing <code>add</code>, <code>remove</code>, and <code>average</code> methods
-on the struct, as shown in Listing 17-2:</p>
+<p>此結構體有 <code>pub</code> 標記所以其他程式碼可以使用它，但結構體內部的欄位是私有的。這在此例中是很重要的，因爲我們希望在有數值加入或移出列表時，平均值也能更新。我們會實作結構體的 <code>add</code>、<code>remove</code> 與 <code>average</code> 方法來達成，如範例 17-2 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -261,75 +228,30 @@ on the struct, as shown in Listing 17-2:</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 17-2: Implementations of the public methods
-<code>add</code>, <code>remove</code>, and <code>average</code> on <code>AveragedCollection</code></span></p>
-<p>The public methods <code>add</code>, <code>remove</code>, and <code>average</code> are the only ways to access
-or modify data in an instance of <code>AveragedCollection</code>. When an item is added
-to <code>list</code> using the <code>add</code> method or removed using the <code>remove</code> method, the
-implementations of each call the private <code>update_average</code> method that handles
-updating the <code>average</code> field as well.</p>
-<p>We leave the <code>list</code> and <code>average</code> fields private so there is no way for
-external code to add or remove items to the <code>list</code> field directly; otherwise,
-the <code>average</code> field might become out of sync when the <code>list</code> changes. The
-<code>average</code> method returns the value in the <code>average</code> field, allowing external
-code to read the <code>average</code> but not modify it.</p>
-<p>Because we’ve encapsulated the implementation details of the struct
-<code>AveragedCollection</code>, we can easily change aspects, such as the data structure,
-in the future. For instance, we could use a <code>HashSet&lt;i32&gt;</code> instead of a
-<code>Vec&lt;i32&gt;</code> for the <code>list</code> field. As long as the signatures of the <code>add</code>,
-<code>remove</code>, and <code>average</code> public methods stay the same, code using
-<code>AveragedCollection</code> wouldn’t need to change. If we made <code>list</code> public instead,
-this wouldn’t necessarily be the case: <code>HashSet&lt;i32&gt;</code> and <code>Vec&lt;i32&gt;</code> have
-different methods for adding and removing items, so the external code would
-likely have to change if it were modifying <code>list</code> directly.</p>
-<p>If encapsulation is a required aspect for a language to be considered object
-oriented, then Rust meets that requirement. The option to use <code>pub</code> or not for
-different parts of code enables encapsulation of implementation details.</p>
-<h3><a class="header" href="#inheritance-as-a-type-system-and-as-code-sharing" id="inheritance-as-a-type-system-and-as-code-sharing">Inheritance as a Type System and as Code Sharing</a></h3>
-<p><em>Inheritance</em> is a mechanism whereby an object can inherit from another
-object’s definition, thus gaining the parent object’s data and behavior without
-you having to define them again.</p>
-<p>If a language must have inheritance to be an object-oriented language, then
-Rust is not one. There is no way to define a struct that inherits the parent
-struct’s fields and method implementations. However, if you’re used to having
-inheritance in your programming toolbox, you can use other solutions in Rust,
-depending on your reason for reaching for inheritance in the first place.</p>
-<p>You choose inheritance for two main reasons. One is for reuse of code: you can
-implement particular behavior for one type, and inheritance enables you to
-reuse that implementation for a different type. You can share Rust code using
-default trait method implementations instead, which you saw in Listing 10-14
-when we added a default implementation of the <code>summarize</code> method on the
-<code>Summary</code> trait. Any type implementing the <code>Summary</code> trait would have the
-<code>summarize</code> method available on it without any further code. This is similar to
-a parent class having an implementation of a method and an inheriting child
-class also having the implementation of the method. We can also override the
-default implementation of the <code>summarize</code> method when we implement the
-<code>Summary</code> trait, which is similar to a child class overriding the
-implementation of a method inherited from a parent class.</p>
-<p>The other reason to use inheritance relates to the type system: to enable a
-child type to be used in the same places as the parent type. This is also
-called <em>polymorphism</em>, which means that you can substitute multiple objects for
-each other at runtime if they share certain characteristics.</p>
+<p><span class="caption">範例 17-2：對 <code>AveragedCollection</code> 實作公開方法 <code>add</code>、<code>remove</code> 與 <code>average</code></span></p>
+<p>公開的方法 <code>add</code>、<code>remove</code> 與 <code>average</code> 是存取或修改 <code>AveragedCollection</code> 實例資料的唯一方法。當有個項目透過 <code>add</code> 方法加入或透過 <code>remove</code> 方法移出 <code>list</code> 中時，每個方法會同時呼叫 <code>update_average</code> 方法來更新 <code>average</code> 欄位。</p>
+<p>我們讓 <code>list</code> 與 <code>average</code> 欄位維持私有，所以外部的程式碼不可能直接新增或移除 <code>list</code> 欄位的項目。不然的話，<code>average</code> 欄位可能就無法與變更的 <code>list</code> 同步了。<code>average</code> 方法會回傳 <code>average</code> 欄位的數值，讓外部程式碼能夠讀取 <code>average</code> 但不會修改它。</p>
+<p>由於我們封裝了 <code>AveragedCollection</code> 結構體的實作細節，我們可以在未來輕鬆變更像是資料結構等內部細節。舉例來說，我們可以用 <code>HashSet&lt;i32&gt;</code> 來替換 <code>list</code> 欄位的 <code>Vec&lt;i32&gt;</code>。只要 <code>add</code>、<code>remove</code> 與 <code>average</code> 的公開方法簽名維持一樣，使用到 <code>AveragedCollection</code> 的程式碼就不需要改變。如果我們讓 <code>list</code> 公開的話，情況可能就不相同了，<code>HashSet&lt;i32&gt;</code> 與 <code>Vec&lt;i32&gt;</code> 有不同的方法來新增和移除項目，所以外部的程式碼如果會直接修改 <code>list</code> 的話，可能會需要做些改變。</p>
+<p>如果封裝是物件導向的必備條件的話，Rust 也符合此條件。對程式碼中不同部分使用 <code>pub</code> 可以封裝實作細節。</p>
+<h3><a class="header" href="#作爲型別系統與程式碼共享來繼承" id="作爲型別系統與程式碼共享來繼承">作爲型別系統與程式碼共享來繼承</a></h3>
+<p>*繼承（Inheritance）*是指一個物件可以繼承其他物件定義的機制，使其可以獲取繼承物件的資料與行爲，不必再定義一次。</p>
+<p>如果一個語言一定要有繼承才算物件導向語言的話，那麼 Rust 就不是。在定義結構體時我們無法繼承父結構體欄位的方法實作。然而如果你在程式設計時常常用到繼承的話，依據你想使用繼承的原因，Rust 還是有提供其他方案。</p>
+<p>你選擇繼承通常會有兩個主要原因。第一個是想能重複使用程式碼，你可以定義一個型別的特定行爲，然後繼承讓你可以在不同的型別重複使用該實作。爲此你可以使用預設的特徵方法實作來分享 Rust 程式碼，你在範例 10-14 就有看到我們在 <code>Summary</code> 特徵加上的預設 <code>summarize</code> 方法實作。任何有實作 <code>Summary</code> 特徵的型別都不必加上更多程式碼就能有 <code>summarize</code> 可以呼叫。這就類似於父類型（class）實作的方法可以在繼承的子類型擁有該方法實作。我們也可以在實作 <code>Summary</code> 特徵時，覆寫 <code>summarize</code> 方法的預設實作，這就類似於子類型覆寫父類型的方法實作。</p>
+<p>另一個想使用繼承的原因與型別系統有關，讓子類型可以視爲父類型來使用。這也稱爲<em>多型（polymorphism）</em>，代表要是數個物件有共享特定特性的話，你可以在執行時彼此替換使用。</p>
 <blockquote>
-<h3><a class="header" href="#polymorphism" id="polymorphism">Polymorphism</a></h3>
-<p>To many people, polymorphism is synonymous with inheritance. But it’s
-actually a more general concept that refers to code that can work with data
-of multiple types. For inheritance, those types are generally subclasses.</p>
-<p>Rust instead uses generics to abstract over different possible types and
-trait bounds to impose constraints on what those types must provide. This is
-sometimes called <em>bounded parametric polymorphism</em>.</p>
+<h3><a class="header" href="#多型" id="多型">多型</a></h3>
+<p>對許多人來說，多型就是繼承的代名詞。不過這其實是個更通用的概念，用來指程式碼可適用於多種型別資料。而對繼承來說，這些型別通常都是子類型。</p>
+<p>Rust 則是使用泛型來抽象化不同可能的型別，並以特徵界限來加強約束這些型別必須提供的內容。這有時會稱爲<em>限定的參數多型（bounded parametric polymorphism）</em>。</p>
 </blockquote>
-<p>Inheritance has recently fallen out of favor as a programming design solution
-in many programming languages because it’s often at risk of sharing more code
-than necessary. Subclasses shouldn’t always share all characteristics of their
-parent class but will do so with inheritance. This can make a program’s design
-less flexible. It also introduces the possibility of calling methods on
-subclasses that don’t make sense or that cause errors because the methods don’t
-apply to the subclass. In addition, some languages will only allow a subclass
-to inherit from one class, further restricting the flexibility of a program’s
-design.</p>
-<p>For these reasons, Rust takes a different approach, using trait objects instead
-of inheritance. Let’s look at how trait objects enable polymorphism in Rust.</p>
+<p>近年來像繼承這種程式設計的解決方案在許多程式設計語言中都漸漸失寵了，因爲這經常有分享不必要程式碼的風險。子類型不應該永遠分享其父類型的所有特性，但繼承會這樣做。這會讓程式的設計較不具有彈性。這還可能產生不具意義或導致錯誤的子類型方法呼叫，因爲該方法不適用於子類型。除此之外，有些語言只會允許子類型繼承一個類型，進一步限制了程式設計的彈性。</p>
+<p>基於這些原因，Rust 採取了不同的方案，使用特徵物件（trait objects）而非繼承。讓我們看看 Rust 的特徵物件如何達成多型。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch17-01-what-is-oo.md">e5ed971</a></li>
+<li>updated: 2020-09-23</li>
+</ul>
+</blockquote>
 
                     </main>
 
