@@ -93,6 +93,7 @@ parse                  | 分析、分析語法                |
 parser                 | 語法分析器                    | 參考：[維基百科][parser]
 pattern                | 模式                          | 參考：[維基百科][pattern]
 pattern matching       | 模式配對                      | 參考：[中華民國資訊學會][pattern matching]
+placeholder            | 佔位符                        |
 plugins                | 外掛                          |
 pointer                | 指標                          | 參考：[維基百科][pointer]
 polymorphism           | 多型                          | 參考：[維基百科][polymorphism]
@@ -130,6 +131,7 @@ values                 | 值、數值                      |
 variables              | 變數                          |
 variant                | 變體                          |
 view                   | 視圖                          | 參考：[維基百科][view]
+wildcard               | 通配符                        |
 workspaces             | 工作空間                      |
 zero-cost abstractions | 無成本抽象化                  |
 
@@ -215,7 +217,6 @@ mata                   |                               |
 metaprogramming        |                               |
 non-strict             |                               |
 patches                |                               |
-placeholder            |                               |
 prelude                |                               | 預先載入的函式庫
 regression             |                               |
 repository             |                               |

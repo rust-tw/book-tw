@@ -108,10 +108,10 @@
 
 ## 進階主題
 
-- [Patterns and Matching](ch18-00-patterns.md)
-    - [All the Places Patterns Can Be Used](ch18-01-all-the-places-for-patterns.md)
-    - [Refutability: Whether a Pattern Might Fail to Match](ch18-02-refutability.md)
-    - [Pattern Syntax](ch18-03-pattern-syntax.md)
+- [模式與配對](ch18-00-patterns.md)
+    - [所有能使用模式的地方](ch18-01-all-the-places-for-patterns.md)
+    - [可反駁性：何時模式可能會配對失敗](ch18-02-refutability.md)
+    - [模式語法](ch18-03-pattern-syntax.md)
 
 - [進階特色](ch19-00-advanced-features.md)
     - [不安全的 Rust](ch19-01-unsafe-rust.md)

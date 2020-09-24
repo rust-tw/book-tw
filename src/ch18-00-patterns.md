@@ -1,28 +1,19 @@
 # 模式與配對
 
-模式（Patterns） are a special syntax in Rust for matching against the structure of
-types, both complex and simple. Using patterns in conjunction with `match`
-expressions and other constructs gives you more control over a program’s
-control flow. A pattern consists of some combination of the following:
+模式（Patterns）是 Rust 中的特殊語法，能用來配對複雜與簡單的型別結構。搭配 `match` 表達式與其他結構來使用模式的話，可以給予你對程式控制流更多的掌控權。模式與以下元件組合而成：
 
-* Literals
-* Destructured arrays, enums, structs, or tuples
-* Variables
-* Wildcards
-* Placeholders
+* 字面值（Literals）
+* 解構的陣列、枚舉結構體或元組
+* 變數
+* 通配符（Wildcards）
+* 佔位符（Placeholders）
 
-These components describe the shape of the data we’re working with, which we
-then match against values to determine whether our program has the correct data
-to continue running a particular piece of code.
+這些元件描述了我們要處理的資料行狀，讓我們可以與其數值配對來決定我們的程式是否有取得正確的資料來繼續執行特定部分的程式碼。
 
-To use a pattern, we compare it to some value. If the pattern matches the
-value, we use the value parts in our code. Recall the `match` expressions in
-Chapter 6 that used patterns, such as the coin-sorting machine example. If the
-value fits the shape of the pattern, we can use the named pieces. If it
-doesn’t, the code associated with the pattern won’t run.
+要是永模式，我們將其與一些數值做比較。如果模式配對到數值的話，我們就能在程式碼中使用該數值部分。回憶一下第六章中使用模式的 `match` 表達式，像是硬幣分類機器的範例。如果有數值符合模式的行狀，我們就可以使用這些命名的部分。如果沒有的話，配對相關的程式碼就不會執行。
 
-This chapter is a reference on all things related to patterns. We’ll cover the
-valid places to use patterns, the difference between refutable and irrefutable
-patterns, and the different kinds of pattern syntax that you might see. By the
-end of the chapter, you’ll know how to use patterns to express many concepts in
-a clear way.
+本章節會涵蓋所有與模式相關的內容。我們會討論能使用模式的地方，可反駁（refutable）與不可反駁（irrefutable）模式間的差別，以及不同種類的模式語法。在本章結束後，你便能知道如何使用模式來清楚表達許多概念。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch18-00-patterns.md)
+> - updated: 2020-09-24
