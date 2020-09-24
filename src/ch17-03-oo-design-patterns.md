@@ -1,36 +1,19 @@
-## Implementing an Object-Oriented Design Pattern
+## 實作物件導向設計模式
 
-The *state pattern* is an object-oriented design pattern. The crux of the
-pattern is that a value has some internal state, which is represented by a set
-of *state objects*, and the value’s behavior changes based on the internal
-state. The state objects share functionality: in Rust, of course, we use
-structs and traits rather than objects and inheritance. Each state object is
-responsible for its own behavior and for governing when it should change into
-another state. The value that holds a state object knows nothing about the
-different behavior of the states or when to transition between states.
+*狀態模式（state pattern）*是種物件導向設計模式。此模式的關鍵在於一個數值會有些內部狀態，會以*狀態物件（state objects）*呈現，然後數值的行爲會依據內部狀態而有所改變。狀態物件會分享功能，當然在 Rust 中我們使用結構體與特徵，而不是使用物件與繼承。每個狀態物件負責本身的行爲並監測何時要改變成其他狀態。持有狀態物件的數值不會知道狀態中不同的行爲，或是何時要轉換狀態。
 
-Using the state pattern means when the business requirements of the program
-change, we won’t need to change the code of the value holding the state or the
-code that uses the value. We’ll only need to update the code inside one of the
-state objects to change its rules or perhaps add more state objects. Let’s look
-at an example of the state design pattern and how to use it in Rust.
+使用狀態模式表示當我們程式的業務需求改變時，我們不需要改變持有狀態的數值或使用其數值的程式碼。我們只需要變更其中一個狀態物件的程式碼來改變其規則，或者新增更多狀態物件。讓我們看看狀態設計模式的範例，以及如何在 Rust 中使用。
 
-We’ll implement a blog post workflow in an incremental way. The blog’s final
-functionality will look like this:
+我們會漸進式地實作一個網誌文章工作流程。網誌最終的功能會長得像這樣：
 
-1. A blog post starts as an empty draft.
-2. When the draft is done, a review of the post is requested.
-3. When the post is approved, it gets published.
-4. Only published blog posts return content to print, so unapproved posts can’t
-   accidentally be published.
+1. 網誌文章從空白草稿開始。
+2. 當草稿完成時，請求審核文章。
+3. 當文章通過時，它就會被發佈。
+4. 只有發佈的網誌文章內容會顯示出來，所以沒被通過的文章不會被意外顯示出來。
 
-Any other changes attempted on a post should have no effect. For example, if we
-try to approve a draft blog post before we’ve requested a review, the post
-should remain an unpublished draft.
+其他任何對文章的修改不會有任何影響。舉例來說，如果我們嘗試在請求審核一個文章前，通過其他網誌文章草稿的話，該文章應維持未發佈的狀態。
 
-Listing 17-11 shows this workflow in code form: this is an example usage of the
-API we’ll implement in a library crate named `blog`. This won’t compile yet
-because we haven’t implemented the `blog` crate yet.
+此範例顯示了此工作流程的程式碼形式，這是個會用到我們等等會實作的函式庫 crate `blog` API 的範例。這目前還無法編譯，因爲我們還沒有實作 `blog`。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -38,40 +21,17 @@ because we haven’t implemented the `blog` crate yet.
 {{#rustdoc_include ../listings/ch17-oop/listing-17-11/src/main.rs:all}}
 ```
 
-<span class="caption">範例 17-11: Code that demonstrates the desired
-behavior we want our `blog` crate to have</span>
+<span class="caption">範例 17-11：展示我們所希望的 `blog` crate 預期行爲的程式碼</span>
 
-We want to allow the user to create a new draft blog post with `Post::new`.
-Then we want to allow text to be added to the blog post while it’s in the draft
-state. If we try to get the post’s content immediately, before approval,
-nothing should happen because the post is still a draft. We’ve added
-`assert_eq!` in the code for demonstration purposes. An excellent unit test for
-this would be to assert that a draft blog post returns an empty string from the
-`content` method, but we’re not going to write tests for this example.
+我們想要讓使用者能透過 `Post::new` 來建立新的網誌文章草稿，然後我們希望在草稿階段時能對網誌文章加入文字。如果我們想在通過前立即取得文章內容的話，我們什麼都不會看到，因爲該文章還只是個草稿。我們加入的 `assert_eq!` 在此只是作爲解釋目的。更好地做法是寫個判定網誌文章草稿是否會從 `content` 方法回傳空字串的單元測試，不過我們在此例不會寫任何測試。
 
-Next, we want to enable a request for a review of the post, and we want
-`content` to return an empty string while waiting for the review. When the post
-receives approval, it should get published, meaning the text of the post will
-be returned when `content` is called.
+接著，我們想要請求文章審核，且我們希望在等待審核時 `content` 仍是回傳空字串。當文章通過時，它就會被發佈，代表當 `content` 呼叫時，文章中的文字就會回傳。
 
-Notice that the only type we’re interacting with from the crate is the `Post`
-type. This type will use the state pattern and will hold a value that will be
-one of three state objects representing the various states a post can be
-in—draft, waiting for review, or published. Changing from one state to another
-will be managed internally within the `Post` type. The states change in
-response to the methods called by our library’s users on the `Post` instance,
-but they don’t have to manage the state changes directly. Also, users can’t
-make a mistake with the states, like publishing a post before it’s reviewed.
+注意到我們要使用此 crate 時只會接觸到到一個型別 `Post`。此型別會使用狀態模式，並持有個數值能包含三種狀態物件其中之一，來代表文章狀態可以是擬稿中、等待審核或已發佈。變更狀態由 `Post` 型別內部管理。狀態依據函式庫使用者對 `Post` 實例呼叫的方法而改變，但他們不用手動管理狀態的變更。而且使用者也不可能會在狀態中出錯，像是在審核前就發佈文章。
 
-### Defining `Post` and Creating a New Instance in the Draft State
+### 定義 `Post` 並在草稿階段建立新實例
 
-Let’s get started on the implementation of the library! We know we need a
-public `Post` struct that holds some content, so we’ll start with the
-definition of the struct and an associated public `new` function to create an
-instance of `Post`, as shown in Listing 17-12. We’ll also make a private
-`State` trait. Then `Post` will hold a trait object of `Box<dyn State>`
-inside an `Option<T>` in a private field named `state`. You’ll see why the
-`Option<T>` is necessary in a bit.
+讓我們開始實作出函式庫吧！我們知道我們需要一個公開的結構體 `Post` 來存有些內容，所以我們先從結構體的定義開始，它會有個公開的關聯函式 `new` 來建立 `Post` 的實例，如範例 17-12 所示。我們還會再定義一個私有的特徵 `State`。然後 `Post` 會有個私有欄位 `state` 來擁有 `Option<T>` 且其內會存有一個特徵物件 `Box<dyn State>`。你會在之後瞭解爲何 `Option<T>` 在此是必要的。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -79,31 +39,15 @@ inside an `Option<T>` in a private field named `state`. You’ll see why the
 {{#rustdoc_include ../listings/ch17-oop/listing-17-12/src/lib.rs}}
 ```
 
-<span class="caption">範例 17-12: Definition of a `Post` struct and a `new`
-function that creates a new `Post` instance, a `State` trait, and a `Draft`
-struct</span>
+<span class="caption">範例 17-12：`Post` 結構體、能建立新的 `Post` 實例的 `new` 函式、`State` 特徵與 `Draft` 結構體的定義</span>
 
-The `State` trait defines the behavior shared by different post states, and the
-`Draft`, `PendingReview`, and `Published` states will all implement the `State`
-trait. For now, the trait doesn’t have any methods, and we’ll start by defining
-just the `Draft` state because that is the state we want a post to start in.
+`State` 定義了不同文章狀態共享的行爲，而且`Draft`、`PendingReview` 與 `Published` 狀態都會實作 `State` 特徵。目前特徵還沒有任何方法，而且我們也只先定義 `Draft` 狀態，因爲這是文章的初始狀態。
 
-When we create a new `Post`, we set its `state` field to a `Some` value that
-holds a `Box`. This `Box` points to a new instance of the `Draft` struct. This
-ensures whenever we create a new instance of `Post`, it will start out as a
-draft. Because the `state` field of `Post` is private, there is no way to
-create a `Post` in any other state! In the `Post::new` function, we set the
-`content` field to a new, empty `String`.
+當我們建立新的 `Post`，我們對其 `state` 欄位給予存有 `Box` 的 `Some` 數值。此 `Box` 會指向一個新的 `Draft` 結構體實例。這確保每當我們建立 `Post` 的新實例時，它會從草稿起始。因爲 `Post` 的 `state` 欄位是私有的，我們沒有任何方法可以建立處於其他狀態的 `Post`！在 `Post::new` 函式中，我們設置 `content` 欄位爲一個新的空 `String`。
 
-### Storing the Text of the Post Content
+### 儲存文章內容的文字
 
-Listing 17-11 showed that we want to be able to call a method named
-`add_text` and pass it a `&str` that is then added to the text content of the
-blog post. We implement this as a method rather than exposing the `content`
-field as `pub`. This means we can implement a method later that will control
-how the `content` field’s data is read. The `add_text` method is pretty
-straightforward, so let’s add the implementation in Listing 17-13 to the `impl
-Post` block:
+範例 17-11 展示我們想要能夠呼叫一個叫做 `add_text` 的函式並傳入 `&str` 來對網誌文章增加文字內容。我們實作此方法，而不是將 `content` 欄位透過 `pub` 公開出去。這代表我們之後可意實作個方法來控制 `content` 欄位資料該怎麼讀取。`add_text` 方法非常直觀，所以讓我們在 `impl Post` 區塊中加上範例 17-13 的實作吧：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -111,27 +55,13 @@ Post` block:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-13/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-13: Implementing the `add_text` method to add
-text to a post’s `content`</span>
+<span class="caption">範例 17-13：實作 `add_text` 方法來將文字加入文章的 `content` 中</span>
 
-The `add_text` method takes a mutable reference to `self`, because we’re
-changing the `Post` instance that we’re calling `add_text` on. We then call
-`push_str` on the `String` in `content` and pass the `text` argument to add to
-the saved `content`. This behavior doesn’t depend on the state the post is in,
-so it’s not part of the state pattern. The `add_text` method doesn’t interact
-with the `state` field at all, but it is part of the behavior we want to
-support.
+`add_text` 方法接收 `self` 的可變引用，因爲我們在呼叫 `add_text` 時會改變 `Post` 實例。然後我們對 `content` 中的 `String` 呼叫`push_str`，並傳入 `text` 引數來存到 `content` 之中。此行爲與文章的狀態無關，所以它沒有被包含在狀態模式中。`add_text` 方法不會與 `state` 欄位有關係，但它是我們想支援的部分行爲之一。
 
-### Ensuring the Content of a Draft Post Is Empty
+### 確保文章草稿的內容爲空
 
-Even after we’ve called `add_text` and added some content to our post, we still
-want the `content` method to return an empty string slice because the post is
-still in the draft state, as shown on line 7 of Listing 17-11. For now, let’s
-implement the `content` method with the simplest thing that will fulfill this
-requirement: always returning an empty string slice. We’ll change this later
-once we implement the ability to change a post’s state so it can be published.
-So far, posts can only be in the draft state, so the post content should always
-be empty. Listing 17-14 shows this placeholder implementation:
+儘管我們已經能透過 `add_text` 來爲我們的文章加些內容，但我們還是希望 `content` 方法會回傳空字串 slice，因爲文章還在草稿階段中，如範例 17-11 的第七行所示。現在先讓我們用能滿足需求最簡單的方式來實作 `content` 方法，也就是永遠回傳空字串 slice。之後一旦我們實作出能改變文章狀態爲已發佈的能力，我們會回來修改這部分。目前文章只能處於草稿階段，所以文章內容應該要永遠爲空。範例 17-14 顯示了此暫時的實作方式：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -139,16 +69,13 @@ be empty. Listing 17-14 shows this placeholder implementation:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-14/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-14: Adding a placeholder implementation for
-the `content` method on `Post` that always returns an empty string slice</span>
+<span class="caption">範例 17-14：`Post` 暫時實作的 `content` 方法，這會永遠回傳一個空字串 slice</span>
 
-With this added `content` method, everything in Listing 17-11 up to line 7
-works as intended.
+透過此 `content` 方法，範例 17-11 的程式碼到地七行都能如期執行。
 
-### Requesting a Review of the Post Changes Its State
+### 請求文章審核來變更它的狀態
 
-Next, we need to add functionality to request a review of a post, which should
-change its state from `Draft` to `PendingReview`. Listing 17-15 shows this code:
+接下來，我們需要增加請求文章審核的功能，這會將其狀態從 `Draft` 變更爲 `PendingReview`。如範例 14-15 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -156,56 +83,25 @@ change its state from `Draft` to `PendingReview`. Listing 17-15 shows this code:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-15/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-15: Implementing `request_review` methods on
-`Post` and the `State` trait</span>
+<span class="caption">範例 17-15：對 `Post` 與 `State` 特徵實作的 `request_review` 方法</span>
 
-We give `Post` a public method named `request_review` that will take a mutable
-reference to `self`. Then we call an internal `request_review` method on the
-current state of `Post`, and this second `request_review` method consumes the
-current state and returns a new state.
+`Post` 現在有個公開方法叫做 `request_review`，這會接收 `self` 的可變引用。然後我們對 `Post` 目前的狀態呼叫其內部的 `request_review` 方法，然後此 `request_review` 方法會消耗目前的狀態並回傳新的狀態。
 
-We’ve added the `request_review` method to the `State` trait; all types that
-implement the trait will now need to implement the `request_review` method.
-Note that rather than having `self`, `&self`, or `&mut self` as the first
-parameter of the method, we have `self: Box<Self>`. This syntax means the
-method is only valid when called on a `Box` holding the type. This syntax takes
-ownership of `Box<Self>`, invalidating the old state so the state value of the
-`Post` can transform into a new state.
+我們對 `State` 特徵也加上了 `request_review` 方法，所有有實作此特徵的型別現在都需要實作 `request_review` 方法。注意到不同於擁有 `self`、`&self` 或 `&mut self` 來作爲方法的第一個參數，我們用的是 `self: Box<Self>`。此語法代表對持有型別的 `Box` 呼叫方法才有效。此語法取得 `Box<Self>` 的所有權，將舊的狀態無效化，讓 `Post` 的狀態數值可以轉換成新的狀態。
 
-To consume the old state, the `request_review` method needs to take ownership
-of the state value. This is where the `Option` in the `state` field of `Post`
-comes in: we call the `take` method to take the `Some` value out of the `state`
-field and leave a `None` in its place, because Rust doesn’t let us have
-unpopulated fields in structs. This lets us move the `state` value out of
-`Post` rather than borrowing it. Then we’ll set the post’s `state` value to the
-result of this operation.
+要消耗掉舊的狀態，`request_review` 方法需要取得狀態數值的所有權。這正是 `Post` 的 `state` 欄位中使用 `Option` 的用途，我們呼叫 `take` 方法來取得 `state` 欄位中 `Some` 的數值，並留下 `None`，因爲 Rust 不允許結構體的欄位爲空。這讓我們將 `Post` 的 `state` 移出來，而不只是借用。然後我們會將文章 `state` 數值設爲此運算的結果。
 
-We need to set `state` to `None` temporarily rather than setting it directly
-with code like `self.state = self.state.request_review();` to get ownership of
-the `state` value. This ensures `Post` can’t use the old `state` value after
-we’ve transformed it into a new state.
+我們需要暫時將 `state` 設爲 `None`，而非只是像這樣 `self.state = self.state.request_review();` 直接設置來取得 `state` 的數值。這確保 `Post` 不會在我們轉換到新狀態時，使用到舊的 `state` 數值。
 
-The `request_review` method on `Draft` needs to return a new, boxed instance of
-a new `PendingReview` struct, which represents the state when a post is waiting
-for a review. The `PendingReview` struct also implements the `request_review`
-method but doesn’t do any transformations. Rather, it returns itself, because
-when we request a review on a post already in the `PendingReview` state, it
-should stay in the `PendingReview` state.
+`Draft` 的 `request_review` 方法需要回傳一個新的結構體 `PendingReview` box 實例，這代表文章正在等待審核的狀態。`PendingReview` 結構體也實作了 `request_review` 方法但沒有做任何轉換。反之，它只會回傳自己，因爲當我們向已經處於 `PendingReview` 狀態的文章請求審核的話，它應該會維持 `PendingReview` 的狀態。
 
-Now we can start seeing the advantages of the state pattern: the
-`request_review` method on `Post` is the same no matter its `state` value. Each
-state is responsible for its own rules.
+現在我們可以開始看出狀態模式的優勢了，`Post` 的 `request_review` 方法不管其 `state` 數值爲何都是一樣的。每個狀態負責自己的規則。
 
-We’ll leave the `content` method on `Post` as is, returning an empty string
-slice. We can now have a `Post` in the `PendingReview` state as well as in the
-`Draft` state, but we want the same behavior in the `PendingReview` state.
-Listing 17-11 now works up to line 10!
+我們維持 `Post` 的方法 `content` 不變，依然回傳一個空字串 slice。我們現在的 `Post` 可以處於 `PendingReview` 狀態與 `Draft` 狀態，但我們想要 `PendingReview` 狀態也有相同的行爲。現在範例 17-11 可以運行到第十行了！
 
-### Adding the `approve` Method that Changes the Behavior of `content`
+### 新增改變 `content` 行爲的 `approve` 方法
 
-The `approve` method will be similar to the `request_review` method: it will
-set `state` to the value that the current state says it should have when that
-state is approved, as shown in Listing 17-16:
+`approve` 方法會類似於 `request_review` 方法，它會設置 `state` 的數值爲目前狀態審核通過時該處於的狀態，如範例 17-16 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -213,22 +109,13 @@ state is approved, as shown in Listing 17-16:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-16/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-16: Implementing the `approve` method on
-`Post` and the `State` trait</span>
+<span class="caption">範例 17-16：對 `Post` 與 `State` 特徵實作 `approve` 方法</span>
 
-We add the `approve` method to the `State` trait and add a new struct that
-implements `State`, the `Published` state.
+我們在 `State` 特徵加上 `approve` 方法，並新增一個也有實作 `State` 的新結構體 `Published` 特徵。
 
-Similar to `request_review`, if we call the `approve` method on a `Draft`, it
-will have no effect because it will return `self`. When we call `approve` on
-`PendingReview`, it returns a new, boxed instance of the `Published` struct.
-The `Published` struct implements the `State` trait, and for both the
-`request_review` method and the `approve` method, it returns itself, because
-the post should stay in the `Published` state in those cases.
+和 `request_review` 類似，如果我們對 `Draft` 呼叫 `approve` 方法，它不會有任何效果，因爲它會回傳 `self`。當我們對 `PendingReview` 呼叫 `approve`，它會回傳一個新的結構體 `Published` box 實例。`Published` 也有實作 `State` 特徵，對於 `request_review` 方法與 `approve` 方法，它只會回傳自己，因爲文章在這些情況下都應該維持 `Published` 狀態。
 
-Now we need to update the `content` method on `Post`: if the state is
-`Published`, we want to return the value in the post’s `content` field;
-otherwise, we want to return an empty string slice, as shown in Listing 17-17:
+現在我們需要更新 `Post` 的 `content` 方法，如果狀態是 `Published` 的話，我們想回傳文章的 `content` 欄位；不然的話，我們仍然回傳一個空字串 slice，如範例 17-17 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -236,34 +123,15 @@ otherwise, we want to return an empty string slice, as shown in Listing 17-17:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-17/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-17: Updating the `content` method on `Post` to
-delegate to a `content` method on `State`</span>
+<span class="caption">範例 17-17：更新 `Post` 的 `content` 方法來呼叫 `State` 的 `content` 方法</span>
 
-Because the goal is to keep all these rules inside the structs that implement
-`State`, we call a `content` method on the value in `state` and pass the post
-instance (that is, `self`) as an argument. Then we return the value that is
-returned from using the `content` method on the `state` value.
+因爲目標是將這些所有規則維持在實作 `State` 的結構體內，我們對 `state` 呼叫 `content` 方法並傳遞文章實例（也就是 `self`）來作爲引數。然後我們的回傳值就是對 `state` 數值使用 `content` 的回傳值。
 
-We call the `as_ref` method on the `Option` because we want a reference to the
-value inside the `Option` rather than ownership of the value. Because `state`
-is an `Option<Box<dyn State>>`, when we call `as_ref`, an `Option<&Box<dyn State>>` is
-returned. If we didn’t call `as_ref`, we would get an error because we can’t
-move `state` out of the borrowed `&self` of the function parameter.
+我們對 `Option` 呼叫 `as_ref` 方法，因爲我們希望取得 `Option` 內的數值引用，而不是該值的所有權。因爲 `state` 的型別是 `Option<Box<dyn State>>`，當我們呼叫 `as_ref` 時會回傳 `Option<&Box<dyn State>>`。如果我們沒有呼叫 `as_ref` 的話，我們會得到錯誤，因爲我們無法從借用的函式參數 `&self` 移動 `state`。
 
-We then call the `unwrap` method, which we know will never panic, because we
-know the methods on `Post` ensure that `state` will always contain a `Some`
-value when those methods are done. This is one of the cases we talked about in
-the [“Cases In Which You Have More Information Than the
-Compiler”][more-info-than-rustc]<!-- ignore --> section of Chapter 9 when we
-know that a `None` value is never possible, even though the compiler isn’t able
-to understand that.
+然後我們呼叫 `unwrap` 方法，我們知道這絕對不會恐慌，因爲我們知道當 `Post` 的方法完成執行時，它們會確保 `state` 永遠包含一個 `Some` 數值。這是我們在第九章的[「當你知道的比編譯器還多的時候」][more-info-than-rustc]<!-- ignore -->段落介紹過的其中一種情況。雖然編譯器不能理解，但我們知道永遠不可能會有 `None` 數值。
 
-At this point, when we call `content` on the `&Box<dyn State>`, deref coercion will
-take effect on the `&` and the `Box` so the `content` method will ultimately be
-called on the type that implements the `State` trait. That means we need to add
-`content` to the `State` trait definition, and that is where we’ll put the
-logic for what content to return depending on which state we have, as shown in
-Listing 17-18:
+此時當我們呼叫 `&Box<dyn State>` 的 `content`，強制解引用（deref coercion）對 `&` 與 `Box` 產生影響，讓 `content` 方法最終對有實作 `State` 特徵的型別呼叫。這代表我需要在 `State` 特徵定義加上 `content`，而這正是我們要填入依據狀態爲何來回傳何種內容的地方，如範例 17-18 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -271,91 +139,42 @@ Listing 17-18:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-18/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-18: Adding the `content` method to the `State`
-trait</span>
+<span class="caption">範例 17-18：在 `State` 特徵加上 `content` 方法</span>
 
-We add a default implementation for the `content` method that returns an empty
-string slice. That means we don’t need to implement `content` on the `Draft`
-and `PendingReview` structs. The `Published` struct will override the `content`
-method and return the value in `post.content`.
+我們對 `content` 方法加上預設實作來回傳一個空字串 slice。這代表我們不需要在 `Draft` 與 `PendingReview` 結構體實作 `content`。`Published` 結構體會覆寫 `content` 方法並回傳 `post.content` 的數值。
 
-Note that we need lifetime annotations on this method, as we discussed in
-Chapter 10. We’re taking a reference to a `post` as an argument and returning a
-reference to part of that `post`, so the lifetime of the returned reference is
-related to the lifetime of the `post` argument.
+注意到我們在此方法需要生命週期詮釋，如我們在第十章所討論到的。我們取得 `post` 的引用作爲引數並回傳 `post` 的部分引用，所以回傳引用的生命週期與 `post` 引數的生命週期有關聯。
 
-And we’re done—all of Listing 17-11 now works! We’ve implemented the state
-pattern with the rules of the blog post workflow. The logic related to the
-rules lives in the state objects rather than being scattered throughout `Post`.
+這樣就完成了！範例 17-11 可以成功執行！我們實作了網誌文章工作流程規則的狀態模式。規則邏輯會位於狀態物件中，而不會分散在 `Post` 中。
 
-### Trade-offs of the State Pattern
+### 狀態模式的權衡取捨
 
-We’ve shown that Rust is capable of implementing the object-oriented state
-pattern to encapsulate the different kinds of behavior a post should have in
-each state. The methods on `Post` know nothing about the various behaviors. The
-way we organized the code, we have to look in only one place to know the
-different ways a published post can behave: the implementation of the `State`
-trait on the `Published` struct.
+我們展示了 Rust 能夠實作出物件導向狀態模式，來封裝文章每個狀態之間不同的行爲。`Post` 的方法不會知道這些不同的行爲。我們組織程式碼的方式，讓我們可以只看一個地方就能知道已發佈文章會擁有的各種行爲，也就是實作 `State` 特徵的 `Published` 結構體。
 
-If we were to create an alternative implementation that didn’t use the state
-pattern, we might instead use `match` expressions in the methods on `Post` or
-even in the `main` code that checks the state of the post and changes behavior
-in those places. That would mean we would have to look in several places to
-understand all the implications of a post being in the published state! This
-would only increase the more states we added: each of those `match` expressions
-would need another arm.
+如果我們要建立個不使用狀態模式的替代實作，我們可能會在 `Post` 或甚至在 `main` 程式碼中改使用 `match` 表達式檢查文章狀態並變更行爲。這意味著我們得查看許多地方才能知道已發佈文章狀態的含義！而且當我們增加的狀態越多，每個 `match` 表達式就需要更多分支。
 
-With the state pattern, the `Post` methods and the places we use `Post` don’t
-need `match` expressions, and to add a new state, we would only need to add a
-new struct and implement the trait methods on that one struct.
+透過狀態模式，`Post` 方法以及我們使用 `Post` 的地方就不需要 `match` 表達式，而且要加入新的狀態的話，我們只需要新增一個結構體並對其實作特徵方法。
 
-The implementation using the state pattern is easy to extend to add more
-functionality. To see the simplicity of maintaining code that uses the state
-pattern, try a few of these suggestions:
+使用狀態模式的實作能非常容易地擴展功能。爲了觀察維護使用狀態模式的程式碼有多簡單，你可以嘗試以下一些建議：
 
-* Add a `reject` method that changes the post’s state from `PendingReview` back
-  to `Draft`.
-* Require two calls to `approve` before the state can be changed to `Published`.
-* Allow users to add text content only when a post is in the `Draft` state.
-  Hint: have the state object responsible for what might change about the
-  content but not responsible for modifying the `Post`.
+* 新增一個 `reject` 方法讓文章狀態從 `PendingReview` 變回 `Draft`。
+* 要求要呼叫兩次 `approve` 狀態才會變成 `Published`。
+* 只允許使用者在 `Draft` 狀態才能新增文字內容。提示：讓狀態物件負責內容會發生什麼改變，但不負責修改 `Post`。
 
-One downside of the state pattern is that, because the states implement the
-transitions between states, some of the states are coupled to each other. If we
-add another state between `PendingReview` and `Published`, such as `Scheduled`,
-we would have to change the code in `PendingReview` to transition to
-`Scheduled` instead. It would be less work if `PendingReview` didn’t need to
-change with the addition of a new state, but that would mean switching to
-another design pattern.
+不過狀態模式有個劣勢，由於狀態實作狀態的轉換，有些狀態之間是彼此耦合的。如果我們在 `PendingReview` 與 `Published` 之間再加上另一個狀態像是 `Scheduled` 的話，我們就需要變更 `PendingReview` 的程式碼改轉換成
+`Scheduled`。如果 `PendingReview` 不需要因爲新狀態的加入做改變的話，我們可以少寫些程式碼，但這就意味著切換成其他種設計模式。
 
-Another downside is that we’ve duplicated some logic. To eliminate some of the
-duplication, we might try to make default implementations for the
-`request_review` and `approve` methods on the `State` trait that return `self`;
-however, this would violate object safety, because the trait doesn’t know what
-the concrete `self` will be exactly. We want to be able to use `State` as a
-trait object, so we need its methods to be object safe.
+另一項劣勢是我們重複了一些邏輯。要消除掉一些重複的部分，我們可以是著對 `State` 的 `request_review` 和 `approve` 方法提供回傳 `self` 的預設實作。但是這樣就違反物件安全了，因爲特徵不知道 `self` 的實際型別爲何。我們想要能將 `State` 用在特徵物件中，所以它的方法必須是物件安全的。
 
-Other duplication includes the similar implementations of the `request_review`
-and `approve` methods on `Post`. Both methods delegate to the implementation of
-the same method on the value in the `state` field of `Option` and set the new
-value of the `state` field to the result. If we had a lot of methods on `Post`
-that followed this pattern, we might consider defining a macro to eliminate the
-repetition (see the [“Macros”][macros]<!-- ignore --> section in Chapter 19).
+另一個重複的部分包含 `Post` 的 `request_review` 與 `approve` 方法都以類似的方式實作。兩者均呼叫 `state` 欄位中 `Option` 內數值對應的相同方法。如果 `Post` 有很多方法都遵循這樣的模式的話，我們可以考慮定義巨集（macro）來消除重複的部分（請查閱第十九章的[「巨集」][macros]<!-- ignore -->段落）。
 
-By implementing the state pattern exactly as it’s defined for object-oriented
-languages, we’re not taking as full advantage of Rust’s strengths as we could.
-Let’s look at some changes we can make to the `blog` crate that can make
-invalid states and transitions into compile time errors.
+如其他物件導向語言所定義的來實作狀態模式，我們並沒有完全發揮出 Rust 的所有潛力。讓我們看看我們能對 `blog` crate 做些什麼改善，讓無效的狀態與轉換會產生成編譯時錯誤。
 
-#### Encoding States and Behavior as Types
+#### 定義狀態與行爲成型別
 
-We’ll show you how to rethink the state pattern to get a different set of
-trade-offs. Rather than encapsulating the states and transitions completely so
-outside code has no knowledge of them, we’ll encode the states into different
-types. Consequently, Rust’s type checking system will prevent attempts to use
-draft posts where only published posts are allowed by issuing a compiler error.
+我們會向你展示如何重新思考狀態模式，來達到不同的取捨效果。與其完全封裝狀態與轉換，讓外部程式碼完全看不到它們，我們會將狀態定義成不同的型別。這樣一來，Rust 的型別檢查系統就能避免在只能使用已發佈文章的地方使用到了文章草稿，並在編譯時就回傳錯誤。
 
-Let’s consider the first part of `main` in Listing 17-11:
+讓我們先想一下範例 17-11 中 `main` 的第一個部分：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -363,15 +182,7 @@ Let’s consider the first part of `main` in Listing 17-11:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-11/src/main.rs:here}}
 ```
 
-We still enable the creation of new posts in the draft state using `Post::new`
-and the ability to add text to the post’s content. But instead of having a
-`content` method on a draft post that returns an empty string, we’ll make it so
-draft posts don’t have the `content` method at all. That way, if we try to get
-a draft post’s content, we’ll get a compiler error telling us the method
-doesn’t exist. As a result, it will be impossible for us to accidentally
-display draft post content in production, because that code won’t even compile.
-Listing 17-19 shows the definition of a `Post` struct and a `DraftPost` struct,
-as well as methods on each:
+我們仍使用 `Post::new` 來建立新文章的草稿狀態以及能對文章內容新增文字的能力。但不同於在文章草稿的 `content` 方法中回傳空字串，我們這次選擇文章草稿不會實作 `content` 方法。這樣如果我們嘗試取得文章草稿內容時，我們會得到編譯錯誤告訴我們該方法不存在。如此一來，我們就不可能在生產環境意外顯示出文章草稿內容了，因爲程式碼根本不會編譯過。範例 17-19 顯示了 `Post` 結構體與 `DraftPost` 結構體的定義，以及它們個別的方法：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -379,35 +190,17 @@ as well as methods on each:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-19/src/lib.rs}}
 ```
 
-<span class="caption">範例 17-19: A `Post` with a `content` method and a
-`DraftPost` without a `content` method</span>
+<span class="caption">範例 17-19：`Post` 有 `content` 方法，而 `DraftPost` 則沒有 `content` 方法</span>
 
-Both the `Post` and `DraftPost` structs have a private `content` field that
-stores the blog post text. The structs no longer have the `state` field because
-we’re moving the encoding of the state to the types of the structs. The `Post`
-struct will represent a published post, and it has a `content` method that
-returns the `content`.
+`Post` 與 `DraftPost` 結構體都有個私有欄位 `content` 來儲存網誌文章文字。結構體不再有 `state` 欄位，因爲我們將狀態的定義移到了結構體的型別中。`Post` 結構體就代表已發佈的文章，且其有個 `content` 方法來回傳 `content`。
 
-We still have a `Post::new` function, but instead of returning an instance of
-`Post`, it returns an instance of `DraftPost`. Because `content` is private
-and there aren’t any functions that return `Post`, it’s not possible to create
-an instance of `Post` right now.
+我們仍然有 `Post::new` 函式，但是它沒有回傳 `Post` 實例，而是回傳了 `DraftPost` 的實例。因爲 `content` 是私有的，而且沒有任何函式回傳 `Post`，所以目前沒有任何辦法能建立 `Post` 的實例。
 
-The `DraftPost` struct has an `add_text` method, so we can add text to
-`content` as before, but note that `DraftPost` does not have a `content` method
-defined! So now the program ensures all posts start as draft posts, and draft
-posts don’t have their content available for display. Any attempt to get around
-these constraints will result in a compiler error.
+`DraftPost` 結構體有個 `add_text` 方法，所以我們可以像之前一樣爲 `content` 新增文字，但注意到 `DraftPost` 沒有定義 `content` 方法！所以現在程式確保所有文章都已草稿爲起始，而且文章草稿不會提供顯示其內容的方法。任何想嘗試繞過此限制的方式都會產生變意錯誤。
 
-#### Implementing Transitions as Transformations into Different Types
+#### 透過不同型別的轉移來實作狀態轉換
 
-So how do we get a published post? We want to enforce the rule that a draft
-post has to be reviewed and approved before it can be published. A post in the
-pending review state should still not display any content. Let’s implement
-these constraints by adding another struct, `PendingReviewPost`, defining the
-`request_review` method on `DraftPost` to return a `PendingReviewPost`, and
-defining an `approve` method on `PendingReviewPost` to return a `Post`, as
-shown in Listing 17-20:
+所以我們該怎麼取得發佈的文章呢？我們想要遵守執行的規則，文章草稿在審核並通過後才能夠發佈。在審核中的文章狀態應保持不顯示任何內容。讓我們新增另一個結構體 `PendingReviewPost` 來遵守這些限制吧。在 `DraftPost` 中訂一個會回傳 `PendingReviewPost` 的 `request_review` 方法，再對 `PendingReviewPost` 定義 `approve` 方法來回傳 `Post`，如範例 17-20 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -415,29 +208,11 @@ shown in Listing 17-20:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-20/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-20: A `PendingReviewPost` that gets created by
-calling `request_review` on `DraftPost` and an `approve` method that turns a
-`PendingReviewPost` into a published `Post`</span>
+<span class="caption">範例 17-20：呼叫 `DraftPost` 的 `request_review` 來建立 `PendingReviewPost`，且其有個 `approve` 方法能將 `PendingReviewPost` 轉換成已發佈的 `Post`</span>
 
-The `request_review` and `approve` methods take ownership of `self`, thus
-consuming the `DraftPost` and `PendingReviewPost` instances and transforming
-them into a `PendingReviewPost` and a published `Post`, respectively. This way,
-we won’t have any lingering `DraftPost` instances after we’ve called
-`request_review` on them, and so forth. The `PendingReviewPost` struct doesn’t
-have a `content` method defined on it, so attempting to read its content
-results in a compiler error, as with `DraftPost`. Because the only way to get a
-published `Post` instance that does have a `content` method defined is to call
-the `approve` method on a `PendingReviewPost`, and the only way to get a
-`PendingReviewPost` is to call the `request_review` method on a `DraftPost`,
-we’ve now encoded the blog post workflow into the type system.
+`request_review` 與 `approve` 方法都會取得 `self` 的所有權，因此會消耗 `DraftPost` 與 `PendingReviewPost` 實例，並分別轉換成 `PendingReviewPost` 與已發佈的 `Post`。這樣在我們呼叫 `request_review` 時，就不會有殘留的 `DraftPost` 實例，以此類推。`PendingReviewPost` 結構體也沒有定義 `content` 方法，所以嘗試讀取其內容會導致編譯錯誤，就如同 `DraftPost`。由於唯一能取得有 `content` 方法定義的已發佈 `Post` 是透過呼叫 `PendingReviewPost` 的 `approve` 方法，而唯一能取得 `PendingReviewPost` 的方法是呼叫 `DraftPost` 的 `request_review` 方法，我們現在將網誌文章工作流程寫進了型別系統中。
 
-But we also have to make some small changes to `main`. The `request_review` and
-`approve` methods return new instances rather than modifying the struct they’re
-called on, so we need to add more `let post =` shadowing assignments to save
-the returned instances. We also can’t have the assertions about the draft and
-pending review post’s contents be empty strings, nor do we need them: we can’t
-compile code that tries to use the content of posts in those states any longer.
-The updated code in `main` is shown in Listing 17-21:
+但我們也得對 `main` 做些小修改。`request_review` 與 `approve` 方法會回傳新的實例，而不是修改它們所呼叫的結構體，所以我們需要加些 `let post =` 來遮蔽賦值來儲存回傳的實例。我們也無法判定草稿與審核中的文章內容是否是空字串，不過我們其實也不需要它們，我們不再能編譯嘗試讀取這些狀態文章內容的程式碼了。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -445,46 +220,23 @@ The updated code in `main` is shown in Listing 17-21:
 {{#rustdoc_include ../listings/ch17-oop/listing-17-21/src/main.rs}}
 ```
 
-<span class="caption">範例 17-21: Modifications to `main` to use the new
-implementation of the blog post workflow</span>
+<span class="caption">範例 17-21：修改 `main` 來使用新的網誌文章工作流程實作</span>
 
-The changes we needed to make to `main` to reassign `post` mean that this
-implementation doesn’t quite follow the object-oriented state pattern anymore:
-the transformations between the states are no longer encapsulated entirely
-within the `Post` implementation. However, our gain is that invalid states are
-now impossible because of the type system and the type checking that happens at
-compile time! This ensures that certain bugs, such as display of the content of
-an unpublished post, will be discovered before they make it to production.
+我們修改 `main` 來重新賦值 `post` 意味著此實作不再遵循物件導向狀態模式了，狀態的轉換不再完全封裝在 `Post` 實作內部。然而我們得到的好處是的是無效狀態是不可能發生的了，這都多虧了型別系統與編譯時型別檢查！這確保了特定程式錯誤會在進入生產環境前就被察覺，像是顯示尚未發佈的文章內容。
 
-Try the tasks suggested for additional requirements that we mentioned at the
-start of this section on the `blog` crate as it is after Listing 17-20 to see
-what you think about the design of this version of the code. Note that some of
-the tasks might be completed already in this design.
+你可以試試看在範例 17-20 之後，對 `blog` crate 實作我們在此段落稍早提及的額外需求任務建議，來看看你覺得此版本的程式碼設計如何。注意有些任務很可能在此設計就已經實作完成了。
 
-We’ve seen that even though Rust is capable of implementing object-oriented
-design patterns, other patterns, such as encoding state into the type system,
-are also available in Rust. These patterns have different trade-offs. Although
-you might be very familiar with object-oriented patterns, rethinking the
-problem to take advantage of Rust’s features can provide benefits, such as
-preventing some bugs at compile time. Object-oriented patterns won’t always be
-the best solution in Rust due to certain features, like ownership, that
-object-oriented languages don’t have.
+我們看到儘管 Rust 能夠實作物件導向設計模式、其他像是將狀態寫入型別系統中的模式在 Rust 中也是可行的。這些模式有不同的取捨。雖然你可能非常熟悉物件導向模式，但重新思考問題，並善用 Rust 的特色可以帶來不少優勢，像是在執行時就避免錯誤發生。物件導向模式在 Rust 中不會永遠是最好的解決方案，因爲 Rust 有像是所有權這樣物件導向語言所沒有的特定功能。
 
-## Summary
+## 總結
 
-No matter whether or not you think Rust is an object-oriented language after
-reading this chapter, you now know that you can use trait objects to get some
-object-oriented features in Rust. Dynamic dispatch can give your code some
-flexibility in exchange for a bit of runtime performance. You can use this
-flexibility to implement object-oriented patterns that can help your code’s
-maintainability. Rust also has other features, like ownership, that
-object-oriented languages don’t have. An object-oriented pattern won’t always
-be the best way to take advantage of Rust’s strengths, but is an available
-option.
+無論你讀完此章後，認爲 Rust 是否屬於物件導向語言，你知道在 Rust 中你可以使用特徵物件來取得一些物件導向的特色。動態分配能給予你的程式碼更多的彈性，但會犧牲一點執行時效能。你可以使用此彈性來實作物件導向模式，幫助提升程式碼可維護性。Rust 還有其他像是所有權等物件導向語言所沒有的功能。物件導向模式不會永遠是善用 Rust 潛能的最佳方案，不過仍是個不錯的選項。
 
-Next, we’ll look at patterns, which are another of Rust’s features that enable
-lots of flexibility. We’ve looked at them briefly throughout the book but
-haven’t seen their full capability yet. Let’s go!
+接下來，我們要看看模式（patterns），這是 Rust 另一個可以提供大量彈性的功能。我們在書中一路下來簡單看過它們好幾次了，不過我們還沒見識到它們全部的本事。讓我們來探索吧！
 
-[more-info-than-rustc]: ch09-03-to-panic-or-not-to-panic.html#cases-in-which-you-have-more-information-than-the-compiler
+[more-info-than-rustc]: ch09-03-to-panic-or-not-to-panic.html#當你知道的比編譯器還多的時候
 [macros]: ch19-06-macros.html#macros
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch17-03-oo-design-patterns.md)
+> - updated: 2020-09-24
