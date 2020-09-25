@@ -167,41 +167,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#refutability-whether-a-pattern-might-fail-to-match" id="refutability-whether-a-pattern-might-fail-to-match">Refutability: Whether a Pattern Might Fail to Match</a></h2>
-<p>Patterns come in two forms: refutable and irrefutable. Patterns that will match
-for any possible value passed are <em>irrefutable</em>. An example would be <code>x</code> in the
-statement <code>let x = 5;</code> because <code>x</code> matches anything and therefore cannot fail
-to match. Patterns that can fail to match for some possible value are
-<em>refutable</em>. An example would be <code>Some(x)</code> in the expression <code>if let Some(x) = a_value</code> because if the value in the <code>a_value</code> variable is <code>None</code> rather than
-<code>Some</code>, the <code>Some(x)</code> pattern will not match.</p>
-<p>Function parameters, <code>let</code> statements, and <code>for</code> loops can only accept
-irrefutable patterns, because the program cannot do anything meaningful when
-values don’t match. The <code>if let</code> and <code>while let</code> expressions accept
-refutable and irrefutable patterns, but the compiler warns against
-irrefutable patterns because by definition they’re intended to handle possible
-failure: the functionality of a conditional is in its ability to perform
-differently depending on success or failure.</p>
-<p>In general, you shouldn’t have to worry about the distinction between refutable
-and irrefutable patterns; however, you do need to be familiar with the concept
-of refutability so you can respond when you see it in an error message. In
-those cases, you’ll need to change either the pattern or the construct you’re
-using the pattern with, depending on the intended behavior of the code.</p>
-<p>Let’s look at an example of what happens when we try to use a refutable pattern
-where Rust requires an irrefutable pattern and vice versa. Listing 18-8 shows a
-<code>let</code> statement, but for the pattern we’ve specified <code>Some(x)</code>, a refutable
-pattern. As you might expect, this code will not compile.</p>
+                        <h2><a class="header" href="#可反駁性何時模式可能會配對失敗" id="可反駁性何時模式可能會配對失敗">可反駁性：何時模式可能會配對失敗</a></h2>
+<p>模式有兩種形式：可反駁的（refutable）與不可反駁的（irrefutable）。可以配對任何可能數值的模式屬於<em>不可反駁的（irrefutable）</em>。其中一個例子就是陳述式 <code>let x = 5;</code> 中的 <code>x</code>，因爲 <code>x</code> 可以配對任何數值，因此不可能會配對失敗。而可能會對某些數值配對失敗的模式則屬於<em>可反駁的（refutable）</em>。其中一個例子是表達式 <code>if let Some(x) = a_value</code> 中的 <code>Some(x)</code>，因爲如果 <code>a_value</code> 變數中的數值爲 <code>None</code> 而非 <code>Some</code> 的話， <code>Some(x)</code> 模式就會配對失敗。</p>
+<p>函式參數、<code>let</code> 陳述式與 <code>for</code> 迴圈只能接受不可反駁的模式，當數值無法配對時，程式無法作出任何有意義的事。<code>if let</code> 與 <code>while let</code> 表達式接受可反駁與不可反駁的模式，但是編譯器會警告不可反駁的模式，因爲定義上來說它們用來處理可能會失敗的場合，條件表達式的功能就是依據成功或失敗來執行不同動作。</p>
+<p>大致上來說，你通常不需要擔心可反駁與不可反駁模式之間的區別，不過你會需要熟悉可反駁性這樣的概念，所以當你看到錯誤訊息時，能及時反應理解。在這樣的場合，你需要依據程式碼的預期行外來改變模式或是使用模式的結構。</p>
+<p>讓我們看看當我們嘗試在 Rust 要求不可反駁模式的地方使用可反駁模式的範例與其反例。範例 18-8 顯示了一個 <code>let</code> 陳述式，但是我們指定的模式是 <code>Some(x)</code>，這是可反駁模式。如我們所預期的，此程式碼無法編譯。</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span><span class="boring">    let some_option_value: Option&lt;i32&gt; = None;
 </span>    let Some(x) = some_option_value;
 <span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 18-8: Attempting to use a refutable pattern with
-<code>let</code></span></p>
-<p>If <code>some_option_value</code> was a <code>None</code> value, it would fail to match the pattern
-<code>Some(x)</code>, meaning the pattern is refutable. However, the <code>let</code> statement can
-only accept an irrefutable pattern because there is nothing valid the code can
-do with a <code>None</code> value. At compile time, Rust will complain that we’ve tried to
-use a refutable pattern where an irrefutable pattern is required:</p>
+<p><span class="caption">範例 18-8：嘗試在 <code>let</code> 使用可反駁模式</span></p>
+<p>如果 <code>some_option_value</code> 是數值 <code>None</code>，它會無法與模式 <code>Some(x)</code> 做配對，這意味著此模式是可反駁的。但是 <code>let</code> 陳述式只能接受不可反駁的模式，因爲 程式碼對 <code>None</code> 數值就無法作出任何有效的動作。在編譯時 Rust 就會抱怨我們嘗試在需要不可反駁模式的地方使用了可反駁模式：</p>
 <pre><code class="language-console">$ cargo run
    Compiling patterns v0.1.0 (file:///projects/patterns)
 error[E0005]: refutable pattern in local binding: `None` not covered
@@ -224,13 +201,8 @@ error: could not compile `patterns`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>Because we didn’t cover (and couldn’t cover!) every valid value with the
-pattern <code>Some(x)</code>, Rust rightfully produces a compiler error.</p>
-<p>To fix the problem where we have a refutable pattern where an irrefutable
-pattern is needed, we can change the code that uses the pattern: instead of
-using <code>let</code>, we can use <code>if let</code>. Then if the pattern doesn’t match, the code
-will just skip the code in the curly brackets, giving it a way to continue
-validly. Listing 18-9 shows how to fix the code in Listing 18-8.</p>
+<p>因爲 <code>Some(x)</code> 模式沒有涵蓋（且也涵蓋不了！）所有有效的數值，Rust 合理地產生了編譯錯誤。</p>
+<p>要修正在需要不可反駁模式的地方使用可反駁模式的錯誤，我們可以變更使用此模式的程式碼，與其使用 <code>let</code>，我們可以改用 <code>if let</code>。這樣如果模式不符的話，程式碼就會跳過大括號鐘的程式碼，讓我們可以繼續有效執行下去。範例 18-9 顯示了如何修正範例 18-8 的程式碼。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let some_option_value: Option&lt;i32&gt; = None;
 </span>    if let Some(x) = some_option_value {
@@ -238,21 +210,16 @@ validly. Listing 18-9 shows how to fix the code in Listing 18-8.</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 18-9: Using <code>if let</code> and a block with refutable
-patterns instead of <code>let</code></span></p>
-<p>We’ve given the code an out! This code is perfectly valid, although it means we
-cannot use an irrefutable pattern without receiving an error. If we give <code>if let</code> a pattern that will always match, such as <code>x</code>, as shown in Listing 18-10,
-the compiler will give a warning.</p>
+<p><span class="caption">範例 18-9：使用 <code>if let</code> 而非 <code>let</code> 來使用可反駁模式</span></p>
+<p>我們給了程式碼出路！此程式碼可以完美執行，雖然這也代表我們使用不可反駁模式的話會得到一些警告。如果我們給予 <code>if let</code> 一個像是 <code>x</code> 這樣永遠能配對的模式的話，編譯器會出現警告，如範例 18-10 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    if let x = 5 {
         println!(&quot;{}&quot;, x);
     };
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 18-10: Attempting to use an irrefutable pattern
-with <code>if let</code></span></p>
-<p>Rust complains that it doesn’t make sense to use <code>if let</code> with an irrefutable
-pattern:</p>
+<p><span class="caption">範例 18-10：嘗試在 <code>if let</code> 使用不可反駁的模式</span></p>
+<p>Rust 會抱怨說在 <code>if let</code> 使用不可反駁的模式沒有任何意義：</p>
 <pre><code class="language-console">$ cargo run
    Compiling patterns v0.1.0 (file:///projects/patterns)
 warning: irrefutable if-let pattern
@@ -269,14 +236,15 @@ warning: irrefutable if-let pattern
      Running `target/debug/patterns`
 5
 </code></pre>
-<p>For this reason, match arms must use refutable patterns, except for the last
-arm, which should match any remaining values with an irrefutable pattern. Rust
-allows us to use an irrefutable pattern in a <code>match</code> with only one arm, but
-this syntax isn’t particularly useful and could be replaced with a simpler
-<code>let</code> statement.</p>
-<p>Now that you know where to use patterns and the difference between refutable
-and irrefutable patterns, let’s cover all the syntax we can use to create
-patterns.</p>
+<p>基於此原因，<code>match</code> 的分支必須是可反駁模式。除了最後一個分支因爲要配對任何剩餘數值，所以會是不可反駁模式。Rust 允許我們在 <code>match</code> 只使用一個不可反駁模式的分支，不過這樣做並不是很實用，且可以直接用簡單的 <code>let</code> 陳述式取代。</p>
+<p>現在你知道哪裡能使用模式，以及可反駁與不可反駁模式的不同了。讓我們來涵蓋模式建立時可以使用的所有語法吧。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch18-02-refutability.md">e5ed971</a></li>
+<li>updated: 2020-09-25</li>
+</ul>
+</blockquote>
 
                     </main>
 
