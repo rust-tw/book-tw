@@ -1,15 +1,10 @@
-## All the Places Patterns Can Be Used
+## 所有能使用模式的地方
 
-Patterns pop up in a number of places in Rust, and you’ve been using them a lot
-without realizing it! This section discusses all the places where patterns are
-valid.
+模式常出現於 Rust 中數個位置，而你已經不經意使用了很多模式了！此段落會介紹所有模式能有效出現的地方。
 
-### `match` Arms
+### `match` 分支
 
-As discussed in Chapter 6, we use patterns in the arms of `match` expressions.
-Formally, `match` expressions are defined as the keyword `match`, a value to
-match on, and one or more match arms that consist of a pattern and an
-expression to run if the value matches that arm’s pattern, like this:
+如同第六章所討論過的，我們可以在 `match` 表達式中的分支使用模式。正式來說，`match` 表達式的定義爲 `match` 關鍵字加上一個要配對的數值，然後會有一或數個包含模式的分支，以及如果數值配對到該分支模式之後要執行的表達式，如以下所示：
 
 ```text
 match VALUE {
@@ -19,36 +14,17 @@ match VALUE {
 }
 ```
 
-One requirement for `match` expressions is that they need to be *exhaustive* in
-the sense that all possibilities for the value in the `match` expression must
-be accounted for. One way to ensure you’ve covered every possibility is to have
-a catchall pattern for the last arm: for example, a variable name matching any
-value can never fail and thus covers every remaining case.
+`match` 表達式有個要求就是它們必須是*徹底的（exhaustive）*，所有 `match` 表達式數值可能的結果都必須涵蓋到。其中一個確保你有考慮到所有可能性的方式是在最後一個分支使用捕獲模式，命名一個能配對任何數值的變數就覺不會失敗，因此可以涵蓋剩餘的情況。
 
-A particular pattern `_` will match anything, but it never binds to a variable,
-so it’s often used in the last match arm. The `_` pattern can be useful when
-you want to ignore any value not specified, for example. We’ll cover the `_`
-pattern in more detail in the [“Ignoring Values in a
-Pattern”][ignoring-values-in-a-pattern]<!-- ignore --> section later in this
-chapter.
+還有一個特定模式 `_` 可以獲取任意可能情況，但它不會綁定到變數中，所以它也很常用在最後的配對分支。舉例來說，`_` 模式就很適合用來忽略任何沒指明的數值。我們會在本章之後的 [「忽略模式中的數值」][ignoring-values-in-a-pattern]<!-- ignore -->段落談到更多 `_` 的細節。
 
-### Conditional `if let` Expressions
+### `if let` 條件表達式
 
-In Chapter 6 we discussed how to use `if let` expressions mainly as a shorter
-way to write the equivalent of a `match` that only matches one case.
-Optionally, `if let` can have a corresponding `else` containing code to run if
-the pattern in the `if let` doesn’t match.
+在第六章中我們介紹了如何使用 `if let` 表達式，它等同於只配對一種情況的 `match` 表達式，主要作爲更簡潔的語法。此外，`if let` 可以再加上 `else` 來包含如果 `if let` 模式不符的話能執行的程式碼。
 
-Listing 18-1 shows that it’s also possible to mix and match `if let`, `else
-if`, and `else if let` expressions. Doing so gives us more flexibility than a
-`match` expression in which we can express only one value to compare with the
-patterns. Also, the conditions in a series of `if let`, `else if`, `else if
-let` arms aren’t required to relate to each other.
+範例 18-1 展示了我們能夠混合並配對 `if let`、`else if` 與 `else if let` 表達式。這樣做可以比 `match` 表達式還來得有彈性，因爲 `match` 只能有一個數值與模式們配對。另外，`if let`、`else if` 與 `else if let` 分支之間的條件彼此並不需要有關聯。
 
-The code in Listing 18-1 shows a series of checks for several conditions that
-decide what the background color should be. For this example, we’ve created
-variables with hardcoded values that a real program might receive from user
-input.
+範例 18-1 的程式碼顯示了一系列的條件檢查來決定背景顏色該爲何。在此例中，我們建立一個寫死的變數數值，在實際程式中應該會由使用者輸入。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -56,163 +32,101 @@ input.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-01/src/main.rs}}
 ```
 
-<span class="caption">範例 18-1: Mixing `if let`, `else if`, `else if let`,
-and `else`</span>
+<span class="caption">範例 18-1：混合 `if let`、`else if`、`else if let` 與 `else`</span>
 
-If the user specifies a favorite color, that color is the background color. If
-today is Tuesday, the background color is green. If the user specifies
-their age as a string and we can parse it as a number successfully, the color
-is either purple or orange depending on the value of the number. If none of
-these conditions apply, the background color is blue.
+如果使用者指定的最喜歡的顏色，該顏色就是背景顏色。如果今天是星期二，背景顏色就是綠色。如果使用者用字串指定他們的年齡且可以成功轉換成數字的話，背景顏色依據數字結果就是紫色或橘色。如果以上條件都不符合的話，背景顏色就是藍色。
 
-This conditional structure lets us support complex requirements. With the
-hardcoded values we have here, this example will print `Using purple as the
-background color`.
+這樣的條件結構讓我們可以職員複雜的需求。透過我們在此寫死的數值，此例會印出 `Using purple as the background color`。
 
-You can see that `if let` can also introduce shadowed variables in the same way
-that `match` arms can: the line `if let Ok(age) = age` introduces a new
-shadowed `age` variable that contains the value inside the `Ok` variant. This
-means we need to place the `if age > 30` condition within that block: we can’t
-combine these two conditions into `if let Ok(age) = age && age > 30`. The
-shadowed `age` we want to compare to 30 isn’t valid until the new scope starts
-with the curly bracket.
+你可以看到 `if let` 也能如同 `match` 的分支一樣遮蔽變數，`if let Ok(age) = age` 這行就產生了新的遮蔽變數 `age` 來包含 `Ok` 變體內的數值。這意味著我們需要將 `if age > 30` 的條件方在區塊內，我們不能組合這兩個條件成 `if let Ok(age) = age && age > 30`。遮蔽的 `age` 在大括號開始之後的新作用域才有效，此時才能與 30 做比較。
 
-The downside of using `if let` expressions is that the compiler doesn’t check
-exhaustiveness, whereas with `match` expressions it does. If we omitted the
-last `else` block and therefore missed handling some cases, the compiler would
-not alert us to the possible logic bug.
+使用 `if let` 表達式的缺點是編譯器不會徹底檢查，而 `match` 表達式則會。如果我們省略最後一個 `else` 區塊而因此忘了處理一些情況，編譯器不會警告我們這種可能的邏輯錯誤。
 
-### `while let` Conditional Loops
+### `while let` 條件迴圈
 
-Similar in construction to `if let`, the `while let` conditional loop allows a
-`while` loop to run for as long as a pattern continues to match. The example in
-Listing 18-2 shows a `while let` loop that uses a vector as a stack and prints
-the values in the vector in the opposite order in which they were pushed.
+與 `if let` 的結構類似，`while let` 條件迴圈允許 `while` 迴圈只要在模式持續配對符合的情況下一直執行。範例 18-2 的例子展示一個 `while let` 迴圈使用 vector 最爲堆疊，並以數值被插入 vector 時相反的順序印出它們。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-02/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-2: Using a `while let` loop to print values
-for as long as `stack.pop()` returns `Some`</span>
+<span class="caption">範例 18-2：使用 `while let` 迴圈，且只要 `stack.pop()` 有回傳 `Some` 就持續印出數值</span>
 
-This example prints 3, 2, and then 1. The `pop` method takes the last element
-out of the vector and returns `Some(value)`. If the vector is empty, `pop`
-returns `None`. The `while` loop continues running the code in its block as
-long as `pop` returns `Some`. When `pop` returns `None`, the loop stops. We can
-use `while let` to pop every element off our stack.
+此範例會依序顯示 3、2 然後是 1。`pop` 方法會取得 vector 最後一個數值並回傳 `Some(value)`。如果 vector 是空的，`pop` 就回傳 `None`。只要 `pop` 有回傳 `Some`，`while` 迴圈就會持續執行其區塊中的程式碼。當 `pop` 回傳 `None` 時，迴圈就會結束。我們可以使用 `while let` 來取得堆疊彈出的每個數值。
 
-### `for` Loops
+### `for` 迴圈
 
-In Chapter 3, we mentioned that the `for` loop is the most common loop
-construction in Rust code, but we haven’t yet discussed the pattern that `for`
-takes. In a `for` loop, the pattern is the value that directly follows the
-keyword `for`, so in `for x in y` the `x` is the pattern.
+在第三章中，我們提到 `for` 迴圈是 Rust 程式碼中最常見的迴圈結構，但我們尚未介紹要如何在  `for` 中使用模式。在 `for` 迴圈中，`for` 關鍵字之後的數值就是模式，所以在 `for x in y` 中 `x` 就是模式。
 
-Listing 18-3 demonstrates how to use a pattern in a `for` loop to destructure,
-or break apart, a tuple as part of the `for` loop.
+範例 19-3 展示了如何在 `for` 迴圈使用模式來解構或拆開一個 `for` 迴圈中的元組。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-03/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-3: Using a pattern in a `for` loop to
-destructure a tuple</span>
+<span class="caption">範例 18-3：使用模式來解構 `for` 迴圈中的元組</span>
 
-The code in Listing 18-3 will print the following:
+範例 18-3 的程式碼會顯示以下結果：
 
 ```console
 {{#include ../listings/ch18-patterns-and-matching/listing-18-03/output.txt}}
 ```
 
-We use the `enumerate` method to adapt an iterator to produce a value and that
-value’s index in the iterator, placed into a tuple. The first call to
-`enumerate` produces the tuple `(0, 'a')`. When this value is matched to the
-pattern `(index, value)`, `index` will be `0` and `value` will be `'a'`,
-printing the first line of the output.
+我們使用 `enumerate` 方法來配接一個疊代器來產生一個數值與該數值在疊代器中的索引，並放入元組中。第一次呼叫 `enumerate` 會產生元組 `(0, 'a')`。當此數值配對到 `(index, value)` 模式時，`index` 會是 `0` 而 `value` 會是 `'a'`，並印出第一行的輸出。
 
-### `let` Statements
+### `let` 陳述式
 
-Prior to this chapter, we had only explicitly discussed using patterns with
-`match` and `if let`, but in fact, we’ve used patterns in other places as well,
-including in `let` statements. For example, consider this straightforward
-variable assignment with `let`:
+在本章節之前，我們只有告訴你模式能用在 `match` 和 `if let`，但事實上我們在其他地方也早就使用過模式了，這包含 `let` 陳述式。舉例來說，請看看以下這個使用 `let` 賦值變數的直白例子：
 
 ```rust
 let x = 5;
 ```
 
-Throughout this book, we’ve used `let` like this hundreds of times, and
-although you might not have realized it, you were using patterns! More
-formally, a `let` statement looks like this:
+在整本書中，我們已經像這樣使用 `let` 無數次，而雖然你還沒有察覺到，但你已經使用過模式了！所以更正式地來說，`let` 陳述式是這樣定義的：
 
 ```text
 let PATTERN = EXPRESSION;
 ```
 
-In statements like `let x = 5;` with a variable name in the `PATTERN` slot, the
-variable name is just a particularly simple form of a pattern. Rust compares
-the expression against the pattern and assigns any names it finds. So in the
-`let x = 5;` example, `x` is a pattern that means “bind what matches here to
-the variable `x`.” Because the name `x` is the whole pattern, this pattern
-effectively means “bind everything to the variable `x`, whatever the value is.”
+像 `let x = 5;` 這樣的陳述式中變數名稱會爲於 `PATTERN` 的位置，變數名稱恰好是種特別簡單的模式。Rust 會將表達式與模式做比較，並賦值給它找到的任何名稱。所以在 `let x = 5;` 的範例中，`x` 是個模式並表示「將配對到的數值綁定給變數 `x`」。因爲名稱 `x` 就是整個模式，此模式實際上等同於「將任何數值綁定給變數 `x`，無論該數值爲何」。
 
-To see the pattern matching aspect of `let` more clearly, consider Listing
-18-4, which uses a pattern with `let` to destructure a tuple.
+爲了更清楚理解 `let` 怎麼使用模式配對，請參考範例 18-4，這對 `let` 使用模式來解構一個元組。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-04/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-4: Using a pattern to destructure a tuple and
-create three variables at once</span>
+<span class="caption">範例 18-4：使用模式來解構元組，並同時建立三個變數</span>
 
-Here, we match a tuple against a pattern. Rust compares the value `(1, 2, 3)`
-to the pattern `(x, y, z)` and sees that the value matches the pattern, so Rust
-binds `1` to `x`, `2` to `y`, and `3` to `z`. You can think of this tuple
-pattern as nesting three individual variable patterns inside it.
+我們在此用一個元組來配對一個模式。Rust 會將數值 `(1, 2, 3)` 與模式 `(x, y, z)` 做比較，並看出數值能配對到模式中，所以 Rust 將 `1` 綁定給 `x`、`2` 給 `y` 然後 `3` 給 `z`。你可以把此元組模式想成是三個獨立的變數模式組合在一起。
 
-If the number of elements in the pattern doesn’t match the number of elements
-in the tuple, the overall type won’t match and we’ll get a compiler error. For
-example, Listing 18-5 shows an attempt to destructure a tuple with three
-elements into two variables, which won’t work.
+如果模式中的元素數量與元組中的元素數量不符合的話，整體型別就無法配對，所以我們會得到編譯錯誤。舉例來說，範例 18-5 嘗試將有三個元素的元組解構到兩個變數中，這樣就無法成功。
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-05/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-5: Incorrectly constructing a pattern whose
-variables don’t match the number of elements in the tuple</span>
+<span class="caption">範例 18-5：錯誤的模式結構，因爲變數數量與元組元素數量不符</span>
 
-Attempting to compile this code results in this type error:
+嘗試編譯此程式碼的話，會得到此型別錯誤：
 
 ```console
 {{#include ../listings/ch18-patterns-and-matching/listing-18-05/output.txt}}
 ```
 
-If we wanted to ignore one or more of the values in the tuple, we could use `_`
-or `..`, as you’ll see in the [“Ignoring Values in a
-Pattern”][ignoring-values-in-a-pattern]<!-- ignore --> section. If the problem
-is that we have too many variables in the pattern, the solution is to make the
-types match by removing variables so the number of variables equals the number
-of elements in the tuple.
+如果我們在元組中想要忽略一或數個數值的話，我們可以使用 `_` 或 `..`，你會在[「忽略模式中的數值」][ignoring-values-in-a-pattern]<!-- ignore -->段落中瞭解更多詳情。如果問題出在於我們模式中有太多變數的話，解決辦法就是移除些變數使變數數量等同於元組元素數量，讓型別可以配對。
 
-### Function Parameters
+### 函式參數
 
-Function parameters can also be patterns. The code in Listing 18-6, which
-declares a function named `foo` that takes one parameter named `x` of type
-`i32`, should by now look familiar.
+函式參數也可以是模式。範例 18-6 的程式碼宣告了一個函式叫做 `foo` 來接收一個參數叫做 `x` 其型別爲 `i32`，現在這看起來你應該都還很熟悉。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-06/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-6: A function signature uses patterns in the
-parameters</span>
+<span class="caption">範例 18-6：在參數中使用模式的函式簽名</span>
 
-The `x` part is a pattern! As we did with `let`, we could match a tuple in a
-function’s arguments to the pattern. Listing 18-7 splits the values in a tuple
-as we pass it to a function.
+`x` 的部分就是模式！就如同我們在 `let` 所做的一樣，我們可以在函式引數中使用模式來配對元組，範例 18-7 將傳遞給函式的元組拆爲不同數值。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -220,20 +134,17 @@ as we pass it to a function.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-07/src/main.rs}}
 ```
 
-<span class="caption">範例 18-7: A function with parameters that destructure
-a tuple</span>
+<span class="caption">範例 18-7：函式透過參數來解構元組</span>
 
-This code prints `Current location: (3, 5)`. The values `&(3, 5)` match the
-pattern `&(x, y)`, so `x` is the value `3` and `y` is the value `5`.
+此程式碼會顯示 `Current location: (3, 5)`。數值 `&(3, 5)` 能配對到模式 `&(x, y)`，所以 `x` 會是數值 `3` 而 `y` 會是數值 `5`。
 
-We can also use patterns in closure parameter lists in the same way as in
-function parameter lists, because closures are similar to functions, as
-discussed in Chapter 13.
+我們還可以在閉包參數列表中像函式參數列表這樣使用模式，因爲第十三章就提過閉包類似於函式。
 
-At this point, you’ve seen several ways of using patterns, but patterns don’t
-work the same in every place we can use them. In some places, the patterns must
-be irrefutable; in other circumstances, they can be refutable. We’ll discuss
-these two concepts next.
+到目前爲止，你已經見過許多使用模式的方式，但模式在我們能使用的地方並不都會有相同的行爲。在某些地方，模式必須是不可反駁的（irrefutable），而在其他場合它們則是可反駁的（refutable）。接下來我們會來討論這兩個概念。
 
 [ignoring-values-in-a-pattern]:
-ch18-03-pattern-syntax.html#ignoring-values-in-a-pattern
+ch18-03-pattern-syntax.html#忽略模式中的數值
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch18-01-all-the-places-for-patterns.md)
+> - updated: 2020-09-25

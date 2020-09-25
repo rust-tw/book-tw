@@ -260,7 +260,7 @@ the values we’re interested in separately.
 Destructuring with patterns is a convenient way to use pieces of values, such
 as the value from each field in a struct, separately from each other.
 
-### Ignoring Values in a Pattern
+### 忽略模式中的數值
 
 You’ve seen that it’s sometimes useful to ignore values in a pattern, such as
 in the last arm of a `match`, to get a catchall that doesn’t actually do
