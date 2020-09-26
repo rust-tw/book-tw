@@ -125,8 +125,8 @@
     - [Turning Our Single-Threaded Server into a Multithreaded Server](ch20-02-multithreaded.md)
     - [Graceful Shutdown and Cleanup](ch20-03-graceful-shutdown-and-cleanup.md)
 
-- [Appendix](appendix-00.md)
-    - [A - Keywords](appendix-01-keywords.md)
+- [附錄](appendix-00.md)
+    - [A - 關鍵字](appendix-01-keywords.md)
     - [B - Operators and Symbols](appendix-02-operators.md)
     - [C - 可推導的特徵](appendix-03-derivable-traits.md)
     - [D - Useful Development Tools](appendix-04-useful-development-tools.md)
