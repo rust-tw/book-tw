@@ -1,34 +1,20 @@
-## Pattern Syntax
+## 模式語法
 
-Throughout the book, you’ve seen examples of many kinds of patterns. In this
-section, we gather all the syntax valid in patterns and discuss why you might
-want to use each one.
+在整本書中，我們已經看過許多種類的模式範例了。在此段落中，我們會收集所有模式中的有效語法，並討論你會怎麼使用它們。
 
-### Matching Literals
+### 配對字面值
 
-As you saw in Chapter 6, you can match patterns against literals directly. The
-following code gives some examples:
+如同你在第六章所見的，你可以直接使用字面值來配對模式，以下程式碼展示了一些範例：
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/no-listing-01-literals/src/main.rs:here}}
 ```
 
-This code prints `one` because the value in `x` is 1. This syntax is useful
-when you want your code to take an action if it gets a particular concrete
-value.
+此程式碼會顯示 one 因爲 x 的數值爲 1。此語法適用於當你想要程式碼取得一個特定數值時，就馬上採取行動的情況。
 
-### Matching Named Variables
+### 配對變數名稱
 
-Named variables are irrefutable patterns that match any value, and we’ve used
-them many times in the book. However, there is a complication when you use
-named variables in `match` expressions. Because `match` starts a new scope,
-variables declared as part of a pattern inside the `match` expression will
-shadow those with the same name outside the `match` construct, as is the case
-with all variables. In Listing 18-11, we declare a variable named `x` with the
-value `Some(5)` and a variable `y` with the value `10`. We then create a
-`match` expression on the value `x`. Look at the patterns in the match arms and
-`println!` at the end, and try to figure out what the code will print before
-running this code or reading further.
+變數名稱是能配對任何數值的不可反駁模式，而且我們在本書中已經使用非常多次。不過當你在 `match` 表達式中使用變數名稱時會複雜一點。因為 `match` 會初始一個新的作用域，作為 `match` 表達式部分模式的宣告變數會遮蔽 `match` 結構外同名的變數，和所有變數一樣。在範例 18-11 中，我宣告了一個變數叫做 `x` 其有數值 `Some(5)` 和一個變數 `y` 其有數值 `10`。然後我們建立一個數值 `x` 的 `match` 表達式。檢查配對分之中的模式並在最後用 `println!` 顯示出來，並嘗試在程式碼執行或進一步閱讀之前推測其會顯示的結果會為何。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -36,89 +22,55 @@ running this code or reading further.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-11/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-11: A `match` expression with an arm that
-introduces a shadowed variable `y`</span>
+<span class="caption">範例 18-11：`match` 表達式其中一個分支宣告了遮蔽的變數 `y`</span>
 
-Let’s walk through what happens when the `match` expression runs. The pattern
-in the first match arm doesn’t match the defined value of `x`, so the code
-continues.
+讓我們跑一遍看看當 `match` 執行時發生了什麼事。第一個配對分支並不符合 `x` 定義的數值，所以程式繼續執行下去。
 
-The pattern in the second match arm introduces a new variable named `y` that
-will match any value inside a `Some` value. Because we’re in a new scope inside
-the `match` expression, this is a new `y` variable, not the `y` we declared at
-the beginning with the value 10. This new `y` binding will match any value
-inside a `Some`, which is what we have in `x`. Therefore, this new `y` binds to
-the inner value of the `Some` in `x`. That value is `5`, so the expression for
-that arm executes and prints `Matched, y = 5`.
+第二個配對分支宣告了一個新的變數叫做 `y` 來配對 `Some` 內的任何數值。因為我們位於 `match` 表達式內的新作用域，此新的 `y` 變數並不是我們一開始宣告有數值 10 的 `y`。這個新的 `y` 會配對 `Some` 內的任何數值，，也就是 `x` 擁有的數值。因此，這個新的 `y` 會綁定 `x` 中 `Some` 的內部數值。該數值是 `5`，所以該分支的表達式就會執行並印出 `Matched, y = 5`。
 
-If `x` had been a `None` value instead of `Some(5)`, the patterns in the first
-two arms wouldn’t have matched, so the value would have matched to the
-underscore. We didn’t introduce the `x` variable in the pattern of the
-underscore arm, so the `x` in the expression is still the outer `x` that hasn’t
-been shadowed. In this hypothetical case, the `match` would print `Default
-case, x = None`.
+如果 `x` 是 `None` 數值而非 `Some(5)` 的話，前兩個分支的模式都不會配對到，所以數值會配對到底線的分支。我們沒有在底線分支的模式中宣告 `x` 變數，所以表達式中的 `x` 仍然是外部沒有被遮蔽的 `x` 。在這樣的假設狀況下，`match` 會印出 `Default case, x = None`。
 
-When the `match` expression is done, its scope ends, and so does the scope of
-the inner `y`. The last `println!` produces `at the end: x = Some(5), y = 10`.
+當 `match` 完成時，其作用域就會結束，所以作用域內的內部 `y` 也會結束。最後一個 `println!` 會顯示 `at the end: x = Some(5), y = 10`。
 
-To create a `match` expression that compares the values of the outer `x` and
-`y`, rather than introducing a shadowed variable, we would need to use a match
-guard conditional instead. We’ll talk about match guards later in the [“Extra
-Conditionals with Match Guards”](#extra-conditionals-with-match-guards)<!--
-ignore --> section.
+要建立個能對外部 `x` 與 `y` 數值做比較的 `match` 表達式而非遮蔽變數的話，我們需要改用條件配對防護。我們會在之後的[「提供額外條件的配對防護」](#extra-conditionals-with-match-guards)<!-- ignore -->段落討論配對防護。
 
-### Multiple Patterns
+### 多重模式
 
-In `match` expressions, you can match multiple patterns using the `|` syntax,
-which means *or*. For example, the following code matches the value of `x`
-against the match arms, the first of which has an *or* option, meaning if the
-value of `x` matches either of the values in that arm, that arm’s code will
-run:
+在 `match` 表達式中，你可以使用 `|` 語法來配對數個模式，其代表*或*的意思。舉例來說，以下程式碼會配對 `x` 的數值到配對分支，第一個分支有個*或者*的選項，代表如果 `x` 的數值配對的到分支中任一數值的話，該分支的程式碼就會執行：
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/no-listing-02-multiple-patterns/src/main.rs:here}}
 ```
 
-This code prints `one or two`.
+此程式碼會印出 `one or two`。
 
-### Matching Ranges of Values with `..=`
+### 透過 `..=` 配對數值範圍
 
-The `..=` syntax allows us to match to an inclusive range of values. In the
-following code, when a pattern matches any of the values within the range, that
-arm will execute:
+`..=` 語法讓我們可以配對一個範圍內包含的數值。在以下程式碼中，當模式配對的到範圍內的任何數值時，該分支就會執行：
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/no-listing-03-ranges/src/main.rs:here}}
 ```
 
-If `x` is 1, 2, 3, 4, or 5, the first arm will match. This syntax is more
-convenient than using the `|` operator to express the same idea; instead of
-`1..=5`, we would have to specify `1 | 2 | 3 | 4 | 5` if we used `|`.
-Specifying a range is much shorter, especially if we want to match, say, any
-number between 1 and 1,000!
+如果 `x` 是 1、2、3、4 或 5 的話，第一個分支就能配對到。此語法比使用 `|` 運算子來表達相同概念還輕鬆得多。如果我們使用 `|` 的話，就得指明 `1 | 2 | 3 | 4 | 5` 而非 `1..=5`。指定範圍相對就簡短許多，尤其是如果我們得配對像是數字 1 到 1,000 的話！
 
-Ranges are only allowed with numeric values or `char` values, because the
-compiler checks that the range isn’t empty at compile time. The only types for
-which Rust can tell if a range is empty or not are `char` and numeric values.
+範圍只允許使用數字或 `char` 數值，因為編譯器會在編譯時檢查範圍是否為空。`char` 與數字數值是 Rust 中唯一能判斷範圍是否為空的型別。
 
-Here is an example using ranges of `char` values:
+以下是使用 `char` 數值作為範圍的範例：
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/no-listing-04-ranges-of-char/src/main.rs:here}}
 ```
 
-Rust can tell that `c` is within the first pattern’s range and prints `early
-ASCII letter`.
+Rust 可以知道 `c` 有包含在第一個模式的範圍內，所以印出 `early ASCII letter`。
 
-### Destructuring to Break Apart Values
+### 解構拆開數值
 
-We can also use patterns to destructure structs, enums, tuples, and references
-to use different parts of these values. Let’s walk through each value.
+我們可以使用模式來解構結構體、枚舉、元組與引用，以便使用這些數值的不同部分。讓我們依序來看看。
 
-#### Destructuring Structs
+#### 解構結構體
 
-Listing 18-12 shows a `Point` struct with two fields, `x` and `y`, that we can
-break apart using a pattern with a `let` statement.
+範例 18-12 有個結構體 `Point` 其有兩個欄位 `x` 與 `y`，我們可以在 `let` 陳述式使用模式來拆開它。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -126,22 +78,11 @@ break apart using a pattern with a `let` statement.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-12/src/main.rs}}
 ```
 
-<span class="caption">範例 18-12: Destructuring a struct’s fields into
-separate variables</span>
+<span class="caption">範例 18-12：解構結構體欄位成獨立的變數</span>
 
-This code creates the variables `a` and `b` that match the values of the `x`
-and `y` fields of the `p` struct. This example shows that the names of the
-variables in the pattern don’t have to match the field names of the struct. But
-it’s common to want the variable names to match the field names to make it
-easier to remember which variables came from which fields.
+此程式碼建立了變數 `a` 與 `b` 來配對 `p` 結構體中 `x` 與 `y` 的欄位。此範例顯示出模式中的變數名稱不必與結構體中的欄位名稱一樣。不過通常還是建議變數名稱與欄位名稱一樣，以便記得哪些變數來自於哪個欄位。
 
-Because having variable names match the fields is common and because writing
-`let Point { x: x, y: y } = p;` contains a lot of duplication, there is a
-shorthand for patterns that match struct fields: you only need to list the name
-of the struct field, and the variables created from the pattern will have the
-same names. Listing 18-13 shows code that behaves in the same way as the code
-in Listing 18-12, but the variables created in the `let` pattern are `x` and
-`y` instead of `a` and `b`.
+因為用變數名稱來配對欄位是十分常見的，而且因為 `let Point { x: x, y: y } = p;` 會包含許多重複部分，所以配對結構體欄位的模式有另一種簡寫方式，你只需要列出結構體欄位的名稱，這樣從結構體建立的變數名稱就會有相同名稱。範例 18-13 顯示的程式碼行為與範例 18-12 一樣，但是在 `let` 模式建立的變數是 `x` 與 `y` 而非 `a` 與 `b`。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -149,21 +90,13 @@ in Listing 18-12, but the variables created in the `let` pattern are `x` and
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-13/src/main.rs}}
 ```
 
-<span class="caption">範例 18-13: Destructuring struct fields using struct
-field shorthand</span>
+<span class="caption">範例 18-13：使用結構體欄位簡寫來解構結構體欄位</span>
 
-This code creates the variables `x` and `y` that match the `x` and `y` fields
-of the `p` variable. The outcome is that the variables `x` and `y` contain the
-values from the `p` struct.
+此程式碼建立了變數 `x` 與 `y` 並配對到變數 `p` 的 `x` 與 `y` 欄位。結果就是變數 `x` 與 `y` 會包含 `p` 結構體中的數值。
 
-We can also destructure with literal values as part of the struct pattern
-rather than creating variables for all the fields. Doing so allows us to test
-some of the fields for particular values while creating variables to
-destructure the other fields.
+我們也可以將字面值數值作為結構體模式中的一部分，而不用建立所有欄位的變數。這樣做我們可以在解構一些欄位成變數時，測試其他欄位是否有特定數值。
 
-Listing 18-14 shows a `match` expression that separates `Point` values into
-three cases: points that lie directly on the `x` axis (which is true when `y =
-0`), on the `y` axis (`x = 0`), or neither.
+範例 18-14 的 `match` 表達式將 `Point` 的數值分成三種情況：位於 `x` 軸的點（也就是 `y = 0`）、位於 `y` 軸的點（`x = 0`） 或不在任何軸的點。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -171,29 +104,17 @@ three cases: points that lie directly on the `x` axis (which is true when `y =
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-14/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-14: Destructuring and matching literal values
-in one pattern</span>
+<span class="caption">範例 18-14：解構並配對模式中的字面值數值</span>
 
-The first arm will match any point that lies on the `x` axis by specifying that
-the `y` field matches if its value matches the literal `0`. The pattern still
-creates an `x` variable that we can use in the code for this arm.
+第一個分支透過指定 `y` 欄位配對字面值為 `0` 來配對任何在 `x` 軸上的點。此模式仍然會建立變數 `x` 能讓我們在此分支的程式碼中使用。
 
-Similarly, the second arm matches any point on the `y` axis by specifying that
-the `x` field matches if its value is `0` and creates a variable `y` for the
-value of the `y` field. The third arm doesn’t specify any literals, so it
-matches any other `Point` and creates variables for both the `x` and `y` fields.
+同樣地，第二個分支透過指定 `x` 欄位配對字面值為 `0` 來配對任何在 `y` 軸上的點，並建立擁有 `y` 欄位數值的變數 `y`。 第三個分支沒有指定任何字面值，所以它能配對任何其他 `Point` 並建立 `x` 與 `y` 欄位對應的變數。
 
-In this example, the value `p` matches the second arm by virtue of `x`
-containing a 0, so this code will print `On the y axis at 7`.
+在此例中，數值 `p` 會配對到第二個分支，因為其 `x` 為 0，所以此程式碼會印出 `On the y axis at 7`。
 
-#### Destructuring Enums
+#### 解構枚舉
 
-We’ve destructured enums earlier in this book, for example, when we
-destructured `Option<i32>` in Listing 6-5 in Chapter 6. One detail we haven’t
-mentioned explicitly is that the pattern to destructure an enum should
-correspond to the way the data stored within the enum is defined. As an
-example, in Listing 18-15 we use the `Message` enum from Listing 6-2 and write
-a `match` with patterns that will destructure each inner value.
+我們已經在本書中之前的章節就解構過枚舉。舉例來說，第六章的範例 6-5 我們就解構了 `Option<i32>`。其中一個我們還沒談到的細節是解構枚舉的模式必須與枚舉定義中其所儲存的資料相符。作為示範，我們在範例 18-15 中使用範例 6-2 的 `Message` 枚舉並寫一個 `match` 來提供會解構每個內部數值的模式。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -201,64 +122,41 @@ a `match` with patterns that will destructure each inner value.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-15/src/main.rs}}
 ```
 
-<span class="caption">範例 18-15: Destructuring enum variants that hold
-different kinds of values</span>
+<span class="caption">範例 18-15：解構持有不同種數值的枚舉變體</span>
 
-This code will print `Change the color to red 0, green 160, and blue 255`. Try
-changing the value of `msg` to see the code from the other arms run.
+此程式碼會印出 `Change the color to red 0, green 160, and blue 255`。請嘗試變更 `msg` 的數值來看看其他分支的程式碼會執行出什麼。
 
-For enum variants without any data, like `Message::Quit`, we can’t destructure
-the value any further. We can only match on the literal `Message::Quit` value,
-and no variables are in that pattern.
+對於像是 `Message::Quit` 這種沒有任何資料的枚舉，我們無法進一步解構出任何資料。我們只能配對其本身的數值 `Message::Quit`，所以在該模式中沒有任何變數。
 
-For struct-like enum variants, such as `Message::Move`, we can use a pattern
-similar to the pattern we specify to match structs. After the variant name, we
-place curly brackets and then list the fields with variables so we break apart
-the pieces to use in the code for this arm. Here we use the shorthand form as
-we did in Listing 18-13.
+對於像是 `Message::Move` 這種類結構體枚舉變體，我們可以使用類似於指定配對結構體的模式。在變體名稱之後，我們加上大括號以及列出欄位名稱作為變數，讓我們能拆成不同部分並在此分支的程式碼中使用。我們在此使用範例 18-13 一樣的簡寫形式。
 
-For tuple-like enum variants, like `Message::Write` that holds a tuple with one
-element and `Message::ChangeColor` that holds a tuple with three elements, the
-pattern is similar to the pattern we specify to match tuples. The number of
-variables in the pattern must match the number of elements in the variant we’re
-matching.
+對於像是 `Message::Write` 這種持有一個元素，以及 `Message::ChangeColor` 這種持有三個元素的類元組枚舉變體，我們可以使用類似於配對元組的模式。模式中的變數數量必須與我們要配對的變體中元素數量相符。
 
-#### Destructuring Nested Structs and Enums
+#### 解構巢狀結構體與枚舉
 
-Until now, all our examples have been matching structs or enums that were one
-level deep. Matching can work on nested items too!
+到目前為止，我們所有的結構體或枚舉配對範例的深度都只有一層。配對也可以用於巢狀項目中！
 
-For example, we can refactor the code in Listing 18-15 to support RGB and HSV
-colors in the `ChangeColor` message, as shown in Listing 18-16.
+舉例來說，我們可以重構範例 18-15 的程式碼，在 `ChangeColor` 中支援 RGB 與 HSV 顏色，如範例 18-16 所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-16/src/main.rs}}
 ```
 
-<span class="caption">範例 18-16: Matching on nested enums</span>
+<span class="caption">範例 18-16：配對巢狀枚舉</span>
 
-The pattern of the first arm in the `match` expression matches a
-`Message::ChangeColor` enum variant that contains a `Color::Rgb` variant; then
-the pattern binds to the three inner `i32` values. The pattern of the second
-arm also matches a `Message::ChangeColor` enum variant, but the inner enum
-matches the `Color::Hsv` variant instead. We can specify these complex
-conditions in one `match` expression, even though two enums are involved.
+`match` 表達式的第一個分支模式會配對包含 `Color::Rgb` 變體的 `Message::ChangeColor` 枚舉變體，然後該模式會綁定內部三個 `i32` 數值。第二個分支也是配對到 `Message::ChangeColor` 枚舉變體，但是內部枚舉會改配對 `Color::Hsv`。我們可以在一個 `match` 表達式指定這些複雜條件，即使有兩個枚舉參與其中。
 
-#### Destructuring Structs and Tuples
+#### 解構結構體與元組
 
-We can mix, match, and nest destructuring patterns in even more complex ways.
-The following example shows a complicated destructure where we nest structs and
-tuples inside a tuple and destructure all the primitive values out:
+我們甚至可以用更複雜的方式來混合、配對並巢狀解構模式。以下範例展示了一個複雜的結構模式，其將一個結構體與一個元組置於另一個元組中，並將所有的原始數值全部解構出來：
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/no-listing-05-destructuring-structs-and-tuples/src/main.rs:here}}
 ```
 
-This code lets us break complex types into their component parts so we can use
-the values we’re interested in separately.
+此程式碼讓我們將複雜的型別拆成部分元件，讓我們可以分別使用我們有興趣的數值。
 
-Destructuring with patterns is a convenient way to use pieces of values, such
-as the value from each field in a struct, separately from each other.
+解構模式是個能方便使用部分數值的方式，比如結構體每個欄位分別獨立的數值。
 
 ### 忽略模式中的數值
 
