@@ -1,4 +1,6 @@
-# The Rust Programming Language
+# Rust 程式設計語言
+
+此爲「The Rust Programming Language」fork 後的正體中文版，你可以在「[Rust 程式設計語言 ](rust-lang.tw/book-tw/)」閱讀整本書的內容。而要是有興趣貢獻的話，歡迎前往 [CONTRIBUTING.md](CONTRIBUTING.md) 來瞭解詳情。
 
 ![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
 
