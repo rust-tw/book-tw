@@ -84,6 +84,7 @@ mutable                | 可變                          | 參考：[維基百�
 mutability             | 可變性                        |
 mutation               | 可變數                        |
 namespace              | 命名空間                      | 參考：[維基百科][namespace]
+nested                 | 巢狀                          |
 operators              | 運算子                        | 參考：[維基百科][operators]
 overloading            | 重載                          | 參考：[維基百科][overloading]
 ownership              | 所有權                        |

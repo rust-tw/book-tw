@@ -32,11 +32,11 @@
 
 當 `match` 完成時，其作用域就會結束，所以作用域內的內部 `y` 也會結束。最後一個 `println!` 會顯示 `at the end: x = Some(5), y = 10`。
 
-要建立個能對外部 `x` 與 `y` 數值做比較的 `match` 表達式而非遮蔽變數的話，我們需要改用條件配對防護。我們會在之後的[「提供額外條件的配對防護」](#extra-conditionals-with-match-guards)<!-- ignore -->段落討論配對防護。
+要建立個能對外部 `x` 與 `y` 數值做比較的 `match` 表達式而非遮蔽變數的話，我們需要改用條件配對守護。我們會在之後的[「提供額外條件的配對守護」](#extra-conditionals-with-match-guards)<!-- ignore -->段落討論配對守護。
 
 ### 多重模式
 
-在 `match` 表達式中，你可以使用 `|` 語法來配對數個模式，其代表*或*的意思。舉例來說，以下程式碼會配對 `x` 的數值到配對分支，第一個分支有個*或者*的選項，代表如果 `x` 的數值配對的到分支中任一數值的話，該分支的程式碼就會執行：
+在 `match` 表達式中，你可以使用 `|` 語法來配對數個模式，其代表 *OR（或）*的意思。舉例來說，以下程式碼會配對 `x` 的數值到配對分支，第一個分支有個 *OR* 的選項，代表如果 `x` 的數值配對的到分支中任一數值的話，該分支的程式碼就會執行：
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/no-listing-02-multiple-patterns/src/main.rs:here}}
@@ -160,20 +160,11 @@ Rust 可以知道 `c` 有包含在第一個模式的範圍內，所以印出 `ea
 
 ### 忽略模式中的數值
 
-You’ve seen that it’s sometimes useful to ignore values in a pattern, such as
-in the last arm of a `match`, to get a catchall that doesn’t actually do
-anything but does account for all remaining possible values. There are a few
-ways to ignore entire values or parts of values in a pattern: using the `_`
-pattern (which you’ve seen), using the `_` pattern within another pattern,
-using a name that starts with an underscore, or using `..` to ignore remaining
-parts of a value. Let’s explore how and why to use each of these patterns.
+你已經看過有時候在模式中忽略數值是很實用的，像是在 `match` 中的最後一個分支能捕獲所有剩餘用不到的可能數值。模式有一些方式可以忽略所有或部分數值：使用（你已經看過的） `_` 模式、在其他模式使用 `_` 模式、在名稱前加上底線，或是使用 `..` 來忽略剩餘部分的數值。讓我們來探討如何與爲何要使用這些模式吧。
 
-#### Ignoring an Entire Value with `_`
+#### 透過 `_` 忽略整個數值
 
-We’ve used the underscore (`_`) as a wildcard pattern that will match any value
-but not bind to the value. Although the underscore `_` pattern is especially
-useful as the last arm in a `match` expression, we can use it in any pattern,
-including function parameters, as shown in Listing 18-17.
+我們使用底線在（`_`）來作爲通配符（wildcard）模式，這會配對任何數值，但不會綁定其值。雖然底線 `_` 模式特別適合作爲 `match` 表達式最後一個分支，但我們可以將它用在任何模式中，包含函式參數，如範例 18-17 所示。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -181,69 +172,39 @@ including function parameters, as shown in Listing 18-17.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-17/src/main.rs}}
 ```
 
-<span class="caption">範例 18-17: Using `_` in a function signature</span>
+<span class="caption">範例 18-17：在函式簽名中使用 `_`</span>
 
-This code will completely ignore the value passed as the first argument, `3`,
-and will print `This code only uses the y parameter: 4`.
+此程式碼會完全忽略第一個引數傳入的數值 `3`，並會印出 `This code only uses the y parameter: 4`。
 
-In most cases when you no longer need a particular function parameter, you
-would change the signature so it doesn’t include the unused parameter. Ignoring
-a function parameter can be especially useful in some cases, for example, when
-implementing a trait when you need a certain type signature but the function
-body in your implementation doesn’t need one of the parameters. The compiler
-will then not warn about unused function parameters, as it would if you used a
-name instead.
+在大多數情況中如果當你不再需要特定函式參數的話，你會直接變更簽名讓它不會包含沒有使用到的參數。但忽略函式參數在某些場合會很有用。舉例來說，當你實作的特徵有個特定的型別簽名，但是你實作的函式本體不需要其中某個參數。這樣編譯器就不會警告沒有使用到的函式參數，會當做你有使用參數名稱一樣。
 
-#### Ignoring Parts of a Value with a Nested `_`
+#### 透過巢狀 `_` 忽略部分數值
 
-We can also use `_` inside another pattern to ignore just part of a value, for
-example, when we want to test for only part of a value but have no use for the
-other parts in the corresponding code we want to run. Listing 18-18 shows code
-responsible for managing a setting’s value. The business requirements are that
-the user should not be allowed to overwrite an existing customization of a
-setting but can unset the setting and give it a value if it is currently unset.
+我們也可以在其他模式中使用 `_` 來忽略部分數值。舉例來說，當我們只想測試部分數值，但不會用到執行的程式碼中其他部分數值的情況。範例 18-18 的程式碼負責管理設定值的數值。業務要求使用者不能覆寫已經存在的自訂數訂值，但可以取消設定值，也可以在目前未設定時提供數值。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-18/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-18: Using an underscore within patterns that
-match `Some` variants when we don’t need to use the value inside the
-`Some`</span>
+<span class="caption">範例 18-18：當我們不需要使用 `Some` 內部數值時，在模式中使用底線來配對 `Some` 變體</span>
 
-This code will print `Can't overwrite an existing customized value` and then
-`setting is Some(5)`. In the first match arm, we don’t need to match on or use
-the values inside either `Some` variant, but we do need to test for the case
-when `setting_value` and `new_setting_value` are the `Some` variant. In that
-case, we print why we’re not changing `setting_value`, and it doesn’t get
-changed.
+此程式碼會印出 `Can't overwrite an existing customized value` 接著印出 `setting is Some(5)`。在第一個配對分支中，我們不需要去配對或使用任一 `Some` 變體內的數值，但我們的確需要檢測  `setting_value` 與 `new_setting_value` 是否都爲 `Some` 變體的情況。在此情況下，我們印出爲何不能變更 `setting_value`，且不讓它被改變。
 
-In all other cases (if either `setting_value` or `new_setting_value` are
-`None`) expressed by the `_` pattern in the second arm, we want to allow
-`new_setting_value` to become `setting_value`.
+在其他所有情況下（無論是 `setting_value` 還是 `new_setting_value` 爲 `None`），我們用第二個分支的 `_` 模式來配對，我們讓 `new_setting_value` 變成 `setting_value`。
 
-We can also use underscores in multiple places within one pattern to ignore
-particular values. Listing 18-19 shows an example of ignoring the second and
-fourth values in a tuple of five items.
+我們也可以在同個模式中的多重位置使用底線來忽略特定數值。範例 18-19 忽略了有五個元素的元組中第二個與第四個數值。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-19/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-19: Ignoring multiple parts of a tuple</span>
+<span class="caption">範例 18-19：忽略元組中數個位置</span>
 
-This code will print `Some numbers: 2, 8, 32`, and the values 4 and 16 will be
-ignored.
+此程式碼會印出 `Some numbers: 2, 8, 32`，然後數值 4 與 16 會被忽略。
 
-#### Ignoring an Unused Variable by Starting Its Name with `_`
+#### 在名稱前加上 `_` 來忽略未使用的變數
 
-If you create a variable but don’t use it anywhere, Rust will usually issue a
-warning because that could be a bug. But sometimes it’s useful to create a
-variable you won’t use yet, such as when you’re prototyping or just starting a
-project. In this situation, you can tell Rust not to warn you about the unused
-variable by starting the name of the variable with an underscore. In Listing
-18-20, we create two unused variables, but when we run this code, we should
-only get a warning about one of them.
+如果你建立了一個變數但沒有在任何地方使用到它，Rust 通常會提出警告，因爲這可能是個錯誤。但有時後先建立個你還沒有使用的變數是很有用的，像是你還在寫原型或是才剛開個專案而已。在這種場合，你可以在尚未使用的變數名稱前加上底線，來告訴 Rust 不用提出警告。在範例 18-20 中，我們建立了兩個未使用的變數，但當我們執行此程式碼時，我們應該會只收到其中一個的警告而已。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -251,62 +212,41 @@ only get a warning about one of them.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-20/src/main.rs}}
 ```
 
-<span class="caption">範例 18-20: Starting a variable name with an
-underscore to avoid getting unused variable warnings</span>
+<span class="caption">範例 18-20：在變數名稱前加上底線來避免未使用變數的警告</span>
 
-Here we get a warning about not using the variable `y`, but we don’t get a
-warning about not using the variable preceded by the underscore.
+我們在此收到沒有使用變數 `y` 的警告，但是我們沒有收到警告說未使用以底線開頭的變數。
 
-Note that there is a subtle difference between using only `_` and using a name
-that starts with an underscore. The syntax `_x` still binds the value to the
-variable, whereas `_` doesn’t bind at all. To show a case where this
-distinction matters, Listing 18-21 will provide us with an error.
+注意到只使用 `_` 與在名稱前加上底線之間是有些差別的。`_x` 仍會綁定數值到變數中，但 `_` 不會做任何綁定。爲了展示這樣的區別是有差的，我們用範例 18-21 來展示一個錯誤。
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-21/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-21: An unused variable starting with an
-underscore still binds the value, which might take ownership of the value</span>
+<span class="caption">範例 18-21：以底線開頭的未使用變數仍會綁定數值，因而造成數值所有權被移動</span>
 
-We’ll receive an error because the `s` value will still be moved into `_s`,
-which prevents us from using `s` again. However, using the underscore by itself
-doesn’t ever bind to the value. Listing 18-22 will compile without any errors
-because `s` doesn’t get moved into `_`.
+我們會收到錯誤，因爲 `s` 的數值仍會被移至 `_s`，讓我們無法再使用 `s`。不過只使用底線的話就不會綁定數值。範例 18-22 就能夠編譯不會產生任何錯誤，因爲 `s` 沒有移至 `_`。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-22/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-22: Using an underscore does not bind the
-value</span>
+<span class="caption">範例 18-22：使用底線不會綁定數值</span>
 
-This code works just fine because we never bind `s` to anything; it isn’t moved.
+此程式碼就能執行，因爲我們沒有將 `s` 綁定給誰，它沒被移動。
 
-#### Ignoring Remaining Parts of a Value with `..`
+#### 透過 `..` 忽略剩餘部分數值
 
-With values that have many parts, we can use the `..` syntax to use only a few
-parts and ignore the rest, avoiding the need to list underscores for each
-ignored value. The `..` pattern ignores any parts of a value that we haven’t
-explicitly matched in the rest of the pattern. In Listing 18-23, we have a
-`Point` struct that holds a coordinate in three-dimensional space. In the
-`match` expression, we want to operate only on the `x` coordinate and ignore
-the values in the `y` and `z` fields.
+對於有許多部分的數值，我們可以用 `..` 語法來只使用一些部分，然後忽略剩餘部分，來避免需要對每個要忽略的數值都得加上底線。`..` 模式會忽略模式中剩餘尚未配對的任何部分數值。在範例 18-23 中，我們有個 `Point` 結構體存有三維空間中的座標。而在 `match` 表達式中，我們想要只處理 `x` 座標並忽略 `y` 與 `z` 欄位的數值。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-23/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-23: Ignoring all fields of a `Point` except
-for `x` by using `..`</span>
+<span class="caption">範例 18-23：透過使用 `..` 來忽略 `Point` 中除了 `x` 以外的所有數值</span>
 
-We list the `x` value and then just include the `..` pattern. This is quicker
-than having to list `y: _` and `z: _`, particularly when we’re working with
-structs that have lots of fields in situations where only one or two fields are
-relevant.
+我們列出 `x` 數值接著只包含 `..` 模式。這比需要列出 `y: _` 和 `z: _` 還要快，尤其是當我們要處理有許多欄位的結構體，但只需要用到一或兩個欄位的狀況下。
 
-The syntax `..` will expand to as many values as it needs to be. Listing 18-24
-shows how to use `..` with a tuple.
+`..` 語法會擴展其所有所需得數值。範例 18-24 展示如何在元組使用 `..`。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -314,16 +254,11 @@ shows how to use `..` with a tuple.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-24/src/main.rs}}
 ```
 
-<span class="caption">範例 18-24: Matching only the first and last values in
-a tuple and ignoring all other values</span>
+<span class="caption">範例 18-24：只配對元組中的第一個與最後一個數值，並忽略其他所有數值</span>
 
-In this code, the first and last value are matched with `first` and `last`. The
-`..` will match and ignore everything in the middle.
+在此程式碼中，第一個與最後一個數值會配對到 `first` 與 `last`。`..` 會配對並忽略中間所有數值。
 
-However, using `..` must be unambiguous. If it is unclear which values are
-intended for matching and which should be ignored, Rust will give us an error.
-Listing 18-25 shows an example of using `..` ambiguously, so it will not
-compile.
+然而，使用 `..` 必須是明確的。如果 Rust 無法確定是哪些數值要配對，而哪些是要忽略的話，它會回傳錯誤給我們。範例 18-25 含糊地使用了 `..`，所以它無法編譯。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -331,59 +266,35 @@ compile.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-25/src/main.rs}}
 ```
 
-<span class="caption">範例 18-25: An attempt to use `..` in an ambiguous
-way</span>
+<span class="caption">範例 18-25：嘗試含糊地使用 `..`</span>
 
-When we compile this example, we get this error:
+當我們編譯此範例時，我們會得到此錯誤：
 
 ```console
 {{#include ../listings/ch18-patterns-and-matching/listing-18-25/output.txt}}
 ```
 
-It’s impossible for Rust to determine how many values in the tuple to ignore
-before matching a value with `second` and then how many further values to
-ignore thereafter. This code could mean that we want to ignore `2`, bind
-`second` to `4`, and then ignore `8`, `16`, and `32`; or that we want to ignore
-`2` and `4`, bind `second` to `8`, and then ignore `16` and `32`; and so forth.
-The variable name `second` doesn’t mean anything special to Rust, so we get a
-compiler error because using `..` in two places like this is ambiguous.
+Rust 不可能會知道在配對 `second` 之前要忽略多少元組中的數值，以及在之後得再忽略多少數值此程式碼可以代表我們想要忽略 `2`、綁定 `second` 到 `4` 然後忽略 `8`、`16` 和 `32`；或者我們想要忽略 `2` 和 `4`、綁定 `second` 到 `8` 然後忽略 `16` 和 `32`，以及更多可能。變數名稱 `second` 對 Rust 沒有任何特別意義，所以我們得到編譯錯誤，因爲像這樣在兩個地方使用 `..` 是含糊不清的。
 
-### Extra Conditionals with Match Guards
+### 提供額外條件的配對守護
 
-A *match guard* is an additional `if` condition specified after the pattern in
-a `match` arm that must also match, along with the pattern matching, for that
-arm to be chosen. Match guards are useful for expressing more complex ideas
-than a pattern alone allows.
+*配對守護（match guard）* 是個在 `match` 分支之後額外指定的 `if` 條件，除了原本的模式配對，此條件也必須配對才能選擇該分支。配對守護適用於比單獨模式所能表達的還複雜的情況。
 
-The condition can use variables created in the pattern. Listing 18-26 shows a
-`match` where the first arm has the pattern `Some(x)` and also has a match
-guard of `if x < 5`.
+該條件能使用配對建立的變數。範例 18-26 展示 `match` 的第一個分支有個模式 `Some(x)` 並使用配對守護 `if x < 5`。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-26/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-26: Adding a match guard to a pattern</span>
+<span class="caption">範例 18-26：對模式加上配對守護</span>
 
-This example will print `less than five: 4`. When `num` is compared to the
-pattern in the first arm, it matches, because `Some(4)` matches `Some(x)`. Then
-the match guard checks whether the value in `x` is less than `5`, and because
-it is, the first arm is selected.
+此範例會印出 `less than five: 4`。當 `num` 與第一個分支做比較時，它會配對到，因爲 `Some(4)` 能與 `Some(x)` 做配對。然後配對守護會檢查數值 `x` 是否小於 `5`，然後因爲的確如此，所以就選擇了第一個分支。
 
-If `num` had been `Some(10)` instead, the match guard in the first arm would
-have been false because 10 is not less than 5. Rust would then go to the second
-arm, which would match because the second arm doesn’t have a match guard and
-therefore matches any `Some` variant.
+如果 `num` 爲 `Some(10)` 的話，第一個分支的配對守護則會是否，因爲 10 並不小於 5。Rust 就會接著檢查第二條分支，然後因爲第二條分支沒有任何配對守護所以能配對到任何 `Some` 變體。
 
-There is no way to express the `if x < 5` condition within a pattern, so the
-match guard gives us the ability to express this logic.
+在模式中沒有任何方式能夠表達 `if x < 5`，所以配對守護讓我們能夠有能力表達此邏輯。
 
-In Listing 18-11, we mentioned that we could use match guards to solve our
-pattern-shadowing problem. Recall that a new variable was created inside the
-pattern in the `match` expression instead of using the variable outside the
-`match`. That new variable meant we couldn’t test against the value of the
-outer variable. Listing 18-27 shows how we can use a match guard to fix this
-problem.
+在範例 18-11 中，我們提到我們可以使用模式配對來解決我們的模式遮蔽問題。回想一下 `match` 表達式中使用的是模式內建立的新變數，而不是使用 `match` 外部的變數。該新變數會讓我們無法測試外部變數的數值。範例 18-27 展示我們如何使用配對守護來修正此問題。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -391,103 +302,58 @@ problem.
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-27/src/main.rs}}
 ```
 
-<span class="caption">範例 18-27: Using a match guard to test for equality
-with an outer variable</span>
+<span class="caption">範例 18-27：使用配對守護來測試與外部變數是否相等</span>
 
-This code will now print `Default case, x = Some(5)`. The pattern in the second
-match arm doesn’t introduce a new variable `y` that would shadow the outer `y`,
-meaning we can use the outer `y` in the match guard. Instead of specifying the
-pattern as `Some(y)`, which would have shadowed the outer `y`, we specify
-`Some(n)`. This creates a new variable `n` that doesn’t shadow anything because
-there is no `n` variable outside the `match`.
+此程式碼現在會印出 `Default case, x = Some(5)`。第二個模式中沒有宣告新的變數 `y` 來遮蔽外部的 `y`，意味著我們可以在配對守護中使用外部的 `y`。我們不再指定模式爲 `Some(y)`，因爲這樣會遮蔽外部的 `y`，我們改指定成 `Some(n)`。這樣建立了一個新的變數 `n` 且不會遮蔽任何事物，因爲 `match` 外部沒有任何變數 `n`。
 
-The match guard `if n == y` is not a pattern and therefore doesn’t introduce
-new variables. This `y` *is* the outer `y` rather than a new shadowed `y`, and
-we can look for a value that has the same value as the outer `y` by comparing
-`n` to `y`.
+配對守護 `if n == y` 不屬於模式，因此不會宣告任何新變數。此 `y` *就是*外部的 `y` 而非新遮蔽的 `y`，而且我們可以透過將 `n` 與 `y` 做比較來檢查數值是否與外部 `y` 的數值相等。
 
-You can also use the *or* operator `|` in a match guard to specify multiple
-patterns; the match guard condition will apply to all the patterns. Listing
-18-28 shows the precedence of combining a match guard with a pattern that uses
-`|`. The important part of this example is that the `if y` match guard applies
-to `4`, `5`, *and* `6`, even though it might look like `if y` only applies to
-`6`.
+你也可以在配對守護中使用 *OR* 運算子 `|` 來指定多重模式，配對守護的條件會套用在所有的模式中。範例 18-28 顯示了結合配對守護與使用 `|` 模式之間的優先層級（precedence）。此例中的重點部分在於 `if y` 配對守護能套用在 `4`、`5` *與* `6`，而不是只有 `6` 會用到 `if y`。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-28/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-28: Combining multiple patterns with a match
-guard</span>
+<span class="caption">範例 18-28：結合數個模式與配對守護</span>
 
-The match condition states that the arm only matches if the value of `x` is
-equal to `4`, `5`, or `6` *and* if `y` is `true`. When this code runs, the
-pattern of the first arm matches because `x` is `4`, but the match guard `if y`
-is false, so the first arm is not chosen. The code moves on to the second arm,
-which does match, and this program prints `no`. The reason is that the `if`
-condition applies to the whole pattern `4 | 5 | 6`, not only to the last value
-`6`. In other words, the precedence of a match guard in relation to a pattern
-behaves like this:
+此配對條件表示該分支只有在數值 `x` 等於 `4`、`5` 或 `6`，*以及*如果 `y` 爲 `true` 時才算配對到。當此程式碼執行時，第一個分支的模式有配對到，因爲 `x` 爲 `4`，但是配對守護 `if y` 爲否，所以不會選擇第一個分支。程式碼會移動到第二個分支，然後程式會配對到並印出 `no`。原因在於 `if` 條件會套用到整個模式 `4 | 5 | 6`，而不是只有最後一個數值 `6`。換句話說，配對守護與模式之間的優先層級會像是這樣：
 
 ```text
 (4 | 5 | 6) if y => ...
 ```
 
-rather than this:
+而不是這樣：
 
 ```text
 4 | 5 | (6 if y) => ...
 ```
 
-After running the code, the precedence behavior is evident: if the match guard
-were applied only to the final value in the list of values specified using the
-`|` operator, the arm would have matched and the program would have printed
-`yes`.
+在執行此程式碼之後，優先層級的行爲就很明顯了，如果配對守護只會用在由 `|` 運算子指定數值列表中最後一個數值的話，該分支應該要能配對到並讓程式印出 `yes`。
 
-### `@` Bindings
+### `@` 綁定
 
-The *at* operator (`@`) lets us create a variable that holds a value at the
-same time we’re testing that value to see whether it matches a pattern. Listing
-18-29 shows an example where we want to test that a `Message::Hello` `id` field
-is within the range `3..=7`. But we also want to bind the value to the variable
-`id_variable` so we can use it in the code associated with the arm. We could
-name this variable `id`, the same as the field, but for this example we’ll use
-a different name.
+*At* 運算子（`@`）能讓我們在測試某個數值是否配對的到一個模式的同時，建立出一個變數來持有該數值。範例 18-29 展示我們想要測試 `Message::Hello` 的 `id` 欄位是否位於 `3..=7` 的範圍中。但我們也想要將該數值綁定到變數 `id_variable` 之中，讓我們可以在該分支對應的程式碼中使用它。我們可以將此變數命名爲與欄位同名的 `id`，但在此例中我們會使用不同名稱。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-29/src/main.rs:here}}
 ```
 
-<span class="caption">範例 18-29: Using `@` to bind to a value in a pattern
-while also testing it</span>
+<span class="caption">範例 18-29：使用 `@` 來在測試時綁定模式中的數值</span>
 
-This example will print `Found an id in range: 5`. By specifying `id_variable
-@` before the range `3..=7`, we’re capturing whatever value matched the range
-while also testing that the value matched the range pattern.
+此範例會印出 `Found an id in range: 5`。透過在範圍 `3..=7` 之前指定 `id_variable @`，我們能獲取要配對到範圍的數值，並同時測試該數值是否有配對到範圍模式。
 
-In the second arm, where we only have a range specified in the pattern, the code
-associated with the arm doesn’t have a variable that contains the actual value
-of the `id` field. The `id` field’s value could have been 10, 11, or 12, but
-the code that goes with that pattern doesn’t know which it is. The pattern code
-isn’t able to use the value from the `id` field, because we haven’t saved the
-`id` value in a variable.
+在第二個分支中，我們只有在模式中指定範圍，該分支對應的程式碼就沒有變數能包含 `id` 欄位的實際數值。`id` 欄位數值可能是 10、11 或 12，但此模式的程式碼不會知道其值爲何。該模式程式碼無法使用 `id` 欄位的數值，因爲我們沒有將 `id` 數值存爲變數。
 
-In the last arm, where we’ve specified a variable without a range, we do have
-the value available to use in the arm’s code in a variable named `id`. The
-reason is that we’ve used the struct field shorthand syntax. But we haven’t
-applied any test to the value in the `id` field in this arm, as we did with the
-first two arms: any value would match this pattern.
+在最後一個分支中，我們指定沒有限制範圍的變數，我們有能在分支程式碼中使用的有效變數 `id`。原因是因爲我們使用了結構體欄位簡寫語法。不過我們在此分支沒有向前兩個條分支進行任何對 `id` 欄位的測試，任何數值都會配對到此模式。
 
-Using `@` lets us test a value and save it in a variable within one pattern.
+使用 `@` 讓我們能在一個模式中測試數值並將其儲存至變數。
 
-## Summary
+## 總結
 
-Rust’s patterns are very useful in that they help distinguish between different
-kinds of data. When used in `match` expressions, Rust ensures your patterns
-cover every possible value, or your program won’t compile. Patterns in `let`
-statements and function parameters make those constructs more useful, enabling
-the destructuring of values into smaller parts at the same time as assigning to
-variables. We can create simple or complex patterns to suit our needs.
+Rust 的模式對於幫助分辨不同種資料來說非常實用。當在 `match` 表達式中使用時，Rust 確保你的模式有涵蓋所有可能數值，不然你的程式就不會編譯通過。在 `let` 陳述式與函式參數中的模式使它們的結構更實用，在能夠解構數值成更小部分的同時賦值給變數。我們能夠建立簡單或複雜的模式來滿足我們的需求。
 
-Next, for the penultimate chapter of the book, we’ll look at some advanced
-aspects of a variety of Rust’s features.
+接下來，在本書的倒數第二章中，我們要來看 Rust 眾多特色中的一些進階部分。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch18-03-pattern-syntax.md)
+> - updated: 2020-09-25
