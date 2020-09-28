@@ -45,7 +45,7 @@
 * `union` - 定義聯集（[union]）且只作爲宣告聯集時的關鍵字
 * `unsafe` - 表示不安全的程式碼、函式、特徵或實作
 * `use` - 將符號引入作用域
-* `where` - 表示限制該型別用的子句
+* `where` - 表示約束該型別用的子句
 * `while` - 依據表達式結果的條件迴圈
 
 [union]: ../reference/items/unions.html

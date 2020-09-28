@@ -196,11 +196,11 @@
 
 我們仍然有 `Post::new` 函式，但是它沒有回傳 `Post` 實例，而是回傳了 `DraftPost` 的實例。因爲 `content` 是私有的，而且沒有任何函式回傳 `Post`，所以目前沒有任何辦法能建立 `Post` 的實例。
 
-`DraftPost` 結構體有個 `add_text` 方法，所以我們可以像之前一樣爲 `content` 新增文字，但注意到 `DraftPost` 沒有定義 `content` 方法！所以現在程式確保所有文章都已草稿爲起始，而且文章草稿不會提供顯示其內容的方法。任何想嘗試繞過此限制的方式都會產生變意錯誤。
+`DraftPost` 結構體有個 `add_text` 方法，所以我們可以像之前一樣爲 `content` 新增文字，但注意到 `DraftPost` 沒有定義 `content` 方法！所以現在程式確保所有文章都已草稿爲起始，而且文章草稿不會提供顯示其內容的方法。任何想嘗試繞過此約束的方式都會產生變意錯誤。
 
 #### 透過不同型別的轉移來實作狀態轉換
 
-所以我們該怎麼取得發佈的文章呢？我們想要遵守執行的規則，文章草稿在審核並通過後才能夠發佈。在審核中的文章狀態應保持不顯示任何內容。讓我們新增另一個結構體 `PendingReviewPost` 來遵守這些限制吧。在 `DraftPost` 中訂一個會回傳 `PendingReviewPost` 的 `request_review` 方法，再對 `PendingReviewPost` 定義 `approve` 方法來回傳 `Post`，如範例 17-20 所示：
+所以我們該怎麼取得發佈的文章呢？我們想要遵守執行的規則，文章草稿在審核並通過後才能夠發佈。在審核中的文章狀態應保持不顯示任何內容。讓我們新增另一個結構體 `PendingReviewPost` 來遵守這些約束吧。在 `DraftPost` 中訂一個會回傳 `PendingReviewPost` 的 `request_review` 方法，再對 `PendingReviewPost` 定義 `approve` 方法來回傳 `Post`，如範例 17-20 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
