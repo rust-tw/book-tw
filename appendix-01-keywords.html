@@ -168,61 +168,52 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#附錄-a關鍵字" id="附錄-a關鍵字">附錄 A：關鍵字</a></h2>
-<p>The following list contains keywords that are reserved for current or future
-use by the Rust language. As such, they cannot be used as identifiers (except
-as raw identifiers as we’ll discuss in the “<a href="#raw-identifiers">Raw
-Identifiers</a><!-- ignore -->” section), including names of
-functions, variables, parameters, struct fields, modules, crates, constants,
-macros, static values, attributes, types, traits, or lifetimes.</p>
-<h3><a class="header" href="#keywords-currently-in-use" id="keywords-currently-in-use">Keywords Currently in Use</a></h3>
-<p>The following keywords currently have the functionality described.</p>
+<p>以下列表包含 Rust 目前或未來會使用到而保留起來的關鍵字。這意味著它們不能作爲標識符使用（不過等等會提到的「<a href="#%E5%8E%9F%E5%A7%8B%E6%A8%99%E8%AD%98%E7%AC%A6">原始標識符</a><!-- ignore -->」除外），這包含函式、變數、參數、結構體欄位、模組、crates、常數、巨集、靜態數值、屬性、型別、特徵與生命週期的名稱。</p>
+<h3><a class="header" href="#目前有在使用的關鍵字" id="目前有在使用的關鍵字">目前有在使用的關鍵字</a></h3>
+<p>以下爲目前的關鍵字與其對應的功能描述。</p>
 <ul>
-<li><code>as</code> - perform primitive casting, disambiguate the specific trait containing
-an item, or rename items in <code>use</code> and <code>extern crate</code> statements</li>
-<li><code>async</code> -  return a <code>Future</code> instead of blocking the current thread</li>
-<li><code>await</code> - suspend execution until the result of a <code>Future</code> is ready</li>
-<li><code>break</code> - exit a loop immediately</li>
-<li><code>const</code> - define constant items or constant raw pointers</li>
-<li><code>continue</code> - continue to the next loop iteration</li>
-<li><code>crate</code> - link an external crate or a macro variable representing the crate in
-which the macro is defined</li>
-<li><code>dyn</code> - dynamic dispatch to a trait object</li>
-<li><code>else</code> - fallback for <code>if</code> and <code>if let</code> control flow constructs</li>
-<li><code>enum</code> - define an enumeration</li>
-<li><code>extern</code> - link an external crate, function, or variable</li>
-<li><code>false</code> - Boolean false literal</li>
-<li><code>fn</code> - define a function or the function pointer type</li>
-<li><code>for</code> - loop over items from an iterator, implement a trait, or specify a
-higher-ranked lifetime</li>
-<li><code>if</code> - branch based on the result of a conditional expression</li>
-<li><code>impl</code> - implement inherent or trait functionality</li>
-<li><code>in</code> - part of <code>for</code> loop syntax</li>
-<li><code>let</code> - bind a variable</li>
-<li><code>loop</code> - loop unconditionally</li>
-<li><code>match</code> - match a value to patterns</li>
-<li><code>mod</code> - define a module</li>
-<li><code>move</code> - make a closure take ownership of all its captures</li>
-<li><code>mut</code> - denote mutability in references, raw pointers, or pattern bindings</li>
-<li><code>pub</code> - denote public visibility in struct fields, <code>impl</code> blocks, or modules</li>
-<li><code>ref</code> - bind by reference</li>
-<li><code>return</code> - return from function</li>
-<li><code>Self</code> - a type alias for the type we are defining or implementing</li>
-<li><code>self</code> - method subject or current module</li>
-<li><code>static</code> - global variable or lifetime lasting the entire program execution</li>
-<li><code>struct</code> - define a structure</li>
-<li><code>super</code> - parent module of the current module</li>
-<li><code>trait</code> - define a trait</li>
-<li><code>true</code> - Boolean true literal</li>
-<li><code>type</code> - define a type alias or associated type</li>
-<li><code>union</code> - define a <a href="../reference/items/unions.html">union</a> and is only a keyword when used in a union declaration</li>
-<li><code>unsafe</code> - denote unsafe code, functions, traits, or implementations</li>
-<li><code>use</code> - bring symbols into scope</li>
-<li><code>where</code> - denote clauses that constrain a type</li>
-<li><code>while</code> - loop conditionally based on the result of an expression</li>
+<li><code>as</code> - 進行原始型態轉換、消除包含項目的特定特徵，或重新命名 <code>use</code> 與 <code>extern crate</code> 陳述式內的項目</li>
+<li><code>async</code> -  回傳 <code>Future</code> 而非阻擋目前執行緒</li>
+<li><code>await</code> - 暫停執行直到 <code>Future</code> 的結果已經準備好</li>
+<li><code>break</code> - 立即離開迴圈</li>
+<li><code>const</code> - 定義常數項目或常數裸指標</li>
+<li><code>continue</code> - 繼續進入下一次迴圈疊代</li>
+<li><code>crate</code> - 連結外部一個 crate 或一個代表巨集定義的 crate 的巨集變數</li>
+<li><code>dyn</code> - 對特徵物件的動態分配</li>
+<li><code>else</code> - <code>if</code> 與 <code>if let</code> 控制流結構的例外選項</li>
+<li><code>enum</code> - 定義枚舉</li>
+<li><code>extern</code> - 連結外部 crate、函式或變數</li>
+<li><code>false</code> - 布林字面值 false</li>
+<li><code>fn</code> - 定義函式或函式指標型別</li>
+<li><code>for</code> - 從疊代器遍歷項目、實作特徵，或指定高階生命週期（higher-ranked lifetime）</li>
+<li><code>if</code> - 依據條件表達式的分支</li>
+<li><code>impl</code> - 實作本身或特徵的功能</li>
+<li><code>in</code> - <code>for</code> 迴圈語法的其中一部分</li>
+<li><code>let</code> - 綁定變數</li>
+<li><code>loop</code> - 無條件的迴圈</li>
+<li><code>match</code> - 將數值配對到模式</li>
+<li><code>mod</code> - 定義模組</li>
+<li><code>move</code> - 讓閉包取得其所有捕獲的所有權</li>
+<li><code>mut</code> - 表示引用、裸指標或模式綁定具有可變性</li>
+<li><code>pub</code> - 表示結構欄位、<code>impl</code> 區塊或模組對外公開</li>
+<li><code>ref</code> - 綁定引用</li>
+<li><code>return</code> - 函式的回傳</li>
+<li><code>Self</code> - 我們正在定義或實作型別的型別別名</li>
+<li><code>self</code> - 方法本體或當前模組</li>
+<li><code>static</code> - 全域變數或存在於整個程式執行期間的生命週期</li>
+<li><code>struct</code> - 定義結構體</li>
+<li><code>super</code> - 當前模組的上層模組</li>
+<li><code>trait</code> - 定義特徵</li>
+<li><code>true</code> - 布林字面值 true</li>
+<li><code>type</code> - 定義型別別名或關聯型別</li>
+<li><code>union</code> - 定義聯集（<a href="../reference/items/unions.html">union</a>）且只作爲宣告聯集時的關鍵字</li>
+<li><code>unsafe</code> - 表示不安全的程式碼、函式、特徵或實作</li>
+<li><code>use</code> - 將符號引入作用域</li>
+<li><code>where</code> - 表示限制該型別用的子句</li>
+<li><code>while</code> - 依據表達式結果的條件迴圈</li>
 </ul>
-<h3><a class="header" href="#keywords-reserved-for-future-use" id="keywords-reserved-for-future-use">Keywords Reserved for Future Use</a></h3>
-<p>The following keywords do not have any functionality but are reserved by Rust
-for potential future use.</p>
+<h3><a class="header" href="#未來可能會使用而保留的關鍵字" id="未來可能會使用而保留的關鍵字">未來可能會使用而保留的關鍵字</a></h3>
+<p>以下關鍵字沒有任何功能但是 Rust 可能會在未來使用到所以作爲保留：</p>
 <ul>
 <li><code>abstract</code></li>
 <li><code>become</code></li>
@@ -238,26 +229,22 @@ for potential future use.</p>
 <li><code>virtual</code></li>
 <li><code>yield</code></li>
 </ul>
-<h3><a class="header" href="#raw-identifiers" id="raw-identifiers">Raw Identifiers</a></h3>
-<p><em>Raw identifiers</em> are the syntax that lets you use keywords where they wouldn’t
-normally be allowed. You use a raw identifier by prefixing a keyword with <code>r#</code>.</p>
-<p>For example, <code>match</code> is a keyword. If you try to compile the following function
-that uses <code>match</code> as its name:</p>
+<h3><a class="header" href="#原始標識符" id="原始標識符">原始標識符</a></h3>
+<p>*原始標識（Raw identifiers）*是個能讓你使用正常情況下不允許使用的關鍵字的語法。你能夠過加上 <code>r#</code> 關鍵字前綴來使用原始標識符。</p>
+<p>舉例來說，<code>match</code> 是個關鍵字。如果你嘗試編譯以下使用 <code>match</code> 作爲名稱的函式的話：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn match(needle: &amp;str, haystack: &amp;str) -&gt; bool {
     haystack.contains(needle)
 }
 </code></pre>
-<p>you’ll get this error:</p>
+<p>你會獲得此錯誤：</p>
 <pre><code class="language-text">error: expected identifier, found keyword `match`
  --&gt; src/main.rs:4:4
   |
 4 | fn match(needle: &amp;str, haystack: &amp;str) -&gt; bool {
   |    ^^^^^ expected identifier, found keyword
 </code></pre>
-<p>The error shows that you can’t use the keyword <code>match</code> as the function
-identifier. To use <code>match</code> as a function name, you need to use the raw
-identifier syntax, like this:</p>
+<p>錯誤表示你不能使用關鍵字 <code>match</code> 作爲函式標識符。要使用 <code>match</code> 作爲函式名稱的話，你可以使用原始標識符語法，如以下所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn r#match(needle: &amp;str, haystack: &amp;str) -&gt; bool {
     haystack.contains(needle)
@@ -267,16 +254,15 @@ fn main() {
     assert!(r#match(&quot;foo&quot;, &quot;foobar&quot;));
 }
 </code></pre></pre>
-<p>This code will compile without any errors. Note the <code>r#</code> prefix on the function
-name in its definition as well as where the function is called in <code>main</code>.</p>
-<p>Raw identifiers allow you to use any word you choose as an identifier, even if
-that word happens to be a reserved keyword. In addition, raw identifiers allow
-you to use libraries written in a different Rust edition than your crate uses.
-For example, <code>try</code> isn’t a keyword in the 2015 edition but is in the 2018
-edition. If you depend on a library that’s written using the 2015 edition and
-has a <code>try</code> function, you’ll need to use the raw identifier syntax, <code>r#try</code> in
-this case, to call that function from your 2018 edition code. See <a href="appendix-05-editions.html">Appendix
-E</a><!-- ignore --> for more information on editions.</p>
+<p>此程式碼就能夠編譯並沒有任何錯誤。注意到 <code>r#</code> 前綴會用於函式定義的名稱以及在 <code>main</code> 呼叫該函式的地方。</p>
+<p>原始標識符能讓你使用任何字作爲標識符，就算該字剛好是保留的關鍵字。除此之外，原始標識符讓你可以使用與你 crate 的 Rust 版號（edition）不相同的函式庫。舉例來說 <code>try</code> 在 2015 版號還不是關鍵字，但到 2018 版號才加入。如果你依賴一個使用 2015 版號的函式庫，且其中有個 <code>try</code> 函式，你就需要使用原始標識符語法。在此例中就是在你 2018 版號的程式碼用 <code>r#try</code> 來呼叫該函式。情查閱<a href="appendix-05-editions.html">附錄 E</a><!-- ignore -->以瞭解關於版號的更多資訊。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-01-keywords.md">e5ed971</a></li>
+<li>updated: 2020-09-28</li>
+</ul>
+</blockquote>
 
                     </main>
 
