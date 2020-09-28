@@ -1,67 +1,58 @@
 ## 附錄 A：關鍵字
 
-The following list contains keywords that are reserved for current or future
-use by the Rust language. As such, they cannot be used as identifiers (except
-as raw identifiers as we’ll discuss in the “[Raw
-Identifiers][raw-identifiers]<!-- ignore -->” section), including names of
-functions, variables, parameters, struct fields, modules, crates, constants,
-macros, static values, attributes, types, traits, or lifetimes.
+以下列表包含 Rust 目前或未來會使用到而保留起來的關鍵字。這意味著它們不能作爲標識符使用（不過等等會提到的「[原始標識符][raw-identifiers]<!-- ignore -->」除外），這包含函式、變數、參數、結構體欄位、模組、crates、常數、巨集、靜態數值、屬性、型別、特徵與生命週期的名稱。
 
-[raw-identifiers]: #raw-identifiers
+[raw-identifiers]: #原始標識符
 
-### Keywords Currently in Use
+### 目前有在使用的關鍵字
 
-The following keywords currently have the functionality described.
+以下爲目前的關鍵字與其對應的功能描述。
 
-* `as` - perform primitive casting, disambiguate the specific trait containing
-  an item, or rename items in `use` and `extern crate` statements
-* `async` -  return a `Future` instead of blocking the current thread
-* `await` - suspend execution until the result of a `Future` is ready
-* `break` - exit a loop immediately
-* `const` - define constant items or constant raw pointers
-* `continue` - continue to the next loop iteration
-* `crate` - link an external crate or a macro variable representing the crate in
-  which the macro is defined
-* `dyn` - dynamic dispatch to a trait object
-* `else` - fallback for `if` and `if let` control flow constructs
-* `enum` - define an enumeration
-* `extern` - link an external crate, function, or variable
-* `false` - Boolean false literal
-* `fn` - define a function or the function pointer type
-* `for` - loop over items from an iterator, implement a trait, or specify a
-  higher-ranked lifetime
-* `if` - branch based on the result of a conditional expression
-* `impl` - implement inherent or trait functionality
-* `in` - part of `for` loop syntax
-* `let` - bind a variable
-* `loop` - loop unconditionally
-* `match` - match a value to patterns
-* `mod` - define a module
-* `move` - make a closure take ownership of all its captures
-* `mut` - denote mutability in references, raw pointers, or pattern bindings
-* `pub` - denote public visibility in struct fields, `impl` blocks, or modules
-* `ref` - bind by reference
-* `return` - return from function
-* `Self` - a type alias for the type we are defining or implementing
-* `self` - method subject or current module
-* `static` - global variable or lifetime lasting the entire program execution
-* `struct` - define a structure
-* `super` - parent module of the current module
-* `trait` - define a trait
-* `true` - Boolean true literal
-* `type` - define a type alias or associated type
-* `union` - define a [union] and is only a keyword when used in a union declaration
-* `unsafe` - denote unsafe code, functions, traits, or implementations
-* `use` - bring symbols into scope
-* `where` - denote clauses that constrain a type
-* `while` - loop conditionally based on the result of an expression
+* `as` - 進行原始型態轉換、消除包含項目的特定特徵，或重新命名 `use` 與 `extern crate` 陳述式內的項目
+* `async` -  回傳 `Future` 而非阻擋目前執行緒
+* `await` - 暫停執行直到 `Future` 的結果已經準備好
+* `break` - 立即離開迴圈
+* `const` - 定義常數項目或常數裸指標
+* `continue` - 繼續進入下一次迴圈疊代
+* `crate` - 連結外部一個 crate 或一個代表巨集定義的 crate 的巨集變數
+* `dyn` - 對特徵物件的動態分配
+* `else` - `if` 與 `if let` 控制流結構的例外選項
+* `enum` - 定義枚舉
+* `extern` - 連結外部 crate、函式或變數
+* `false` - 布林字面值 false
+* `fn` - 定義函式或函式指標型別
+* `for` - 從疊代器遍歷項目、實作特徵，或指定高階生命週期（higher-ranked lifetime）
+* `if` - 依據條件表達式的分支
+* `impl` - 實作本身或特徵的功能
+* `in` - `for` 迴圈語法的其中一部分
+* `let` - 綁定變數
+* `loop` - 無條件的迴圈
+* `match` - 將數值配對到模式
+* `mod` - 定義模組
+* `move` - 讓閉包取得其所有捕獲的所有權
+* `mut` - 表示引用、裸指標或模式綁定具有可變性
+* `pub` - 表示結構欄位、`impl` 區塊或模組對外公開
+* `ref` - 綁定引用
+* `return` - 函式的回傳
+* `Self` - 我們正在定義或實作型別的型別別名
+* `self` - 方法本體或當前模組
+* `static` - 全域變數或存在於整個程式執行期間的生命週期
+* `struct` - 定義結構體
+* `super` - 當前模組的上層模組
+* `trait` - 定義特徵
+* `true` - 布林字面值 true
+* `type` - 定義型別別名或關聯型別
+* `union` - 定義聯集（[union]）且只作爲宣告聯集時的關鍵字
+* `unsafe` - 表示不安全的程式碼、函式、特徵或實作
+* `use` - 將符號引入作用域
+* `where` - 表示限制該型別用的子句
+* `while` - 依據表達式結果的條件迴圈
 
 [union]: ../reference/items/unions.html
 
-### Keywords Reserved for Future Use
+### 未來可能會使用而保留的關鍵字
 
-The following keywords do not have any functionality but are reserved by Rust
-for potential future use.
+以下關鍵字沒有任何功能但是 Rust 可能會在未來使用到所以作爲保留：
 
 * `abstract`
 * `become`
@@ -77,13 +68,11 @@ for potential future use.
 * `virtual`
 * `yield`
 
-### Raw Identifiers
+### 原始標識符
 
-*Raw identifiers* are the syntax that lets you use keywords where they wouldn’t
-normally be allowed. You use a raw identifier by prefixing a keyword with `r#`.
+*原始標識（Raw identifiers）*是個能讓你使用正常情況下不允許使用的關鍵字的語法。你能夠過加上 `r#` 關鍵字前綴來使用原始標識符。
 
-For example, `match` is a keyword. If you try to compile the following function
-that uses `match` as its name:
+舉例來說，`match` 是個關鍵字。如果你嘗試編譯以下使用 `match` 作爲名稱的函式的話：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -93,7 +82,7 @@ fn match(needle: &str, haystack: &str) -> bool {
 }
 ```
 
-you’ll get this error:
+你會獲得此錯誤：
 
 ```text
 error: expected identifier, found keyword `match`
@@ -103,9 +92,7 @@ error: expected identifier, found keyword `match`
   |    ^^^^^ expected identifier, found keyword
 ```
 
-The error shows that you can’t use the keyword `match` as the function
-identifier. To use `match` as a function name, you need to use the raw
-identifier syntax, like this:
+錯誤表示你不能使用關鍵字 `match` 作爲函式標識符。要使用 `match` 作爲函式名稱的話，你可以使用原始標識符語法，如以下所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -119,16 +106,12 @@ fn main() {
 }
 ```
 
-This code will compile without any errors. Note the `r#` prefix on the function
-name in its definition as well as where the function is called in `main`.
+此程式碼就能夠編譯並沒有任何錯誤。注意到 `r#` 前綴會用於函式定義的名稱以及在 `main` 呼叫該函式的地方。
 
-Raw identifiers allow you to use any word you choose as an identifier, even if
-that word happens to be a reserved keyword. In addition, raw identifiers allow
-you to use libraries written in a different Rust edition than your crate uses.
-For example, `try` isn’t a keyword in the 2015 edition but is in the 2018
-edition. If you depend on a library that’s written using the 2015 edition and
-has a `try` function, you’ll need to use the raw identifier syntax, `r#try` in
-this case, to call that function from your 2018 edition code. See [Appendix
-E][appendix-e]<!-- ignore --> for more information on editions.
+原始標識符能讓你使用任何字作爲標識符，就算該字剛好是保留的關鍵字。除此之外，原始標識符讓你可以使用與你 crate 的 Rust 版號（edition）不相同的函式庫。舉例來說 `try` 在 2015 版號還不是關鍵字，但到 2018 版號才加入。如果你依賴一個使用 2015 版號的函式庫，且其中有個 `try` 函式，你就需要使用原始標識符語法。在此例中就是在你 2018 版號的程式碼用 `r#try` 來呼叫該函式。情查閱[附錄 E][appendix-e]<!-- ignore -->以瞭解關於版號的更多資訊。
 
 [appendix-e]: appendix-05-editions.html
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-01-keywords.md)
+> - updated: 2020-09-28

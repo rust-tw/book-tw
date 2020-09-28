@@ -44,6 +44,7 @@ deque                  | 雙向佇列                      | Double-ended queue
 dereference            | 取值                          | 即 `*` 運算子
 dispatch               | 分派                          | 參考：[維基百科][multiple dispatch]
 diverging functions    | 發散函式                      | 不回傳值的函式
+edition                | 版號                          |
 enumerate              | 枚舉                          | 參考：[維基百科][enumerate]
 equality               | 等式                          |
 executable             | 執行檔                        |
