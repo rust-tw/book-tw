@@ -21968,147 +21968,60 @@ fn main() {
 <li>updated: 2020-09-29</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#appendix-c-可推導的特徵" id="appendix-c-可推導的特徵">Appendix C: 可推導的特徵</a></h2>
-<p>In various places in the book, we’ve discussed the <code>derive</code> attribute, which
-you can apply to a struct or enum definition. The <code>derive</code> attribute generates
-code that will implement a trait with its own default implementation on the
-type you’ve annotated with the <code>derive</code> syntax.</p>
-<p>In this appendix, we provide a reference of all the traits in the standard
-library that you can use with <code>derive</code>. Each section covers:</p>
+<h2><a class="header" href="#附錄-c可推導的特徵" id="附錄-c可推導的特徵">附錄 C：可推導的特徵</a></h2>
+<p>在本書中的許多地方方，我們都有遇到 <code>derive</code> 屬性，這能用在結構體或枚舉定義中。<code>derive</code> 屬性會透過 <code>derive</code> 語法來對被標記的型別產生對應的預設特徵實作。</p>
+<p>在此附錄中，我們提供了所有在標準函式庫中你可以透過 <code>derive</code> 來使用的特徵。每個段落會包含：</p>
 <ul>
-<li>What operators and methods deriving this trait will enable</li>
-<li>What the implementation of the trait provided by <code>derive</code> does</li>
-<li>What implementing the trait signifies about the type</li>
-<li>The conditions in which you’re allowed or not allowed to implement the trait</li>
-<li>Examples of operations that require the trait</li>
+<li>該特徵會推導出哪些運算子與方法</li>
+<li><code>derive</code> 提供的特徵實作會做什麼事情</li>
+<li>該特徵實作對型別有何影響</li>
+<li>你能夠或不能夠實作特徵的條件</li>
+<li>需要特徵來做運算的範例</li>
 </ul>
-<p>If you want different behavior from that provided by the <code>derive</code> attribute,
-consult the <a href="../std/index.html">standard library documentation</a><!-- ignore -->
-for each trait for details of how to manually implement them.</p>
-<p>The rest of the traits defined in the standard library can’t be implemented on
-your types using <code>derive</code>. These traits don’t have sensible default behavior,
-so it’s up to you to implement them in the way that makes sense for what you’re
-trying to accomplish.</p>
-<p>An example of a trait that can’t be derived is <code>Display</code>, which handles
-formatting for end users. You should always consider the appropriate way to
-display a type to an end user. What parts of the type should an end user be
-allowed to see? What parts would they find relevant? What format of the data
-would be most relevant to them? The Rust compiler doesn’t have this insight, so
-it can’t provide appropriate default behavior for you.</p>
-<p>The list of 可推導的特徵 provided in this appendix is not comprehensive:
-libraries can implement <code>derive</code> for their own traits, making the list of
-traits you can use <code>derive</code> with truly open-ended. Implementing <code>derive</code>
-involves using a procedural macro, which is covered in the
-<a href="ch19-06-macros.html#macros">“Macros”</a><!-- ignore --> section of Chapter 19.</p>
-<h3><a class="header" href="#debug-for-programmer-output" id="debug-for-programmer-output"><code>Debug</code> for Programmer Output</a></h3>
-<p>The <code>Debug</code> trait enables debug formatting in format strings, which you
-indicate by adding <code>:?</code> within <code>{}</code> placeholders.</p>
-<p>The <code>Debug</code> trait allows you to print instances of a type for debugging
-purposes, so you and other programmers using your type can inspect an instance
-at a particular point in a program’s execution.</p>
-<p>The <code>Debug</code> trait is required, for example, in use of the <code>assert_eq!</code> macro.
-This macro prints the values of instances given as arguments if the equality
-assertion fails so programmers can see why the two instances weren’t equal.</p>
-<h3><a class="header" href="#partialeq-and-eq-for-equality-comparisons" id="partialeq-and-eq-for-equality-comparisons"><code>PartialEq</code> and <code>Eq</code> for Equality Comparisons</a></h3>
-<p>The <code>PartialEq</code> trait allows you to compare instances of a type to check for
-equality and enables use of the <code>==</code> and <code>!=</code> operators.</p>
-<p>Deriving <code>PartialEq</code> implements the <code>eq</code> method. When <code>PartialEq</code> is derived on
-structs, two instances are equal only if <em>all</em> fields are equal, and the
-instances are not equal if any fields are not equal. When derived on enums,
-each variant is equal to itself and not equal to the other variants.</p>
-<p>The <code>PartialEq</code> trait is required, for example, with the use of the
-<code>assert_eq!</code> macro, which needs to be able to compare two instances of a type
-for equality.</p>
-<p>The <code>Eq</code> trait has no methods. Its purpose is to signal that for every value of
-the annotated type, the value is equal to itself. The <code>Eq</code> trait can only be
-applied to types that also implement <code>PartialEq</code>, although not all types that
-implement <code>PartialEq</code> can implement <code>Eq</code>. One example of this is floating point
-number types: the implementation of floating point numbers states that two
-instances of the not-a-number (<code>NaN</code>) value are not equal to each other.</p>
-<p>An example of when <code>Eq</code> is required is for keys in a <code>HashMap&lt;K, V&gt;</code> so the
-<code>HashMap&lt;K, V&gt;</code> can tell whether two keys are the same.</p>
-<h3><a class="header" href="#partialord-and-ord-for-ordering-comparisons" id="partialord-and-ord-for-ordering-comparisons"><code>PartialOrd</code> and <code>Ord</code> for Ordering Comparisons</a></h3>
-<p>The <code>PartialOrd</code> trait allows you to compare instances of a type for sorting
-purposes. A type that implements <code>PartialOrd</code> can be used with the <code>&lt;</code>, <code>&gt;</code>,
-<code>&lt;=</code>, and <code>&gt;=</code> operators. You can only apply the <code>PartialOrd</code> trait to types
-that also implement <code>PartialEq</code>.</p>
-<p>Deriving <code>PartialOrd</code> implements the <code>partial_cmp</code> method, which returns an
-<code>Option&lt;Ordering&gt;</code> that will be <code>None</code> when the values given don’t produce an
-ordering. An example of a value that doesn’t produce an ordering, even though
-most values of that type can be compared, is the not-a-number (<code>NaN</code>) floating
-point value. Calling <code>partial_cmp</code> with any floating point number and the <code>NaN</code>
-floating point value will return <code>None</code>.</p>
-<p>When derived on structs, <code>PartialOrd</code> compares two instances by comparing the
-value in each field in the order in which the fields appear in the struct
-definition. When derived on enums, variants of the enum declared earlier in the
-enum definition are considered less than the variants listed later.</p>
-<p>The <code>PartialOrd</code> trait is required, for example, for the <code>gen_range</code> method
-from the <code>rand</code> crate that generates a random value in the range specified by a
-low value and a high value.</p>
-<p>The <code>Ord</code> trait allows you to know that for any two values of the annotated
-type, a valid ordering will exist. The <code>Ord</code> trait implements the <code>cmp</code> method,
-which returns an <code>Ordering</code> rather than an <code>Option&lt;Ordering&gt;</code> because a valid
-ordering will always be possible. You can only apply the <code>Ord</code> trait to types
-that also implement <code>PartialOrd</code> and <code>Eq</code> (and <code>Eq</code> requires <code>PartialEq</code>). When
-derived on structs and enums, <code>cmp</code> behaves the same way as the derived
-implementation for <code>partial_cmp</code> does with <code>PartialOrd</code>.</p>
-<p>An example of when <code>Ord</code> is required is when storing values in a <code>BTreeSet&lt;T&gt;</code>,
-a data structure that stores data based on the sort order of the values.</p>
-<h3><a class="header" href="#clone-and-copy-for-duplicating-values" id="clone-and-copy-for-duplicating-values"><code>Clone</code> and <code>Copy</code> for Duplicating Values</a></h3>
-<p>The <code>Clone</code> trait allows you to explicitly create a deep copy of a value, and
-the duplication process might involve running arbitrary code and copying heap
-data. See the <a href="ch04-01-what-is-ownership.html#ways-variables-and-data-interact-clone">“Ways Variables and Data Interact:
-Clone”</a><!-- ignore --> section in
-Chapter 4 for more information on <code>Clone</code>.</p>
-<p>Deriving <code>Clone</code> implements the <code>clone</code> method, which when implemented for the
-whole type, calls <code>clone</code> on each of the parts of the type. This means all the
-fields or values in the type must also implement <code>Clone</code> to derive <code>Clone</code>.</p>
-<p>An example of when <code>Clone</code> is required is when calling the <code>to_vec</code> method on a
-slice. The slice doesn’t own the type instances it contains, but the vector
-returned from <code>to_vec</code> will need to own its instances, so <code>to_vec</code> calls
-<code>clone</code> on each item. Thus, the type stored in the slice must implement <code>Clone</code>.</p>
-<p>The <code>Copy</code> trait allows you to duplicate a value by only copying bits stored on
-the stack; no arbitrary code is necessary. See the <a href="ch04-01-what-is-ownership.html#stack-only-data-copy">“Stack-Only Data:
-Copy”</a><!-- ignore --> section in Chapter 4 for more
-information on <code>Copy</code>.</p>
-<p>The <code>Copy</code> trait doesn’t define any methods to prevent programmers from
-overloading those methods and violating the assumption that no arbitrary code
-is being run. That way, all programmers can assume that copying a value will be
-very fast.</p>
-<p>You can derive <code>Copy</code> on any type whose parts all implement <code>Copy</code>. You can
-only apply the <code>Copy</code> trait to types that also implement <code>Clone</code>, because a
-type that implements <code>Copy</code> has a trivial implementation of <code>Clone</code> that
-performs the same task as <code>Copy</code>.</p>
-<p>The <code>Copy</code> trait is rarely required; types that implement <code>Copy</code> have
-optimizations available, meaning you don’t have to call <code>clone</code>, which makes
-the code more concise.</p>
-<p>Everything possible with <code>Copy</code> you can also accomplish with <code>Clone</code>, but the
-code might be slower or have to use <code>clone</code> in places.</p>
-<h3><a class="header" href="#hash-for-mapping-a-value-to-a-value-of-fixed-size" id="hash-for-mapping-a-value-to-a-value-of-fixed-size"><code>Hash</code> for Mapping a Value to a Value of Fixed Size</a></h3>
-<p>The <code>Hash</code> trait allows you to take an instance of a type of arbitrary size and
-map that instance to a value of fixed size using a hash function. Deriving
-<code>Hash</code> implements the <code>hash</code> method. The derived implementation of the <code>hash</code>
-method combines the result of calling <code>hash</code> on each of the parts of the type,
-meaning all fields or values must also implement <code>Hash</code> to derive <code>Hash</code>.</p>
-<p>An example of when <code>Hash</code> is required is in storing keys in a <code>HashMap&lt;K, V&gt;</code>
-to store data efficiently.</p>
-<h3><a class="header" href="#default-for-default-values" id="default-for-default-values"><code>Default</code> for Default Values</a></h3>
-<p>The <code>Default</code> trait allows you to create a default value for a type. Deriving
-<code>Default</code> implements the <code>default</code> function. The derived implementation of the
-<code>default</code> function calls the <code>default</code> function on each part of the type,
-meaning all fields or values in the type must also implement <code>Default</code> to
-derive <code>Default</code>.</p>
-<p>The <code>Default::default</code> function is commonly used in combination with the struct
-update syntax discussed in the <a href="ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax">“Creating Instances From Other Instances With
-Struct Update
-Syntax”</a><!-- ignore -->
-section in Chapter 5. You can customize a few fields of a struct and then
-set and use a default value for the rest of the fields by using
-<code>..Default::default()</code>.</p>
-<p>The <code>Default</code> trait is required when you use the method <code>unwrap_or_default</code> on
-<code>Option&lt;T&gt;</code> instances, for example. If the <code>Option&lt;T&gt;</code> is <code>None</code>, the method
-<code>unwrap_or_default</code> will return the result of <code>Default::default</code> for the type
-<code>T</code> stored in the <code>Option&lt;T&gt;</code>.</p>
+<p>如果你想要不同於 <code>derive</code> 屬性提供的行爲，請查閱每個特徵的<a href="../std/index.html">標準函式庫技術文件</a><!-- ignore -->來瞭解如何手動實作它們。</p>
+<p>其他在標準函式庫中定義的特徵則無法使用 <code>derive</code> 來對你的型別實作。這些特徵通常不太常有理想的預設行爲，所以會由你來決定最合理的方式來實作它們。</p>
+<p>其中一個無法推導的特徵範例就是 <code>Display</code>，這用來顯示格式化資訊給終端使用者。這應該永遠由你來決定顯示型別給終端使用者的最佳方式。型別的哪些部分應該給使用者看到？哪些部分他們會覺得是有關聯的？什麼樣的資料格式對他們最相關？Rust 編譯器並不具這樣的眼光能判斷，所以它無法爲你提供適合的預設行爲。</p>
+<p>此附錄提供的可推導的特徵列表並不是就是所有能用的特徵：函式庫也可以爲他們自己的特徵實作 <code>derive</code>，所以你可以使用 <code>derive</code> 的特徵是沒有極限的。實作 <code>derive</code> 會需要用到過程式巨集（procedural macro），這在第十九章的<a href="ch19-06-macros.html#%E5%B7%A8%E9%9B%86">「巨集」</a><!-- ignore -->段落有提到。</p>
+<h3><a class="header" href="#用於開發時輸出的-debug" id="用於開發時輸出的-debug">用於開發時輸出的 <code>Debug</code></a></h3>
+<p><code>Debug</code> 特徵用於啟用除錯格式資訊的格式化字串，讓你可以在 <code>{}</code> 佔位符加上 <code>:?</code> 來顯示。</p>
+<p><code>Debug</code> 特徵讓你可以印出型別實例的除錯資訊，好讓你以及其他程式設計師在使用你的型別時，能在程式執行的特定時間點觀察實例。</p>
+<p>舉例來說，要使用 <code>assert_eq!</code> 巨集的話就必須要有 <code>Debug</code> 特徵。如果相等判定失敗的話，此巨集會印出作爲引數的實例數值，讓程式設計師可以看到爲何兩個實例不相等。</p>
+<h3><a class="header" href="#用於比較相等的-partialeq-與-eq" id="用於比較相等的-partialeq-與-eq">用於比較相等的 <code>PartialEq</code> 與 <code>Eq</code></a></h3>
+<p><code>PartialEq</code> 特徵讓你可以比較型別實例來檢查是否相等，並可因此使用 <code>==</code> 與 <code>!=</code> 運算子。</p>
+<p>推導 <code>PartialEq</code> 會實作 <code>eq</code> 方法。當推導結構體的 <code>PartialEq</code> 時，兩個實例之間必須<em>所有</em>欄位都相等才算相等，所以要是有任意欄位不相等實例就不算相等。而在枚舉推導時，每個變體會與自己相等，且與其他變體不相等。</p>
+<p>舉例來說，使用 <code>assert_eq!</code> 巨集的話就必須要有 <code>PartialEq</code> 特徵，因爲這要用來比較兩個型別實例是否相等。</p>
+<p><code>Eq</code> 特徵沒有任何方法，它用來表示指定型別的每個數值都與自己本身相等。<code>Eq</code> 只能用於也有實作 <code>PartialEq</code> 的型別，然而並非所有實作 <code>PartialEq</code> 的型別都能實作 <code>Eq</code>。其中一個例子就是浮點數型別，浮點數的實作就指明兩個非數（not-a-number, <code>NaN</code>）實例數值彼此並不相等。</p>
+<p>而 <code>Eq</code> 會用到的地方則有像是 <code>HashMap&lt;K, V&gt;</code> 中的鍵，這樣 <code>HashMap&lt;K, V&gt;</code> 才能知道兩個鍵之間是否相等。</p>
+<h3><a class="header" href="#用於比較順序的-partialord-與-ord" id="用於比較順序的-partialord-與-ord">用於比較順序的 <code>PartialOrd</code> 與 <code>Ord</code></a></h3>
+<p><code>PartialOrd</code> 特徵讓你比較型別實例排序的順序。有實作 <code>PartialOrd</code> 的型別能夠使用 <code>&lt;</code>、<code>&gt;</code>、<code>&lt;=</code> 與 <code>&gt;=</code> 運算子。你只能在有實作 <code>PartialEq</code> 的型別實作 <code>PartialOrd</code> 特徵。</p>
+<p>推導 <code>PartialOrd</code> 會實作 <code>partial_cmp</code> 方法，這會回傳一個 <code>Option&lt;Ordering&gt;</code>，當給予的數值無法產生任何順序的話就會是 <code>None</code>。其中一個儘管該型別大多數數值都能比較時，但仍有機會無法產生順序的範例就是非數（not-a-number, <code>NaN</code>）浮點數數值。對任意浮點數與 <code>NaN</code> 浮點數數值呼叫 <code>partial_cmp</code> 的話就會回傳 <code>None</code>。</p>
+<p>當在結構體推導時，<code>PartialOrd</code> compare會比較兩個實例，並從結構體定義的欄位順序來依序比較每個欄位的數值。而在枚舉推導時，在枚舉定義中較早宣告的枚舉變體會比之後的變體還小。</p>
+<p>舉例來說，<code>rand</code> crate 中的 <code>gen_range</code> 方法就必須要有 <code>PartialOrd</code> 特徵，該方法會在指定的最小值與最大值範圍內產生隨機數值。</p>
+<p><code>Ord</code> 特徵能讓你知道指定型別的任意兩個數值存在著順序。<code>Ord</code> 特徵實作了 <code>cmp</code> 方法，這會回傳 <code>Ordering</code> 而不只是 <code>Option&lt;Ordering&gt;</code>，因爲其永遠會有有效的順序。你只能在有實作 <code>PartialOrd</code> 與 <code>Eq</code>（而 <code>Eq</code> 需要 <code>PartialEq</code>）的特徵實作 <code>Ord</code> 特徵。在結構體與枚舉推導時，<code>cmp</code> 的行爲會與 <code>PartialOrd</code> 推導的 <code>partial_cmp</code> 行爲一致。</p>
+<p>其中一個需要 <code>Ord</code> 的範例就是當 <code>BTreeSet&lt;T&gt;</code> 要儲存數值的時候，這是一個依據數值排序順序儲存資料的資料結構。</p>
+<h3><a class="header" href="#用於複製數值的-clone-與-copy" id="用於複製數值的-clone-與-copy">用於複製數值的 <code>Clone</code> 與 <code>Copy</code></a></h3>
+<p><code>Clone</code> 特徵讓你能顯式建立一個數值的深拷貝，而且在複製的過程中可能會包含執行其他程式碼並拷貝堆積的資料。你可以在第四章的<a href="ch04-01-what-is-ownership.html#%E8%AE%8A%E6%95%B8%E8%88%87%E8%B3%87%E6%96%99%E4%BA%92%E5%8B%95%E7%9A%84%E6%96%B9%E5%BC%8F%E5%85%8B%E9%9A%86clone">「變數與資料互動的方式：克隆（Clone）」</a><!-- ignore -->段落瞭解更多關於 <code>Clone</code> 的資訊。</p>
+<p>推導 <code>Clone</code> 會實作 <code>clone</code> 方法，這在整個型別實作時，會呼叫每個型別部分的 <code>clone</code>。這意味著該型別的所有欄位或數值都必須有實作 <code>Clone</code> 才能推導 <code>Clone</code>。</p>
+<p>會需要用到 <code>Clone</code> 的其中一個例子是對 slice 呼叫 <code>to_vec</code> 方法。Slice 不擁有其所包含的型別實例，但是 <code>to_vec</code> 回傳的 vector 會需要擁有其實例，所以 <code>to_vec</code> 會對每個項目呼叫 <code>clone</code>。因此，儲存在 slice 內的型別必須實作 <code>Clone</code>。</p>
+<p><code>Copy</code> 特徵讓你能只拷貝堆疊上的資料來複製數值，而且不需要額外的程式碼。你可以在第四章的<a href="ch04-01-what-is-ownership.html#%E5%8F%AA%E5%9C%A8%E5%A0%86%E7%96%8A%E4%B8%8A%E7%9A%84%E8%B3%87%E6%96%99%E6%8B%B7%E8%B2%9Dcopy">「只在堆疊上的資料：拷貝（Copy）」</a><!-- ignore -->段落瞭解更多關於 <code>Copy</code> 的資訊。</p>
+<p><code>Copy</code> 特徵沒有定義任何方法，以避免開發者超載這些方法並違反不執行任何程式碼的假設。這樣所有的程式設計師才都能預定拷貝數值是很迅速的。</p>
+<p>你可以對任何內部所有部分有實作 <code>Copy</code> 的型別推導 <code>Copy</code>。此外你只能對有實作 <code>Clone</code> 的型別實作 <code>Copy</code>，因爲有實作 <code>Copy</code> 的型別都會附有 <code>Clone</code> 的實作，其所做的事會與 <code>Copy</code> 一樣。</p>
+<p><code>Copy</code> 通常不是必要的，實作 <code>Copy</code> 的型別會能進行優化，代表你不需要呼叫 <code>clone</code> 並讓程式碼更簡潔。</p>
+<p>所有 <code>Copy</code> 能辦到的事你也能用 <code>Clone</code> 來達成，但是程式碼會變得比較慢或是需要使用 <code>clone</code>。</p>
+<h3><a class="header" href="#用於映射數值至固定大小數值的-hash" id="用於映射數值至固定大小數值的-hash">用於映射數值至固定大小數值的 <code>Hash</code></a></h3>
+<p><code>Hash</code> 特徵讓你能取得任意大小的型別實例，並使用在雜湊函式映射（map）到固定大小的數值實例。推導 <code>Hash</code> 會實作 <code>hash</code> 方法。推導出的 <code>hash</code> 方法實作會組合該型別每個部分的 <code>hash</code> 呼叫結果，這代表所有的欄位或數值也必須實作 <code>Hash</code> 才能推導 <code>Hash</code>。</p>
+<p>會需要 <code>Hash</code> 的其中一個範例是在 <code>HashMap&lt;K, V&gt;</code> 儲存鍵，這樣才能有效率地儲存資料。</p>
+<h3><a class="header" href="#用於預設數值的-default" id="用於預設數值的-default">用於預設數值的 <code>Default</code></a></h3>
+<p><code>Default</code> 特徵讓你能建立一個型別的預設數值。推導 <code>Default</code> 會實作 <code>default</code> 函式。推導出的 <code>default</code> 函式實作會呼叫該型別每個部分的 <code>default</code> 函式，這代表該型別的所有欄位或數值都得實作 <code>Default</code> 才能推導 <code>Default</code>。</p>
+<p><code>Default::default</code> 函式常用於結合結構體更新語法，如果我們在第五章的<a href="ch05-01-defining-structs.html#%E4%BD%BF%E7%94%A8%E7%B5%90%E6%A7%8B%E9%AB%94%E6%9B%B4%E6%96%B0%E8%AA%9E%E6%B3%95%E5%BE%9E%E5%85%B6%E4%BB%96%E7%B5%90%E6%A7%8B%E9%AB%94%E5%BB%BA%E7%AB%8B%E5%AF%A6%E4%BE%8B">「使用結構體更新語法從其他結構體建立實例」</a><!-- ignore -->段落所提及的。你可以自訂結構體中的一些欄位，然後使用 <code>..Default::default()</code> 將剩餘的欄位設爲預設數值。</p>
+<p>舉例來說，當你在 <code>Option&lt;T&gt;</code> 實例中使用 <code>unwrap_or_default</code> 方法就會需要 <code>Default</code> 特徵。如果 <code>Option&lt;T&gt;</code> 爲 <code>None</code>，<code>unwrap_or_default</code> 方法就會回傳儲存在 <code>Option&lt;T&gt;</code> 的 <code>T</code> 的 <code>Default::default</code> 結果。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-03-derivable-traits.md">e5ed971</a></li>
+<li>updated: 2020-09-29</li>
+</ul>
+</blockquote>
 <h2><a class="header" href="#appendix-d---useful-development-tools" id="appendix-d---useful-development-tools">Appendix D - Useful Development Tools</a></h2>
 <p>In this appendix, we talk about some useful development tools that the Rust
 project provides. We’ll look at automatic formatting, quick ways to apply
