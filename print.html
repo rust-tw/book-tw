@@ -22022,28 +22022,19 @@ fn main() {
 <li>updated: 2020-09-29</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#appendix-d---useful-development-tools" id="appendix-d---useful-development-tools">Appendix D - Useful Development Tools</a></h2>
-<p>In this appendix, we talk about some useful development tools that the Rust
-project provides. We’ll look at automatic formatting, quick ways to apply
-warning fixes, a linter, and integrating with IDEs.</p>
-<h3><a class="header" href="#automatic-formatting-with-rustfmt" id="automatic-formatting-with-rustfmt">Automatic Formatting with <code>rustfmt</code></a></h3>
-<p>The <code>rustfmt</code> tool reformats your code according to the community code style.
-Many collaborative projects use <code>rustfmt</code> to prevent arguments about which
-style to use when writing Rust: everyone formats their code using the tool.</p>
-<p>To install <code>rustfmt</code>, enter the following:</p>
+<h2><a class="header" href="#附錄-d---實用開發工具" id="附錄-d---實用開發工具">附錄 D - 實用開發工具</a></h2>
+<p>在此附錄中，我們會討論些 Rust 專案提供的實用開發工具。我們會介紹自動格式化工具、修正警告最快速的方式、linter 以及 IDE 的整合工具。</p>
+<h3><a class="header" href="#透過-rustfmt-自動格式化" id="透過-rustfmt-自動格式化">透過 <code>rustfmt</code> 自動格式化</a></h3>
+<p><code>rustfmt</code> 工具會依據社群程式碼風格來重新格式化你的程式碼。許多協作專案都會使用 <code>rustfmt</code> 來避免 Rust 風格的歧義，每個人都能用此工具格式化他們的程式碼。</p>
+<p>欲安裝 <code>rustfmt</code>，請輸入以下命令：</p>
 <pre><code class="language-console">$ rustup component add rustfmt
 </code></pre>
-<p>This command gives you <code>rustfmt</code> and <code>cargo-fmt</code>, similar to how Rust gives you
-both <code>rustc</code> and <code>cargo</code>. To format any Cargo project, enter the following:</p>
+<p>此命令會給你 <code>rustfmt</code> 與 <code>cargo-fmt</code>，就像 Rust 會提供你 <code>rustc</code> 與 <code>cargo</code> 一樣。要格式化任何 Cargo 專案的話，請輸入：</p>
 <pre><code class="language-console">$ cargo fmt
 </code></pre>
-<p>Running this command reformats all the Rust code in the current crate. This
-should only change the code style, not the code semantics. For more information
-on <code>rustfmt</code>, see <a href="https://github.com/rust-lang/rustfmt">its documentation</a>.</p>
-<h3><a class="header" href="#fix-your-code-with-rustfix" id="fix-your-code-with-rustfix">Fix Your Code with <code>rustfix</code></a></h3>
-<p>The rustfix tool is included with Rust installations and can automatically fix
-some compiler warnings. If you’ve written code in Rust, you’ve probably seen
-compiler warnings. For example, consider this code:</p>
+<p>執行此命令會重新格式化目前 crate 中所有的 Rust 程式碼。不過這只會變更程式碼風格，並不會影響程式碼語義。想瞭解更多 <code>rustfmt</code> 的資訊，歡迎查閱<a href="https://github.com/rust-lang/rustfmt">它的技術文件</a>。</p>
+<h3><a class="header" href="#透過-rustfix-修正你的程式碼" id="透過-rustfix-修正你的程式碼">透過 <code>rustfix</code> 修正你的程式碼</a></h3>
+<p>rustfix 工具包含在 Rust 的安裝中，且可以自動修正一些編譯器警告。如果你寫過 Rust 程式碼的話，你應該會看過一些編譯器警告，舉例來說，請參考以下程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn do_something() {}
 
@@ -22053,8 +22044,7 @@ fn main() {
     }
 }
 </code></pre></pre>
-<p>Here, we’re calling the <code>do_something</code> function 100 times, but we never use the
-variable <code>i</code> in the body of the <code>for</code> loop. Rust warns us about that:</p>
+<p>我們在此呼叫 <code>do_something</code> 函式 100 次，但是我們在 <code>for</code> 迴圈中完全沒用到變數 <code>i</code>。Rust 會警告我們：</p>
 <pre><code class="language-console">$ cargo build
    Compiling myprogram v0.1.0 (file:///projects/myprogram)
 warning: unused variable: `i`
@@ -22067,16 +22057,13 @@ warning: unused variable: `i`
 
     Finished dev [unoptimized + debuginfo] target(s) in 0.50s
 </code></pre>
-<p>The warning suggests that we use <code>_i</code> as a name instead: the underscore
-indicates that we intend for this variable to be unused. We can automatically
-apply that suggestion using the <code>rustfix</code> tool by running the command <code>cargo fix</code>:</p>
+<p>警告訊息建議我們改使用 <code>_i</code> 來作爲名稱，底線指的是我們認定此變數不會被使用。我們可以透過執行 <code>cargo fix</code> 來使用 <code>rustfix</code> 工具以自動採用這些建議：</p>
 <pre><code class="language-console">$ cargo fix
     Checking myprogram v0.1.0 (file:///projects/myprogram)
       Fixing src/main.rs (1 fix)
     Finished dev [unoptimized + debuginfo] target(s) in 0.59s
 </code></pre>
-<p>When we look at <em>src/main.rs</em> again, we’ll see that <code>cargo fix</code> has changed the
-code:</p>
+<p>當我們再次檢查 <em>src/main.rs</em>，我們會看到 <code>cargo fix</code> 已經將程式碼修正了：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn do_something() {}
 
@@ -22086,20 +22073,17 @@ fn main() {
     }
 }
 </code></pre></pre>
-<p>The <code>for</code> loop variable is now named <code>_i</code>, and the warning no longer appears.</p>
-<p>You can also use the <code>cargo fix</code> command to transition your code between
-different Rust editions. Editions are covered in Appendix E.</p>
-<h3><a class="header" href="#more-lints-with-clippy" id="more-lints-with-clippy">More Lints with Clippy</a></h3>
-<p>The Clippy tool is a collection of lints to analyze your code so you can catch
-common mistakes and improve your Rust code.</p>
-<p>To install Clippy, enter the following:</p>
+<p><code>for</code> 迴圈變數現在改名爲 <code>_i</code>，而警告也不再出現了。</p>
+<p>你也可以使用 <code>cargo fix</code> 命令來在不同的 Rust 版號之間做轉換程式碼。版號會在附錄 E 做介紹。</p>
+<h3><a class="header" href="#透過-clippy-運用更多功能" id="透過-clippy-運用更多功能">透過 Clippy 運用更多功能</a></h3>
+<p>Clippy 工具是一系列的 lint 集合，用來分析程式碼以獲取常見錯誤並改善你的 Rust 程式碼。</p>
+<p>要安裝 Clippy 的話，輸入以下命令：</p>
 <pre><code class="language-console">$ rustup component add clippy
 </code></pre>
-<p>To run Clippy’s lints on any Cargo project, enter the following:</p>
+<p>要在任何 Cargo 專案執行 Clippy，輸入以下命令：</p>
 <pre><code class="language-console">$ cargo clippy
 </code></pre>
-<p>For example, say you write a program that uses an approximation of a
-mathematical constant, such as pi, as this program does:</p>
+<p>舉例來說，假設你在寫程式時使用到如 pi 這種數學常數的近似值，如以下所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 3.1415;
@@ -22107,7 +22091,7 @@ mathematical constant, such as pi, as this program does:</p>
     println!(&quot;the area of the circle is {}&quot;, x * r * r);
 }
 </code></pre></pre>
-<p>Running <code>cargo clippy</code> on this project results in this error:</p>
+<p>對此專案執行 <code>cargo clippy</code> 會顯示以下錯誤：</p>
 <pre><code class="language-text">error: approximate value of `f{32, 64}::consts::PI` found. Consider using it directly
  --&gt; src/main.rs:2:13
   |
@@ -22117,10 +22101,7 @@ mathematical constant, such as pi, as this program does:</p>
   = note: #[deny(clippy::approx_constant)] on by default
   = help: for further information visit https://rust-lang-nursery.github.io/rust-clippy/master/index.html#approx_constant
 </code></pre>
-<p>This error lets you know that Rust has this constant defined more precisely and
-that your program would be more correct if you used the constant instead. You
-would then change your code to use the <code>PI</code> constant. The following code
-doesn’t result in any errors or warnings from Clippy:</p>
+<p>此錯誤告訴你 Rust 有對該常數提供更精準的定義，如果改使用此定義的話，你的程式會更準確。你可以將你的程式碼改使用 <code>PI</code> 常數。以下程式碼就不會透過 Clippy 獲得任何錯誤或警告：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = std::f64::consts::PI;
@@ -22128,19 +22109,21 @@ doesn’t result in any errors or warnings from Clippy:</p>
     println!(&quot;the area of the circle is {}&quot;, x * r * r);
 }
 </code></pre></pre>
-<p>For more information on Clippy, see <a href="https://github.com/rust-lang/rust-clippy">its documentation</a>.</p>
-<h3><a class="header" href="#ide-integration-using-the-rust-language-server" id="ide-integration-using-the-rust-language-server">IDE Integration Using the Rust Language Server</a></h3>
-<p>To help IDE integration, the Rust project distributes the <em>Rust Language
-Server</em> (<code>rls</code>). This tool speaks the <a href="http://langserver.org/">Language Server
-Protocol</a>, which is a specification for IDEs and programming
-languages to communicate with each other. Different clients can use the <code>rls</code>,
-such as <a href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust">the Rust plug-in for Visual Studio Code</a>.</p>
-<p>To install the <code>rls</code>, enter the following:</p>
+<p>關於更多 Clippy 的資訊，請查閱<a href="https://github.com/rust-lang/rust-clippy">它的技術文件</a>。</p>
+<h3><a class="header" href="#使用-rust-language-server-整合-ide" id="使用-rust-language-server-整合-ide">使用 Rust Language Server 整合 IDE</a></h3>
+<p>爲了協助 IDE 的整合，Rust 專案有發佈 <em>Rust Language Server</em>（<code>rls</code>）。此工具會與 <a href="http://langserver.org/">Language Server Protocol</a> 溝通，這是 IDE 與程式語言彼此溝通的協定規格。<code>rls</code> 可用於各種不同的客戶端，像是 <a href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust">Visual Studio Code 的 Rust 插件</a>。</p>
+<p>要安裝 <code>rls</code> 的話，輸入以下命令：</p>
 <pre><code class="language-console">$ rustup component add rls
 </code></pre>
-<p>Then install the language server support in your particular IDE; you’ll gain
-abilities such as autocompletion, jump to definition, and inline errors.</p>
-<p>For more information on the <code>rls</code>, see <a href="https://github.com/rust-lang/rls">its documentation</a>.</p>
+<p>然後在你指定的 IDE 安裝 language server 對應的支援，你就能獲得許多功能，像是自動補全、跳至定義以及行內錯誤顯示等等。</p>
+<p>關於更多 <code>rls</code> 的資訊，請查閱<a href="https://github.com/rust-lang/rls">它的技術文件</a>。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-04-useful-development-tools.md">e5ed971</a></li>
+<li>updated: 2020-09-30</li>
+</ul>
+</blockquote>
 <h2><a class="header" href="#appendix-e---editions" id="appendix-e---editions">Appendix E - Editions</a></h2>
 <p>In Chapter 1, you saw that <code>cargo new</code> adds a bit of metadata to your
 <em>Cargo.toml</em> file about an edition. This appendix talks about what that means!</p>
