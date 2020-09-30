@@ -22124,54 +22124,29 @@ fn main() {
 <li>updated: 2020-09-30</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#appendix-e---editions" id="appendix-e---editions">Appendix E - Editions</a></h2>
-<p>In Chapter 1, you saw that <code>cargo new</code> adds a bit of metadata to your
-<em>Cargo.toml</em> file about an edition. This appendix talks about what that means!</p>
-<p>The Rust language and compiler have a six-week release cycle, meaning users get
-a constant stream of new features. Other programming languages release larger
-changes less often; Rust releases smaller updates more frequently. After a
-while, all of these tiny changes add up. But from release to release, it can be
-difficult to look back and say, “Wow, between Rust 1.10 and Rust 1.31, Rust has
-changed a lot!”</p>
-<p>Every two or three years, the Rust team produces a new Rust <em>edition</em>. Each
-edition brings together the features that have landed into a clear package with
-fully updated documentation and tooling. New editions ship as part of the usual
-six-week release process.</p>
-<p>Editions serve different purposes for different people:</p>
+<h2><a class="header" href="#附錄-e---版號" id="附錄-e---版號">附錄 E - 版號</a></h2>
+<p>在第一章中，你會看到 <code>cargo new</code> 會在 <em>Cargo.toml</em> 檔案中加上一些關於版號（edition）的詮釋資料。此附錄會講解其意義！</p>
+<p>Rust 語言與編譯器有一個爲其六週的發佈循環，這意味著使用者可能定期獲得一些新功能。其他程式設計語言可能會發佈較大的更新但就會比較不頻繁。Rust 傾向於較頻繁地發佈小更新。過一段時間後，這些所有變更會漸漸累積起來。不過隨著一次次的發佈，回過頭來看可能會發覺「哇！Rust 1.10 與 Rust 1.31 之間的變化真大！」</p>
+<p>所以每個兩到三年，Rust 團隊會產生新的 Rust <em>版號（edition）</em>。每個版本會整合已推出的功能成一整個附有完整技術文件更新與工具的套件。然後新的版號就會包含在每六週循環過程的發佈之中。</p>
+<p>版號對不同客群提供不同功能：</p>
 <ul>
-<li>For active Rust users, a new edition brings together incremental changes into
-an easy-to-understand package.</li>
-<li>For non-users, a new edition signals that some major advancements have
-landed, which might make Rust worth another look.</li>
-<li>For those developing Rust, a new edition provides a rallying point for the
-project as a whole.</li>
+<li>對於活躍的 Rust 使用者來說，新的版號將累積的變更整合成容易理解的單一套件。</li>
+<li>對非使用者來說，新的版號意味著有一些新的重大進展，讓 Rust 可能值得再看一次。</li>
+<li>對於開發 Rust 的人來說，新的版號提供整個專案的一個集結點。</li>
 </ul>
-<p>At the time of this writing, two Rust editions are available: Rust 2015 and
-Rust 2018. This book is written using Rust 2018 edition idioms.</p>
-<p>The <code>edition</code> key in <em>Cargo.toml</em> indicates which edition the compiler should
-use for your code. If the key doesn’t exist, Rust uses <code>2015</code> as the edition
-value for backward compatibility reasons.</p>
-<p>Each project can opt in to an edition other than the default 2015 edition.
-Editions can contain incompatible changes, such as including a new keyword that
-conflicts with identifiers in code. However, unless you opt in to those
-changes, your code will continue to compile even as you upgrade the Rust
-compiler version you use.</p>
-<p>All Rust compiler versions support any edition that existed prior to that
-compiler’s release, and they can link crates of any supported editions
-together. Edition changes only affect the way the compiler initially parses
-code. Therefore, if you’re using Rust 2015 and one of your dependencies uses
-Rust 2018, your project will compile and be able to use that dependency. The
-opposite situation, where your project uses Rust 2018 and a dependency uses
-Rust 2015, works as well.</p>
-<p>To be clear: most features will be available on all editions. Developers using
-any Rust edition will continue to see improvements as new stable releases are
-made. However, in some cases, mainly when new keywords are added, some new
-features might only be available in later editions. You will need to switch
-editions if you want to take advantage of such features.</p>
-<p>For more details, the <a href="https://doc.rust-lang.org/stable/edition-guide/"><em>Edition
-Guide</em></a> is a complete book
-about editions that enumerates the differences between editions and explains
-how to automatically upgrade your code to a new edition via <code>cargo fix</code>.</p>
+<p>在本書撰寫時，Rust 已經有兩個版號： Rust 2015 與 Rust 2018。本書使用的是 Rust 2018 版號的慣用寫法。</p>
+<p><em>Cargo.toml</em> 中的 <code>edition</code> 指的是編譯器該對你的程式碼使用何種版號。如果沒有指定的話，Rust 會以向下相容作爲考量而是使用 <code>2015</code>。</p>
+<p>每個專案都能選擇一種版號而不只是使用預設的 2015 版號。版號會包含無法相容的變更，像是包含新的關鍵字使得程式碼中的標識符衝突。然而，除非你親自改變版號，不然就算你更新 Rust 編譯器的版本，你的程式碼依然能夠編譯通過。</p>
+<p>所有的 Rust 編譯器版本會支援在其編譯器發佈之前的任何版號，而且可以連結任何支援版號的 crate。版號變更只會影響編譯器初始解析程式碼的方式而已。因此，如果你使用 Rust 2015 但你其中一個依賴使用 Rust 2018 的話，你的專案仍然能編譯並使用該依賴函式庫。相對地，當你的專案使用 Rust 2018 而有依賴使用 Rust 2015 的話依然是如此。</p>
+<p>這裡要澄清一點：大多數功能在所有版號中都能使用。開發者使用任何 Rust 版號都能繼續獲得新的穩定版本帶來的改善。然而有些情況下，主要是增加新的關鍵字的時候，有一些新功能可能就只有後期的版號才能使用。你想使用利用新功能的話，就得切換版號。</p>
+<p>想瞭解更多資訊的話，請查閱<a href="https://doc.rust-lang.org/stable/edition-guide/"><em>Edition Guide</em></a>，這是本涵蓋所有版號之間不同的書籍，並會解釋如何使用 <code>cargo fix</code> 來自動升級你的程式碼至新的版號。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-05-editions.md">e5ed971</a></li>
+<li>updated: 2020-09-30</li>
+</ul>
+</blockquote>
 <h2><a class="header" href="#appendix-f-translations-of-the-book" id="appendix-f-translations-of-the-book">Appendix F: Translations of the Book</a></h2>
 <p>For resources in languages other than English. Most are still in progress; see
 <a href="https://github.com/rust-lang/book/issues?q=is%3Aopen+is%3Aissue+label%3ATranslations">the Translations label</a> to help or let us know about a new translation!</p>
