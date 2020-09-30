@@ -1,7 +1,6 @@
-## Appendix F: Translations of the Book
+## 附錄 F：本書的翻譯本
 
-For resources in languages other than English. Most are still in progress; see
-[the Translations label][label] to help or let us know about a new translation!
+對於英文以外的語言資源，大部分都還在翻譯中，請查看 [Translations label][label] 來幫助或讓我們知道有哪些新的翻譯！
 
 [label]: https://github.com/rust-lang/book/issues?q=is%3Aopen+is%3Aissue+label%3ATranslations
 
@@ -25,3 +24,7 @@ For resources in languages other than English. Most are still in progress; see
 - [Farsi](https://github.com/pomokhtari/rust-book-fa)
 - [Deutsch](https://github.com/rust-lang-de/rustbook-de)
 - [Turkish](https://github.com/RustDili/dokuman/tree/master/ceviriler), [online](https://rustdili.github.io/)
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-06-translation.md)
+> - updated: 2020-09-30
