@@ -1,44 +1,22 @@
-# An I/O Project: Building a Command Line Program
+# I/O 專案：建立一個命令列程式
 
-This chapter is a recap of the many skills you’ve learned so far and an
-exploration of a few more standard library features. We’ll build a command line
-tool that interacts with file and command line input/output to practice some of
-the Rust concepts you now have under your belt.
+本章節用來回顧你目前學過的許多計技能，並探索些標準函式庫中的更多功能。我們會來建立個命令列工作來處理檔案與命令列輸入／輸出，以此練習些已經在你的工具箱內的 Rust 概念。
 
-Rust’s speed, safety, single binary output, and cross-platform support make it
-an ideal language for creating command line tools, so for our project, we’ll
-make our own version of the classic command line tool `grep` (**g**lobally
-search a **r**egular **e**xpression and **p**rint). In the simplest use case,
-`grep` searches a specified file for a specified string. To do so, `grep` takes
-as its arguments a filename and a string. Then it reads the file, finds lines
-in that file that contain the string argument, and prints those lines.
+Rust 的速度、安全、單一二進制輸出與跨平台支援使其成爲建立命令列工具的絕佳語言。所以在我們的專案中，我們要寫出我們自己的經典命令列工具 `grep`（**g**lobally search a **r**egular **e**xpression and **p**rint）。在最簡單的使用場合中，`grep` 會搜尋指定檔案中的指定字串。爲此 `grep` 會接收一個檔案名稱與一個字串作爲其引數。然後它會讀取檔案、在該檔案中找到包含字串引數的行數，並印出這些行數。
 
-Along the way, we’ll show how to make our command line tool use features of the
-terminal that many command line tools use. We’ll read the value of an
-environment variable to allow the user to configure the behavior of our tool.
-We’ll also print error messages to the standard error console stream (`stderr`)
-instead of standard output (`stdout`), so, for example, the user can redirect
-successful output to a file while still seeing error messages onscreen.
+在過程中，我們會展示如何讓我們的命令列工具和其他許多命令列工具一樣使用終端機的功能。我們會讀取一個環境變數的數值來讓使用者可以設置此工具的行爲。我們還會將錯誤訊息在控制台中的標準錯誤（`stderr`）顯示而非標準輸出（`stdout`）。所以舉例來說，使用者可以將成功的標準輸出重新導向至一個檔案，並仍能在螢幕上看到錯誤訊息。
 
-One Rust community member, Andrew Gallant, has already created a fully
-featured, very fast version of `grep`, called `ripgrep`. By comparison, our
-version of `grep` will be fairly simple, but this chapter will give you some of
-the background knowledge you need to understand a real-world project such as
-`ripgrep`.
+其中一位 Rust 社群成員 Andrew Gallant 已經有建立個功能完善且十分迅速的 `grep` 版本，叫做 `ripgrep`。相比之下，我們的 `grep` 版本會相對簡單許多，但此章節能給你些背景知識，來幫你理解像是 `ripgrep` 等真實專案。
 
-Our `grep` project will combine a number of concepts you’ve learned so far:
+我們的 `grep` 專案會組合你所學過的各種概念：
 
-* Organizing code (using what you learned about modules in [Chapter 7][ch7]<!--
-  ignore -->)
-* Using vectors and strings (collections, [Chapter 8][ch8]<!-- ignore -->)
-* Handling errors ([Chapter 9][ch9]<!-- ignore -->)
-* Using traits and lifetimes where appropriate ([Chapter 10][ch10]<!-- ignore
-  -->)
-* Writing tests ([Chapter 11][ch11]<!-- ignore -->)
+* 組織程式碼（使用你在[第七章][ch7]<!--   ignore -->所學的模組）
+* 使用 vector 與字串（[第八章][ch8]<!-- ignore -->的集合）
+* 錯誤處理（[Chapter 9][ch9]<!-- ignore -->）
+* 合理的使用特徵與生命週期（[第十章][ch10]<!-- ignore -->）
+* 測試（[第十一章][ch11]<!-- ignore -->）
 
-We’ll also briefly introduce closures, iterators, and trait objects, which
-Chapters [13][ch13]<!-- ignore --> and [17][ch17]<!-- ignore --> will cover in
-detail.
+我們還會簡單介紹閉包、疊代器與特徵物件，這些在[第十三章][ch13]<!-- ignore -->與[第十七章][ch17]<!-- ignore -->會做詳細介紹。
 
 [ch7]: ch07-00-managing-growing-projects-with-packages-crates-and-modules.html
 [ch8]: ch08-00-common-collections.html
@@ -47,3 +25,7 @@ detail.
 [ch11]: ch11-00-testing.html
 [ch13]: ch13-00-functional-features.html
 [ch17]: ch17-00-oop.html
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-00-an-io-project.md)
+> - updated: 2020-10-02

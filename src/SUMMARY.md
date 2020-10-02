@@ -64,13 +64,13 @@
     - [控制程式如何執行](ch11-02-running-tests.md)
     - [測試組織架構](ch11-03-test-organization.md)
 
-- [An I/O Project: Building a Command Line Program](ch12-00-an-io-project.md)
-    - [Accepting Command Line Arguments](ch12-01-accepting-command-line-arguments.md)
-    - [Reading a File](ch12-02-reading-a-file.md)
-    - [Refactoring to Improve Modularity and Error Handling](ch12-03-improving-error-handling-and-modularity.md)
-    - [Developing the Library’s Functionality with Test Driven Development](ch12-04-testing-the-librarys-functionality.md)
-    - [Working with Environment Variables](ch12-05-working-with-environment-variables.md)
-    - [Writing Error Messages to Standard Error Instead of Standard Output](ch12-06-writing-to-stderr-instead-of-stdout.md)
+- [I/O 專案：建立一個命令列程式](ch12-00-an-io-project.md)
+    - [接受命令列引數](ch12-01-accepting-command-line-arguments.md)
+    - [讀取檔案](ch12-02-reading-a-file.md)
+    - [透過重構來改善模組性與錯誤處理](ch12-03-improving-error-handling-and-modularity.md)
+    - [透過測試驅動開發完善函式庫功能](ch12-04-testing-the-librarys-functionality.md)
+    - [處理環境變數](ch12-05-working-with-environment-variables.md)
+    - [將錯誤訊息寫入標準錯誤而非標準輸出](ch12-06-writing-to-stderr-instead-of-stdout.md)
 
 ## Thinking in Rust
 
