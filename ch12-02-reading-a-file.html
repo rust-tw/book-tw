@@ -167,14 +167,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#reading-a-file" id="reading-a-file">Reading a File</a></h2>
-<p>Now we’ll add functionality to read the file that is specified in the
-<code>filename</code> command line argument. First, we need a sample file to test it with:
-the best kind of file to use to make sure <code>minigrep</code> is working is one with a
-small amount of text over multiple lines with some repeated words. Listing 12-3
-has an Emily Dickinson poem that will work well! Create a file called
-<em>poem.txt</em> at the root level of your project, and enter the poem “I’m Nobody!
-Who are you?”</p>
+                        <h2><a class="header" href="#讀取檔案" id="讀取檔案">讀取檔案</a></h2>
+<p>現在我們要加上能夠讀取 <code>filename</code> 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能嚷我們測試，要確保 <code>minigrep</code> 執行無誤的最佳檔案範本就是文字文件，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 <em>poem.txt</em>，然後輸入此詩 「I’m Nobody! Who are you?」</p>
 <p><span class="filename">檔案名稱：poem.txt</span></p>
 <pre><code class="language-text">I’m nobody! Who are you?
 Are you nobody, too?
@@ -186,10 +180,8 @@ How public, like a frog
 To tell your name the livelong day
 To an admiring bog!
 </code></pre>
-<p><span class="caption">範例 12-3: A poem by Emily Dickinson makes a good test
-case</span></p>
-<p>With the text in place, edit <em>src/main.rs</em> and add code to read the file, as
-shown in Listing 12-4.</p>
+<p><span class="caption">範例 12-3：以 Emily Dickinson 的詩作爲絕佳測試範本</span></p>
+<p>有了這些文字，接著修改 <em>src/main.rs</em> 來加上讀取檔案的程式碼，如範例 12-4 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic">use std::env;
 use std::fs;
@@ -210,19 +202,11 @@ fn main() {
     println!(&quot;With text:\n{}&quot;, contents);
 }
 </code></pre></pre>
-<p><span class="caption">範例 12-4: Reading the contents of the file specified
-by the second argument</span></p>
-<p>First, we add another <code>use</code> statement to bring in a relevant part of the
-standard library: we need <code>std::fs</code> to handle files.</p>
-<p>In <code>main</code>, we’ve added a new statement: <code>fs::read_to_string</code> takes the
-<code>filename</code>, opens that file, and returns a <code>Result&lt;String&gt;</code> of the file’s
-contents.</p>
-<p>After that statement, we’ve again added a temporary <code>println!</code> statement that
-prints the value of <code>contents</code> after the file is read, so we can check that the
-program is working so far.</p>
-<p>Let’s run this code with any string as the first command line argument (because
-we haven’t implemented the searching part yet) and the <em>poem.txt</em> file as the
-second argument:</p>
+<p><span class="caption">範例 12-4：讀取第二個引數指定的檔案內容</span></p>
+<p>首先，我們加上另一個 <code>use</code> 陳述式來將標準函式庫中的另一個相關部分引入：我們需要 <code>std::fs</code> 來處理檔案。</p>
+<p>在 <code>main</code> 中，我們加上新的陳述式：<code>fs::read_to_string</code> 會接收 <code>filename</code>、開啟該檔案並回傳檔案內容的 <code>Result&lt;String&gt;</code>。</p>
+<p>在陳述式之後，我們再次加上暫時的 <code>println!</code> 陳述式來在讀取檔案之後，顯示 <code>contents</code> 的數值，讓我們能檢查程式目前運作無誤。</p>
+<p>讓我們用任何字串作爲第一個命令列引數（因爲我們還沒實作搜尋的部分）並與 <em>poem.txt</em> 檔案作爲第二個引數來執行此程式碼：</p>
 <pre><code class="language-console">$ cargo run the poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
@@ -241,14 +225,14 @@ To tell your name the livelong day
 To an admiring bog!
 
 </code></pre>
-<p>Great! The code read and then printed the contents of the file. But the code
-has a few flaws. The <code>main</code> function has multiple responsibilities: generally,
-functions are clearer and easier to maintain if each function is responsible
-for only one idea. The other problem is that we’re not handling errors as well
-as we could. The program is still small, so these flaws aren’t a big problem,
-but as the program grows, it will be harder to fix them cleanly. It’s good
-practice to begin refactoring early on when developing a program, because it’s
-much easier to refactor smaller amounts of code. We’ll do that next.</p>
+<p>很好！程式碼有讀取並印出檔案內容。但此程式碼有些缺陷。<code>main</code> 函式負責太多事情了，通常如果每個函式都只負責一件事的話，函式才能清楚直白且易於維護。另一個問題是我們盡可能地處理錯誤。由於程式還很小，此缺陷不算什麼大問題，但隨著程式增長時，這會越來越難清楚地修正。在開發程式時盡早重構是很好的做法，因爲重構少量的程式碼會比較簡單。接下來就讓我們開始吧。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-02-reading-a-file.md">e5ed971</a></li>
+<li>updated: 2020-10-02</li>
+</ul>
+</blockquote>
 
                     </main>
 
