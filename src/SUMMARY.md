@@ -120,9 +120,9 @@
     - [進階函式與閉包](ch19-05-advanced-functions-and-closures.md)
     - [巨集](ch19-06-macros.md)
 
-- [Final Project: Building a Multithreaded Web Server](ch20-00-final-project-a-web-server.md)
-    - [Building a Single-Threaded Web Server](ch20-01-single-threaded.md)
-    - [Turning Our Single-Threaded Server into a Multithreaded Server](ch20-02-multithreaded.md)
+- [最終專案：建立多執行緒網頁伺服器](ch20-00-final-project-a-web-server.md)
+    - [建立單一執行緒的網頁伺服器](ch20-01-single-threaded.md)
+    - [將單一執行緒伺服器轉換爲多執行緒伺服器](ch20-02-multithreaded.md)
     - [Graceful Shutdown and Cleanup](ch20-03-graceful-shutdown-and-cleanup.md)
 
 - [附錄](appendix-00.md)
