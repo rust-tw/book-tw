@@ -167,66 +167,30 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#refactoring-to-improve-modularity-and-error-handling" id="refactoring-to-improve-modularity-and-error-handling">Refactoring to Improve Modularity and Error Handling</a></h2>
-<p>To improve our program, we’ll fix four problems that have to do with the
-program’s structure and how it’s handling potential errors.</p>
-<p>First, our <code>main</code> function now performs two tasks: it parses arguments and
-reads files. For such a small function, this isn’t a major problem. However, if
-we continue to grow our program inside <code>main</code>, the number of separate tasks the
-<code>main</code> function handles will increase. As a function gains responsibilities, it
-becomes more difficult to reason about, harder to test, and harder to change
-without breaking one of its parts. It’s best to separate functionality so each
-function is responsible for one task.</p>
-<p>This issue also ties into the second problem: although <code>query</code> and <code>filename</code>
-are configuration variables to our program, variables like <code>contents</code> are used
-to perform the program’s logic. The longer <code>main</code> becomes, the more variables
-we’ll need to bring into scope; the more variables we have in scope, the harder
-it will be to keep track of the purpose of each. It’s best to group the
-configuration variables into one structure to make their purpose clear.</p>
-<p>The third problem is that we’ve used <code>expect</code> to print an error message when
-reading the file fails, but the error message just prints <code>Something went wrong reading the file</code>. Reading a file can fail in a number of ways: for example,
-the file could be missing, or we might not have permission to open it. Right
-now, regardless of the situation, we’d print the <code>Something went wrong reading the file</code> error message, which wouldn’t give the user any information!</p>
-<p>Fourth, we use <code>expect</code> repeatedly to handle different errors, and if the user
-runs our program without specifying enough arguments, they’ll get an <code>index out of bounds</code> error from Rust that doesn’t clearly explain the problem. It would
-be best if all the error-handling code were in one place so future maintainers
-had only one place to consult in the code if the error-handling logic needed to
-change. Having all the error-handling code in one place will also ensure that
-we’re printing messages that will be meaningful to our end users.</p>
-<p>Let’s address these four problems by refactoring our project.</p>
-<h3><a class="header" href="#separation-of-concerns-for-binary-projects" id="separation-of-concerns-for-binary-projects">Separation of Concerns for Binary Projects</a></h3>
-<p>The organizational problem of allocating responsibility for multiple tasks to
-the <code>main</code> function is common to many binary projects. As a result, the Rust
-community has developed a process to use as a guideline for splitting the
-separate concerns of a binary program when <code>main</code> starts getting large. The
-process has the following steps:</p>
+                        <h2><a class="header" href="#透過重構來改善模組性與錯誤處理" id="透過重構來改善模組性與錯誤處理">透過重構來改善模組性與錯誤處理</a></h2>
+<p>爲了改善我們的程式，我們需要修正四個問題，這與程式架構與如何處理潛在錯誤有關。</p>
+<p>首先，我們的 <code>main</code> 函式會處理兩件任務：它得解析引數並讀取檔案。對於這麼小的函式來說，這不是大問題。然而，要是我們持續在 <code>main</code> 增加我們的程式，<code>main</code> 函式中要處理的任務就會增加。要是一個函式有這麼多責任，它就會越來越難理解，、越難測試且卻難在不破壞其他部分的情況下做改變。我們最好能將不同功能拆開，讓每個函式只負責一項任務。</p>
+<p>而這也和第二個問題有關：雖然 <code>query</code> 與 <code>filename</code> 是我們程式的設置變數，而變數 <code>contents</code> 則用於程式邏輯。隨著 <code>main</code> 增長，我們會需要引入越多變數至作用域中。而作用域中有越多變數，我們就用難追蹤每個變數的用途。我們最好是將設置變數集結成一個結構體，讓它們的用途清楚明白。</p>
+<p>第三個問題是當讀取檔案失敗時，我們使用 <code>expect</code> 來印出錯誤訊息，但是錯誤訊息只印出 <code>Something went wrong reading the file</code>。讀取檔案可以有好幾種失敗的方式：舉例來說，檔案可能不存在，或是我們可能沒有權限能開啟它。目前不管原因爲何，我們都只印出錯誤訊息 <code>Something went wrong reading the file</code>，這並沒有給使用者足夠的資訊！</p>
+<p>第四，我們重複使用 <code>expect</code> 來處理不同錯誤，而如果有使用者沒有指定足夠的引數來執行程式的話，他們會從 Rust 獲得 <code>index out of bounds</code> 的錯誤，這並沒有清楚解釋問題。最好是所有的錯誤處理程式碼都可以位於同個地方，讓未來的維護者只需要在此處來修改錯誤處理的程式碼。將所有錯誤處理的程式碼置於同處也能確保我們能提供對終端使用者有意義的訊息。</p>
+<p>讓我們來重構專案以解決這四個問題吧。</p>
+<h3><a class="header" href="#分開二進制專案的任務" id="分開二進制專案的任務">分開二進制專案的任務</a></h3>
+<p><code>main</code> 函式負責多數任務的組織分配問題在許多二進制專案中都很長鍵。所以 Rust 社群開發出了一種流程，這在當 <code>main</code> 開始變大時，能作爲分開二進制程式中任務的指導原則。此流程有以下步驟：</p>
 <ul>
-<li>Split your program into a <em>main.rs</em> and a <em>lib.rs</em> and move your program’s
-logic to <em>lib.rs</em>.</li>
-<li>As long as your command line parsing logic is small, it can remain in
-<em>main.rs</em>.</li>
-<li>When the command line parsing logic starts getting complicated, extract it
-from <em>main.rs</em> and move it to <em>lib.rs</em>.</li>
+<li>將你的程式分成 <em>main.rs</em> 與 a <em>lib.rs</em> 並將程式邏輯放到 <em>lib.rs</em>。</li>
+<li>只要你的命令列解析邏輯很小，它可以留在 <em>main.rs</em>。</li>
+<li>當命令行解析邏輯變得複雜時，就將其從 <em>main.rs</em> 移至 <em>lib.rs</em>。</li>
 </ul>
-<p>The responsibilities that remain in the <code>main</code> function after this process
-should be limited to the following:</p>
+<p>在此流程之後的 <code>main</code> 函式應該要只負責以下任務：</p>
 <ul>
-<li>Calling the command line parsing logic with the argument values</li>
-<li>Setting up any other configuration</li>
-<li>Calling a <code>run</code> function in <em>lib.rs</em></li>
-<li>Handling the error if <code>run</code> returns an error</li>
+<li>透過引數數值呼叫命令列解析邏輯</li>
+<li>設置任何其他的配置</li>
+<li>呼叫 <em>lib.rs</em> 中的 <code>run</code> 函式</li>
+<li>如果 <code>run</code> 回傳錯誤的話，處理該錯誤</li>
 </ul>
-<p>This pattern is about separating concerns: <em>main.rs</em> handles running the
-program, and <em>lib.rs</em> handles all the logic of the task at hand. Because you
-can’t test the <code>main</code> function directly, this structure lets you test all of
-your program’s logic by moving it into functions in <em>lib.rs</em>. The only code
-that remains in <em>main.rs</em> will be small enough to verify its correctness by
-reading it. Let’s rework our program by following this process.</p>
-<h4><a class="header" href="#extracting-the-argument-parser" id="extracting-the-argument-parser">Extracting the Argument Parser</a></h4>
-<p>We’ll extract the functionality for parsing arguments into a function that
-<code>main</code> will call to prepare for moving the command line parsing logic to
-<em>src/lib.rs</em>. Listing 12-5 shows the new start of <code>main</code> that calls a new
-function <code>parse_config</code>, which we’ll define in <em>src/main.rs</em> for the moment.</p>
+<p>此模式用於分開不同任務：<em>main.rs</em> 處理程式的執行，然後 <em>lib.rs</em> 處理眼前的所有任務邏輯。因爲你無法直接測試 <code>main</code>，此架構讓你能測試所有移至 <em>lib.rs</em> 的程式函式邏輯。留在 <em>main.rs</em> 的程式碼會非常小，所以容易直接用閱讀來驗證。讓我們用此流程來重構程式吧。</p>
+<h4><a class="header" href="#提取引數解析器" id="提取引數解析器">提取引數解析器</a></h4>
+<p>我們會提取解析引數的功能到一個 <code>main</code> 會呼叫的函式中，以將命令列解析邏輯妥善地移至 <em>src/lib.rs</em>。範例 12-5 展示新的 <code>main</code> 會呼叫新的函式 <code>parse_config</code>，而此函式我們先暫時留在 <em>src/main.rs</em>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -254,39 +218,16 @@ fn parse_config(args: &amp;[String]) -&gt; (&amp;str, &amp;str) {
     (query, filename)
 }
 </code></pre>
-<p><span class="caption">範例 12-5: Extracting a <code>parse_config</code> function from
-<code>main</code></span></p>
-<p>We’re still collecting the command line arguments into a vector, but instead of
-assigning the argument value at index 1 to the variable <code>query</code> and the
-argument value at index 2 to the variable <code>filename</code> within the <code>main</code>
-function, we pass the whole vector to the <code>parse_config</code> function. The
-<code>parse_config</code> function then holds the logic that determines which argument
-goes in which variable and passes the values back to <code>main</code>. We still create
-the <code>query</code> and <code>filename</code> variables in <code>main</code>, but <code>main</code> no longer has the
-responsibility of determining how the command line arguments and variables
-correspond.</p>
-<p>This rework may seem like overkill for our small program, but we’re refactoring
-in small, incremental steps. After making this change, run the program again to
-verify that the argument parsing still works. It’s good to check your progress
-often, to help identify the cause of problems when they occur.</p>
-<h4><a class="header" href="#grouping-configuration-values" id="grouping-configuration-values">Grouping Configuration Values</a></h4>
-<p>We can take another small step to improve the <code>parse_config</code> function further.
-At the moment, we’re returning a tuple, but then we immediately break that
-tuple into individual parts again. This is a sign that perhaps we don’t have
-the right abstraction yet.</p>
-<p>Another indicator that shows there’s room for improvement is the <code>config</code> part
-of <code>parse_config</code>, which implies that the two values we return are related and
-are both part of one configuration value. We’re not currently conveying this
-meaning in the structure of the data other than by grouping the two values into
-a tuple; we could put the two values into one struct and give each of the
-struct fields a meaningful name. Doing so will make it easier for future
-maintainers of this code to understand how the different values relate to each
-other and what their purpose is.</p>
+<p><span class="caption">範例 12-5：從 <code>main</code> 提取 <code>parse_config</code> 函式</span></p>
+<p>我們仍然收集命令列引數至 vector 中，但不同於在 <code>main</code> 函式中將索引 1 的引數數值賦值給變數 <code>query</code> 且將索引 2 的引數數值賦值給變數 <code>filename</code>，我們將整個 vector 傳至 <code>parse_config</code> 函式。<code>parse_config</code> 函式會擁有決定哪些引數要賦值給哪些變數的邏輯，並將數值回傳給 <code>main</code>。我們仍然在 <code>main</code> 中建立變數 <code>query</code> and <code>filename</code>，但 <code>main</code> 不再負責決定命令列引數與變數之間的關係。</p>
+<p>此重構可能對我們的小程式來說有點像是殺雞焉用牛刀，但是我們正一小步一小步地累積重構。走了這項改變後，請再次執行程式來驗證引數解析有沒有正常運作。經常檢查你的進展是很好的，這能幫助你找出問題發生地原因。</p>
+<h4><a class="header" href="#集結配置數值" id="集結配置數值">集結配置數值</a></h4>
+<p>我們可以在進一步改善 <code>parse_config</code> 函式。目前我們回傳的是元組，但是我們馬上又將元組拆成獨立部分。這是個我們還沒有建立正確抽象的信號。</p>
+<p>另外一個告訴我們還有改善空鍵的地方是 <code>parse_config</code> 名稱中的 <code>config</code>，這指示我們回傳的兩個數值是相關的，且都是配置數值的一部分。我們現在沒有確實表達出這樣的資料結構，而只有將兩個數值組合成一個元組而已，我們可以將這兩個數值存入一個結構體，並對每個結構體欄位給予有意義的名稱。這樣做能讓未來的維護者可以清楚知道這些數值的不同與關聯，以及它們的用途。</p>
 <blockquote>
-<p>Note: Using primitive values when a complex type would be more appropriate is
-an anti-pattern known as <em>primitive obsession</em>.</p>
+<p>注意：當使用複雜型別會比較理想時，卻仍使用原始數值的反模式（anti-pattern）被稱之爲<em>原始型別偏執（primitive obsession）</em>。</p>
 </blockquote>
-<p>Listing 12-6 shows the improvements to the <code>parse_config</code> function.</p>
+<p>範例 12-6 改善了 <code>parse_config</code> 函式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -319,60 +260,18 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
     Config { query, filename }
 }
 </code></pre></pre>
-<p><span class="caption">範例 12-6: Refactoring <code>parse_config</code> to return an
-instance of a <code>Config</code> struct</span></p>
-<p>We’ve added a struct named <code>Config</code> defined to have fields named <code>query</code> and
-<code>filename</code>. The signature of <code>parse_config</code> now indicates that it returns a
-<code>Config</code> value. In the body of <code>parse_config</code>, where we used to return string
-slices that reference <code>String</code> values in <code>args</code>, we now define <code>Config</code> to
-contain owned <code>String</code> values. The <code>args</code> variable in <code>main</code> is the owner of
-the argument values and is only letting the <code>parse_config</code> function borrow
-them, which means we’d violate Rust’s borrowing rules if <code>Config</code> tried to take
-ownership of the values in <code>args</code>.</p>
-<p>We could manage the <code>String</code> data in a number of different ways, but the
-easiest, though somewhat inefficient, route is to call the <code>clone</code> method on
-the values. This will make a full copy of the data for the <code>Config</code> instance to
-own, which takes more time and memory than storing a reference to the string
-data. However, cloning the data also makes our code very straightforward
-because we don’t have to manage the lifetimes of the references; in this
-circumstance, giving up a little performance to gain simplicity is a worthwhile
-trade-off.</p>
+<p><span class="caption">範例 12-6：重構 <code>parse_config</code> 來返回 <code>Config</code> 結構體實例</span></p>
+<p>我們定義了一個結構體 <code>Config</code> 其欄位有 <code>query</code> 與 <code>filename</code>。<code>parse_config</code> 的簽名現在指明它會回傳一個 <code>Config</code> 數值。在 <code>parse_config</code> 的本體中，我們原先回傳 <code>args</code> 中 <code>String</code> 數值引用的字串 slice，現在我們定義 <code>Config</code> 來包含具所有權的 <code>String</code> 數值。<code>main</code> 中的 <code>args</code> 變數是引數數值的擁有者，而且只是借用它們給 <code>parse_config</code> 函式，這意味著如果 <code>Config</code> 嘗試取得 <code>args</code> 中數值的所有權的話，我們會違反 Rust 的借用規則。</p>
+<p>我們可以用許多不同的方式來管理 <code>String</code> 的資料，但最簡單（卻較不有效率）的方式是對數值呼叫 <code>clone</code> 方法。這會複製整個資料讓 <code>Config</code> 能夠擁有，這會比引用字串資料還要花時間與記憶體。然而克隆資料讓我們的程式碼比較直白，因爲在此情況下我們就不需要管理引用的生命週期，犧牲一點效能以換取簡潔性是值得的。</p>
 <blockquote>
-<h3><a class="header" href="#the-trade-offs-of-using-clone" id="the-trade-offs-of-using-clone">The Trade-Offs of Using <code>clone</code></a></h3>
-<p>There’s a tendency among many Rustaceans to avoid using <code>clone</code> to fix
-ownership problems because of its runtime cost. In
-<a href="ch13-00-functional-features.html">Chapter 13</a><!-- ignore -->, you’ll learn how to use more efficient
-methods in this type of situation. But for now, it’s okay to copy a few
-strings to continue making progress because you’ll make these copies only
-once and your filename and query string are very small. It’s better to have
-a working program that’s a bit inefficient than to try to hyperoptimize code
-on your first pass. As you become more experienced with Rust, it’ll be
-easier to start with the most efficient solution, but for now, it’s
-perfectly acceptable to call <code>clone</code>.</p>
+<h3><a class="header" href="#使用-clone-的權衡取捨" id="使用-clone-的權衡取捨">使用 <code>clone</code> 的權衡取捨</a></h3>
+<p>由於 <code>clone</code> 會有運行時消耗，所以許多 Rustaceans 傾向於避免使用它來修正所有權問題。在<a href="ch13-00-functional-features.html">第十三章</a><!-- ignore -->中，你會學到如何更有效率的處理這種情況。但現在我們可以先複製字串來繼續進行下去，因爲你只複製了一次，而且檔案名稱與搜尋字串都算很小。先寫出較沒有效率但可執行的程式會比第一次就要過分優化還來的好。隨著你對 Rust 越熟練，你的確就可以從有效率的解決方案開始，但現在呼叫 <code>clone</code> 是完全可以接受的。</p>
 </blockquote>
-<p>We’ve updated <code>main</code> so it places the instance of <code>Config</code> returned by
-<code>parse_config</code> into a variable named <code>config</code>, and we updated the code that
-previously used the separate <code>query</code> and <code>filename</code> variables so it now uses
-the fields on the <code>Config</code> struct instead.</p>
-<p>Now our code more clearly conveys that <code>query</code> and <code>filename</code> are related and
-that their purpose is to configure how the program will work. Any code that
-uses these values knows to find them in the <code>config</code> instance in the fields
-named for their purpose.</p>
-<h4><a class="header" href="#creating-a-constructor-for-config" id="creating-a-constructor-for-config">Creating a Constructor for <code>Config</code></a></h4>
-<p>So far, we’ve extracted the logic responsible for parsing the command line
-arguments from <code>main</code> and placed it in the <code>parse_config</code> function. Doing so
-helped us to see that the <code>query</code> and <code>filename</code> values were related and that
-relationship should be conveyed in our code. We then added a <code>Config</code> struct to
-name the related purpose of <code>query</code> and <code>filename</code> and to be able to return the
-values’ names as struct field names from the <code>parse_config</code> function.</p>
-<p>So now that the purpose of the <code>parse_config</code> function is to create a <code>Config</code>
-instance, we can change <code>parse_config</code> from a plain function to a function
-named <code>new</code> that is associated with the <code>Config</code> struct. Making this change
-will make the code more idiomatic. We can create instances of types in the
-standard library, such as <code>String</code>, by calling <code>String::new</code>. Similarly, by
-changing <code>parse_config</code> into a <code>new</code> function associated with <code>Config</code>, we’ll
-be able to create instances of <code>Config</code> by calling <code>Config::new</code>. Listing 12-7
-shows the changes we need to make.</p>
+<p>我們更新 <code>main</code> 來將 <code>parse_config</code> 回傳的 <code>Config</code> 實例儲存至 <code>config</code> 變數中，並更新之前分別使用變數 <code>query</code> 與 <code>filename</code> 的程式碼段落來改使用 <code>Config</code> 結構體中的欄位。</p>
+<p>現在我們的程式碼更能表達出 <code>query</code> 與 <code>filename</code> 是相關的，而且它們的目的是配置程式的行爲。任何使用這些數值的程式碼都會從 <code>config</code> 實例中的欄位名稱知道它們的用途。</p>
+<h4><a class="header" href="#建立-config-的建構子" id="建立-config-的建構子">建立 <code>Config</code> 的建構子</a></h4>
+<p>目前我們將負責解析命令列引數的邏輯從 <code>main</code> 移至 <code>parse_config</code> 函式。這樣做能幫助我們理解 <code>query</code> 與 <code>filename</code> 數值是相關的，且此關係應該要能在我們的程式碼中表達出來。然後我們增加了結構體 <code>Config</code> 來描述 <code>query</code> 與 <code>filename</code> 的相關性，並在 <code>parse_config</code> 函式中將數值名稱作爲結構體欄位名稱來回傳。</p>
+<p>所以現在 <code>parse_config</code> 函式的目的是要建立 <code>Config</code> 實例，我們可以將 <code>parse_config</code> 從普通的函式變成與 <code>Config</code> 結構體相關連的 <code>new</code> 函式。這樣做能讓程式碼更符合慣例。我們可以對像是 <code>String</code> 等標準函式庫中的型別呼叫 <code>String::new</code> 來建立實例。同樣地，透過將 <code>parse_config</code> 改爲 <code>Config</code> 的關聯函式 <code>new</code>，我們可以透過呼叫 <code>Config::new</code> 來建立 <code>Config</code> 的實例。範例 12-7 正是我們要作出的改變。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -409,17 +308,10 @@ shows the changes we need to make.</p>
     }
 }
 </code></pre></pre>
-<p><span class="caption">範例 12-7: Changing <code>parse_config</code> into
-<code>Config::new</code></span></p>
-<p>We’ve updated <code>main</code> where we were calling <code>parse_config</code> to instead call
-<code>Config::new</code>. We’ve changed the name of <code>parse_config</code> to <code>new</code> and moved it
-within an <code>impl</code> block, which associates the <code>new</code> function with <code>Config</code>. Try
-compiling this code again to make sure it works.</p>
-<h3><a class="header" href="#fixing-the-error-handling" id="fixing-the-error-handling">Fixing the Error Handling</a></h3>
-<p>Now we’ll work on fixing our error handling. Recall that attempting to access
-the values in the <code>args</code> vector at index 1 or index 2 will cause the program to
-panic if the vector contains fewer than three items. Try running the program
-without any arguments; it will look like this:</p>
+<p><span class="caption">範例 12-7：變更 <code>parse_config</code> 成 <code>Config::new</code></span></p>
+<p>我們更新了 <code>main</code> 原先呼叫 <code>parse_config</code> 的地方來改呼叫 <code>Config::new</code>。我們變更了 <code>parse_config</code> 的名稱成 <code>new</code> 並移入 <code>impl</code> 區塊中，讓 <code>new</code> 成爲 <code>Config</code> 的關聯函式。請嘗試再次編譯此程式碼來確保它能執行。</p>
+<h3><a class="header" href="#修正錯誤處理" id="修正錯誤處理">修正錯誤處理</a></h3>
+<p>現在我們要來修正錯誤處理。回想一下要是 <code>args</code> vector 中的項目太少的話，嘗試取得 vector 中索引 1 或索引 2 的數值的話可能就會導致程式恐慌。試著不用任何引數執行程式的話，它會產生以下結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
@@ -427,13 +319,11 @@ without any arguments; it will look like this:</p>
 thread 'main' panicked at 'index out of bounds: the len is 1 but the index is 1', src/main.rs:27:21
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>The line <code>index out of bounds: the len is 1 but the index is 1</code> is an error
-message intended for programmers. It won’t help our end users understand what
+<p><code>index out of bounds: the len is 1 but the index is 1</code> 這行是給程式設計師看得錯誤訊息。這無法協助我們的終端使用者理解發生了什麼事以及他們開怎麼處理。讓我們來修正吧。
+It won’t help our end users understand what
 happened and what they should do instead. Let’s fix that now.</p>
-<h4><a class="header" href="#improving-the-error-message" id="improving-the-error-message">Improving the Error Message</a></h4>
-<p>In Listing 12-8, we add a check in the <code>new</code> function that will verify that the
-slice is long enough before accessing index 1 and 2. If the slice isn’t long
-enough, the program panics and displays a better error message than the <code>index out of bounds</code> message.</p>
+<h4><a class="header" href="#改善錯誤訊息" id="改善錯誤訊息">改善錯誤訊息</a></h4>
+<p>在範例 12-8 中，我們在 <code>new</code> 函式加上了一項檢查來驗證 slice 是否夠長，接著才會取得索引 1 和 2。如果 slice 不夠長的話，程式就會恐慌並顯示比 <code>indexout of bounds</code> 還清楚的錯誤訊息。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -472,17 +362,9 @@ enough, the program panics and displays a better error message than the <code>in
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 12-8: Adding a check for the number of
-arguments</span></p>
-<p>This code is similar to <a href="ch09-03-to-panic-or-not-to-panic.html#creating-custom-types-for-validation">the <code>Guess::new</code> function we wrote in Listing
-9-10</a><!-- ignore -->, where we called <code>panic!</code> when the
-<code>value</code> argument was out of the range of valid values. Instead of checking for
-a range of values here, we’re checking that the length of <code>args</code> is at least 3
-and the rest of the function can operate under the assumption that this
-condition has been met. If <code>args</code> has fewer than three items, this condition
-will be true, and we call the <code>panic!</code> macro to end the program immediately.</p>
-<p>With these extra few lines of code in <code>new</code>, let’s run the program without any
-arguments again to see what the error looks like now:</p>
+<p><span class="caption">範例 12-8：新增對引數數量的檢查</span></p>
+<p>此程式碼類似於我們在<a href="ch09-03-to-panic-or-not-to-panic.html#%E5%BB%BA%E7%AB%8B%E8%87%AA%E8%A8%82%E5%9E%8B%E5%88%A5%E4%BE%86%E9%A9%97%E8%AD%89">範例 9-10 寫的 <code>Guess::new</code> 函式</a><!-- ignore -->，在那裡當 <code>value</code> 超出有效數值的範圍時，我們就呼叫 <code>panic!</code>。然而在此我們不是檢查數值的範圍，而是檢查 <code>args</code> 的長度是否至少爲 3，然後函式剩餘的段落都能在假設此條件成立情況下正常執行。如果 <code>args</code> 的項目數量少於三的話，此條件會爲真，然後我們就會立即呼叫 <code>panic!</code> 巨集來結束程式。</p>
+<p>在 <code>new</code> 多了這些額外的程式碼之後，讓我們不用任何引數再次執行程式，來看看錯誤訊息爲何：</p>
 <pre><code class="language-console">$ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
@@ -490,24 +372,10 @@ arguments again to see what the error looks like now:</p>
 thread 'main' panicked at 'not enough arguments', src/main.rs:26:13
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>This output is better: we now have a reasonable error message. However, we also
-have extraneous information we don’t want to give to our users. Perhaps using
-the technique we used in Listing 9-10 isn’t the best to use here: a call to
-<code>panic!</code> is more appropriate for a programming problem than a usage problem,
-<a href="ch09-03-to-panic-or-not-to-panic.html#guidelines-for-error-handling">as discussed in Chapter 9</a><!-- ignore -->. Instead, we
-can use the other technique you learned about in Chapter 9—<a href="ch09-02-recoverable-errors-with-result.html">returning a
-<code>Result</code></a><!-- ignore --> that indicates either success or an error.</p>
-<h4><a class="header" href="#returning-a-result-from-new-instead-of-calling-panic" id="returning-a-result-from-new-instead-of-calling-panic">Returning a <code>Result</code> from <code>new</code> Instead of Calling <code>panic!</code></a></h4>
-<p>We can instead return a <code>Result</code> value that will contain a <code>Config</code> instance in
-the successful case and will describe the problem in the error case. When
-<code>Config::new</code> is communicating to <code>main</code>, we can use the <code>Result</code> type to
-signal there was a problem. Then we can change <code>main</code> to convert an <code>Err</code>
-variant into a more practical error for our users without the surrounding text
-about <code>thread 'main'</code> and <code>RUST_BACKTRACE</code> that a call to <code>panic!</code> causes.</p>
-<p>Listing 12-9 shows the changes we need to make to the return value of
-<code>Config::new</code> and the body of the function needed to return a <code>Result</code>. Note
-that this won’t compile until we update <code>main</code> as well, which we’ll do in the
-next listing.</p>
+<p>這樣的輸出就好多了，我們現在有個合理的錯誤訊息。然而我們還是顯示了一些額外資訊給使用者。也許在此使用範例 9-10 的技巧並不是最好的選擇，如同<a href="ch09-03-to-panic-or-not-to-panic.html#%E9%8C%AF%E8%AA%A4%E8%99%95%E7%90%86%E7%9A%84%E6%8C%87%E5%B0%8E%E5%8E%9F%E5%89%87">第九章所提及的</a><!-- ignore -->，<code>panic!</code> 的呼叫比較屬於程式設計問題，而不是使用問題。我們可以改使用第九章的其他技巧，像是<a href="ch09-02-recoverable-errors-with-result.html">回傳 <code>Result</code></a><!-- ignore -->來表達是成功還是失敗。</p>
+<h4><a class="header" href="#從-new-回傳-result-而非呼叫-panic" id="從-new-回傳-result-而非呼叫-panic">從 <code>new</code> 回傳 <code>Result</code> 而非呼叫 <code>panic!</code></a></h4>
+<p>我們可以回傳 <code>Result</code> 數值，在成功時包含 <code>Config</code> 的實例並在錯誤時描述問題原因。當 <code>Config::new</code> 與 <code>main</code> 溝通時，我們可以使用 <code>Result</code> 型別來表達這裡有問題發生。然後我們改變 <code>main</code> 來將 <code>Err</code> 變體轉換成適當的錯誤訊息給使用者，而不是像呼叫 <code>panic!</code> 時出現圍繞著 <code>thread 'main'</code> 與 <code>RUST_BACKTRACE</code> 的文字。</p>
+<p>範例 12-9 顯示我們得改變 <code>Config::new</code> 的回傳值並讓函式本體回傳 <code>Result</code>。注意到這還不能編譯，直到我們也更新 <code>main</code> 爲止，這會在下個範例解釋。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -544,27 +412,12 @@ next listing.</p>
     }
 }
 </code></pre>
-<p><span class="caption">範例 12-9: Returning a <code>Result</code> from
-<code>Config::new</code></span></p>
-<p>Our <code>new</code> function now returns a <code>Result</code> with a <code>Config</code> instance in the
-success case and a <code>&amp;'static str</code> in the error case. Recall from <a href="ch10-03-lifetime-syntax.html#the-static-lifetime">“The Static
-Lifetime”</a><!-- ignore --> section in Chapter 10 that
-<code>&amp;'static str</code> is the type of string literals, which is our error message type
-for now.</p>
-<p>We’ve made two changes in the body of the <code>new</code> function: instead of calling
-<code>panic!</code> when the user doesn’t pass enough arguments, we now return an <code>Err</code>
-value, and we’ve wrapped the <code>Config</code> return value in an <code>Ok</code>. These changes
-make the function conform to its new type signature.</p>
-<p>Returning an <code>Err</code> value from <code>Config::new</code> allows the <code>main</code> function to
-handle the <code>Result</code> value returned from the <code>new</code> function and exit the process
-more cleanly in the error case.</p>
-<h4><a class="header" href="#calling-confignew-and-handling-errors" id="calling-confignew-and-handling-errors">Calling <code>Config::new</code> and Handling Errors</a></h4>
-<p>To handle the error case and print a user-friendly message, we need to update
-<code>main</code> to handle the <code>Result</code> being returned by <code>Config::new</code>, as shown in
-Listing 12-10. We’ll also take the responsibility of exiting the command line
-tool with a nonzero error code from <code>panic!</code> and implement it by hand. A
-nonzero exit status is a convention to signal to the process that called our
-program that the program exited with an error state.</p>
+<p><span class="caption">範例 12-9：從 <code>Config::new</code> 回傳 <code>Result</code></span></p>
+<p>我們的 <code>new</code> 函式現在會回傳 <code>Result</code>，在成功時會有 <code>Config</code> 實例，而在錯誤時會有個 <code>&amp;'static str</code>。回憶一下第十章中<a href="ch10-03-lifetime-syntax.html#%E9%9D%9C%E6%85%8B%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F">「靜態生命週期」</a><!-- ignore -->的段落曾解釋 <code>&amp;'static str</code> 是字串字面值的型別，這正是我們目前的錯誤訊息型別。</p>
+<p>我們在 <code>new</code> 函式本體作出了兩項改變：不同於呼叫 <code>panic!</code>，當使用者沒有傳遞足夠引數時，我們現在會回傳 <code>Err</code> 數值。此外我們也將 <code>Config</code> 封裝進 <code>Ok</code> 作爲回傳值。這些改變讓函式能符合其新的型別簽名。</p>
+<p>從 <code>Config::new</code> 回傳 <code>Err</code> 數值讓 <code>main</code> 函式能處理 <code>new</code> 函式回傳的 <code>Result</code> 數值，並明確地在錯誤情況下離開程序。</p>
+<h4><a class="header" href="#呼叫-confignew-並處理錯誤" id="呼叫-confignew-並處理錯誤">呼叫 <code>Config::new</code> 並處理錯誤</a></h4>
+<p>爲了能處理錯誤情形並印出對使用者友善的訊息，我們需要更新 <code>main</code> 來處理 <code>Config::new</code> 回傳的 <code>Result</code>，如範例 12-10 所示。我們還要負責用一個非零的錯誤碼來離開命令列工具，這原先是 <code>panic!</code> 會處理的，現在我們得自己實作。非零退出狀態是個常見信號，用來告訴呼叫程式的程序，該程式離開時有個錯誤狀態。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -607,46 +460,19 @@ fn main() {
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 12-10: Exiting with an error code if creating a
-new <code>Config</code> fails</span></p>
-<p>In this listing, we’ve used a method we haven’t covered before:
-<code>unwrap_or_else</code>, which is defined on <code>Result&lt;T, E&gt;</code> by the standard library.
-Using <code>unwrap_or_else</code> allows us to define some custom, non-<code>panic!</code> error
-handling. If the <code>Result</code> is an <code>Ok</code> value, this method’s behavior is similar
-to <code>unwrap</code>: it returns the inner value <code>Ok</code> is wrapping. However, if the value
-is an <code>Err</code> value, this method calls the code in the <em>closure</em>, which is an
-anonymous function we define and pass as an argument to <code>unwrap_or_else</code>. We’ll
-cover closures in more detail in <a href="ch13-00-functional-features.html">Chapter 13</a><!-- ignore -->. For now,
-you just need to know that <code>unwrap_or_else</code> will pass the inner value of the
-<code>Err</code>, which in this case is the static string <code>not enough arguments</code> that we
-added in Listing 12-9, to our closure in the argument <code>err</code> that appears
-between the vertical pipes. The code in the closure can then use the <code>err</code>
-value when it runs.</p>
-<p>We’ve added a new <code>use</code> line to bring <code>process</code> from the standard library into
-scope. The code in the closure that will be run in the error case is only two
-lines: we print the <code>err</code> value and then call <code>process::exit</code>. The
-<code>process::exit</code> function will stop the program immediately and return the
-number that was passed as the exit status code. This is similar to the
-<code>panic!</code>-based handling we used in Listing 12-8, but we no longer get all the
-extra output. Let’s try it:</p>
+<p><span class="caption">範例 12-10：如果建立新的 <code>Config</code> 失敗時會用錯誤碼離開</span></p>
+<p>在此範例中，我們使用一個還沒介紹過的方法 <code>unwrap_or_else</code>，這定義在標準函式庫的 <code>Result&lt;T, E&gt;</code> 中。使用 <code>unwrap_or_else</code> 讓我們能定義一些自訂的非 <code>panic!</code> 錯誤處理。如果 <code>Result</code> 數值爲 <code>Ok</code>，此方法行爲就類似於 <code>unwrap</code>，它會回傳<code>Ok</code> 所封裝的內部數值。然而，如果數值爲 <code>Err</code> 的話，此方法會呼叫*閉包（closure）*內的程式碼，這會是由我們鎖定義的匿名函式並作爲引數傳給 <code>unwrap_or_else</code>。我們會在<a href="ch13-00-functional-features.html">第十三章</a><!-- ignore -->詳細介紹閉包。現在你只需要知道 <code>unwrap_or_else</code> 回傳遞 <code>Err</code> 的內部數值，在此例中就是我們在範例 12-9 新增的靜態字串 <code>not enough arguments</code>，將此數值傳遞給閉包中兩條直線之間的 <code>err</code> 引數。閉包內的程式碼就可以在執行時使用 <code>err</code> 數值。</p>
+<p>我們新增了一行 <code>use</code> 來將標準函式庫中的 <code>process</code> 引入作用域。在錯誤情形下要執行的閉包程式碼只有兩行：我們印出 <code>err</code> 數值並呼叫 <code>process::exit</code>。<code>process::exit</code> 函式會立即停止程式並回傳給予的數字來作爲退出狀態碼。這與範例 12-8 我們使用 <code>panic!</code> 來處理的方式類似，但我們不再顯示多餘的輸出結果。讓我們試試看：</p>
 <pre><code class="language-console">$ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
     Finished dev [unoptimized + debuginfo] target(s) in 0.48s
      Running `target/debug/minigrep`
 Problem parsing arguments: not enough arguments
 </code></pre>
-<p>Great! This output is much friendlier for our users.</p>
-<h3><a class="header" href="#extracting-logic-from-main" id="extracting-logic-from-main">Extracting Logic from <code>main</code></a></h3>
-<p>Now that we’ve finished refactoring the configuration parsing, let’s turn to
-the program’s logic. As we stated in <a href="#separation-of-concerns-for-binary-projects">“Separation of Concerns for Binary
-Projects”</a><!-- ignore -->, we’ll
-extract a function named <code>run</code> that will hold all the logic currently in the
-<code>main</code> function that isn’t involved with setting up configuration or handling
-errors. When we’re done, <code>main</code> will be concise and easy to verify by
-inspection, and we’ll be able to write tests for all the other logic.</p>
-<p>Listing 12-11 shows the extracted <code>run</code> function. For now, we’re just making
-the small, incremental improvement of extracting the function. We’re still
-defining the function in <em>src/main.rs</em>.</p>
+<p>很好！這樣的輸出結果對使用者友善多了。</p>
+<h3><a class="header" href="#從提取-main-邏輯" id="從提取-main-邏輯">從提取 <code>main</code> 邏輯</a></h3>
+<p>現在我們完成配置解析的重構了，接下來輪到程式邏輯了。如同我們在<a href="#%E5%88%86%E9%96%8B%E4%BA%8C%E9%80%B2%E5%88%B6%E5%B0%88%E6%A1%88%E7%9A%84%E4%BB%BB%E5%8B%99">「分開二進制專案的任務」</a><!-- ignore -->中所提及的，我們會提取一個函式叫做 <code>run</code>，這會存有目前 <code>main</code> 函式中除了設置配置或處理錯誤以外的所有邏輯。當我們完成後，<code>main</code> 會變得非常簡潔，且能輕鬆用肉眼來驗證，然後我就能對所有其他邏輯進行測試了。</p>
+<p>範例 12-11 提取了 <code>run</code> 函式。目前我們在提取函式時，會逐步作出小小的改善。我們仍然在 <em>src/main.rs</em> 底下定義函式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -695,19 +521,10 @@ fn run(config: Config) {
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 12-11: Extracting a <code>run</code> function containing the
-rest of the program logic</span></p>
-<p>The <code>run</code> function now contains all the remaining logic from <code>main</code>, starting
-from reading the file. The <code>run</code> function takes the <code>Config</code> instance as an
-argument.</p>
-<h4><a class="header" href="#returning-errors-from-the-run-function" id="returning-errors-from-the-run-function">Returning Errors from the <code>run</code> Function</a></h4>
-<p>With the remaining program logic separated into the <code>run</code> function, we can
-improve the error handling, as we did with <code>Config::new</code> in Listing 12-9.
-Instead of allowing the program to panic by calling <code>expect</code>, the <code>run</code>
-function will return a <code>Result&lt;T, E&gt;</code> when something goes wrong. This will let
-us further consolidate into <code>main</code> the logic around handling errors in a
-user-friendly way. Listing 12-12 shows the changes we need to make to the
-signature and body of <code>run</code>.</p>
+<p><span class="caption">範例 12-11：提取 <code>run</code> 函式來包含剩餘的程式邏輯</span></p>
+<p><code>run</code> 現在會包含 <code>main</code> 中從讀取文件開始的所有剩餘邏輯。<code>run</code> 函式會接收 <code>Config</code> 實例來作爲引數。</p>
+<h4><a class="header" href="#從-run-函式回傳錯誤" id="從-run-函式回傳錯誤">從 <code>run</code> 函式回傳錯誤</a></h4>
+<p>隨著剩餘程式邏輯都移至 <code>run</code> 函式，我們可以像範例 12-9 的 <code>Config::new</code> 一樣來改善錯誤處理。不同於讓程式呼叫 <code>expect</code> 來恐慌，當有問題發生時，<code>run</code> 函式會回傳 <code>Result&lt;T, E&gt;</code>。這能讓我們進一步穩固 <code>main</code> 中對使用者友善的處理錯誤邏輯。範例 12-12 展示我們對 <code>run</code> 的簽名與本體所需要做的改變。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -757,31 +574,12 @@ signature and body of <code>run</code>.</p>
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 12-12: Changing the <code>run</code> function to return
-<code>Result</code></span></p>
-<p>We’ve made three significant changes here. First, we changed the return type of
-the <code>run</code> function to <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code>. This function previously
-returned the unit type, <code>()</code>, and we keep that as the value returned in the
-<code>Ok</code> case.</p>
-<p>For the error type, we used the <em>trait object</em> <code>Box&lt;dyn Error&gt;</code> (and we’ve
-brought <code>std::error::Error</code> into scope with a <code>use</code> statement at the top).
-We’ll cover trait objects in <a href="ch17-00-oop.html">Chapter 17</a><!-- ignore -->. For now, just
-know that <code>Box&lt;dyn Error&gt;</code> means the function will return a type that
-implements the <code>Error</code> trait, but we don’t have to specify what particular type
-the return value will be. This gives us flexibility to return error values that
-may be of different types in different error cases. The <code>dyn</code> keyword is short
-for “dynamic.”</p>
-<p>Second, we’ve removed the call to <code>expect</code> in favor of the <code>?</code> operator, as we
-talked about in <a href="ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator">Chapter 9</a><!-- ignore -->. Rather than
-<code>panic!</code> on an error, <code>?</code> will return the error value from the current function
-for the caller to handle.</p>
-<p>Third, the <code>run</code> function now returns an <code>Ok</code> value in the success case. We’ve
-declared the <code>run</code> function’s success type as <code>()</code> in the signature, which
-means we need to wrap the unit type value in the <code>Ok</code> value. This <code>Ok(())</code>
-syntax might look a bit strange at first, but using <code>()</code> like this is the
-idiomatic way to indicate that we’re calling <code>run</code> for its side effects only;
-it doesn’t return a value we need.</p>
-<p>When you run this code, it will compile but will display a warning:</p>
+<p><span class="caption">範例 12-12：變更 <code>run</code> 函式來回傳 <code>Result</code></span></p>
+<p>我們在此做了三項明顯的修改。首先，我們改變了 <code>run</code> 函式的回傳型別爲 <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code>，此函式之前回傳的是單元型別 <code>()</code>，而它現在仍作爲 <code>Ok</code> 條件內的數值。</p>
+<p>對於錯誤型別，我們使用<em>特徵物件（trait object）</em> <code>Box&lt;dyn Error&gt;</code>（然後我們在最上方透過 <code>use</code> 陳述式來將 <code>std::error::Error</code> 引入作用域）。我們會在<a href="ch17-00-oop.html">第十七章</a><!-- ignore -->討論特徵物件。現在你只需要知道 <code>Box&lt;dyn Error&gt;</code> 代表函式會回傳有實作 <code>Error</code> 特徵的型別，但我們不必指定回傳值的明確型別。這這增加了回傳錯誤數值的彈性，其在不同錯誤情形中可能有不同的型別。<code>dyn</code> 關鍵字是「動態（dynamic）」的縮寫。</p>
+<p>再來，我們移出了 <code>expect</code> 的呼叫並改爲<a href="ch09-02-recoverable-errors-with-result.html#%E5%82%B3%E6%92%AD%E9%8C%AF%E8%AA%A4%E7%9A%84%E6%8D%B7%E5%BE%91-%E9%81%8B%E7%AE%97%E5%AD%90">第九章</a><!-- ignore -->所介紹的 <code>?</code> 運算子。所以與其對錯誤 <code>panic!</code>，<code>?</code> 會回傳當前函式的錯誤數值，並交由呼叫者處理。</p>
+<p>第三，<code>run</code> 函式現在成功時會回傳 <code>Ok</code> 數值。我們在 <code>run</code> 函式簽名中的成功型別爲 <code>()</code>，這意味著我們需要將單元型別封裝進 <code>Ok</code> 數值。<code>Ok(())</code> 這樣的語法一開始看可能會覺得有點奇怪，但這樣子使用 <code>()</code> 的確符合慣例，說明我們呼叫 <code>run</code> 只是會了它的副作用，它不會回傳我們需要的數值。</p>
+<p>當你執行此程式時，它雖然能編譯但會顯示一個警告：</p>
 <pre><code class="language-console">$ cargo run the poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
 warning: unused `std::result::Result` that must be used
@@ -809,13 +607,9 @@ To tell your name the livelong day
 To an admiring bog!
 
 </code></pre>
-<p>Rust tells us that our code ignored the <code>Result</code> value and the <code>Result</code> value
-might indicate that an error occurred. But we’re not checking to see whether or
-not there was an error, and the compiler reminds us that we probably meant to
-have some error-handling code here! Let’s rectify that problem now.</p>
-<h4><a class="header" href="#handling-errors-returned-from-run-in-main" id="handling-errors-returned-from-run-in-main">Handling Errors Returned from <code>run</code> in <code>main</code></a></h4>
-<p>We’ll check for errors and handle them using a technique similar to one we used
-with <code>Config::new</code> in Listing 12-10, but with a slight difference:</p>
+<p>Rust 告訴我們程式碼忽略了 <code>Result</code> 數值且 <code>Result</code> 數值可能代表會有錯誤發生。但我們沒有檢查是不是會發生錯誤，所以編譯器提醒我們可能要在此寫些錯誤處理的程式碼！我們現在就來修正此問題。</p>
+<h4><a class="header" href="#在-main-中處理-run-回傳的錯誤" id="在-main-中處理-run-回傳的錯誤">在 <code>main</code> 中處理 <code>run</code> 回傳的錯誤</a></h4>
+<p>我們會用類似範例 12-10 中處理 <code>Config::new</code> 的技巧來處理錯誤，不過會有一些差別：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::error::Error;
@@ -868,29 +662,18 @@ with <code>Config::new</code> in Listing 12-10, but with a slight difference:</p
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p>We use <code>if let</code> rather than <code>unwrap_or_else</code> to check whether <code>run</code> returns an
-<code>Err</code> value and call <code>process::exit(1)</code> if it does. The <code>run</code> function doesn’t
-return a value that we want to <code>unwrap</code> in the same way that <code>Config::new</code>
-returns the <code>Config</code> instance. Because <code>run</code> returns <code>()</code> in the success case,
-we only care about detecting an error, so we don’t need <code>unwrap_or_else</code> to
-return the unwrapped value because it would only be <code>()</code>.</p>
-<p>The bodies of the <code>if let</code> and the <code>unwrap_or_else</code> functions are the same in
-both cases: we print the error and exit.</p>
-<h3><a class="header" href="#splitting-code-into-a-library-crate" id="splitting-code-into-a-library-crate">Splitting Code into a Library Crate</a></h3>
-<p>Our <code>minigrep</code> project is looking good so far! Now we’ll split the
-<em>src/main.rs</em> file and put some code into the <em>src/lib.rs</em> file so we can test
-it and have a <em>src/main.rs</em> file with fewer responsibilities.</p>
-<p>Let’s move all the code that isn’t the <code>main</code> function from <em>src/main.rs</em> to
-<em>src/lib.rs</em>:</p>
+<p>我們使用 <code>if let</code> 而非 <code>unwrap_or_else</code> 來檢查 <code>run</code> 是否有回傳 <code>Err</code> 數值，並以此呼叫 <code>process::exit(1)</code>。<code>run</code> 函式沒有回傳數值，所以我們不必像處理 <code>Config::new</code> 得用 <code>unwrap</code> 取得 <code>Config</code> 實例。因爲 <code>run</code> 在成功時會回傳 <code>()</code>，而我們只在乎偵測錯誤，所以我們不需要 <code>unwrap_or_else</code> 來回傳解封裝後的數值，因爲它只會是 <code>()</code>。</p>
+<p><code>if let</code> 的本體與 <code>unwrap_or_else</code> 函式則都做一樣的事情：印出錯誤並離開。</p>
+<h3><a class="header" href="#將程式碼拆到函式庫-crate" id="將程式碼拆到函式庫-crate">將程式碼拆到函式庫 Crate</a></h3>
+<p>我們的 <code>minigrep</code> 專案目前看起來不錯！接下來我們要將 <em>src/main.rs</em> 檔案該開來，將一些程式碼放入 <em>src/lib.rs</em> 檔案中，讓我們可以進行測試，並讓 <em>src/main.rs</em> 檔案的負擔變得少一點。</p>
+<p>讓我們將 <code>main</code> 以外的所有程式碼從 <em>src/main.rs</em> 移到 <em>src/lib.rs</em>：</p>
 <ul>
-<li>The <code>run</code> function definition</li>
-<li>The relevant <code>use</code> statements</li>
-<li>The definition of <code>Config</code></li>
-<li>The <code>Config::new</code> function definition</li>
+<li><code>run</code> 函式定義</li>
+<li>相關的 <code>use</code> 陳述式</li>
+<li><code>Config</code> 的定義</li>
+<li><code>Config::new</code> 的函式定義</li>
 </ul>
-<p>The contents of <em>src/lib.rs</em> should have the signatures shown in Listing 12-13
-(we’ve omitted the bodies of the functions for brevity). Note that this won’t
-compile until we modify <em>src/main.rs</em> in Listing 12-14.</p>
+<p><em>src/lib.rs</em> 的內容應該要如範例 12-13 所示（爲了簡潔我們省略的函式本體）。注意到這還無法編譯，直到我們也修改 <em>src/main.rs</em> 成範例 12-14 爲止。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">use std::error::Error;
 use std::fs;
@@ -923,13 +706,9 @@ pub fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 </span><span class="boring">    Ok(())
 </span>}
 </code></pre>
-<p><span class="caption">範例 12-13: Moving <code>Config</code> and <code>run</code> into
-<em>src/lib.rs</em></span></p>
-<p>We’ve made liberal use of the <code>pub</code> keyword: on <code>Config</code>, on its fields and its
-<code>new</code> method, and on the <code>run</code> function. We now have a library crate that has a
-public API that we can test!</p>
-<p>Now we need to bring the code we moved to <em>src/lib.rs</em> into the scope of the
-binary crate in <em>src/main.rs</em>, as shown in Listing 12-14.</p>
+<p><span class="caption">範例 12-13：將 <code>Config</code> 與 <code>run</code> 移至 <em>src/lib.rs</em></span></p>
+<p>我們對許多項目都使用了 <code>pub</code> 關鍵字，這包含 <code>Config</code> 與其欄位，以及其 <code>new</code> 方法，還有 <code>run</code> 函式。我們現在有個函式庫會提供公開 API 能讓我們來測試！</p>
+<p>現在我們需要將移至 <em>src/lib.rs</em> 的程式碼引入二進制 crate 的 <em>src/main.rs</em> 作用域中，如範例 12-14 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use std::env;
 use std::process;
@@ -956,19 +735,17 @@ fn main() {
 </span>    }
 }
 </code></pre>
-<p><span class="caption">範例 12-14: Using the <code>minigrep</code> library crate in
-<em>src/main.rs</em></span></p>
-<p>We add a <code>use minigrep::Config</code> line to bring the <code>Config</code> type from the
-library crate into the binary crate’s scope, and we prefix the <code>run</code> function
-with our crate name. Now all the functionality should be connected and should
-work. Run the program with <code>cargo run</code> and make sure everything works
-correctly.</p>
-<p>Whew! That was a lot of work, but we’ve set ourselves up for success in the
-future. Now it’s much easier to handle errors, and we’ve made the code more
-modular. Almost all of our work will be done in <em>src/lib.rs</em> from here on out.</p>
-<p>Let’s take advantage of this newfound modularity by doing something that would
-have been difficult with the old code but is easy with the new code: we’ll
-write some tests!</p>
+<p><span class="caption">範例 12-14：在 <em>src/main.rs</em> 使用 <code>minigrep</code> 函式庫 crate</span></p>
+<p>我們加上 <code>use minigrep::Config</code> 這行來將 <code>Config</code> 型別從函式庫 crate 引入二進制 crate 的作用域中，然後我們使用 <code>run</code> 函式的方式是在其前面再加上 crate 的名稱。現在所有的功能都應該正常並能執行了。透過 <code>cargo run</code> 來執行程式並確保一切正常。</p>
+<p>哇！辛苦了,不過我們爲未來的成功打下了基礎。現在處理錯誤就輕鬆多了，而且我們讓程式更模組話。現在幾乎所有的工作都會在 <em>src/lib.rs</em> 中進行。</p>
+<p>讓我們利用這個新的模組化優勢來進行些原本在就程式碼會很難處理的工作，但在新的程式碼會變得非常容易，那就是寫些測試！</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-03-improving-error-handling-and-modularity.md">e5ed971</a></li>
+<li>updated: 2020-10-02</li>
+</ul>
+</blockquote>
 
                     </main>
 
