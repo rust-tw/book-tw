@@ -241,157 +241,64 @@ friendly and approachable text intended to help you level up not just your
 knowledge of Rust, but also your reach and confidence as a programmer in
 general. So dive in, get ready to learn—and welcome to the Rust community!</p>
 <p>— Nicholas Matsakis and Aaron Turon</p>
-<h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+<h1><a class="header" href="#介紹" id="介紹">介紹</a></h1>
 <blockquote>
-<p>Note: This edition of the book is the same as <a href="https://nostarch.com/rust">The Rust Programming
-Language</a> available in print and ebook format from <a href="https://nostarch.com/">No Starch
-Press</a>.</p>
+<p>注意：本書的（英文）版本與出版的 <a href="https://nostarch.com/rust">The Rust Programming Language</a> 以及電子書版本的 <a href="https://nostarch.com/">No Starch Press</a> 一致。</p>
 </blockquote>
-<p>Welcome to <em>The Rust Programming Language</em>, an introductory book about Rust.
-The Rust programming language helps you write faster, more reliable software.
-High-level ergonomics and low-level control are often at odds in programming
-language design; Rust challenges that conflict. Through balancing powerful
-technical capacity and a great developer experience, Rust gives you the option
-to control low-level details (such as memory usage) without all the hassle
-traditionally associated with such control.</p>
-<h2><a class="header" href="#who-rust-is-for" id="who-rust-is-for">Who Rust Is For</a></h2>
-<p>Rust is ideal for many people for a variety of reasons. Let’s look at a few of
-the most important groups.</p>
-<h3><a class="header" href="#teams-of-developers" id="teams-of-developers">Teams of Developers</a></h3>
-<p>Rust is proving to be a productive tool for collaborating among large teams of
-developers with varying levels of systems programming knowledge. Low-level code
-is prone to a variety of subtle bugs, which in most other languages can be
-caught only through extensive testing and careful code review by experienced
-developers. In Rust, the compiler plays a gatekeeper role by refusing to
-compile code with these elusive bugs, including concurrency bugs. By working
-alongside the compiler, the team can spend their time focusing on the program’s
-logic rather than chasing down bugs.</p>
-<p>Rust also brings contemporary developer tools to the systems programming world:</p>
+<p>歡迎閱讀 <em>Rust 程式設計語言</em>，這是本 Rust 的入門書籍。Rust 程式設計語言能幫助你寫出更快更可靠的軟體。高階語言的易用性與低階語言的掌控性常常是程式設計語言之間的取捨，Rust 試圖挑戰這項矛盾。透過平衡強大的技術能力以及優秀的開發體驗，Rust 讓你能控制低階的實作細節（比如記憶體使用）的同時，免於以往這樣的控制所帶來的相關麻煩。</p>
+<h2><a class="header" href="#rust-適用於誰" id="rust-適用於誰">Rust 適用於誰</a></h2>
+<p>Rust 有非常多種誘因使其適用於各式各樣人。讓我們討論一些比較重要的目標客群。</p>
+<h3><a class="header" href="#開發團隊" id="開發團隊">開發團隊</a></h3>
+<p>Rust 已被證明是個能在各種系統程式設計領域的大型開發團隊中協作的高效開發工具。低階程式碼容易產生微妙的程式錯誤，這在多數其他語言只能靠密集的測試並由經驗豐富的開發者小心翼翼地審核程式碼才能找出它們。在 Rust 中，編譯器會扮演著守門員的角色來阻擋這些難以捉摸的程式錯誤，這包含並行錯誤。透過與編譯器一同合作，開發團隊可以將他們的時間專注在程式邏輯而不必成天追蹤錯誤。</p>
+<p>Rust 也將一些現代化的開發工具帶入系統程式設計的世界中：</p>
 <ul>
-<li>Cargo, the included dependency manager and build tool, makes adding,
-compiling, and managing dependencies painless and consistent across the Rust
-ecosystem.</li>
-<li>Rustfmt ensures a consistent coding style across developers.</li>
-<li>The Rust Language Server powers Integrated Development Environment (IDE)
-integration for code completion and inline error messages.</li>
+<li>Cargo 是個依賴函式庫管理暨建構中具，讓新增、編譯與管理依賴變得十分輕鬆，並在 Rust 生態系統維持一致性。</li>
+<li>Rustfmt 確保開發者遵循統一的程式碼風格。</li>
+<li>Rust Language Server 爲整合開發環境（IDE）提供了程式碼補全與行內錯誤訊息。</li>
 </ul>
-<p>By using these and other tools in the Rust ecosystem, developers can be
-productive while writing systems-level code.</p>
-<h3><a class="header" href="#students" id="students">Students</a></h3>
-<p>Rust is for students and those who are interested in learning about systems
-concepts. Using Rust, many people have learned about topics like operating
-systems development. The community is very welcoming and happy to answer
-student questions. Through efforts such as this book, the Rust teams want to
-make systems concepts more accessible to more people, especially those new to
-programming.</p>
-<h3><a class="header" href="#companies" id="companies">Companies</a></h3>
-<p>Hundreds of companies, large and small, use Rust in production for a variety of
-tasks. Those tasks include command line tools, web services, DevOps tooling,
-embedded devices, audio and video analysis and transcoding, cryptocurrencies,
-bioinformatics, search engines, Internet of Things applications, machine
-learning, and even major parts of the Firefox web browser.</p>
-<h3><a class="header" href="#open-source-developers" id="open-source-developers">Open Source Developers</a></h3>
-<p>Rust is for people who want to build the Rust programming language, community,
-developer tools, and libraries. We’d love to have you contribute to the Rust
-language.</p>
-<h3><a class="header" href="#people-who-value-speed-and-stability" id="people-who-value-speed-and-stability">People Who Value Speed and Stability</a></h3>
-<p>Rust is for people who crave speed and stability in a language. By speed, we
-mean the speed of the programs that you can create with Rust and the speed at
-which Rust lets you write them. The Rust compiler’s checks ensure stability
-through feature additions and refactoring. This is in contrast to the brittle
-legacy code in languages without these checks, which developers are often
-afraid to modify. By striving for zero-cost abstractions, higher-level features
-that compile to lower-level code as fast as code written manually, Rust
-endeavors to make safe code be fast code as well.</p>
-<p>The Rust language hopes to support many other users as well; those mentioned
-here are merely some of the biggest stakeholders. Overall, Rust’s greatest
-ambition is to eliminate the trade-offs that programmers have accepted for
-decades by providing safety <em>and</em> productivity, speed <em>and</em> ergonomics. Give
-Rust a try and see if its choices work for you.</p>
-<h2><a class="header" href="#who-this-book-is-for" id="who-this-book-is-for">Who This Book Is For</a></h2>
-<p>This book assumes that you’ve written code in another programming language but
-doesn’t make any assumptions about which one. We’ve tried to make the material
-broadly accessible to those from a wide variety of programming backgrounds. We
-don’t spend a lot of time talking about what programming <em>is</em> or how to think
-about it. If you’re entirely new to programming, you would be better served by
-reading a book that specifically provides an introduction to programming.</p>
-<h2><a class="header" href="#how-to-use-this-book" id="how-to-use-this-book">How to Use This Book</a></h2>
-<p>In general, this book assumes that you’re reading it in sequence from front to
-back. Later chapters build on concepts in earlier chapters, and earlier
-chapters might not delve into details on a topic; we typically revisit the
-topic in a later chapter.</p>
-<p>You’ll find two kinds of chapters in this book: concept chapters and project
-chapters. In concept chapters, you’ll learn about an aspect of Rust. In project
-chapters, we’ll build small programs together, applying what you’ve learned so
-far. Chapters 2, 12, and 20 are project chapters; the rest are concept chapters.</p>
-<p>Chapter 1 explains how to install Rust, how to write a “Hello, world!” program,
-and how to use Cargo, Rust’s package manager and build tool. Chapter 2 is a
-hands-on introduction to the Rust language. Here we cover concepts at a high
-level, and later chapters will provide additional detail. If you want to get
-your hands dirty right away, Chapter 2 is the place for that. At first, you
-might even want to skip Chapter 3, which covers Rust features similar to those
-of other programming languages, and head straight to Chapter 4 to learn about
-Rust’s ownership system. However, if you’re a particularly meticulous learner
-who prefers to learn every detail before moving on to the next, you might want
-to skip Chapter 2 and go straight to Chapter 3, returning to Chapter 2 when
-you’d like to work on a project applying the details you’ve learned.</p>
-<p>Chapter 5 discusses structs and methods, and Chapter 6 covers enums, <code>match</code>
-expressions, and the <code>if let</code> control flow construct. You’ll use structs and
-enums to make custom types in Rust.</p>
-<p>In Chapter 7, you’ll learn about Rust’s module system and about privacy rules
-for organizing your code and its public Application Programming Interface
-(API). Chapter 8 discusses some common collection data structures that the
-standard library provides, such as vectors, strings, and hash maps. Chapter 9
-explores Rust’s error-handling philosophy and techniques.</p>
-<p>Chapter 10 digs into generics, traits, and lifetimes, which give you the power
-to define code that applies to multiple types. Chapter 11 is all about testing,
-which even with Rust’s safety guarantees is necessary to ensure your program’s
-logic is correct. In Chapter 12, we’ll build our own implementation of a subset
-of functionality from the <code>grep</code> command line tool that searches for text
-within files. For this, we’ll use many of the concepts we discussed in the
-previous chapters.</p>
-<p>Chapter 13 explores closures and iterators: features of Rust that come from
-functional programming languages. In Chapter 14, we’ll examine Cargo in more
-depth and talk about best practices for sharing your libraries with others.
-Chapter 15 discusses smart pointers that the standard library provides and the
-traits that enable their functionality.</p>
-<p>In Chapter 16, we’ll walk through different models of concurrent programming
-and talk about how Rust helps you to program in multiple threads fearlessly.
-Chapter 17 looks at how Rust idioms compare to object-oriented programming
-principles you might be familiar with.</p>
-<p>Chapter 18 is a reference on patterns and pattern matching, which are powerful
-ways of expressing ideas throughout Rust programs. Chapter 19 contains a
-smorgasbord of advanced topics of interest, including unsafe Rust, macros, and
-more about lifetimes, traits, types, functions, and closures.</p>
-<p>In Chapter 20, we’ll complete a project in which we’ll implement a low-level
-multithreaded web server!</p>
-<p>Finally, some appendixes contain useful information about the language in a
-more reference-like format. Appendix A covers Rust’s keywords, Appendix B
-covers Rust’s operators and symbols, Appendix C covers 可推導的特徵
-provided by the standard library, Appendix D covers some useful development
-tools, and Appendix E explains Rust editions.</p>
-<p>There is no wrong way to read this book: if you want to skip ahead, go for it!
-You might have to jump back to earlier chapters if you experience any
-confusion. But do whatever works for you.</p>
+<p>透過使用這些與其他 Rust 生態系統中的工具，開發者可以在寫系統層級的程式語言時，維持一定的生產力。</p>
+<h3><a class="header" href="#學生" id="學生">學生</a></h3>
+<p>Rust 適用於學生以及對學習系統概念有興趣的人。許多人都透過 Rust 來學習作業系統開發的議題。社群都非常友善，且樂於解答學生們的問題。除了本書以外，Rust 團隊也希望系統概念可以被更多人理解，尤其是剛開始學習程式設計的人。</p>
+<h3><a class="header" href="#公司" id="公司">公司</a></h3>
+<p>數以百計的公司，無論大或小，都有將 Rust 用於生產環境來處理各種任務。這些任務包含命令列工具、網路服務、DevOps 工具、嵌入式裝置、影音分析與轉碼、加密貨幣、生物資訊、搜尋引擎、物聯網裝置、機器學習，甚至還有 Firefox 瀏覽器的主要部分。</p>
+<h3><a class="header" href="#開源開發者" id="開源開發者">開源開發者</a></h3>
+<p>Rust 適用於想要建構 Rust 程式設計語言、社群、開發工具與函式庫的開發者。我們很樂於看到你願意貢獻 Rust 語言。</p>
+<h3><a class="header" href="#重視速度與穩定性的開發者" id="重視速度與穩定性的開發者">重視速度與穩定性的開發者</a></h3>
+<p>Rust 適用於追求語言速度與穩定性的開發者。所謂的速度，我們指的是你用 Rust 所開發出程式的執行速度以及 Rust 所提供程式的開發速度。Rust 編譯器的檢查能確保新增功能與重構時的穩定性。這與沒有這些檢查的語言形成對比，開發者通常會害怕修改這些脆弱的遺留程式碼。Rust 還力求零開銷抽象（zero-cost abstractions），高階的特性能編譯成低階程式碼的執行速度能與自己手寫一樣快，Rust 致力於讓安全的程式碼同時也能是執行迅速的程式碼。</p>
+<p>Rust 語言也希望能支援其他許多使用者，這裡提及的只是一部分的最大受益者。總體來說，Rust 最重要的目標是消除數十年來開發者不得不作出的取捨，像是同時提供安全<em>與</em>生產力、同時具有速度<em>又</em>易讀易用。歡迎嘗試看看 Rust，並體驗看看這門語言適不適合你。</p>
+<h2><a class="header" href="#本書寫給誰看" id="本書寫給誰看">本書寫給誰看</a></h2>
+<p>本書假設你已經在其他程式語言寫過程式碼，不過並不假設你使用的是何種語言。我們試著讓這些資源能廣泛適用於不同程式被井的開發者。我們不會花費很多時間討論<em>什麼是</em>程式設計或如何理解它。如果你剛開始學習程式語言，你最好先閱讀專門介紹程式設計的書籍。</p>
+<h2><a class="header" href="#如何閱讀本書" id="如何閱讀本書">如何閱讀本書</a></h2>
+<p>一般來說，本書預設你會從頭到尾依序閱讀完。後面的章節都建立在前面章節的概念基礎上，然後前面的章節可能不會深入探討某些主題，我們會在後面的章節再重新討論該主題。</p>
+<p>你會在本書中看到兩種章節：概念章節與專案章節。在概念章節中，你會學到 Rust 的其中某些概念。在專案章節中，我們會應用你當前所學的一同建構些小小的專案。第二、十二和二十章是專案章節，其餘都是概念章節。</p>
+<p>第一章會解釋如何安裝 Rust、如何寫支「Hello, world!」程式以及如何使用 Cargo，這是 Rust 的套件與建構工具。第二章是透過實作介紹 Rust 語言的章節。我們在此會以較高階的方式解釋些概念，並在之後的章節提供更詳細的介紹。如果你想馬上動手實作看看的話，第二章會很適合你。如果你是這種人的話，你很可能甚至想跳過第三章，這涵蓋 Rust 與其他程式設計語言類似的功能。這樣你可以直接前往第四章來學習 Rust 的所有權系統。然而，如果你是那種鉅細靡遺的讀者，傾向於在進行下一步前學習到所有細節的話，你可能會想跳過第二章直接前往第三章，當你想要套用你所學到的細節在專案上時，在回頭到第二章練習。</p>
+<p>第五章討論結構體與方法，而第六章涵蓋枚舉、<code>match</code> 表達式與 <code>if let</code> 控制流結構。你會在 Rust 中用結構體與枚舉自訂型別。</p>
+<p>在第七章中，你會學到 Rust 的模組系統與組織程式碼的隱私規則，以及其公開應用程式介面（Application Programming Interface, API）。第八章會討論標準函式庫提供的一些常見集合資料結構，像是 vector、字串與雜湊映射。第九章會探討 Rust 的錯誤處理哲學與技巧。</p>
+<p>第十章將深入探討泛型、特徵與生命週期，讓你能定義出多種型別的程式碼。第十一章全部都關於測試，這與 Rust 的安全保障一樣重要，以確保程式邏輯正確。在第十二章中，我們會親自實作個 <code>grep</code> 命令列工具的子集功能，來搜尋檔案中的文字。我們會利用到前幾章討論過的許多概念。</p>
+<p>第十三章會探索閉包與疊代器，這是 Rust 啟發自函式程式設計語言的功能。在第十四章中，我們要更深入研究 Cargo 並討論分享函式庫給其他人的最佳方式。第十五章會討論標準函式庫提供的智慧指標以及能啟用它們功能的特徵。</p>
+<p>在第十六章中，我們會介紹各種不同的並行程式設計模型，並介紹 Rust 如何幫助你在多執行緒中無懼地開發。第十七章會比較 Rust 的慣用風格與你可能比較熟悉的物件導向程式設計原則之間有何差異。</p>
+<p>第十八章是模式與模式配對的參考章節，這是在 Rust 程式中表達不同條件的強大特色。第十九章是進階主題的大雜燴，其中包含不安全的 Rust、巨集與更多有關生命週期、特徵、型別、函式與閉包的資訊。</p>
+<p>在第二十章中，我們會完成一項專案，那就是實作低階多執行緒的網頁伺服器！</p>
+<p>最後的附錄以參考風格格式來包含語言中的實用資訊。附錄 A 涵蓋 Rust 的關鍵字、附錄 B 涵蓋 Rust 的運算子與符號、附錄 C 涵蓋標準函式庫提供的可推導的特徵、附錄 D 涵蓋一些實用開發工具，然後附錄 E 會解釋 Rust 的版號。</p>
+<p>本書沒有錯誤的閱讀方式：如果你想要忽略一些章節，儘管跳過吧！如果你遇到任何疑惑的話，隨時可以再跳之前的章節閱讀。請隨意閱讀。</p>
 <p><span id="ferris"></span></p>
-<p>An important part of the process of learning Rust is learning how to read the
-error messages the compiler displays: these will guide you toward working code.
-As such, we’ll provide many examples that don’t compile along with the error
-message the compiler will show you in each situation. Know that if you enter
-and run a random example, it may not compile! Make sure you read the
-surrounding text to see whether the example you’re trying to run is meant to
-error. Ferris will also help you distinguish code that isn’t meant to work:</p>
-<table><thead><tr><th>Ferris</th><th>Meaning</th></tr></thead><tbody>
-<tr><td><img src="img/ferris/does_not_compile.svg" class="ferris-explain"/></td><td>This code does not compile!</td></tr>
-<tr><td><img src="img/ferris/panics.svg" class="ferris-explain"/></td><td>This code panics!</td></tr>
-<tr><td><img src="img/ferris/unsafe.svg" class="ferris-explain"/></td><td>This code block contains unsafe code.</td></tr>
-<tr><td><img src="img/ferris/not_desired_behavior.svg" class="ferris-explain"/></td><td>This code does not produce the desired behavior.</td></tr>
+<p>學習 Rust 的過程中有個重要的部分是喔奧學習如何閱讀編譯器顯示的錯誤訊息，這些能引導你寫出正確的程式碼。所以我們會提供很多無法編譯的範例，以及各種編譯器會顯示訊息的狀況。如果你執行任意範例的話，它很可能不會編譯通過！別忘了看看文字周圍來瞭解該執行範例是不是意圖出錯。Ferris 也會來幫助你分辨程式碼是否能運作：</p>
+<table><thead><tr><th>Ferris</th><th>意義</th></tr></thead><tbody>
+<tr><td><img src="img/ferris/does_not_compile.svg" class="ferris-explain"/></td><td>此程式碼無法編譯！</td></tr>
+<tr><td><img src="img/ferris/panics.svg" class="ferris-explain"/></td><td>此程式碼會恐慌！</td></tr>
+<tr><td><img src="img/ferris/unsafe.svg" class="ferris-explain"/></td><td>此程式碼區塊包含不安全的程式碼。</td></tr>
+<tr><td><img src="img/ferris/not_desired_behavior.svg" class="ferris-explain"/></td><td>此程式碼沒有產生預期的行爲。</td></tr>
 </tbody></table>
-<p>In most situations, we’ll lead you to the correct version of any code that
-doesn’t compile.</p>
-<h2><a class="header" href="#source-code" id="source-code">Source Code</a></h2>
-<p>The source files from which this book is generated can be found on
-<a href="https://github.com/rust-lang/book/tree/master/src">GitHub</a>.</p>
+<p>在大多數的情況下，我們會引導你將無法編譯的程式碼寫成正確的版本。</p>
+<h2><a class="header" href="#原始碼" id="原始碼">原始碼</a></h2>
+<p>產生本書的原始檔案可以在 <a href="https://github.com/rust-tw/book-tw">GitHub</a> 上找到。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch00-00-introduction.md">e5ed971</a></li>
+<li>updated: 2020-10-03</li>
+</ul>
+</blockquote>
 <h1><a class="header" href="#開始入門" id="開始入門">開始入門</a></h1>
 <p>讓我們開始你的 Rust 旅途吧！千里之行始於足下，在此章節我們將討論：</p>
 <ul>
@@ -530,7 +437,7 @@ main.exe
 main.pdb
 main.rs
 </code></pre>
-<p>這顯示了副檔名爲 <em>.rs</em>  的原始程式碼檔案、執行檔（在 Winddows 上爲 <em>main.exe</em>；其他則爲 <em>main</em>），然後在 Windows 上會再出現一個副檔名爲 <em>.pdb</em> 的除錯資訊文件。在這裡，你就可以像這樣執行 <em>main</em> 或 <em>main.exe</em> 檔案：</p>
+<p>這顯示了副檔名爲 <em>.rs</em>  的原始碼檔案、執行檔（在 Winddows 上爲 <em>main.exe</em>；其他則爲 <em>main</em>），然後在 Windows 上會再出現一個副檔名爲 <em>.pdb</em> 的除錯資訊文件。在這裡，你就可以像這樣執行 <em>main</em> 或 <em>main.exe</em> 檔案：</p>
 <pre><code class="language-console">$ ./main # or .\main.exe on Windows
 </code></pre>
 <p>如果 <em>main.rs</em> 正是你的 “Hello, world!” 程式，這命令就會顯示 <code>Hello, world!</code> 到你的終端機。</p>
@@ -602,7 +509,7 @@ Hello, world!
      Running `target/debug/hello_cargo`
 Hello, world!
 </code></pre>
-<p>請注意到這次輸出的結果我們沒有看到 Cargo 有在編譯 <code>hello_cargo</code> 的跡象，這是因爲 Cargo 可以知道檔案完全沒被更改過，所以它選擇直接執行二進制檔案。如果你有變更你的原始程式碼的話，Cargo 才會在執行前重新建構專案，你才會看到這樣的輸出結果：</p>
+<p>請注意到這次輸出的結果我們沒有看到 Cargo 有在編譯 <code>hello_cargo</code> 的跡象，這是因爲 Cargo 可以知道檔案完全沒被更改過，所以它選擇直接執行二進制檔案。如果你有變更你的原始碼的話，Cargo 才會在執行前重新建構專案，你才會看到這樣的輸出結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling hello_cargo v0.1.0 (file:///projects/hello_cargo)
     Finished dev [unoptimized + debuginfo] target(s) in 0.33 secs
@@ -905,7 +812,7 @@ You guessed: 6
 <h2><a class="header" href="#產生祕密數字" id="產生祕密數字">產生祕密數字</a></h2>
 <p>接下來，我們要產生一個能讓使用者猜看看的祕密數字。祕密數字每次都要不同，這樣遊戲才值得多玩幾次。讓我們使用 1 到 100 之間的隨機數字，這樣遊戲才不會太困難。Rust 的標準函式庫並不包含產生隨機數字的功能。然而，Rust 團隊有提供個 <a href="https://crates.io/crates/rand"><code>rand</code> crate</a>。</p>
 <h3><a class="header" href="#使用-crate-來取得更多功能" id="使用-crate-來取得更多功能">使用 Crate 來取得更多功能</a></h3>
-<p>所謂的 crate 是一個 Rust 原始程式碼檔案的集合。我們正在寫的專案屬於<em>二進制（binary） crate</em>，也就會是個執行檔。而 <code>rand</code> crate 屬於<em>函式庫（library） crate</em>，這會包含讓其他程式能夠使用的程式碼。</p>
+<p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<em>二進制（binary） crate</em>，也就會是個執行檔。而 <code>rand</code> crate 屬於<em>函式庫（library） crate</em>，這會包含讓其他程式能夠使用的程式碼。</p>
 <p>Cargo 使用外部 crate 的功能正是它的亮點。在我們可以使用 <code>rand</code> 來寫程式碼前，我們需要修改 <em>Cargo.toml</em> 檔案來包含 <code>rand</code> crate 作爲依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 <code>[dependencies]</code> 標頭（header）段落中最後一行下面：</p>
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -939,7 +846,7 @@ cargo build -->
 </code></pre>
 <p><span class="caption">範例 2-2：在新增 rand crate 作爲依賴後，執行 <code>cargo build</code> 的輸出</span></p>
 <p>你可能會看到不同的版本數字（但多虧有 SemVer，它們都會與程式碼相容！）、不同的行數（依照作業系統可能會不同）以及每行順序可能會不相同。</p>
-<p>現在你有了外部依賴，Cargo 會從 <em>registry</em> 取得所有 crate 的最新版本訊息，這是份 <a href="https://crates.io/">Crates.io</a> 的資料副本。Crates.io 是個讓 Rust 生態圈中的每個人都能發佈它們的開源 Rust 專案並讓其他人使用的地方。</p>
+<p>現在你有了外部依賴，Cargo 會從 <em>registry</em> 取得所有 crate 的最新版本訊息，這是份 <a href="https://crates.io/">Crates.io</a> 的資料副本。Crates.io 是個讓 Rust 生態系統中的每個人都能發佈它們的開源 Rust 專案並讓其他人使用的地方。</p>
 <p>在更新 registry 之後，Cargo 會檢查 <code>[dependencies]</code> 段落並下載你還沒有的 crate。在此例中，雖然我們只有列出 <code>rand</code> 作爲依賴，但 Cargo 還會下載 <code>libc</code> 與 <code>rand_core</code>，因爲 <code>rand</code> 需要這些才能運作。在下載完 crates 之後，Rust 會編譯依賴函式庫以及使用到它們的專案。</p>
 <p>如果你立即再次執行 <code>cargo build</code> 且沒有作出任何改變的話，你除了 <code>Finished</code> 這行以外不會在收到任何輸出。Cargo 知道它已經下載並編譯依賴函式庫了，而且你沒有在 <em>Cargo.toml</em> 檔案中再做任何改變。Cargo 也知道你沒有修改任何程式碼，所以也不會再重新編譯它。既然沒事可做，它就只好馬上結束。</p>
 <p>如果你開啟 <em>src/main.rs</em> 檔案，加些瑣碎的修改，然後儲存並再次建構的話，你會只看到兩行輸出：</p>
@@ -973,7 +880,7 @@ as a guide to creating the hypothetical output shown here -->
 rand = &quot;0.6.0&quot;
 </code></pre>
 <p>下次你執行 <code>cargo build</code> 時，Cargo 將會更新 crate registry ，並依據你指定的新版本來重新評估 <code>rand</code> 的確切版本。</p>
-<p><a href="http://doc.crates.io">Cargo</a><!-- ignore --> 與<a href="http://doc.crates.io/crates-io.html">其生態圈</a><!-- ignore --> 還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。</p>
+<p><a href="http://doc.crates.io">Cargo</a><!-- ignore --> 與<a href="http://doc.crates.io/crates-io.html">其生態系統</a><!-- ignore --> 還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。</p>
 <h3><a class="header" href="#產生隨機數字" id="產生隨機數字">產生隨機數字</a></h3>
 <p>現在既然你已經將 <code>rand</code> crate 加入 <em>Cargo.toml</em> 中，讓我們開始使用 <code>rand</code> 吧。下一步是更新 <em>src/main.rs</em>，如範例 2-3 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -1772,7 +1679,7 @@ fn another_function() {
 }
 </code></pre></pre>
 <p>Rust 的函式定義從 <code>fn</code> 開始且在函式名稱後會有一組括號，大括號告訴編譯器函式本體的開始與結束位置。</p>
-<p>我們可以輸入函式的名稱並加上括號來呼叫任何我們定義過的函式。因爲 <code>another_function</code> 已經在程式中定義了，他就可以在 <code>main</code> 函式中呼叫。注意到我們是在原始程式碼中的 <code>main</code> 函式<em>之後</em>定義 <code>another_function</code> 的，我們當然也可以把它定義在前面。Rust 不在乎你的函式是在哪裡定義的，只需要知道它在某處有定義就好。</p>
+<p>我們可以輸入函式的名稱並加上括號來呼叫任何我們定義過的函式。因爲 <code>another_function</code> 已經在程式中定義了，他就可以在 <code>main</code> 函式中呼叫。注意到我們是在原始碼中的 <code>main</code> 函式<em>之後</em>定義 <code>another_function</code> 的，我們當然也可以把它定義在前面。Rust 不在乎你的函式是在哪裡定義的，只需要知道它在某處有定義就好。</p>
 <p>讓我們開啟一個新的專案叫做 <em>functions</em> 來進一步探索。請將 <code>another_function</code> 範例放入 <em>src/main.rs</em> 然後執行它。你應該會看到以下輸出：</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
@@ -5596,7 +5503,7 @@ panic = 'abort'
 thread 'main' panicked at 'crash and burn', src/main.rs:2:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p><code>panic!</code> 的呼叫導致印出了最後兩行的錯誤訊息。第一行顯示了我們的恐慌訊息以及該恐慌是在原始程式碼何處發生的：<em>src/main.rs:2:5</em> 指的是它發生在我們的 <em>src/main.rs</em> 檔案第二行第五個字元。</p>
+<p><code>panic!</code> 的呼叫導致印出了最後兩行的錯誤訊息。第一行顯示了我們的恐慌訊息以及該恐慌是在原始碼何處發生的：<em>src/main.rs:2:5</em> 指的是它發生在我們的 <em>src/main.rs</em> 檔案第二行第五個字元。</p>
 <p>在此例中，該行指的就是我們寫的程式碼。如果我們查看該行，我們會看到 <code>panic!</code> 巨集的呼叫。在其他情形，<code>panic!</code> 的呼叫可能會發生在我們呼叫的程式碼內，所以錯誤訊息回報的檔案名稱與行數可能就會是其他人呼叫 <code>panic!</code> 巨集的程式碼，而不是因爲我們的程式碼才導致 <code>panic!</code> 的呼叫。我們可以在呼叫 <code>panic!</code> 程式碼的地方使用 backtrace 來找出出現問題的地方。接下來我們就會深入瞭解 backtrace。</p>
 <h3><a class="header" href="#使用-panic-backtrace" id="使用-panic-backtrace">使用 <code>panic!</code> Backtrace</a></h3>
 <p>讓我們看看另一個例子，這是函式庫發生錯誤而呼叫 <code>panic!</code>，而不是來自於我們在程式碼自己呼叫的巨集。範例 9-1 是個嘗試從 vector 取得元素的例子。</p>
@@ -5618,7 +5525,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 thread 'main' panicked at 'index out of bounds: the len is 3 but the index is 99', /rustc/5e1a799842ba6ed4a57e91f7ab9435947482f7d8/src/libcore/slice/mod.rs:2806:10
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>此錯誤指向了一個不是我們寫的檔案 <em>libcore/slice/mod.rs</em>。這是實作 <code>slice</code> 的 Rust 原始程式碼。當我們在我們的 <code>v</code> 使用 <code>[]</code> 時就會執行 <em>libcore/slice/mod.rs</em> 內的程式碼，而這正是 <code>panic!</code> 實際發生的地方。</p>
+<p>此錯誤指向了一個不是我們寫的檔案 <em>libcore/slice/mod.rs</em>。這是實作 <code>slice</code> 的 Rust 原始碼。當我們在我們的 <code>v</code> 使用 <code>[]</code> 時就會執行 <em>libcore/slice/mod.rs</em> 內的程式碼，而這正是 <code>panic!</code> 實際發生的地方。</p>
 <p>下一行提示告訴我們可以設置 <code>RUST_BACKTRACE</code> 環境變數來取得 backtrace 以知道錯誤發生時到底發生什麼事。<em>backtrace</em> 是一個函式列表，指出得到此錯誤時到底依序呼叫了哪些函式。Rust 的 backtraces 運作方式和其他語言一樣：讀取 backtrace 關鍵是從最一開始讀取直到你看到你寫的檔案。那就會是問題發生的源頭。你寫的程式碼以上的行數就是你所呼叫的程式，而以下則是其他呼叫你的程式碼的程式。這些行數可能還會包含 Rust 核心程式碼、標準函式庫程式碼，或是你所使用的 crate。我們設置 <code>RUST_BACKTRACE</code> 環境變數的值不爲 0，來嘗試取得 backtrace 吧。你應該會看到和範例 9-2 類似的結果。</p>
 <!-- manual-regeneration
 cd listings/ch09-error-handling/listing-09-01
@@ -12292,7 +12199,7 @@ opt-level = 1
 </ul>
 </blockquote>
 <h2><a class="header" href="#發佈-crate-到-cratesio" id="發佈-crate-到-cratesio">發佈 Crate 到 Crates.io</a></h2>
-<p>我們已經使用過 <a href="https://crates.io/">crates.io</a><!-- ignore --> 的套件來作爲我們專案的依賴函式庫，但是你也可以發佈你自己的套件來將你的程式碼提供給其他人使用。<a href="https://crates.io/">crates.io</a><!-- ignore --> 會發行套件的原始程式碼，所以它主要用來託管開源程式碼。</p>
+<p>我們已經使用過 <a href="https://crates.io/">crates.io</a><!-- ignore --> 的套件來作爲我們專案的依賴函式庫，但是你也可以發佈你自己的套件來將你的程式碼提供給其他人使用。<a href="https://crates.io/">crates.io</a><!-- ignore --> 會發行套件的原始碼，所以它主要用來託管開源程式碼。</p>
 <p>Rust 與 Cargo 有許多功能可以幫助其他人更容易找到並使用你發佈的套件。我們會介紹其中一些功能並解釋如何發佈套件。</p>
 <h3><a class="header" href="#寫上有幫助的技術文件註解" id="寫上有幫助的技術文件註解">寫上有幫助的技術文件註解</a></h3>
 <p>準確地加上套件的技術文件有助於其他使用者知道如何及何時使用它們，所以投資時間在寫技術文件上是值得的。在第三章我們提過如何使用兩條斜線 <code>//</code> 來加上 Rust 程式碼註解。Rust 還有個特別的註解用來作爲技術文件，俗稱爲<em>技術文件註解（documentation comment）</em>，這能用來產生 HTML 技術文件。這些 HTML 顯示公開 API 項目中技術文件註解的內容，讓對此函式庫有興趣的開發者知道如何<em>使用</em>你的 crate，而不需知道 crate 是如何<em>實作</em>的。</p>

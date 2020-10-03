@@ -422,7 +422,7 @@ You guessed: 6
 <h2><a class="header" href="#產生祕密數字" id="產生祕密數字">產生祕密數字</a></h2>
 <p>接下來，我們要產生一個能讓使用者猜看看的祕密數字。祕密數字每次都要不同，這樣遊戲才值得多玩幾次。讓我們使用 1 到 100 之間的隨機數字，這樣遊戲才不會太困難。Rust 的標準函式庫並不包含產生隨機數字的功能。然而，Rust 團隊有提供個 <a href="https://crates.io/crates/rand"><code>rand</code> crate</a>。</p>
 <h3><a class="header" href="#使用-crate-來取得更多功能" id="使用-crate-來取得更多功能">使用 Crate 來取得更多功能</a></h3>
-<p>所謂的 crate 是一個 Rust 原始程式碼檔案的集合。我們正在寫的專案屬於<em>二進制（binary） crate</em>，也就會是個執行檔。而 <code>rand</code> crate 屬於<em>函式庫（library） crate</em>，這會包含讓其他程式能夠使用的程式碼。</p>
+<p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<em>二進制（binary） crate</em>，也就會是個執行檔。而 <code>rand</code> crate 屬於<em>函式庫（library） crate</em>，這會包含讓其他程式能夠使用的程式碼。</p>
 <p>Cargo 使用外部 crate 的功能正是它的亮點。在我們可以使用 <code>rand</code> 來寫程式碼前，我們需要修改 <em>Cargo.toml</em> 檔案來包含 <code>rand</code> crate 作爲依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 <code>[dependencies]</code> 標頭（header）段落中最後一行下面：</p>
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -456,7 +456,7 @@ cargo build -->
 </code></pre>
 <p><span class="caption">範例 2-2：在新增 rand crate 作爲依賴後，執行 <code>cargo build</code> 的輸出</span></p>
 <p>你可能會看到不同的版本數字（但多虧有 SemVer，它們都會與程式碼相容！）、不同的行數（依照作業系統可能會不同）以及每行順序可能會不相同。</p>
-<p>現在你有了外部依賴，Cargo 會從 <em>registry</em> 取得所有 crate 的最新版本訊息，這是份 <a href="https://crates.io/">Crates.io</a> 的資料副本。Crates.io 是個讓 Rust 生態圈中的每個人都能發佈它們的開源 Rust 專案並讓其他人使用的地方。</p>
+<p>現在你有了外部依賴，Cargo 會從 <em>registry</em> 取得所有 crate 的最新版本訊息，這是份 <a href="https://crates.io/">Crates.io</a> 的資料副本。Crates.io 是個讓 Rust 生態系統中的每個人都能發佈它們的開源 Rust 專案並讓其他人使用的地方。</p>
 <p>在更新 registry 之後，Cargo 會檢查 <code>[dependencies]</code> 段落並下載你還沒有的 crate。在此例中，雖然我們只有列出 <code>rand</code> 作爲依賴，但 Cargo 還會下載 <code>libc</code> 與 <code>rand_core</code>，因爲 <code>rand</code> 需要這些才能運作。在下載完 crates 之後，Rust 會編譯依賴函式庫以及使用到它們的專案。</p>
 <p>如果你立即再次執行 <code>cargo build</code> 且沒有作出任何改變的話，你除了 <code>Finished</code> 這行以外不會在收到任何輸出。Cargo 知道它已經下載並編譯依賴函式庫了，而且你沒有在 <em>Cargo.toml</em> 檔案中再做任何改變。Cargo 也知道你沒有修改任何程式碼，所以也不會再重新編譯它。既然沒事可做，它就只好馬上結束。</p>
 <p>如果你開啟 <em>src/main.rs</em> 檔案，加些瑣碎的修改，然後儲存並再次建構的話，你會只看到兩行輸出：</p>
@@ -490,7 +490,7 @@ as a guide to creating the hypothetical output shown here -->
 rand = &quot;0.6.0&quot;
 </code></pre>
 <p>下次你執行 <code>cargo build</code> 時，Cargo 將會更新 crate registry ，並依據你指定的新版本來重新評估 <code>rand</code> 的確切版本。</p>
-<p><a href="http://doc.crates.io">Cargo</a><!-- ignore --> 與<a href="http://doc.crates.io/crates-io.html">其生態圈</a><!-- ignore --> 還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。</p>
+<p><a href="http://doc.crates.io">Cargo</a><!-- ignore --> 與<a href="http://doc.crates.io/crates-io.html">其生態系統</a><!-- ignore --> 還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。</p>
 <h3><a class="header" href="#產生隨機數字" id="產生隨機數字">產生隨機數字</a></h3>
 <p>現在既然你已經將 <code>rand</code> crate 加入 <em>Cargo.toml</em> 中，讓我們開始使用 <code>rand</code> 吧。下一步是更新 <em>src/main.rs</em>，如範例 2-3 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

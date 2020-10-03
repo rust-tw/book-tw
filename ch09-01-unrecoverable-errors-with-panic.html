@@ -190,7 +190,7 @@ panic = 'abort'
 thread 'main' panicked at 'crash and burn', src/main.rs:2:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p><code>panic!</code> 的呼叫導致印出了最後兩行的錯誤訊息。第一行顯示了我們的恐慌訊息以及該恐慌是在原始程式碼何處發生的：<em>src/main.rs:2:5</em> 指的是它發生在我們的 <em>src/main.rs</em> 檔案第二行第五個字元。</p>
+<p><code>panic!</code> 的呼叫導致印出了最後兩行的錯誤訊息。第一行顯示了我們的恐慌訊息以及該恐慌是在原始碼何處發生的：<em>src/main.rs:2:5</em> 指的是它發生在我們的 <em>src/main.rs</em> 檔案第二行第五個字元。</p>
 <p>在此例中，該行指的就是我們寫的程式碼。如果我們查看該行，我們會看到 <code>panic!</code> 巨集的呼叫。在其他情形，<code>panic!</code> 的呼叫可能會發生在我們呼叫的程式碼內，所以錯誤訊息回報的檔案名稱與行數可能就會是其他人呼叫 <code>panic!</code> 巨集的程式碼，而不是因爲我們的程式碼才導致 <code>panic!</code> 的呼叫。我們可以在呼叫 <code>panic!</code> 程式碼的地方使用 backtrace 來找出出現問題的地方。接下來我們就會深入瞭解 backtrace。</p>
 <h3><a class="header" href="#使用-panic-backtrace" id="使用-panic-backtrace">使用 <code>panic!</code> Backtrace</a></h3>
 <p>讓我們看看另一個例子，這是函式庫發生錯誤而呼叫 <code>panic!</code>，而不是來自於我們在程式碼自己呼叫的巨集。範例 9-1 是個嘗試從 vector 取得元素的例子。</p>
@@ -212,7 +212,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 thread 'main' panicked at 'index out of bounds: the len is 3 but the index is 99', /rustc/5e1a799842ba6ed4a57e91f7ab9435947482f7d8/src/libcore/slice/mod.rs:2806:10
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>此錯誤指向了一個不是我們寫的檔案 <em>libcore/slice/mod.rs</em>。這是實作 <code>slice</code> 的 Rust 原始程式碼。當我們在我們的 <code>v</code> 使用 <code>[]</code> 時就會執行 <em>libcore/slice/mod.rs</em> 內的程式碼，而這正是 <code>panic!</code> 實際發生的地方。</p>
+<p>此錯誤指向了一個不是我們寫的檔案 <em>libcore/slice/mod.rs</em>。這是實作 <code>slice</code> 的 Rust 原始碼。當我們在我們的 <code>v</code> 使用 <code>[]</code> 時就會執行 <em>libcore/slice/mod.rs</em> 內的程式碼，而這正是 <code>panic!</code> 實際發生的地方。</p>
 <p>下一行提示告訴我們可以設置 <code>RUST_BACKTRACE</code> 環境變數來取得 backtrace 以知道錯誤發生時到底發生什麼事。<em>backtrace</em> 是一個函式列表，指出得到此錯誤時到底依序呼叫了哪些函式。Rust 的 backtraces 運作方式和其他語言一樣：讀取 backtrace 關鍵是從最一開始讀取直到你看到你寫的檔案。那就會是問題發生的源頭。你寫的程式碼以上的行數就是你所呼叫的程式，而以下則是其他呼叫你的程式碼的程式。這些行數可能還會包含 Rust 核心程式碼、標準函式庫程式碼，或是你所使用的 crate。我們設置 <code>RUST_BACKTRACE</code> 環境變數的值不爲 0，來嘗試取得 backtrace 吧。你應該會看到和範例 9-2 類似的結果。</p>
 <!-- manual-regeneration
 cd listings/ch09-error-handling/listing-09-01

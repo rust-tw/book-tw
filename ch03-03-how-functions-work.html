@@ -182,7 +182,7 @@ fn another_function() {
 }
 </code></pre></pre>
 <p>Rust 的函式定義從 <code>fn</code> 開始且在函式名稱後會有一組括號，大括號告訴編譯器函式本體的開始與結束位置。</p>
-<p>我們可以輸入函式的名稱並加上括號來呼叫任何我們定義過的函式。因爲 <code>another_function</code> 已經在程式中定義了，他就可以在 <code>main</code> 函式中呼叫。注意到我們是在原始程式碼中的 <code>main</code> 函式<em>之後</em>定義 <code>another_function</code> 的，我們當然也可以把它定義在前面。Rust 不在乎你的函式是在哪裡定義的，只需要知道它在某處有定義就好。</p>
+<p>我們可以輸入函式的名稱並加上括號來呼叫任何我們定義過的函式。因爲 <code>another_function</code> 已經在程式中定義了，他就可以在 <code>main</code> 函式中呼叫。注意到我們是在原始碼中的 <code>main</code> 函式<em>之後</em>定義 <code>another_function</code> 的，我們當然也可以把它定義在前面。Rust 不在乎你的函式是在哪裡定義的，只需要知道它在某處有定義就好。</p>
 <p>讓我們開啟一個新的專案叫做 <em>functions</em> 來進一步探索。請將 <code>another_function</code> 範例放入 <em>src/main.rs</em> 然後執行它。你應該會看到以下輸出：</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
