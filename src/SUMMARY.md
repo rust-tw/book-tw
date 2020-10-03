@@ -37,7 +37,7 @@
 
 ## 基本 Rust 概念
 
-- [透過套件、Crate與模組管理成長中的專案](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
+- [透過套件、Crate 與模組管理成長中的專案](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
     - [套件與 Crates](ch07-01-packages-and-crates.md)
     - [定義模組來控制作用域與隱私權](ch07-02-defining-modules-to-control-scope-and-privacy.md)
     - [引用模組項目的路徑](ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
