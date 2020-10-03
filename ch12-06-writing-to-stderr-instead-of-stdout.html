@@ -167,47 +167,21 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#writing-error-messages-to-standard-error-instead-of-standard-output" id="writing-error-messages-to-standard-error-instead-of-standard-output">Writing Error Messages to Standard Error Instead of Standard Output</a></h2>
-<p>At the moment, we’re writing all of our output to the terminal using the
-<code>println!</code> macro. Most terminals provide two kinds of output: <em>standard
-output</em> (<code>stdout</code>) for general information and <em>standard error</em> (<code>stderr</code>)
-for error messages. This distinction enables users to choose to direct the
-successful output of a program to a file but still print error messages to the
-screen.</p>
-<p>The <code>println!</code> macro is only capable of printing to standard output, so we
-have to use something else to print to standard error.</p>
-<h3><a class="header" href="#checking-where-errors-are-written" id="checking-where-errors-are-written">Checking Where Errors Are Written</a></h3>
-<p>First, let’s observe how the content printed by <code>minigrep</code> is currently being
-written to standard output, including any error messages we want to write to
-standard error instead. We’ll do that by redirecting the standard output stream
-to a file while also intentionally causing an error. We won’t redirect the
-standard error stream, so any content sent to standard error will continue to
-display on the screen.</p>
-<p>Command line programs are expected to send error messages to the standard error
-stream so we can still see error messages on the screen even if we redirect the
-standard output stream to a file. Our program is not currently well-behaved:
-we’re about to see that it saves the error message output to a file instead!</p>
-<p>The way to demonstrate this behavior is by running the program with <code>&gt;</code> and the
-filename, <em>output.txt</em>, that we want to redirect the standard output stream to.
-We won’t pass any arguments, which should cause an error:</p>
+                        <h2><a class="header" href="#將錯誤訊息寫入標準錯誤而非標準輸出" id="將錯誤訊息寫入標準錯誤而非標準輸出">將錯誤訊息寫入標準錯誤而非標準輸出</a></h2>
+<p>目前我們使用 <code>println!</code> 巨集來將所有的輸出顯示到終端機。大多數的終端機都提供兩種輸出方式：用於通用資訊的<em>標準輸出（standard output, <code>stdout</code>）<em>以及用於錯誤訊息的</em>標準錯誤（standard error, <code>stderr</code>）</em>。這樣的區別讓使用者可以選擇將程式的成功輸出導向到一個檔案中，並仍能在螢幕上顯示錯誤訊息。</p>
+<p><code>println!</code> 巨集只能夠印出標準輸出，所以我們得用其他方式來印出標準錯誤。</p>
+<h3><a class="header" href="#檢查該在哪裡寫錯誤" id="檢查該在哪裡寫錯誤">檢查該在哪裡寫錯誤</a></h3>
+<p>首先，我們先來觀察 <code>minigrep</code> 目前寫到標準輸出的顯示內容，其中包含任何我們想改寫成標準錯誤的錯誤訊息。我們會將標準輸出重新導向至一個檔案並故意產生一個錯誤。因爲我們不會重新導向標準錯誤，所以任何傳送至標準錯誤的內容會繼續顯示在螢幕上。</p>
+<p>命令列程式應該要傳送錯誤訊息至標準錯誤，讓我們可以在重新導向標準輸出至檔案時，仍能在螢幕上看到錯誤訊息。所以我們的程式目前並不符合預期：我們會看到它儲存錯誤訊息輸出到檔案中！</p>
+<p>要觀察此行爲的方式是透過 <code>&gt;</code> 來執行程式並加上檔案名稱 <em>output.txt</em>，這是我們要重新導向標準輸出到的地方。我們不會傳遞任何引數，這樣就應該會造成錯誤：</p>
 <pre><code class="language-console">$ cargo run &gt; output.txt
 </code></pre>
-<p>The <code>&gt;</code> syntax tells the shell to write the contents of standard output to
-<em>output.txt</em> instead of the screen. We didn’t see the error message we were
-expecting printed to the screen, so that means it must have ended up in the
-file. This is what <em>output.txt</em> contains:</p>
+<p><code>&gt;</code> 語法告訴 shell 要將標準輸出的內容寫入 <em>output.txt</em> 而不是顯示在螢幕上。我們沒有看到應顯示在螢幕上的錯誤訊息，這代表它一定跑到檔案中了。以下是 <em>output.txt</em> 包含的內容：</p>
 <pre><code class="language-text">Problem parsing arguments: not enough arguments
 </code></pre>
-<p>Yup, our error message is being printed to standard output. It’s much more
-useful for error messages like this to be printed to standard error so only
-data from a successful run ends up in the file. We’ll change that.</p>
-<h3><a class="header" href="#printing-errors-to-standard-error" id="printing-errors-to-standard-error">Printing Errors to Standard Error</a></h3>
-<p>We’ll use the code in Listing 12-24 to change how error messages are printed.
-Because of the refactoring we did earlier in this chapter, all the code that
-prints error messages is in one function, <code>main</code>. The standard library provides
-the <code>eprintln!</code> macro that prints to the standard error stream, so let’s change
-the two places we were calling <code>println!</code> to print errors to use <code>eprintln!</code>
-instead.</p>
+<p>是的，我們的錯誤訊息印到了標準輸出。像這樣的錯誤訊息印到標準錯誤會比較好，這樣才能只讓成功執行的資料存至檔案中。讓我們來修正吧。</p>
+<h3><a class="header" href="#將錯誤印出至標準錯誤" id="將錯誤印出至標準錯誤">將錯誤印出至標準錯誤</a></h3>
+<p>我們會使用範例 12-24 的程式碼來改變錯誤訊息印出的方式。由於我們在本章前幾篇的重構，所有印出錯誤訊息的程式碼都位於 <code>main</code> 函式中。標準函式庫有提供 <code>eprintln!</code> 巨集來印到標準錯誤，所以讓我們變更兩個原本呼叫 <code>println!</code> 來印出錯誤的段落來改使用 <code>eprintln!</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::process;
@@ -229,37 +203,31 @@ instead.</p>
     }
 }
 </code></pre>
-<p><span class="caption">範例 12-24: Writing error messages to standard error
-instead of standard output using <code>eprintln!</code></span></p>
-<p>After changing <code>println!</code> to <code>eprintln!</code>, let’s run the program again in the
-same way, without any arguments and redirecting standard output with <code>&gt;</code>:</p>
+<p><span class="caption">範例 12-24：使用 <code>eprintln!</code> 來將錯誤訊息印至標準錯誤而非標準輸出</span></p>
+<p>將 <code>println!</code> 變更成 <code>eprintln!</code> 之後，讓我們以相同方式再執行程式一次，沒有任何引數並用 <code>&gt;</code> 重新導向標準輸出：</p>
 <pre><code class="language-text">$ cargo run &gt; output.txt
 Problem parsing arguments: not enough arguments
 </code></pre>
-<p>Now we see the error onscreen and <em>output.txt</em> contains nothing, which is the
-behavior we expect of command line programs.</p>
-<p>Let’s run the program again with arguments that don’t cause an error but still
-redirect standard output to a file, like so:</p>
+<p>現在我們看到錯誤顯示在螢幕上而且 <em>output.txt</em> 裡什麼也沒只有，這正是命令列程式所預期的行爲。</p>
+<p>讓我們加上不會產生錯誤的引數來執行程式，並仍衝心導向標準輸出至檔案中，如以下所示：</p>
 <pre><code class="language-console">$ cargo run to poem.txt &gt; output.txt
 </code></pre>
-<p>We won’t see any output to the terminal, and <em>output.txt</em> will contain our
-results:</p>
+<p>我們在終端機不會看到任何輸出，而 <em>output.txt</em> 會包含我們的結果：</p>
 <p><span class="filename">檔案名稱：output.txt</span></p>
 <pre><code class="language-text">Are you nobody, too?
 How dreary to be somebody!
 </code></pre>
-<p>This demonstrates that we’re now using standard output for successful output
-and standard error for error output as appropriate.</p>
-<h2><a class="header" href="#summary" id="summary">Summary</a></h2>
-<p>This chapter recapped some of the major concepts you’ve learned so far and
-covered how to perform common I/O operations in Rust. By using command line
-arguments, files, environment variables, and the <code>eprintln!</code> macro for printing
-errors, you’re now prepared to write command line applications. By using the
-concepts in previous chapters, your code will be well organized, store data
-effectively in the appropriate data structures, handle errors nicely, and be
-well tested.</p>
-<p>Next, we’ll explore some Rust features that were influenced by functional
-languages: closures and iterators.</p>
+<p>這說明我們現在有對成功的輸出使用標準輸出，而且有妥善地將錯誤輸出傳至標準錯誤。</p>
+<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<p>本章節回顧了你目前所學的一些重要概念，並介紹了如何在 Rust 中進行常見的 I/O 操作。透過使用命令列引數、檔案、環境變數與用來印出錯誤的 <code>eprintln!</code> 巨集，你現在已經準備好能寫出命令列應用程式了。透過使用前幾張的概念，你的程式的組織架構會非常穩固、資料都能有效率地儲存至適當的資料結構、完善地處理錯誤，並通過測試檢驗。</p>
+<p>接下來，我們要探討些 Rust 受到函式語言啟發的功能：閉包與疊代器。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-06-writing-to-stderr-instead-of-stdout.md">e5ed971</a></li>
+<li>updated: 2020-10-03</li>
+</ul>
+</blockquote>
 
                     </main>
 

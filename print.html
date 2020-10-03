@@ -10807,47 +10807,21 @@ To an admiring bog!
 <li>updated: 2020-10-03</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#writing-error-messages-to-standard-error-instead-of-standard-output" id="writing-error-messages-to-standard-error-instead-of-standard-output">Writing Error Messages to Standard Error Instead of Standard Output</a></h2>
-<p>At the moment, we’re writing all of our output to the terminal using the
-<code>println!</code> macro. Most terminals provide two kinds of output: <em>standard
-output</em> (<code>stdout</code>) for general information and <em>standard error</em> (<code>stderr</code>)
-for error messages. This distinction enables users to choose to direct the
-successful output of a program to a file but still print error messages to the
-screen.</p>
-<p>The <code>println!</code> macro is only capable of printing to standard output, so we
-have to use something else to print to standard error.</p>
-<h3><a class="header" href="#checking-where-errors-are-written" id="checking-where-errors-are-written">Checking Where Errors Are Written</a></h3>
-<p>First, let’s observe how the content printed by <code>minigrep</code> is currently being
-written to standard output, including any error messages we want to write to
-standard error instead. We’ll do that by redirecting the standard output stream
-to a file while also intentionally causing an error. We won’t redirect the
-standard error stream, so any content sent to standard error will continue to
-display on the screen.</p>
-<p>Command line programs are expected to send error messages to the standard error
-stream so we can still see error messages on the screen even if we redirect the
-standard output stream to a file. Our program is not currently well-behaved:
-we’re about to see that it saves the error message output to a file instead!</p>
-<p>The way to demonstrate this behavior is by running the program with <code>&gt;</code> and the
-filename, <em>output.txt</em>, that we want to redirect the standard output stream to.
-We won’t pass any arguments, which should cause an error:</p>
+<h2><a class="header" href="#將錯誤訊息寫入標準錯誤而非標準輸出" id="將錯誤訊息寫入標準錯誤而非標準輸出">將錯誤訊息寫入標準錯誤而非標準輸出</a></h2>
+<p>目前我們使用 <code>println!</code> 巨集來將所有的輸出顯示到終端機。大多數的終端機都提供兩種輸出方式：用於通用資訊的<em>標準輸出（standard output, <code>stdout</code>）<em>以及用於錯誤訊息的</em>標準錯誤（standard error, <code>stderr</code>）</em>。這樣的區別讓使用者可以選擇將程式的成功輸出導向到一個檔案中，並仍能在螢幕上顯示錯誤訊息。</p>
+<p><code>println!</code> 巨集只能夠印出標準輸出，所以我們得用其他方式來印出標準錯誤。</p>
+<h3><a class="header" href="#檢查該在哪裡寫錯誤" id="檢查該在哪裡寫錯誤">檢查該在哪裡寫錯誤</a></h3>
+<p>首先，我們先來觀察 <code>minigrep</code> 目前寫到標準輸出的顯示內容，其中包含任何我們想改寫成標準錯誤的錯誤訊息。我們會將標準輸出重新導向至一個檔案並故意產生一個錯誤。因爲我們不會重新導向標準錯誤，所以任何傳送至標準錯誤的內容會繼續顯示在螢幕上。</p>
+<p>命令列程式應該要傳送錯誤訊息至標準錯誤，讓我們可以在重新導向標準輸出至檔案時，仍能在螢幕上看到錯誤訊息。所以我們的程式目前並不符合預期：我們會看到它儲存錯誤訊息輸出到檔案中！</p>
+<p>要觀察此行爲的方式是透過 <code>&gt;</code> 來執行程式並加上檔案名稱 <em>output.txt</em>，這是我們要重新導向標準輸出到的地方。我們不會傳遞任何引數，這樣就應該會造成錯誤：</p>
 <pre><code class="language-console">$ cargo run &gt; output.txt
 </code></pre>
-<p>The <code>&gt;</code> syntax tells the shell to write the contents of standard output to
-<em>output.txt</em> instead of the screen. We didn’t see the error message we were
-expecting printed to the screen, so that means it must have ended up in the
-file. This is what <em>output.txt</em> contains:</p>
+<p><code>&gt;</code> 語法告訴 shell 要將標準輸出的內容寫入 <em>output.txt</em> 而不是顯示在螢幕上。我們沒有看到應顯示在螢幕上的錯誤訊息，這代表它一定跑到檔案中了。以下是 <em>output.txt</em> 包含的內容：</p>
 <pre><code class="language-text">Problem parsing arguments: not enough arguments
 </code></pre>
-<p>Yup, our error message is being printed to standard output. It’s much more
-useful for error messages like this to be printed to standard error so only
-data from a successful run ends up in the file. We’ll change that.</p>
-<h3><a class="header" href="#printing-errors-to-standard-error" id="printing-errors-to-standard-error">Printing Errors to Standard Error</a></h3>
-<p>We’ll use the code in Listing 12-24 to change how error messages are printed.
-Because of the refactoring we did earlier in this chapter, all the code that
-prints error messages is in one function, <code>main</code>. The standard library provides
-the <code>eprintln!</code> macro that prints to the standard error stream, so let’s change
-the two places we were calling <code>println!</code> to print errors to use <code>eprintln!</code>
-instead.</p>
+<p>是的，我們的錯誤訊息印到了標準輸出。像這樣的錯誤訊息印到標準錯誤會比較好，這樣才能只讓成功執行的資料存至檔案中。讓我們來修正吧。</p>
+<h3><a class="header" href="#將錯誤印出至標準錯誤" id="將錯誤印出至標準錯誤">將錯誤印出至標準錯誤</a></h3>
+<p>我們會使用範例 12-24 的程式碼來改變錯誤訊息印出的方式。由於我們在本章前幾篇的重構，所有印出錯誤訊息的程式碼都位於 <code>main</code> 函式中。標準函式庫有提供 <code>eprintln!</code> 巨集來印到標準錯誤，所以讓我們變更兩個原本呼叫 <code>println!</code> 來印出錯誤的段落來改使用 <code>eprintln!</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::process;
@@ -10869,37 +10843,31 @@ instead.</p>
     }
 }
 </code></pre>
-<p><span class="caption">範例 12-24: Writing error messages to standard error
-instead of standard output using <code>eprintln!</code></span></p>
-<p>After changing <code>println!</code> to <code>eprintln!</code>, let’s run the program again in the
-same way, without any arguments and redirecting standard output with <code>&gt;</code>:</p>
+<p><span class="caption">範例 12-24：使用 <code>eprintln!</code> 來將錯誤訊息印至標準錯誤而非標準輸出</span></p>
+<p>將 <code>println!</code> 變更成 <code>eprintln!</code> 之後，讓我們以相同方式再執行程式一次，沒有任何引數並用 <code>&gt;</code> 重新導向標準輸出：</p>
 <pre><code class="language-text">$ cargo run &gt; output.txt
 Problem parsing arguments: not enough arguments
 </code></pre>
-<p>Now we see the error onscreen and <em>output.txt</em> contains nothing, which is the
-behavior we expect of command line programs.</p>
-<p>Let’s run the program again with arguments that don’t cause an error but still
-redirect standard output to a file, like so:</p>
+<p>現在我們看到錯誤顯示在螢幕上而且 <em>output.txt</em> 裡什麼也沒只有，這正是命令列程式所預期的行爲。</p>
+<p>讓我們加上不會產生錯誤的引數來執行程式，並仍衝心導向標準輸出至檔案中，如以下所示：</p>
 <pre><code class="language-console">$ cargo run to poem.txt &gt; output.txt
 </code></pre>
-<p>We won’t see any output to the terminal, and <em>output.txt</em> will contain our
-results:</p>
+<p>我們在終端機不會看到任何輸出，而 <em>output.txt</em> 會包含我們的結果：</p>
 <p><span class="filename">檔案名稱：output.txt</span></p>
 <pre><code class="language-text">Are you nobody, too?
 How dreary to be somebody!
 </code></pre>
-<p>This demonstrates that we’re now using standard output for successful output
-and standard error for error output as appropriate.</p>
-<h2><a class="header" href="#summary-1" id="summary-1">Summary</a></h2>
-<p>This chapter recapped some of the major concepts you’ve learned so far and
-covered how to perform common I/O operations in Rust. By using command line
-arguments, files, environment variables, and the <code>eprintln!</code> macro for printing
-errors, you’re now prepared to write command line applications. By using the
-concepts in previous chapters, your code will be well organized, store data
-effectively in the appropriate data structures, handle errors nicely, and be
-well tested.</p>
-<p>Next, we’ll explore some Rust features that were influenced by functional
-languages: closures and iterators.</p>
+<p>這說明我們現在有對成功的輸出使用標準輸出，而且有妥善地將錯誤輸出傳至標準錯誤。</p>
+<h2><a class="header" href="#總結-10" id="總結-10">總結</a></h2>
+<p>本章節回顧了你目前所學的一些重要概念，並介紹了如何在 Rust 中進行常見的 I/O 操作。透過使用命令列引數、檔案、環境變數與用來印出錯誤的 <code>eprintln!</code> 巨集，你現在已經準備好能寫出命令列應用程式了。透過使用前幾張的概念，你的程式的組織架構會非常穩固、資料都能有效率地儲存至適當的資料結構、完善地處理錯誤，並通過測試檢驗。</p>
+<p>接下來，我們要探討些 Rust 受到函式語言啟發的功能：閉包與疊代器。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-06-writing-to-stderr-instead-of-stdout.md">e5ed971</a></li>
+<li>updated: 2020-10-03</li>
+</ul>
+</blockquote>
 <h1><a class="header" href="#函式語言功能疊代器與閉包" id="函式語言功能疊代器與閉包">函式語言功能：疊代器與閉包</a></h1>
 <p>Rust 的設計靈感啟發自許多現有的語言與技術，其中一個影響十分顯住的就是<em>函式程式設計（functional programming）</em>。以函式風格的程式設計通常包含將函式視爲數值並作爲引數傳遞、將它們從其他函式回傳、將它們賦值給變數以便之後使用，以及更多。</p>
 <p>在本章節中，我們不會討論哪些才是屬於函式程式設計或哪些不是，而是介紹一些 Rust 中類似於許多語言常視爲函式語言特色的功能。</p>
@@ -12565,7 +12533,7 @@ All these optimizations that Rust is able to apply make the resulting code
 extremely efficient. Now that you know this, you can use iterators and closures
 without fear! They make code seem like it’s higher level but don’t impose a
 runtime performance penalty for doing so.</p>
-<h2><a class="header" href="#summary-2" id="summary-2">Summary</a></h2>
+<h2><a class="header" href="#summary-1" id="summary-1">Summary</a></h2>
 <p>Closures and iterators are Rust features inspired by functional programming
 language ideas. They contribute to Rust’s capability to clearly express
 high-level ideas at low-level performance. The implementations of closures and
@@ -13188,7 +13156,7 @@ cargo install something you don't have, copy relevant output below
 </blockquote>
 <h2><a class="header" href="#透過自訂命命來擴展-cargo-的功能" id="透過自訂命命來擴展-cargo-的功能">透過自訂命命來擴展 Cargo 的功能</a></h2>
 <p>Cargo 的設計能讓你在不用修改 Cargo 的情況下擴展新的子命令。如果你 <code>$PATH</code> 中有任何叫做 <code>cargo-something</code> 的二進制檔案，你就可以用像是執行 Cargo 子命令的方式 <code>cargo something</code> 來執行它。像這樣的自訂命令在你執行 <code>cargo --list</code> 時也會顯示出來。能夠透過 <code>cargo install</code> 來安裝擴展插件並有如內建 Cargo 工具般來執行使用是 Cargo 設計上的一大方便優勢！</p>
-<h2><a class="header" href="#總結-10" id="總結-10">總結</a></h2>
+<h2><a class="header" href="#總結-11" id="總結-11">總結</a></h2>
 <p>透過 Cargo 與 <a href="https://crates.io/">crates.io</a><!-- ignore --> 分享程式碼是讓 Rust 生態系統能適用於許多不同任務的重要部分之一。Rust 的標準函式庫既小又穩定，但是 crate 可以很容易地分享、使用，並在語言本身不同的時間線來進行改善。千萬別吝嗇於分享你認爲實用的程式碼到 <a href="https://crates.io/">crates.io</a><!-- ignore -->，其他人可能也會覺得它很有幫助！</p>
 <blockquote>
 <ul>
@@ -14560,7 +14528,7 @@ children: RefCell { value: [] } }] } })
 <p>當內部作用域結束時，<code>branch</code> 會離開作用域且 <code>Rc&lt;Node&gt;</code> 的強計數會歸零，所以它的 <code>Node</code> 就會被釋放。<code>leaf.parent</code> 的弱計數 1 與 <code>Node</code> 是否被釋放無關，所以我們沒有產生任何記憶體泄漏！</p>
 <p>如果我們嘗試在作用域結束後取得 <code>leaf</code> 的父節點，我們會再次獲得 <code>None</code>。在程式的最後，<code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 強計數爲 1 且弱計數爲 0，因爲變數 <code>leaf</code> 現在是 <code>Rc&lt;Node&gt;</code> 唯一的引用。</p>
 <p>所有管理計數與數值釋放都已經實作在 <code>Rc&lt;T&gt;</code> 與 <code>Weak&lt;T&gt;</code>，它們都有 <code>Drop</code> 特的實作。在 <code>Node</code> 的定義中指定子節點對父節點的關係應爲 <code>Weak&lt;T&gt;</code> 引用，讓你能夠將父節點與子節點彼此關聯，且不必擔心產生引用循環與記憶體泄漏。</p>
-<h2><a class="header" href="#總結-11" id="總結-11">總結</a></h2>
+<h2><a class="header" href="#總結-12" id="總結-12">總結</a></h2>
 <p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設引用所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料分配到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的引用數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，其會在執行時強制檢測借用規則，而非編譯時。</p>
 <p>我們也討論了 <code>Deref</code> 與 <code>Drop</code> 特徵，這些對智慧指標提供了許多功能。我們探討了引用循環可能會導致記憶體泄漏以及如何使用 <code>Weak&lt;T&gt;</code> 避免它們。</p>
 <p>如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱<a href="../nomicon/index.html">「The Rustonomicon」</a>來學習更多實用資訊。</p>
@@ -15266,7 +15234,7 @@ changes in the compiler -->
 <h3><a class="header" href="#手動實作-send-與-sync-是不安全的" id="手動實作-send-與-sync-是不安全的">手動實作 <code>Send</code> 與 <code>Sync</code> 是不安全的</a></h3>
 <p>因爲由具有 <code>Send</code> 與 <code>Sync</code> 的型別組成的型別自動就會有 <code>Send</code> 與 <code>Sync</code>，我們不需要親自實作這些特徵。至於標記特徵，它們甚至沒有任何方法需要實作。它們只是用於強制確保並行相關的不變性。</p>
 <p>要手動實作這些特徵會需要實作不安全（unsafe）的 Rust 程式碼。我們會在第十九章討論如何使用不安全的 Rust 程式碼，現在最重要的資訊是要從不具有 <code>Send</code> 與 <code>Sync</code> 的元件來組成新的並行型別需要格外小心才能確保其安全保障。<a href="../nomicon/index.html">「The Rustonomicon」</a> 有更多關於這些保障與如何維持它們的資訊。</p>
-<h2><a class="header" href="#總結-12" id="總結-12">總結</a></h2>
+<h2><a class="header" href="#總結-13" id="總結-13">總結</a></h2>
 <p>這不會是你在本書中最後一次看到並行程式碼，第二十章的專案將會在更實際的場合中使用本章節的概念，而非這裡討論的簡單範例。</p>
 <p>如之前提過的，因爲 Rust 語言本身很少處理並行的部分，許多並行解決方案都實作成 crate。這些 crate 通常發展的比標準函式庫還快，所以別忘了到線上尋找目前最先進的 crate 來在多執行緒場合中使用喔。</p>
 <p>Rust 標準函式庫提供訊息傳遞的通道與智慧指標，像是 <code>Mutex&lt;T&gt;</code> 與 <code>Arc&lt;T&gt;</code>，能夠在並行環境中安全使用。型別系統與借用檢查器中確保使用這些解決方案的程式碼不會發生資料競爭或是無效引用。一旦你讓你的程式碼能編譯通過後，你可以放心地認定它會開開心心地在多執行緒中執行，並且不會發生任何在其他語言中常見且難以追蹤的程式錯誤。並行程式設計就不再是個令人害怕的概念，無畏無懼地開發並行程式吧！</p>
@@ -16243,7 +16211,7 @@ fn main() {
 <p>我們修改 <code>main</code> 來重新賦值 <code>post</code> 意味著此實作不再遵循物件導向狀態模式了，狀態的轉換不再完全封裝在 <code>Post</code> 實作內部。然而我們得到的好處是的是無效狀態是不可能發生的了，這都多虧了型別系統與編譯時型別檢查！這確保了特定程式錯誤會在進入生產環境前就被察覺，像是顯示尚未發佈的文章內容。</p>
 <p>你可以試試看在範例 17-20 之後，對 <code>blog</code> crate 實作我們在此段落稍早提及的額外需求任務建議，來看看你覺得此版本的程式碼設計如何。注意有些任務很可能在此設計就已經實作完成了。</p>
 <p>我們看到儘管 Rust 能夠實作物件導向設計模式、其他像是將狀態寫入型別系統中的模式在 Rust 中也是可行的。這些模式有不同的取捨。雖然你可能非常熟悉物件導向模式，但重新思考問題，並善用 Rust 的特色可以帶來不少優勢，像是在執行時就避免錯誤發生。物件導向模式在 Rust 中不會永遠是最好的解決方案，因爲 Rust 有像是所有權這樣物件導向語言所沒有的特定功能。</p>
-<h2><a class="header" href="#總結-13" id="總結-13">總結</a></h2>
+<h2><a class="header" href="#總結-14" id="總結-14">總結</a></h2>
 <p>無論你讀完此章後，認爲 Rust 是否屬於物件導向語言，你知道在 Rust 中你可以使用特徵物件來取得一些物件導向的特色。動態分配能給予你的程式碼更多的彈性，但會犧牲一點執行時效能。你可以使用此彈性來實作物件導向模式，幫助提升程式碼可維護性。Rust 還有其他像是所有權等物件導向語言所沒有的功能。物件導向模式不會永遠是善用 Rust 潛能的最佳方案，不過仍是個不錯的選項。</p>
 <p>接下來，我們要看看模式（patterns），這是 Rust 另一個可以提供大量彈性的功能。我們在書中一路下來簡單看過它們好幾次了，不過我們還沒見識到它們全部的本事。讓我們來探索吧！</p>
 <blockquote>
@@ -16950,7 +16918,7 @@ To learn more, run the command again with --verbose.
 <p>在第二個分支中，我們只有在模式中指定範圍，該分支對應的程式碼就沒有變數能包含 <code>id</code> 欄位的實際數值。<code>id</code> 欄位數值可能是 10、11 或 12，但此模式的程式碼不會知道其值爲何。該模式程式碼無法使用 <code>id</code> 欄位的數值，因爲我們沒有將 <code>id</code> 數值存爲變數。</p>
 <p>在最後一個分支中，我們指定沒有限制範圍的變數，我們有能在分支程式碼中使用的有效變數 <code>id</code>。原因是因爲我們使用了結構體欄位簡寫語法。不過我們在此分支沒有向前兩個條分支進行任何對 <code>id</code> 欄位的測試，任何數值都會配對到此模式。</p>
 <p>使用 <code>@</code> 讓我們能在一個模式中測試數值並將其儲存至變數。</p>
-<h2><a class="header" href="#總結-14" id="總結-14">總結</a></h2>
+<h2><a class="header" href="#總結-15" id="總結-15">總結</a></h2>
 <p>Rust 的模式對於幫助分辨不同種資料來說非常實用。當在 <code>match</code> 表達式中使用時，Rust 確保你的模式有涵蓋所有可能數值，不然你的程式就不會編譯通過。在 <code>let</code> 陳述式與函式參數中的模式使它們的結構更實用，在能夠解構數值成更小部分的同時賦值給變數。我們能夠建立簡單或複雜的模式來滿足我們的需求。</p>
 <p>接下來，在本書的倒數第二章中，我們要來看 Rust 眾多特色中的一些進階部分。</p>
 <blockquote>
@@ -20649,7 +20617,7 @@ impl Worker {
 <li>使用 <code>ThreadPool</code> 來處理其他種類的任務，而不只是網頁請求。</li>
 <li>在 <a href="https://crates.io/">crates.io</a> 找到一個執行緒池 crate，並使用該 crate 實作類似的網頁伺服器。然後比較該 crate 與我們實作的執行緒池之間的 API 與穩固程度。</li>
 </ul>
-<h2><a class="header" href="#總結-15" id="總結-15">總結</a></h2>
+<h2><a class="header" href="#總結-16" id="總結-16">總結</a></h2>
 <p>做得好！你已經讀完整本輸了！我們由衷感謝你一同加入 Rust 的旅途。現在你已經準備好實作你自己的 Rust 專案並協助其他人的專案。別忘了我們有個友善的社群，其他 Rustaceans 會很樂意幫助你一同面對 Rust 旅途中的任何挑戰。</p>
 <blockquote>
 <ul>
