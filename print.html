@@ -10238,20 +10238,10 @@ How dreary to be somebody!
 <li>updated: 2020-10-02</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#working-with-environment-variables" id="working-with-environment-variables">Working with Environment Variables</a></h2>
-<p>We’ll improve <code>minigrep</code> by adding an extra feature: an option for
-case-insensitive searching that the user can turn on via an environment
-variable. We could make this feature a command line option and require that
-users enter it each time they want it to apply, but instead we’ll use an
-environment variable. Doing so allows our users to set the environment variable
-once and have all their searches be case insensitive in that terminal session.</p>
-<h3><a class="header" href="#writing-a-failing-test-for-the-case-insensitive-search-function" id="writing-a-failing-test-for-the-case-insensitive-search-function">Writing a Failing Test for the Case-Insensitive <code>search</code> Function</a></h3>
-<p>We want to add a new <code>search_case_insensitive</code> function that we’ll call when
-the environment variable is on. We’ll continue to follow the TDD process, so
-the first step is again to write a failing test. We’ll add a new test for the
-new <code>search_case_insensitive</code> function and rename our old test from
-<code>one_result</code> to <code>case_sensitive</code> to clarify the differences between the two
-tests, as shown in Listing 12-20.</p>
+<h2><a class="header" href="#處理環境變數" id="處理環境變數">處理環境變數</a></h2>
+<p>我們會新增一個額外的功能來改善 <code>minigrep</code>：使用者可以透過環境變數來啟用不區分大小寫的搜尋功能。我們可以將此功能設爲命令列選項並要求使用者每次需要時就要加上它，但是這次我們選擇使用環境變數。這樣一來能讓使用者設置環境變數一次就好，然後在該終端機 session 中所有的搜尋都會是不區分大小寫的。</p>
+<h3><a class="header" href="#寫個不區分大小寫的-search-函式的失敗測試" id="寫個不區分大小寫的-search-函式的失敗測試">寫個不區分大小寫的 <code>search</code> 函式的失敗測試</a></h3>
+<p>我們想新增個 <code>search_case_insensitive</code> 函式在環境變數啟用時呼叫它。我們將繼續遵守 TDD 流程，所以第一步一樣是先寫個會失敗的測試。我們會爲新函式 <code>search_case_insensitive</code> 新增一個測試，並將舊測試從 <code>one_result</code> 改名爲 <code>case_sensitive</code> 以便清楚兩個測試的差別，如範例 12-20 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -10330,27 +10320,11 @@ Trust me.&quot;;
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 12-20: Adding a new failing test for the
-case-insensitive function we’re about to add</span></p>
-<p>Note that we’ve edited the old test’s <code>contents</code> too. We’ve added a new line
-with the text <code>&quot;Duct tape.&quot;</code> using a capital D that shouldn’t match the query
-<code>&quot;duct&quot;</code> when we’re searching in a case-sensitive manner. Changing the old test
-in this way helps ensure that we don’t accidentally break the case-sensitive
-search functionality that we’ve already implemented. This test should pass now
-and should continue to pass as we work on the case-insensitive search.</p>
-<p>The new test for the case-<em>insensitive</em> search uses <code>&quot;rUsT&quot;</code> as its query. In
-the <code>search_case_insensitive</code> function we’re about to add, the query <code>&quot;rUsT&quot;</code>
-should match the line containing <code>&quot;Rust:&quot;</code> with a capital R and match the line
-<code>&quot;Trust me.&quot;</code> even though both have different casing from the query. This is
-our failing test, and it will fail to compile because we haven’t yet defined
-the <code>search_case_insensitive</code> function. Feel free to add a skeleton
-implementation that always returns an empty vector, similar to the way we did
-for the <code>search</code> function in Listing 12-16 to see the test compile and fail.</p>
-<h3><a class="header" href="#implementing-the-search_case_insensitive-function" id="implementing-the-search_case_insensitive-function">Implementing the <code>search_case_insensitive</code> Function</a></h3>
-<p>The <code>search_case_insensitive</code> function, shown in Listing 12-21, will be almost
-the same as the <code>search</code> function. The only difference is that we’ll lowercase
-the <code>query</code> and each <code>line</code> so whatever the case of the input arguments,
-they’ll be the same case when we check whether the line contains the query.</p>
+<p><span class="caption">範例 12-20：爲準備加入的不區分大小寫函式新增個失敗測試</span></p>
+<p>注意到我們也修改了舊測試 <code>contents</code>。我們新增了一行使用大寫 D 的 <code>&quot;Duct tape.&quot;</code>，當我們以區分大小寫來搜尋時，就不會符合要搜尋的 <code>&quot;duct&quot;</code>。這樣變更舊測試能確保我們沒有意外破壞我們已經實作好的區分大小寫的功能。此測試應該要能通過，並在我們實作不區分大小寫的搜尋時仍能繼續通過。</p>
+<p>新的不區分大小寫的搜尋測試使用 <code>&quot;rUsT&quot;</code> 來搜尋。在我們準備要加入的 <code>search_case_insensitive</code> 函式中，要搜尋的 <code>&quot;rUsT&quot;</code> 應該要能符合有大寫 R 的 <code>&quot;Rust:&quot;</code> 以及 <code>&quot;Trust me.&quot;</code> 這幾行，就算兩者都與搜尋字串有不同的大小寫。這是我們的失敗測試而且它還無法編譯，因爲我們還沒有定義 <code>search_case_insensitive</code> 函式。歡迎自行加上一個永遠回傳空 vector 的骨架實作，就像我們在範例 12-16 所做的一樣，然後看看測試能不能編譯過並失敗。</p>
+<h3><a class="header" href="#實作-search_case_insensitive-函式" id="實作-search_case_insensitive-函式">實作 <code>search_case_insensitive</code> 函式</a></h3>
+<p>範例 12-21 顯示的 <code>search_case_insensitive</code> 函式會與 <code>search</code> 函式幾乎一樣。唯一的不同在於我們將 <code>query</code> 與每個 <code>line</code> 都變成小寫，所以無論輸入引數是大寫還是小寫，當我們在檢查行數是否包含搜尋的字串時，它們都會是小寫。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -10445,27 +10419,11 @@ they’ll be the same case when we check whether the line contains the query.</p
 </span><span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 12-21: Defining the <code>search_case_insensitive</code>
-function to lowercase the query and the line before comparing them</span></p>
-<p>First, we lowercase the <code>query</code> string and store it in a shadowed variable with
-the same name. Calling <code>to_lowercase</code> on the query is necessary so no matter
-whether the user’s query is <code>&quot;rust&quot;</code>, <code>&quot;RUST&quot;</code>, <code>&quot;Rust&quot;</code>, or <code>&quot;rUsT&quot;</code>, we’ll
-treat the query as if it were <code>&quot;rust&quot;</code> and be insensitive to the case. While
-<code>to_lowercase</code> will handle basic Unicode, it won't be 100% accurate. If we were
-writing a real application, we'd want to do a bit more work here, but this section
-is about environment variables, not Unicode, so we'll leave it at that here.</p>
-<p>Note that <code>query</code> is now a <code>String</code> rather than a string slice, because calling
-<code>to_lowercase</code> creates new data rather than referencing existing data. Say the
-query is <code>&quot;rUsT&quot;</code>, as an example: that string slice doesn’t contain a lowercase
-<code>u</code> or <code>t</code> for us to use, so we have to allocate a new <code>String</code> containing
-<code>&quot;rust&quot;</code>. When we pass <code>query</code> as an argument to the <code>contains</code> method now, we
-need to add an ampersand because the signature of <code>contains</code> is defined to take
-a string slice.</p>
-<p>Next, we add a call to <code>to_lowercase</code> on each <code>line</code> before we check whether it
-contains <code>query</code> to lowercase all characters. Now that we’ve converted <code>line</code>
-and <code>query</code> to lowercase, we’ll find matches no matter what the case of the
-query is.</p>
-<p>Let’s see if this implementation passes the tests:</p>
+<p><span class="caption">範例 12-21：定義 <code>search_case_insensitive</code> 並在比較前將搜尋字串與行數均改爲小寫</span></p>
+<p>首先我們將 <code>query</code> 字串變成小寫並儲存到同名的遮蔽變數中。我們必須呼叫對要搜尋的字串 <code>to_lowercase</code>，這樣無論使用者輸入的是 <code>&quot;rust&quot;</code>、<code>&quot;RUST&quot;</code>、<code>&quot;Rust&quot;</code> 或 <code>&quot;rUsT&quot;</code>，我們都會將字串視爲 <code>&quot;rust&quot;</code> 並以此來不區分大小寫。雖然 <code>to_lowercase</code> 能處理基本的 Unicode，但它不會是 100% 準確的。如果我們是在寫真正的應用程式的話，我們需要處理更多條件，但在此段落是爲了理解環境變數而非 Unicode，所以我們維持這樣寫就好。</p>
+<p>注意到 <code>query</code> 現在是個 <code>String</code> 而非字串 slice，因爲呼叫 <code>to_lowercase</code> 會建立新的資料而非引用現存的資料。假設要搜尋的字串是 <code>&quot;rUsT&quot;</code> 的話，該字串 slice 並沒有包含小寫的 <code>u</code> 或 <code>t</code> 能讓我們來使用，所以我們必須分配一個包含 <code>&quot;rust&quot;</code> 的新 <code>String</code>。現在當我們將 <code>query</code> 作爲引數傳給 <code>contains</code> 方法時，我們需要加上「&amp;」，因爲 <code>contains</code> 所定義的簽名接收的是一個字串 slice。</p>
+<p>接著，在我們檢查是否包含小寫的 <code>query</code> 前，我們對每個 <code>line</code> 加上 <code>to_lowercase</code> 的呼叫。現在我們將 <code>line</code> 和 <code>query</code> 都轉換成小寫了。我們可以不區分大小寫來找到符合的行數。</p>
+<p>讓我們來看看實作是否能通過測試：</p>
 <pre><code class="language-console">$ cargo test
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
     Finished test [unoptimized + debuginfo] target(s) in 1.33s
@@ -10490,11 +10448,7 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 </code></pre>
-<p>Great! They passed. Now, let’s call the new <code>search_case_insensitive</code> function
-from the <code>run</code> function. First, we’ll add a configuration option to the
-<code>Config</code> struct to switch between case-sensitive and case-insensitive search.
-Adding this field will cause compiler errors because we aren’t initializing
-this field anywhere yet:</p>
+<p>很好！測試通過。現在讓我們從 <code>run</code> 函式呼叫新的 <code>search_case_insensitive</code> 函式。首先，我們要在 <code>Config</code> 中新增一個配置選項來切換區分大小寫與不區分大小寫之間的搜尋。新增此欄位會造成編譯錯誤，因爲我們還沒有初始化該欄位：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -10596,11 +10550,7 @@ this field anywhere yet:</p>
 </span><span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre>
-<p>Note that we added the <code>case_sensitive</code> field that holds a Boolean. Next, we
-need the <code>run</code> function to check the <code>case_sensitive</code> field’s value and use
-that to decide whether to call the <code>search</code> function or the
-<code>search_case_insensitive</code> function, as shown in Listing 12-22. Note this still
-won’t compile yet.</p>
+<p>注意到我們新增了 <code>case_sensitive</code> 欄位並存有布林值。接著，我們需要 <code>run</code> 函式檢查 <code>case_sensitive</code> 欄位的數值並以此決定要呼叫 <code>search</code> 函式或是 <code>search_case_insensitive</code> 函式，如範例 12-22 所示。不過目前還無法編譯。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -10702,14 +10652,8 @@ won’t compile yet.</p>
 </span><span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre>
-<p><span class="caption">範例 12-22: Calling either <code>search</code> or
-<code>search_case_insensitive</code> based on the value in <code>config.case_sensitive</code></span></p>
-<p>Finally, we need to check for the environment variable. The functions for
-working with environment variables are in the <code>env</code> module in the standard
-library, so we want to bring that module into scope with a <code>use std::env;</code> line
-at the top of <em>src/lib.rs</em>. Then we’ll use the <code>var</code> function from the <code>env</code>
-module to check for an environment variable named <code>CASE_INSENSITIVE</code>, as shown
-in Listing 12-23.</p>
+<p><span class="caption">範例 12-22：依據 <code>config.case_sensitive</code> 的數值來呼叫 <code>search</code> 或 <code>search_case_insensitive</code></span></p>
+<p>最後，我們需要檢查環境變數。處理環境變數的函式位於標準函式庫中的 <code>env</code> 模組中，所以我們可以在 <em>src/lib.rs</em> 最上方加上 <code>use std::env;</code> 來將該模組引入作用域。然後我們使用 <code>env</code> 模組中的 <code>var</code> 函式來檢查一個叫做 <code>CASE_INSENSITIVE</code> 的環境變數，如範例 12-23 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::env;
 // --snip--
@@ -10820,27 +10764,11 @@ in Listing 12-23.</p>
 </span><span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 12-23: Checking for an environment variable named
-<code>CASE_INSENSITIVE</code></span></p>
-<p>Here, we create a new variable <code>case_sensitive</code>. To set its value, we call the
-<code>env::var</code> function and pass it the name of the <code>CASE_INSENSITIVE</code> environment
-variable. The <code>env::var</code> function returns a <code>Result</code> that will be the successful
-<code>Ok</code> variant that contains the value of the environment variable if the
-environment variable is set. It will return the <code>Err</code> variant if the
-environment variable is not set.</p>
-<p>We’re using the <code>is_err</code> method on the <code>Result</code> to check whether it’s an error
-and therefore unset, which means it <em>should</em> do a case-sensitive search. If the
-<code>CASE_INSENSITIVE</code> environment variable is set to anything, <code>is_err</code> will
-return false and the program will perform a case-insensitive search. We don’t
-care about the <em>value</em> of the environment variable, just whether it’s set or
-unset, so we’re checking <code>is_err</code> rather than using <code>unwrap</code>, <code>expect</code>, or any
-of the other methods we’ve seen on <code>Result</code>.</p>
-<p>We pass the value in the <code>case_sensitive</code> variable to the <code>Config</code> instance so
-the <code>run</code> function can read that value and decide whether to call <code>search</code> or
-<code>search_case_insensitive</code>, as we implemented in Listing 12-22.</p>
-<p>Let’s give it a try! First, we’ll run our program without the environment
-variable set and with the query <code>to</code>, which should match any line that contains
-the word “to” in all lowercase:</p>
+<p><span class="caption">範例 12-23：檢查環境變數 <code>CASE_INSENSITIVE</code></span></p>
+<p>我們在此建立了一個新的變數 <code>case_sensitive</code>。要設置其數值，我們可以呼叫 <code>env::var</code> 函式並傳入環境變數 <code>CASE_INSENSITIVE</code> 的名稱。<code>env::var</code> 函式會回傳 <code>Result</code>，如果有設置環境變數的話，這就會是包含環境變數數值的成功 <code>Ok</code>變體；如果環境變數沒有設置的話，這就會回傳 <code>Err</code> 變體。</p>
+<p>我們在 <code>Result</code> 使用 <code>is_err</code> 方法來檢查是否爲錯誤，如果是的話就代表沒有設置，也意味著它<em>該</em>使用區分大小寫的搜尋。如果 <code>CASE_INSENSITIVE</code> 環境變數有設置成任何數值的話，<code>is_err</code> 會回傳否，所以程式就會進行不區分大小寫的搜尋。我們不在乎環境變數的<em>數值</em>，只在意它有沒有被設置而已，所以我們使用 <code>is_err</code> 來檢查而非使用 <code>unwrap</code>、<code>expect</code> 或其他任何我們看過的 <code>Result</code> 方法。</p>
+<p>我們將變數  <code>case_sensitive</code> 的數值傳給 <code>Config</code> 實例，讓 <code>run</code> 函式可以讀取該數值並決定該呼叫 <code>search</code> 還是 <code>search_case_insensitive</code>，如範例 12-22 所實作的一樣。</p>
+<p>讓我們試看看吧！首先，我們先不設置環境變數並執行程式來搜尋 <code>to</code>，任何包含小寫單字「to」的行數都應要符合：</p>
 <pre><code class="language-console">$ cargo run to poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
@@ -10848,17 +10776,14 @@ the word “to” in all lowercase:</p>
 Are you nobody, too?
 How dreary to be somebody!
 </code></pre>
-<p>Looks like that still works! Now, let’s run the program with <code>CASE_INSENSITIVE</code>
-set to <code>1</code> but with the same query <code>to</code>.</p>
-<p>If you're using PowerShell, you will need to set the environment
-variable and run the program as separate commands:</p>
+<p>看起來運作仍十分正常！現在，讓我們設置 <code>CASE_INSENSITIVE</code> 爲 <code>1</code> 並執行程式來搜尋相同的字串 <code>to</code>。</p>
+<p>如果你使用的是 PowerShell，你需要將設置變數與執行程式分爲不同的命令：</p>
 <pre><code class="language-console">PS&gt; $Env:CASE_INSENSITIVE=1; cargo run to poem.txt
 </code></pre>
-<p>This will make <code>CASE_INSENSITIVE</code> persist for the remainder of your shell
-session. It can be unset with the <code>Remove-Item</code> cmdlet:</p>
+<p>這會在你的 shell session 中設置 <code>CASE_INSENSITIVE</code>。它可以透過 <code>Remove-Item</code> cmdlet 來取消設置：</p>
 <pre><code class="language-console">PS&gt; Remove-Item Env:CASE_INSENSITIVE
 </code></pre>
-<p>We should get lines that contain “to” that might have uppercase letters:</p>
+<p>我們應該會得到包含可能有大寫的「to」的行數：</p>
 <!-- manual-regeneration
 cd listings/ch12-an-io-project/listing-12-23
 CASE_INSENSITIVE=1 cargo run to poem.txt
@@ -10872,19 +10797,16 @@ How dreary to be somebody!
 To tell your name the livelong day
 To an admiring bog!
 </code></pre>
-<p>Excellent, we also got lines containing “To”! Our <code>minigrep</code> program can now do
-case-insensitive searching controlled by an environment variable. Now you know
-how to manage options set using either command line arguments or environment
-variables.</p>
-<p>Some programs allow arguments <em>and</em> environment variables for the same
-configuration. In those cases, the programs decide that one or the other takes
-precedence. For another exercise on your own, try controlling case
-insensitivity through either a command line argument or an environment
-variable. Decide whether the command line argument or the environment variable
-should take precedence if the program is run with one set to case sensitive and
-one set to case insensitive.</p>
-<p>The <code>std::env</code> module contains many more useful features for dealing with
-environment variables: check out its documentation to see what is available.</p>
+<p>太好了，我們也取得了包含「To」的行數！我們的 <code>minigrep</code> 程式現在可以進行不區分大小寫的搜尋並以環境變數配置。現在你知道如何使用命令列引數或環境變數來管理設置選項了。</p>
+<p>有些程式允許同時使用引數<em>與</em>環境變數來配置。在這種情況下，程式會決定各種選項的優先層級。你想要練習的話，嘗試使用命令列引數與環境變數來控制不區分大小寫的選項。並在程式執行時，其中一個設置爲區分大小寫，而另一個爲不區分大小寫時，自行決定該優先使用命令列引數還是環境變數。</p>
+<p><code>std::env</code> 模組還包含很多處理環境變數的實用功能，歡迎查閱其官方文件來瞭解有哪些可用。</p>
+<blockquote>
+<ul>
+<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
+<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-05-working-with-environment-variables.md">e5ed971</a></li>
+<li>updated: 2020-10-03</li>
+</ul>
+</blockquote>
 <h2><a class="header" href="#writing-error-messages-to-standard-error-instead-of-standard-output" id="writing-error-messages-to-standard-error-instead-of-standard-output">Writing Error Messages to Standard Error Instead of Standard Output</a></h2>
 <p>At the moment, we’re writing all of our output to the terminal using the
 <code>println!</code> macro. Most terminals provide two kinds of output: <em>standard
