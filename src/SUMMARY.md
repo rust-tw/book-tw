@@ -1,10 +1,10 @@
-# The Rust Programming Language
+# Rust 程式設計語言
 
-[The Rust Programming Language](title-page.md)
-[Foreword](foreword.md)
-[Introduction](ch00-00-introduction.md)
+[Rust 程式設計語言](title-page.md)
+[前言](foreword.md)
+[介紹](ch00-00-introduction.md)
 
-## Getting started
+## 開始入門
 
 - [開始入門](ch01-00-getting-started.md)
     - [安裝教學](ch01-01-installation.md)
@@ -35,7 +35,7 @@
     - [`match` 控制流運算子](ch06-02-match.md)
     - [透過 `if let` 簡化控制流](ch06-03-if-let.md)
 
-## Basic Rust Literacy
+## 基本 Rust 概念
 
 - [透過套件、Crate與模組管理成長中的專案](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
     - [套件與 Crates](ch07-01-packages-and-crates.md)
@@ -72,7 +72,7 @@
     - [處理環境變數](ch12-05-working-with-environment-variables.md)
     - [將錯誤訊息寫入標準錯誤而非標準輸出](ch12-06-writing-to-stderr-instead-of-stdout.md)
 
-## Thinking in Rust
+## 以 Rust 思維思考
 
 - [函式語言功能：疊代器與閉包](ch13-00-functional-features.md)
     - [閉包：能獲取其環境的匿名函式](ch13-01-closures.md)
