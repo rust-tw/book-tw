@@ -1,48 +1,30 @@
-# The Rust Programming Language
+# Rust 程式設計語言
 
-*by Steve Klabnik and Carol Nichols, with contributions from the Rust Community*
+*Steve Klabnik 與 Carol Nichols，以及 Rust 社群的貢獻*
 
-This version of the text assumes you’re using Rust 1.41.0 or later with
-`edition="2018"` in *Cargo.toml* of all projects to use Rust 2018 Edition
-idioms. See the [“Installation” section of Chapter 1][install]<!-- ignore -->
-to install or update Rust, and see the new [Appendix E][editions]<!-- ignore
---> for information on editions.
+此版本預設你使用 Rust 1.41.0 或更高的版本，並在所有專案中的 *Cargo.toml* 都有 `edition="2018"` 來使用 Rust 2018 版號。請查看[第一章的「安裝」段落][install]<!-- ignore -->來安裝或更新 Rust，並查看[附錄 E][editions]<!-- ignore -->來瞭解版號的資訊。
 
-The 2018 Edition of the Rust language includes a number of improvements that
-make Rust more ergonomic and easier to learn. This iteration of the book
-contains a number of changes to reflect those improvements:
+Rust 語言的 2018 版號包含一系列的改進使 Rust 更加易讀易用且更容易學習。本書此次的疊代包含一些更新來反映這些改進：
 
-- Chapter 7, “Managing Growing Projects with Packages, Crates, and Modules,”
-  has been mostly rewritten. The module system and the way paths work in the
-  2018 Edition were made more consistent.
-- Chapter 10 has new sections titled “特徵作爲參數” and “Returning
-  Types that Implement Traits” that explain the new `impl Trait` syntax.
-- Chapter 11 has a new section titled “Using `Result<T, E>` in Tests” that
-  shows how to write tests that use the `?` operator.
-- The “Advanced Lifetimes” section in Chapter 19 was removed because compiler
-  improvements have made the constructs in that section even rarer.
-- The previous Appendix D, “Macros,” has been expanded to include procedural
-  macros and was moved to the “Macros” section in Chapter 19.
-- Appendix A, “Keywords,” also explains the new raw identifiers feature that
-  enables code written in the 2015 Edition and the 2018 Edition to interoperate.
-- Appendix D is now titled “Useful Development Tools” and covers recently
-  released tools that help you write Rust code.
-- We fixed a number of small errors and imprecise wording throughout the book.
-  Thank you to the readers who reported them!
+- 第七章「透過套件、Crate與模組管理成長中的專案」幾乎重寫了一遍。模組系統以及其在 2018 版號中的路徑處理變得更一致。
+- 第十章新增了「特徵作爲參數」與「返回有實作特徵的型別」的段落來解釋新的 `impl Trait` 語法。
+- 第十一章有個新段落「在測試中使用 `Result<T, E>`」來展示如何在測試中使用 `?` 運算子。
+- 第十九章的「進階生命週期」已被移除，因爲編譯器的改善讓使用該段落的時機變得更加稀少了。
+- 之前的附錄 D 「巨集」增加了過程式巨集的內容，且被移至第十九章的「巨集」段落中。
+- 附錄 A 「關鍵字」新增了原始標識符的功能介紹，來讓 2015 版號的程式碼可以用在 2018 版號也不會出現問題。
+- 附錄 D 現在的標題爲「實用開發工具」並涵蓋最近發佈的工具，這些能在你寫 Rust 程式碼時幫助到你。
+- 我們修正了整本書中一些小錯誤與不精確的措辭。感謝各位讀者的回報！
 
-Note that any code in earlier iterations of *The Rust Programming Language*
-that compiled will continue to compile without `edition="2018"` in the
-project’s *Cargo.toml*, even as you update the Rust compiler version you’re
-using. That’s Rust’s backward compatibility guarantees at work!
+值得注意的是*Rust 程式設計語言*的早期疊代版本中的程式碼在專案中的 *Cargo.toml* 移除 `edition="2018"` 就能繼續編譯，儘管你升級了 Rust 編譯器也是如此。Rust 的向下相容保證一切可以正常運行！
 
-The HTML format is available online at
-[https://doc.rust-lang.org/stable/book/](https://doc.rust-lang.org/stable/book/)
-and offline with installations of Rust made with `rustup`; run `rustup docs
---book` to open.
+本書的 HTML 格式可以在線上閱讀：[https://doc.rust-lang.org/stable/book/](https://doc.rust-lang.org/stable/book/)（[正體中文版](https://rust-lang.tw/book-tw/)。而離線版則可以包含在 `rustup` 安裝的 Rust 中，輸入 `rustup docs --book` 就能開啟。
 
-This text is available in [paperback and ebook format from No Starch
-Press][nsprust].
+本書也有由[No Starch Press 出版平裝與電子版格式][nsprust]。
 
 [install]: ch01-01-installation.html
 [editions]: appendix-05-editions.html
 [nsprust]: https://nostarch.com/rust
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/title-page.md)
+> - updated: 2020-10-03
