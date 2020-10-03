@@ -1,58 +1,32 @@
-## Writing Error Messages to Standard Error Instead of Standard Output
+## 將錯誤訊息寫入標準錯誤而非標準輸出
 
-At the moment, we’re writing all of our output to the terminal using the
-`println!` macro. Most terminals provide two kinds of output: *standard
-output* (`stdout`) for general information and *standard error* (`stderr`)
-for error messages. This distinction enables users to choose to direct the
-successful output of a program to a file but still print error messages to the
-screen.
+目前我們使用 `println!` 巨集來將所有的輸出顯示到終端機。大多數的終端機都提供兩種輸出方式：用於通用資訊的*標準輸出（standard output, `stdout`）*以及用於錯誤訊息的*標準錯誤（standard error, `stderr`）*。這樣的區別讓使用者可以選擇將程式的成功輸出導向到一個檔案中，並仍能在螢幕上顯示錯誤訊息。
 
-The `println!` macro is only capable of printing to standard output, so we
-have to use something else to print to standard error.
+`println!` 巨集只能夠印出標準輸出，所以我們得用其他方式來印出標準錯誤。
 
-### Checking Where Errors Are Written
+### 檢查該在哪裡寫錯誤
 
-First, let’s observe how the content printed by `minigrep` is currently being
-written to standard output, including any error messages we want to write to
-standard error instead. We’ll do that by redirecting the standard output stream
-to a file while also intentionally causing an error. We won’t redirect the
-standard error stream, so any content sent to standard error will continue to
-display on the screen.
+首先，我們先來觀察 `minigrep` 目前寫到標準輸出的顯示內容，其中包含任何我們想改寫成標準錯誤的錯誤訊息。我們會將標準輸出重新導向至一個檔案並故意產生一個錯誤。因爲我們不會重新導向標準錯誤，所以任何傳送至標準錯誤的內容會繼續顯示在螢幕上。
 
-Command line programs are expected to send error messages to the standard error
-stream so we can still see error messages on the screen even if we redirect the
-standard output stream to a file. Our program is not currently well-behaved:
-we’re about to see that it saves the error message output to a file instead!
+命令列程式應該要傳送錯誤訊息至標準錯誤，讓我們可以在重新導向標準輸出至檔案時，仍能在螢幕上看到錯誤訊息。所以我們的程式目前並不符合預期：我們會看到它儲存錯誤訊息輸出到檔案中！
 
-The way to demonstrate this behavior is by running the program with `>` and the
-filename, *output.txt*, that we want to redirect the standard output stream to.
-We won’t pass any arguments, which should cause an error:
+要觀察此行爲的方式是透過 `>` 來執行程式並加上檔案名稱 *output.txt*，這是我們要重新導向標準輸出到的地方。我們不會傳遞任何引數，這樣就應該會造成錯誤：
 
 ```console
 $ cargo run > output.txt
 ```
 
-The `>` syntax tells the shell to write the contents of standard output to
-*output.txt* instead of the screen. We didn’t see the error message we were
-expecting printed to the screen, so that means it must have ended up in the
-file. This is what *output.txt* contains:
+`>` 語法告訴 shell 要將標準輸出的內容寫入 *output.txt* 而不是顯示在螢幕上。我們沒有看到應顯示在螢幕上的錯誤訊息，這代表它一定跑到檔案中了。以下是 *output.txt* 包含的內容：
 
 ```text
 Problem parsing arguments: not enough arguments
 ```
 
-Yup, our error message is being printed to standard output. It’s much more
-useful for error messages like this to be printed to standard error so only
-data from a successful run ends up in the file. We’ll change that.
+是的，我們的錯誤訊息印到了標準輸出。像這樣的錯誤訊息印到標準錯誤會比較好，這樣才能只讓成功執行的資料存至檔案中。讓我們來修正吧。
 
-### Printing Errors to Standard Error
+### 將錯誤印出至標準錯誤
 
-We’ll use the code in Listing 12-24 to change how error messages are printed.
-Because of the refactoring we did earlier in this chapter, all the code that
-prints error messages is in one function, `main`. The standard library provides
-the `eprintln!` macro that prints to the standard error stream, so let’s change
-the two places we were calling `println!` to print errors to use `eprintln!`
-instead.
+我們會使用範例 12-24 的程式碼來改變錯誤訊息印出的方式。由於我們在本章前幾篇的重構，所有印出錯誤訊息的程式碼都位於 `main` 函式中。標準函式庫有提供 `eprintln!` 巨集來印到標準錯誤，所以讓我們變更兩個原本呼叫 `println!` 來印出錯誤的段落來改使用 `eprintln!`。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -60,29 +34,24 @@ instead.
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-24/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-24: Writing error messages to standard error
-instead of standard output using `eprintln!`</span>
+<span class="caption">範例 12-24：使用 `eprintln!` 來將錯誤訊息印至標準錯誤而非標準輸出</span>
 
-After changing `println!` to `eprintln!`, let’s run the program again in the
-same way, without any arguments and redirecting standard output with `>`:
+將 `println!` 變更成 `eprintln!` 之後，讓我們以相同方式再執行程式一次，沒有任何引數並用 `>` 重新導向標準輸出：
 
 ```text
 $ cargo run > output.txt
 Problem parsing arguments: not enough arguments
 ```
 
-Now we see the error onscreen and *output.txt* contains nothing, which is the
-behavior we expect of command line programs.
+現在我們看到錯誤顯示在螢幕上而且 *output.txt* 裡什麼也沒只有，這正是命令列程式所預期的行爲。
 
-Let’s run the program again with arguments that don’t cause an error but still
-redirect standard output to a file, like so:
+讓我們加上不會產生錯誤的引數來執行程式，並仍衝心導向標準輸出至檔案中，如以下所示：
 
 ```console
 $ cargo run to poem.txt > output.txt
 ```
 
-We won’t see any output to the terminal, and *output.txt* will contain our
-results:
+我們在終端機不會看到任何輸出，而 *output.txt* 會包含我們的結果：
 
 <span class="filename">檔案名稱：output.txt</span>
 
@@ -91,18 +60,14 @@ Are you nobody, too?
 How dreary to be somebody!
 ```
 
-This demonstrates that we’re now using standard output for successful output
-and standard error for error output as appropriate.
+這說明我們現在有對成功的輸出使用標準輸出，而且有妥善地將錯誤輸出傳至標準錯誤。
 
-## Summary
+## 總結
 
-This chapter recapped some of the major concepts you’ve learned so far and
-covered how to perform common I/O operations in Rust. By using command line
-arguments, files, environment variables, and the `eprintln!` macro for printing
-errors, you’re now prepared to write command line applications. By using the
-concepts in previous chapters, your code will be well organized, store data
-effectively in the appropriate data structures, handle errors nicely, and be
-well tested.
+本章節回顧了你目前所學的一些重要概念，並介紹了如何在 Rust 中進行常見的 I/O 操作。透過使用命令列引數、檔案、環境變數與用來印出錯誤的 `eprintln!` 巨集，你現在已經準備好能寫出命令列應用程式了。透過使用前幾張的概念，你的程式的組織架構會非常穩固、資料都能有效率地儲存至適當的資料結構、完善地處理錯誤，並通過測試檢驗。
 
-Next, we’ll explore some Rust features that were influenced by functional
-languages: closures and iterators.
+接下來，我們要探討些 Rust 受到函式語言啟發的功能：閉包與疊代器。
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-06-writing-to-stderr-instead-of-stdout.md)
+> - updated: 2020-10-03
