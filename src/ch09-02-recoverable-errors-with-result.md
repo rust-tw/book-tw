@@ -37,11 +37,11 @@ enum Result<T, E> {
 {{#include ../listings/ch09-error-handling/no-listing-02-ask-compiler-for-type/output.txt}}
 ```
 
-這告訴我們函式 `File::open` 的回傳型別爲 `Result<T, E>`。泛型參數 `T` 在此已經被指明成功時會用到的型別 `std::fs::File`，也就是檔案的句柄（handle）。用於錯誤時的 `E` 型別則是 `std::io::Error`。
+這告訴我們函式 `File::open` 的回傳型別爲 `Result<T, E>`。泛型參數 `T` 在此已經被指明成功時會用到的型別 `std::fs::File`，也就是檔案的控制代碼（handle）。用於錯誤時的 `E` 型別則是 `std::io::Error`。
 
-這樣的回傳型別代表 `File::open` 的呼叫在成功時會回傳我們可以讀寫的檔案句柄，但該函式呼叫也可能失敗。舉例來說，該檔案可能會不存在，或者我們沒有檔案的存取權限。`File::open` 需要有某種方式能告訴我們它的結果是成功或失敗，並回傳檔案句柄或是錯誤資訊。這樣的資訊正是 `Result` 枚舉想表達的。
+這樣的回傳型別代表 `File::open` 的呼叫在成功時會回傳我們可以讀寫的檔案控制代碼，但該函式呼叫也可能失敗。舉例來說，該檔案可能會不存在，或者我們沒有檔案的存取權限。`File::open` 需要有某種方式能告訴我們它的結果是成功或失敗，並回傳檔案控制代碼或是錯誤資訊。這樣的資訊正是 `Result` 枚舉想表達的。
 
-如果 `File::open` 成功的話，變數 `f` 的數值就會獲得包含檔案句柄的 `Ok` 實例。如果失敗的話，`f` 的值就會是包含爲何產生該錯誤的資訊的 `Err` 實例。
+如果 `File::open` 成功的話，變數 `f` 的數值就會獲得包含檔案控制代碼的 `Ok` 實例。如果失敗的話，`f` 的值就會是包含爲何產生該錯誤的資訊的 `Err` 實例。
 
 我們需要讓範例 9-3 的程式碼依據 `File::open` 回傳不同的結果採取不同的動作。範例 9-4 展示了其中一種處理 `Result` 的方式，我們使用第六章提到的 `match` 表達式。
 
@@ -55,7 +55,7 @@ enum Result<T, E> {
 
 和 `Option` 枚舉一樣，`Result` 枚舉與其變體都會透過 prelude 引入作用域，所以我們不需要指明 `Result::`，可以直接在 `match` 的分支中使用 `Ok` 和 `Err` 變體。
 
-我們在此告訴 Rust 結果是 `Ok` 的話，就回傳 `Ok` 變體中內部的 `file`，然後我們就可以將檔案句柄賦值給變數 `f`。在 `match` 之後，我們就可以適用檔案句柄來讀寫。
+我們在此告訴 Rust 結果是 `Ok` 的話，就回傳 `Ok` 變體中內部的 `file`，然後我們就可以將檔案控制代碼賦值給變數 `f`。在 `match` 之後，我們就可以適用檔案控制代碼來讀寫。
 
 `match` 的另一個分支則負責處理我們從 `File::open` 中取得的 `Err` 數值。在此範例中，我們選擇呼叫 `panic!` 巨集。如果檔案 *hello.txt* 不存在我們當前的目錄的話，我們就會執行此程式碼，接著就會看到來自 `panic!` 巨集的輸出結果：
 
@@ -67,7 +67,7 @@ enum Result<T, E> {
 
 ### 配對不同種的錯誤
 
-範例 9-4 的程式碼不管 `File::open` 爲何失敗都會呼叫 `panic!`。我們希望做的是依據不同的錯誤原因採取不同的動作，如果 `File::open` 是因爲檔案不存在的話，我們想要建立檔案並回傳新檔案的句柄。如果 `File::open` 是因爲其他原因失敗的話，像是我們沒有開啟檔案的權限，我們仍然要像範例 9-4 這樣呼叫 `panic!`。範例 9-5 就這樣對 `match` 表達式加了更多條件。
+範例 9-4 的程式碼不管 `File::open` 爲何失敗都會呼叫 `panic!`。我們希望做的是依據不同的錯誤原因採取不同的動作，如果 `File::open` 是因爲檔案不存在的話，我們想要建立檔案並回傳新檔案的控制代碼。如果 `File::open` 是因爲其他原因失敗的話，像是我們沒有開啟檔案的權限，我們仍然要像範例 9-4 這樣呼叫 `panic!`。範例 9-5 就這樣對 `match` 表達式加了更多條件。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -118,7 +118,7 @@ src/libcore/result.rs:906:4
 {{#rustdoc_include ../listings/ch09-error-handling/no-listing-05-expect/src/main.rs}}
 ```
 
-我們使用 `expect` 的方式和 `unwrap` 一樣，不是回傳檔案句柄就是呼叫 `panic!` 巨集。使用 `expect` 呼叫 `panic!` 時的錯誤訊息會是我們傳遞給 `expect` 的參數，而不是像 `unwrap` 使用 `panic!` 預設的訊息。訊息看起來就會像這樣：
+我們使用 `expect` 的方式和 `unwrap` 一樣，不是回傳檔案控制代碼就是呼叫 `panic!` 巨集。使用 `expect` 呼叫 `panic!` 時的錯誤訊息會是我們傳遞給 `expect` 的參數，而不是像 `unwrap` 使用 `panic!` 預設的訊息。訊息看起來就會像這樣：
 
 ```text
 thread 'main' panicked at 'Failed to open hello.txt: Error { repr: Os { code:
@@ -147,9 +147,9 @@ don't want to include it for rustdoc testing purposes. -->
 
 此函式還能在更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 `Result<String, io::Error>`。這代表此函式回傳的型別爲 `Result<T, E>`，而泛型型別 `T` 已經指明爲實際型別 `String` 然後泛型型別 `E` 也已經指明爲實際型別 `io::Error`。如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 `String` 的 `Ok` 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含有關問題發生資訊的 `io::Error` 實例的 `Err` 數值。我們選擇 `io::Error` 作爲使函式的回傳值是因爲它正是 `File::open` 函式和 `read_to_string` 方法失敗時的回傳的錯誤型別。
 
-函式本體從呼叫 `File::open` 開始，然後我們使用 `match` 回傳 `Result` 數值，就和範例 9-4 的 `match` 類似，但與其在 `Err` 情形時呼叫 `panic!`，我們儘早回傳 `File::open` 的錯誤型別給呼叫者。如果 `File::open` 成功的話，我們就將檔案句柄賦值給變數 `f` 並繼續執行下去。
+函式本體從呼叫 `File::open` 開始，然後我們使用 `match` 回傳 `Result` 數值，就和範例 9-4 的 `match` 類似，但與其在 `Err` 情形時呼叫 `panic!`，我們儘早回傳 `File::open` 的錯誤型別給呼叫者。如果 `File::open` 成功的話，我們就將檔案控制代碼賦值給變數 `f` 並繼續執行下去。
 
-接著我們在變數 `s` 建立新的 `String` 並對檔案句柄 `f` 呼叫 `read_to_string` 方法來讀取檔案內容至 `s`。`read_to_string` 也會回傳 `Result` 因爲它也可能失敗，就算 `File::open` 是執行成功的。所以我們需要另一個 `match` 來處理該 `Result`，如果 `read_to_string` 成功的話，我們的函式就是成功的，然後在 `Ok` 回傳 `s` 中該檔案的使用者名稱。如果 `read_to_string` 失敗的話，我們就像處理 `File::open` 的 `match` 一樣回傳錯誤值。不過我們不需要顯式寫出 `return`，因爲這是函式中的最後一個表達式。
+接著我們在變數 `s` 建立新的 `String` 並對檔案控制代碼 `f` 呼叫 `read_to_string` 方法來讀取檔案內容至 `s`。`read_to_string` 也會回傳 `Result` 因爲它也可能失敗，就算 `File::open` 是執行成功的。所以我們需要另一個 `match` 來處理該 `Result`，如果 `read_to_string` 成功的話，我們的函式就是成功的，然後在 `Ok` 回傳 `s` 中該檔案的使用者名稱。如果 `read_to_string` 失敗的話，我們就像處理 `File::open` 的 `match` 一樣回傳錯誤值。不過我們不需要顯式寫出 `return`，因爲這是函式中的最後一個表達式。
 
 呼叫此程式碼的程式就會需要處理包含使用者名稱的 `Ok` 數值以及包含 `io::Error` 的 `Err` 數值。我們不會知道呼叫此程式碼的人會如何處理這些數值。舉例來說，如果呼叫此程式碼而獲得錯誤的話，它可能選擇呼叫 `panic!` 讓程式崩潰，或者使用預設的使用者名稱從檔案以外的地方尋找該使用者。所以我們傳播所有成功或錯誤的資訊給呼叫者，讓它們能妥善處理。
 
