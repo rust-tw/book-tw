@@ -124,7 +124,7 @@ main.pdb
 main.rs
 ```
 
-這顯示了副檔名爲 *.rs*  的原始程式碼檔案、執行檔（在 Winddows 上爲 *main.exe*；其他則爲 *main*），然後在 Windows 上會再出現一個副檔名爲 *.pdb* 的除錯資訊文件。在這裡，你就可以像這樣執行 *main* 或 *main.exe* 檔案：
+這顯示了副檔名爲 *.rs*  的原始碼檔案、執行檔（在 Winddows 上爲 *main.exe*；其他則爲 *main*），然後在 Windows 上會再出現一個副檔名爲 *.pdb* 的除錯資訊文件。在這裡，你就可以像這樣執行 *main* 或 *main.exe* 檔案：
 
 ```console
 $ ./main # or .\main.exe on Windows

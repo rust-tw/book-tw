@@ -224,7 +224,7 @@ You guessed: 6
 
 ### 使用 Crate 來取得更多功能
 
-所謂的 crate 是一個 Rust 原始程式碼檔案的集合。我們正在寫的專案屬於*二進制（binary） crate*，也就會是個執行檔。而 `rand` crate 屬於*函式庫（library） crate*，這會包含讓其他程式能夠使用的程式碼。
+所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於*二進制（binary） crate*，也就會是個執行檔。而 `rand` crate 屬於*函式庫（library） crate*，這會包含讓其他程式能夠使用的程式碼。
 
 Cargo 使用外部 crate 的功能正是它的亮點。在我們可以使用 `rand` 來寫程式碼前，我們需要修改 *Cargo.toml* 檔案來包含 `rand` crate 作爲依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 `[dependencies]` 標頭（header）段落中最後一行下面：
 
@@ -272,7 +272,7 @@ $ cargo build
 
 你可能會看到不同的版本數字（但多虧有 SemVer，它們都會與程式碼相容！）、不同的行數（依照作業系統可能會不同）以及每行順序可能會不相同。
 
-現在你有了外部依賴，Cargo 會從 *registry* 取得所有 crate 的最新版本訊息，這是份 [Crates.io][cratesio] 的資料副本。Crates.io 是個讓 Rust 生態圈中的每個人都能發佈它們的開源 Rust 專案並讓其他人使用的地方。
+現在你有了外部依賴，Cargo 會從 *registry* 取得所有 crate 的最新版本訊息，這是份 [Crates.io][cratesio] 的資料副本。Crates.io 是個讓 Rust 生態系統中的每個人都能發佈它們的開源 Rust 專案並讓其他人使用的地方。
 
 [cratesio]: https://crates.io/
 
@@ -331,7 +331,7 @@ rand = "0.6.0"
 下次你執行 `cargo build` 時，Cargo 將會更新 crate registry ，並依據你指定的新版本來重新評估 `rand` 的確切版本。
 
 
-[Cargo][doccargo]<!-- ignore --> 與[其生態圈][doccratesio]<!-- ignore --> 還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。
+[Cargo][doccargo]<!-- ignore --> 與[其生態系統][doccratesio]<!-- ignore --> 還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。
 
 [doccargo]: http://doc.crates.io
 [doccratesio]: http://doc.crates.io/crates-io.html

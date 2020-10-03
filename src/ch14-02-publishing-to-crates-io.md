@@ -1,6 +1,6 @@
 ## 發佈 Crate 到 Crates.io
 
-我們已經使用過 [crates.io](https://crates.io/)<!-- ignore --> 的套件來作爲我們專案的依賴函式庫，但是你也可以發佈你自己的套件來將你的程式碼提供給其他人使用。[crates.io](https://crates.io/)<!-- ignore --> 會發行套件的原始程式碼，所以它主要用來託管開源程式碼。
+我們已經使用過 [crates.io](https://crates.io/)<!-- ignore --> 的套件來作爲我們專案的依賴函式庫，但是你也可以發佈你自己的套件來將你的程式碼提供給其他人使用。[crates.io](https://crates.io/)<!-- ignore --> 會發行套件的原始碼，所以它主要用來託管開源程式碼。
 
 Rust 與 Cargo 有許多功能可以幫助其他人更容易找到並使用你發佈的套件。我們會介紹其中一些功能並解釋如何發佈套件。
 

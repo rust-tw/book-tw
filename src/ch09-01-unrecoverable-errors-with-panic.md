@@ -25,7 +25,7 @@
 {{#include ../listings/ch09-error-handling/no-listing-01-panic/output.txt}}
 ```
 
-`panic!` 的呼叫導致印出了最後兩行的錯誤訊息。第一行顯示了我們的恐慌訊息以及該恐慌是在原始程式碼何處發生的：*src/main.rs:2:5* 指的是它發生在我們的 *src/main.rs* 檔案第二行第五個字元。
+`panic!` 的呼叫導致印出了最後兩行的錯誤訊息。第一行顯示了我們的恐慌訊息以及該恐慌是在原始碼何處發生的：*src/main.rs:2:5* 指的是它發生在我們的 *src/main.rs* 檔案第二行第五個字元。
 
 在此例中，該行指的就是我們寫的程式碼。如果我們查看該行，我們會看到 `panic!` 巨集的呼叫。在其他情形，`panic!` 的呼叫可能會發生在我們呼叫的程式碼內，所以錯誤訊息回報的檔案名稱與行數可能就會是其他人呼叫 `panic!` 巨集的程式碼，而不是因爲我們的程式碼才導致 `panic!` 的呼叫。我們可以在呼叫 `panic!` 程式碼的地方使用 backtrace 來找出出現問題的地方。接下來我們就會深入瞭解 backtrace。
 
@@ -51,7 +51,7 @@
 {{#include ../listings/ch09-error-handling/listing-09-01/output.txt}}
 ```
 
-此錯誤指向了一個不是我們寫的檔案 *libcore/slice/mod.rs*。這是實作 `slice` 的 Rust 原始程式碼。當我們在我們的 `v` 使用 `[]` 時就會執行 *libcore/slice/mod.rs* 內的程式碼，而這正是 `panic!` 實際發生的地方。
+此錯誤指向了一個不是我們寫的檔案 *libcore/slice/mod.rs*。這是實作 `slice` 的 Rust 原始碼。當我們在我們的 `v` 使用 `[]` 時就會執行 *libcore/slice/mod.rs* 內的程式碼，而這正是 `panic!` 實際發生的地方。
 
 下一行提示告訴我們可以設置 `RUST_BACKTRACE` 環境變數來取得 backtrace 以知道錯誤發生時到底發生什麼事。*backtrace* 是一個函式列表，指出得到此錯誤時到底依序呼叫了哪些函式。Rust 的 backtraces 運作方式和其他語言一樣：讀取 backtrace 關鍵是從最一開始讀取直到你看到你寫的檔案。那就會是問題發生的源頭。你寫的程式碼以上的行數就是你所呼叫的程式，而以下則是其他呼叫你的程式碼的程式。這些行數可能還會包含 Rust 核心程式碼、標準函式庫程式碼，或是你所使用的 crate。我們設置 `RUST_BACKTRACE` 環境變數的值不爲 0，來嘗試取得 backtrace 吧。你應該會看到和範例 9-2 類似的結果。
 

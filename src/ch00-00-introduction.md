@@ -1,191 +1,95 @@
-# Introduction
+# 介紹
 
-> Note: This edition of the book is the same as [The Rust Programming
-> Language][nsprust] available in print and ebook format from [No Starch
-> Press][nsp].
+> 注意：本書的（英文）版本與出版的 [The Rust Programming Language][nsprust] 以及電子書版本的 [No Starch Press][nsp] 一致。
 
 [nsprust]: https://nostarch.com/rust
 [nsp]: https://nostarch.com/
 
-Welcome to *The Rust Programming Language*, an introductory book about Rust.
-The Rust programming language helps you write faster, more reliable software.
-High-level ergonomics and low-level control are often at odds in programming
-language design; Rust challenges that conflict. Through balancing powerful
-technical capacity and a great developer experience, Rust gives you the option
-to control low-level details (such as memory usage) without all the hassle
-traditionally associated with such control.
+歡迎閱讀 *Rust 程式設計語言*，這是本 Rust 的入門書籍。Rust 程式設計語言能幫助你寫出更快更可靠的軟體。高階語言的易用性與低階語言的掌控性常常是程式設計語言之間的取捨，Rust 試圖挑戰這項矛盾。透過平衡強大的技術能力以及優秀的開發體驗，Rust 讓你能控制低階的實作細節（比如記憶體使用）的同時，免於以往這樣的控制所帶來的相關麻煩。
 
-## Who Rust Is For
+## Rust 適用於誰
 
-Rust is ideal for many people for a variety of reasons. Let’s look at a few of
-the most important groups.
+Rust 有非常多種誘因使其適用於各式各樣人。讓我們討論一些比較重要的目標客群。
 
-### Teams of Developers
+### 開發團隊
 
-Rust is proving to be a productive tool for collaborating among large teams of
-developers with varying levels of systems programming knowledge. Low-level code
-is prone to a variety of subtle bugs, which in most other languages can be
-caught only through extensive testing and careful code review by experienced
-developers. In Rust, the compiler plays a gatekeeper role by refusing to
-compile code with these elusive bugs, including concurrency bugs. By working
-alongside the compiler, the team can spend their time focusing on the program’s
-logic rather than chasing down bugs.
+Rust 已被證明是個能在各種系統程式設計領域的大型開發團隊中協作的高效開發工具。低階程式碼容易產生微妙的程式錯誤，這在多數其他語言只能靠密集的測試並由經驗豐富的開發者小心翼翼地審核程式碼才能找出它們。在 Rust 中，編譯器會扮演著守門員的角色來阻擋這些難以捉摸的程式錯誤，這包含並行錯誤。透過與編譯器一同合作，開發團隊可以將他們的時間專注在程式邏輯而不必成天追蹤錯誤。
 
-Rust also brings contemporary developer tools to the systems programming world:
+Rust 也將一些現代化的開發工具帶入系統程式設計的世界中：
 
-* Cargo, the included dependency manager and build tool, makes adding,
-  compiling, and managing dependencies painless and consistent across the Rust
-  ecosystem.
-* Rustfmt ensures a consistent coding style across developers.
-* The Rust Language Server powers Integrated Development Environment (IDE)
-  integration for code completion and inline error messages.
+* Cargo 是個依賴函式庫管理暨建構中具，讓新增、編譯與管理依賴變得十分輕鬆，並在 Rust 生態系統維持一致性。
+* Rustfmt 確保開發者遵循統一的程式碼風格。
+* Rust Language Server 爲整合開發環境（IDE）提供了程式碼補全與行內錯誤訊息。
 
-By using these and other tools in the Rust ecosystem, developers can be
-productive while writing systems-level code.
+透過使用這些與其他 Rust 生態系統中的工具，開發者可以在寫系統層級的程式語言時，維持一定的生產力。
 
-### Students
+### 學生
 
-Rust is for students and those who are interested in learning about systems
-concepts. Using Rust, many people have learned about topics like operating
-systems development. The community is very welcoming and happy to answer
-student questions. Through efforts such as this book, the Rust teams want to
-make systems concepts more accessible to more people, especially those new to
-programming.
+Rust 適用於學生以及對學習系統概念有興趣的人。許多人都透過 Rust 來學習作業系統開發的議題。社群都非常友善，且樂於解答學生們的問題。除了本書以外，Rust 團隊也希望系統概念可以被更多人理解，尤其是剛開始學習程式設計的人。
 
-### Companies
+### 公司
 
-Hundreds of companies, large and small, use Rust in production for a variety of
-tasks. Those tasks include command line tools, web services, DevOps tooling,
-embedded devices, audio and video analysis and transcoding, cryptocurrencies,
-bioinformatics, search engines, Internet of Things applications, machine
-learning, and even major parts of the Firefox web browser.
+數以百計的公司，無論大或小，都有將 Rust 用於生產環境來處理各種任務。這些任務包含命令列工具、網路服務、DevOps 工具、嵌入式裝置、影音分析與轉碼、加密貨幣、生物資訊、搜尋引擎、物聯網裝置、機器學習，甚至還有 Firefox 瀏覽器的主要部分。
 
-### Open Source Developers
+### 開源開發者
 
-Rust is for people who want to build the Rust programming language, community,
-developer tools, and libraries. We’d love to have you contribute to the Rust
-language.
+Rust 適用於想要建構 Rust 程式設計語言、社群、開發工具與函式庫的開發者。我們很樂於看到你願意貢獻 Rust 語言。
 
-### People Who Value Speed and Stability
+### 重視速度與穩定性的開發者
 
-Rust is for people who crave speed and stability in a language. By speed, we
-mean the speed of the programs that you can create with Rust and the speed at
-which Rust lets you write them. The Rust compiler’s checks ensure stability
-through feature additions and refactoring. This is in contrast to the brittle
-legacy code in languages without these checks, which developers are often
-afraid to modify. By striving for zero-cost abstractions, higher-level features
-that compile to lower-level code as fast as code written manually, Rust
-endeavors to make safe code be fast code as well.
+Rust 適用於追求語言速度與穩定性的開發者。所謂的速度，我們指的是你用 Rust 所開發出程式的執行速度以及 Rust 所提供程式的開發速度。Rust 編譯器的檢查能確保新增功能與重構時的穩定性。這與沒有這些檢查的語言形成對比，開發者通常會害怕修改這些脆弱的遺留程式碼。Rust 還力求零開銷抽象（zero-cost abstractions），高階的特性能編譯成低階程式碼的執行速度能與自己手寫一樣快，Rust 致力於讓安全的程式碼同時也能是執行迅速的程式碼。
 
-The Rust language hopes to support many other users as well; those mentioned
-here are merely some of the biggest stakeholders. Overall, Rust’s greatest
-ambition is to eliminate the trade-offs that programmers have accepted for
-decades by providing safety *and* productivity, speed *and* ergonomics. Give
-Rust a try and see if its choices work for you.
+Rust 語言也希望能支援其他許多使用者，這裡提及的只是一部分的最大受益者。總體來說，Rust 最重要的目標是消除數十年來開發者不得不作出的取捨，像是同時提供安全*與*生產力、同時具有速度*又*易讀易用。歡迎嘗試看看 Rust，並體驗看看這門語言適不適合你。
 
-## Who This Book Is For
+## 本書寫給誰看
 
-This book assumes that you’ve written code in another programming language but
-doesn’t make any assumptions about which one. We’ve tried to make the material
-broadly accessible to those from a wide variety of programming backgrounds. We
-don’t spend a lot of time talking about what programming *is* or how to think
-about it. If you’re entirely new to programming, you would be better served by
-reading a book that specifically provides an introduction to programming.
+本書假設你已經在其他程式語言寫過程式碼，不過並不假設你使用的是何種語言。我們試著讓這些資源能廣泛適用於不同程式被井的開發者。我們不會花費很多時間討論*什麼是*程式設計或如何理解它。如果你剛開始學習程式語言，你最好先閱讀專門介紹程式設計的書籍。
 
-## How to Use This Book
+## 如何閱讀本書
 
-In general, this book assumes that you’re reading it in sequence from front to
-back. Later chapters build on concepts in earlier chapters, and earlier
-chapters might not delve into details on a topic; we typically revisit the
-topic in a later chapter.
+一般來說，本書預設你會從頭到尾依序閱讀完。後面的章節都建立在前面章節的概念基礎上，然後前面的章節可能不會深入探討某些主題，我們會在後面的章節再重新討論該主題。
 
-You’ll find two kinds of chapters in this book: concept chapters and project
-chapters. In concept chapters, you’ll learn about an aspect of Rust. In project
-chapters, we’ll build small programs together, applying what you’ve learned so
-far. Chapters 2, 12, and 20 are project chapters; the rest are concept chapters.
+你會在本書中看到兩種章節：概念章節與專案章節。在概念章節中，你會學到 Rust 的其中某些概念。在專案章節中，我們會應用你當前所學的一同建構些小小的專案。第二、十二和二十章是專案章節，其餘都是概念章節。
 
-Chapter 1 explains how to install Rust, how to write a “Hello, world!” program,
-and how to use Cargo, Rust’s package manager and build tool. Chapter 2 is a
-hands-on introduction to the Rust language. Here we cover concepts at a high
-level, and later chapters will provide additional detail. If you want to get
-your hands dirty right away, Chapter 2 is the place for that. At first, you
-might even want to skip Chapter 3, which covers Rust features similar to those
-of other programming languages, and head straight to Chapter 4 to learn about
-Rust’s ownership system. However, if you’re a particularly meticulous learner
-who prefers to learn every detail before moving on to the next, you might want
-to skip Chapter 2 and go straight to Chapter 3, returning to Chapter 2 when
-you’d like to work on a project applying the details you’ve learned.
+第一章會解釋如何安裝 Rust、如何寫支「Hello, world!」程式以及如何使用 Cargo，這是 Rust 的套件與建構工具。第二章是透過實作介紹 Rust 語言的章節。我們在此會以較高階的方式解釋些概念，並在之後的章節提供更詳細的介紹。如果你想馬上動手實作看看的話，第二章會很適合你。如果你是這種人的話，你很可能甚至想跳過第三章，這涵蓋 Rust 與其他程式設計語言類似的功能。這樣你可以直接前往第四章來學習 Rust 的所有權系統。然而，如果你是那種鉅細靡遺的讀者，傾向於在進行下一步前學習到所有細節的話，你可能會想跳過第二章直接前往第三章，當你想要套用你所學到的細節在專案上時，在回頭到第二章練習。
 
-Chapter 5 discusses structs and methods, and Chapter 6 covers enums, `match`
-expressions, and the `if let` control flow construct. You’ll use structs and
-enums to make custom types in Rust.
+第五章討論結構體與方法，而第六章涵蓋枚舉、`match` 表達式與 `if let` 控制流結構。你會在 Rust 中用結構體與枚舉自訂型別。
 
-In Chapter 7, you’ll learn about Rust’s module system and about privacy rules
-for organizing your code and its public Application Programming Interface
-(API). Chapter 8 discusses some common collection data structures that the
-standard library provides, such as vectors, strings, and hash maps. Chapter 9
-explores Rust’s error-handling philosophy and techniques.
+在第七章中，你會學到 Rust 的模組系統與組織程式碼的隱私規則，以及其公開應用程式介面（Application Programming Interface, API）。第八章會討論標準函式庫提供的一些常見集合資料結構，像是 vector、字串與雜湊映射。第九章會探討 Rust 的錯誤處理哲學與技巧。
 
-Chapter 10 digs into generics, traits, and lifetimes, which give you the power
-to define code that applies to multiple types. Chapter 11 is all about testing,
-which even with Rust’s safety guarantees is necessary to ensure your program’s
-logic is correct. In Chapter 12, we’ll build our own implementation of a subset
-of functionality from the `grep` command line tool that searches for text
-within files. For this, we’ll use many of the concepts we discussed in the
-previous chapters.
+第十章將深入探討泛型、特徵與生命週期，讓你能定義出多種型別的程式碼。第十一章全部都關於測試，這與 Rust 的安全保障一樣重要，以確保程式邏輯正確。在第十二章中，我們會親自實作個 `grep` 命令列工具的子集功能，來搜尋檔案中的文字。我們會利用到前幾章討論過的許多概念。
 
-Chapter 13 explores closures and iterators: features of Rust that come from
-functional programming languages. In Chapter 14, we’ll examine Cargo in more
-depth and talk about best practices for sharing your libraries with others.
-Chapter 15 discusses smart pointers that the standard library provides and the
-traits that enable their functionality.
+第十三章會探索閉包與疊代器，這是 Rust 啟發自函式程式設計語言的功能。在第十四章中，我們要更深入研究 Cargo 並討論分享函式庫給其他人的最佳方式。第十五章會討論標準函式庫提供的智慧指標以及能啟用它們功能的特徵。
 
-In Chapter 16, we’ll walk through different models of concurrent programming
-and talk about how Rust helps you to program in multiple threads fearlessly.
-Chapter 17 looks at how Rust idioms compare to object-oriented programming
-principles you might be familiar with.
+在第十六章中，我們會介紹各種不同的並行程式設計模型，並介紹 Rust 如何幫助你在多執行緒中無懼地開發。第十七章會比較 Rust 的慣用風格與你可能比較熟悉的物件導向程式設計原則之間有何差異。
 
-Chapter 18 is a reference on patterns and pattern matching, which are powerful
-ways of expressing ideas throughout Rust programs. Chapter 19 contains a
-smorgasbord of advanced topics of interest, including unsafe Rust, macros, and
-more about lifetimes, traits, types, functions, and closures.
+第十八章是模式與模式配對的參考章節，這是在 Rust 程式中表達不同條件的強大特色。第十九章是進階主題的大雜燴，其中包含不安全的 Rust、巨集與更多有關生命週期、特徵、型別、函式與閉包的資訊。
 
-In Chapter 20, we’ll complete a project in which we’ll implement a low-level
-multithreaded web server!
+在第二十章中，我們會完成一項專案，那就是實作低階多執行緒的網頁伺服器！
 
-Finally, some appendixes contain useful information about the language in a
-more reference-like format. Appendix A covers Rust’s keywords, Appendix B
-covers Rust’s operators and symbols, Appendix C covers 可推導的特徵
-provided by the standard library, Appendix D covers some useful development
-tools, and Appendix E explains Rust editions.
+最後的附錄以參考風格格式來包含語言中的實用資訊。附錄 A 涵蓋 Rust 的關鍵字、附錄 B 涵蓋 Rust 的運算子與符號、附錄 C 涵蓋標準函式庫提供的可推導的特徵、附錄 D 涵蓋一些實用開發工具，然後附錄 E 會解釋 Rust 的版號。
 
-There is no wrong way to read this book: if you want to skip ahead, go for it!
-You might have to jump back to earlier chapters if you experience any
-confusion. But do whatever works for you.
+本書沒有錯誤的閱讀方式：如果你想要忽略一些章節，儘管跳過吧！如果你遇到任何疑惑的話，隨時可以再跳之前的章節閱讀。請隨意閱讀。
 
 <span id="ferris"></span>
 
-An important part of the process of learning Rust is learning how to read the
-error messages the compiler displays: these will guide you toward working code.
-As such, we’ll provide many examples that don’t compile along with the error
-message the compiler will show you in each situation. Know that if you enter
-and run a random example, it may not compile! Make sure you read the
-surrounding text to see whether the example you’re trying to run is meant to
-error. Ferris will also help you distinguish code that isn’t meant to work:
+學習 Rust 的過程中有個重要的部分是喔奧學習如何閱讀編譯器顯示的錯誤訊息，這些能引導你寫出正確的程式碼。所以我們會提供很多無法編譯的範例，以及各種編譯器會顯示訊息的狀況。如果你執行任意範例的話，它很可能不會編譯通過！別忘了看看文字周圍來瞭解該執行範例是不是意圖出錯。Ferris 也會來幫助你分辨程式碼是否能運作：
 
-| Ferris                                                                 | Meaning                                          |
+| Ferris                                                                 | 意義                                          |
 |------------------------------------------------------------------------|--------------------------------------------------|
-| <img src="img/ferris/does_not_compile.svg" class="ferris-explain"/>    | This code does not compile!                      |
-| <img src="img/ferris/panics.svg" class="ferris-explain"/>              | This code panics!                                |
-| <img src="img/ferris/unsafe.svg" class="ferris-explain"/>              | This code block contains unsafe code.            |
-| <img src="img/ferris/not_desired_behavior.svg" class="ferris-explain"/>| This code does not produce the desired behavior. |
+| <img src="img/ferris/does_not_compile.svg" class="ferris-explain"/>    | 此程式碼無法編譯！                               |
+| <img src="img/ferris/panics.svg" class="ferris-explain"/>              | 此程式碼會恐慌！                                 |
+| <img src="img/ferris/unsafe.svg" class="ferris-explain"/>              | 此程式碼區塊包含不安全的程式碼。                 |
+| <img src="img/ferris/not_desired_behavior.svg" class="ferris-explain"/>| 此程式碼沒有產生預期的行爲。                     |
 
-In most situations, we’ll lead you to the correct version of any code that
-doesn’t compile.
+在大多數的情況下，我們會引導你將無法編譯的程式碼寫成正確的版本。
 
-## Source Code
+## 原始碼
 
-The source files from which this book is generated can be found on
-[GitHub][book].
+產生本書的原始檔案可以在 [GitHub][book] 上找到。
 
-[book]: https://github.com/rust-lang/book/tree/master/src
+[book]: https://github.com/rust-tw/book-tw
+
+> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
+> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch00-00-introduction.md)
+> - updated: 2020-10-03
