@@ -98,7 +98,7 @@
 {{#include ../listings/ch03-common-programming-concepts/listing-03-02/output.txt}}
 ```
 
-你應該還記得程式碼區塊也可以是表達式且會回傳最後一行的數值，而且數字本身也是表達式。在此例中，`if` 表達式的值取決於哪段程式碼被執行。這代表可能成爲最終結果的每一個 `if` 分支必須要是相同型別。在範例 3-2 中，各分支的型態都是 `i32`。如果型態不一致的話，如以下範例所示，我們會得到錯誤：
+你應該還記得程式碼區塊也可以是表達式且會回傳最後一行的數值，而且數字本身也是表達式。在此例中，`if` 表達式的值取決於哪段程式碼被執行。這代表可能成爲最終結果的每一個 `if` 分支必須要是相同型別。在範例 3-2 中，各分支的型別都是 `i32`。如果型別不一致的話，如以下範例所示，我們會得到錯誤：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -106,7 +106,7 @@
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-31-arms-must-return-same-type/src/main.rs}}
 ```
 
-當我們嘗試編譯程式碼時，我們會得到錯誤。`if` 和 `else` 分支的型態並不一致，而且 Rust 還確切指出程式出錯的地方在哪：
+當我們嘗試編譯程式碼時，我們會得到錯誤。`if` 和 `else` 分支的型別並不一致，而且 Rust 還確切指出程式出錯的地方在哪：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-31-arms-must-return-same-type/output.txt}}

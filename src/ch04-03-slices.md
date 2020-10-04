@@ -116,7 +116,7 @@ let slice = &s[..];
 > 注意：字串 slice 的索引範圍必須是有效的 UTF-8 字元界限。如果你嘗試從一個多位元組字元（multibyte character）中產生字串 slice，你的程式就會回傳錯誤。爲了方便介紹字串 slice，本章指使用了 ASCII 字元而已。
 我們會在第八章的[「使用 String 儲存 UTF-8 編碼的文字」][strings]<!-- ignore -->做更詳盡的討論。
 
-有了這些資訊，讓我們用 slice 來重寫 `first_word` 吧。「字串字面值」的的回傳型態我們會寫 `&str`：
+有了這些資訊，讓我們用 slice 來重寫 `first_word` 吧。「字串字面值」的的回傳型別我們會寫 `&str`：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 

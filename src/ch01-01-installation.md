@@ -28,7 +28,7 @@ Rust is installed now. Great!
 
 ### 在 Windows 上安裝 `rustup`
 
-在 Windows 上請前往[下載頁面][install]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 [Build Tools for Visual Studio][visualstudio]。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，以及 Windows 10 SDK 和 英文語言包套件有包含在內。
+在 Windows 上請前往[下載頁面][install]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 [Build Tools for Visual Studio][visualstudio]。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，而且有包含 Windows 10 SDK 和英文語言包套件。
 
 [install]: https://www.rust-lang.org/zh-TW/tools/install
 [visualstudio]: https://visualstudio.microsoft.com/visual-cpp-build-tools/
@@ -51,13 +51,13 @@ $ rustup self uninstall
 
 ### 疑難排除
 
-想簡單你是否有正確安裝 Rust 的話，請開啟 shell 然後輸入此命令：
+想簡單確認你是否有正確安裝 Rust 的話，請開啟 shell 然後輸入此命令：
 
 ```console
 $ rustc --version
 ```
 
-你應該會看到已發佈的最新穩定版本號、提交雜湊數以及提交日期如以下格式所示：
+你應該會看到已發佈的最新穩定版本號、提交雜湊（hash）以及提交日期如以下格式所示：
 
 ```text
 rustc x.y.z (abcabcabc yyyy-mm-dd)
@@ -73,7 +73,7 @@ rustc x.y.z (abcabcabc yyyy-mm-dd)
 
 安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 `rustup doc` 就可以用你的瀏覽器開啟本地文件。
 
-每當有任何型態或函式出現而你卻不清楚如何使用時，你就可以使用應用程式介面（API）技術文件來知道！
+每當有任何型別或函式出現而你卻不清楚如何使用時，你就可以閱讀應用程式介面（API）技術文件來理解！
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [bad683b](https://github.com/rust-lang/book/blob/bad683bb7dcd06ef7f5f83bad3a25b1706b7b230/src/ch01-01-installation.md)

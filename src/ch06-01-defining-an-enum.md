@@ -32,7 +32,7 @@
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-01-defining-enums/src/main.rs:fn_call}}
 ```
 
-使用枚舉還有更多好處。我們再進一步想一下我們的 IP 位址型態還沒有辦法儲存實際的 IP 位址*資料*，我們現在只知道它是哪種*類型*。考慮到你已經學會第五章的結構體，你應該會像範例 6-1 這樣解決問題。
+使用枚舉還有更多好處。我們再進一步想一下我們的 IP 位址型別還沒有辦法儲存實際的 IP 位址*資料*，我們現在只知道它是哪種*類型*。考慮到你已經學會第五章的結構體，你應該會像範例 6-1 這樣解決問題。
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-01/src/main.rs:here}}
