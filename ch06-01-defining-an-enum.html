@@ -236,7 +236,7 @@
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}
 </span></code></pre></pre>
-<p>使用枚舉還有更多好處。我們再進一步想一下我們的 IP 位址型態還沒有辦法儲存實際的 IP 位址<em>資料</em>，我們現在只知道它是哪種<em>類型</em>。考慮到你已經學會第五章的結構體，你應該會像範例 6-1 這樣解決問題。</p>
+<p>使用枚舉還有更多好處。我們再進一步想一下我們的 IP 位址型別還沒有辦法儲存實際的 IP 位址<em>資料</em>，我們現在只知道它是哪種<em>類型</em>。考慮到你已經學會第五章的結構體，你應該會像範例 6-1 這樣解決問題。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum IpAddrKind {
         V4,

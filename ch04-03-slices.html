@@ -321,7 +321,7 @@ let slice = &amp;s[..];
 <p>注意：字串 slice 的索引範圍必須是有效的 UTF-8 字元界限。如果你嘗試從一個多位元組字元（multibyte character）中產生字串 slice，你的程式就會回傳錯誤。爲了方便介紹字串 slice，本章指使用了 ASCII 字元而已。
 我們會在第八章的<a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">「使用 String 儲存 UTF-8 編碼的文字」</a><!-- ignore -->做更詳盡的討論。</p>
 </blockquote>
-<p>有了這些資訊，讓我們用 slice 來重寫 <code>first_word</code> 吧。「字串字面值」的的回傳型態我們會寫 <code>&amp;str</code>：</p>
+<p>有了這些資訊，讓我們用 slice 來重寫 <code>first_word</code> 吧。「字串字面值」的的回傳型別我們會寫 <code>&amp;str</code>：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;String) -&gt; &amp;str {
     let bytes = s.as_bytes();

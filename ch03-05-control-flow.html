@@ -291,7 +291,7 @@ number is divisible by 3
      Running `target/debug/branches`
 The value of number is: 5
 </code></pre>
-<p>你應該還記得程式碼區塊也可以是表達式且會回傳最後一行的數值，而且數字本身也是表達式。在此例中，<code>if</code> 表達式的值取決於哪段程式碼被執行。這代表可能成爲最終結果的每一個 <code>if</code> 分支必須要是相同型別。在範例 3-2 中，各分支的型態都是 <code>i32</code>。如果型態不一致的話，如以下範例所示，我們會得到錯誤：</p>
+<p>你應該還記得程式碼區塊也可以是表達式且會回傳最後一行的數值，而且數字本身也是表達式。在此例中，<code>if</code> 表達式的值取決於哪段程式碼被執行。這代表可能成爲最終結果的每一個 <code>if</code> 分支必須要是相同型別。在範例 3-2 中，各分支的型別都是 <code>i32</code>。如果型別不一致的話，如以下範例所示，我們會得到錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let condition = true;
@@ -301,7 +301,7 @@ The value of number is: 5
     println!(&quot;The value of number is: {}&quot;, number);
 }
 </code></pre>
-<p>當我們嘗試編譯程式碼時，我們會得到錯誤。<code>if</code> 和 <code>else</code> 分支的型態並不一致，而且 Rust 還確切指出程式出錯的地方在哪：</p>
+<p>當我們嘗試編譯程式碼時，我們會得到錯誤。<code>if</code> 和 <code>else</code> 分支的型別並不一致，而且 Rust 還確切指出程式出錯的地方在哪：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
 error[E0308]: if and else have incompatible types

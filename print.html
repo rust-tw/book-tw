@@ -299,7 +299,7 @@
 </code></pre>
 <p>除此之外，你還會需要某種類型的連結器（linker）。這通常在你的系統上都已經安裝了，但如果你嘗試編譯 Rust 程式卻遇到連結器無法執行的錯誤時，這代表你的系統並未安裝，而你需要自行安裝一個。C 編譯器通常都會帶有一個正確的連結器，你可以檢查你的平台文件，查看如何下載 C 編譯器。此外，一些常見的 Rust 套件也會依賴 C 的程式，所以也需要 C 編譯器。因此現在最好還是有安裝一個比較好。</p>
 <h3><a class="header" href="#在-windows-上安裝-rustup" id="在-windows-上安裝-rustup">在 Windows 上安裝 <code>rustup</code></a></h3>
-<p>在 Windows 上請前往<a href="https://www.rust-lang.org/zh-TW/tools/install">下載頁面</a>並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Build Tools for Visual Studio</a>。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，以及 Windows 10 SDK 和 英文語言包套件有包含在內。</p>
+<p>在 Windows 上請前往<a href="https://www.rust-lang.org/zh-TW/tools/install">下載頁面</a>並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Build Tools for Visual Studio</a>。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，而且有包含 Windows 10 SDK 和英文語言包套件。</p>
 <p>本書接下來使用的命令都相容於 <em>cmd.exe</em> 和 PowerShell。如果有特別不同的地方，我們會解釋該怎麼使用。</p>
 <h3><a class="header" href="#更新與解除安裝" id="更新與解除安裝">更新與解除安裝</a></h3>
 <p>當你透過 <code>rustup</code> 安裝完 Rust 後，要更新到最新版本的方法非常簡單。在你的 shell 中執行以下更新腳本即可：</p>
@@ -309,16 +309,16 @@
 <pre><code class="language-console">$ rustup self uninstall
 </code></pre>
 <h3><a class="header" href="#疑難排除" id="疑難排除">疑難排除</a></h3>
-<p>想簡單你是否有正確安裝 Rust 的話，請開啟 shell 然後輸入此命令：</p>
+<p>想簡單確認你是否有正確安裝 Rust 的話，請開啟 shell 然後輸入此命令：</p>
 <pre><code class="language-console">$ rustc --version
 </code></pre>
-<p>你應該會看到已發佈的最新穩定版本號、提交雜湊數以及提交日期如以下格式所示：</p>
+<p>你應該會看到已發佈的最新穩定版本號、提交雜湊（hash）以及提交日期如以下格式所示：</p>
 <pre><code class="language-text">rustc x.y.z (abcabcabc yyyy-mm-dd)
 </code></pre>
 <p>如果你看到這則訊息代表你成功安裝 Rust 了！如果你沒有看到且你是在 Windows 上的話，請檢查 Rust 是否在你的 <code>%PATH%</code> 系統變數裡。如果都正確無誤，但還是無法執行 Rust 的話，你可以前往一些地方尋求協助。最簡單的辦法是前往<a href="https://discord.gg/rust-lang">官方 Rust Discord</a> 的 #beginners 頻道詢問。在那裡你可以與其他 Rustaceans（這是我們常用稱呼自己取的暱稱）交談並取得協助。另外也有其他不錯的資源像是<a href="https://users.rust-lang.org/">使用者討論區</a> 和 <a href="https://stackoverflow.com/questions/tagged/rust">Stack Overflow</a>。正體中文社群的話可以前往 rust-lang.tw，底下有 Facebook 或 Telegram 的連結一樣可以尋求協助。</p>
 <h3><a class="header" href="#本地端技術文件" id="本地端技術文件">本地端技術文件</a></h3>
 <p>安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 <code>rustup doc</code> 就可以用你的瀏覽器開啟本地文件。</p>
-<p>每當有任何型態或函式出現而你卻不清楚如何使用時，你就可以使用應用程式介面（API）技術文件來知道！</p>
+<p>每當有任何型別或函式出現而你卻不清楚如何使用時，你就可以閱讀應用程式介面（API）技術文件來理解！</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -1990,7 +1990,7 @@ number is divisible by 3
      Running `target/debug/branches`
 The value of number is: 5
 </code></pre>
-<p>你應該還記得程式碼區塊也可以是表達式且會回傳最後一行的數值，而且數字本身也是表達式。在此例中，<code>if</code> 表達式的值取決於哪段程式碼被執行。這代表可能成爲最終結果的每一個 <code>if</code> 分支必須要是相同型別。在範例 3-2 中，各分支的型態都是 <code>i32</code>。如果型態不一致的話，如以下範例所示，我們會得到錯誤：</p>
+<p>你應該還記得程式碼區塊也可以是表達式且會回傳最後一行的數值，而且數字本身也是表達式。在此例中，<code>if</code> 表達式的值取決於哪段程式碼被執行。這代表可能成爲最終結果的每一個 <code>if</code> 分支必須要是相同型別。在範例 3-2 中，各分支的型別都是 <code>i32</code>。如果型別不一致的話，如以下範例所示，我們會得到錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let condition = true;
@@ -2000,7 +2000,7 @@ The value of number is: 5
     println!(&quot;The value of number is: {}&quot;, number);
 }
 </code></pre>
-<p>當我們嘗試編譯程式碼時，我們會得到錯誤。<code>if</code> 和 <code>else</code> 分支的型態並不一致，而且 Rust 還確切指出程式出錯的地方在哪：</p>
+<p>當我們嘗試編譯程式碼時，我們會得到錯誤。<code>if</code> 和 <code>else</code> 分支的型別並不一致，而且 Rust 還確切指出程式出錯的地方在哪：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
 error[E0308]: if and else have incompatible types
@@ -2211,7 +2211,7 @@ the value is: 50
 <p>目前爲止，變數何時有效與作用域的關係都還跟其他程式語言相似。現在我們要以此基礎來介紹 <code>String</code> 型別</p>
 <h3><a class="header" href="#string-型別" id="string-型別"><code>String</code> 型別</a></h3>
 <p>要能夠解釋所有權規則，我們需要使用比第三章的<a href="ch03-02-data-types.html#data-types">「資料型別」</a><!-- ignore -->介紹過的還複雜的型別才行。之前我們提到的型別都是儲存在堆疊上的，在作用域結束時就會從堆疊中彈出。但是我們想要觀察的是儲存在堆積上的資料，並研究 Rust 是如知道要清理資料的。</p>
-<p>我們會使用 <code>String</code> 最爲範例並專注在 <code>String</code> 與所有權有關的部分。這些部分也適用於其他基本函式庫或你自己定義的複雜資料型態。我們會在第八章更深入探討 <code>String</code>。</p>
+<p>我們會使用 <code>String</code> 最爲範例並專注在 <code>String</code> 與所有權有關的部分。這些部分也適用於其他基本函式庫或你自己定義的複雜資料型別。我們會在第八章更深入探討 <code>String</code>。</p>
 <p>我們已經看過字串字面值，字串的數值是寫死在我們的程式內的。字串字面值的確很方便，但他不可能完全適用於我們使用文字時的所有狀況。其中一個原因是因爲它是不可變的，另一個原因是並非所有字串值在我們編寫程式時就會知道。舉裡來說，要是我們想要收集使用者的輸入並儲存它呢？對於這些情形，Rust 提供第二種字串型別 <code>String</code>。此型別是分配在堆積上的，所以可以儲存我們在編譯期間未知的一些文字。你可以建議從字串字面值使用 <code>from</code> 函式來建立一個 <code>String</code>，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -2861,7 +2861,7 @@ let slice = &amp;s[..];
 <p>注意：字串 slice 的索引範圍必須是有效的 UTF-8 字元界限。如果你嘗試從一個多位元組字元（multibyte character）中產生字串 slice，你的程式就會回傳錯誤。爲了方便介紹字串 slice，本章指使用了 ASCII 字元而已。
 我們會在第八章的<a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">「使用 String 儲存 UTF-8 編碼的文字」</a><!-- ignore -->做更詳盡的討論。</p>
 </blockquote>
-<p>有了這些資訊，讓我們用 slice 來重寫 <code>first_word</code> 吧。「字串字面值」的的回傳型態我們會寫 <code>&amp;str</code>：</p>
+<p>有了這些資訊，讓我們用 slice 來重寫 <code>first_word</code> 吧。「字串字面值」的的回傳型別我們會寫 <code>&amp;str</code>：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;String) -&gt; &amp;str {
     let bytes = s.as_bytes();
@@ -3428,7 +3428,7 @@ rect1 is Rectangle {
     height: 50,
 }
 </code></pre>
-<p>Rust 提供了一些特徵並讓我們可以用 <code>derive</code> 標記來爲自定型態加入些實用的功能。這類的特徵與其行爲都列在附錄 C。我們會在第十章介紹如何定義自定特徵，且如何實作這些特徵的自訂行爲。</p>
+<p>Rust 提供了一些特徵並讓我們可以用 <code>derive</code> 標記來爲自定型別加入些實用的功能。這類的特徵與其行爲都列在附錄 C。我們會在第十章介紹如何定義自定特徵，且如何實作這些特徵的自訂行爲。</p>
 <p>我們的函式 <code>area</code> 最後就非常清楚明白了，它只會計算長方形的面積。這樣的行爲要是能夠緊貼著我們的 <code>Rectangle</code> 結構體，因爲這樣一來它就不會相容於其他型別。讓我們看看我們如何繼續重構我們的程式碼，接下來我們可以將函式 <code>area</code> 轉換爲 <code>Rectangle</code> 型別的*方法（method）*將。</p>
 <blockquote>
 <ul>
@@ -3721,7 +3721,7 @@ impl Rectangle {
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}
 </span></code></pre></pre>
-<p>使用枚舉還有更多好處。我們再進一步想一下我們的 IP 位址型態還沒有辦法儲存實際的 IP 位址<em>資料</em>，我們現在只知道它是哪種<em>類型</em>。考慮到你已經學會第五章的結構體，你應該會像範例 6-1 這樣解決問題。</p>
+<p>使用枚舉還有更多好處。我們再進一步想一下我們的 IP 位址型別還沒有辦法儲存實際的 IP 位址<em>資料</em>，我們現在只知道它是哪種<em>類型</em>。考慮到你已經學會第五章的結構體，你應該會像範例 6-1 這樣解決問題。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum IpAddrKind {
         V4,
@@ -6388,7 +6388,7 @@ fn main() {
 </ul>
 </blockquote>
 <h2><a class="header" href="#特徵定義共同行爲" id="特徵定義共同行爲">特徵：定義共同行爲</a></h2>
-<p>*特徵（trait）*會告訴 Rust 編譯器特定型能與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行爲。我們可以使用特徵界限（trait bounds）來指定泛型爲擁有特定行爲的任意型態。</p>
+<p>*特徵（trait）*會告訴 Rust 編譯器特定型能與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行爲。我們可以使用特徵界限（trait bounds）來指定泛型爲擁有特定行爲的任意型別。</p>
 <blockquote>
 <p>注意：特徵類似於其他語言常稱作*介面（interfaces）*的功能，但還是有些差異。</p>
 </blockquote>
@@ -20207,7 +20207,7 @@ impl Worker {
 <h3><a class="header" href="#目前有在使用的關鍵字" id="目前有在使用的關鍵字">目前有在使用的關鍵字</a></h3>
 <p>以下爲目前的關鍵字與其對應的功能描述。</p>
 <ul>
-<li><code>as</code> - 進行原始型態轉換、消除包含項目的特定特徵，或重新命名 <code>use</code> 與 <code>extern crate</code> 陳述式內的項目</li>
+<li><code>as</code> - 進行原始型別轉換、消除包含項目的特定特徵，或重新命名 <code>use</code> 與 <code>extern crate</code> 陳述式內的項目</li>
 <li><code>async</code> -  回傳 <code>Future</code> 而非阻擋目前執行緒</li>
 <li><code>await</code> - 暫停執行直到 <code>Future</code> 的結果已經準備好</li>
 <li><code>break</code> - 立即離開迴圈</li>
