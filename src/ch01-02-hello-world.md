@@ -30,9 +30,9 @@ $ cd hello_world
 
 ### 編寫並執行 Rust 程式
 
-接著，請產生一個原始文件並叫做 *main.rs*。Rust 的文件檔案都會以 *.rs* 副檔名稱作爲結尾。如果你用到不止一個單字的話，請用底線區隔開來。比方說，請使用 *hello_world.rs* 而不是 *helloworld.rs*。
+接著，請產生一個原始檔案並叫做 *main.rs*。Rust 的文件檔案都會以 *.rs* 副檔名稱作爲結尾。如果你用到不止一個單字的話，請用底線區隔開來。比方說，請使用 *hello_world.rs* 而不是 *helloworld.rs*。
 
-現在請開啟 *main.rs* 文件然而後輸入範例 1-1 中的程式碼。
+現在請開啟 *main.rs* 檔案然而後輸入範例 1-1 中的程式碼。
 
 <span class="filename">檔案名稱：main.rs</span>
 
@@ -60,9 +60,9 @@ Hello, world!
 Hello, world!
 ```
 
-不管你的作業系統維和，終端機上應該都會出現 `Hello, world!`。如果你沒有看到，可以回到安裝章節中的[「疑難排除」][troubleshooting]<!-- ignore -->尋求協助。
+不管你的作業系統爲何，終端機上應該都會出現 `Hello, world!`。如果你沒有看到，可以回到安裝章節中的[「疑難排除」][troubleshooting]<!-- ignore -->尋求協助。
 
-如果 `Hello, world!` 有印出來，那麼恭喜你！你正式寫了一支 Rust 程式，所以你也正式成爲 Rust 開發者——歡迎加入！
+如果 `Hello, world!` 有印出來，那麼恭喜你！你正式寫了一支 Rust 程式，所以你也正式成爲 Rust 開發者了——歡迎加入！
 
 ### 分析這支 Rust 程式
 
@@ -98,9 +98,9 @@ fn main() {
 
 ### 編譯和執行是不同的步驟
 
-你剛剛執行了一個薪建立的程式，讓我們來檢查過程中的每一個步驟吧。
+你剛剛執行了一個新建立的程式，讓我們來檢查過程中的每一個步驟吧。
 
-在你執行一支 Rust 程式前，你必須用 Rust 編譯器來編譯它，也就是輸入 `rustc` 命令然後加上你的原始文件，像這樣子：
+在你執行一支 Rust 程式前，你必須用 Rust 編譯器來編譯它，也就是輸入 `rustc` 命令然後加上你的原始檔案，像這樣子：
 
 ```console
 $ rustc main.rs
@@ -127,16 +127,16 @@ main.rs
 這顯示了副檔名爲 *.rs*  的原始碼檔案、執行檔（在 Winddows 上爲 *main.exe*；其他則爲 *main*），然後在 Windows 上會再出現一個副檔名爲 *.pdb* 的除錯資訊文件。在這裡，你就可以像這樣執行 *main* 或 *main.exe* 檔案：
 
 ```console
-$ ./main # or .\main.exe on Windows
+$ ./main # 在 Windows 上則是 .\main.exe
 ```
 
-如果 *main.rs* 正是你的 “Hello, world!” 程式，這命令就會顯示 `Hello, world!` 到你的終端機。
+如果 *main.rs* 正是你的「Hello, world!」程式，這命令就會顯示 `Hello, world!` 到你的終端機。
 
 如果你比較熟悉動態語言，像是 Ruby、Python 或 JavaScript，你可能會比較不習慣將編譯與執行程式分爲兩個不同的步驟。Rust 是一門 *預先編譯（ahead-of-time compiled）* 的語言，代表你可以編譯完成後將執行檔送到其他地方，然後他們就算沒有安裝 Rust 一樣可以執行起來。但如果你給某個人 *.rb*、*.py* 或 *.js* 檔案，他們就需要 Ruby、Python 或 Javascript 分別都有安裝好。當然你在這些語言只需要一行命令就可以執行，在語言設計中這一切都只是取捨。
 
 在簡單的程式使用 `rustc` 來編譯不會有什麼問題，但當你的專案成長時，你將會需要管理所有選擇並讓程式碼易於分享。接下來我們將介紹 Cargo 這項工具給你，它將協助你寫出真正的 Rust 程式。
 
-[troubleshooting]: ch01-01-installation.html#troubleshooting
+[troubleshooting]: ch01-01-installation.html#疑難排除
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [fce7281](https://github.com/rust-lang/book/blob/fce7281061fd4b18a87075f43c17fc3168230a21/src/ch01-02-hello-world.md)
