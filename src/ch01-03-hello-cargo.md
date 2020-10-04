@@ -14,7 +14,7 @@ $ cargo --version
 
 ### 使用 Cargo 建立專案
 
-讓我們來用 Cargo 建立一個專案，並來比較他和我們原本的「Hello, world!」專案有什麼差別。請回到你的 *projects*  目錄（或者任何你決定存放程式碼的地方），然後在任何作業系統上輸入：
+讓我們來用 Cargo 建立一個專案，並來比較它和我們原本的「Hello, world!」專案有什麼差別。請回到你的 *projects*  目錄（或者任何你決定存放程式碼的地方），然後在任何作業系統上輸入：
 
 ```console
 $ cargo new hello_cargo
@@ -47,7 +47,7 @@ edition = "2018"
 
 此檔案用的是 [*TOML*](https://toml.io)<!-- ignore --> （*Tom’s Obvious, Minimal Language*）格式，這是 Cargo 配置文件的格式。
 
-第一行的 `[package]` 是一個段落（section）標題，說明以下的陳述語句會配置這個套件。隨著我們加入更多資訊到此文件，我們也會加上更多段落。
+第一行的 `[package]` 是一個段落（section）標題，說明以下的陳述式（statement）會配置這個套件。隨著我們加入更多資訊到此文件，我們也會加上更多段落。
 
 接下來四行就是 Cargo 編譯你的程式所需的配置資訊：名稱、版本、誰寫的以及哪個 Rust `edition` 會用到。Cargo 會透過環境取得你的名字和電子郵件資訊，所以要是資訊不對的話，請現在編輯然後儲存檔案。我們會在附錄 E 介紹什麼是 `edition`。
 
@@ -65,9 +65,9 @@ fn main() {
 
 Cargo 預設會爲你產生一個「Hello, world!」程式，就像我們範例 1-1 寫得一樣！目前我們之前寫的專案與 Cargo 產生的程式碼不同的地方在於 Cargo 將程式碼放在 *src* 目錄底下，而且我們還有一個 *Cargo.toml* 配置文件在根目錄。
 
-Cargo 預期你的原始文件都會放在 *src* 目錄底下。專案的根目錄是用來放 README 文件、授權條款、配置文件以及其他與你的程式碼不相關的文件。使用 Cargo 能夠幫助你組織你的專案，讓一切井然有序。
+Cargo 預期你的原始檔案都會放在 *src* 目錄底下。專案的根目錄是用來放 README 檔案、授權條款、配置檔案以及其他與你的程式碼不相關的檔案。使用 Cargo 能夠幫助你組織你的專案，讓一切井然有序。
 
-如果你的專案還沒開始使用 Cargo 的話，像是我們剛剛寫得「Hello, world!」專案，你只要將程式碼移入 *src* 然後產生正確的 *Cargo.toml* 文件，就可以將它轉換成能夠使用 Cargo 的專案。
+如果你的專案還沒開始使用 Cargo 的話，像是我們剛剛寫的「Hello, world!」專案，你只要將程式碼移入 *src* 然後產生正確的 *Cargo.toml* 檔案，就可以將它轉換成能夠使用 Cargo 的專案。
 
 ### 建構並執行 Cargo 專案
 
@@ -107,7 +107,7 @@ $ cargo run
 Hello, world!
 ```
 
-Cargo 還提供一道命令 `cargo check`，此命令會快速檢查你的程式碼，確保它能編譯不過不會產生執行檔。：
+Cargo 還提供一道命令 `cargo check`，此命令會快速檢查你的程式碼，確保它能編譯通過但不會產生執行檔：
 
 ```console
 $ cargo check
@@ -115,12 +115,12 @@ $ cargo check
     Finished dev [unoptimized + debuginfo] target(s) in 0.32 secs
 ```
 
-爲啥你會不想要產生執行檔呢？這是因爲 `cargo check` 省略了產生執行檔的步驟，所以它執行的速度比 `cargo build` 還來的快。如果你在寫程式時需要持續檢查的話，使用 `cargo check` 可以加快整體過程！所以許多 Rustaceans 都會在寫程式的過程中時不時執行 `cargo check` 來確保它能編譯。最後當他們準備好要使用執行檔時，才會用 `cargo build`。
+爲何你會不想要產生執行檔呢？這是因爲 `cargo check` 省略了產生執行檔的步驟，所以它執行的速度比 `cargo build` 還來的快。如果你在寫程式時需要持續檢查的話，使用 `cargo check` 可以加快整體過程！所以許多 Rustaceans 都會在寫程式的過程中時不時執行 `cargo check` 來確保它能編譯。最後當他們準備好要使用執行檔時，才會用 `cargo build`。
 
 讓我們來回顧我們目前學到的 Cargo 內容：
 
 * 我們可以用 `cargo build` 建構專案。
-* 我們可以用 `cargo run` 一次建構並執行專案。
+* 我們可以用 `cargo run` 同時建構並執行專案。
 * 我們可以用 `cargo check` 建構專案來檢查錯誤，但不會產生執行檔。
 * Cargo 會儲存建構結果在 *target/debug* 目錄底下，而不是放在與我們程式碼相同的目錄。
 
@@ -128,13 +128,13 @@ $ cargo check
 
 ### 建構發佈版本（Release）
 
-當你的專案正式準備好要發佈的話，你可以使用 `cargo build --release` 來最佳化編譯結果。此命令會產生執行檔到 *target/release* 而不是 *target/debug*。最佳化可以讓你的 Rust 程式碼跑得更快，不過也會讓編譯的時間變得更久。這也是爲何 Cargo 提供兩種不同的設定檔（profile）：一個用來作爲開發使用，讓你可以快速並經常重新建構；另一個用來最終產生你要給使用者運行的程式用，它通常不會需要重新建構且能盡所能地跑得越快越好。如果你要做基準化分析（benchmarking）來檢測程式運行時間的話，請確認執行的是 `cargo build --release` 並使用 *target/release* 底下的執行檔做檢測。
+當你的專案正式準備好要發佈的話，你可以使用 `cargo build --release` 來優化編譯結果。此命令會產生執行檔到 *target/release* 而不是 *target/debug*。優化可以讓你的 Rust 程式碼跑得更快，不過也會讓編譯的時間變得更久。這也是爲何 Cargo 提供兩種不同的設定檔（profile）：一個用來作爲開發使用，讓你可以快速並經常重新建構；另一個用來最終產生你要給使用者運行的程式用，它通常不會需要重新建構且能盡所能地跑得越快越好。如果你要做基準化分析（benchmarking）來檢測程式運行時間的話，請確認執行的是 `cargo build --release` 並使用 *target/release* 底下的執行檔做檢測。
 
 ### 將 Cargo 視爲常規
 
 雖然在簡單的專案下，與 `rustc` 相比 Cargo 的確沒辦法突顯出什麼價值。但是當你的程式變得越來越複雜時，它將證明它的用途。在擁有一堆 crate 的龐大專案下，讓 Cargo 來協調你的專案會來的簡單許多。
 
-儘管 `hello_cargo` 是個小專案，但它使用了你未來的 Rust 生涯中真實情況下會用到的工具。事實上，所有存在的專案，你幾乎都可以用以下命令完成：使用 Git 下載專案、更改至專案目錄然後建構完成。
+儘管 `hello_cargo` 是個小專案，但它使用了你未來的 Rust 生涯中真實情況下會用到的工具。事實上，所有存在的專案，你幾乎都可以用以下命令完成：使用 Git 下載專案、移至專案目錄然後建構完成。
 
 ```console
 $ git clone someurl.com/someproject
