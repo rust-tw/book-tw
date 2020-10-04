@@ -19,7 +19,6 @@ Rust 專案有一個 [行為準則](http://rust-lang.org/policies/code-of-conduc
 - 語義都很通順，如果有會閱讀困難或念起來不太通順的地方，我們希望可以改善，至少以信亞達爲目標，不必全部都得符合原文字句。
 - 範例都有中文化，Rust 的字串支援 UTF-8，所以說幾乎所有範例都可以用中文下字串或註解。
 - 與官方最新 commit 內容符合，沒有缺少或遺漏任何內容
-- 至少有一個專案維護者在對應的 tracking isse 表示審核通過
 
 我們會依序開出 tracking issues（如果還沒有的話，歡迎幫忙開起來），當以上幾點都符合時，我們就會關閉 issue 並將該文章視爲審核通過。我們還有開一個 issue 來追蹤[所有文章審核的進度總覽](https://github.com/rust-tw/book-tw/issues/10)。
 
