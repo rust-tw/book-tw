@@ -10,7 +10,7 @@ fn main() {
     // ANCHOR: here
     // --snip--
 
-    println!("The secret number is: {}", secret_number);
+    println!("祕密數字爲：{}", secret_number);
 
     loop {
         println!("請輸入你的猜測數字。");
@@ -25,15 +25,15 @@ fn main() {
             .read_line(&mut guess)
             .expect("讀取行數失敗");
 
-        let guess: u32 = guess.trim().parse().expect("Please type a number!");
+        let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
 
         println!("你的猜測數字：{}", guess);
 
         // ANCHOR: here
         match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
-            Ordering::Equal => println!("You win!"),
+            Ordering::Less => println!("太小了！"),
+            Ordering::Greater => println!("太大了！"),
+            Ordering::Equal => println!("獲勝！"),
         }
     }
 }

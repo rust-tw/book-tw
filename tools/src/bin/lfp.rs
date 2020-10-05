@@ -130,33 +130,33 @@ mod tests {
                Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
                  Running `target/guessing_game`
             請猜測一個數字！
-            The secret number is: 61
+            祕密數字爲：61
             請輸入你的猜測數字。
             10
             你的猜測數字：10
-            Too small!
+            太小了！
             請輸入你的猜測數字。
             99
             你的猜測數字：99
-            Too big!
+            太大了！
             請輸入你的猜測數字。
             foo
             請輸入你的猜測數字。
             61
             你的猜測數字：61
-            You win!
+            獲勝！
             $ cargo run
                Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
                  Running `target/debug/guessing_game`
             請猜測一個數字！
-            The secret number is: 7
+            祕密數字爲：7
             請輸入你的猜測數字。
             4
             你的猜測數字：4
             $ cargo run
                  Running `target/debug/guessing_game`
             請猜測一個數字！
-            The secret number is: 83
+            祕密數字爲：83
             請輸入你的猜測數字。
             5
             $ cargo run
@@ -181,21 +181,21 @@ mod tests {
                Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
                  Running `target/guessing_game`
             請猜測一個數字！
-            The secret number is: 61
+            祕密數字爲：61
             請輸入你的猜測數字。
             10
             你的猜測數字：10
-            Too small!
+            太小了！
             請輸入你的猜測數字。
             99
             你的猜測數字：99
-            Too big!
+            太大了！
             請輸入你的猜測數字。
             foo
             請輸入你的猜測數字。
             61
             你的猜測數字：61
-            You win!
+            獲勝！
         "#;
 
         let raw_lines = string.to_string();

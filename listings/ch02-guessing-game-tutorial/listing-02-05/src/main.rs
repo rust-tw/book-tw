@@ -7,7 +7,7 @@ fn main() {
 
     let secret_number = rand::thread_rng().gen_range(1, 101);
 
-    println!("The secret number is: {}", secret_number);
+    println!("祕密數字爲：{}", secret_number);
 
     loop {
         println!("請輸入你的猜測數字。");
@@ -34,10 +34,10 @@ fn main() {
         // ANCHOR_END: here
 
         match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
+            Ordering::Less => println!("太小了！"),
+            Ordering::Greater => println!("太大了！"),
             Ordering::Equal => {
-                println!("You win!");
+                println!("獲勝！");
                 break;
             }
         }

@@ -147,9 +147,9 @@ guess`。
 io::stdin().read_line(&mut guess).expect("讀取行數失敗");
 ```
 
-但是這麼長會很難閱讀，所以最後是能夠分段。現在讓我們來討論這行在做什麼。
+但是這麼長會很難閱讀，所以最好是能夠分段。現在讓我們來討論這行在做什麼。
 
-如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 [`io::Result`][ioresult]<!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 `Result`，這包含泛型 [`Result`][result]<!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 `io::Result`。
+如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 [`io::Result`][ioresult]<!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 `Result`，這包含泛型（generic）[`Result`][result]<!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 `io::Result`。
 
 [ioresult]: https://doc.rust-lang.org/std/io/type.Result.html
 [result]: https://doc.rust-lang.org/std/result/enum.Result.html
@@ -176,7 +176,7 @@ Rust 警告你沒有使用 `read_line` 回傳的 `Result` 數值，這意味著�
 
 ### 透過 `println!` 佔位符印出數值
 
-在結束大括號之前，目前程式碼中還有一行要來討論：也就是以下這行：
+在結束大括號之前，目前程式碼中還有一行要來討論，也就是以下這行：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:print_guess}}
@@ -188,10 +188,10 @@ Rust 警告你沒有使用 `read_line` 回傳的 `Result` 數值，這意味著�
 let x = 5;
 let y = 10;
 
-println!("x = {} and y = {}", x, y);
+println!("x = {} 而且 y = {}", x, y);
 ```
 
-此程式碼會印出 `x = 5 and y = 10`。
+此程式碼會印出 `x = 5 而且 y = 10`。
 
 ### 測試第一個部分
 
@@ -293,7 +293,7 @@ $ cargo build
     Finished dev [unoptimized + debuginfo] target(s) in 2.53 secs
 ```
 
-這幾行表示 Cargo 只更新的你對 *src/main.rs* 檔案的瑣碎修改進行建構。你的依賴沒變，所以 Cargo 知道它可以重複使用已經下載並編譯過的程式碼。它只重新建構了程式碼中的一小部分。
+這幾行表示 Cargo 只更新你對 *src/main.rs* 檔案的瑣碎修改進行建構。你的依賴沒變，所以 Cargo 知道它可以重複使用已經下載並編譯過的程式碼。它只重新建構了程式碼中的一小部分。
 
 #### 透過 *Cargo.lock* 檔案確保建構可以重現
 
@@ -331,7 +331,7 @@ rand = "0.6.0"
 下次你執行 `cargo build` 時，Cargo 將會更新 crate registry ，並依據你指定的新版本來重新評估 `rand` 的確切版本。
 
 
-[Cargo][doccargo]<!-- ignore --> 與[其生態系統][doccratesio]<!-- ignore --> 還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。
+[Cargo][doccargo]<!-- ignore --> 與[其生態系統][doccratesio]<!-- ignore -->還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。
 
 [doccargo]: http://doc.crates.io
 [doccratesio]: http://doc.crates.io/crates-io.html
@@ -372,7 +372,7 @@ $ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 2.53s
      Running `target/debug/guessing_game`
 請猜測一個數字！
-The secret number is: 7
+祕密數字爲：7
 請輸入你的猜測數字。
 4
 你的猜測數字：4
@@ -381,7 +381,7 @@ $ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.02s
      Running `target/debug/guessing_game`
 請猜測一個數字！
-The secret number is: 83
+祕密數字爲：83
 請輸入你的猜測數字。
 5
 你的猜測數字：5
@@ -407,9 +407,9 @@ The secret number is: 83
 
 [match]: ch06-02-match.html
 
-`match` 表達式由*分支（arms）*所組成。分支包含一個*模式（pattern）*以及對應的程式碼，這在當 `match` 表達式開頭的數值能與該分支的模式配對時就能執行。Rust 會用 `match` 得到的數值依序遍歷每個分支中的模式。`match` 結構與模式是 Rust 中非常強大的特色，能讓你表達各種程式碼可能會遇上的情形，並確保你有將它們全部處理完。這些特色功能會在第六章與第十八章分別討論其細節。
+`match` 表達式由*分支（arms）* 所組成。分支包含一個*模式（pattern）*以及對應的程式碼，這在當 `match` 表達式開頭的數值能與該分支的模式配對時就能執行。Rust 會用 `match` 得到的數值依序遍歷每個分支中的模式。`match` 結構與模式是 Rust 中非常強大的特色，能讓你表達各種程式碼可能會遇上的情形，並確保你有將它們全部處理完。這些特色功能會在第六章與第十八章分別討論其細節。
 
-讓我們看看在此例中使用 `match` 表達式時會發生什麼事。假設使用者猜測的數字是 50 而這次隨機產生的祕密數字是 38。當程式碼比較 50 與 38 時，`cmp` 方法會回傳 `Ordering::Greater`，因爲 50 大於 38。`match` 表達式會取得 `Ordering::Greater` 數值並開始檢查每個分支的模式。它會先查看第一個分支的模式 `Ordering::Less` 並看出數值 `Ordering::Greater` 無法與 `Ordering::Less` 配對，所以它忽略該分支的程式碼，並移到下一個分支。而下個分支的模式 `Ordering::Greater` 能配對到 `Ordering::Greater`！所以該分支對應的程式碼就會執行並印出 `Too big!` 到螢幕上。最後 `match` 表達式就會結束，因爲在此情境中它已經不需要再查看最後一個分支。
+讓我們看看在此例中使用 `match` 表達式時會發生什麼事。假設使用者猜測的數字是 50 而這次隨機產生的祕密數字是 38。當程式碼比較 50 與 38 時，`cmp` 方法會回傳 `Ordering::Greater`，因爲 50 大於 38。`match` 表達式會取得 `Ordering::Greater` 數值並開始檢查每個分支的模式。它會先查看第一個分支的模式 `Ordering::Less` 並看出數值 `Ordering::Greater` 無法與 `Ordering::Less` 配對，所以它忽略該分支的程式碼，並移到下一個分支。而下個分支的模式 `Ordering::Greater` 能配對到 `Ordering::Greater`！所以該分支對應的程式碼就會執行並印出 `太大了！` 到螢幕上。最後 `match` 表達式就會結束，因爲在此情境中它已經不需要再查看最後一個分支。
 
 然而範例 2-4 的程式碼還無法編譯，讓我們嘗試看看：
 
@@ -430,7 +430,7 @@ The secret number is: 83
 這行程式碼就是：
 
 ```rust,ignore
-let guess: u32 = guess.trim().parse().expect("Please type a number!");
+let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
 ```
 
 我們建立了一個變數叫做 `guess`。小等一下，程式不是已經有個變數叫做 `guess`了嗎？的確是的，但 Rust 允許我們*遮蔽（shadow）*之前的 `guess` 數值成新的數值。此功能常用於當你想將一個數值從一個型別轉換成另一個型別的場合中。遮蔽讓我們可以重複使用 `guess` 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 `guess_str` 和 `guess`。（第三章會詳細解釋遮蔽。）
@@ -457,11 +457,11 @@ $ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.43s
      Running `target/debug/guessing_game`
 請猜測一個數字！
-The secret number is: 58
+祕密數字爲：58
 請輸入你的猜測數字。
   76
 你的猜測數字：76
-Too big!
+太大了！
 ```
 
 不錯！儘管我們在猜測數字前加了一些空格，但程式仍能推斷出使用者猜測的是 76。多執行程式幾次來驗證不同種輸入產生的不同行爲：像是正確猜出數字、猜測的數字太高或猜測的數字太低。
@@ -497,22 +497,22 @@ $ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 1.50s
      Running `target/debug/guessing_game`
 請猜測一個數字！
-The secret number is: 59
+祕密數字爲：59
 請輸入你的猜測數字。
 45
 你的猜測數字：45
-Too small!
+太小了！
 請輸入你的猜測數字。
 60
 你的猜測數字：60
-Too big!
+太大了！
 請輸入你的猜測數字。
 59
 你的猜測數字：59
-You win!
+獲勝！
 請輸入你的猜測數字。
 quit
-thread 'main' panicked at 'Please type a number!: ParseIntError { kind: InvalidDigit }', src/libcore/result.rs:999:5
+thread 'main' panicked at '請輸入一個數字！: ParseIntError { kind: InvalidDigit }', src/libcore/result.rs:999:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 ```
 
@@ -528,7 +528,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/no-listing-05-quitting/src/main.rs:here}}
 ```
 
-在 `You win!` 之後加上 `break` 這行讓程式在使用者猜對祕密數字時可以離開迴圈。離開迴圈也意味著離開程式，因爲此迴圈是 `main` 中的最後一個部分。
+在 `獲勝！` 之後加上 `break` 這行讓程式在使用者猜對祕密數字時可以離開迴圈。離開迴圈也意味著離開程式，因爲此迴圈是 `main` 中的最後一個部分。
 
 ### 處理無效輸入
 
@@ -564,21 +564,21 @@ $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
      Running `target/debug/guessing_game`
 請猜測一個數字！
-The secret number is: 61
+祕密數字爲：61
 請輸入你的猜測數字。
 10
 你的猜測數字：10
-Too small!
+太小了！
 請輸入你的猜測數字。
 99
 你的猜測數字：99
-Too big!
+太大了！
 請輸入你的猜測數字。
 foo
 請輸入你的猜測數字。
 61
 你的猜測數字：61
-You win!
+獲勝！
 ```
 
 太棒了！有了最後一項小修改，我們終於完成了猜謎遊戲。回想一下程式仍然會印出祕密數字。這在測試很有用，但在實際遊戲時就毀了樂趣了。讓我們刪除會印出祕密數字的 `println!`。範例 2-6 就是最終的程式碼。
