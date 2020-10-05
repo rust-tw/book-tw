@@ -132,7 +132,7 @@ Rust 需要在編譯時期知道 vector 的型別以及要在堆積上用到多�
 
 [data-types]: ch03-02-data-types.html#data-types
 [nomicon]: ../nomicon/vec.html
-[vec-api]: ../std/vec/struct.Vec.html
+[vec-api]: https://doc.rust-lang.org/std/vec/struct.Vec.html
 [deref]: ch15-02-deref.html#following-the-pointer-to-the-value-with-the-dereference-operator
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]

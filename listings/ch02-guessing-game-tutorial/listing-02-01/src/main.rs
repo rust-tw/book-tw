@@ -7,9 +7,9 @@ use std::io;
 fn main() {
     // ANCHOR_END: main
     // ANCHOR: print
-    println!("Guess the number!");
+    println!("請猜測一個數字！");
 
-    println!("Please input your guess.");
+    println!("請輸入你的猜測數字。");
     // ANCHOR_END: print
 
     // ANCHOR: string
@@ -21,11 +21,11 @@ fn main() {
         .read_line(&mut guess)
         // ANCHOR_END: read
         // ANCHOR: expect
-        .expect("Failed to read line");
+        .expect("讀取行數失敗");
     // ANCHOR_END: expect
 
     // ANCHOR: print_guess
-    println!("You guessed: {}", guess);
+    println!("你的猜測數字：{}", guess);
     // ANCHOR_END: print_guess
 }
 // ANCHOR: all

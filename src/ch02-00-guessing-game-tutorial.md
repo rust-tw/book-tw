@@ -1,6 +1,6 @@
 # 設計猜謎遊戲程式
 
-讓我們透過動手一同完成一項專案來開始上手 Rust 吧！本章節會介紹一些常見 Rust 概念，展示如何在實際程式中使用它們。你會學到 `let`、`match`、方法、關聯函式、使用外部 crate 以及更多等等！之後的章節會更詳細地探討這些概念。在本章中，你會先練習基礎概念。
+讓我們親自動手一同完成一項專案來開始上手 Rust 吧！本章節會介紹一些常見 Rust 概念，展示如何在實際程式中使用它們。你會學到 `let`、`match`、方法、關聯函式、使用外部 crate 以及更多等等！之後的章節會更詳細地探討這些概念。在本章中，你會先練習基礎概念。
 
 我們會實作個經典新手程式問題：猜謎遊戲。它的運作方式如下：程式會產生 1 到 100 之間的隨機整數。接著它會通知玩家猜一個數字。在輸入猜測數字之後，程式會回應猜測的數字太低或太高。如果猜對的話，遊戲就會顯示祝賀訊息並離開。
 
@@ -13,7 +13,7 @@ $ cargo new guessing_game
 $ cd guessing_game
 ```
 
-第一道命令 `cargo new` 會接收專案名稱（`guessing_game`）作爲引數。第二道命令會將目錄移至新專案中。
+第一道命令 `cargo new` 會接收專案名稱（`guessing_game`）作爲引數（argument）。第二道命令會將目錄移至新專案中。
 
 檢查看看產生的 *Cargo.toml* 檔案：
 
@@ -25,7 +25,7 @@ $ cd guessing_game
 
 如果 Cargo 從你的環境取得的作者資訊不正確的話，請在檔案中修改並儲存。
 
-如同你在第一章看到的，`cargo new` 會產程一支「Hello, world!」程式。請檢查 *src/main.rs* 檔案：
+如同你在第一章看到的，`cargo new` 會產生一支「Hello, world!」程式。請檢查 *src/main.rs* 檔案：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -33,7 +33,7 @@ $ cd guessing_game
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/no-listing-01-cargo-new/src/main.rs}}
 ```
 
-現在讓我們用 `cargo run` 命令一次完成編譯與執行「Hello, world!」程式：
+現在讓我們用 `cargo run` 命令同時完成編譯與執行「Hello, world!」程式：
 
 ```console
 {{#include ../listings/ch02-guessing-game-tutorial/no-listing-01-cargo-new/output.txt}}
@@ -61,9 +61,9 @@ $ cd guessing_game
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:io}}
 ```
 
-Rust 在預設情況下只會透過 [*prelude*][prelude]<!-- ignore --> 來將一些型別引入每個程式的作用域中。如果你想使用的型別不在 prelude 的話，你需要顯式地使用 `use` 陳述式（statement）將該型別引入作用域。`std::io` 函式庫能提供一系列實用的功能，這包含接收使用者輸入的能力。
+Rust 在預設情況下只會透過 [*prelude*][prelude]<!-- ignore --> 來將一些型別引入每個程式的作用域中。如果你想使用的型別不在 prelude 的話，你需要顯式（explicit）地使用 `use` 陳述式（statement）將該型別引入作用域。`std::io` 函式庫能提供一系列實用的功能，這包含接收使用者輸入的能力。
 
-[prelude]: ../std/prelude/index.html
+[prelude]: https://doc.rust-lang.org/std/prelude/index.html
 
 如同你在第一章所見的，`main` 函式是程式的入口點（entry point）：
 
@@ -106,7 +106,7 @@ let mut bar = 5; // 可變的
 
 讓我們回到猜謎遊戲程式。你現在就知道 `let mut guess` 會產生一個可變變數叫做 `guess`。在等號（`=`）的另一邊是要綁定給 `guess` 的數值，也就是呼叫 `String::new` 的結果，這是一個回傳新的 `String` 實例（instance）的函式。[`String`][string]<!-- ignore --> 是個標準函式庫提供的字串型別，這是可增長的 UTF-8 編碼文字。
 
-[string]: ../std/string/struct.String.html
+[string]: https://doc.rust-lang.org/std/string/struct.String.html
 
 `::new` 中的 `::` 語法代表 `new` 是 `String` 型別的*關聯函式（associated function）*。關聯函式是針對型別的實作，在此例中就是 `String`，而不是針對 `String` 特定實例的實作。有些語言會稱之爲*靜態方法（static method）*。
 
@@ -122,12 +122,12 @@ let mut bar = 5; // 可變的
 
 如果我們沒有將 `use std::io` 這行置於程式最一開始的位置，我們就得寫出 `std::io::stdin` 來呼叫函式。`stdin` 函式會回傳一個 [`std::io::Stdin`][iostdin]<!-- ignore --> 實例，這是代表終端機標準輸入控制代碼（handle）的型別。
 
-[iostdin]: ../std/io/struct.Stdin.html
+[iostdin]: https://doc.rust-lang.org/std/io/struct.Stdin.html
 
 而程式碼的下個部分 `.read_line(&mut guess)` 會對標準輸入控制代碼呼叫 [`read_line`][read_line]<!-- ignore --> 方法（method）來取得使用者的輸入。我們還傳遞了一個引數（argument）給 `read_line`：`&mut
 guess`。
 
-[read_line]: ../std/io/struct.Stdin.html#method.read_line
+[read_line]: https://doc.rust-lang.org/std/io/struct.Stdin.html#method.read_line
 
 `read_line` 的任務是取得使用者在標準輸入寫入的任何內容，並放置到字串中，所以它才接收字串作爲引數。字串引數需要是可變的，這樣該方法才能變更字串的內容成使用者的輸入。
 
@@ -144,15 +144,15 @@ guess`。
 當你透過 `.foo()` 語法呼叫方法時，通常換行來寫並加上縮排，來拆開一串很長的程式碼會比較好。我們當然可以這樣寫：
 
 ```rust,ignore
-io::stdin().read_line(&mut guess).expect("Failed to read line");
+io::stdin().read_line(&mut guess).expect("讀取行數失敗");
 ```
 
 但是這麼長會很難閱讀，所以最後是能夠分段。現在讓我們來討論這行在做什麼。
 
 如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 [`io::Result`][ioresult]<!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 `Result`，這包含泛型 [`Result`][result]<!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 `io::Result`。
 
-[ioresult]: ../std/io/type.Result.html
-[result]: ../std/result/enum.Result.html
+[ioresult]: https://doc.rust-lang.org/std/io/type.Result.html
+[result]: https://doc.rust-lang.org/std/result/enum.Result.html
 
 `Result` 型別是種[*枚舉（enumerations）*][enums]<!-- ignore -->，常稱爲 *enums*。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之爲枚舉的*變體（variants）*。第六章會更詳細地介紹枚舉。
 
@@ -162,7 +162,7 @@ io::stdin().read_line(&mut guess).expect("Failed to read line");
 
 這些 `Result` 型別的目的是要編碼錯誤處理資訊。`Result` 型別的數值與任何型別的數值一樣，它們都有定義些方法。`io::Result` 的實例有 [`expect` 方法][expect]<!-- ignore --> 讓你能呼叫。如果此 `io::Result` 實例數值爲 `Err` 的話，`expect` 會讓程式崩潰並顯示作爲引數傳給 `expect` 的訊息。如果 `read_line` 回傳 `Err` 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 `io::Result` 實例數值爲 `Ok` 的話，`expect` 會接收 `Ok` 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值爲使用者輸入到標準輸出的位元組數字。
 
-[expect]: ../std/result/enum.Result.html#method.expect
+[expect]: https://doc.rust-lang.org/std/result/enum.Result.html#method.expect
 
 如果你沒有呼叫 `expect`，程式仍能編譯，但你會收到一個警告：
 
@@ -208,10 +208,10 @@ $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
     Finished dev [unoptimized + debuginfo] target(s) in 6.44s
      Running `target/debug/guessing_game`
-Guess the number!
-Please input your guess.
+請猜測一個數字！
+請輸入你的猜測數字。
 6
-You guessed: 6
+你的猜測數字：6
 ```
 
 到目前爲止，遊戲的第一個部分就完成了：我們取得了鍵盤的輸入然後顯示出來。
@@ -371,20 +371,20 @@ $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
     Finished dev [unoptimized + debuginfo] target(s) in 2.53s
      Running `target/debug/guessing_game`
-Guess the number!
+請猜測一個數字！
 The secret number is: 7
-Please input your guess.
+請輸入你的猜測數字。
 4
-You guessed: 4
+你的猜測數字：4
 
 $ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.02s
      Running `target/debug/guessing_game`
-Guess the number!
+請猜測一個數字！
 The secret number is: 83
-Please input your guess.
+請輸入你的猜測數字。
 5
-You guessed: 5
+你的猜測數字：5
 ```
 
 你應該會得到不同的隨機數字，而且它們都應該要在 1 到 100 的範圍內。做得好！
@@ -439,7 +439,7 @@ let guess: u32 = guess.trim().parse().expect("Please type a number!");
 
 而[字串中的 `parse` 方法][parse]<!-- ignore -->會解析字串成某種數字。因爲此方法可以解析成各種數字型別，我們需要使用 `let guess: u32` 來告訴 Rust 我們想使用的確切數字型別。`guess` 後面的分號（`:`）告訴 Rust 我們會詮釋此變數的型別。Rust 有些內建的數字型別，這裡的 `u32` 是個非帶號（unsigned）的 32 位元整數。對於不大的正整數來說，這是不錯的預設選擇。你會在第三章學到其他數字型別。除此之外，在此範例程式中的 `u32` 詮釋與 `secret_number` 的比較意味著 Rust 也會將 `secret_number` 推斷成 `u32`。所以現在會有兩個相同型別的數值能做比較了！
 
-[parse]: ../std/primitive.str.html#method.parse
+[parse]: https://doc.rust-lang.org/std/primitive.str.html#method.parse
 
 `parse` 的呼叫很容易造成錯誤。舉例來說，如果字串包含 `A👍%` 的話，就不可能轉換成數字。因爲它可能會失敗，`parse` 方法回傳的是 `Result` 型別，就和 `read_line` 方法一樣（在之前的[「使用 `Result` 型別處理可能的錯誤」](#使用-result-型別處理可能的錯誤)<!-- ignore -->段落提及）。我們也會用相同的方式來處理此 `Result`，也就是呼叫 `expect` 方法。如果 `parse` 回傳 `Result` 的 `Err` 變體的話，由於它無法從字串建立數字，`expect` 的呼叫會讓遊戲崩潰並顯示我們給予的訊息。如果 `parse` 能成功將字串轉成數字，它將會回傳 `Result` 的 `Ok` 變體，而 `expect` 將會回傳 `Ok` 的內部數值。
 
@@ -456,11 +456,11 @@ $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
     Finished dev [unoptimized + debuginfo] target(s) in 0.43s
      Running `target/debug/guessing_game`
-Guess the number!
+請猜測一個數字！
 The secret number is: 58
-Please input your guess.
+請輸入你的猜測數字。
   76
-You guessed: 76
+你的猜測數字：76
 Too big!
 ```
 
@@ -496,21 +496,21 @@ $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
     Finished dev [unoptimized + debuginfo] target(s) in 1.50s
      Running `target/debug/guessing_game`
-Guess the number!
+請猜測一個數字！
 The secret number is: 59
-Please input your guess.
+請輸入你的猜測數字。
 45
-You guessed: 45
+你的猜測數字：45
 Too small!
-Please input your guess.
+請輸入你的猜測數字。
 60
-You guessed: 60
+你的猜測數字：60
 Too big!
-Please input your guess.
+請輸入你的猜測數字。
 59
-You guessed: 59
+你的猜測數字：59
 You win!
-Please input your guess.
+請輸入你的猜測數字。
 quit
 thread 'main' panicked at 'Please type a number!: ParseIntError { kind: InvalidDigit }', src/libcore/result.rs:999:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
@@ -563,21 +563,21 @@ foo
 $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
      Running `target/debug/guessing_game`
-Guess the number!
+請猜測一個數字！
 The secret number is: 61
-Please input your guess.
+請輸入你的猜測數字。
 10
-You guessed: 10
+你的猜測數字：10
 Too small!
-Please input your guess.
+請輸入你的猜測數字。
 99
-You guessed: 99
+你的猜測數字：99
 Too big!
-Please input your guess.
+請輸入你的猜測數字。
 foo
-Please input your guess.
+請輸入你的猜測數字。
 61
-You guessed: 61
+你的猜測數字：61
 You win!
 ```
 

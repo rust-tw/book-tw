@@ -58,7 +58,7 @@
 
 我們展示了許多種定義儲存第四版與第六版 IP 位址資料結構的方式，不過需要儲存 IP 位址並編碼成不同類型的案例實在太常見了，所以[標準函式庫已經幫我們定義好了！][IpAddr]<!-- ignore -->讓我們看看標準函式庫是怎麼定義 `IpAddr` 的：它有和我們一模一樣的枚舉變體，不過變體各自儲存的資料是另外兩個不同的結構體，兩個定義的內容均不相同：
 
-[IpAddr]: ../std/net/enum.IpAddr.html
+[IpAddr]: https://doc.rust-lang.org/std/net/enum.IpAddr.html
 
 ```rust
 struct Ipv4Addr {
@@ -128,7 +128,7 @@ enum IpAddr {
 
 所以問題不在於概念本身，而在於如何實作。所以 Rust 並沒有空值，但是它有一個枚舉可以表達出這樣的概念，也就是一個值可能是存在或不存在的。此枚舉就是 `Option<T>`，它是在[標準函式庫中這樣定義的][option]<!-- ignore -->：
 
-[option]: ../std/option/enum.Option.html
+[option]: https://doc.rust-lang.org/std/option/enum.Option.html
 
 ```rust
 enum Option<T> {
@@ -170,7 +170,7 @@ enum Option<T> {
 
 所以當我們有一個數值型別 `Option<T>`，我們要怎麼從 `Some` 變體取出 `T`，好讓我們可以使用該值呢？`Option<T>` 枚舉有大量實用的方法可以在不同的場合下使用。你可以在[它的技術文件][docs]<!-- ignore -->查閱。更加熟悉 `Option<T>` 的方法十分益於你接下來的 Rust 旅程。
 
-[docs]: ../std/option/enum.Option.html
+[docs]: https://doc.rust-lang.org/std/option/enum.Option.html
 
 總之來說，要使用 `Option<T>` 數值的話，你要讓程式碼可以處理每個變體。你會希望有一些程式碼只會在當我們有 `Some(T)` 時執行，然後這些程式碼允許使用內部的 `T`。你會希望有另一部分的程式碼能在只有 `None` 時執行，且這些程式碼不會拿到有效的 `T` 數值。`match` 表達式正是處理此枚舉行爲的控制流結構：它會針對不同的枚舉變體執行不同的程式碼，而且程式碼可以使用配對到的數值資料。
 

@@ -109,7 +109,7 @@ Rust 支援你所有想得到的數值型別基本運算：加法、減法、乘
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-09-char/src/main.rs}}
 ```
 
-Rust 的 `cahr` 型別大小爲四個位元組並表示爲一個 Unicode 純量數值，這代表它能擁有的字元比 ASCII 還來的多。舉凡標音字母（Accented letters）、中文、日文、韓文、表情符號以及零長度空格都 Rust `cahr` 的有效字元。Unicode 純量數值的範圍包含從 `U+0000` 到 `U+D7FF` 以及 `U+E000` 到 `U+10FFFF`。但是一個「字元」並不是真正的 Unicode 概念，所以你對於什麼是一個「字元」的看法可能會和 Rust 的 `char` 不一樣。我們將會在第八章的[「透過字串儲存 UTF-8 編碼的文字」][strings]<!-- ignore -->來討論此議題。
+Rust 的 `char` 型別大小爲四個位元組並表示爲一個 Unicode 純量數值，這代表它能擁有的字元比 ASCII 還來的多。舉凡標音字母（Accented letters）、中文、日文、韓文、表情符號以及零長度空格都 Rust `char` 的有效字元。Unicode 純量數值的範圍包含從 `U+0000` 到 `U+D7FF` 以及 `U+E000` 到 `U+10FFFF`。但是一個「字元」並不是真正的 Unicode 概念，所以你對於什麼是一個「字元」的看法可能會和 Rust 的 `char` 不一樣。我們將會在第八章的[「透過字串儲存 UTF-8 編碼的文字」][strings]<!-- ignore -->來討論此議題。
 
 ### 複合型別
 
@@ -222,7 +222,7 @@ ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number
 [control-flow]: ch03-05-control-flow.html#control-flow
 [strings]: ch08-02-strings.html#storing-utf-8-encoded-text-with-strings
 [unrecoverable-errors-with-panic]: ch09-01-unrecoverable-errors-with-panic.html
-[wrapping]: ../std/num/struct.Wrapping.html
+[wrapping]: https://doc.rust-lang.org/std/num/struct.Wrapping.html
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [88250d6](https://github.com/rust-lang/book/blob/88250d663d5288a7f643ffca2f2c999190f3d4ae/src/ch03-02-data-types.md)

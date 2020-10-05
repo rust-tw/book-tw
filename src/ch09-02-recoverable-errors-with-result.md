@@ -25,7 +25,7 @@ enum Result<T, E> {
 
 <span class="caption">範例 9-3：嘗試開啟一個檔案</span>
 
-我們怎麼知道 `File::open` 會回傳 `Result`呢？我們可以查閱[標準函式庫的 API 技術文件](../std/index.html)<!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 `f` 一個型別詮釋，但是我們知道它和函式回傳值*並不*相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不服。錯誤訊息會告訴我們 `f` *該有*何種型別。讓我們試試看！我們知道 `File::open` 的回傳型別不是 `u32`，所以讓我們改變 `let f` 成這樣：
+我們怎麼知道 `File::open` 會回傳 `Result`呢？我們可以查閱[標準函式庫的 API 技術文件](https://doc.rust-lang.org/std/index.html)<!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 `f` 一個型別詮釋，但是我們知道它和函式回傳值*並不*相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不服。錯誤訊息會告訴我們 `f` *該有*何種型別。讓我們試試看！我們知道 `File::open` 的回傳型別不是 `u32`，所以讓我們改變 `let f` 成這樣：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch09-error-handling/no-listing-02-ask-compiler-for-type/src/main.rs:here}}
