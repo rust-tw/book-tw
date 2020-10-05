@@ -352,8 +352,8 @@ let mut bar = 5; // 可變的
 <p>當你透過 <code>.foo()</code> 語法呼叫方法時，通常換行來寫並加上縮排，來拆開一串很長的程式碼會比較好。我們當然可以這樣寫：</p>
 <pre><code class="language-rust ignore">io::stdin().read_line(&amp;mut guess).expect(&quot;讀取行數失敗&quot;);
 </code></pre>
-<p>但是這麼長會很難閱讀，所以最後是能夠分段。現在讓我們來討論這行在做什麼。</p>
-<p>如稍早提過的，<code>read_line</code> 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 <a href="https://doc.rust-lang.org/std/io/type.Result.html"><code>io::Result</code></a><!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 <code>Result</code>，這包含泛型 <a href="https://doc.rust-lang.org/std/result/enum.Result.html"><code>Result</code></a><!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 <code>io::Result</code>。</p>
+<p>但是這麼長會很難閱讀，所以最好是能夠分段。現在讓我們來討論這行在做什麼。</p>
+<p>如稍早提過的，<code>read_line</code> 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 <a href="https://doc.rust-lang.org/std/io/type.Result.html"><code>io::Result</code></a><!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 <code>Result</code>，這包含泛型（generic）<a href="https://doc.rust-lang.org/std/result/enum.Result.html"><code>Result</code></a><!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 <code>io::Result</code>。</p>
 <p><code>Result</code> 型別是種<a href="ch06-00-enums.html"><em>枚舉（enumerations）</em></a><!-- ignore -->，常稱爲 <em>enums</em>。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之爲枚舉的<em>變體（variants）</em>。第六章會更詳細地介紹枚舉。</p>
 <p>對於 <code>Result</code> 來說，其變體會是 <code>Ok</code> 或 <code>Err</code>。<code>Ok</code> 變體指的是該動作成功完成，且 <code>Ok</code> 內部會包含成功產生的數值。而 <code>Err</code> 變體代表動作失敗，且 <code>Err</code> 會包含該動作如何與爲何會失敗的資訊。</p>
 <p>這些 <code>Result</code> 型別的目的是要編碼錯誤處理資訊。<code>Result</code> 型別的數值與任何型別的數值一樣，它們都有定義些方法。<code>io::Result</code> 的實例有 <a href="https://doc.rust-lang.org/std/result/enum.Result.html#method.expect"><code>expect</code> 方法</a><!-- ignore --> 讓你能呼叫。如果此 <code>io::Result</code> 實例數值爲 <code>Err</code> 的話，<code>expect</code> 會讓程式崩潰並顯示作爲引數傳給 <code>expect</code> 的訊息。如果 <code>read_line</code> 回傳 <code>Err</code> 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 <code>io::Result</code> 實例數值爲 <code>Ok</code> 的話，<code>expect</code> 會接收 <code>Ok</code> 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值爲使用者輸入到標準輸出的位元組數字。</p>
@@ -374,7 +374,7 @@ warning: unused `std::result::Result` that must be used
 <p>Rust 警告你沒有使用 <code>read_line</code> 回傳的 <code>Result</code> 數值，這意味著程式沒有處理可能發生的錯誤。</p>
 <p>要解決此警告的正確方式是實際進行錯誤處理，但因爲我們只想要當問題發生時直接讓程式崩潰，所以你可以先使用 <code>expect</code> 就好。你會在第九章學到如何從錯誤中恢復。</p>
 <h3><a class="header" href="#透過-println-佔位符印出數值" id="透過-println-佔位符印出數值">透過 <code>println!</code> 佔位符印出數值</a></h3>
-<p>在結束大括號之前，目前程式碼中還有一行要來討論：也就是以下這行：</p>
+<p>在結束大括號之前，目前程式碼中還有一行要來討論，也就是以下這行：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
 </span><span class="boring">
 </span><span class="boring">fn main() {
@@ -398,10 +398,10 @@ warning: unused `std::result::Result` that must be used
 </span>let x = 5;
 let y = 10;
 
-println!(&quot;x = {} and y = {}&quot;, x, y);
+println!(&quot;x = {} 而且 y = {}&quot;, x, y);
 <span class="boring">}
 </span></code></pre></pre>
-<p>此程式碼會印出 <code>x = 5 and y = 10</code>。</p>
+<p>此程式碼會印出 <code>x = 5 而且 y = 10</code>。</p>
 <h3><a class="header" href="#測試第一個部分" id="測試第一個部分">測試第一個部分</a></h3>
 <p>讓我們來測試猜謎遊戲中的第一個部分。請使用 <code>cargo run</code> 來執行它：</p>
 <!-- manual-regeneration
@@ -468,7 +468,7 @@ cargo build -->
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
     Finished dev [unoptimized + debuginfo] target(s) in 2.53 secs
 </code></pre>
-<p>這幾行表示 Cargo 只更新的你對 <em>src/main.rs</em> 檔案的瑣碎修改進行建構。你的依賴沒變，所以 Cargo 知道它可以重複使用已經下載並編譯過的程式碼。它只重新建構了程式碼中的一小部分。</p>
+<p>這幾行表示 Cargo 只更新你對 <em>src/main.rs</em> 檔案的瑣碎修改進行建構。你的依賴沒變，所以 Cargo 知道它可以重複使用已經下載並編譯過的程式碼。它只重新建構了程式碼中的一小部分。</p>
 <h4><a class="header" href="#透過-cargolock-檔案確保建構可以重現" id="透過-cargolock-檔案確保建構可以重現">透過 <em>Cargo.lock</em> 檔案確保建構可以重現</a></h4>
 <p>Cargo 有個機制能確保任何人或你在任何時候重新建構程式碼時，都能產生相同結果。舉例來說，要是下一週 <code>rand</code> crate 發佈了版本 0.5.6，其包含重大程式錯誤更新，卻也有個會破壞你的程式碼的回歸（regression）問題，這時會發生什麼事呢？</p>
 <p>此問題的答案位於 <em>Cargo.lock</em> 檔案中，這會在你第一次執行 <code>cargo build</code> 時建立，並位於 <em>guessing_game</em> 目錄中。當你第一次建構專案時，Cargo 會決定出符合情境的依賴函式庫版本，然後將它們寫入 <em>Cargo.lock</em> 檔案中。當你在未來建構專案時，Cargo 會看到 <em>Cargo.lock</em> 的存在並使用其指定的版本，而非重新再次決定該用哪些版本。這讓你有個能自動重現的建構方案。換句話說，你的專案仍會繼續使用 <code>0.5.5</code> 直到你顯式升級爲止，這都多虧了 <em>Cargo.lock</em> 檔案。</p>
@@ -490,7 +490,7 @@ as a guide to creating the hypothetical output shown here -->
 rand = &quot;0.6.0&quot;
 </code></pre>
 <p>下次你執行 <code>cargo build</code> 時，Cargo 將會更新 crate registry ，並依據你指定的新版本來重新評估 <code>rand</code> 的確切版本。</p>
-<p><a href="http://doc.crates.io">Cargo</a><!-- ignore --> 與<a href="http://doc.crates.io/crates-io.html">其生態系統</a><!-- ignore --> 還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。</p>
+<p><a href="http://doc.crates.io">Cargo</a><!-- ignore --> 與<a href="http://doc.crates.io/crates-io.html">其生態系統</a><!-- ignore -->還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。</p>
 <h3><a class="header" href="#產生隨機數字" id="產生隨機數字">產生隨機數字</a></h3>
 <p>現在既然你已經將 <code>rand</code> crate 加入 <em>Cargo.toml</em> 中，讓我們開始使用 <code>rand</code> 吧。下一步是更新 <em>src/main.rs</em>，如範例 2-3 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -502,7 +502,7 @@ fn main() {
 
     let secret_number = rand::thread_rng().gen_range(1, 101);
 
-    println!(&quot;The secret number is: {}&quot;, secret_number);
+    println!(&quot;祕密數字爲：{}&quot;, secret_number);
 
     println!(&quot;請輸入你的猜測數字。&quot;);
 
@@ -535,7 +535,7 @@ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 2.53s
      Running `target/debug/guessing_game`
 請猜測一個數字！
-The secret number is: 7
+祕密數字爲：7
 請輸入你的猜測數字。
 4
 你的猜測數字：4
@@ -544,7 +544,7 @@ $ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.02s
      Running `target/debug/guessing_game`
 請猜測一個數字！
-The secret number is: 83
+祕密數字爲：83
 請輸入你的猜測數字。
 5
 你的猜測數字：5
@@ -563,7 +563,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;The secret number is: {}&quot;, secret_number);
+</span><span class="boring">    println!(&quot;祕密數字爲：{}&quot;, secret_number);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;請輸入你的猜測數字。&quot;);
 </span><span class="boring">
@@ -576,17 +576,17 @@ fn main() {
     println!(&quot;你的猜測數字：{}&quot;, guess);
 
     match guess.cmp(&amp;secret_number) {
-        Ordering::Less =&gt; println!(&quot;Too small!&quot;),
-        Ordering::Greater =&gt; println!(&quot;Too big!&quot;),
-        Ordering::Equal =&gt; println!(&quot;You win!&quot;),
+        Ordering::Less =&gt; println!(&quot;太小了！&quot;),
+        Ordering::Greater =&gt; println!(&quot;太大了！&quot;),
+        Ordering::Equal =&gt; println!(&quot;獲勝！&quot;),
     }
 }
 </code></pre>
 <p><span class="caption">範例 2-4：處理比較兩個數字後的可能數值</span></p>
 <p>首先新加入的第一個部分是另一個 <code>use</code> 陳述式，這將 <code>std::cmp::Ordering</code> 型別從標準函式庫引入作用域中。就像 <code>Result</code> 一樣，<code>Ordering</code> 是另一個枚舉，但是 <code>Ordering</code> 的變體爲 <code>Less</code>、<code>Greater</code> 與 <code>Equal</code>。當你比較兩個數值時會有三種結果。</p>
 <p>然後我們在底下加上五行程式碼來使用 <code>Ordering</code> 型別。<code>cmp</code> 方法會比較兩個數值，並能在任何可以比較的數值中進行呼叫。其取一個引用至任何你想做比較的數值，在此例中就是將 <code>guess</code> 與 <code>secret_number</code> 做比較。然後它會回傳我們透過 <code>use</code> 陳述式引入作用域的 <code>Ordering</code> 枚舉其中一個變體。我們使用 <a href="ch06-02-match.html"><code>match</code></a><!-- ignore --> 表達式來依據透過 <code>guess</code> 與 <code>secret_number</code> 呼叫 <code>cmp</code> 回傳的 <code>Ordering</code> 變體來決定下一步要做什麼。</p>
-<p><code>match</code> 表達式由*分支（arms）<em>所組成。分支包含一個</em>模式（pattern）*以及對應的程式碼，這在當 <code>match</code> 表達式開頭的數值能與該分支的模式配對時就能執行。Rust 會用 <code>match</code> 得到的數值依序遍歷每個分支中的模式。<code>match</code> 結構與模式是 Rust 中非常強大的特色，能讓你表達各種程式碼可能會遇上的情形，並確保你有將它們全部處理完。這些特色功能會在第六章與第十八章分別討論其細節。</p>
-<p>讓我們看看在此例中使用 <code>match</code> 表達式時會發生什麼事。假設使用者猜測的數字是 50 而這次隨機產生的祕密數字是 38。當程式碼比較 50 與 38 時，<code>cmp</code> 方法會回傳 <code>Ordering::Greater</code>，因爲 50 大於 38。<code>match</code> 表達式會取得 <code>Ordering::Greater</code> 數值並開始檢查每個分支的模式。它會先查看第一個分支的模式 <code>Ordering::Less</code> 並看出數值 <code>Ordering::Greater</code> 無法與 <code>Ordering::Less</code> 配對，所以它忽略該分支的程式碼，並移到下一個分支。而下個分支的模式 <code>Ordering::Greater</code> 能配對到 <code>Ordering::Greater</code>！所以該分支對應的程式碼就會執行並印出 <code>Too big!</code> 到螢幕上。最後 <code>match</code> 表達式就會結束，因爲在此情境中它已經不需要再查看最後一個分支。</p>
+<p><code>match</code> 表達式由<em>分支（arms）</em> 所組成。分支包含一個*模式（pattern）*以及對應的程式碼，這在當 <code>match</code> 表達式開頭的數值能與該分支的模式配對時就能執行。Rust 會用 <code>match</code> 得到的數值依序遍歷每個分支中的模式。<code>match</code> 結構與模式是 Rust 中非常強大的特色，能讓你表達各種程式碼可能會遇上的情形，並確保你有將它們全部處理完。這些特色功能會在第六章與第十八章分別討論其細節。</p>
+<p>讓我們看看在此例中使用 <code>match</code> 表達式時會發生什麼事。假設使用者猜測的數字是 50 而這次隨機產生的祕密數字是 38。當程式碼比較 50 與 38 時，<code>cmp</code> 方法會回傳 <code>Ordering::Greater</code>，因爲 50 大於 38。<code>match</code> 表達式會取得 <code>Ordering::Greater</code> 數值並開始檢查每個分支的模式。它會先查看第一個分支的模式 <code>Ordering::Less</code> 並看出數值 <code>Ordering::Greater</code> 無法與 <code>Ordering::Less</code> 配對，所以它忽略該分支的程式碼，並移到下一個分支。而下個分支的模式 <code>Ordering::Greater</code> 能配對到 <code>Ordering::Greater</code>！所以該分支對應的程式碼就會執行並印出 <code>太大了！</code> 到螢幕上。最後 <code>match</code> 表達式就會結束，因爲在此情境中它已經不需要再查看最後一個分支。</p>
 <p>然而範例 2-4 的程式碼還無法編譯，讓我們嘗試看看：</p>
 <pre><code class="language-console">$ cargo build
    Compiling libc v0.2.51
@@ -622,7 +622,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;The secret number is: {}&quot;, secret_number);
+</span><span class="boring">    println!(&quot;祕密數字爲：{}&quot;, secret_number);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;請輸入你的猜測數字。&quot;);
 </span><span class="boring">
@@ -634,19 +634,19 @@ To learn more, run the command again with --verbose.
         .read_line(&amp;mut guess)
         .expect(&quot;讀取行數失敗&quot;);
 
-    let guess: u32 = guess.trim().parse().expect(&quot;Please type a number!&quot;);
+    let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 
     println!(&quot;你的猜測數字：{}&quot;, guess);
 
     match guess.cmp(&amp;secret_number) {
-        Ordering::Less =&gt; println!(&quot;Too small!&quot;),
-        Ordering::Greater =&gt; println!(&quot;Too big!&quot;),
-        Ordering::Equal =&gt; println!(&quot;You win!&quot;),
+        Ordering::Less =&gt; println!(&quot;太小了！&quot;),
+        Ordering::Greater =&gt; println!(&quot;太大了！&quot;),
+        Ordering::Equal =&gt; println!(&quot;獲勝！&quot;),
     }
 }
 </code></pre>
 <p>這行程式碼就是：</p>
-<pre><code class="language-rust ignore">let guess: u32 = guess.trim().parse().expect(&quot;Please type a number!&quot;);
+<pre><code class="language-rust ignore">let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 </code></pre>
 <p>我們建立了一個變數叫做 <code>guess</code>。小等一下，程式不是已經有個變數叫做 <code>guess</code>了嗎？的確是的，但 Rust 允許我們*遮蔽（shadow）*之前的 <code>guess</code> 數值成新的數值。此功能常用於當你想將一個數值從一個型別轉換成另一個型別的場合中。遮蔽讓我們可以重複使用 <code>guess</code> 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 <code>guess_str</code> 和 <code>guess</code>。（第三章會詳細解釋遮蔽。）</p>
 <p>我們將 <code>guess</code> 綁定給 <code>guess.trim().parse()</code> 表達式。表達式中的 <code>guess</code> 指的是原本擁有 <code>String</code> 來儲存輸入的 <code>guess</code>。<code>String</code> 中的 <code>trim</code> 方法會去除開頭與結尾的任何空白字元。雖然 <code>u32</code> 只會包含數字字元，但使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 <code>read_line</code>。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，<code>guess</code> 看起來會像這樣：<code>5\n</code>。<code>\n</code> 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果。<code>trim</code> 方法能去除 <code>\n</code>，讓結果只會是 <code>5</code>。</p>
@@ -663,11 +663,11 @@ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.43s
      Running `target/debug/guessing_game`
 請猜測一個數字！
-The secret number is: 58
+祕密數字爲：58
 請輸入你的猜測數字。
   76
 你的猜測數字：76
-Too big!
+太大了！
 </code></pre>
 <p>不錯！儘管我們在猜測數字前加了一些空格，但程式仍能推斷出使用者猜測的是 76。多執行程式幾次來驗證不同種輸入產生的不同行爲：像是正確猜出數字、猜測的數字太高或猜測的數字太低。</p>
 <p>我們已經大致上將遊戲完成了，但使用者只能猜測一次。讓我們用迴圈來修改吧！</p>
@@ -685,7 +685,7 @@ Too big!
 </span><span class="boring">
 </span>    // --snip--
 
-    println!(&quot;The secret number is: {}&quot;, secret_number);
+    println!(&quot;祕密數字爲：{}&quot;, secret_number);
 
     loop {
         println!(&quot;請輸入你的猜測數字。&quot;);
@@ -699,14 +699,14 @@ Too big!
 </span><span class="boring">            .read_line(&amp;mut guess)
 </span><span class="boring">            .expect(&quot;讀取行數失敗&quot;);
 </span><span class="boring">
-</span><span class="boring">        let guess: u32 = guess.trim().parse().expect(&quot;Please type a number!&quot;);
+</span><span class="boring">        let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 </span><span class="boring">
 </span><span class="boring">        println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">
 </span>        match guess.cmp(&amp;secret_number) {
-            Ordering::Less =&gt; println!(&quot;Too small!&quot;),
-            Ordering::Greater =&gt; println!(&quot;Too big!&quot;),
-            Ordering::Equal =&gt; println!(&quot;You win!&quot;),
+            Ordering::Less =&gt; println!(&quot;太小了！&quot;),
+            Ordering::Greater =&gt; println!(&quot;太大了！&quot;),
+            Ordering::Equal =&gt; println!(&quot;獲勝！&quot;),
         }
     }
 }
@@ -726,22 +726,22 @@ quit
     Finished dev [unoptimized + debuginfo] target(s) in 1.50s
      Running `target/debug/guessing_game`
 請猜測一個數字！
-The secret number is: 59
+祕密數字爲：59
 請輸入你的猜測數字。
 45
 你的猜測數字：45
-Too small!
+太小了！
 請輸入你的猜測數字。
 60
 你的猜測數字：60
-Too big!
+太大了！
 請輸入你的猜測數字。
 59
 你的猜測數字：59
-You win!
+獲勝！
 請輸入你的猜測數字。
 quit
-thread 'main' panicked at 'Please type a number!: ParseIntError { kind: InvalidDigit }', src/libcore/result.rs:999:5
+thread 'main' panicked at '請輸入一個數字！: ParseIntError { kind: InvalidDigit }', src/libcore/result.rs:999:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p>輸入 <code>quit</code> 就能真的離開遊戲，但是其他非數字輸入也是如此。這並不是最理想的方案，我們想要在猜對數字時自動停止。</p>
@@ -757,7 +757,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;The secret number is: {}&quot;, secret_number);
+</span><span class="boring">    println!(&quot;祕密數字爲：{}&quot;, secret_number);
 </span><span class="boring">
 </span><span class="boring">    loop {
 </span><span class="boring">        println!(&quot;請輸入你的猜測數字。&quot;);
@@ -768,24 +768,24 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">            .read_line(&amp;mut guess)
 </span><span class="boring">            .expect(&quot;讀取行數失敗&quot;);
 </span><span class="boring">
-</span><span class="boring">        let guess: u32 = guess.trim().parse().expect(&quot;Please type a number!&quot;);
+</span><span class="boring">        let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 </span><span class="boring">
 </span><span class="boring">        println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">
 </span>        // --snip--
 
         match guess.cmp(&amp;secret_number) {
-            Ordering::Less =&gt; println!(&quot;Too small!&quot;),
-            Ordering::Greater =&gt; println!(&quot;Too big!&quot;),
+            Ordering::Less =&gt; println!(&quot;太小了！&quot;),
+            Ordering::Greater =&gt; println!(&quot;太大了！&quot;),
             Ordering::Equal =&gt; {
-                println!(&quot;You win!&quot;);
+                println!(&quot;獲勝！&quot;);
                 break;
             }
         }
     }
 }
 </code></pre>
-<p>在 <code>You win!</code> 之後加上 <code>break</code> 這行讓程式在使用者猜對祕密數字時可以離開迴圈。離開迴圈也意味著離開程式，因爲此迴圈是 <code>main</code> 中的最後一個部分。</p>
+<p>在 <code>獲勝！</code> 之後加上 <code>break</code> 這行讓程式在使用者猜對祕密數字時可以離開迴圈。離開迴圈也意味著離開程式，因爲此迴圈是 <code>main</code> 中的最後一個部分。</p>
 <h3><a class="header" href="#處理無效輸入" id="處理無效輸入">處理無效輸入</a></h3>
 <p>爲了進一步改善遊戲體驗，當使用者的輸入不是數字時，我們不該讓程式直接崩潰。遊戲程式可以忽略非數字來讓使用者繼續猜測。我們可以修改 <code>guess</code> 這段將 <code>String</code> 轉換成 <code>u32</code> 的程式碼，如範例 2-5 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -798,7 +798,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;The secret number is: {}&quot;, secret_number);
+</span><span class="boring">    println!(&quot;祕密數字爲：{}&quot;, secret_number);
 </span><span class="boring">
 </span><span class="boring">    loop {
 </span><span class="boring">        println!(&quot;請輸入你的猜測數字。&quot;);
@@ -821,10 +821,10 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
         // --snip--
 <span class="boring">
 </span><span class="boring">        match guess.cmp(&amp;secret_number) {
-</span><span class="boring">            Ordering::Less =&gt; println!(&quot;Too small!&quot;),
-</span><span class="boring">            Ordering::Greater =&gt; println!(&quot;Too big!&quot;),
+</span><span class="boring">            Ordering::Less =&gt; println!(&quot;太小了！&quot;),
+</span><span class="boring">            Ordering::Greater =&gt; println!(&quot;太大了！&quot;),
 </span><span class="boring">            Ordering::Equal =&gt; {
-</span><span class="boring">                println!(&quot;You win!&quot;);
+</span><span class="boring">                println!(&quot;獲勝！&quot;);
 </span><span class="boring">                break;
 </span><span class="boring">            }
 </span><span class="boring">        }
@@ -848,21 +848,21 @@ foo
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
      Running `target/debug/guessing_game`
 請猜測一個數字！
-The secret number is: 61
+祕密數字爲：61
 請輸入你的猜測數字。
 10
 你的猜測數字：10
-Too small!
+太小了！
 請輸入你的猜測數字。
 99
 你的猜測數字：99
-Too big!
+太大了！
 請輸入你的猜測數字。
 foo
 請輸入你的猜測數字。
 61
 你的猜測數字：61
-You win!
+獲勝！
 </code></pre>
 <p>太棒了！有了最後一項小修改，我們終於完成了猜謎遊戲。回想一下程式仍然會印出祕密數字。這在測試很有用，但在實際遊戲時就毀了樂趣了。讓我們刪除會印出祕密數字的 <code>println!</code>。範例 2-6 就是最終的程式碼。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -892,10 +892,10 @@ fn main() {
         println!(&quot;你的猜測數字：{}&quot;, guess);
 
         match guess.cmp(&amp;secret_number) {
-            Ordering::Less =&gt; println!(&quot;Too small!&quot;),
-            Ordering::Greater =&gt; println!(&quot;Too big!&quot;),
+            Ordering::Less =&gt; println!(&quot;太小了！&quot;),
+            Ordering::Greater =&gt; println!(&quot;太大了！&quot;),
             Ordering::Equal =&gt; {
-                println!(&quot;You win!&quot;);
+                println!(&quot;獲勝！&quot;);
                 break;
             }
         }

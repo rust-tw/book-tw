@@ -301,7 +301,7 @@ pub trait Write {
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;The secret number is: {}&quot;, secret_number);
+</span><span class="boring">    println!(&quot;祕密數字爲：{}&quot;, secret_number);
 </span><span class="boring">
 </span><span class="boring">    loop {
 </span><span class="boring">        println!(&quot;請輸入你的猜測數字。&quot;);
@@ -324,10 +324,10 @@ pub trait Write {
 </span><span class="boring">        // --snip--
 </span><span class="boring">
 </span><span class="boring">        match guess.cmp(&amp;secret_number) {
-</span><span class="boring">            Ordering::Less =&gt; println!(&quot;Too small!&quot;),
-</span><span class="boring">            Ordering::Greater =&gt; println!(&quot;Too big!&quot;),
+</span><span class="boring">            Ordering::Less =&gt; println!(&quot;太小了！&quot;),
+</span><span class="boring">            Ordering::Greater =&gt; println!(&quot;太大了！&quot;),
 </span><span class="boring">            Ordering::Equal =&gt; {
-</span><span class="boring">                println!(&quot;You win!&quot;);
+</span><span class="boring">                println!(&quot;獲勝！&quot;);
 </span><span class="boring">                break;
 </span><span class="boring">            }
 </span><span class="boring">        }
