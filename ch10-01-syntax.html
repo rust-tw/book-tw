@@ -218,7 +218,7 @@ fn main() {
 <pre><code class="language-rust ignore">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {
 </code></pre>
 <p>我們可以這樣理解定義：函式 <code>largest</code> 有泛型型別 <code>T</code>，此函式有一個參數叫做 <code>list</code>，他的型別爲數值 <code>T</code> 的 slice。<code>largest</code> 函式會回傳與型別 <code>T</code> 相同型別的值。</p>
-<p>範例 10-5 顯示了使用泛型資料型別於函式簽名組合出的 <code>largest</code> 函式。此範例還展示了我們如何依序用 <code>i32</code> 和 <code>cahr</code> 的 slice 呼叫函式。注意此程式碼尚未能編譯，不過我們會在本章之後修改它。</p>
+<p>範例 10-5 顯示了使用泛型資料型別於函式簽名組合出的 <code>largest</code> 函式。此範例還展示了我們如何依序用 <code>i32</code> 和 <code>char</code> 的 slice 呼叫函式。注意此程式碼尚未能編譯，不過我們會在本章之後修改它。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {
     let mut largest = &amp;list[0];

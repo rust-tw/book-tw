@@ -286,7 +286,7 @@
     let loopback = IpAddr::V6(String::from(&quot;::1&quot;));
 <span class="boring">}
 </span></code></pre></pre>
-<p>我們展示了許多種定義儲存第四版與第六版 IP 位址資料結構的方式，不過需要儲存 IP 位址並編碼成不同類型的案例實在太常見了，所以<a href="../std/net/enum.IpAddr.html">標準函式庫已經幫我們定義好了！</a><!-- ignore -->讓我們看看標準函式庫是怎麼定義 <code>IpAddr</code> 的：它有和我們一模一樣的枚舉變體，不過變體各自儲存的資料是另外兩個不同的結構體，兩個定義的內容均不相同：</p>
+<p>我們展示了許多種定義儲存第四版與第六版 IP 位址資料結構的方式，不過需要儲存 IP 位址並編碼成不同類型的案例實在太常見了，所以<a href="https://doc.rust-lang.org/std/net/enum.IpAddr.html">標準函式庫已經幫我們定義好了！</a><!-- ignore -->讓我們看看標準函式庫是怎麼定義 <code>IpAddr</code> 的：它有和我們一模一樣的枚舉變體，不過變體各自儲存的資料是另外兩個不同的結構體，兩個定義的內容均不相同：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -366,7 +366,7 @@ struct ChangeColorMessage(i32, i32, i32); // 元組結構體
 </blockquote>
 <p>空值的問題在於，如果你想在非空值使用空值的話，你會得到某種錯誤。由於空值與非空值的特性無所不再，你會很容易犯下這類型的錯誤。</p>
 <p>但有時候能夠表達「空（null）」的概念還是很有用的：空值代表目前的數值因爲某些原因而無效或缺少。</p>
-<p>所以問題不在於概念本身，而在於如何實作。所以 Rust 並沒有空值，但是它有一個枚舉可以表達出這樣的概念，也就是一個值可能是存在或不存在的。此枚舉就是 <code>Option&lt;T&gt;</code>，它是在<a href="../std/option/enum.Option.html">標準函式庫中這樣定義的</a><!-- ignore -->：</p>
+<p>所以問題不在於概念本身，而在於如何實作。所以 Rust 並沒有空值，但是它有一個枚舉可以表達出這樣的概念，也就是一個值可能是存在或不存在的。此枚舉就是 <code>Option&lt;T&gt;</code>，它是在<a href="https://doc.rust-lang.org/std/option/enum.Option.html">標準函式庫中這樣定義的</a><!-- ignore -->：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -417,7 +417,7 @@ To learn more, run the command again with --verbose.
 <p>這樣其實很好！此錯誤訊息事實上指的是 Rust 不知道如何將 <code>i8</code> 與 <code>Option&lt;i8&gt;</code> 相加，因爲它們是不同的型別。當我們在 Rust 中有個型別像是 <code>i8</code>，編譯器將會確保我們永遠會擁有有效數值。我們可以很放新的使用該值，而不必檢查是不是空的。我們只有在使用 <code>Option&lt;i8&gt;</code> （或者任何其他要使用的型別）時才需要去擔心會不會沒有值。然後編譯器會確保我們在使用該值前，有處理過該有的條件。</p>
 <p>換句話說，你必須將 <code>Option&lt;T&gt;</code> 轉換爲 <code>T</code> 你才能對 <code>T</code> 做運算。 這通常就能幫助我們抓到空值最常見的問題：認爲某值不爲空，但它其實就是空值。</p>
 <p>不用再擔心一個非空值是不是不正確的，可以讓你對你寫的程式碼更有信心。要讓一個值變成可能爲空的話，你必須顯式建立成對應型別的 <code>Option&lt;T&gt;</code>。然後當你要使用該值時，你就得顯式處理數值是否爲空的條件。只要一個數值的型別不是 <code>Option&lt;T&gt;</code>，你就<em>可以</em>安全地認定該值不爲空。這是 Rust 刻意考慮的設計決定，限制無所不再的空值，並增強 Rust 程式碼的安全性。</p>
-<p>所以當我們有一個數值型別 <code>Option&lt;T&gt;</code>，我們要怎麼從 <code>Some</code> 變體取出 <code>T</code>，好讓我們可以使用該值呢？<code>Option&lt;T&gt;</code> 枚舉有大量實用的方法可以在不同的場合下使用。你可以在<a href="../std/option/enum.Option.html">它的技術文件</a><!-- ignore -->查閱。更加熟悉 <code>Option&lt;T&gt;</code> 的方法十分益於你接下來的 Rust 旅程。</p>
+<p>所以當我們有一個數值型別 <code>Option&lt;T&gt;</code>，我們要怎麼從 <code>Some</code> 變體取出 <code>T</code>，好讓我們可以使用該值呢？<code>Option&lt;T&gt;</code> 枚舉有大量實用的方法可以在不同的場合下使用。你可以在<a href="https://doc.rust-lang.org/std/option/enum.Option.html">它的技術文件</a><!-- ignore -->查閱。更加熟悉 <code>Option&lt;T&gt;</code> 的方法十分益於你接下來的 Rust 旅程。</p>
 <p>總之來說，要使用 <code>Option&lt;T&gt;</code> 數值的話，你要讓程式碼可以處理每個變體。你會希望有一些程式碼只會在當我們有 <code>Some(T)</code> 時執行，然後這些程式碼允許使用內部的 <code>T</code>。你會希望有另一部分的程式碼能在只有 <code>None</code> 時執行，且這些程式碼不會拿到有效的 <code>T</code> 數值。<code>match</code> 表達式正是處理此枚舉行爲的控制流結構：它會針對不同的枚舉變體執行不同的程式碼，而且程式碼可以使用配對到的數值資料。</p>
 <blockquote>
 <ul>

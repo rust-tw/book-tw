@@ -315,7 +315,7 @@ To learn more, run the command again with --verbose.
 <p><span class="caption">範例 8-10：用 <code>enum</code> 定義儲存不同型別的枚舉並作爲 vector 的型別</span></p>
 <p>Rust 需要在編譯時期知道 vector 的型別以及要在堆積上用到多少記憶體才能儲存每個元素。這樣做第二個好處是我們能知道此 vector 會顯式哪些型別。如果 Rust 允許 vector 一次持有任意型別的話，在對 vector 中每個元素進行處理時，可能就會有一或多種型別會產生錯誤。使用枚舉和 <code>match</code> 表達式讓 Rust 可以在編譯期間確保每個可能的情形都已經處理完善了，如同第六章提到的一樣。</p>
 <p>當你在寫程式時，如果你無法確切知道執行時程式所處理的所有型別的話，枚舉就不管用了。這時使用特徵物件會比較好，我們會在第十七章再來解釋。</p>
-<p>現在我們已經講了一些 vector 常見的用法，有時間的話記得到<a href="../std/vec/struct.Vec.html">vector 的 API 技術文件</a>瞭解標準函式庫中 <code>Vec&lt;T&gt;</code> 所有實用的方法。舉例來說，除了 <code>push</code> 方法以外，還有個 <code>pop</code> 方法可以移除並回傳最後一個元素。接下來讓我們看看下一個集合型別：<code>String</code>！</p>
+<p>現在我們已經講了一些 vector 常見的用法，有時間的話記得到<a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">vector 的 API 技術文件</a>瞭解標準函式庫中 <code>Vec&lt;T&gt;</code> 所有實用的方法。舉例來說，除了 <code>push</code> 方法以外，還有個 <code>pop</code> 方法可以移除並回傳最後一個元素。接下來讓我們看看下一個集合型別：<code>String</code>！</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>

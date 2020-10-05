@@ -324,21 +324,21 @@ rand = &quot;0.5.5&quot;
 </span>use rand::Rng;
 
 fn main() {
-<span class="boring">    println!(&quot;Guess the number!&quot;);
+<span class="boring">    println!(&quot;請猜測一個數字！&quot;);
 </span><span class="boring">
 </span>    let secret_number = rand::thread_rng().gen_range(1, 101);
 <span class="boring">
 </span><span class="boring">    println!(&quot;The secret number is: {}&quot;, secret_number);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;Please input your guess.&quot;);
+</span><span class="boring">    println!(&quot;請輸入你的猜測數字。&quot;);
 </span><span class="boring">
 </span><span class="boring">    let mut guess = String::new();
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;Failed to read line&quot;);
+</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;You guessed: {}&quot;, guess);
+</span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span>}
 </code></pre>
 <p>Rust 社群成員在 <a href="https://crates.io/">crates.io</a> 發佈了不少套件可供使用，要將這些套件引入到你的套件的步驟是一樣的。在你的套件的 <em>Cargo.toml</em> 檔案列出它們，然後使用 <code>use</code> 將這些 crate 內的項目引入作用域中。</p>
@@ -360,21 +360,21 @@ use std::io;
 // --snip--
 <span class="boring">
 </span><span class="boring">fn main() {
-</span><span class="boring">    println!(&quot;Guess the number!&quot;);
+</span><span class="boring">    println!(&quot;請猜測一個數字！&quot;);
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;The secret number is: {}&quot;, secret_number);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;Please input your guess.&quot;);
+</span><span class="boring">    println!(&quot;請輸入你的猜測數字。&quot;);
 </span><span class="boring">
 </span><span class="boring">    let mut guess = String::new();
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;Failed to read line&quot;);
+</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;You guessed: {}&quot;, guess);
+</span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">
 </span><span class="boring">    match guess.cmp(&amp;secret_number) {
 </span><span class="boring">        Ordering::Less =&gt; println!(&quot;Too small!&quot;),
@@ -391,23 +391,23 @@ use std::{cmp::Ordering, io};
 // --snip--
 <span class="boring">
 </span><span class="boring">fn main() {
-</span><span class="boring">    println!(&quot;Guess the number!&quot;);
+</span><span class="boring">    println!(&quot;請猜測一個數字！&quot;);
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;The secret number is: {}&quot;, secret_number);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;Please input your guess.&quot;);
+</span><span class="boring">    println!(&quot;請輸入你的猜測數字。&quot;);
 </span><span class="boring">
 </span><span class="boring">    let mut guess = String::new();
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;Failed to read line&quot;);
+</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    let guess: u32 = guess.trim().parse().expect(&quot;Please type a number!&quot;);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;You guessed: {}&quot;, guess);
+</span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">
 </span><span class="boring">    match guess.cmp(&amp;secret_number) {
 </span><span class="boring">        Ordering::Less =&gt; println!(&quot;Too small!&quot;),
@@ -447,7 +447,7 @@ use std::io::Write;
 <span class="boring">}
 </span></code></pre></pre>
 <p>此 <code>use</code> 陳述式會將 <code>std::collections</code> 定義的所有公開項目都引入作用域中。不過請小心使用全域運算子！它容易讓我們無法分辨作用域內的名稱，以及程式中使用的名稱是從哪定義來的。</p>
-<p>全域運算子很常用在 <code>tests</code> 模組下，將所有東西引入測試中。我們會在第十一章的<a href="ch11-01-writing-tests.html#how-to-write-tests">「如何寫測試」</a><!-- ignore -->段落來討論。 全域運算子也常拿來用在 prelude 模式中，你可以查閱<a href="../std/prelude/index.html#other-preludes">標準函式庫的技術文件</a><!-- ignore -->來瞭解此模式的更多資訊。</p>
+<p>全域運算子很常用在 <code>tests</code> 模組下，將所有東西引入測試中。我們會在第十一章的<a href="ch11-01-writing-tests.html#how-to-write-tests">「如何寫測試」</a><!-- ignore -->段落來討論。 全域運算子也常拿來用在 prelude 模式中，你可以查閱<a href="https://doc.rust-lang.org/std/prelude/index.html#other-preludes">標準函式庫的技術文件</a><!-- ignore -->來瞭解此模式的更多資訊。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>

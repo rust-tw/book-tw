@@ -202,20 +202,20 @@
 </span><span class="boring">use std::io;
 </span><span class="boring">
 </span><span class="boring">fn main() {
-</span><span class="boring">    println!(&quot;Guess the number!&quot;);
+</span><span class="boring">    println!(&quot;請猜測一個數字！&quot;);
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
 </span>    loop {
         // --snip--
 
-<span class="boring">        println!(&quot;Please input your guess.&quot;);
+<span class="boring">        println!(&quot;請輸入你的猜測數字。&quot;);
 </span><span class="boring">
 </span><span class="boring">        let mut guess = String::new();
 </span><span class="boring">
 </span><span class="boring">        io::stdin()
 </span><span class="boring">            .read_line(&amp;mut guess)
-</span><span class="boring">            .expect(&quot;Failed to read line&quot;);
+</span><span class="boring">            .expect(&quot;讀取行數失敗&quot;);
 </span><span class="boring">
 </span>        let guess: i32 = match guess.trim().parse() {
             Ok(num) =&gt; num,

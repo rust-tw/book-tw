@@ -304,7 +304,7 @@ To learn more, run the command again with --verbose.
 <p>哇，這個錯誤訊息的內容真多！這是我們需要注意到的部分：<code>`Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely</code>。編譯器也告訴了我們原因：<code>the trait `Send` is not implemented for `Rc&lt;Mutex&lt;i32&gt;&gt;` </code>。我們會在下一個段落討論 <code>Send</code>，這是其中一種確保我們在執行緒中所使用的型別可以用於並行場合的特徵。</p>
 <p>不幸的是 <code>Rc&lt;T&gt;</code> 無法安全地跨執行緒分享。當 <code>Rc&lt;T&gt;</code> 管理引用計數時，它會在每個 <code>clone</code> 的呼叫增加計數，並在每個克隆釋放時減少計數。但是它沒有使用任何並行原始元件來確保計數的改變不會被其他執行緒中斷。這樣的計數可能會導致微妙的程式錯誤，像是記憶體泄漏或是在數值釋放時嘗試使用其值。我們需要一個型別和 <code>Rc&lt;T&gt;</code> 一模一樣，但是其引用計數在執行緒間是安全的。</p>
 <h4><a class="header" href="#原子引用計數-arct" id="原子引用計數-arct">原子引用計數 <code>Arc&lt;T&gt;</code></a></h4>
-<p>幸運的是 <code>Arc&lt;T&gt;</code> <em>正是</em>一個類似 <code>Rc&lt;T&gt;</code> 且能安全用在並行場合的型別。字母 <em>A</em> 指的是<em>原子性（atomic）</em> 代表這是個<em>原子性引用的計數</em>型別。原子型別是另一種我們不會在此討論的並行原始元件，你可以查閱標準函式庫的 <a href="../std/sync/atomic/index.html"><code>std::sync::atomic</code></a> 技術文件以瞭解更多詳情。在此你只需要知道原子型別和原始型別類似，但它們可以安全在執行緒間共享。</p>
+<p>幸運的是 <code>Arc&lt;T&gt;</code> <em>正是</em>一個類似 <code>Rc&lt;T&gt;</code> 且能安全用在並行場合的型別。字母 <em>A</em> 指的是<em>原子性（atomic）</em> 代表這是個<em>原子性引用的計數</em>型別。原子型別是另一種我們不會在此討論的並行原始元件，你可以查閱標準函式庫的 <a href="https://doc.rust-lang.org/std/sync/atomic/index.html"><code>std::sync::atomic</code></a> 技術文件以瞭解更多詳情。在此你只需要知道原子型別和原始型別類似，但它們可以安全在執行緒間共享。</p>
 <p>你可能會好奇爲何原始型別不是原子性的，以及爲何標準函式庫的型別預設不使用 <code>Arc&lt;T&gt;</code> 來實作。原因是因爲執行緒安全意味著效能開銷，你會希望在你真的需要時才買單。如果你只是在單一執行緒對數值做運算的話，你的程式碼就不必強制具有原子性的保障並能執行地更快。</p>
 <p>讓我們回到我們的範例：<code>Arc&lt;T&gt;</code> 與 <code>Rc&lt;T&gt;</code> 具有相同的 API，所以我們透過更改 <code>use</code> 這行、<code>new</code> 的呼叫以及 <code>clone</code> 的呼叫來修正我們程式，。範例 16-15 的程式碼最終將能夠編譯並執行：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

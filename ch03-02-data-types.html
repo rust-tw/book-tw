@@ -222,7 +222,7 @@ To learn more, run the command again with --verbose.
 <blockquote>
 <h5><a class="header" href="#整數溢位" id="整數溢位">整數溢位</a></h5>
 <p>假設你有個變數型別是 <code>u8</code> 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生<em>整數溢位</em>。Rust 有一些有趣的規則來處理這項行爲。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在運行時<em>恐慌（panic）</em>。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的<a href="ch09-01-unrecoverable-errors-with-panic.html">「對無法復原的錯誤使用 <code>panic!</code>」</a><!-- ignore -->段落討論更多造成恐慌的細節。</p>
-<p>當你是在發佈模式下用 <code>--release</code> 來編譯的話，Rsut 則<em>不會</em>加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出<em>二補數包裝</em>的動作。簡單來說，超出最大值的數值可以被<em>包裝</em>成該型別的最低數值。以 <code>u8</code> 爲例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行爲仍然會被視爲邏輯錯誤，如果你想要安全顯式表達這種行爲的話，你可以使用標準函式庫的型別 <a href="../std/num/struct.Wrapping.html"><code>Wrapping</code></a>。</p>
+<p>當你是在發佈模式下用 <code>--release</code> 來編譯的話，Rsut 則<em>不會</em>加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出<em>二補數包裝</em>的動作。簡單來說，超出最大值的數值可以被<em>包裝</em>成該型別的最低數值。以 <code>u8</code> 爲例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行爲仍然會被視爲邏輯錯誤，如果你想要安全顯式表達這種行爲的話，你可以使用標準函式庫的型別 <a href="https://doc.rust-lang.org/std/num/struct.Wrapping.html"><code>Wrapping</code></a>。</p>
 </blockquote>
 <h4><a class="header" href="#浮點數型別" id="浮點數型別">浮點數型別</a></h4>
 <p>Rust 還有針對有小數點的<em>浮點數</em>提供兩種基本型別：<code>f32</code> 和 <code>f64</code>，分別佔有 32 位元與 64 位元的大小。而與設的型別爲 <code>f64</code>，因爲現代的電腦處理的速度幾乎和 <code>f32</code> 一樣卻還能擁有更高的精準度。</p>
@@ -275,7 +275,7 @@ To learn more, run the command again with --verbose.
     let heart_eyed_cat = '😻';
 }
 </code></pre></pre>
-<p>Rust 的 <code>cahr</code> 型別大小爲四個位元組並表示爲一個 Unicode 純量數值，這代表它能擁有的字元比 ASCII 還來的多。舉凡標音字母（Accented letters）、中文、日文、韓文、表情符號以及零長度空格都 Rust <code>cahr</code> 的有效字元。Unicode 純量數值的範圍包含從 <code>U+0000</code> 到 <code>U+D7FF</code> 以及 <code>U+E000</code> 到 <code>U+10FFFF</code>。但是一個「字元」並不是真正的 Unicode 概念，所以你對於什麼是一個「字元」的看法可能會和 Rust 的 <code>char</code> 不一樣。我們將會在第八章的<a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">「透過字串儲存 UTF-8 編碼的文字」</a><!-- ignore -->來討論此議題。</p>
+<p>Rust 的 <code>char</code> 型別大小爲四個位元組並表示爲一個 Unicode 純量數值，這代表它能擁有的字元比 ASCII 還來的多。舉凡標音字母（Accented letters）、中文、日文、韓文、表情符號以及零長度空格都 Rust <code>char</code> 的有效字元。Unicode 純量數值的範圍包含從 <code>U+0000</code> 到 <code>U+D7FF</code> 以及 <code>U+E000</code> 到 <code>U+10FFFF</code>。但是一個「字元」並不是真正的 Unicode 概念，所以你對於什麼是一個「字元」的看法可能會和 Rust 的 <code>char</code> 不一樣。我們將會在第八章的<a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">「透過字串儲存 UTF-8 編碼的文字」</a><!-- ignore -->來討論此議題。</p>
 <h3><a class="header" href="#複合型別" id="複合型別">複合型別</a></h3>
 <p><em>複合型別</em>可以組合數個數值爲一個型別，Rust 有兩個基本複合型別：元組（tuples）和陣列（arrays）。</p>
 <h4><a class="header" href="#元組型別" id="元組型別">元組型別</a></h4>
