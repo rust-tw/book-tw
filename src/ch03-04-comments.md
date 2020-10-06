@@ -8,7 +8,7 @@
 // hello, world
 ```
 
-在 Rust 中，理想的註解風格是用兩行斜線在加上一個空格起頭，然後註解就能一直寫到該行結束爲止。如果註解會超過一行的話，你需要在每一行都加上 `//`，如下所示：
+在 Rust 中，慣用的註解風格是用兩行斜線在加上一個空格起頭，然後註解就能一直寫到該行結束爲止。如果註解會超過一行的話，你需要在每一行都加上 `//`，如下所示：
 
 ```rust
 // So we’re doing something complicated here, long enough that we need
