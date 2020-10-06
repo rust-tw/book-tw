@@ -1355,7 +1355,7 @@ The value of x is: 6
 </span>const MAX_POINTS: u32 = 100_000;
 <span class="boring">}
 </span></code></pre></pre>
-<p>常數砸愛整支程式運行時在它們的有效範圍都是有效的，讓它們可以作爲處理許多程式碼部分的全域範圍數值，像是一款遊戲中玩家能夠得到的最高分數或者光速的數值。</p>
+<p>在整支程式運行時，常數在它們的範圍內都是有效的，這讓它們是好的選擇在處理在應用程式域中需要被許多程式碼部份所知道的數值，像是一款遊戲中玩家能夠得到的最高分數或者光速的數值。</p>
 <p>將會擴散到你所有程式碼的數值定義爲常數，對於幫助未來程式碼的維護者理解是非常好的選擇。這也讓未來需要更新數值的話，你知道需要修改寫死的地方就好。</p>
 <h3><a class="header" href="#遮蔽shadowing" id="遮蔽shadowing">遮蔽（Shadowing）</a></h3>
 <p>如同你在猜謎遊戲教學所看到的，在第二章<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「將猜測的數字與祕密數字做比較」</a><!-- ignore --> 你可以用之前的變數再次宣告新的變數，然後新的變數就會遮蔽之前的變數。Rustaceans 會說第一個變數被第二個變數所<em>遮蔽</em>了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 <code>let</code> 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：</p>
@@ -1416,7 +1416,7 @@ can have.</p>
 </ul>
 </blockquote>
 <h2><a class="header" href="#資料型別" id="資料型別">資料型別</a></h2>
-<p>每個數值在 Rust 中都屬於某種<em>資料型別</em>，這告訴 Rust 何種資料被指定，好讓它能妥善處理資料。我們講討論講種資料型別子集：純量（scalar）與複合（compound）。</p>
+<p>每個數值在 Rust 中都屬於某種<em>資料型別</em>，這告訴 Rust 何種資料被指定，好讓它能妥善處理資料。我們將討論兩種資料型別子集：純量（scalar）與複合（compound）。</p>
 <p>請記住 Rust 是一門<em>靜態型別</em>語言，這代表它必須在編譯時知道所有變數的型別。編譯器通常能依據數值與我們使用的方式推導出我們想使用的型別。但有時候如果多種型別都有可能時，像是第二章的<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->用到的 <code>parse</code> 將 <code>String</code> 轉換成數字時，我們就需要像這樣加上型別詮釋： </p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -1473,7 +1473,7 @@ To learn more, run the command again with --verbose.
 <p>當你是在發佈模式下用 <code>--release</code> 來編譯的話，Rsut 則<em>不會</em>加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出<em>二補數包裝</em>的動作。簡單來說，超出最大值的數值可以被<em>包裝</em>成該型別的最低數值。以 <code>u8</code> 爲例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行爲仍然會被視爲邏輯錯誤，如果你想要安全顯式表達這種行爲的話，你可以使用標準函式庫的型別 <a href="https://doc.rust-lang.org/std/num/struct.Wrapping.html"><code>Wrapping</code></a>。</p>
 </blockquote>
 <h4><a class="header" href="#浮點數型別" id="浮點數型別">浮點數型別</a></h4>
-<p>Rust 還有針對有小數點的<em>浮點數</em>提供兩種基本型別：<code>f32</code> 和 <code>f64</code>，分別佔有 32 位元與 64 位元的大小。而與設的型別爲 <code>f64</code>，因爲現代的電腦處理的速度幾乎和 <code>f32</code> 一樣卻還能擁有更高的精準度。</p>
+<p>Rust 還有針對有小數點的<em>浮點數</em>提供兩種基本型別：<code>f32</code> 和 <code>f64</code>，分別佔有 32 位元與 64 位元的大小。而預設的型別爲 <code>f64</code>，因爲現代的電腦處理的速度幾乎和 <code>f32</code> 一樣卻還能擁有更高的精準度。</p>
 <p>以下爲展示浮點數的範例：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -1836,7 +1836,7 @@ To learn more, run the command again with --verbose.
 </span>// hello, world
 <span class="boring">}
 </span></code></pre></pre>
-<p>在 Rust 中，理想的註解風格是用兩行斜線在加上一個空格起頭，然後註解就能一直寫到該行結束爲止。如果註解會超過一行的話，你需要在每一行都加上 <code>//</code>，如下所示：</p>
+<p>在 Rust 中，慣用的註解風格是用兩行斜線在加上一個空格起頭，然後註解就能一直寫到該行結束爲止。如果註解會超過一行的話，你需要在每一行都加上 <code>//</code>，如下所示：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1882,7 +1882,7 @@ To learn more, run the command again with --verbose.
     }
 }
 </code></pre></pre>
-<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始在加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。如果條件符合的話，我們將要執行的程式碼區塊接著用大括號接在後面。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱爲 <em>arms</em>，就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
+<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始在加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱爲 <em>arms</em>，就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
 <p>另外，我們還可以選擇性地加上 <code>else</code> 表達式（就像範例寫的），讓條件不符時可以去執行另外一段程式碼。如果你沒有提供 <code>else</code> 表達式且條件爲否的話，程式會直接略過 <code>if</code> 的程式碼區塊，接著執行後續的程式碼。</p>
 <p>請嘗試執行此程式碼，你應該會看到以下輸出結果：</p>
 <pre><code class="language-console">$ cargo run
@@ -2084,7 +2084,7 @@ again!
 }
 </code></pre></pre>
 <p><span class="caption">範例 3-3：使用 <code>while</code> 迴圈，當條件符合就持續執行程式碼</span></p>
-<p>這樣的結構消除了很多使用 <code>loop</code>、<code>if</code>、<code>else</code> 與 <code>break</code> 會有的雜訊，這樣可以更易閱讀。當條件爲真的，程式碼就執行；不然的話，它就離開迴圈。</p>
+<p>這樣消除了很多使用 <code>loop</code>、<code>if</code>、<code>else</code> 與 <code>break</code> 會有的巢狀結構，這樣可以更易閱讀。當條件爲真的，程式碼就執行；不然的話，它就離開迴圈。</p>
 <h4><a class="header" href="#使用-for-遍歷集合" id="使用-for-遍歷集合">使用 <code>for</code> 遍歷集合</a></h4>
 <p>你可以用 <code>while</code> 來遍歷一個集合的元素，像是陣列等等。舉例來說，我們可以看看範例 3-4。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -2127,7 +2127,7 @@ the value is: 50
 <p>當我們執行此程式時，我們會看到和範例 3-4 一樣的結果。最重要的是，我們增加了程式的安全性，去除了造成程式錯誤的可能性。不會出現超出陣列大小或是讀取長度不足的風險。</p>
 <p>比方說在範例 3-4 的程式碼，如果你變更陣列 <code>a</code> 的元素爲只有 4 個，但忘記更新條件判斷爲 <code>while index &lt; 4</code> 的話，程式就會恐慌。使用 <code>for</code> 迴圈的話，我們變更陣列長度時，就不需要去記得更新其他程式碼。</p>
 <p><code>for</code> 迴圈的安全性與簡潔程度讓它成爲 Rust 最常被使用的迴圈結構。就算你想執行的是依照次數循環的程式碼，像是範例 3-3 的 <code>while</code> 迴圈範例，多數 Rustaceans 還是會選擇 <code>for</code> 迴圈。要這麼做的方法是使用 <code>Range</code>，這是標準函式庫提供的型別，用來產生一連串的數字序列，從指定一個數字開始一直到另一個數字之前結束。</p>
-<p>以下是我們用 <code>loop</code> 迴圈來計數的另一種方式，它用了一個我們還沒講過的方法 <code>rev</code>，這可以用來反轉：</p>
+<p>以下是我們用 <code>for</code> 迴圈來計數的另一種方式，它用了一個我們還沒講過的方法 <code>rev</code>，這可以用來反轉：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     for number in (1..4).rev() {
