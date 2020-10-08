@@ -147,7 +147,7 @@ let x = 5;
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-22-function-parameter-and-return/src/main.rs}}
 ```
 
-執行此程式會顯示 `The value of x is: 6`，但如果我們在最後一行 `x + 1` 加上分號的話，就會將它從表達式變爲陳述式。我們就會得到錯誤。
+執行此程式會顯示 `x 的數值爲：6`，但如果我們在最後一行 `x + 1` 加上分號的話，就會將它從表達式變爲陳述式。我們就會得到錯誤。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 

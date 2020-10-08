@@ -4,7 +4,7 @@
 
 當一個變數是不可變的，只要有數值綁定在一個名字上，你就無法改變其值。爲了方便說明，讓我們使用 `cargo new variables` 在 *projects* 目錄下產生一個新專案叫做 *variables*。
 
-再來在你的新 *variables* 目錄下開啟 *src/main.rs* 然後覆蓋程式碼爲以下內容，這是段還無法編譯的程式碼：
+再來在你的 *variables* 目錄下開啟 *src/main.rs* 然後覆蓋程式碼爲以下內容，這是段還無法編譯的程式碼：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -18,7 +18,7 @@
 {{#include ../listings/ch03-common-programming-concepts/no-listing-01-variables-are-immutable/output.txt}}
 ```
 
-此範例顯示了編譯器如何協助你找到你程式碼的錯誤。雖然看到編譯器錯誤訊息總是令人感到沮喪，但這通常是爲了讓你知道你的程式無法安全地完成你想讓它完成的任務。它們 *不代表* 你不是個優秀的程式設計師！有經驗的 Rustaceans 時常會與編譯器錯誤訊息打交道。
+此範例顯示了編譯器如何協助你找到你程式碼的錯誤。雖然看到編譯器錯誤訊息總是令人感到沮喪，但這通常是爲了讓你知道你的程式無法安全地完成你想讓它完成的任務。它們*不代表*你不是個優秀的程式設計師！有經驗的 Rustaceans 時常會與編譯器錯誤訊息打交道。
 
 這則錯誤訊息表示錯誤發生的原因：「cannot assign twice to immutable variable x」，因爲你嘗試第二次賦值給 `x` 變數。
 
@@ -26,7 +26,7 @@
 
 在 Rust 中，編譯器會保證當你宣告一個數值不會被改變時，它就絕對不會被改變。這代表當你讀寫程式碼時，你不需要去追蹤該值可能會被改變，讓你的程式碼更容易推導。
 
-但同時可變性也是非常有用的，變數只有預設是不可變的，就如同第二章一樣你可以在變數名稱前面加上 `mut` 讓它們可以成爲可變的。除了允許改變其值之外，`mut` 像未來的讀取者表明了其他部分的程式碼將會改變此變數的數值。
+但同時可變性也是非常有用的，變數只有預設是不可變的，就如同第二章一樣你可以在變數名稱前面加上 `mut` 讓它們可以成爲可變的。除了允許改變其值之外，`mut` 向未來的讀取者表明了其他部分的程式碼將會改變此變數的數值。
 
 舉例來說，讓我們改變 *src/main.rs*  成以下程式碼：
 
@@ -42,7 +42,7 @@
 {{#include ../listings/ch03-common-programming-concepts/no-listing-02-adding-mut/output.txt}}
 ```
 
-當使用 `mut` 時，我們可以將 `x` 的數值錯從 `5` 改變爲 `6`。有時候比起只有不可變變數，你會想要將某些變數改爲可變的，讓它更容易編寫。
+當使用 `mut` 時，我們可以將 `x` 的數值從 `5` 改變爲 `6`。有時候比起只有不可變變數，你會想要將某些變數改爲可變的，讓它更容易編寫。
 
 當然除了防止程式錯誤以外，這還有很多權衡取捨。舉例來說，當你擁有一個大型資料結構時，變更其值通常會比複製然後返回重新分配的實例還來的快。不過在比較小的資料結構，用函式程式語言的風格產生新的實例會比較容易思考，所以損失一些效能會比損失閱讀性來得好。
 
@@ -58,15 +58,15 @@
 
 最後一個差別是常數只能被常數表達式設置，而不能用函式的結果或任一在運行時產生的其他數值設置。
 
-以下爲一個常數名稱被宣告爲 `MAX_POINTS` 的範例，它的數值被設爲 100,000。（Rust 的常數命名規則爲使用全部英文大寫並用底寫區隔每個單字，數值可以用底下區隔來改善可讀性）：
+以下爲一個常數名稱被宣告爲 `MAX_POINTS` 的範例，它的數值被設爲 100,000。（Rust 的常數命名規則爲使用全部英文大寫並用底寫區隔每個單字，數值可以用底線區隔來改善可讀性）：
 
 ```rust
 const MAX_POINTS: u32 = 100_000;
 ```
 
-在整支程式運行時，常數在它們的範圍內都是有效的，這讓它們是好的選擇在處理在應用程式域中需要被許多程式碼部份所知道的數值，像是一款遊戲中玩家能夠得到的最高分數或者光速的數值。
+在整支程式運行時，常數在它們的範圍內都是有效的，這讓它們在處理應用程式中需要被許多程式碼部份所知道的數值的情況下是非常好的選擇，像是一款遊戲中玩家能夠得到的最高分數或者光速的數值。
 
-將會擴散到你所有程式碼的數值定義爲常數，對於幫助未來程式碼的維護者理解是非常好的選擇。這也讓未來需要更新數值的話，你知道需要修改寫死的地方就好。
+將會擴散到所有程式碼的數值定義爲常數，對於幫助未來程式碼的維護者理解是非常好的選擇。這也讓未來需要更新數值的話，你知道需要修改寫死的地方就好。
 
 ### 遮蔽（Shadowing）
 
@@ -78,7 +78,7 @@ const MAX_POINTS: u32 = 100_000;
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-03-shadowing/src/main.rs}}
 ```
 
-此程式首先將 `x` 給與 `5`，然後它用 `let x =` 遮蔽了 `x` 變數取代了原本的變數變爲 `6`。第三次的 `let` 陳述式一樣遮蔽了 `x` 讓它將原本的值乘與 `2`，讓 `x` 最終的數值爲 `12`。當我們運行此程式時，當會輸出以下結果：
+此程式首先將 `x` 給予 `5`，然後它用 `let x =` 遮蔽了 `x` 變數取代了原本的變數變爲 `6`。第三次的 `let` 陳述式一樣遮蔽了 `x` 讓它將原本的值乘與 `2`，讓 `x` 最終的數值爲 `12`。當我們運行此程式時，當會輸出以下結果：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-03-shadowing/output.txt}}
@@ -86,7 +86,7 @@ const MAX_POINTS: u32 = 100_000;
 
 遮蔽與標記變數爲 `mut` 是不一樣的，因爲如果我們不小心重新賦值而沒有加上 `let` 關鍵字的話，是會產生編譯期錯誤的。使用 `let` 的話，我們可以作出一些改變，然後在這之後該變數仍然是不可變的。
 
-另一個 `mut` 與遮蔽不同的地方是，爲我們能有效地再次運用 `let` 產生新的變數，我們可以在重新運用相同名稱時改變它的型別。舉例來說，當我們希望程式要求使用者顯示出字串間應該顯示多少空格，但同時我們又希望它被存爲一個數字，我們可以這樣做：
+另一個 `mut` 與遮蔽不同的地方是，我們能有效地再次運用 `let` 產生新的變數，可以在重新運用相同名稱時改變它的型別。舉例來說，當我們希望程式要求使用者顯示出字串間應該顯示多少空格，但同時我們又希望它被存爲一個數字時，我們可以這樣做：
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-04-shadowing-can-change-types/src/main.rs:here}}
@@ -104,12 +104,11 @@ const MAX_POINTS: u32 = 100_000;
 {{#include ../listings/ch03-common-programming-concepts/no-listing-05-mut-cant-change-types/output.txt}}
 ```
 
-Now that we’ve explored how variables work, let’s look at more data types they
-can have.
+現在我們講完變數了，讓我們看看它們可以擁有的資料型別吧。
 
 [comparing-the-guess-to-the-secret-number]:
-ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number
-[data-types]: ch03-02-data-types.html#data-types
+ch02-00-guessing-game-tutorial.html#將猜測的數字與祕密數字做比較
+[data-types]: ch03-02-data-types.html#資料型別
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch03-01-variables-and-mutability.md)
