@@ -1952,13 +1952,13 @@ To learn more, run the command again with --verbose.
     let number = 6;
 
     if number % 4 == 0 {
-        println!(&quot;number is divisible by 4&quot;);
+        println!(&quot;數字可以被 4 整除&quot;);
     } else if number % 3 == 0 {
-        println!(&quot;number is divisible by 3&quot;);
+        println!(&quot;數字可以被 3 整除&quot;);
     } else if number % 2 == 0 {
-        println!(&quot;number is divisible by 2&quot;);
+        println!(&quot;數字可以被 2 整除&quot;);
     } else {
-        println!(&quot;number is not divisible by 4, 3, or 2&quot;);
+        println!(&quot;數字無法被 4、3、2 整除&quot;);
     }
 }
 </code></pre></pre>
@@ -1967,10 +1967,10 @@ To learn more, run the command again with --verbose.
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/branches`
-number is divisible by 3
+數字可以被 3 整除
 </code></pre>
-<p>當此程式執行時，他會依序檢查每一個 <code>if</code> 表達式，並執行第一個符合條件的程式碼段落。注意到雖然 6 的確可以除以 2，但我們沒有看到 <code>number is divisible by 2</code>，也沒有看到來自 <code>else</code> 那段的 <code>number is not divisible by 4, 3, or 2</code>。這是因爲 Rust 只會執行第一個符合條件的區塊，而當它遇到時它就不會在檢查其他條件。</p>
-<p>使用太多的 <code>else if</code> 表達式很容易讓你的程式碼變得凌亂，所以當你需要用到一個以上，你可能會想要先重構程式碼看看。爲此我們在第六章會介紹一個功能強大的 Rust 條件判斷結構叫做 <code>match</code>。</p>
+<p>當此程式執行時，他會依序檢查每一個 <code>if</code> 表達式，並執行第一個符合條件的程式碼段落。注意到雖然 6 的確可以除以 2，但我們沒有看到 <code>數字可以被 2 整除</code>，也沒有看到來自 <code>else</code> 那段的 <code>數字無法被 4、3、2 整除</code>。這是因爲 Rust 只會執行第一個符合條件的區塊，而當它遇到時它就不會再檢查其他條件。</p>
+<p>使用太多的 <code>else if</code> 表達式很容易讓你的程式碼變得凌亂，所以當你需要用到一個以上時，你可能會想要先重構程式碼看看。爲此我們在第六章會介紹一個功能強大的 Rust 條件判斷結構叫做 <code>match</code>。</p>
 <h4><a class="header" href="#在-let-陳述式中使用-if" id="在-let-陳述式中使用-if">在 <code>let</code> 陳述式中使用 <code>if</code></a></h4>
 <p>因爲 <code>if</code> 是表達式，所以我們可以像範例 3-2 這樣放在 <code>let</code> 陳述式的右邊。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -1978,7 +1978,7 @@ number is divisible by 3
     let condition = true;
     let number = if condition { 5 } else { 6 };
 
-    println!(&quot;The value of number is: {}&quot;, number);
+    println!(&quot;數字結果爲：{}&quot;, number);
 }
 </code></pre></pre>
 <p><span class="caption">範例 3-2：將 <code>if</code> 表達式的結果賦值給變數</span></p>
@@ -1987,16 +1987,16 @@ number is divisible by 3
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.30s
      Running `target/debug/branches`
-The value of number is: 5
+數字結果爲：5
 </code></pre>
 <p>你應該還記得程式碼區塊也可以是表達式且會回傳最後一行的數值，而且數字本身也是表達式。在此例中，<code>if</code> 表達式的值取決於哪段程式碼被執行。這代表可能成爲最終結果的每一個 <code>if</code> 分支必須要是相同型別。在範例 3-2 中，各分支的型別都是 <code>i32</code>。如果型別不一致的話，如以下範例所示，我們會得到錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let condition = true;
 
-    let number = if condition { 5 } else { &quot;six&quot; };
+    let number = if condition { 5 } else { &quot;六&quot; };
 
-    println!(&quot;The value of number is: {}&quot;, number);
+    println!(&quot;數字結果爲：{}&quot;, number);
 }
 </code></pre>
 <p>當我們嘗試編譯程式碼時，我們會得到錯誤。<code>if</code> 和 <code>else</code> 分支的型別並不一致，而且 Rust 還確切指出程式出錯的地方在哪：</p>
@@ -2005,7 +2005,7 @@ The value of number is: 5
 error[E0308]: if and else have incompatible types
  --&gt; src/main.rs:4:44
   |
-4 |     let number = if condition { 5 } else { &quot;six&quot; };
+4 |     let number = if condition { 5 } else { &quot;六&quot; };
   |                                 -          ^^^^^ expected integer, found `&amp;str`
   |                                 |
   |                                 expected because of this
@@ -2017,9 +2017,9 @@ error: could not compile `branches`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p><code>if</code> 段落的表達式運算出整數，但 <code>else</code> 的區塊卻運算出字串。這樣行不通的原因是變數只能有一個型別。Rust 必須在編譯期間確切知道變數 <code>number</code> 的型別，這樣才能驗證它的型別在任何有使用到 <code>number</code> 的地方都是有效的。要是 <code>number</code> 只能在執行時知道的話，Rust 就沒辦法這樣做了。如果編譯器必須追蹤所有變數多種可能存在的型別，那就會變得非常負責並無法爲程式碼提供足夠的保障。</p>
+<p><code>if</code> 段落的表達式運算出整數，但 <code>else</code> 的區塊卻運算出字串。這樣行不通的原因是變數只能有一個型別。Rust 必須在編譯期間確切知道變數 <code>number</code> 的型別，這樣才能驗證它的型別在任何有使用到 <code>number</code> 的地方都是有效的。要是 <code>number</code> 只能在執行時知道的話，Rust 就沒辦法這樣做了。如果編譯器必須追蹤所有變數多種可能存在的型別，那就會變得非常複雜並無法爲程式碼提供足夠的保障。</p>
 <h3><a class="header" href="#使用迴圈重複執行" id="使用迴圈重複執行">使用迴圈重複執行</a></h3>
-<p>重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 *迴圈（loops）*的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。爲了繼續探討迴圈，讓我們再開一個新專案 <em>loops</em>。</p>
+<p>重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 <em>迴圈（loops）</em> 的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。爲了繼續探討迴圈，讓我們再開一個新專案 <em>loops</em>。</p>
 <p>Rust 提供三種迴圈：<code>loop</code>、<code>while</code> 和 <code>for</code>。讓我們每個都嘗試看看吧。</p>
 <h4><a class="header" href="#使用-loop-重複執行程式碼" id="使用-loop-重複執行程式碼">使用 <code>loop</code> 重複執行程式碼</a></h4>
 <p><code>loop</code> 關鍵字告訴 Rust 去反覆不停地執行一段程式碼直到你親自告訴它要停下來。</p>
@@ -2027,7 +2027,7 @@ To learn more, run the command again with --verbose.
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">fn main() {
     loop {
-        println!(&quot;again!&quot;);
+        println!(&quot;再一次！&quot;);
     }
 }
 </code></pre>
@@ -2041,14 +2041,14 @@ CTRL-C
    Compiling loops v0.1.0 (file:///projects/loops)
     Finished dev [unoptimized + debuginfo] target(s) in 0.29s
      Running `target/debug/loops`
-again!
-again!
-again!
-again!
-^Cagain!
+再一次！
+再一次！
+再一次！
+再一次！
+^C再一次！
 </code></pre>
 <p><code>^C</code> 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 <code>again!</code> 出現在 <code>^C</code> 之後。</p>
-<p>幸運的是 Rust 有提供另一個打破迴圈更可靠的方法。你可以在迴圈內加上 <code>break</code> 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章<a href="ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess">「猜對後離開」</a><!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。</p>
+<p>幸運的是 Rust 有提供另一個打破迴圈更可靠的方法。你可以在迴圈內加上 <code>break</code> 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E7%8C%9C%E5%B0%8D%E5%BE%8C%E9%9B%A2%E9%96%8B">「猜對後離開」</a><!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。</p>
 <h4><a class="header" href="#從迴圈回傳數值" id="從迴圈回傳數值">從迴圈回傳數值</a></h4>
 <p>其中一種使用 <code>loop</code> 的用途是重試某些你覺得會失敗的動作，像是檢查一個執行緒是否已經完成其任務。不過這樣你可能就會想傳遞任務結果給之後的程式碼。要做到這樣的事，你可以在你要用來停下迴圈的 <code>break</code> 表達式內加上一個你想回傳數值，該值就會被停止的迴圈回傳，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -2062,7 +2062,7 @@ again!
         }
     };
 
-    println!(&quot;The result is {}&quot;, result);
+    println!(&quot;結果爲：{}&quot;, result);
 }
 </code></pre></pre>
 <p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化爲 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取的迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果爲 20。</p>
@@ -2079,7 +2079,7 @@ again!
         number -= 1;
     }
 
-    println!(&quot;LIFTOFF!!!&quot;);
+    println!(&quot;升空！！！&quot;);
 }
 </code></pre></pre>
 <p><span class="caption">範例 3-3：使用 <code>while</code> 迴圈，當條件符合就持續執行程式碼</span></p>
@@ -2092,7 +2092,7 @@ again!
     let mut index = 0;
 
     while index &lt; 5 {
-        println!(&quot;the value is: {}&quot;, a[index]);
+        println!(&quot;數值爲：{}&quot;, a[index]);
 
         index += 1;
     }
@@ -2104,11 +2104,11 @@ again!
    Compiling loops v0.1.0 (file:///projects/loops)
     Finished dev [unoptimized + debuginfo] target(s) in 0.32s
      Running `target/debug/loops`
-the value is: 10
-the value is: 20
-the value is: 30
-the value is: 40
-the value is: 50
+數值爲：10
+數值爲：20
+數值爲：30
+數值爲：40
+數值爲：50
 </code></pre>
 <p>所有五個元素都如預期顯示在終端機上。儘管 <code>index</code> 會在某一刻達到 <code>5</code>，但是迴圈會在嘗試取得陣列第六個元素前就停止執行。</p>
 <p>但這樣的方式是容易出錯的，我們可能取得錯誤的索引長度造成程式恐慌。這同時也使程式變慢，因爲編譯器得在執行時的程式碼對迴圈中每次迭代的每個元素加上條件檢查。</p>
@@ -2118,7 +2118,7 @@ the value is: 50
     let a = [10, 20, 30, 40, 50];
 
     for element in a.iter() {
-        println!(&quot;the value is: {}&quot;, element);
+        println!(&quot;數值爲：{}&quot;, element);
     }
 }
 </code></pre></pre>
@@ -2132,7 +2132,7 @@ the value is: 50
     for number in (1..4).rev() {
         println!(&quot;{}!&quot;, number);
     }
-    println!(&quot;LIFTOFF!!!&quot;);
+    println!(&quot;升空！！！&quot;);
 }
 </code></pre></pre>
 <p>這樣是不是看起來更好讀許多？</p>
