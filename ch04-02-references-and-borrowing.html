@@ -176,7 +176,7 @@
 
     let len = calculate_length(&amp;s1);
 
-    println!(&quot;The length of '{}' is {}.&quot;, s1, len);
+    println!(&quot;'{}' 的長度爲 {}。&quot;, s1, len);
 }
 
 fn calculate_length(s: &amp;String) -&gt; usize {
@@ -195,7 +195,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 
     let len = calculate_length(&amp;s1);
 <span class="boring">
-</span><span class="boring">    println!(&quot;The length of '{}' is {}.&quot;, s1, len);
+</span><span class="boring">    println!(&quot;'{}' 的長度爲 {}。&quot;, s1, len);
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn calculate_length(s: &amp;String) -&gt; usize {
@@ -209,7 +209,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </span><span class="boring">
 </span><span class="boring">    let len = calculate_length(&amp;s1);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;The length of '{}' is {}.&quot;, s1, len);
+</span><span class="boring">    println!(&quot;'{}' 的長度爲 {}。&quot;, s1, len);
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn calculate_length(s: &amp;String) -&gt; usize { // s 個 String 的引用
@@ -407,13 +407,13 @@ for it to be borrowed from.
 </span><span class="boring">    let reference_to_nothing = dangle();
 </span><span class="boring">}
 </span><span class="boring">
-</span>fn dangle() -&gt; &amp;String { // dangle returns a reference to a String
+</span>fn dangle() -&gt; &amp;String { // 回傳 String 的迷途引用
 
-    let s = String::from(&quot;hello&quot;); // s is a new String
+    let s = String::from(&quot;hello&quot;); // s 是個新 String
 
-    &amp;s // we return a reference to the String, s
-} // Here, s goes out of scope, and is dropped. Its memory goes away.
-  // Danger!
+    &amp;s // 我們回傳 String s 的引用
+} // s 在此會離開作用域並釋放，它的記憶體就不見了。
+  // 危險！
 </code></pre>
 <p>因爲 <code>s</code> 是在 <code>dangle</code> 內產生的，當 <code>dangle</code> 程式碼結束時，<code>s</code> 會被釋放。但我們卻嘗試回傳引用。此引用會指向一個已經無效的 <code>String</code>。這看起來不太優！Rust 不允許我們這麼做。</p>
 <p>解決的辦法是直接回傳 <code>String</code> 就好：</p>
@@ -434,7 +434,7 @@ for it to be borrowed from.
 <li>在任何時候，我們要麼<em>只能有</em>一個可變引用，要麼可以有<em>任意數量</em>的不可變引用。</li>
 <li>引用必須永遠有效。</li>
 </ul>
-<p>接下來我們要來看看一個不太一樣的引用型別：slices。</p>
+<p>接下來我們要來看看一個不太一樣的引用型別：切片（slices）。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
