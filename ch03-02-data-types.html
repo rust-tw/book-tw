@@ -169,11 +169,11 @@
                     <main>
                         <h2><a class="header" href="#資料型別" id="資料型別">資料型別</a></h2>
 <p>每個數值在 Rust 中都屬於某種<em>資料型別</em>，這告訴 Rust 何種資料被指定，好讓它能妥善處理資料。我們將討論兩種資料型別子集：純量（scalar）與複合（compound）。</p>
-<p>請記住 Rust 是一門<em>靜態型別</em>語言，這代表它必須在編譯時知道所有變數的型別。編譯器通常能依據數值與我們使用的方式推導出我們想使用的型別。但有時候如果多種型別都有可能時，像是第二章的<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->用到的 <code>parse</code> 將 <code>String</code> 轉換成數字時，我們就需要像這樣加上型別詮釋： </p>
+<p>請記住 Rust 是一門<em>靜態型別</em>語言，這代表它必須在編譯時知道所有變數的型別。編譯器通常能依據數值與我們使用的方式推導出我們想使用的型別。但有時候如果多種型別都有可能時，像是第二章的<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->用到的 <code>parse</code> 將 <code>String</code> 轉換成數字時，我們就需要像這樣加上型別詮釋： </p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let guess: u32 = &quot;42&quot;.parse().expect(&quot;Not a number!&quot;);
+</span>let guess: u32 = &quot;42&quot;.parse().expect(&quot;這不是數字！&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>如果我們沒有加上型別詮釋的話，Rust 將會顯示以下錯誤訊息。這表示編譯器需要我們給予更多資訊才能夠知道我們想用何種型別：</p>
@@ -182,7 +182,7 @@
 error[E0282]: type annotations needed
  --&gt; src/main.rs:2:9
   |
-2 |     let guess = &quot;42&quot;.parse().expect(&quot;Not a number!&quot;);
+2 |     let guess = &quot;42&quot;.parse().expect(&quot;這不是數字！&quot;);
   |         ^^^^^ consider giving `guess` a type
 
 error: aborting due to previous error
@@ -196,7 +196,7 @@ To learn more, run the command again with --verbose.
 <h3><a class="header" href="#純量型別" id="純量型別">純量型別</a></h3>
 <p><em>純量</em>型別代表單一數值。Rust 有四種主要純量型別：整數、浮點數、布林以及字元。你應該在其他程式語言就看過它們了，讓我們來看看它們在 Rust 是怎麼使用的：</p>
 <h4><a class="header" href="#整數型別" id="整數型別">整數型別</a></h4>
-<p><em>整數</em>是沒有小數點的數字。我們在第二章用到了一個整數型別 <code>u32</code>，此型別表示其擁有的數值應該是一個佔 32 位元大小的非帶號整數（帶號整數的話則是用 <code>i</code> 起頭而非 <code>u</code>）。表格 3-1 展示了 Rust 中內建的整數型別。帶號與非帶號的每一變體（比如 <code>i16</code>）都可以用來宣告一個整數數值。</p>
+<p><em>整數</em>是沒有小數點的數字。我們在第二章用到了一個整數型別 <code>u32</code>，此型別表示其擁有的數值應該是一個佔 32 位元大小的非帶號整數（帶號整數的話則是用 <code>i</code> 起頭而非 <code>u</code>）。表格 3-1 展示了 Rust 中內建的整數型別。帶號（signed）與非帶號（unsigned）的每一變體（比如 <code>i16</code>）都可以用來宣告一個整數數值。</p>
 <p><span class="caption">表格 3-1：Rust 中的整數型別</span></p>
 <table><thead><tr><th>長度</th><th>帶號</th><th>非帶號</th></tr></thead><tbody>
 <tr><td>8 位元</td><td><code>i8</code></td><td><code>u8</code></td></tr>
@@ -207,9 +207,9 @@ To learn more, run the command again with --verbose.
 <tr><td>系統架構</td><td><code>isize</code></td><td><code>usize</code></td></tr>
 </tbody></table>
 <p>每個變體都可以是帶號或非帶號的，並且都有明確的大小。<em>帶號</em>與<em>非帶號</em>的區別是數字能不能有負數，換句話說就是數字能否帶有正負符號，如果沒有的話那就只會出現正整數而已。就像在紙上寫數字一樣：當我們需要考慮符號時，我們就會在數字前面加上正負號；但如果我們只在意正整數的話，那它可以不帶符號。帶號數字是以<a href="https://zh.wikipedia.org/zh-tw/%E4%BA%8C%E8%A3%9C%E6%95%B8">二補數</a>的方式儲存。</p>
-<p>每一帶號變體可以儲存的數字範圍包含從 -(2<sup>n - 1</sup>) 到 2<sup>n - 1</sup> - 1 以內的數字，<em>n</em> 就是該變體佔用的位元大小。所以一個 <code>i8</code> 可以儲存的數字範圍就是錯誤從 -(2<sup>7</sup>) 到 2<sup>7</sup> - 1，有就是 -128 到 127。而非帶號可以儲存的數字範圍則是從 0 到 2<sup>n</sup> - 1，所以 <code>u8</code> 可以儲存的範圍是從 0 到 2<sup>8</sup> - 1，也就是 0 到 255。</p>
+<p>每一帶號變體可以儲存的數字範圍包含從 -(2<sup>n - 1</sup>) 到 2<sup>n - 1</sup> - 1 以內的數字，<em>n</em> 就是該變體佔用的位元大小。所以一個 <code>i8</code> 可以儲存的數字範圍就是從 -(2<sup>7</sup>) 到 2<sup>7</sup> - 1，也就是 -128 到 127。而非帶號可以儲存的數字範圍則是從 0 到 2<sup>n</sup> - 1，所以 <code>u8</code> 可以儲存的範圍是從 0 到 2<sup>8</sup> - 1，也就是 0 到 255。</p>
 <p>另外，<code>isize</code> 與 <code>usize</code> 型別則是依據你程式運行的電腦架構來決定大小：如果你在 64 位元架構上的話就是 64 位元；如果你是 32 位元架構的話就是 32 位元。</p>
-<p>你可以用表格 3-2 列的格式來寫出整數字面值。注意除了位元組（Byte）的方式以外，所有的數字字面值都允許在最後面加上型別，比如說 <code>57u8</code>。另外也可以加上底線 <code>_</code> 分隔方便閱讀，比如說 <code>1_000</code>。</p>
+<p>你可以用表格 3-2 列的格式來寫出整數字面值（literals）。注意除了位元組（byte）的方式以外，所有的數字字面值都允許在最後面加上型別，比如說 <code>57u8</code>。另外也可以加上底線 <code>_</code> 分隔方便閱讀，比如說 <code>1_000</code>。</p>
 <p><span class="caption">表格 3-2：Rust 中的整數字面值</span></p>
 <table><thead><tr><th>數字字面值</th><th>範例</th></tr></thead><tbody>
 <tr><td>十進制</td><td><code>98_222</code></td></tr>
@@ -222,7 +222,7 @@ To learn more, run the command again with --verbose.
 <blockquote>
 <h5><a class="header" href="#整數溢位" id="整數溢位">整數溢位</a></h5>
 <p>假設你有個變數型別是 <code>u8</code> 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生<em>整數溢位</em>。Rust 有一些有趣的規則來處理這項行爲。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在運行時<em>恐慌（panic）</em>。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的<a href="ch09-01-unrecoverable-errors-with-panic.html">「對無法復原的錯誤使用 <code>panic!</code>」</a><!-- ignore -->段落討論更多造成恐慌的細節。</p>
-<p>當你是在發佈模式下用 <code>--release</code> 來編譯的話，Rsut 則<em>不會</em>加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出<em>二補數包裝</em>的動作。簡單來說，超出最大值的數值可以被<em>包裝</em>成該型別的最低數值。以 <code>u8</code> 爲例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行爲仍然會被視爲邏輯錯誤，如果你想要安全顯式表達這種行爲的話，你可以使用標準函式庫的型別 <a href="https://doc.rust-lang.org/std/num/struct.Wrapping.html"><code>Wrapping</code></a>。</p>
+<p>當你是在發佈模式下用 <code>--release</code> 來編譯的話，Rust 則<em>不會</em>加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出<em>二補數包裝</em>的動作。簡單來說，超出最大值的數值可以被<em>包裝</em>成該型別的最低數值。以 <code>u8</code> 爲例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行爲仍然會被視爲邏輯錯誤，如果你想要安全顯式表達這種行爲的話，你可以使用標準函式庫的型別 <a href="https://doc.rust-lang.org/std/num/struct.Wrapping.html"><code>Wrapping</code></a>。</p>
 </blockquote>
 <h4><a class="header" href="#浮點數型別" id="浮點數型別">浮點數型別</a></h4>
 <p>Rust 還有針對有小數點的<em>浮點數</em>提供兩種基本型別：<code>f32</code> 和 <code>f64</code>，分別佔有 32 位元與 64 位元的大小。而預設的型別爲 <code>f64</code>，因爲現代的電腦處理的速度幾乎和 <code>f32</code> 一樣卻還能擁有更高的精準度。</p>
@@ -239,19 +239,19 @@ To learn more, run the command again with --verbose.
 <p>Rust 支援你所有想得到的數值型別基本運算：加法、減法、乘法、除法和取餘。以下程式碼展示出如何在 <code>let</code> 陳述式使用這些運算：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    // addition
+    // 加法
     let sum = 5 + 10;
 
-    // subtraction
+    // 減法
     let difference = 95.5 - 4.3;
 
-    // multiplication
+    // 乘法
     let product = 4 * 30;
 
-    // division
+    // 除法
     let quotient = 56.7 / 32.2;
 
-    // remainder
+    // 取餘
     let remainder = 43 % 5;
 }
 </code></pre></pre>
@@ -262,7 +262,7 @@ To learn more, run the command again with --verbose.
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let t = true;
 
-    let f: bool = false; // with explicit type annotation
+    let f: bool = false; // 型別詮釋的方式
 }
 </code></pre></pre>
 <p>布林值最常使用的方式之一是作爲條件判斷，像是在 <code>if</code> 表達式中使用。我們將會在<a href="ch03-05-control-flow.html#control-flow">「控制流程」</a><!-- ignore -->段落介紹如何在 Rust 使用 <code>if</code> 表達式。</p>
@@ -275,7 +275,7 @@ To learn more, run the command again with --verbose.
     let heart_eyed_cat = '😻';
 }
 </code></pre></pre>
-<p>Rust 的 <code>char</code> 型別大小爲四個位元組並表示爲一個 Unicode 純量數值，這代表它能擁有的字元比 ASCII 還來的多。舉凡標音字母（Accented letters）、中文、日文、韓文、表情符號以及零長度空格都 Rust <code>char</code> 的有效字元。Unicode 純量數值的範圍包含從 <code>U+0000</code> 到 <code>U+D7FF</code> 以及 <code>U+E000</code> 到 <code>U+10FFFF</code>。但是一個「字元」並不是真正的 Unicode 概念，所以你對於什麼是一個「字元」的看法可能會和 Rust 的 <code>char</code> 不一樣。我們將會在第八章的<a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">「透過字串儲存 UTF-8 編碼的文字」</a><!-- ignore -->來討論此議題。</p>
+<p>Rust 的 <code>char</code> 型別大小爲四個位元組並表示爲一個 Unicode 純量數值，這代表它能擁有的字元比 ASCII 還來的多。舉凡標音字母（Accented letters）、中文、日文、韓文、表情符號以及零長度空格都是 Rust <code>char</code> 的有效字元。Unicode 純量數值的範圍包含從 <code>U+0000</code> 到 <code>U+D7FF</code> 以及 <code>U+E000</code> 到 <code>U+10FFFF</code>。但是一個「字元」並不是真正的 Unicode 概念，所以你對於什麼是一個「字元」的看法可能會和 Rust 的 <code>char</code> 不一樣。我們將會在第八章的<a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">「透過字串儲存 UTF-8 編碼的文字」</a><!-- ignore -->來討論此議題。</p>
 <h3><a class="header" href="#複合型別" id="複合型別">複合型別</a></h3>
 <p><em>複合型別</em>可以組合數個數值爲一個型別，Rust 有兩個基本複合型別：元組（tuples）和陣列（arrays）。</p>
 <h4><a class="header" href="#元組型別" id="元組型別">元組型別</a></h4>
@@ -293,11 +293,11 @@ To learn more, run the command again with --verbose.
 
     let (x, y, z) = tup;
 
-    println!(&quot;The value of y is: {}&quot;, y);
+    println!(&quot;y 的數值爲：{}&quot;, y);
 }
 </code></pre></pre>
 <p>此程式先是建立了一個元組然後賦值給 <code>tup</code>，接著它用模式配對和 <code>let</code> 將 <code>tup</code> 拆成三個個別的變數 <code>x</code>、<code>y</code> 和 <code>z</code>。這就叫做<em>解構（destructuring）</em>，因爲它將單一元組拆成了三個部分。最後程式將 <code>y</code> 的值印出來，也就是 <code>6.4</code>。</p>
-<p>除了用模式配對解構元組以外，我們也可以直接用句號（<code>.</code>）在加上數值的索引來取得元組內的元素。舉例來說：</p>
+<p>除了用模式配對解構元組以外，我們也可以直接用句號（<code>.</code>）再加上數值的索引來取得元組內的元素。舉例來說：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x: (i32, f64, u8) = (500, 6.4, 1);
@@ -318,13 +318,13 @@ To learn more, run the command again with --verbose.
     let a = [1, 2, 3, 4, 5];
 }
 </code></pre></pre>
-<p>當你想要你的資料被分配在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在第四章討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素也是。所以陣列不像 Vector 型別那麼有彈性， Vector 是標準函式庫提供的集合型別，類似於陣列但<em>允許</em>變更長度大小。如果你不確定該用陣列或 Vector 的話，通常你應該用 Vector 就好。第八章將會討論更多 Vector 的細節。</p>
-<p>你會想用到陣列而非 Vector 的時機，可能會像是以下要取得一年之中的每個月份的例子這樣。這樣的列表很可能永遠不需要新增或刪除月份，所以你可以選擇用陣列宣告，因爲永遠只會有 12 個月份：</p>
+<p>當你想要你的資料被分配在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在第四章討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素也是。所以陣列不像向量（vector）型別那麼有彈性，向量是標準函式庫提供的集合型別，類似於陣列但<em>允許</em>變更長度大小。如果你不確定該用陣列或向量的話，通常你應該用向量就好。第八章將會討論更多向量的細節。</p>
+<p>你會想用到陣列而非向量的時機，可能會像是以下要取得一年之中的每個月份的例子這樣。這樣的列表很可能永遠不需要新增或刪除月份，所以你可以選擇用陣列宣告，因爲永遠只會有 12 個月份：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let months = [&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;,
-              &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;];
+</span>let months = [&quot;一月&quot;, &quot;二月&quot;, &quot;三月&quot;, &quot;四月&quot;, &quot;五月&quot;, &quot;六月&quot;, &quot;七月&quot;,
+              &quot;八月&quot;, &quot;九月&quot;, &quot;十月&quot;, &quot;十一月&quot;, &quot;十二月&quot;];
 <span class="boring">}
 </span></code></pre></pre>
 <p>要詮釋陣列型別的話，你可以在中括號寫出型別和元素數量，並用分號區隔開來，如以下所示：</p>
@@ -344,7 +344,7 @@ To learn more, run the command again with --verbose.
 </span></code></pre></pre>
 <p>陣列 <code>a</code> 會包含 <code>5</code> 個元素，然後每個元素的初始化數值均爲 <code>3</code>。這樣寫與 <code>let a = [3, 3, 3, 3, 3];</code> 的寫法一樣，但比較簡潔。</p>
 <h5><a class="header" href="#獲取陣列元素" id="獲取陣列元素">獲取陣列元素</a></h5>
-<p>一個陣列是被分配載堆疊上的一整塊記憶體，你可以用索引來取得陣列的元素，比如：</p>
+<p>一個陣列是被分配在堆疊上的一整塊記憶體，你可以用索引來取得陣列的元素，比如：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [1, 2, 3, 4, 5];
@@ -363,7 +363,7 @@ To learn more, run the command again with --verbose.
 
     let element = a[index];
 
-    println!(&quot;The value of element is: {}&quot;, element);
+    println!(&quot;元素的數值爲：{}&quot;, element);
 }
 </code></pre>
 <p>使用 <code>cargo run</code> 執行程式會產生以下結果：</p>
@@ -374,7 +374,7 @@ To learn more, run the command again with --verbose.
 thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 10', src/main.rs:5:19
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>編譯期間沒有產生任何錯誤，但程式會產生*執行時（runtime）*錯誤並無法正確離開。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。</p>
+<p>編譯期間沒有產生任何錯誤，但程式會產生<em>執行時（runtime）</em> 錯誤並無法正確離開。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。</p>
 <p>這是你第一個在實例中看到 Rust 安全原則給予的保障。在許多低階語言並不會提供這樣的檢查，所以當你提供不正確的索引時，無效的記憶體可能會被存取。Rust 會保護你免於這樣的錯誤風險，並立即離開程式，而不是允許記憶體存取並繼續。第九章將會討論更多有關 Rust 的錯誤處理方式。</p>
 <blockquote>
 <ul>

@@ -221,7 +221,7 @@ x 的數值爲：5
 
 fn another_function(x: i32, y: i32) {
     println!(&quot;x 的數值爲：{}&quot;, x);
-    println!(&quot;The value of y is: {}&quot;, y);
+    println!(&quot;y 的數值爲：{}&quot;, y);
 }
 </code></pre></pre>
 <p>此範例建立了一個有兩個參數的函式，兩個都是 <code>i32</code> 型別。接著函式在印出兩個參數的數值，注意參數不必得是相同的形態，這只是我們在此範例這樣寫而已。</p>
@@ -231,7 +231,7 @@ fn another_function(x: i32, y: i32) {
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/functions`
 x 的數值爲：5
-The value of y is: 6
+y 的數值爲：6
 </code></pre>
 <p>因爲我們呼叫函式時，將 <code>5</code> 給了  <code>x</code> 且將 <code>6</code> 給了 <code>y</code>，字串就會印出這些數值。</p>
 <h3><a class="header" href="#函式本體包含陳述式與表達式" id="函式本體包含陳述式與表達式">函式本體包含陳述式與表達式</a></h3>
@@ -273,7 +273,7 @@ error: expected expression, found statement (`let`)
         x + 1
     };
 
-    println!(&quot;The value of y is: {}&quot;, y);
+    println!(&quot;y 的數值爲：{}&quot;, y);
 }
 </code></pre></pre>
 <p>此表達式：</p>
