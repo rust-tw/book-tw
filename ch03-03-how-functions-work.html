@@ -201,7 +201,7 @@ Another function.
 }
 
 fn another_function(x: i32) {
-    println!(&quot;The value of x is: {}&quot;, x);
+    println!(&quot;x 的數值爲：{}&quot;, x);
 }
 </code></pre></pre>
 <p>嘗試執行程式的話，你應該會看到以下輸出結果：</p>
@@ -209,7 +209,7 @@ fn another_function(x: i32) {
    Compiling functions v0.1.0 (file:///projects/functions)
     Finished dev [unoptimized + debuginfo] target(s) in 1.21s
      Running `target/debug/functions`
-The value of x is: 5
+x 的數值爲：5
 </code></pre>
 <p>宣告 <code>another_function</code> 時有一個參數叫做 <code>x</code>，而 <code>x</code> 的型別被指定爲 <code>i32</code>。當我們傳遞 <code>5</code> 給 <code>another_function</code> 時，<code>println!</code> 巨集會將 <code>5</code> 置於格式化字串中的大括號的位置。</p>
 <p>在函式簽名中，你<em>必須</em>宣告每個參數的型別，這是 Rust 謹慎考慮後的設計決定：在函式定義中要求型別詮釋，代表編譯器幾乎不需要你在其他地方再提供資訊才能知道你要做什麼。</p>
@@ -220,7 +220,7 @@ The value of x is: 5
 }
 
 fn another_function(x: i32, y: i32) {
-    println!(&quot;The value of x is: {}&quot;, x);
+    println!(&quot;x 的數值爲：{}&quot;, x);
     println!(&quot;The value of y is: {}&quot;, y);
 }
 </code></pre></pre>
@@ -230,7 +230,7 @@ fn another_function(x: i32, y: i32) {
    Compiling functions v0.1.0 (file:///projects/functions)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/functions`
-The value of x is: 5
+x 的數值爲：5
 The value of y is: 6
 </code></pre>
 <p>因爲我們呼叫函式時，將 <code>5</code> 給了  <code>x</code> 且將 <code>6</code> 給了 <code>y</code>，字串就會印出這些數值。</p>
@@ -293,7 +293,7 @@ error: expected expression, found statement (`let`)
 fn main() {
     let x = five();
 
-    println!(&quot;The value of x is: {}&quot;, x);
+    println!(&quot;x 的數值爲：{}&quot;, x);
 }
 </code></pre></pre>
 <p>在 <code>five</code> 函式中沒有任何函式呼叫、巨集甚至是 <code>let</code> 陳述式，只有一個 <code>5</code>。這在 Rust 中完全是合理的函式。請注意到函式的回傳型別也有指明，就是 <code>-&gt; i32</code>。嘗試執行此程式的話，輸出結果就會像是這樣：</p>
@@ -301,7 +301,7 @@ fn main() {
    Compiling functions v0.1.0 (file:///projects/functions)
     Finished dev [unoptimized + debuginfo] target(s) in 0.30s
      Running `target/debug/functions`
-The value of x is: 5
+x 的數值爲：5
 </code></pre>
 <p><code>five</code> 中的 <code>5</code> 就是函式的回傳值，這就是爲何回傳型別是 <code>i32</code>。讓我們進一步研究細節，這邊有兩個重要的地方：首先這行 <code>let x = five();</code> 顯示了我們用函式的回傳值作爲變數的初始值。因爲函式 <code>five</code> 回傳 <code>5</code>，所以這行和以下程式碼相同：</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -316,19 +316,19 @@ The value of x is: 5
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = plus_one(5);
 
-    println!(&quot;The value of x is: {}&quot;, x);
+    println!(&quot;x 的數值爲：{}&quot;, x);
 }
 
 fn plus_one(x: i32) -&gt; i32 {
     x + 1
 }
 </code></pre></pre>
-<p>執行此程式會顯示 <code>The value of x is: 6</code>，但如果我們在最後一行 <code>x + 1</code> 加上分號的話，就會將它從表達式變爲陳述式。我們就會得到錯誤。</p>
+<p>執行此程式會顯示 <code>x 的數值爲：6</code>，但如果我們在最後一行 <code>x + 1</code> 加上分號的話，就會將它從表達式變爲陳述式。我們就會得到錯誤。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = plus_one(5);
 
-    println!(&quot;The value of x is: {}&quot;, x);
+    println!(&quot;x 的數值爲：{}&quot;, x);
 }
 
 fn plus_one(x: i32) -&gt; i32 {
