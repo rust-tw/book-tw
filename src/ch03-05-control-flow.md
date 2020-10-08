@@ -76,9 +76,9 @@
 {{#include ../listings/ch03-common-programming-concepts/no-listing-30-else-if/output.txt}}
 ```
 
-當此程式執行時，他會依序檢查每一個 `if` 表達式，並執行第一個符合條件的程式碼段落。注意到雖然 6 的確可以除以 2，但我們沒有看到 `number is divisible by 2`，也沒有看到來自 `else` 那段的 `number is not divisible by 4, 3, or 2`。這是因爲 Rust 只會執行第一個符合條件的區塊，而當它遇到時它就不會在檢查其他條件。
+當此程式執行時，他會依序檢查每一個 `if` 表達式，並執行第一個符合條件的程式碼段落。注意到雖然 6 的確可以除以 2，但我們沒有看到 `數字可以被 2 整除`，也沒有看到來自 `else` 那段的 `數字無法被 4、3、2 整除`。這是因爲 Rust 只會執行第一個符合條件的區塊，而當它遇到時它就不會再檢查其他條件。
 
-使用太多的 `else if` 表達式很容易讓你的程式碼變得凌亂，所以當你需要用到一個以上，你可能會想要先重構程式碼看看。爲此我們在第六章會介紹一個功能強大的 Rust 條件判斷結構叫做 `match`。
+使用太多的 `else if` 表達式很容易讓你的程式碼變得凌亂，所以當你需要用到一個以上時，你可能會想要先重構程式碼看看。爲此我們在第六章會介紹一個功能強大的 Rust 條件判斷結構叫做 `match`。
 
 #### 在 `let` 陳述式中使用 `if`
 
@@ -112,11 +112,11 @@
 {{#include ../listings/ch03-common-programming-concepts/no-listing-31-arms-must-return-same-type/output.txt}}
 ```
 
-`if` 段落的表達式運算出整數，但 `else` 的區塊卻運算出字串。這樣行不通的原因是變數只能有一個型別。Rust 必須在編譯期間確切知道變數 `number` 的型別，這樣才能驗證它的型別在任何有使用到 `number` 的地方都是有效的。要是 `number` 只能在執行時知道的話，Rust 就沒辦法這樣做了。如果編譯器必須追蹤所有變數多種可能存在的型別，那就會變得非常負責並無法爲程式碼提供足夠的保障。
+`if` 段落的表達式運算出整數，但 `else` 的區塊卻運算出字串。這樣行不通的原因是變數只能有一個型別。Rust 必須在編譯期間確切知道變數 `number` 的型別，這樣才能驗證它的型別在任何有使用到 `number` 的地方都是有效的。要是 `number` 只能在執行時知道的話，Rust 就沒辦法這樣做了。如果編譯器必須追蹤所有變數多種可能存在的型別，那就會變得非常複雜並無法爲程式碼提供足夠的保障。
 
 ### 使用迴圈重複執行
 
-重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 *迴圈（loops）*的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。爲了繼續探討迴圈，讓我們再開一個新專案 *loops*。
+重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 *迴圈（loops）* 的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。爲了繼續探討迴圈，讓我們再開一個新專案 *loops*。
 
 Rust 提供三種迴圈：`loop`、`while` 和 `for`。讓我們每個都嘗試看看吧。
 
@@ -145,11 +145,11 @@ $ cargo run
    Compiling loops v0.1.0 (file:///projects/loops)
     Finished dev [unoptimized + debuginfo] target(s) in 0.29s
      Running `target/debug/loops`
-again!
-again!
-again!
-again!
-^Cagain!
+再一次！
+再一次！
+再一次！
+再一次！
+^C再一次！
 ```
 
 `^C` 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 `again!` 出現在 `^C` 之後。
@@ -243,7 +243,7 @@ again!
 [comparing-the-guess-to-the-secret-number]:
 ch02-00-guessing-game-tutorial.html#將猜測的數字與祕密數字做比較
 [quitting-after-a-correct-guess]:
-ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess
+ch02-00-guessing-game-tutorial.html#猜對後離開
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch03-05-control-flow.md)

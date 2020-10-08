@@ -1,5 +1,5 @@
 fn main() {
     loop {
-        println!("again!");
+        println!("再一次！");
     }
 }

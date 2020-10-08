@@ -7,5 +7,5 @@ fn main() {
         number -= 1;
     }
 
-    println!("LIFTOFF!!!");
+    println!("升空！！！");
 }

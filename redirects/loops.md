@@ -9,7 +9,7 @@
 
 ```rust,no_run
 loop {
-    println!("again!");
+    println!("再一次！");
 }
 
 let mut number = 3;
@@ -20,7 +20,7 @@ while number != 0 {
 
 let a = [10, 20, 30, 40, 50];
 for element in a.iter() {
-    println!("the value is: {}", element);
+    println!("數值爲：{}", element);
 }
 ```
 
