@@ -3,7 +3,7 @@ fn main() {
 
     let len = calculate_length(&s1);
 
-    println!("The length of '{}' is {}.", s1, len);
+    println!("'{}' 的長度爲 {}。", s1, len);
 }
 
 // ANCHOR: here

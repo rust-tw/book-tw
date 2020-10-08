@@ -170,7 +170,7 @@ for it to be borrowed from.
 * 在任何時候，我們要麼*只能有*一個可變引用，要麼可以有*任意數量*的不可變引用。
 * 引用必須永遠有效。
 
-接下來我們要來看看一個不太一樣的引用型別：slices。
+接下來我們要來看看一個不太一樣的引用型別：切片（slices）。
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch04-02-references-and-borrowing.md)
