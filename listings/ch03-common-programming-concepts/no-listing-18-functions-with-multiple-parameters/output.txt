@@ -3,4 +3,4 @@ $ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/functions`
 x 的數值爲：5
-The value of y is: 6
+y 的數值爲：6

@@ -3,7 +3,7 @@ $ cargo build
 error[E0282]: type annotations needed
  --> src/main.rs:2:9
   |
-2 |     let guess = "42".parse().expect("Not a number!");
+2 |     let guess = "42".parse().expect("這不是數字！");
   |         ^^^^^ consider giving `guess` a type
 
 error: aborting due to previous error

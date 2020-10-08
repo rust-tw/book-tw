@@ -6,5 +6,5 @@ fn main() {
         x + 1
     };
 
-    println!("The value of y is: {}", y);
+    println!("y 的數值爲：{}", y);
 }

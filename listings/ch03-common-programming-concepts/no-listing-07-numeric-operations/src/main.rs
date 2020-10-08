@@ -1,16 +1,16 @@
 fn main() {
-    // addition
+    // 加法
     let sum = 5 + 10;
 
-    // subtraction
+    // 減法
     let difference = 95.5 - 4.3;
 
-    // multiplication
+    // 乘法
     let product = 4 * 30;
 
-    // division
+    // 除法
     let quotient = 56.7 / 32.2;
 
-    // remainder
+    // 取餘
     let remainder = 43 % 5;
 }

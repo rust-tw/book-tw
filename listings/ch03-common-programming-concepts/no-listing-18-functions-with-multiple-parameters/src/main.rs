@@ -4,5 +4,5 @@ fn main() {
 
 fn another_function(x: i32, y: i32) {
     println!("x 的數值爲：{}", x);
-    println!("The value of y is: {}", y);
+    println!("y 的數值爲：{}", y);
 }

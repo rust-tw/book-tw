@@ -3,5 +3,5 @@ fn main() {
 
     let (x, y, z) = tup;
 
-    println!("The value of y is: {}", y);
+    println!("y 的數值爲：{}", y);
 }

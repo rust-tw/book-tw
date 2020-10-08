@@ -4,5 +4,5 @@ fn main() {
 
     let element = a[index];
 
-    println!("The value of element is: {}", element);
+    println!("元素的數值爲：{}", element);
 }
