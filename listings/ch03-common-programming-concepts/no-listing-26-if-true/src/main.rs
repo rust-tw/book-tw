@@ -2,8 +2,8 @@ fn main() {
     let number = 3;
 
     if number < 5 {
-        println!("condition was true");
+        println!("條件爲真");
     } else {
-        println!("condition was false");
+        println!("條件爲否");
     }
 }

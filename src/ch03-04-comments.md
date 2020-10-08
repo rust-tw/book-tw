@@ -5,18 +5,18 @@
 這是一個簡單地註釋：
 
 ```rust
-// hello, world
+// 安安，你好
 ```
 
 在 Rust 中，慣用的註解風格是用兩行斜線在加上一個空格起頭，然後註解就能一直寫到該行結束爲止。如果註解會超過一行的話，你需要在每一行都加上 `//`，如下所示：
 
 ```rust
-// So we’re doing something complicated here, long enough that we need
-// multiple lines of comments to do it! Whew! Hopefully, this comment will
-// explain what’s going on.
+// 這邊處理的事情很複雜，長到
+// 我們需要多行註解來能解釋！
+// 希望此註解能幫助你理解。
 ```
 
-註解也可以加載程式碼之後：
+註解也可以加在程式碼之後：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 

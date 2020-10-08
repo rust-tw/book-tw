@@ -2,6 +2,6 @@ fn main() {
     let number = 3;
 
     if number {
-        println!("number was three");
+        println!("數字爲三");
     }
 }

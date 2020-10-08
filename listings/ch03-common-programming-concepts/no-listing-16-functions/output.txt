@@ -3,4 +3,4 @@ $ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.28s
      Running `target/debug/functions`
 Hello, world!
-Another function.
+另一支函式。

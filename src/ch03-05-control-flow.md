@@ -14,7 +14,7 @@
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-26-if-true/src/main.rs}}
 ```
 
-所有的 `if` 表達式都由 `if` 關鍵字開始在加上一個條件。在此例中的條件是判斷變數 `number` 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 `if` 表達式條件相關的程式碼段落有時也被稱爲 *arms*，就像我們在第二章[「將猜測的數字與祕密數字做比較」][comparing-the-guess-to-the-secret-number]<!-- ignore -->段落提到的 `match` 表達式的分支一樣。
+所有的 `if` 表達式都由 `if` 關鍵字開始再加上一個條件。在此例中的條件是判斷變數 `number` 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 `if` 表達式條件相關的程式碼段落有時也被稱爲*分支（arms）*，就像我們在第二章[「將猜測的數字與祕密數字做比較」][comparing-the-guess-to-the-secret-number]<!-- ignore -->段落提到的 `match` 表達式的分支一樣。
 
 另外，我們還可以選擇性地加上 `else` 表達式（就像範例寫的），讓條件不符時可以去執行另外一段程式碼。如果你沒有提供 `else` 表達式且條件爲否的話，程式會直接略過 `if` 的程式碼區塊，接著執行後續的程式碼。
 
@@ -30,7 +30,7 @@
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-27-if-false/src/main.rs:here}}
 ```
 
-在跑一次程式，然後看看輸出：
+再跑一次程式，然後看看輸出：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-27-if-false/output.txt}}
@@ -58,7 +58,7 @@
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-29-if-not-equal-0/src/main.rs}}
 ```
 
-執行此程式碼就會印出「number was something other than zero」。
+執行此程式碼就會印出「數字不爲零」。
 
 #### 使用 `else if` 處理多重條件
 
@@ -241,7 +241,7 @@ again!
 當你準備好後，我們就來探討一個其他語言*不常見*的概念：所有權。
 
 [comparing-the-guess-to-the-secret-number]:
-ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number
+ch02-00-guessing-game-tutorial.html#將猜測的數字與祕密數字做比較
 [quitting-after-a-correct-guess]:
 ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess
 
