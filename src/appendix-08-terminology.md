@@ -113,6 +113,7 @@ segmentation fault     | 記憶體區段錯誤                | 參考：[維基
 shadowing              | 遮蔽                          |
 sibling                | 同輩                          |
 signed integer         | 帶號整數                      | 參考：[維基百科][integer]
+slices                 | 切片                          | 其他資料結構的參考
 square bracket         | 方括號                        | 參考：[維基百科][bracket]
 stack                  | 堆疊                          | 參考：[維基百科][stack]
 statements             | 陳述式                        |
@@ -132,6 +133,7 @@ unsigned integer       | 非帶號整數                    | 參考：[維基�
 values                 | 值、數值                      |
 variables              | 變數                          |
 variant                | 變體                          |
+vector                 | 向量                          |
 view                   | 視圖                          | 參考：[維基百科][view]
 wildcard               | 通配符                        |
 workspaces             | 工作空間                      |
@@ -225,10 +227,8 @@ repository             |                               |
 root                   |                               |
 Rustaceans             |                               | Rust 開發者稱呼自己的常用稱號
 shell                  |                               |
-slices                 |                               | 其他資料結構的參考
 tabs                   |                               |
 target triple          |                               |
-vector                 |                               |
 work stealing          |                               |
 
 

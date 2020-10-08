@@ -16,8 +16,8 @@ fn main() {
 
     let word = first_word(&s);
 
-    s.clear(); // error!
+    s.clear(); // 錯誤！
 
-    println!("the first word is: {}", word);
+    println!("第一個單字爲：{}", word);
 }
 // ANCHOR_END: here

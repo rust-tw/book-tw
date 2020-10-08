@@ -23,7 +23,7 @@
 - [理解所有權](ch04-00-understanding-ownership.md)
     - [什麼是所有權？](ch04-01-what-is-ownership.md)
     - [引用與借用](ch04-02-references-and-borrowing.md)
-    - [Slice 型別](ch04-03-slices.md)
+    - [切片型別](ch04-03-slices.md)
 
 - [透過結構體組織相關資料](ch05-00-structs.md)
     - [定義與實例化結構體](ch05-01-defining-structs.md)
