@@ -173,28 +173,28 @@
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// hello, world
+</span>// 安安，你好
 <span class="boring">}
 </span></code></pre></pre>
 <p>在 Rust 中，慣用的註解風格是用兩行斜線在加上一個空格起頭，然後註解就能一直寫到該行結束爲止。如果註解會超過一行的話，你需要在每一行都加上 <code>//</code>，如下所示：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// So we’re doing something complicated here, long enough that we need
-// multiple lines of comments to do it! Whew! Hopefully, this comment will
-// explain what’s going on.
+</span>// 這邊處理的事情很複雜，長到
+// 我們需要多行註解來能解釋！
+// 希望此註解能幫助你理解。
 <span class="boring">}
 </span></code></pre></pre>
-<p>註解也可以加載程式碼之後：</p>
+<p>註解也可以加在程式碼之後：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    let lucky_number = 7; // I’m feeling lucky today
+    let lucky_number = 7; // 幸運 777！
 }
 </code></pre></pre>
 <p>不過你會更常看到它們用用以下格式，註解會爲於要說明的程式碼上一行：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    // I’m feeling lucky today
+    // 幸運 777！
     let lucky_number = 7;
 }
 </code></pre></pre>

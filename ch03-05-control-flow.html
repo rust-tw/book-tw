@@ -177,38 +177,38 @@
     let number = 3;
 
     if number &lt; 5 {
-        println!(&quot;condition was true&quot;);
+        println!(&quot;條件爲真&quot;);
     } else {
-        println!(&quot;condition was false&quot;);
+        println!(&quot;條件爲否&quot;);
     }
 }
 </code></pre></pre>
-<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始在加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱爲 <em>arms</em>，就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
+<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始再加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱爲<em>分支（arms）</em>，就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
 <p>另外，我們還可以選擇性地加上 <code>else</code> 表達式（就像範例寫的），讓條件不符時可以去執行另外一段程式碼。如果你沒有提供 <code>else</code> 表達式且條件爲否的話，程式會直接略過 <code>if</code> 的程式碼區塊，接著執行後續的程式碼。</p>
 <p>請嘗試執行此程式碼，你應該會看到以下輸出結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/branches`
-condition was true
+條件爲真
 </code></pre>
 <p>讓我們來變更 <code>number</code> 的值使條件變成 <code>false</code>，再來看看會發生什麼事：</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span>    let number = 7;
 <span class="boring">
 </span><span class="boring">    if number &lt; 5 {
-</span><span class="boring">        println!(&quot;condition was true&quot;);
+</span><span class="boring">        println!(&quot;條件爲真&quot;);
 </span><span class="boring">    } else {
-</span><span class="boring">        println!(&quot;condition was false&quot;);
+</span><span class="boring">        println!(&quot;條件爲否&quot;);
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p>在跑一次程式，然後看看輸出：</p>
+<p>再跑一次程式，然後看看輸出：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/branches`
-condition was false
+條件爲否
 </code></pre>
 <p>還有一件值得注意的是程式碼的條件判斷<em>必須</em>是 <code>bool</code>。如果條件不是 <code>bool</code> 的話，我們就會遇到錯誤。比方說，試試以下程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -216,7 +216,7 @@ condition was false
     let number = 3;
 
     if number {
-        println!(&quot;number was three&quot;);
+        println!(&quot;數字爲三&quot;);
     }
 }
 </code></pre>
@@ -242,11 +242,11 @@ To learn more, run the command again with --verbose.
     let number = 3;
 
     if number != 0 {
-        println!(&quot;number was something other than zero&quot;);
+        println!(&quot;數字不爲零&quot;);
     }
 }
 </code></pre></pre>
-<p>執行此程式碼就會印出「number was something other than zero」。</p>
+<p>執行此程式碼就會印出「數字不爲零」。</p>
 <h4><a class="header" href="#使用-else-if-處理多重條件" id="使用-else-if-處理多重條件">使用 <code>else if</code> 處理多重條件</a></h4>
 <p>想要實現多重條件的話，你可以將 <code>if</code> 和 <code>else</code> 組合成 <code>else if</code> 表達式。舉例來說：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
