@@ -1,5 +1,5 @@
 // ANCHOR: here
-struct QuitMessage; // 類單位結構體
+struct QuitMessage; // 類單元結構體
 struct MoveMessage {
     x: i32,
     y: i32,
