@@ -3030,7 +3030,7 @@ let slice = &amp;a[1..3];
 </ul>
 </blockquote>
 <h1><a class="header" href="#透過結構體組織相關資料" id="透過結構體組織相關資料">透過結構體組織相關資料</a></h1>
-<p><em>struct</em>或*結構體（structure）*是個讓你命名並封裝數個相關數值爲單一組合的自定型別。如果你熟悉物件導向語言的話，<em>struct</em> 就像是物件的資料屬性。在本章節，我們會比較元組與結構體的差別，介紹如何使用結構體，並討論如何定義結構體資料的方法與相關函式行爲。結構體與將會在第六章提到的枚舉（enum）是 Rust 產生新型別的基本元件，它們能充分利用 Rust 的編譯時型別檢查。</p>
+<p><em>struct</em> 或<em>結構體（structure）</em> 是個讓你命名並封裝數個相關數值爲單一組合的自定型別。如果你熟悉物件導向語言的話，<em>struct</em> 就像是物件的資料屬性。在本章節，我們會比較元組與結構體的差別，介紹如何使用結構體，並討論如何定義結構體資料的方法與相關函式行爲。結構體與將會在第六章提到的枚舉（enum）是 Rust 產生新型別的基本元件，它們能充分利用 Rust 的編譯時型別檢查。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -3051,7 +3051,7 @@ let slice = &amp;a[1..3];
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 5-1：<code>User</code> 結構體定義</span></p>
-<p>要在我們定義後使用該結構體，我們可以指定每個欄位的實際數值來建立結構體的<em>實例</em>。要建立實例的話，我們先寫出結構體的名稱再加上大括號，裡面會包含數個 <code>key: value</code> 的配對。<code>key</code> 是每個欄位的名稱，而 <code>value</code> 就是你想給予欄位的數值。欄位的順序可以不用和定義結構體時的順序一樣。換句話說，結構體的定義比較像是型別的通用樣板，然後實例會依據此樣板插入特定資料來將產生型別的數值。比如說，我們可以像範例 5-2 這樣宣告一個特定使用者。</p>
+<p>要在我們定義後使用該結構體，我們可以指定每個欄位的實際數值來建立結構體的<em>實例（instance）</em> 。要建立實例的話，我們先寫出結構體的名稱再加上大括號，裡面會包含數個 <code>key: value</code> 的配對。<code>key</code> 是每個欄位的名稱，而 <code>value</code> 就是你想給予欄位的數值。欄位的順序可以不用和定義結構體時的順序一樣。換句話說，結構體的定義比較像是型別的通用樣板，然後實例會依據此樣板插入特定資料來將產生型別的數值。比如說，我們可以像範例 5-2 這樣宣告一個特定使用者。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    username: String,
 </span><span class="boring">    email: String,
@@ -3115,9 +3115,9 @@ let slice = &amp;a[1..3];
 </span><span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 5-4：<code>build_user</code> 函式取得電子郵件與使用者名稱並回傳 <code>User</code> 實例</span></p>
-<p>函式參數名稱與結構體欄位名稱相同是非常合理的，但是要重複寫 <code>email</code> 和 <code>username</code> 的欄位名稱與變數就有點冗長了。如果結構體有更多欄位的話，重複寫這些名稱就顯得有些煩人了。幸運的事，我們的確有更方便的語法！</p>
+<p>函式參數名稱與結構體欄位名稱相同是非常合理的，但是要重複寫 <code>email</code> 和 <code>username</code> 的欄位名稱與變數就有點冗長了。如果結構體有更多欄位的話，重複寫這些名稱就顯得有些煩人了。幸運的是，我們的確有更方便的語法！</p>
 <h3><a class="header" href="#當變數與欄位名稱相同時使用欄位初始化簡寫語法" id="當變數與欄位名稱相同時使用欄位初始化簡寫語法">當變數與欄位名稱相同時使用欄位初始化簡寫語法</a></h3>
-<p>由於範例 5-4 的參數名稱與結構體欄位名稱相同，我們可以使用*欄位初始化簡寫（field init shorthand）*語法來重寫 <code>build_user</code>，讓它的結果相同但不必重複寫出 <code>email</code> 和 <code>username</code>，如範例 5-5 所示。</p>
+<p>由於範例 5-4 的參數名稱與結構體欄位名稱相同，我們可以使用<em>欄位初始化簡寫（field init shorthand）</em> 語法來重寫 <code>build_user</code>，讓它的結果相同但不必重複寫出 <code>email</code> 和 <code>username</code>，如範例 5-5 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    username: String,
 </span><span class="boring">    email: String,
@@ -3207,11 +3207,11 @@ let slice = &amp;a[1..3];
 <span class="boring">}
 </span></code></pre></pre>
 <p>注意 <code>black</code> 與 <code>origin</code> 屬於不同型別，因爲它們是不同的元組結構體實例。每個你定義的結構體都是專屬於自己的型別，就算它們的欄位型別一摸一樣。舉例來說，一個參數爲 <code>Color</code> 的函式就無法接受 <code>Point</code> 引數，就算它們的型別都是三個 <code>i32</code> 的組合。除此之外，元組結構體實例的行爲和元組類似：你可以將它們解構爲獨立部分，你也可以使用 <code>.</code> 加上索引來取得每個數值等等。</p>
-<h3><a class="header" href="#無任何欄位的類單位結構體" id="無任何欄位的類單位結構體">無任何欄位的類單位結構體</a></h3>
-<p>你也可以定義沒有任何欄位的結構體！這些叫做<em>類單位結構體（unit-like structs）</em>，因爲它們的行爲就很像 <code>()</code> 單位型別（unit type）。類單位結構體很適合用在當你要實作一個特徵（trait）或某種型別，但你沒有任何需要儲存在型別中的資料。我們會在第十章討論特徵。</p>
+<h3><a class="header" href="#無任何欄位的類單元結構體" id="無任何欄位的類單元結構體">無任何欄位的類單元結構體</a></h3>
+<p>你也可以定義沒有任何欄位的結構體！這些叫做<em>類單元結構體（unit-like structs）</em>，因爲它們的行爲就很像 <code>()</code> 單元型別（unit type）。類單元結構體很適合用在當你要實作一個特徵（trait）或某種型別，但你沒有任何需要儲存在型別中的資料。我們會在第十章討論特徵。</p>
 <blockquote>
 <h3><a class="header" href="#結構體資料的所有權" id="結構體資料的所有權">結構體資料的所有權</a></h3>
-<p>在範例 5-1 的 <code>User</code> 結構體定義中，我們使用了擁有所有權的 <code>String</code> 型別，而不是 <code>&amp;str</code> 字串 slice 型別。這邊是故意這樣選擇的，因爲我們希望解構體的實例可以擁有它所有的資料，並在整個結構體都有效時資料也是有效的。</p>
+<p>在範例 5-1 的 <code>User</code> 結構體定義中，我們使用了擁有所有權的 <code>String</code> 型別，而不是 <code>&amp;str</code> 字串切片型別。這邊是故意這樣選擇的，因爲我們希望解構體的實例可以擁有它所有的資料，並在整個結構體都有效時資料也是有效的。</p>
 <p>要在結構體中儲存別人擁有的資料引用是可行的，但這會用到<em>生命週期（lifetimes）</em>，我們在第十章才會談到。生命週期能確保資料引用在結構體存在期間都是有效的。要是你沒有使用生命週期來用結構體儲存引用的話，會如以下出錯：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- CAN'T EXTRACT SEE https://github.com/rust-lang/mdBook/issues/1127 -->
@@ -3809,7 +3809,7 @@ enum IpAddr {
 <li><code>ChangeColor</code> 包含了三個 <code>i32</code>。</li>
 </ul>
 <p>如同範例 6-2 這樣定義枚舉變體和定義不同類型的結構體很像，只不過枚舉不使用 <code>struct</code> 關鍵字，而且所有的變體都會在 <code>Message</code> 型別底下。以下的結構體可以包含與上方枚舉變體定義過的資料：</p>
-<pre><pre class="playground"><code class="language-rust">struct QuitMessage; // 類單位結構體
+<pre><pre class="playground"><code class="language-rust">struct QuitMessage; // 類單元結構體
 struct MoveMessage {
     x: i32,
     y: i32,

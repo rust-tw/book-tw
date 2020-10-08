@@ -325,7 +325,7 @@ enum IpAddr {
 <li><code>ChangeColor</code> 包含了三個 <code>i32</code>。</li>
 </ul>
 <p>如同範例 6-2 這樣定義枚舉變體和定義不同類型的結構體很像，只不過枚舉不使用 <code>struct</code> 關鍵字，而且所有的變體都會在 <code>Message</code> 型別底下。以下的結構體可以包含與上方枚舉變體定義過的資料：</p>
-<pre><pre class="playground"><code class="language-rust">struct QuitMessage; // 類單位結構體
+<pre><pre class="playground"><code class="language-rust">struct QuitMessage; // 類單元結構體
 struct MoveMessage {
     x: i32,
     y: i32,
