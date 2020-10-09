@@ -350,7 +350,7 @@ Trust me.&quot;;
 </span></code></pre></pre>
 <p><span class="caption">範例 12-21：定義 <code>search_case_insensitive</code> 並在比較前將搜尋字串與行數均改爲小寫</span></p>
 <p>首先我們將 <code>query</code> 字串變成小寫並儲存到同名的遮蔽變數中。我們必須呼叫對要搜尋的字串 <code>to_lowercase</code>，這樣無論使用者輸入的是 <code>&quot;rust&quot;</code>、<code>&quot;RUST&quot;</code>、<code>&quot;Rust&quot;</code> 或 <code>&quot;rUsT&quot;</code>，我們都會將字串視爲 <code>&quot;rust&quot;</code> 並以此來不區分大小寫。雖然 <code>to_lowercase</code> 能處理基本的 Unicode，但它不會是 100% 準確的。如果我們是在寫真正的應用程式的話，我們需要處理更多條件，但在此段落是爲了理解環境變數而非 Unicode，所以我們維持這樣寫就好。</p>
-<p>注意到 <code>query</code> 現在是個 <code>String</code> 而非字串 slice，因爲呼叫 <code>to_lowercase</code> 會建立新的資料而非引用現存的資料。假設要搜尋的字串是 <code>&quot;rUsT&quot;</code> 的話，該字串 slice 並沒有包含小寫的 <code>u</code> 或 <code>t</code> 能讓我們來使用，所以我們必須分配一個包含 <code>&quot;rust&quot;</code> 的新 <code>String</code>。現在當我們將 <code>query</code> 作爲引數傳給 <code>contains</code> 方法時，我們需要加上「&amp;」，因爲 <code>contains</code> 所定義的簽名接收的是一個字串 slice。</p>
+<p>注意到 <code>query</code> 現在是個 <code>String</code> 而非字串切片，因爲呼叫 <code>to_lowercase</code> 會建立新的資料而非引用現存的資料。假設要搜尋的字串是 <code>&quot;rUsT&quot;</code> 的話，該字串切片並沒有包含小寫的 <code>u</code> 或 <code>t</code> 能讓我們來使用，所以我們必須分配一個包含 <code>&quot;rust&quot;</code> 的新 <code>String</code>。現在當我們將 <code>query</code> 作爲引數傳給 <code>contains</code> 方法時，我們需要加上「&amp;」，因爲 <code>contains</code> 所定義的簽名接收的是一個字串切片。</p>
 <p>接著，在我們檢查是否包含小寫的 <code>query</code> 前，我們對每個 <code>line</code> 加上 <code>to_lowercase</code> 的呼叫。現在我們將 <code>line</code> 和 <code>query</code> 都轉換成小寫了。我們可以不區分大小寫來找到符合的行數。</p>
 <p>讓我們來看看實作是否能通過測試：</p>
 <pre><code class="language-console">$ cargo test

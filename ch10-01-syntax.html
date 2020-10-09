@@ -424,7 +424,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 10-11：結構體定義中使用不同的泛型型別的方法</span></p>
-<p>在 <code>main</code> 中，我們定義了一個 <code>Point</code>，其 <code>x</code> 型別爲 <code>i32</code>（數值爲 <code>5</code>），<code>y</code> 型別爲 <code>f64</code>（數值爲 <code>10.4</code>）。變數 <code>p2</code> 是個 <code>Point</code> 結構體，<code>x</code> 爲字串 slice（數值爲 <code>&quot;Hello&quot;</code>），<code>y</code> 爲 <code>char</code>（數值爲 <code>c</code>）。在 <code>p1</code> 呼叫 <code>mixup</code> 並加上引數 <code>p2</code> 的話會給我們 <code>p3</code>，它的 <code>x</code> 會有型別 <code>i32</code>，因爲 <code>x</code> 來自 <code>p1</code>。而且變數 <code>p3</code> 還會有型別爲 <code>char</code> 的 <code>y</code>，因爲 <code>y</code> 來自 <code>p2</code>。<code>println!</code> 巨集的呼叫就會顯示 <code>p3.x = 5, p3.y = c</code>。</p>
+<p>在 <code>main</code> 中，我們定義了一個 <code>Point</code>，其 <code>x</code> 型別爲 <code>i32</code>（數值爲 <code>5</code>），<code>y</code> 型別爲 <code>f64</code>（數值爲 <code>10.4</code>）。變數 <code>p2</code> 是個 <code>Point</code> 結構體，<code>x</code> 爲字串切片（數值爲 <code>&quot;Hello&quot;</code>），<code>y</code> 爲 <code>char</code>（數值爲 <code>c</code>）。在 <code>p1</code> 呼叫 <code>mixup</code> 並加上引數 <code>p2</code> 的話會給我們 <code>p3</code>，它的 <code>x</code> 會有型別 <code>i32</code>，因爲 <code>x</code> 來自 <code>p1</code>。而且變數 <code>p3</code> 還會有型別爲 <code>char</code> 的 <code>y</code>，因爲 <code>y</code> 來自 <code>p2</code>。<code>println!</code> 巨集的呼叫就會顯示 <code>p3.x = 5, p3.y = c</code>。</p>
 <p>此例是是爲了展示一些泛型參數是透過 <code>impl</code> 宣告而有些則是透過方法定義來得。在此，泛型參數 <code>T</code> 和 <code>U</code> 是宣告在 <code>impl</code> 之後，因爲它們與結構體定義有關聯。而在 <code>fn mixup</code> 之後宣告的泛型參數只和該方法有關。</p>
 <h3><a class="header" href="#使用泛型的程式碼效能" id="使用泛型的程式碼效能">使用泛型的程式碼效能</a></h3>
 <p>你可能會好奇當你使用泛型型別參數會不會有執行時的消耗。好消息是 Rust 實作泛型的方式讓你使用泛型的的程式碼跑得不會比使用實際型別還來的慢。</p>

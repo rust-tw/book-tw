@@ -389,7 +389,7 @@ pub extern &quot;C&quot; fn call_from_c() {
 </blockquote>
 <h3><a class="header" href="#存取或修改可變的靜態變數" id="存取或修改可變的靜態變數">存取或修改可變的靜態變數</a></h3>
 <p>到此，我們還沒聊到<strong>全域變數（global variable）</strong>，這個 Rust 支援但會被 Rust 的所有權規則搞得七葷八素的功能。試想有兩個執行緒同時存取同一個可變全域變數，豈不導致資料競爭（data races）。</p>
-<p>Rust 的全域變數稱做<strong>靜態</strong>變數。範例 19-9 展示了宣告並使用一個儲存字串 slice 的靜態變數。</p>
+<p>Rust 的全域變數稱做<strong>靜態</strong>變數。範例 19-9 展示了宣告並使用一個儲存字串切片的靜態變數。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">static HELLO_WORLD: &amp;str = &quot;Hello, world!&quot;;
 

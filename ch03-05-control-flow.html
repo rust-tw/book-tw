@@ -367,7 +367,7 @@ CTRL-C
     println!(&quot;結果爲：{}&quot;, result);
 }
 </code></pre></pre>
-<p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化爲 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取的迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果爲 20。</p>
+<p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化爲 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取得迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果爲 20。</p>
 <h4><a class="header" href="#使用-while-做條件迴圈" id="使用-while-做條件迴圈">使用 <code>while</code> 做條件迴圈</a></h4>
 <p>在程式中用條件判斷迴圈的執行通常是很有用的。當條件爲真時，迴圈就繼續執行。當條件不再符合時，程式就用 <code>break</code> 停止迴圈。這樣的循環方法可以用 <code>loop</code>、<code>if</code>、<code>else</code> 和 <code>break</code> 組合出來。如果你想嘗試的話，你現在就可以自己寫寫看看。</p>
 <p>但是這種模式非常常見，所以 Rust 有提供內建的結構稱爲 <code>while</code> 迴圈。範例 3-3 就是使用 <code>while</code> 的例子：該程式會循環三次，每次計數都減一，然後在迴圈之後印出訊息並離開。</p>

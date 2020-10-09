@@ -313,7 +313,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <h3><a class="header" href="#函式與方法的隱式強制解引用" id="函式與方法的隱式強制解引用">函式與方法的隱式強制解引用</a></h3>
 <p>*強制解引用（Deref coercion）*是一個 Rust 針對函式或方法的引數的便利設計。強制解引用只適用於有實作 <code>Deref</code> 特徵的型別。強制解引用會將一個型別轉換成另一個型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因爲 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>str</code>。當我們將某個特定型別數值的引用作爲引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
 <p>Rust 會加入強制解引用的原因是因爲程式設計師在寫函式與方法呼叫時，就不必加上許多顯式引用 <code>&amp;</code> 與解引用 <code>*</code>。強制解引用還讓我們可以寫出能同時用於引用或智慧指標的程式碼。</p>
-<p>爲了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 有個函式定義且有個字串 slice 作爲參數：</p>
+<p>爲了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 有個函式定義且有個字串切片作爲參數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn hello(name: &amp;str) {
     println!(&quot;Hello, {}!&quot;, name);
@@ -322,7 +322,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 15-11：<code>hello</code> 函式且有參數 <code>name</code> 其型別爲 <code>&amp;str</code></span></p>
-<p>我們可以使用字串 slice 作爲引數來呼叫函式 <code>hello</code>，比方說 <code>hello(&quot;Rust&quot;);</code>。強制解引用讓我們可以透過 <code>MyBox&lt;String&gt;</code> 型別數值的引用來呼叫 <code>hello</code>，如範例 15-12 所示：</p>
+<p>我們可以使用字串切片作爲引數來呼叫函式 <code>hello</code>，比方說 <code>hello(&quot;Rust&quot;);</code>。強制解引用讓我們可以透過 <code>MyBox&lt;String&gt;</code> 型別數值的引用來呼叫 <code>hello</code>，如範例 15-12 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::ops::Deref;
 </span><span class="boring">
@@ -352,7 +352,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-12：利用強制解引用透過 <code>MyBox&lt;String&gt;</code> 數值的引用來呼叫 <code>hello</code></span></p>
-<p>我們在此使用 <code>&amp;m</code> 作爲引數來呼叫函式 <code>hello</code>，這是 <code>MyBox&lt;String&gt;</code> 數值的引用。因爲我們在範例 15-10 有對 <code>MyBox&lt;T&gt;</code> 實作 <code>Deref</code> 特徵，Rust 可以呼叫 <code>deref</code> 將 <code>&amp;MyBox&lt;String&gt;</code> 變成 <code>&amp;String</code>。標準函式庫對 <code>String</code> 也有實作 <code>Deref</code> 並會回傳字串 slice，這可以在 <code>Deref</code> 的 API 技術文件中看到。所以 Rust 會在呼叫 <code>deref</code> 一次來將 <code>&amp;String</code> 變成 <code>&amp;str</code>，這樣就符合函式 <code>hello</code> 的定義了。</p>
+<p>我們在此使用 <code>&amp;m</code> 作爲引數來呼叫函式 <code>hello</code>，這是 <code>MyBox&lt;String&gt;</code> 數值的引用。因爲我們在範例 15-10 有對 <code>MyBox&lt;T&gt;</code> 實作 <code>Deref</code> 特徵，Rust 可以呼叫 <code>deref</code> 將 <code>&amp;MyBox&lt;String&gt;</code> 變成 <code>&amp;String</code>。標準函式庫對 <code>String</code> 也有實作 <code>Deref</code> 並會回傳字串切片，這可以在 <code>Deref</code> 的 API 技術文件中看到。所以 Rust 會在呼叫 <code>deref</code> 一次來將 <code>&amp;String</code> 變成 <code>&amp;str</code>，這樣就符合函式 <code>hello</code> 的定義了。</p>
 <p>如果 Rust 沒有實作強制解引用的話，我們就得用範例 15-13 的方式才能辦到範例 15-12 使用型別 <code>&amp;MyBox&lt;String&gt;</code> 的數值來呼叫 <code>hello</code> 的動作。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::ops::Deref;
@@ -383,7 +383,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-13：如果 Rust 沒有強制解引用，我們就得這樣寫程式碼</span></p>
-<p><code>(*m)</code> 會將 <code>MyBox&lt;String&gt;</code> 解引用成 <code>String</code>，然後 <code>&amp;</code> 和 <code>[..]</code> 會從 <code>String</code> 中取得等於整個字串的字串 slice，這就符合 <code>hello</code> 的簽名。沒有強制解引用的程式碼就難以閱讀、寫入或是理解，因爲有太多的符號參雜其中。強制解引用能讓 Rust 自動幫我們做這些轉換。</p>
+<p><code>(*m)</code> 會將 <code>MyBox&lt;String&gt;</code> 解引用成 <code>String</code>，然後 <code>&amp;</code> 和 <code>[..]</code> 會從 <code>String</code> 中取得等於整個字串的字串切片，這就符合 <code>hello</code> 的簽名。沒有強制解引用的程式碼就難以閱讀、寫入或是理解，因爲有太多的符號參雜其中。強制解引用能讓 Rust 自動幫我們做這些轉換。</p>
 <p>當某型別有定義 <code>Deref</code> 特徵時，Rust 會分析該型別並重複使用 <code>Deref::deref</code> 直到能取得與參數型別相符的引用。<code>Deref::deref</code> 需要呼叫的次數會在編譯時期插入，所以使用強制解引用沒有任何的執行時開銷！</p>
 <h3><a class="header" href="#強制解引用如何處理可變性" id="強制解引用如何處理可變性">強制解引用如何處理可變性</a></h3>
 <p>類似於你如何使用 the <code>Deref</code> 特徵來覆蓋不可變引用的 <code>*</code> 運算子，你也可以使用 <code>DerefMut</code> 特徵來覆蓋可變引用的 <code>*</code> 運算子。</p>

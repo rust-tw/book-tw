@@ -244,7 +244,7 @@ To learn more, run the command again with --verbose.
 <p><code>x</code> 在此有生命週期 <code>'b</code>，此時它比 <code>'a</code> 還長。這代表 <code>r</code> 可以引用 <code>x</code>，因爲 Rust 知道 <code>r</code> 的引用在 <code>x</code> 是有效的時候永遠是有效的。</p>
 <p>現在你知道引用的生命週期，以及 Rust 如何分析生命週期以確保引用永遠有效了。讓我們來探索函式中參數與回傳值的泛型生命週期。</p>
 <h3><a class="header" href="#函式中的泛型生命週期" id="函式中的泛型生命週期">函式中的泛型生命週期</a></h3>
-<p>讓我們寫個回傳兩個字串 slice 中較長者的函式。此函式會回傳兩個字串 slice 並回傳一個字串 slcie。在我們實作 <code>longest</code> 函式後，範例 10-20 的程式碼應該要印出 <code>The longest string is abcd</code>。</p>
+<p>讓我們寫個回傳兩個字串切片中較長者的函式。此函式會回傳兩個字串切片並回傳一個字串 slcie。在我們實作 <code>longest</code> 函式後，範例 10-20 的程式碼應該要印出 <code>The longest string is abcd</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">fn main() {
     let string1 = String::from(&quot;abcd&quot;);
@@ -254,8 +254,8 @@ To learn more, run the command again with --verbose.
     println!(&quot;The longest string is {}&quot;, result);
 }
 </code></pre>
-<p><span class="caption">範例 10-20：<code>main</code> 函式呼叫 <code>longest</code> 函式來找出兩個字串 slice 中較長的</span></p>
-<p>注意我們需要函式接收的字串 slice 屬於引用，因爲我們不希望 <code>longest</code> 函式會取得它參數的所有權。第四章的<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2-slice-%E4%BD%9C%E7%88%B2%E5%8F%83%E6%95%B8">「字串 Slice 作爲參數」</a><!-- ignore -->段落有提到爲何範例 10-20 的參數正是我們所想要使用的參數。</p>
+<p><span class="caption">範例 10-20：<code>main</code> 函式呼叫 <code>longest</code> 函式來找出兩個字串切片中較長的</span></p>
+<p>注意我們需要函式接收的字串切片屬於引用，因爲我們不希望 <code>longest</code> 函式會取得它參數的所有權。第四章的<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2-slice-%E4%BD%9C%E7%88%B2%E5%8F%83%E6%95%B8">「字串切片作爲參數」</a><!-- ignore -->段落有提到爲何範例 10-20 的參數正是我們所想要使用的參數。</p>
 <p>如果我們嘗試實作 <code>longest</code> 函式時，如範例 10-21 所示，它不會編譯過。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
@@ -325,7 +325,7 @@ To learn more, run the command again with --verbose.
 </code></pre></pre>
 <p><span class="caption">範例 10-22：<code>longest</code> 函式定義指定所有簽名中的引用必須有相同的生命週期 <code>'a</code></span></p>
 <p>此程式碼能夠編譯成功並產生我們希望在範例 10-20 的 <code>main</code> 函式中得到的結果。</p>
-<p>此函式簽名告訴 Rust 它有個生命週期 <code>'a</code>，函式的兩個參數都是字串 slice，並且會與生命週期<code>'a</code>。此函式簽名還靠素了 Rust 從函式回傳的字串 slice 也會和生命週期 <code>'a</code> 存活的一樣久。實際上它代表 <code>longest</code> 函式回傳引用的生命週期與傳入時字串長度較短的引用的生命週期一樣。這些約束是我們希望 Rust 去強制執行的。記住當我們在此函式簽名指定生命週期參數時，我們不會變更任何傳入或傳出數值的生命週期。我們只是告訴借用檢查器應該要拒絕任何沒有服從這些約束的數值。注意到 <code>longest</code> 函式不需要知道 <code>x</code> 和 <code>y</code> 實際上會活多久，只需要知道有某個作用域會用 <code>'a</code> 取代來滿足此簽名。</p>
+<p>此函式簽名告訴 Rust 它有個生命週期 <code>'a</code>，函式的兩個參數都是字串切片，並且會與生命週期<code>'a</code>。此函式簽名還靠素了 Rust 從函式回傳的字串切片也會和生命週期 <code>'a</code> 存活的一樣久。實際上它代表 <code>longest</code> 函式回傳引用的生命週期與傳入時字串長度較短的引用的生命週期一樣。這些約束是我們希望 Rust 去強制執行的。記住當我們在此函式簽名指定生命週期參數時，我們不會變更任何傳入或傳出數值的生命週期。我們只是告訴借用檢查器應該要拒絕任何沒有服從這些約束的數值。注意到 <code>longest</code> 函式不需要知道 <code>x</code> 和 <code>y</code> 實際上會活多久，只需要知道有某個作用域會用 <code>'a</code> 取代來滿足此簽名。</p>
 <p>當要在函式詮釋生命週期時，詮釋會位於函式簽名中，而不是函式本體。Rust 可以不用任何協助就能分析函式中的程式碼。然而當函式擁有傳入或傳出外部程式碼的引用時，Rust 無法自己判別出參數與回傳值的生命週期。每次函式呼叫時的生命週期可能都不一樣。這就是爲何我們得親自詮釋生命週期。</p>
 <p>當我們向 <code>longest</code> 傳入實際引用時，<code>'a</code> 實際替代的生命週期爲 <code>x</code> 作用域與 <code>y</code> 作用域重疊得部分。換句話說，泛型生命週期 <code>'a</code> 取得的生命週期會等於 <code>x</code> 與 <code>y</code> 的生命週期中較短的。因爲我們將回傳引用詮釋了相同的生命週期參數 <code>'a</code>，回傳引用的生命週期也會保證在 <code>x</code> 和 <code>y</code> 的生命週期較短的結束前有效。</p>
 <p>讓我們來看看如何透過傳入不同實際生命週期的引用來使生命週期詮釋能約束 <code>longest</code> 函式，如範例 10-23 所示。</p>
@@ -395,7 +395,7 @@ To learn more, run the command again with --verbose.
 <p>身爲人類我們能看出此程式碼的 <code>string1</code> 字串長度的確比 <code>string2</code> 長，因此 <code>result</code> 會包含 <code>string1</code> 的引用。因爲 <code>string1</code> 尚未離開作用域，所以 <code>string1</code> 的引用在 <code>println!</code> 陳述式中仍然是有效的才對。然而編譯器在此情形會無法看出引用是有效的。所以我們才告訴 Rust <code>longest</code> 函式回傳引用的生命週期等同於傳入引用中較短的生命週期。這樣一來借用檢查器就會否決範例 10-24 的程式碼，因爲它可能會有無效的引用。</p>
 <p>歡迎嘗試設計更多採用不同數值與不同生命週期的引用作爲 <code>longest</code> 函式參數與回傳值的實驗，並在編譯前假設你的實驗會不會通過借用檢查器，然後看看你的理解是不是正確的！</p>
 <h3><a class="header" href="#深入理解生命週期" id="深入理解生命週期">深入理解生命週期</a></h3>
-<p>你要指定生命週期參數的方式取決於函式的行爲。舉例來說如果我們改變函式 <code>longest</code> 的實作爲永遠只回傳第一個參數而不是最長的字串 slice，我們就不需要在參數 <code>y</code> 指定生命週期。以下的程式碼就能編譯：</p>
+<p>你要指定生命週期參數的方式取決於函式的行爲。舉例來說如果我們改變函式 <code>longest</code> 的實作爲永遠只回傳第一個參數而不是最長的字串切片，我們就不需要在參數 <code>y</code> 指定生命週期。以下的程式碼就能編譯：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let string1 = String::from(&quot;abcd&quot;);
@@ -447,7 +447,7 @@ To learn more, run the command again with --verbose.
 <p>問題在於 <code>result</code> 會離開作用域並在 <code>longest</code> 函式結尾被清除。我們卻嘗試從函式中回傳 <code>result</code> 的引用。我們無法指定生命週期參數來改變迷途引用，而且 Rust 不會允許我們將建立迷途引用。在此例中，最好的解決辦法是回傳有所有權的資料型別而非引用，並讓呼叫的函式自行決定如何清理數值。</p>
 <p>總結來說，生命週期語法是用來連接函式中不同參數與回傳值的生命週期。一旦連結起來，Rust 就可以獲得足夠的資訊來確保記憶體安全的運算並防止會產生迷途指標或違反記憶體安全的操作。</p>
 <h3><a class="header" href="#結構體定義中的生命週期詮釋" id="結構體定義中的生命週期詮釋">結構體定義中的生命週期詮釋</a></h3>
-<p>目前爲止，我們只定義過擁有所有權的結構體。結構體其實也能持有引用，不過我們會需要在結構體定義中每個引用加上生命週期詮釋。範例 10-25 有個持有字串 slice 的結構體 <code>ImportantExcerpt</code>。</p>
+<p>目前爲止，我們只定義過擁有所有權的結構體。結構體其實也能持有引用，不過我們會需要在結構體定義中每個引用加上生命週期詮釋。範例 10-25 有個持有字串切片的結構體 <code>ImportantExcerpt</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct ImportantExcerpt&lt;'a&gt; {
     part: &amp;'a str,
@@ -462,7 +462,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 10-25：擁有引用的結構體，所以它的定義需要加上生命週期詮釋</span></p>
-<p>此結構體有個欄位 <code>part</code> 並擁有字串 slice 引用。如同泛型資料型別，我們在結構體名稱之後的尖括號內宣告泛型生命週期參數，所以我們就可以在結構體定義的本體中使用生命週期參數。此詮釋代表 <code>ImportantExcerpt</code> 的實例不能比它持有的欄位 <code>part</code> 活得還久。</p>
+<p>此結構體有個欄位 <code>part</code> 並擁有字串切片引用。如同泛型資料型別，我們在結構體名稱之後的尖括號內宣告泛型生命週期參數，所以我們就可以在結構體定義的本體中使用生命週期參數。此詮釋代表 <code>ImportantExcerpt</code> 的實例不能比它持有的欄位 <code>part</code> 活得還久。</p>
 <p><code>main</code> 函式在此產生一個結構體 <code>ImportantExcerpt</code> 的實例並持有一個引用，其爲變數 <code>novel</code> 所擁有的 <code>String</code> 中的第一個句子的引用。<code>novel</code> 的資料是在 <code>ImportantExcerpt</code> 實例之前建立的。除此之外，<code>novel</code> 在 <code>ImportantExcerpt</code> 離開作用於之前不會離開作用域，所以 <code>ImportantExcerpt</code> 實例中的引用是有效的。</p>
 <h3><a class="header" href="#生命週期省略" id="生命週期省略">生命週期省略</a></h3>
 <p>你已經學到了每個引用都有個生命週期，而且你需要在有使用引用的函式與結構體中指定生命週期參數。然而在第四章的範例 4-9 我們有可以函式可以不詮釋生命週期並照樣編譯成功，我門在範例 10-26 在展示一次。</p>
@@ -626,7 +626,7 @@ where
     }
 }
 </code></pre></pre>
-<p>這是範例 10-22 會回傳兩個字串 slice 較長者的 <code>longest</code> 函式。不過現在它有個額外的參數 <code>ann</code>，使用的是泛型型別 <code>T</code>，它可以是任何在 <code>where</code> 中所指定有實作 <code>Display</code> 特徵的型別。此額外參數會在函式比較兩個字串 slice 前印出來，這也是爲何需要 <code>Display</code> 特徵界限。因爲生命週期也是一種泛型，生命週期參數 <code>'a</code> 與泛型型別參數 <code>T</code> 都宣告在函式名稱後的尖括號內。</p>
+<p>這是範例 10-22 會回傳兩個字串切片較長者的 <code>longest</code> 函式。不過現在它有個額外的參數 <code>ann</code>，使用的是泛型型別 <code>T</code>，它可以是任何在 <code>where</code> 中所指定有實作 <code>Display</code> 特徵的型別。此額外參數會在函式比較兩個字串切片前印出來，這也是爲何需要 <code>Display</code> 特徵界限。因爲生命週期也是一種泛型，生命週期參數 <code>'a</code> 與泛型型別參數 <code>T</code> 都宣告在函式名稱後的尖括號內。</p>
 <h2><a class="header" href="#總結" id="總結">總結</a></h2>
 <p>我們在此章節涵蓋了許多內容！現在你已經知道泛型型別參數、特徵與特徵界限以及泛型生命週期參數，你已經準備好能寫出適用於許多不同情況且不重複的程式碼了。泛型型別參數讓你可以讓程式碼適用於不同型別；特徵與特徵界限確保就算型別爲泛型，它們都會有相同的行爲。你還學到了使用生命週期詮釋確保此如此彈性的程式碼不會造成迷途引用。而且這些分析都發生在編譯期間，完全不影響執行時效能！</p>
 <p>不管你信不信，本章節還有很多延伸主體可以導論，像是第十七章就會討論特徵物件（trait objects），這是另一個使用特徵的方法。另外還有一些更複雜的場合會涉及到更進階的生命週期詮釋。對此你可能就會想閱讀 <a href="../reference/index.html">Rust Reference</a>。接下來，你想學習如何在 Rust 寫測試，讓你可以確保程式碼能如期執行。</p>

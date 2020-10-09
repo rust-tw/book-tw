@@ -280,8 +280,8 @@ Pick three.&quot;;
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 12-16：定義足夠的 <code>search</code> 函式讓我們的測試能夠編譯</span></p>
-<p>值得注意的是在 <code>search</code> 的簽名中需要定義一個顯式的生命週期 <code>'a</code>，並用於 <code>contents</code> 引數與回傳值。回想一下在<a href="ch10-03-lifetime-syntax.html">第十章</a><!-- ignore -->中生命週期參數會連結引數生命週期與回傳值生命週期。在此例中，我們指明回傳值應包含字串 slice 且其會引用 <code>contents</code> 引數的 slices（而非引數 <code>query</code>）。</p>
-<p>換句話說，我們告訴 Rust <code>search</code> 函式回傳的資料會跟傳遞給 <code>search</code> 函式的引數 <code>contents</code> 資料存活的一樣久。這點很重要！被 slice 引用的資料必須有效，這樣其引用才會有效。如果編譯器假設是在建立 <code>query</code> 而非 <code>contents</code> 的字串 slice，它的安全檢查就會不正確。</p>
+<p>值得注意的是在 <code>search</code> 的簽名中需要定義一個顯式的生命週期 <code>'a</code>，並用於 <code>contents</code> 引數與回傳值。回想一下在<a href="ch10-03-lifetime-syntax.html">第十章</a><!-- ignore -->中生命週期參數會連結引數生命週期與回傳值生命週期。在此例中，我們指明回傳值應包含字串切片且其會引用 <code>contents</code> 引數的 slices（而非引數 <code>query</code>）。</p>
+<p>換句話說，我們告訴 Rust <code>search</code> 函式回傳的資料會跟傳遞給 <code>search</code> 函式的引數 <code>contents</code> 資料存活的一樣久。這點很重要！被 slice 引用的資料必須有效，這樣其引用才會有效。如果編譯器假設是在建立 <code>query</code> 而非 <code>contents</code> 的字串切片，它的安全檢查就會不正確。</p>
 <p>如果我們忘記詮釋生命週期並嘗試編譯此函式，我們會得到以下錯誤：</p>
 <pre><code class="language-console">$ cargo build
    Compiling minigrep v0.1.0 (file:///projects/minigrep)

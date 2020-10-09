@@ -2065,7 +2065,7 @@ CTRL-C
     println!(&quot;結果爲：{}&quot;, result);
 }
 </code></pre></pre>
-<p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化爲 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取的迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果爲 20。</p>
+<p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化爲 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取得迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果爲 20。</p>
 <h4><a class="header" href="#使用-while-做條件迴圈" id="使用-while-做條件迴圈">使用 <code>while</code> 做條件迴圈</a></h4>
 <p>在程式中用條件判斷迴圈的執行通常是很有用的。當條件爲真時，迴圈就繼續執行。當條件不再符合時，程式就用 <code>break</code> 停止迴圈。這樣的循環方法可以用 <code>loop</code>、<code>if</code>、<code>else</code> 和 <code>break</code> 組合出來。如果你想嘗試的話，你現在就可以自己寫寫看看。</p>
 <p>但是這種模式非常常見，所以 Rust 有提供內建的結構稱爲 <code>while</code> 迴圈。範例 3-3 就是使用 <code>while</code> 的例子：該程式會循環三次，每次計數都減一，然後在迴圈之後印出訊息並離開。</p>
@@ -4866,7 +4866,7 @@ pub fn eat_at_restaurant() {
 </ul>
 </blockquote>
 <h2><a class="header" href="#透過向量儲存列表" id="透過向量儲存列表">透過向量儲存列表</a></h2>
-<p>我們第一個要來看的集合是 <code>Vec&lt;T&gt;</code> 常稱爲<em>向量（vector）</em> 。向量允許你在一個資料結構儲存不止一個數值，而且該結構的記憶體會接連排列所有數值。它們很適合用來處理你手上的項目列表，像是一個檔案中每行的文字，或是購物車內每像物品。</p>
+<p>我們第一個要來看的集合是 <code>Vec&lt;T&gt;</code> 常稱爲<em>向量（vector）</em> 。向量允許你在一個資料結構儲存不止一個數值，而且該結構的記憶體會接連排列所有數值。它們很適合用來處理你手上的項目列表，像是一個檔案中每行的文字，或是購物車內每項物品。</p>
 <h3><a class="header" href="#建立新的向量" id="建立新的向量">建立新的向量</a></h3>
 <p>要建立一個新的空向量的話，我們可以呼叫 <code>Vec::new</code> 函式，如範例 8-1 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -4874,8 +4874,8 @@ pub fn eat_at_restaurant() {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-1建立一個儲存數值型別爲 <code>i32</code> 的空向量</span></p>
-<p>注意到我們在此加了型別詮釋。因爲我們沒有對此向量插入任何數值，Rust 不知道我們想儲存什麼類型的元素。這是一項重點，向量是用泛型（generics）實作，我們會在第十章說明如何爲你自己的型別使用泛型。現在我們只需要知道標準函式庫提供的 <code>Vec&lt;T&gt;</code> 型別可以持有任意型別，然後當特定向量要持有特定型別時，該型別會標是在尖括號內。在範例 8-1，我們告訴 Rust 在 <code>v</code> 中的 <code>Vec&lt;T&gt;</code> 會持有 <code>i32</code> 型別的元素。</p>
-<p>在更實際的程式碼中，當你插入數值時，Rust 通常都能推導出型別來。所以你不太常會需要指明型別詮釋。建立 <code>Vec&lt;T&gt;</code> 的同進行初始化是更常見的，爲此 Rust 提供了 <code>vec!</code> 以便使用。此巨集會建立一個新的向量並取得你提供的數值。在範例 8-2 中，我們建立了一個新的 <code>Vec&lt;i32&gt;</code> 並擁有數值 <code>1</code>、<code>2</code> 和 <code>3</code>。整數型別爲 <code>i32</code> 是因爲這是預設整數型別，如同我們在第三章的<a href="ch03-02-data-types.html#data-types">「資料型別」</a><!-- ignore --> 段落提到的一樣。</p>
+<p>注意到我們在此加了型別詮釋。因爲我們沒有對此向量插入任何數值，Rust 不知道我們想儲存什麼類型的元素。這是一項重點，向量是用泛型（generics）實作，我們會在第十章說明如何爲你自己的型別使用泛型。現在我們只需要知道標準函式庫提供的 <code>Vec&lt;T&gt;</code> 型別可以持有任意型別，然後當特定向量要持有特定型別時，該型別會標示在尖括號內。在範例 8-1，我們告訴 Rust 在 <code>v</code> 中的 <code>Vec&lt;T&gt;</code> 會持有 <code>i32</code> 型別的元素。</p>
+<p>在更實際的程式碼中，當你插入數值時，Rust 通常都能推導出型別來。所以你不太常會需要指明型別詮釋。建立 <code>Vec&lt;T&gt;</code> 的同時進行初始化是很常見的，爲此 Rust 提供了 <code>vec!</code> 以便使用。此巨集會建立一個新的向量並取得你提供的數值。在範例 8-2 中，我們建立了一個新的 <code>Vec&lt;i32&gt;</code> 並擁有數值 <code>1</code>、<code>2</code> 和 <code>3</code>。整數型別爲 <code>i32</code> 是因爲這是預設整數型別，如同我們在第三章的<a href="ch03-02-data-types.html#data-types">「資料型別」</a><!-- ignore --> 段落提到的一樣。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v = vec![1, 2, 3];
 <span class="boring">}
@@ -4901,8 +4901,8 @@ pub fn eat_at_restaurant() {
 </span>    {
         let v = vec![1, 2, 3, 4];
 
-        // do stuff with v
-    } // &lt;- v goes out of scope and is freed here
+        // 使用 v 做些事情
+    } // &lt;- v 在此離開作用域並釋放
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-4：顯示向量及其元素在哪裡被釋放</span></p>
@@ -4914,16 +4914,16 @@ pub fn eat_at_restaurant() {
 </span>    let v = vec![1, 2, 3, 4, 5];
 
     let third: &amp;i32 = &amp;v[2];
-    println!(&quot;The third element is {}&quot;, third);
+    println!(&quot;第三個元素爲 {}&quot;, third);
 
     match v.get(2) {
-        Some(third) =&gt; println!(&quot;The third element is {}&quot;, third),
-        None =&gt; println!(&quot;There is no third element.&quot;),
+        Some(third) =&gt; println!(&quot;第三個元素爲 {}&quot;, third),
+        None =&gt; println!(&quot;第三個元素並不存在。&quot;),
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-5：使用索引語法或 <code>get</code> 方法來取的向量項目</span></p>
-<p>我們要注意兩個地方。首先，我們使用了索引數值 <code>2</code> 來獲取地三個元素：向量可以用數字來索引，從零開始計算。第二，使用 <code>&amp;</code> 和 <code>[]</code> 會給我們一個引用，而使用 <code>get</code> 方法加上一個索引作爲引數，則會給我們 <code>Option&lt;&amp;T&gt;</code>。</p>
+<p><span class="caption">範例 8-5：使用索引語法或 <code>get</code> 方法來取得向量項目</span></p>
+<p>我們要注意兩個地方。首先，我們使用了索引數值 <code>2</code> 來獲取第三個元素：向量可以用數字來索引，從零開始計算。第二，使用 <code>&amp;</code> 和 <code>[]</code> 會給我們一個引用，而使用 <code>get</code> 方法加上一個索引作爲引數，則會給我們 <code>Option&lt;&amp;T&gt;</code>。</p>
 <p>Rust 有兩種取得元素引用的方式，所以能以此決定程式的行爲。像是當你使用了一個索引但向量卻沒有對應的元素的情況。讓我們看看一個範例，我們有一個向量擁有五個元素，但我們嘗試用索引 100 來取得對應數值，如範例 8-6 所示。</p>
 <pre><pre class="playground"><code class="language-rust should_panic panics"><span class="boring">fn main() {
 </span>    let v = vec![1, 2, 3, 4, 5];
@@ -4934,7 +4934,7 @@ pub fn eat_at_restaurant() {
 </span></code></pre></pre>
 <p><span class="caption">範例 8-6：嘗試對只有五個元素的向量取得索引 100 的值</span></p>
 <p>當我們執行程式時，第一個 <code>[]</code> 方法會讓程式恐慌，因爲它引用了不存在的元素。此方法適用於當你希望一有無效索引時就讓程式崩潰的狀況。</p>
-<p>當你使用 <code>get</code> 方法來索取向量不存在的索引時，它會回傳 <code>None</code> 而不會恐慌。如果正常情況下偶而會不小心存取超出向量範圍索引的話，你就會想要只用此方法。你的程式碼就會有個邏輯專門處理 <code>Some(&amp;element)</code> 或 <code>None</code>，如同第六章所述。舉例來說，可能會有由使用者輸入的索引。如果他不小心輸入太大的數字的話，程式可以回傳 <code>None</code>，你可以告訴使用者目前向量有多少項目，並讓他們可以再輸入一次。這會比直接讓程式崩潰還來的親民，他們可能只是不小心打錯而已！</p>
+<p>當你使用 <code>get</code> 方法來索取向量不存在的索引時，它會回傳 <code>None</code> 而不會恐慌。如果正常情況下偶而會不小心存取超出向量範圍索引的話，你就會想要只用此方法。你的程式碼就會有個邏輯專門處理 <code>Some(&amp;element)</code> 或 <code>None</code>，如同第六章所述。舉例來說，可能會有由使用者輸入的索引。如果他不小心輸入太大的數字的話，程式可以回傳 <code>None</code>，你可以告訴使用者目前向量有多少項目，並讓他們可以再輸入一次。這會比直接讓程式崩潰還來的友善，他們可能只是不小心打錯而已！</p>
 <p>當程式有個有效引用時，借用檢查器（borrow checker）會貫徹所有權以及借用規則（如第四章所述）來確保此引用及其他對向量內容的引用都是有效的。回想一下有個規則是我們不能在同個作用域同時擁有可變與不可變引用。這個規則一樣適用於範例 8-7，在此我們有一個向量第一個元素的不可變引用，然後我們嘗試在向量後方新增元素。如果我們嘗試在此動作後繼續使用第一個引用的話，程式會無法執行：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let mut v = vec![1, 2, 3, 4, 5];
@@ -4943,7 +4943,7 @@ pub fn eat_at_restaurant() {
 
     v.push(6);
 
-    println!(&quot;The first element is: {}&quot;, first);
+    println!(&quot;第一個元素爲 {}&quot;, first);
 <span class="boring">}
 </span></code></pre>
 <p><span class="caption">範例 8-7：在持有一個項目的引用時，還嘗試對向量新增元素</span></p>
@@ -4959,7 +4959,7 @@ error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immuta
 6 |     v.push(6);
   |     ^^^^^^^^^ mutable borrow occurs here
 7 | 
-8 |     println!(&quot;The first element is: {}&quot;, first);
+8 |     println!(&quot;第一個元素爲 {}&quot;, first);
   |                                          ----- immutable borrow later used here
 
 error: aborting due to previous error
@@ -4971,7 +4971,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>範例 8-7 的程式碼看起來好像能執行。爲何第一個元素的引用要在意向量的最後端發生了什麼事呢？此錯誤其實跟向量運作的方式有關：在向量後方新增元素時，如果當前向量的空間不夠在塞入另一個值的話，可能會需要分配新的記憶體並複製舊的元素到新的空間中。這樣一來，第一個元素的索引可能就會指向已經被釋放的記憶體，借用規則會防止程式遇到這樣的情形。</p>
 <blockquote>
-<p>注意：關於 <code>Vec&lt;T&gt;</code> 型別更多的實作細節，歡迎查閱<a href="../nomicon/vec.html">「The Rustonomicon」</a>。</p>
+<p>注意：關於 <code>Vec&lt;T&gt;</code> 型別更多的實作細節，歡迎查閱<a href="https://doc.rust-lang.org/nomicon/vec.html">「The Rustonomicon」</a>。</p>
 </blockquote>
 <h3><a class="header" href="#遍歷向量的元素" id="遍歷向量的元素">遍歷向量的元素</a></h3>
 <p>如果我們想要依序存取向量中每個元素的話，我們可以遍歷所有元素而不必用索引一個一個取得。範例 8-8 闡釋了如何使用 <code>for</code> 迴圈來取得一個 <code>i32</code> 向量中每個元素的不可變引用並印出他們。</p>
@@ -4992,10 +4992,10 @@ To learn more, run the command again with --verbose.
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-9：遍歷向量中的元素取得可變引用</span></p>
-<p>要改變可變引用指向的數值，在使用 <code>+=</code> 運算子之前，我們需要使用解引用運算子（<code>*</code>）來取得 <code>i</code> 的數值。我們會在第十五章的<a href="ch15-02-deref.html#following-the-pointer-to-the-value-with-the-dereference-operator">「使用解引用運算子追蹤指標的數值」</a>段落來講解更多解引用運算子的細節。</p>
+<p>要改變可變引用指向的數值，在使用 <code>+=</code> 運算子之前，我們需要使用解引用運算子（<code>*</code>）來取得 <code>i</code> 的數值。我們會在第十五章的<a href="ch15-02-deref.html#%E4%BD%BF%E7%94%A8%E8%A7%A3%E5%BC%95%E7%94%A8%E9%81%8B%E7%AE%97%E5%AD%90%E8%BF%BD%E8%B9%A4%E6%8C%87%E6%A8%99%E7%9A%84%E6%95%B8%E5%80%BC">「使用解引用運算子追蹤指標的數值」</a>段落來講解更多解引用運算子的細節。</p>
 <h3><a class="header" href="#使用枚舉來儲存多種型別" id="使用枚舉來儲存多種型別">使用枚舉來儲存多種型別</a></h3>
 <p>在本章的一開始，我們說向量只能儲存同型別的數值。這在某些情況會很不方便，一定會有場合是要儲存不同型別到一個列表中的。幸運的是，枚舉的變體是定義在相同的枚舉型別，所以當我們需要在向量儲存不同型別的元素時，我們可以用枚舉來定義！</p>
-<p>舉例來說，假設我們想從表格中的一行取的數值，但是有些行內的列會包含整數、浮點數以及一些字串。我們可以定義一個枚舉，其變體會持有不同的數值型別，然後所有的枚舉變體都會被視爲相同型別：就是它們的枚舉。接著我們就可以建立一個擁有此枚舉型別的向量，最終達成持有不同行邊。如範例 8-10 所示。</p>
+<p>舉例來說，假設我們想從表格中的一行取得數值，但是有些行內的列會包含整數、浮點數以及一些字串。我們可以定義一個枚舉，其變體會持有不同的數值型別，然後所有的枚舉變體都會被視爲相同型別：就是它們的枚舉。接著我們就可以建立一個擁有此枚舉型別的向量，最終達成持有不同型別。如範例 8-10 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum SpreadsheetCell {
         Int(i32),
@@ -5011,7 +5011,7 @@ To learn more, run the command again with --verbose.
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-10：用 <code>enum</code> 定義儲存不同型別的枚舉並作爲向量的型別</span></p>
-<p>Rust 需要在編譯時期知道向量的型別以及要在堆積上用到多少記憶體才能儲存每個元素。這樣做第二個好處是我們能知道此向量會顯式哪些型別。如果 Rust 允許向量一次持有任意型別的話，在對向量中每個元素進行處理時，可能就會有一或多種型別會產生錯誤。使用枚舉和 <code>match</code> 表達式讓 Rust 可以在編譯期間確保每個可能的情形都已經處理完善了，如同第六章提到的一樣。</p>
+<p>Rust 需要在編譯時期知道向量的型別以及要在堆積上用到多少記憶體才能儲存每個元素。這樣做第二個好處是我們能顯式知道哪些型別可以放入向量中。如果 Rust 允許向量一次持有任意型別的話，在對向量中每個元素進行處理時，可能就會有一或多種型別會產生錯誤。使用枚舉和 <code>match</code> 表達式讓 Rust 可以在編譯期間確保每個可能的情形都已經處理完善了，如同第六章提到的一樣。</p>
 <p>當你在寫程式時，如果你無法確切知道執行時程式所處理的所有型別的話，枚舉就不管用了。這時使用特徵物件會比較好，我們會在第十七章再來解釋。</p>
 <p>現在我們已經講了一些向量常見的用法，有時間的話記得到<a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">向量的 API 技術文件</a>瞭解標準函式庫中 <code>Vec&lt;T&gt;</code> 所有實用的方法。舉例來說，除了 <code>push</code> 方法以外，還有個 <code>pop</code> 方法可以移除並回傳最後一個元素。接下來讓我們看看下一個集合型別：<code>String</code>！</p>
 <blockquote>
@@ -5025,8 +5025,8 @@ To learn more, run the command again with --verbose.
 <p>我們已經在第四章提到字串（String），但現在我們要更加深入探討。Rustaceans 初心者常常會卡在三個環節：Rust 傾向於回報可能的錯誤、字串的資料結構比開發者所熟悉的還要複雜，以及 UTF-8。這些要素讓來自其他程式語言背景的開發者會遇到一些困難。</p>
 <p>我們會在集合章節討論字串的原因是，字串本身就是位元組的集合，且位元組作爲文字呈現時，它會提供一些實用的方法。在此段落我們將和其他集合型別一樣討論 <code>String</code> 的操作，像是建立、更新與讀取。我們還會討論到 <code>String</code> 與其他集合不一樣的地方，像是 <code>String</code> 的索引就比其他集合還複雜，因爲它會依據人們對於 <code>String</code> 資料型別的理解而有所不同。</p>
 <h3><a class="header" href="#什麼是字串" id="什麼是字串">什麼是字串？</a></h3>
-<p>首先我們要好好定義<em>字串（String）<em>這個術語。Rust 在核心語言中只有一個字串型別，那就是字串 slice <code>str</code>，它通常是以借用的形式存在 <code>&amp;str</code>。在第四章中我們提到</em>字串 slice</em>是一個針對存在某處的  UTF-8 編碼資料的引用。舉例來說，字串字面值（String literals）就儲存在程式的二進制檔案中，因此就是字串 slice。</p>
-<p><code>String</code> 型別是 Rust 標準函式庫所提供的型別，並不是核心語言內建的型別，它是可增長的、可變的、可擁有所有權的 UTF-8 編碼字串型別。當 Rustaceans 提及 Rust 中的「字串」時，他們通常指的是 <code>String</code> 以及字串 slice <code>&amp;str</code> 型別，而不只是其中一種型別。雖然此段落大部分都在討論 <code>String</code>，這兩個型別都時常用在 Rust 的標準函式庫中，且 <code>String</code> 與字串 slices 都是 UTF-8 編碼的。</p>
+<p>首先我們要好好定義<em>字串（String）<em>這個術語。Rust 在核心語言中只有一個字串型別，那就是字串切片<code>str</code>，它通常是以借用的形式存在 <code>&amp;str</code>。在第四章中我們提到</em>字串切片</em>是一個針對存在某處的  UTF-8 編碼資料的引用。舉例來說，字串字面值（String literals）就儲存在程式的二進制檔案中，因此就是字串切片。</p>
+<p><code>String</code> 型別是 Rust 標準函式庫所提供的型別，並不是核心語言內建的型別，它是可增長的、可變的、可擁有所有權的 UTF-8 編碼字串型別。當 Rustaceans 提及 Rust 中的「字串」時，他們通常指的是 <code>String</code> 以及字串切片<code>&amp;str</code> 型別，而不只是其中一種型別。雖然此段落大部分都在討論 <code>String</code>，這兩個型別都時常用在 Rust 的標準函式庫中，且 <code>String</code> 與字串切片s 都是 UTF-8 編碼的。</p>
 <p>Rust 的標準函式庫還包含了其他種類的字串型別，像是 <code>OsString</code>、<code>OsStr</code>、<code>CString</code> 以及 <code>CStr</code>。函式庫 crates 更可以提供儲存字串資料的更多選項。你應該會注意到這些型別的結尾都是 <code>String</code> 和 <code>Str</code>，它們分別代表擁有所有權與借用的變體。就像你之前看到的 <code>String</code> 和 <code>str</code> 型別一樣。這些字串型別可以儲存不同編碼的文字或者以不同的記憶體形式呈現。我們不會在本章節討論這些字串型別，要是你想知道如何或何時使用它們的話，你可以查閱它們的 API 技術文件。</p>
 <h3><a class="header" href="#建立新的字串" id="建立新的字串">建立新的字串</a></h3>
 <p>許多 <code>Vec&lt;T&gt;</code> 可使用的方法在 <code>String</code> 也都能用，像是用 <code>new</code> 函式建立新的字串，如範例 8-11 所示。</p>
@@ -5074,14 +5074,14 @@ To learn more, run the command again with --verbose.
 <h3><a class="header" href="#更新字串" id="更新字串">更新字串</a></h3>
 <p>就和 <code>Vec&lt;T&gt;</code> 一樣，如果你插入更多資料的話，<code>String</code> 可以增長大小並變更其內容。除此之外你也可以使用 <code>+</code> 運算子或 <code>format!</code> 巨集來串接 <code>String</code> 數值。</p>
 <h4><a class="header" href="#使用-push_str-和-push-追加字串" id="使用-push_str-和-push-追加字串">使用 <code>push_str</code> 和 <code>push</code> 追加字串</a></h4>
-<p>我們可以使用 <code>push_str</code> 方法來追加一個字串 slice 使字串增長，如範例 8-15 所示。</p>
+<p>我們可以使用 <code>push_str</code> 方法來追加一個字串切片使字串增長，如範例 8-15 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut s = String::from(&quot;foo&quot;);
     s.push_str(&quot;bar&quot;);
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-15：使用 <code>push_str</code> 方法向 <code>String</code> 追加字串 slice</span></p>
-<p>在這兩行之後，<code>s</code> 會包含 <code>foobar</code>。<code>push_str</code> 方法取得的是字串 slice 因爲我們並不需要取得參數的所有權。舉例來說範例 8-16 就說明了如果 <code>s2</code> 在追加其內容給 <code>s1</code> 之後卻不能使用的話，就很不妙了。</p>
+<p><span class="caption">範例 8-15：使用 <code>push_str</code> 方法向 <code>String</code> 追加字串切片</span></p>
+<p>在這兩行之後，<code>s</code> 會包含 <code>foobar</code>。<code>push_str</code> 方法取得的是字串切片因爲我們並不需要取得參數的所有權。舉例來說範例 8-16 就說明了如果 <code>s2</code> 在追加其內容給 <code>s1</code> 之後卻不能使用的話，就很不妙了。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut s1 = String::from(&quot;foo&quot;);
     let s2 = &quot;bar&quot;;
@@ -5089,7 +5089,7 @@ To learn more, run the command again with --verbose.
     println!(&quot;s2 is {}&quot;, s2);
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-16：在內容追加給 <code>String</code> 後繼續使用字串 slice</span></p>
+<p><span class="caption">範例 8-16：在內容追加給 <code>String</code> 後繼續使用字串切片</span></p>
 <p>如果 <code>push_str</code> 方法會取得 <code>s2</code> 的所有權，我們就無法在最後一行印出其數值了。幸好這段程式碼是可以執行的！</p>
 <p>而 <code>push</code> 方法會取得一個字元作爲參數並加到 <code>String</code> 上。範例 8-17 顯示了一個使用 <code>push</code> 方法將字母 <em>l</em> 加到 <code>String</code> 的程式碼。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -5211,8 +5211,8 @@ let answer = &amp;hello[0];
 </code></pre>
 <p>Rust 提拱多種不同的方式來解釋電腦中儲存的原始字串資料，讓每個程式無論是何種人類語言的資料，都可以選擇它們需要的呈現方式。</p>
 <p>Rust 還有一個不允許索引 <code>String</code> 來取得字元的原因是因爲，索引運算必須永遠預期是花費常數時間（O(1)）。但在 <code>String</code> 上無法提供這樣的效能保證，因爲 Rust 會需要從索引的開頭遍歷每個內容才能決定多少有效字元存在。</p>
-<h3><a class="header" href="#字串-slice" id="字串-slice">字串 slice</a></h3>
-<p>索引字串通常不是個好點子，因爲字符串索引要回傳的型別是不明確的，是要一個位元組數值、一個字元、一個形素群集還是一個字串 slice 呢。因此如果你真的想要使用索引建立字串 slice 的話，Rust 會要你更明確些。要明確指定你的索引與你想要的字串 slice，與其在 <code>[]</code> 只使用一個數字來索引，你可以在 <code>[]</code> 指定一個範圍來建立包含特定位元組的字串 slice：</p>
+<h3><a class="header" href="#字串切片-1" id="字串切片-1">字串切片</a></h3>
+<p>索引字串通常不是個好點子，因爲字符串索引要回傳的型別是不明確的，是要一個位元組數值、一個字元、一個形素群集還是一個字串切片呢。因此如果你真的想要使用索引建立字串切片的話，Rust 會要你更明確些。要明確指定你的索引與你想要的字串切片，與其在 <code>[]</code> 只使用一個數字來索引，你可以在 <code>[]</code> 指定一個範圍來建立包含特定位元組的字串切片：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5230,7 +5230,7 @@ let s = &amp;hello[0..4];
 thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of `Здравствуйте`', src/libcore/str/mod.rs:2069:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>你在使用範圍來建立字串 slice 時要格外小心，因爲這樣做有可能會使你的程式崩潰。</p>
+<p>你在使用範圍來建立字串切片時要格外小心，因爲這樣做有可能會使你的程式崩潰。</p>
 <h3><a class="header" href="#遍歷字串的方法" id="遍歷字串的方法">遍歷字串的方法</a></h3>
 <p>幸運的是你有其他方法來取得字串的元素。</p>
 <p>如果你需要對每個獨立的 Unicode 純量型別做運算的話，最好的方式是使用 <code>chars</code> 方法。對「नमस्ते」呼叫 <code>chars</code> 會將六個擁有 <code>char</code> 型別的數值拆開並回傳，這樣一來你就可以遍歷每個元素：</p>
@@ -6346,7 +6346,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 10-11：結構體定義中使用不同的泛型型別的方法</span></p>
-<p>在 <code>main</code> 中，我們定義了一個 <code>Point</code>，其 <code>x</code> 型別爲 <code>i32</code>（數值爲 <code>5</code>），<code>y</code> 型別爲 <code>f64</code>（數值爲 <code>10.4</code>）。變數 <code>p2</code> 是個 <code>Point</code> 結構體，<code>x</code> 爲字串 slice（數值爲 <code>&quot;Hello&quot;</code>），<code>y</code> 爲 <code>char</code>（數值爲 <code>c</code>）。在 <code>p1</code> 呼叫 <code>mixup</code> 並加上引數 <code>p2</code> 的話會給我們 <code>p3</code>，它的 <code>x</code> 會有型別 <code>i32</code>，因爲 <code>x</code> 來自 <code>p1</code>。而且變數 <code>p3</code> 還會有型別爲 <code>char</code> 的 <code>y</code>，因爲 <code>y</code> 來自 <code>p2</code>。<code>println!</code> 巨集的呼叫就會顯示 <code>p3.x = 5, p3.y = c</code>。</p>
+<p>在 <code>main</code> 中，我們定義了一個 <code>Point</code>，其 <code>x</code> 型別爲 <code>i32</code>（數值爲 <code>5</code>），<code>y</code> 型別爲 <code>f64</code>（數值爲 <code>10.4</code>）。變數 <code>p2</code> 是個 <code>Point</code> 結構體，<code>x</code> 爲字串切片（數值爲 <code>&quot;Hello&quot;</code>），<code>y</code> 爲 <code>char</code>（數值爲 <code>c</code>）。在 <code>p1</code> 呼叫 <code>mixup</code> 並加上引數 <code>p2</code> 的話會給我們 <code>p3</code>，它的 <code>x</code> 會有型別 <code>i32</code>，因爲 <code>x</code> 來自 <code>p1</code>。而且變數 <code>p3</code> 還會有型別爲 <code>char</code> 的 <code>y</code>，因爲 <code>y</code> 來自 <code>p2</code>。<code>println!</code> 巨集的呼叫就會顯示 <code>p3.x = 5, p3.y = c</code>。</p>
 <p>此例是是爲了展示一些泛型參數是透過 <code>impl</code> 宣告而有些則是透過方法定義來得。在此，泛型參數 <code>T</code> 和 <code>U</code> 是宣告在 <code>impl</code> 之後，因爲它們與結構體定義有關聯。而在 <code>fn mixup</code> 之後宣告的泛型參數只和該方法有關。</p>
 <h3><a class="header" href="#使用泛型的程式碼效能" id="使用泛型的程式碼效能">使用泛型的程式碼效能</a></h3>
 <p>你可能會好奇當你使用泛型型別參數會不會有執行時的消耗。好消息是 Rust 實作泛型的方式讓你使用泛型的的程式碼跑得不會比使用實際型別還來的慢。</p>
@@ -7003,7 +7003,7 @@ To learn more, run the command again with --verbose.
 <p><code>x</code> 在此有生命週期 <code>'b</code>，此時它比 <code>'a</code> 還長。這代表 <code>r</code> 可以引用 <code>x</code>，因爲 Rust 知道 <code>r</code> 的引用在 <code>x</code> 是有效的時候永遠是有效的。</p>
 <p>現在你知道引用的生命週期，以及 Rust 如何分析生命週期以確保引用永遠有效了。讓我們來探索函式中參數與回傳值的泛型生命週期。</p>
 <h3><a class="header" href="#函式中的泛型生命週期" id="函式中的泛型生命週期">函式中的泛型生命週期</a></h3>
-<p>讓我們寫個回傳兩個字串 slice 中較長者的函式。此函式會回傳兩個字串 slice 並回傳一個字串 slcie。在我們實作 <code>longest</code> 函式後，範例 10-20 的程式碼應該要印出 <code>The longest string is abcd</code>。</p>
+<p>讓我們寫個回傳兩個字串切片中較長者的函式。此函式會回傳兩個字串切片並回傳一個字串 slcie。在我們實作 <code>longest</code> 函式後，範例 10-20 的程式碼應該要印出 <code>The longest string is abcd</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">fn main() {
     let string1 = String::from(&quot;abcd&quot;);
@@ -7013,8 +7013,8 @@ To learn more, run the command again with --verbose.
     println!(&quot;The longest string is {}&quot;, result);
 }
 </code></pre>
-<p><span class="caption">範例 10-20：<code>main</code> 函式呼叫 <code>longest</code> 函式來找出兩個字串 slice 中較長的</span></p>
-<p>注意我們需要函式接收的字串 slice 屬於引用，因爲我們不希望 <code>longest</code> 函式會取得它參數的所有權。第四章的<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2-slice-%E4%BD%9C%E7%88%B2%E5%8F%83%E6%95%B8">「字串 Slice 作爲參數」</a><!-- ignore -->段落有提到爲何範例 10-20 的參數正是我們所想要使用的參數。</p>
+<p><span class="caption">範例 10-20：<code>main</code> 函式呼叫 <code>longest</code> 函式來找出兩個字串切片中較長的</span></p>
+<p>注意我們需要函式接收的字串切片屬於引用，因爲我們不希望 <code>longest</code> 函式會取得它參數的所有權。第四章的<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2-slice-%E4%BD%9C%E7%88%B2%E5%8F%83%E6%95%B8">「字串切片作爲參數」</a><!-- ignore -->段落有提到爲何範例 10-20 的參數正是我們所想要使用的參數。</p>
 <p>如果我們嘗試實作 <code>longest</code> 函式時，如範例 10-21 所示，它不會編譯過。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
@@ -7084,7 +7084,7 @@ To learn more, run the command again with --verbose.
 </code></pre></pre>
 <p><span class="caption">範例 10-22：<code>longest</code> 函式定義指定所有簽名中的引用必須有相同的生命週期 <code>'a</code></span></p>
 <p>此程式碼能夠編譯成功並產生我們希望在範例 10-20 的 <code>main</code> 函式中得到的結果。</p>
-<p>此函式簽名告訴 Rust 它有個生命週期 <code>'a</code>，函式的兩個參數都是字串 slice，並且會與生命週期<code>'a</code>。此函式簽名還靠素了 Rust 從函式回傳的字串 slice 也會和生命週期 <code>'a</code> 存活的一樣久。實際上它代表 <code>longest</code> 函式回傳引用的生命週期與傳入時字串長度較短的引用的生命週期一樣。這些約束是我們希望 Rust 去強制執行的。記住當我們在此函式簽名指定生命週期參數時，我們不會變更任何傳入或傳出數值的生命週期。我們只是告訴借用檢查器應該要拒絕任何沒有服從這些約束的數值。注意到 <code>longest</code> 函式不需要知道 <code>x</code> 和 <code>y</code> 實際上會活多久，只需要知道有某個作用域會用 <code>'a</code> 取代來滿足此簽名。</p>
+<p>此函式簽名告訴 Rust 它有個生命週期 <code>'a</code>，函式的兩個參數都是字串切片，並且會與生命週期<code>'a</code>。此函式簽名還靠素了 Rust 從函式回傳的字串切片也會和生命週期 <code>'a</code> 存活的一樣久。實際上它代表 <code>longest</code> 函式回傳引用的生命週期與傳入時字串長度較短的引用的生命週期一樣。這些約束是我們希望 Rust 去強制執行的。記住當我們在此函式簽名指定生命週期參數時，我們不會變更任何傳入或傳出數值的生命週期。我們只是告訴借用檢查器應該要拒絕任何沒有服從這些約束的數值。注意到 <code>longest</code> 函式不需要知道 <code>x</code> 和 <code>y</code> 實際上會活多久，只需要知道有某個作用域會用 <code>'a</code> 取代來滿足此簽名。</p>
 <p>當要在函式詮釋生命週期時，詮釋會位於函式簽名中，而不是函式本體。Rust 可以不用任何協助就能分析函式中的程式碼。然而當函式擁有傳入或傳出外部程式碼的引用時，Rust 無法自己判別出參數與回傳值的生命週期。每次函式呼叫時的生命週期可能都不一樣。這就是爲何我們得親自詮釋生命週期。</p>
 <p>當我們向 <code>longest</code> 傳入實際引用時，<code>'a</code> 實際替代的生命週期爲 <code>x</code> 作用域與 <code>y</code> 作用域重疊得部分。換句話說，泛型生命週期 <code>'a</code> 取得的生命週期會等於 <code>x</code> 與 <code>y</code> 的生命週期中較短的。因爲我們將回傳引用詮釋了相同的生命週期參數 <code>'a</code>，回傳引用的生命週期也會保證在 <code>x</code> 和 <code>y</code> 的生命週期較短的結束前有效。</p>
 <p>讓我們來看看如何透過傳入不同實際生命週期的引用來使生命週期詮釋能約束 <code>longest</code> 函式，如範例 10-23 所示。</p>
@@ -7154,7 +7154,7 @@ To learn more, run the command again with --verbose.
 <p>身爲人類我們能看出此程式碼的 <code>string1</code> 字串長度的確比 <code>string2</code> 長，因此 <code>result</code> 會包含 <code>string1</code> 的引用。因爲 <code>string1</code> 尚未離開作用域，所以 <code>string1</code> 的引用在 <code>println!</code> 陳述式中仍然是有效的才對。然而編譯器在此情形會無法看出引用是有效的。所以我們才告訴 Rust <code>longest</code> 函式回傳引用的生命週期等同於傳入引用中較短的生命週期。這樣一來借用檢查器就會否決範例 10-24 的程式碼，因爲它可能會有無效的引用。</p>
 <p>歡迎嘗試設計更多採用不同數值與不同生命週期的引用作爲 <code>longest</code> 函式參數與回傳值的實驗，並在編譯前假設你的實驗會不會通過借用檢查器，然後看看你的理解是不是正確的！</p>
 <h3><a class="header" href="#深入理解生命週期" id="深入理解生命週期">深入理解生命週期</a></h3>
-<p>你要指定生命週期參數的方式取決於函式的行爲。舉例來說如果我們改變函式 <code>longest</code> 的實作爲永遠只回傳第一個參數而不是最長的字串 slice，我們就不需要在參數 <code>y</code> 指定生命週期。以下的程式碼就能編譯：</p>
+<p>你要指定生命週期參數的方式取決於函式的行爲。舉例來說如果我們改變函式 <code>longest</code> 的實作爲永遠只回傳第一個參數而不是最長的字串切片，我們就不需要在參數 <code>y</code> 指定生命週期。以下的程式碼就能編譯：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let string1 = String::from(&quot;abcd&quot;);
@@ -7206,7 +7206,7 @@ To learn more, run the command again with --verbose.
 <p>問題在於 <code>result</code> 會離開作用域並在 <code>longest</code> 函式結尾被清除。我們卻嘗試從函式中回傳 <code>result</code> 的引用。我們無法指定生命週期參數來改變迷途引用，而且 Rust 不會允許我們將建立迷途引用。在此例中，最好的解決辦法是回傳有所有權的資料型別而非引用，並讓呼叫的函式自行決定如何清理數值。</p>
 <p>總結來說，生命週期語法是用來連接函式中不同參數與回傳值的生命週期。一旦連結起來，Rust 就可以獲得足夠的資訊來確保記憶體安全的運算並防止會產生迷途指標或違反記憶體安全的操作。</p>
 <h3><a class="header" href="#結構體定義中的生命週期詮釋" id="結構體定義中的生命週期詮釋">結構體定義中的生命週期詮釋</a></h3>
-<p>目前爲止，我們只定義過擁有所有權的結構體。結構體其實也能持有引用，不過我們會需要在結構體定義中每個引用加上生命週期詮釋。範例 10-25 有個持有字串 slice 的結構體 <code>ImportantExcerpt</code>。</p>
+<p>目前爲止，我們只定義過擁有所有權的結構體。結構體其實也能持有引用，不過我們會需要在結構體定義中每個引用加上生命週期詮釋。範例 10-25 有個持有字串切片的結構體 <code>ImportantExcerpt</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct ImportantExcerpt&lt;'a&gt; {
     part: &amp;'a str,
@@ -7221,7 +7221,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 10-25：擁有引用的結構體，所以它的定義需要加上生命週期詮釋</span></p>
-<p>此結構體有個欄位 <code>part</code> 並擁有字串 slice 引用。如同泛型資料型別，我們在結構體名稱之後的尖括號內宣告泛型生命週期參數，所以我們就可以在結構體定義的本體中使用生命週期參數。此詮釋代表 <code>ImportantExcerpt</code> 的實例不能比它持有的欄位 <code>part</code> 活得還久。</p>
+<p>此結構體有個欄位 <code>part</code> 並擁有字串切片引用。如同泛型資料型別，我們在結構體名稱之後的尖括號內宣告泛型生命週期參數，所以我們就可以在結構體定義的本體中使用生命週期參數。此詮釋代表 <code>ImportantExcerpt</code> 的實例不能比它持有的欄位 <code>part</code> 活得還久。</p>
 <p><code>main</code> 函式在此產生一個結構體 <code>ImportantExcerpt</code> 的實例並持有一個引用，其爲變數 <code>novel</code> 所擁有的 <code>String</code> 中的第一個句子的引用。<code>novel</code> 的資料是在 <code>ImportantExcerpt</code> 實例之前建立的。除此之外，<code>novel</code> 在 <code>ImportantExcerpt</code> 離開作用於之前不會離開作用域，所以 <code>ImportantExcerpt</code> 實例中的引用是有效的。</p>
 <h3><a class="header" href="#生命週期省略" id="生命週期省略">生命週期省略</a></h3>
 <p>你已經學到了每個引用都有個生命週期，而且你需要在有使用引用的函式與結構體中指定生命週期參數。然而在第四章的範例 4-9 我們有可以函式可以不詮釋生命週期並照樣編譯成功，我門在範例 10-26 在展示一次。</p>
@@ -7385,7 +7385,7 @@ where
     }
 }
 </code></pre></pre>
-<p>這是範例 10-22 會回傳兩個字串 slice 較長者的 <code>longest</code> 函式。不過現在它有個額外的參數 <code>ann</code>，使用的是泛型型別 <code>T</code>，它可以是任何在 <code>where</code> 中所指定有實作 <code>Display</code> 特徵的型別。此額外參數會在函式比較兩個字串 slice 前印出來，這也是爲何需要 <code>Display</code> 特徵界限。因爲生命週期也是一種泛型，生命週期參數 <code>'a</code> 與泛型型別參數 <code>T</code> 都宣告在函式名稱後的尖括號內。</p>
+<p>這是範例 10-22 會回傳兩個字串切片較長者的 <code>longest</code> 函式。不過現在它有個額外的參數 <code>ann</code>，使用的是泛型型別 <code>T</code>，它可以是任何在 <code>where</code> 中所指定有實作 <code>Display</code> 特徵的型別。此額外參數會在函式比較兩個字串切片前印出來，這也是爲何需要 <code>Display</code> 特徵界限。因爲生命週期也是一種泛型，生命週期參數 <code>'a</code> 與泛型型別參數 <code>T</code> 都宣告在函式名稱後的尖括號內。</p>
 <h2><a class="header" href="#總結-9" id="總結-9">總結</a></h2>
 <p>我們在此章節涵蓋了許多內容！現在你已經知道泛型型別參數、特徵與特徵界限以及泛型生命週期參數，你已經準備好能寫出適用於許多不同情況且不重複的程式碼了。泛型型別參數讓你可以讓程式碼適用於不同型別；特徵與特徵界限確保就算型別爲泛型，它們都會有相同的行爲。你還學到了使用生命週期詮釋確保此如此彈性的程式碼不會造成迷途引用。而且這些分析都發生在編譯期間，完全不影響執行時效能！</p>
 <p>不管你信不信，本章節還有很多延伸主體可以導論，像是第十七章就會討論特徵物件（trait objects），這是另一個使用特徵的方法。另外還有一些更複雜的場合會涉及到更進階的生命週期詮釋。對此你可能就會想閱讀 <a href="../reference/index.html">Rust Reference</a>。接下來，你想學習如何在 Rust 寫測試，讓你可以確保程式碼能如期執行。</p>
@@ -8859,7 +8859,7 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
 }
 </code></pre></pre>
 <p><span class="caption">範例 12-6：重構 <code>parse_config</code> 來返回 <code>Config</code> 結構體實例</span></p>
-<p>我們定義了一個結構體 <code>Config</code> 其欄位有 <code>query</code> 與 <code>filename</code>。<code>parse_config</code> 的簽名現在指明它會回傳一個 <code>Config</code> 數值。在 <code>parse_config</code> 的本體中，我們原先回傳 <code>args</code> 中 <code>String</code> 數值引用的字串 slice，現在我們定義 <code>Config</code> 來包含具所有權的 <code>String</code> 數值。<code>main</code> 中的 <code>args</code> 變數是引數數值的擁有者，而且只是借用它們給 <code>parse_config</code> 函式，這意味著如果 <code>Config</code> 嘗試取得 <code>args</code> 中數值的所有權的話，我們會違反 Rust 的借用規則。</p>
+<p>我們定義了一個結構體 <code>Config</code> 其欄位有 <code>query</code> 與 <code>filename</code>。<code>parse_config</code> 的簽名現在指明它會回傳一個 <code>Config</code> 數值。在 <code>parse_config</code> 的本體中，我們原先回傳 <code>args</code> 中 <code>String</code> 數值引用的字串切片，現在我們定義 <code>Config</code> 來包含具所有權的 <code>String</code> 數值。<code>main</code> 中的 <code>args</code> 變數是引數數值的擁有者，而且只是借用它們給 <code>parse_config</code> 函式，這意味著如果 <code>Config</code> 嘗試取得 <code>args</code> 中數值的所有權的話，我們會違反 Rust 的借用規則。</p>
 <p>我們可以用許多不同的方式來管理 <code>String</code> 的資料，但最簡單（卻較不有效率）的方式是對數值呼叫 <code>clone</code> 方法。這會複製整個資料讓 <code>Config</code> 能夠擁有，這會比引用字串資料還要花時間與記憶體。然而克隆資料讓我們的程式碼比較直白，因爲在此情況下我們就不需要管理引用的生命週期，犧牲一點效能以換取簡潔性是值得的。</p>
 <blockquote>
 <h3><a class="header" href="#使用-clone-的權衡取捨" id="使用-clone-的權衡取捨">使用 <code>clone</code> 的權衡取捨</a></h3>
@@ -9457,8 +9457,8 @@ Pick three.&quot;;
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 12-16：定義足夠的 <code>search</code> 函式讓我們的測試能夠編譯</span></p>
-<p>值得注意的是在 <code>search</code> 的簽名中需要定義一個顯式的生命週期 <code>'a</code>，並用於 <code>contents</code> 引數與回傳值。回想一下在<a href="ch10-03-lifetime-syntax.html">第十章</a><!-- ignore -->中生命週期參數會連結引數生命週期與回傳值生命週期。在此例中，我們指明回傳值應包含字串 slice 且其會引用 <code>contents</code> 引數的 slices（而非引數 <code>query</code>）。</p>
-<p>換句話說，我們告訴 Rust <code>search</code> 函式回傳的資料會跟傳遞給 <code>search</code> 函式的引數 <code>contents</code> 資料存活的一樣久。這點很重要！被 slice 引用的資料必須有效，這樣其引用才會有效。如果編譯器假設是在建立 <code>query</code> 而非 <code>contents</code> 的字串 slice，它的安全檢查就會不正確。</p>
+<p>值得注意的是在 <code>search</code> 的簽名中需要定義一個顯式的生命週期 <code>'a</code>，並用於 <code>contents</code> 引數與回傳值。回想一下在<a href="ch10-03-lifetime-syntax.html">第十章</a><!-- ignore -->中生命週期參數會連結引數生命週期與回傳值生命週期。在此例中，我們指明回傳值應包含字串切片且其會引用 <code>contents</code> 引數的 slices（而非引數 <code>query</code>）。</p>
+<p>換句話說，我們告訴 Rust <code>search</code> 函式回傳的資料會跟傳遞給 <code>search</code> 函式的引數 <code>contents</code> 資料存活的一樣久。這點很重要！被 slice 引用的資料必須有效，這樣其引用才會有效。如果編譯器假設是在建立 <code>query</code> 而非 <code>contents</code> 的字串切片，它的安全檢查就會不正確。</p>
 <p>如果我們忘記詮釋生命週期並嘗試編譯此函式，我們會得到以下錯誤：</p>
 <pre><code class="language-console">$ cargo build
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -9987,7 +9987,7 @@ Trust me.&quot;;
 </span></code></pre></pre>
 <p><span class="caption">範例 12-21：定義 <code>search_case_insensitive</code> 並在比較前將搜尋字串與行數均改爲小寫</span></p>
 <p>首先我們將 <code>query</code> 字串變成小寫並儲存到同名的遮蔽變數中。我們必須呼叫對要搜尋的字串 <code>to_lowercase</code>，這樣無論使用者輸入的是 <code>&quot;rust&quot;</code>、<code>&quot;RUST&quot;</code>、<code>&quot;Rust&quot;</code> 或 <code>&quot;rUsT&quot;</code>，我們都會將字串視爲 <code>&quot;rust&quot;</code> 並以此來不區分大小寫。雖然 <code>to_lowercase</code> 能處理基本的 Unicode，但它不會是 100% 準確的。如果我們是在寫真正的應用程式的話，我們需要處理更多條件，但在此段落是爲了理解環境變數而非 Unicode，所以我們維持這樣寫就好。</p>
-<p>注意到 <code>query</code> 現在是個 <code>String</code> 而非字串 slice，因爲呼叫 <code>to_lowercase</code> 會建立新的資料而非引用現存的資料。假設要搜尋的字串是 <code>&quot;rUsT&quot;</code> 的話，該字串 slice 並沒有包含小寫的 <code>u</code> 或 <code>t</code> 能讓我們來使用，所以我們必須分配一個包含 <code>&quot;rust&quot;</code> 的新 <code>String</code>。現在當我們將 <code>query</code> 作爲引數傳給 <code>contains</code> 方法時，我們需要加上「&amp;」，因爲 <code>contains</code> 所定義的簽名接收的是一個字串 slice。</p>
+<p>注意到 <code>query</code> 現在是個 <code>String</code> 而非字串切片，因爲呼叫 <code>to_lowercase</code> 會建立新的資料而非引用現存的資料。假設要搜尋的字串是 <code>&quot;rUsT&quot;</code> 的話，該字串切片並沒有包含小寫的 <code>u</code> 或 <code>t</code> 能讓我們來使用，所以我們必須分配一個包含 <code>&quot;rust&quot;</code> 的新 <code>String</code>。現在當我們將 <code>query</code> 作爲引數傳給 <code>contains</code> 方法時，我們需要加上「&amp;」，因爲 <code>contains</code> 所定義的簽名接收的是一個字串切片。</p>
 <p>接著，在我們檢查是否包含小寫的 <code>query</code> 前，我們對每個 <code>line</code> 加上 <code>to_lowercase</code> 的呼叫。現在我們將 <code>line</code> 和 <code>query</code> 都轉換成小寫了。我們可以不區分大小寫來找到符合的行數。</p>
 <p>讓我們來看看實作是否能通過測試：</p>
 <pre><code class="language-console">$ cargo test
@@ -13038,7 +13038,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <h3><a class="header" href="#函式與方法的隱式強制解引用" id="函式與方法的隱式強制解引用">函式與方法的隱式強制解引用</a></h3>
 <p>*強制解引用（Deref coercion）*是一個 Rust 針對函式或方法的引數的便利設計。強制解引用只適用於有實作 <code>Deref</code> 特徵的型別。強制解引用會將一個型別轉換成另一個型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因爲 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>str</code>。當我們將某個特定型別數值的引用作爲引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
 <p>Rust 會加入強制解引用的原因是因爲程式設計師在寫函式與方法呼叫時，就不必加上許多顯式引用 <code>&amp;</code> 與解引用 <code>*</code>。強制解引用還讓我們可以寫出能同時用於引用或智慧指標的程式碼。</p>
-<p>爲了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 有個函式定義且有個字串 slice 作爲參數：</p>
+<p>爲了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 有個函式定義且有個字串切片作爲參數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn hello(name: &amp;str) {
     println!(&quot;Hello, {}!&quot;, name);
@@ -13047,7 +13047,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 15-11：<code>hello</code> 函式且有參數 <code>name</code> 其型別爲 <code>&amp;str</code></span></p>
-<p>我們可以使用字串 slice 作爲引數來呼叫函式 <code>hello</code>，比方說 <code>hello(&quot;Rust&quot;);</code>。強制解引用讓我們可以透過 <code>MyBox&lt;String&gt;</code> 型別數值的引用來呼叫 <code>hello</code>，如範例 15-12 所示：</p>
+<p>我們可以使用字串切片作爲引數來呼叫函式 <code>hello</code>，比方說 <code>hello(&quot;Rust&quot;);</code>。強制解引用讓我們可以透過 <code>MyBox&lt;String&gt;</code> 型別數值的引用來呼叫 <code>hello</code>，如範例 15-12 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::ops::Deref;
 </span><span class="boring">
@@ -13077,7 +13077,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-12：利用強制解引用透過 <code>MyBox&lt;String&gt;</code> 數值的引用來呼叫 <code>hello</code></span></p>
-<p>我們在此使用 <code>&amp;m</code> 作爲引數來呼叫函式 <code>hello</code>，這是 <code>MyBox&lt;String&gt;</code> 數值的引用。因爲我們在範例 15-10 有對 <code>MyBox&lt;T&gt;</code> 實作 <code>Deref</code> 特徵，Rust 可以呼叫 <code>deref</code> 將 <code>&amp;MyBox&lt;String&gt;</code> 變成 <code>&amp;String</code>。標準函式庫對 <code>String</code> 也有實作 <code>Deref</code> 並會回傳字串 slice，這可以在 <code>Deref</code> 的 API 技術文件中看到。所以 Rust 會在呼叫 <code>deref</code> 一次來將 <code>&amp;String</code> 變成 <code>&amp;str</code>，這樣就符合函式 <code>hello</code> 的定義了。</p>
+<p>我們在此使用 <code>&amp;m</code> 作爲引數來呼叫函式 <code>hello</code>，這是 <code>MyBox&lt;String&gt;</code> 數值的引用。因爲我們在範例 15-10 有對 <code>MyBox&lt;T&gt;</code> 實作 <code>Deref</code> 特徵，Rust 可以呼叫 <code>deref</code> 將 <code>&amp;MyBox&lt;String&gt;</code> 變成 <code>&amp;String</code>。標準函式庫對 <code>String</code> 也有實作 <code>Deref</code> 並會回傳字串切片，這可以在 <code>Deref</code> 的 API 技術文件中看到。所以 Rust 會在呼叫 <code>deref</code> 一次來將 <code>&amp;String</code> 變成 <code>&amp;str</code>，這樣就符合函式 <code>hello</code> 的定義了。</p>
 <p>如果 Rust 沒有實作強制解引用的話，我們就得用範例 15-13 的方式才能辦到範例 15-12 使用型別 <code>&amp;MyBox&lt;String&gt;</code> 的數值來呼叫 <code>hello</code> 的動作。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::ops::Deref;
@@ -13108,7 +13108,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-13：如果 Rust 沒有強制解引用，我們就得這樣寫程式碼</span></p>
-<p><code>(*m)</code> 會將 <code>MyBox&lt;String&gt;</code> 解引用成 <code>String</code>，然後 <code>&amp;</code> 和 <code>[..]</code> 會從 <code>String</code> 中取得等於整個字串的字串 slice，這就符合 <code>hello</code> 的簽名。沒有強制解引用的程式碼就難以閱讀、寫入或是理解，因爲有太多的符號參雜其中。強制解引用能讓 Rust 自動幫我們做這些轉換。</p>
+<p><code>(*m)</code> 會將 <code>MyBox&lt;String&gt;</code> 解引用成 <code>String</code>，然後 <code>&amp;</code> 和 <code>[..]</code> 會從 <code>String</code> 中取得等於整個字串的字串切片，這就符合 <code>hello</code> 的簽名。沒有強制解引用的程式碼就難以閱讀、寫入或是理解，因爲有太多的符號參雜其中。強制解引用能讓 Rust 自動幫我們做這些轉換。</p>
 <p>當某型別有定義 <code>Deref</code> 特徵時，Rust 會分析該型別並重複使用 <code>Deref::deref</code> 直到能取得與參數型別相符的引用。<code>Deref::deref</code> 需要呼叫的次數會在編譯時期插入，所以使用強制解引用沒有任何的執行時開銷！</p>
 <h3><a class="header" href="#強制解引用如何處理可變性" id="強制解引用如何處理可變性">強制解引用如何處理可變性</a></h3>
 <p>類似於你如何使用 the <code>Deref</code> 特徵來覆蓋不可變引用的 <code>*</code> 運算子，你也可以使用 <code>DerefMut</code> 特徵來覆蓋可變引用的 <code>*</code> 運算子。</p>
@@ -15268,7 +15268,7 @@ impl State for Draft {}
 <p><span class="caption">範例 17-13：實作 <code>add_text</code> 方法來將文字加入文章的 <code>content</code> 中</span></p>
 <p><code>add_text</code> 方法接收 <code>self</code> 的可變引用，因爲我們在呼叫 <code>add_text</code> 時會改變 <code>Post</code> 實例。然後我們對 <code>content</code> 中的 <code>String</code> 呼叫<code>push_str</code>，並傳入 <code>text</code> 引數來存到 <code>content</code> 之中。此行爲與文章的狀態無關，所以它沒有被包含在狀態模式中。<code>add_text</code> 方法不會與 <code>state</code> 欄位有關係，但它是我們想支援的部分行爲之一。</p>
 <h3><a class="header" href="#確保文章草稿的內容爲空" id="確保文章草稿的內容爲空">確保文章草稿的內容爲空</a></h3>
-<p>儘管我們已經能透過 <code>add_text</code> 來爲我們的文章加些內容，但我們還是希望 <code>content</code> 方法會回傳空字串 slice，因爲文章還在草稿階段中，如範例 17-11 的第七行所示。現在先讓我們用能滿足需求最簡單的方式來實作 <code>content</code> 方法，也就是永遠回傳空字串 slice。之後一旦我們實作出能改變文章狀態爲已發佈的能力，我們會回來修改這部分。目前文章只能處於草稿階段，所以文章內容應該要永遠爲空。範例 17-14 顯示了此暫時的實作方式：</p>
+<p>儘管我們已經能透過 <code>add_text</code> 來爲我們的文章加些內容，但我們還是希望 <code>content</code> 方法會回傳空字串切片，因爲文章還在草稿階段中，如範例 17-11 的第七行所示。現在先讓我們用能滿足需求最簡單的方式來實作 <code>content</code> 方法，也就是永遠回傳空字串切片。之後一旦我們實作出能改變文章狀態爲已發佈的能力，我們會回來修改這部分。目前文章只能處於草稿階段，所以文章內容應該要永遠爲空。範例 17-14 顯示了此暫時的實作方式：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Post {
 </span><span class="boring">    state: Option&lt;Box&lt;dyn State&gt;&gt;,
@@ -15301,7 +15301,7 @@ impl State for Draft {}
 </span><span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 17-14：<code>Post</code> 暫時實作的 <code>content</code> 方法，這會永遠回傳一個空字串 slice</span></p>
+<p><span class="caption">範例 17-14：<code>Post</code> 暫時實作的 <code>content</code> 方法，這會永遠回傳一個空字串切片</span></p>
 <p>透過此 <code>content</code> 方法，範例 17-11 的程式碼到地七行都能如期執行。</p>
 <h3><a class="header" href="#請求文章審核來變更它的狀態" id="請求文章審核來變更它的狀態">請求文章審核來變更它的狀態</a></h3>
 <p>接下來，我們需要增加請求文章審核的功能，這會將其狀態從 <code>Draft</code> 變更爲 <code>PendingReview</code>。如範例 14-15 所示：</p>
@@ -15364,7 +15364,7 @@ impl State for PendingReview {
 <p>我們需要暫時將 <code>state</code> 設爲 <code>None</code>，而非只是像這樣 <code>self.state = self.state.request_review();</code> 直接設置來取得 <code>state</code> 的數值。這確保 <code>Post</code> 不會在我們轉換到新狀態時，使用到舊的 <code>state</code> 數值。</p>
 <p><code>Draft</code> 的 <code>request_review</code> 方法需要回傳一個新的結構體 <code>PendingReview</code> box 實例，這代表文章正在等待審核的狀態。<code>PendingReview</code> 結構體也實作了 <code>request_review</code> 方法但沒有做任何轉換。反之，它只會回傳自己，因爲當我們向已經處於 <code>PendingReview</code> 狀態的文章請求審核的話，它應該會維持 <code>PendingReview</code> 的狀態。</p>
 <p>現在我們可以開始看出狀態模式的優勢了，<code>Post</code> 的 <code>request_review</code> 方法不管其 <code>state</code> 數值爲何都是一樣的。每個狀態負責自己的規則。</p>
-<p>我們維持 <code>Post</code> 的方法 <code>content</code> 不變，依然回傳一個空字串 slice。我們現在的 <code>Post</code> 可以處於 <code>PendingReview</code> 狀態與 <code>Draft</code> 狀態，但我們想要 <code>PendingReview</code> 狀態也有相同的行爲。現在範例 17-11 可以運行到第十行了！</p>
+<p>我們維持 <code>Post</code> 的方法 <code>content</code> 不變，依然回傳一個空字串切片。我們現在的 <code>Post</code> 可以處於 <code>PendingReview</code> 狀態與 <code>Draft</code> 狀態，但我們想要 <code>PendingReview</code> 狀態也有相同的行爲。現在範例 17-11 可以運行到第十行了！</p>
 <h3><a class="header" href="#新增改變-content-行爲的-approve-方法" id="新增改變-content-行爲的-approve-方法">新增改變 <code>content</code> 行爲的 <code>approve</code> 方法</a></h3>
 <p><code>approve</code> 方法會類似於 <code>request_review</code> 方法，它會設置 <code>state</code> 的數值爲目前狀態審核通過時該處於的狀態，如範例 17-16 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -15453,7 +15453,7 @@ impl State for Published {
 <p><span class="caption">範例 17-16：對 <code>Post</code> 與 <code>State</code> 特徵實作 <code>approve</code> 方法</span></p>
 <p>我們在 <code>State</code> 特徵加上 <code>approve</code> 方法，並新增一個也有實作 <code>State</code> 的新結構體 <code>Published</code> 特徵。</p>
 <p>和 <code>request_review</code> 類似，如果我們對 <code>Draft</code> 呼叫 <code>approve</code> 方法，它不會有任何效果，因爲它會回傳 <code>self</code>。當我們對 <code>PendingReview</code> 呼叫 <code>approve</code>，它會回傳一個新的結構體 <code>Published</code> box 實例。<code>Published</code> 也有實作 <code>State</code> 特徵，對於 <code>request_review</code> 方法與 <code>approve</code> 方法，它只會回傳自己，因爲文章在這些情況下都應該維持 <code>Published</code> 狀態。</p>
-<p>現在我們需要更新 <code>Post</code> 的 <code>content</code> 方法，如果狀態是 <code>Published</code> 的話，我們想回傳文章的 <code>content</code> 欄位；不然的話，我們仍然回傳一個空字串 slice，如範例 17-17 所示：</p>
+<p>現在我們需要更新 <code>Post</code> 的 <code>content</code> 方法，如果狀態是 <code>Published</code> 的話，我們想回傳文章的 <code>content</code> 欄位；不然的話，我們仍然回傳一個空字串切片，如範例 17-17 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">pub struct Post {
 </span><span class="boring">    state: Option&lt;Box&lt;dyn State&gt;&gt;,
@@ -15630,7 +15630,7 @@ impl State for Published {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 17-18：在 <code>State</code> 特徵加上 <code>content</code> 方法</span></p>
-<p>我們對 <code>content</code> 方法加上預設實作來回傳一個空字串 slice。這代表我們不需要在 <code>Draft</code> 與 <code>PendingReview</code> 結構體實作 <code>content</code>。<code>Published</code> 結構體會覆寫 <code>content</code> 方法並回傳 <code>post.content</code> 的數值。</p>
+<p>我們對 <code>content</code> 方法加上預設實作來回傳一個空字串切片。這代表我們不需要在 <code>Draft</code> 與 <code>PendingReview</code> 結構體實作 <code>content</code>。<code>Published</code> 結構體會覆寫 <code>content</code> 方法並回傳 <code>post.content</code> 的數值。</p>
 <p>注意到我們在此方法需要生命週期詮釋，如我們在第十章所討論到的。我們取得 <code>post</code> 的引用作爲引數並回傳 <code>post</code> 的部分引用，所以回傳引用的生命週期與 <code>post</code> 引數的生命週期有關聯。</p>
 <p>這樣就完成了！範例 17-11 可以成功執行！我們實作了網誌文章工作流程規則的狀態模式。規則邏輯會位於狀態物件中，而不會分散在 <code>Post</code> 中。</p>
 <h3><a class="header" href="#狀態模式的權衡取捨" id="狀態模式的權衡取捨">狀態模式的權衡取捨</a></h3>
@@ -16734,7 +16734,7 @@ pub extern &quot;C&quot; fn call_from_c() {
 </blockquote>
 <h3><a class="header" href="#存取或修改可變的靜態變數" id="存取或修改可變的靜態變數">存取或修改可變的靜態變數</a></h3>
 <p>到此，我們還沒聊到<strong>全域變數（global variable）</strong>，這個 Rust 支援但會被 Rust 的所有權規則搞得七葷八素的功能。試想有兩個執行緒同時存取同一個可變全域變數，豈不導致資料競爭（data races）。</p>
-<p>Rust 的全域變數稱做<strong>靜態</strong>變數。範例 19-9 展示了宣告並使用一個儲存字串 slice 的靜態變數。</p>
+<p>Rust 的全域變數稱做<strong>靜態</strong>變數。範例 19-9 展示了宣告並使用一個儲存字串切片的靜態變數。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">static HELLO_WORLD: &amp;str = &quot;Hello, world!&quot;;
 
@@ -17519,7 +17519,7 @@ pub trait Write {
 <span class="boring">}
 </span></code></pre>
 <p>Rust 必須知道該配置多少記憶體給特定型別之值，且所有該型別之值都會使用相同的記憶體量。若 Rust 允許我們寫出這種程式碼，代表這兩個 <code>str</code> 值會用相同的空間大小，但它們長度不同：<code>s1</code> 需要 12 位元組來儲存，而 <code>s2</code> 需要 15 位元組。這就是為什麼不可能建立一個持有動態大小型別的變數。</p>
-<p>那我們該如何是好？這種情況下，你其實已經知道答案：將 <code>s1</code> 與 <code>s2</code> 的型別從 <code>str</code> 改成 <code>&amp;str</code>。回憶以下，第四章<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2-slice">「字串 Slice」</a>一節我們說了，slice 資料結構會儲存該 slice 的開始位置與長度。</p>
+<p>那我們該如何是好？這種情況下，你其實已經知道答案：將 <code>s1</code> 與 <code>s2</code> 的型別從 <code>str</code> 改成 <code>&amp;str</code>。回憶以下，第四章<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2-slice">「字串切片」</a>一節我們說了，slice 資料結構會儲存該 slice 的開始位置與長度。</p>
 <p>雖然 <code>&amp;T</code> 是單一的值，儲存了 <code>T</code> 所在的記憶體位址，<code>&amp;str</code> 卻儲存<strong>兩個</strong>值：<code>str</code> 的位址與它的長度。如此一來，無論 <code>&amp;str</code> 指向的字串有多長，我們都可以在編譯期得知 <code>&amp;str</code> 的大小。一般來說，這就是動態大小型別在 Rust 中的使用方式，通常具有額外的資料紀錄動態資訊的大小。動態大小型別的黃金法則即是我們必將動態大小型別的值放在指向某種指標之後。</p>
 <p>我們將各種指標與 <code>str</code> 結合，例如 <code>Box&lt;str&gt;</code> 或 <code>Rc&lt;str&gt;</code>。事實上，你早已看過此類作法，不過是在其他動態大小型別上看過，那個型別就是特徵（trait）。每個特徵都是一個動態大小型別，我們可以透過使用特徵的名字來指涉它。在第十七章的<a href="ch17-02-trait-objects.html#%E5%85%81%E8%A8%B1%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%88%A5%E6%95%B8%E5%80%BC%E7%9A%84%E7%89%B9%E5%BE%B5%E7%89%A9%E4%BB%B6">「允許不同型別數值的特徵物件」</a>部分，我們提及欲將特徵做為特徵物件（trait object）來使用，必須將特徵放在指標之後，例如 <code>&amp;dyn Trait</code> 或 <code>Box&lt;dyn Trait&gt;</code>（<code>Rc&lt;dyn Trait&gt;</code> 也行）。</p>
 <p>為了使用 DST，Rust 提供一個 <code>Sized</code> 特徵，來決定一個型別的大小可否在編譯期就確定下來。對於能在編譯期得知大小的所有東西，都會自動實作這個特徵。此外 Rust 自動替所有泛型函式隱含加上 <code>Sized</code> 的約束（bound）。也就是說若一泛型函數定義如下：</p>
