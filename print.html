@@ -12124,7 +12124,7 @@ world.</p>
 </ul>
 </blockquote>
 <h2><a class="header" href="#透過發佈設定檔自訂建構" id="透過發佈設定檔自訂建構">透過發佈設定檔自訂建構</a></h2>
-<p>在 Rust 中*發佈設定檔（release profiles）*是個預先定義好並可用不同設置選項來自訂設定檔的，能讓程式設計師掌控更多選項來編譯程式碼。每個設定檔的設置彼此互相獨立。</p>
+<p>在 Rust 中<em>發佈設定檔（release profiles）</em> 是個預先定義好並可用不同配置選項來自訂的設定檔，能讓程式設計師掌控更多選項來編譯程式碼。每個設定檔的配置彼此互相獨立。</p>
 <p>Cargo 有兩個主要的設定檔：<code>dev</code> 設定檔會在當你對 Cargo 執行 <code>cargo build</code> 時所使用；<code>release</code> 設定檔會在當你對 Cargo 執行 <code>cargo build --release</code> 時所使用。<code>dev</code> 設定檔預設定義爲適用於開發時使用，而<code>release</code> 設定檔預設定義爲適用於發佈時使用。</p>
 <p>你可能會覺得這些設定檔名稱很眼熟，因爲它們就已經顯示在輸出結果過：</p>
 <!-- manual-regeneration
@@ -12193,7 +12193,7 @@ pub fn add_one(x: i32) -&gt; i32 {
 <ul>
 <li><strong>Panics</strong>：該函式可能會導致恐慌的可能場合。函式的呼叫者不希望他們的程式恐慌的話，就要確保他們沒有在這些情況下呼叫該函式。</li>
 <li><strong>Errors</strong>：如果函式回傳 <code>Result</code>，解釋發生錯誤的可能種類以及在何種條件下可能會回傳這些錯誤有助於呼叫者，讓他們可以用不同方式來寫出處理不同種錯誤的程式碼。</li>
-<li><strong>Safety</strong>: 如果呼叫的函式是 <code>unsafe</code> 的話（我們會在第十九章討論不安全的議題），就必須要有個段亂解釋爲何該函式是不安全的，並提及函式預期呼叫者要確保哪些不變條件（invariants）。</li>
+<li><strong>Safety</strong>: 如果呼叫的函式是 <code>unsafe</code> 的話（我們會在第十九章討論不安全的議題），就必須要有個段落解釋爲何該函式是不安全的，並提及函式預期呼叫者要確保哪些不變條件（invariants）。</li>
 </ul>
 <p>大多數的技術文件註解不全都需要這些段落，但這些是呼叫程式碼的人可能有興趣瞭解的內容，你可以作爲提醒你的檢查列表。</p>
 <h4><a class="header" href="#將技術文件註解作爲測試" id="將技術文件註解作爲測試">將技術文件註解作爲測試</a></h4>
@@ -12241,11 +12241,11 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 <img alt="Rendered HTML documentation with a comment for the crate as a whole" src="img/trpl14-02.png" class="center" />
 <p><span class="caption">圖示 14-2：<code>my_crate</code> 的技術文件，包含描述整個 crate 的註解</span></p>
 <p>項目中的技術文件註解可以用來分別描述 crate 和模組。用它們來將解釋容器整體的目的有助於你的使用者瞭解該 crate 的程式碼組織架構。</p>
-<h3><a class="header" href="#透過-pub-use-匯出合適的公開-api" id="透過-pub-use-匯出合適的公開-api">透過 <code>pub use</code> 匯出合適的公開 API</a></h3>
+<h3><a class="header" href="#透過-pub-use-匯出理想的公開-api" id="透過-pub-use-匯出理想的公開-api">透過 <code>pub use</code> 匯出理想的公開 API</a></h3>
 <p>在第七章中，我們介紹了如何使用 <code>mod</code> 關鍵字來組織我們的程式碼成模組、如何使用 <code>pub</code> 關鍵字來公開項目，以及如何使用 <code>use</code> 關鍵字在將項目引入作用域。然而在開發 crate 時的架構雖然對你來說是合理的，但對你的使用者來說可能就不是那麼合適了。你可能會希望用有數個層級的分層架構來組織你的程式碼，但是要是有人想使用你定義在分層架構裡的型別時，它們可能就很難發現這些型別的存在。而且輸入 <code>use my_crate::some_module::another_module::UsefulType;</code> 是非常惱人的，我們會希望輸入 <code>use my_crate::UsefulType;</code> 就好。</p>
 <p>公開 API 的架構是發佈 crate 時要考量到的一大重點。使用 crate 的人可能並沒有你那麼熟悉其中的架構，而且如果你的 crate 模組分層越深的話，他們可能就難以找到他們想使用的部分。</p>
 <p>好消息是如果你的架構<em>不便於</em>其他函式庫所使用的話，你不必重新組織你的內部架構：你可以透過使用 <code>pub use</code>選擇重新匯出（re-export）項目來建立一個不同於內部私有架構的公開架構。重新匯出會先取得某處的公開項目，再從其他地方使其公開，讓它像是被定義在其他地方一樣。</p>
-<p>舉例來說，我們建立了一個函式庫叫做 <code>art</code> 來模擬美術概念。在函式庫中有兩個模組：<code>kinds</code> 模組包含兩個枚舉 <code>PrimaryColor</code> 和 <code>SecondaryColor</code>；而 <code>utils</code> 模組包含一個函式 <code>mix</code>，如範例 14-3 所示：</p>
+<p>舉例來說，我們建立了一個函式庫叫做 <code>art</code> 來模擬藝術概念。在函式庫中有兩個模組：<code>kinds</code> 模組包含兩個枚舉 <code>PrimaryColor</code> 和 <code>SecondaryColor</code>；而 <code>utils</code> 模組包含一個函式 <code>mix</code>，如範例 14-3 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">//! # Art
 //!
@@ -12381,7 +12381,7 @@ See https://doc.rust-lang.org/cargo/reference/manifest.html#package-metadata for
 error: api errors (status 200 OK): missing or empty metadata fields: description, license. Please see https://doc.rust-lang.org/cargo/reference/manifest.html for how to upload metadata
 </code></pre>
 <p>原因是因爲你還缺少一些關鍵資訊：描述與授權條款是必須的，所以人們才能知道你的 crate 在做什麼以及在何種情況下允許使用。要修正此錯誤，你就需要將這些資訊加到 <em>Cargo.toml</em> 檔案中。</p>
-<p>加上一兩句描述，它就會顯示在你的 crate 的搜尋結果中。置於 <code>license</code> 欄位，你需要給予 <em>license identifier value</em>。<a href="http://spdx.org/licenses/">Linux Foundation’s Software Package Data
+<p>加上一兩句描述，它就會顯示在你的 crate 的搜尋結果中。至於 <code>license</code> 欄位，你需要給予 <em>license identifier value</em>。<a href="http://spdx.org/licenses/">Linux Foundation’s Software Package Data
 Exchange (SPDX)</a> 有列出你可以使用的標識符數值。舉例來說，要指定你的 crate 使用 MIT 授權條款的話，就加上 <code>MIT</code> 標識符：</p>
 <p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[package]
@@ -12422,12 +12422,8 @@ copy just the relevant lines below
    Uploading guessing_game v0.1.0 (file:///projects/guessing_game)
 </code></pre>
 <p>恭喜！你現在將你的程式碼分享給 Rust 社群了，任何人現在都可以輕鬆將你的 crate 加到他們的專案中作爲依賴了。</p>
-<h3><a class="header" href="#publishing-a-new-version-of-an-existing-crate" id="publishing-a-new-version-of-an-existing-crate">Publishing a New Version of an Existing Crate</a></h3>
-<p>When you’ve made changes to your crate and are ready to release a new version,
-you change the <code>version</code> value specified in your <em>Cargo.toml</em> file and
-republish. Use the <a href="http://semver.org/">Semantic Versioning rules</a> to decide what an
-appropriate next version number is based on the kinds of changes you’ve made.
-Then run <code>cargo publish</code> to upload the new version.</p>
+<h3><a class="header" href="#對現有-crate-發佈新版本" id="對現有-crate-發佈新版本">對現有 Crate 發佈新版本</a></h3>
+<p>當你對你的 crate 做了一些改變並準備好發佈新版本時，你可以變更 <em>Cargo.toml</em> 中的 <code>version</code> 數值，並再發佈一次。請使用<a href="https://semver.org/lang/zh-TW/">語意化版本規則</a>依據你作出的改變來決定下一個妥當的版本數字。接著執行 <code>cargo publish</code> 來上傳新版本。</p>
 <h3><a class="header" href="#透過-cargo-yank-移除-cratesio-的版本" id="透過-cargo-yank-移除-cratesio-的版本">透過 <code>cargo yank</code> 移除 Crates.io 的版本</a></h3>
 <p>雖然你無法刪除 crate 之前的版本，你還是可以防止任何未來的專案加入它們作爲依賴。這在 crate 版本因某些原因而被破壞時會很有用。在這樣的情況下，Cargo 支援<em>撤回（yanking）</em> crate 版本。</p>
 <p>撤回一個版本能防止新專案用該版本作爲依賴，同時允許現存依賴它的專案能夠繼續下載並依賴該版本。實際上，撤回代表所有專案的 <em>Cargo.lock</em> 都不會被破壞，且任何未來產生的 <em>Cargo.lock</em> 檔案不會使用被撤回的版本。</p>
