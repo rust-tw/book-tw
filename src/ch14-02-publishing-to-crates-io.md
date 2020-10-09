@@ -32,7 +32,7 @@ Rust 與 Cargo 有許多功能可以幫助其他人更容易找到並使用你�
 
 * **Panics**：該函式可能會導致恐慌的可能場合。函式的呼叫者不希望他們的程式恐慌的話，就要確保他們沒有在這些情況下呼叫該函式。
 * **Errors**：如果函式回傳 `Result`，解釋發生錯誤的可能種類以及在何種條件下可能會回傳這些錯誤有助於呼叫者，讓他們可以用不同方式來寫出處理不同種錯誤的程式碼。
-* **Safety**: 如果呼叫的函式是 `unsafe` 的話（我們會在第十九章討論不安全的議題），就必須要有個段亂解釋爲何該函式是不安全的，並提及函式預期呼叫者要確保哪些不變條件（invariants）。
+* **Safety**: 如果呼叫的函式是 `unsafe` 的話（我們會在第十九章討論不安全的議題），就必須要有個段落解釋爲何該函式是不安全的，並提及函式預期呼叫者要確保哪些不變條件（invariants）。
 
 大多數的技術文件註解不全都需要這些段落，但這些是呼叫程式碼的人可能有興趣瞭解的內容，你可以作爲提醒你的檢查列表。
 
@@ -81,7 +81,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 項目中的技術文件註解可以用來分別描述 crate 和模組。用它們來將解釋容器整體的目的有助於你的使用者瞭解該 crate 的程式碼組織架構。
 
-### 透過 `pub use` 匯出合適的公開 API
+### 透過 `pub use` 匯出理想的公開 API
 
 在第七章中，我們介紹了如何使用 `mod` 關鍵字來組織我們的程式碼成模組、如何使用 `pub` 關鍵字來公開項目，以及如何使用 `use` 關鍵字在將項目引入作用域。然而在開發 crate 時的架構雖然對你來說是合理的，但對你的使用者來說可能就不是那麼合適了。你可能會希望用有數個層級的分層架構來組織你的程式碼，但是要是有人想使用你定義在分層架構裡的型別時，它們可能就很難發現這些型別的存在。而且輸入 `use my_crate::some_module::another_module::UsefulType;` 是非常惱人的，我們會希望輸入 `use my_crate::UsefulType;` 就好。
 
@@ -89,7 +89,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 好消息是如果你的架構*不便於*其他函式庫所使用的話，你不必重新組織你的內部架構：你可以透過使用 `pub use`選擇重新匯出（re-export）項目來建立一個不同於內部私有架構的公開架構。重新匯出會先取得某處的公開項目，再從其他地方使其公開，讓它像是被定義在其他地方一樣。
 
-舉例來說，我們建立了一個函式庫叫做 `art` 來模擬美術概念。在函式庫中有兩個模組：`kinds` 模組包含兩個枚舉 `PrimaryColor` 和 `SecondaryColor`；而 `utils` 模組包含一個函式 `mix`，如範例 14-3 所示：
+舉例來說，我們建立了一個函式庫叫做 `art` 來模擬藝術概念。在函式庫中有兩個模組：`kinds` 模組包含兩個枚舉 `PrimaryColor` 和 `SecondaryColor`；而 `utils` 模組包含一個函式 `mix`，如範例 14-3 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -191,7 +191,7 @@ error: api errors (status 200 OK): missing or empty metadata fields: description
 
 原因是因爲你還缺少一些關鍵資訊：描述與授權條款是必須的，所以人們才能知道你的 crate 在做什麼以及在何種情況下允許使用。要修正此錯誤，你就需要將這些資訊加到 *Cargo.toml* 檔案中。
 
-加上一兩句描述，它就會顯示在你的 crate 的搜尋結果中。置於 `license` 欄位，你需要給予 *license identifier value*。[Linux Foundation’s Software Package Data
+加上一兩句描述，它就會顯示在你的 crate 的搜尋結果中。至於 `license` 欄位，你需要給予 *license identifier value*。[Linux Foundation’s Software Package Data
 Exchange (SPDX)][spdx] 有列出你可以使用的標識符數值。舉例來說，要指定你的 crate 使用 MIT 授權條款的話，就加上 `MIT` 標識符：
 
 [spdx]: http://spdx.org/licenses/
@@ -253,15 +253,11 @@ $ cargo publish
 
 恭喜！你現在將你的程式碼分享給 Rust 社群了，任何人現在都可以輕鬆將你的 crate 加到他們的專案中作爲依賴了。
 
-### Publishing a New Version of an Existing Crate
+### 對現有 Crate 發佈新版本
 
-When you’ve made changes to your crate and are ready to release a new version,
-you change the `version` value specified in your *Cargo.toml* file and
-republish. Use the [Semantic Versioning rules][semver] to decide what an
-appropriate next version number is based on the kinds of changes you’ve made.
-Then run `cargo publish` to upload the new version.
+當你對你的 crate 做了一些改變並準備好發佈新版本時，你可以變更 *Cargo.toml* 中的 `version` 數值，並再發佈一次。請使用[語意化版本規則][semver]依據你作出的改變來決定下一個妥當的版本數字。接著執行 `cargo publish` 來上傳新版本。
 
-[semver]: http://semver.org/
+[semver]: https://semver.org/lang/zh-TW/
 
 ### 透過 `cargo yank` 移除 Crates.io 的版本
 
