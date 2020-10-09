@@ -170,8 +170,8 @@
                         <h2><a class="header" href="#泛型資料型別" id="泛型資料型別">泛型資料型別</a></h2>
 <p>我們可以使用泛型（generics）來建立項目的定義，像是函式簽名或結構體，讓我們在之後可以使用在不同的實際資料型別。讓我們先看看如何使用泛型定義函式、枚舉與方法。然後我們會在來看泛型對程式碼的效能影響如何。</p>
 <h3><a class="header" href="#在函式中定義" id="在函式中定義">在函式中定義</a></h3>
-<p>當要使用泛型定義函數時，我們通常會將泛型置於函式簽名中指定參數與回傳值資料型別的位置。照樣做能讓我們的程式碼更具彈性並向呼叫者提供更多功能，同時還能防止重複程式碼。</p>
-<p>接續我們 <code>largest</code> 函式的例子，範例 10-4 展示了兩個都在 slice 上尋找最大值的函式。</p>
+<p>當要使用泛型定義函數時，我們通常會將泛型置於函式簽名中指定參數與回傳值資料型別的位置。這樣做能讓我們的程式碼更具彈性並向呼叫者提供更多功能，同時還能防止重複程式碼。</p>
+<p>接續我們 <code>largest</code> 函式的例子，範例 10-4 展示了兩個都在切片上尋找最大值的函式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn largest_i32(list: &amp;[i32]) -&gt; &amp;i32 {
     let mut largest = &amp;list[0];
@@ -201,24 +201,24 @@ fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
     let result = largest_i32(&amp;number_list);
-    println!(&quot;The largest number is {}&quot;, result);
+    println!(&quot;最大數字爲 {}&quot;, result);
 <span class="boring">    assert_eq!(result, &amp;100);
 </span>
     let char_list = vec!['y', 'm', 'a', 'q'];
 
     let result = largest_char(&amp;char_list);
-    println!(&quot;The largest char is {}&quot;, result);
+    println!(&quot;最大字元爲 {}&quot;, result);
 <span class="boring">    assert_eq!(result, &amp;'y');
 </span>}
 </code></pre></pre>
 <p><span class="caption">範例 10-4：兩個名稱與其簽名中的型別都不同的函式</span></p>
-<p><code>largest_i32</code> 函式和我們在範例 10-3 提取的函式一樣都是尋找 slice 中最大的 <code>i32</code>。而 <code>largest_char</code> 函式則尋找 slice 中最大的 <code>char</code>。函式本體都擁有相同的程式碼，讓我以讓我們來開始用泛型型別參數來消除重複的部分，轉變成只有一個函式吧。</p>
+<p><code>largest_i32</code> 函式和我們在範例 10-3 提取的函式一樣都是尋找切片中最大的 <code>i32</code>。而 <code>largest_char</code> 函式則尋找切片中最大的 <code>char</code>。函式本體都擁有相同的程式碼，讓我以讓我們來開始用泛型型別參數來消除重複的部分，轉變成只有一個函式吧。</p>
 <p>要在我們新定義的函式中參數化型別的話，我們需要爲參數型別命名，就和我們在函式中的參數數值所做的一樣。你可以用任何標識符來命名型別參數名稱。但我們習慣上會用 <code>T</code>，因爲 Rust 的參數名稱都盡量很短，常常只會有一個字母，而且 Rust 對於型別命名的慣用規則是駝峰式大小寫（CamelCase）。所以 <code>T</code> 作爲「type」的簡稱是大多數 Rust 程式設計師的選擇。</p>
 <p>當我們在函式本體使用參數時，我們必須在簽名中宣告參數名稱，編譯器才能之當該名稱代表什麼。同樣地，當我們要在函式簽名中使用型別參數名稱，我們必須在使用前宣告該型別參數名稱。要定義泛型 <code>largest</code> 函式的話，我們在函式名稱與參數列表之間加上尖括號，其內就是型別名稱的宣告，如以下所示：</p>
 <pre><code class="language-rust ignore">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {
 </code></pre>
-<p>我們可以這樣理解定義：函式 <code>largest</code> 有泛型型別 <code>T</code>，此函式有一個參數叫做 <code>list</code>，他的型別爲數值 <code>T</code> 的 slice。<code>largest</code> 函式會回傳與型別 <code>T</code> 相同型別的值。</p>
-<p>範例 10-5 顯示了使用泛型資料型別於函式簽名組合出的 <code>largest</code> 函式。此範例還展示了我們如何依序用 <code>i32</code> 和 <code>char</code> 的 slice 呼叫函式。注意此程式碼尚未能編譯，不過我們會在本章之後修改它。</p>
+<p>我們可以這樣理解定義：函式 <code>largest</code> 有泛型型別 <code>T</code>，此函式有一個參數叫做 <code>list</code>，它的型別爲數值 <code>T</code> 的切片。<code>largest</code> 函式會回傳與型別 <code>T</code> 相同型別的值。</p>
+<p>範例 10-5 顯示了使用泛型資料型別於函式簽名組合出的 <code>largest</code> 函式。此範例還展示了我們如何依序用 <code>i32</code> 和 <code>char</code> 的切片呼叫函式。注意此程式碼尚未能編譯，不過我們會在本章之後修改它。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {
     let mut largest = &amp;list[0];
@@ -236,12 +236,12 @@ fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
     let result = largest(&amp;number_list);
-    println!(&quot;The largest number is {}&quot;, result);
+    println!(&quot;最大數字爲 {}&quot;, result);
 
     let char_list = vec!['y', 'm', 'a', 'q'];
 
     let result = largest(&amp;char_list);
-    println!(&quot;The largest char is {}&quot;, result);
+    println!(&quot;最大字元爲 {}&quot;, result);
 }
 </code></pre>
 <p><span class="caption">範例 10-5：使用函式型別參數定義的 <code>largest</code> 函式，但現在還不能編譯</span></p>
@@ -265,7 +265,7 @@ error: could not compile `chapter10`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>註釋中提到了 <code>std::cmp::PartialOrd</code> 這個<em>特徵（trait）</em>。我們會在下個段落來討論特徵。現在此錯誤告訴我們 <code>largest</code> 本體無法適用於所有可能的 <code>T</code> 型別，因爲我們想要在本體中比較型別 <code>T</code> 的數值，我們只能在能夠排序的型別中做比較。要能夠比較的話，標準函式庫有提供 <code>std::cmp::PartialOrd</code> 特徵讓你可以針對你的型別來實作（請查閱附錄 C 來瞭解更多此特徵的細節）。你會在<a href="ch10-02-traits.html#traits-as-parameters">「特徵作爲參數」</a><!-- ignore -->的段落學習到如何指定特定泛型型別擁有特定特徵。不過先讓先我們探索其他泛型型別參數使用的方式。</p>
+<p>註釋中提到了 <code>std::cmp::PartialOrd</code> 這個<em>特徵（trait）</em>。我們會在下個段落來討論特徵。現在此錯誤告訴我們 <code>largest</code> 本體無法適用於所有可能的 <code>T</code> 型別，因爲我們想要在本體中比較型別 <code>T</code> 的數值，我們只能在能夠排序的型別中做比較。要能夠比較的話，標準函式庫有提供 <code>std::cmp::PartialOrd</code> 特徵讓你可以針對你的型別來實作（請查閱附錄 C 來瞭解更多此特徵的細節）。你會在<a href="ch10-02-traits.html#%E7%89%B9%E5%BE%B5%E4%BD%9C%E7%88%B2%E5%8F%83%E6%95%B8">「特徵作爲參數」</a><!-- ignore -->的段落學習到如何指定特定泛型型別擁有特定特徵。不過先讓先我們探索其他泛型型別參數使用的方式。</p>
 <h3><a class="header" href="#在結構體中定義" id="在結構體中定義">在結構體中定義</a></h3>
 <p>我們一樣能以 <code>&lt;&gt;</code> 語法來對結構體中一或多個欄位使用泛型型別參數。範例 10-6 顯示了如何定義 <code>Point&lt;T&gt;</code> 結構體並讓 <code>x</code> 與 <code>y</code> 可以是任意型別數值。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -398,7 +398,7 @@ fn main() {
 </span></code></pre></pre>
 <p><span class="caption">範例 10-10：一個只適用於擁有泛型 <code>T</code> 結構體其中的特定實際型別的 <code>impl</code> 區塊</span></p>
 <p>此程式碼代表 <code>Point&lt;f32&gt;</code> 會有個方法叫做 <code>distance_from_origin</code> 但其他 <code>Point&lt;T&gt;</code> 只要 <code>T</code> 不是型別 <code>f32</code> 的實例都不會定義此方法。此方法測量我們的點距離座標 (0.0, 0.0) 有多遠並使用只有浮點數型別能使用的數學運算。</p>
-<p>在結構體定義中的泛型型別參數不總會是和結構體方法簽名中的會是相同型別。舉例來說，範例 10-11 在範例 10-8 的 <code>Point&lt;T, U&gt;</code> 定義了一個方法 <code>mixup</code>。該方法會取得另一個 <code>Point</code> 作爲參數，不過其可能會與我們噓覺的 <code>mixup</code> 方法中<code>self</code> <code>Point</code> 的型別有所相異。此方法使用 <code>self</code> 的 <code>Point</code>（型別爲 <code>T</code>）的 <code>x</code> 值與由參數傳進來的 <code>Point</code>（型別爲 <code>W</code>）的 <code>y</code> 值。</p>
+<p>在結構體定義中的泛型型別參數不總會是和結構體方法簽名中的會是相同型別。舉例來說，範例 10-11 在範例 10-8 的 <code>Point&lt;T, U&gt;</code> 定義了一個方法 <code>mixup</code>。該方法會取得另一個 <code>Point</code> 作爲參數，不過其可能會與我們呼叫的 <code>mixup</code> 方法中<code>self</code> <code>Point</code> 的型別有所相異。此方法使用 <code>self</code> 的 <code>Point</code>（型別爲 <code>T</code>）的 <code>x</code> 值與由參數傳進來的 <code>Point</code>（型別爲 <code>W</code>）的 <code>y</code> 值。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T, U&gt; {
     x: T,
@@ -438,7 +438,7 @@ fn main() {
 let float = Some(5.0);
 <span class="boring">}
 </span></code></pre></pre>
-<p>當 Rust 編譯此程式碼時中，他會進行單態話。在此過程中，會讀取 <code>Option&lt;T&gt;</code> 實例中使用的數值並識別出兩種 <code>Option&lt;T&gt;</code>：一種是 <code>i32</code> 而另一種是 <code>f64</code>。接著它就會將 <code>Option&lt;T&gt;</code> 的泛型定義展開爲 <code>Option_i32</code> 和 <code>Option_f64</code>，以此替換函式定義爲特定型別。</p>
+<p>當 Rust 編譯此程式碼時中，他會進行單態化。在此過程中，會讀取 <code>Option&lt;T&gt;</code> 實例中使用的數值並識別出兩種 <code>Option&lt;T&gt;</code>：一種是 <code>i32</code> 而另一種是 <code>f64</code>。接著它就會將 <code>Option&lt;T&gt;</code> 的泛型定義展開爲 <code>Option_i32</code> 和 <code>Option_f64</code>，以此替換函式定義爲特定型別。</p>
 <p>單態化的版本看起來會像這樣，泛型 <code>Option&lt;T&gt;</code> 會被替換成編譯器定義的特定定義：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum Option_i32 {

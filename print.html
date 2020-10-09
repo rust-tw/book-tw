@@ -5988,13 +5988,13 @@ impl Guess {
 </blockquote>
 <h1><a class="header" href="#泛型型別特徵與生命週期" id="泛型型別特徵與生命週期">泛型型別、特徵與生命週期</a></h1>
 <p>每個程式語言都有能夠高效處理概念複製的工具。在 Rust 此工具就是<em>泛型（generics）</em>。泛型是實際型別或其他屬性的抽象替代。當我們在寫程式碼時，我們可以表達泛型的行爲，或是它們與其他泛型有何關聯，而不必在編譯與執行程式時知道它們實際上是什麼。</p>
-<p>和函式有辦法能接收多種未知數值作爲參數來執行相同程式碼，函式可以接受一些泛型型別參數，而不是實際型別像是 <code>i32</code> 或 <code>String</code>。事實上我們已經在第六章的 <code>Option&lt;T&gt;</code>、第八章的 <code>Vec&lt;T&gt;</code> 和 <code>HashMap&lt;K, V&gt;</code> 以及第九章的 <code>Result&lt;T, E&gt;</code> 使用過泛型了。在本章節，你將會探索如何用泛型定義你自己的型別、函式與方法！</p>
+<p>類似於函式有辦法能接收多種未知數值作爲參數來執行相同程式碼，函式也可以接受一些泛型型別參數，而不是實際型別像是 <code>i32</code> 或 <code>String</code>。事實上我們已經在第六章的 <code>Option&lt;T&gt;</code>、第八章的 <code>Vec&lt;T&gt;</code> 和 <code>HashMap&lt;K, V&gt;</code> 以及第九章的 <code>Result&lt;T, E&gt;</code> 使用過泛型了。在本章節，你將會探索如何用泛型定義你自己的型別、函式與方法！</p>
 <p>首先我們會先檢視如何提取參數來減少重複的程式碼。接著我們會以相同的技巧使用泛型將兩個只有參數型別不同的函式轉變成泛型函式。我們還會解釋如何在結構體和枚舉使用泛型型別。</p>
-<p>再來你會學會如何使用*特徵（traits）*來定義共同行爲。你可以組合特徵與泛型型別來限制泛型型別只適用在有特定行爲的型別，而不是任意型別。</p>
+<p>再來你會學會如何使用<em>特徵（traits）</em> 來定義共同行爲。你可以組合特徵與泛型型別來限制泛型型別只適用在有特定行爲的型別，而不是任意型別。</p>
 <p>最後我們會來介紹<em>生命週期（lifetimes）</em>，一種能讓編譯器知道引用如何互相關聯的泛型。生命週期讓我們能在許多情況下借用數值，同時能確保編譯器會檢查這些引用是有效的。</p>
 <h2><a class="header" href="#提取函數來減少重複性" id="提取函數來減少重複性">提取函數來減少重複性</a></h2>
-<p>在我們深入泛型語法之前，讓我門先來看如何不用泛型型別的情況下，用提取函式的方式減少重複的程式碼。之後我們就會用此方式來提取泛型函式！和你透過找出重複的程式碼來提取程式一樣，你也將找出重複的函式來轉成泛型。</p>
-<p>讓我們考慮一支尋找列表中最大數字的小城市，如範例 10-1 所示。</p>
+<p>在我們深入泛型語法之前，讓我們先來看如何不用泛型型別的情況下，用提取函式的方式減少重複的程式碼。之後我們就會用此方式來提取泛型函式！和你透過找出重複的程式碼來提取程式一樣，你也將找出重複的函式來轉成泛型。</p>
+<p>讓我們考慮一支尋找列表中最大數字的小程式，如範例 10-1 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
@@ -6007,12 +6007,12 @@ impl Guess {
         }
     }
 
-    println!(&quot;The largest number is {}&quot;, largest);
+    println!(&quot;最大數字爲 {}&quot;, largest);
 <span class="boring">    assert_eq!(largest, 100);
 </span>}
 </code></pre></pre>
 <p><span class="caption">範例 10-1：在數字列表中尋找最大數字的程式碼</span></p>
-<p>此程式碼儲存整數列表到變數 <code>number_list</code> 並將列表第一個數字放入變數 <code>largest</code>。接著他會遍歷列表中的所有元素，如果目前數字比 <code>largest</code> 內儲存的數字還大的話，它就會替代成該變數的值。.不過如果目前數值小於或等於最大值的話，變數就不會被改變，程式會接續檢查列表中的下一個數字。在考慮完列表中的所有數字後，<code>largest</code> 就應該會拿到最大數字，在此例就是 100。</p>
+<p>此程式碼儲存整數列表到變數 <code>number_list</code> 並將列表第一個數字放入變數 <code>largest</code>。接著它會遍歷列表中的所有元素，如果目前數字比 <code>largest</code> 內儲存的數字還大的話，它就會替代成該變數的值。.不過如果目前數值小於或等於最大值的話，變數就不會被改變，程式會接續檢查列表中的下一個數字。在考慮完列表中的所有數字後，<code>largest</code> 就應該會拿到最大數字，在此例就是 100。</p>
 <p>要從兩個不同的數字列表中找到最大值的話，我們可以重複範例 10-1 的程式碼，然後在程式中兩個不同的地方使用相同的邏輯，如範例 10-2 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -6026,7 +6026,7 @@ impl Guess {
         }
     }
 
-    println!(&quot;The largest number is {}&quot;, largest);
+    println!(&quot;最大數字爲 {}&quot;, largest);
 
     let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
 
@@ -6038,7 +6038,7 @@ impl Guess {
         }
     }
 
-    println!(&quot;The largest number is {}&quot;, largest);
+    println!(&quot;最大數字爲 {}&quot;, largest);
 }
 </code></pre></pre>
 <p><span class="caption">範例 10-2：在<em>兩個</em>數字列表中尋找最大值</span></p>
@@ -6062,18 +6062,18 @@ fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
     let result = largest(&amp;number_list);
-    println!(&quot;The largest number is {}&quot;, result);
+    println!(&quot;最大數字爲 {}&quot;, result);
 <span class="boring">    assert_eq!(result, &amp;100);
 </span>
     let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
 
     let result = largest(&amp;number_list);
-    println!(&quot;The largest number is {}&quot;, result);
+    println!(&quot;最大數字爲 {}&quot;, result);
 <span class="boring">    assert_eq!(result, &amp;6000);
 </span>}
 </code></pre></pre>
 <p><span class="caption">範例 10-3：抽象出尋找最大值的概念並用在兩個不同的列表</span></p>
-<p><code>largest</code> 函式有個參數 <code>list</code> 可以代表我們傳遞給函式的 <code>i32</code> 型別 slice。所以當我們呼叫此函式時，程式可以依據我們傳入的特定數值執行。</p>
+<p><code>largest</code> 函式有個參數 <code>list</code> 可以代表我們傳遞給函式的 <code>i32</code> 型別切片。所以當我們呼叫此函式時，程式可以依據我們傳入的特定數值執行。</p>
 <p>總結來說，以下是我們將範例 10-2 的程式碼轉換成範例 10-3 的步驟：</p>
 <ol>
 <li>找出重複的程式碼。</li>
@@ -6081,7 +6081,7 @@ fn main() {
 <li>更新重複使用程式碼的實例，改呼叫我們定義的函式。</li>
 </ol>
 <p>接我們將以相同的步驟來使用泛型來減少重複的程式碼。就像函式本體可以抽象出 <code>list</code> 而不用特定數值，泛型允許程式碼執行抽象型別。</p>
-<p>舉例來說，假數我們有兩個函式：一個會找出 <code>i32</code> 型別 slice 中的最大值而另一個會找出 <code>char</code> 型別 slice 的最大值。我們要如何刪除重複的部分呢？讓我們拭目以待！</p>
+<p>舉例來說，假數我們有兩個函式：一個會找出 <code>i32</code> 型別切片中的最大值而另一個會找出 <code>char</code> 型別切片的最大值。我們要如何刪除重複的部分呢？讓我們拭目以待！</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -6092,8 +6092,8 @@ fn main() {
 <h2><a class="header" href="#泛型資料型別" id="泛型資料型別">泛型資料型別</a></h2>
 <p>我們可以使用泛型（generics）來建立項目的定義，像是函式簽名或結構體，讓我們在之後可以使用在不同的實際資料型別。讓我們先看看如何使用泛型定義函式、枚舉與方法。然後我們會在來看泛型對程式碼的效能影響如何。</p>
 <h3><a class="header" href="#在函式中定義" id="在函式中定義">在函式中定義</a></h3>
-<p>當要使用泛型定義函數時，我們通常會將泛型置於函式簽名中指定參數與回傳值資料型別的位置。照樣做能讓我們的程式碼更具彈性並向呼叫者提供更多功能，同時還能防止重複程式碼。</p>
-<p>接續我們 <code>largest</code> 函式的例子，範例 10-4 展示了兩個都在 slice 上尋找最大值的函式。</p>
+<p>當要使用泛型定義函數時，我們通常會將泛型置於函式簽名中指定參數與回傳值資料型別的位置。這樣做能讓我們的程式碼更具彈性並向呼叫者提供更多功能，同時還能防止重複程式碼。</p>
+<p>接續我們 <code>largest</code> 函式的例子，範例 10-4 展示了兩個都在切片上尋找最大值的函式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn largest_i32(list: &amp;[i32]) -&gt; &amp;i32 {
     let mut largest = &amp;list[0];
@@ -6123,24 +6123,24 @@ fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
     let result = largest_i32(&amp;number_list);
-    println!(&quot;The largest number is {}&quot;, result);
+    println!(&quot;最大數字爲 {}&quot;, result);
 <span class="boring">    assert_eq!(result, &amp;100);
 </span>
     let char_list = vec!['y', 'm', 'a', 'q'];
 
     let result = largest_char(&amp;char_list);
-    println!(&quot;The largest char is {}&quot;, result);
+    println!(&quot;最大字元爲 {}&quot;, result);
 <span class="boring">    assert_eq!(result, &amp;'y');
 </span>}
 </code></pre></pre>
 <p><span class="caption">範例 10-4：兩個名稱與其簽名中的型別都不同的函式</span></p>
-<p><code>largest_i32</code> 函式和我們在範例 10-3 提取的函式一樣都是尋找 slice 中最大的 <code>i32</code>。而 <code>largest_char</code> 函式則尋找 slice 中最大的 <code>char</code>。函式本體都擁有相同的程式碼，讓我以讓我們來開始用泛型型別參數來消除重複的部分，轉變成只有一個函式吧。</p>
+<p><code>largest_i32</code> 函式和我們在範例 10-3 提取的函式一樣都是尋找切片中最大的 <code>i32</code>。而 <code>largest_char</code> 函式則尋找切片中最大的 <code>char</code>。函式本體都擁有相同的程式碼，讓我以讓我們來開始用泛型型別參數來消除重複的部分，轉變成只有一個函式吧。</p>
 <p>要在我們新定義的函式中參數化型別的話，我們需要爲參數型別命名，就和我們在函式中的參數數值所做的一樣。你可以用任何標識符來命名型別參數名稱。但我們習慣上會用 <code>T</code>，因爲 Rust 的參數名稱都盡量很短，常常只會有一個字母，而且 Rust 對於型別命名的慣用規則是駝峰式大小寫（CamelCase）。所以 <code>T</code> 作爲「type」的簡稱是大多數 Rust 程式設計師的選擇。</p>
 <p>當我們在函式本體使用參數時，我們必須在簽名中宣告參數名稱，編譯器才能之當該名稱代表什麼。同樣地，當我們要在函式簽名中使用型別參數名稱，我們必須在使用前宣告該型別參數名稱。要定義泛型 <code>largest</code> 函式的話，我們在函式名稱與參數列表之間加上尖括號，其內就是型別名稱的宣告，如以下所示：</p>
 <pre><code class="language-rust ignore">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {
 </code></pre>
-<p>我們可以這樣理解定義：函式 <code>largest</code> 有泛型型別 <code>T</code>，此函式有一個參數叫做 <code>list</code>，他的型別爲數值 <code>T</code> 的 slice。<code>largest</code> 函式會回傳與型別 <code>T</code> 相同型別的值。</p>
-<p>範例 10-5 顯示了使用泛型資料型別於函式簽名組合出的 <code>largest</code> 函式。此範例還展示了我們如何依序用 <code>i32</code> 和 <code>char</code> 的 slice 呼叫函式。注意此程式碼尚未能編譯，不過我們會在本章之後修改它。</p>
+<p>我們可以這樣理解定義：函式 <code>largest</code> 有泛型型別 <code>T</code>，此函式有一個參數叫做 <code>list</code>，它的型別爲數值 <code>T</code> 的切片。<code>largest</code> 函式會回傳與型別 <code>T</code> 相同型別的值。</p>
+<p>範例 10-5 顯示了使用泛型資料型別於函式簽名組合出的 <code>largest</code> 函式。此範例還展示了我們如何依序用 <code>i32</code> 和 <code>char</code> 的切片呼叫函式。注意此程式碼尚未能編譯，不過我們會在本章之後修改它。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {
     let mut largest = &amp;list[0];
@@ -6158,12 +6158,12 @@ fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
     let result = largest(&amp;number_list);
-    println!(&quot;The largest number is {}&quot;, result);
+    println!(&quot;最大數字爲 {}&quot;, result);
 
     let char_list = vec!['y', 'm', 'a', 'q'];
 
     let result = largest(&amp;char_list);
-    println!(&quot;The largest char is {}&quot;, result);
+    println!(&quot;最大字元爲 {}&quot;, result);
 }
 </code></pre>
 <p><span class="caption">範例 10-5：使用函式型別參數定義的 <code>largest</code> 函式，但現在還不能編譯</span></p>
@@ -6187,7 +6187,7 @@ error: could not compile `chapter10`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>註釋中提到了 <code>std::cmp::PartialOrd</code> 這個<em>特徵（trait）</em>。我們會在下個段落來討論特徵。現在此錯誤告訴我們 <code>largest</code> 本體無法適用於所有可能的 <code>T</code> 型別，因爲我們想要在本體中比較型別 <code>T</code> 的數值，我們只能在能夠排序的型別中做比較。要能夠比較的話，標準函式庫有提供 <code>std::cmp::PartialOrd</code> 特徵讓你可以針對你的型別來實作（請查閱附錄 C 來瞭解更多此特徵的細節）。你會在<a href="ch10-02-traits.html#traits-as-parameters">「特徵作爲參數」</a><!-- ignore -->的段落學習到如何指定特定泛型型別擁有特定特徵。不過先讓先我們探索其他泛型型別參數使用的方式。</p>
+<p>註釋中提到了 <code>std::cmp::PartialOrd</code> 這個<em>特徵（trait）</em>。我們會在下個段落來討論特徵。現在此錯誤告訴我們 <code>largest</code> 本體無法適用於所有可能的 <code>T</code> 型別，因爲我們想要在本體中比較型別 <code>T</code> 的數值，我們只能在能夠排序的型別中做比較。要能夠比較的話，標準函式庫有提供 <code>std::cmp::PartialOrd</code> 特徵讓你可以針對你的型別來實作（請查閱附錄 C 來瞭解更多此特徵的細節）。你會在<a href="ch10-02-traits.html#%E7%89%B9%E5%BE%B5%E4%BD%9C%E7%88%B2%E5%8F%83%E6%95%B8">「特徵作爲參數」</a><!-- ignore -->的段落學習到如何指定特定泛型型別擁有特定特徵。不過先讓先我們探索其他泛型型別參數使用的方式。</p>
 <h3><a class="header" href="#在結構體中定義" id="在結構體中定義">在結構體中定義</a></h3>
 <p>我們一樣能以 <code>&lt;&gt;</code> 語法來對結構體中一或多個欄位使用泛型型別參數。範例 10-6 顯示了如何定義 <code>Point&lt;T&gt;</code> 結構體並讓 <code>x</code> 與 <code>y</code> 可以是任意型別數值。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -6320,7 +6320,7 @@ fn main() {
 </span></code></pre></pre>
 <p><span class="caption">範例 10-10：一個只適用於擁有泛型 <code>T</code> 結構體其中的特定實際型別的 <code>impl</code> 區塊</span></p>
 <p>此程式碼代表 <code>Point&lt;f32&gt;</code> 會有個方法叫做 <code>distance_from_origin</code> 但其他 <code>Point&lt;T&gt;</code> 只要 <code>T</code> 不是型別 <code>f32</code> 的實例都不會定義此方法。此方法測量我們的點距離座標 (0.0, 0.0) 有多遠並使用只有浮點數型別能使用的數學運算。</p>
-<p>在結構體定義中的泛型型別參數不總會是和結構體方法簽名中的會是相同型別。舉例來說，範例 10-11 在範例 10-8 的 <code>Point&lt;T, U&gt;</code> 定義了一個方法 <code>mixup</code>。該方法會取得另一個 <code>Point</code> 作爲參數，不過其可能會與我們噓覺的 <code>mixup</code> 方法中<code>self</code> <code>Point</code> 的型別有所相異。此方法使用 <code>self</code> 的 <code>Point</code>（型別爲 <code>T</code>）的 <code>x</code> 值與由參數傳進來的 <code>Point</code>（型別爲 <code>W</code>）的 <code>y</code> 值。</p>
+<p>在結構體定義中的泛型型別參數不總會是和結構體方法簽名中的會是相同型別。舉例來說，範例 10-11 在範例 10-8 的 <code>Point&lt;T, U&gt;</code> 定義了一個方法 <code>mixup</code>。該方法會取得另一個 <code>Point</code> 作爲參數，不過其可能會與我們呼叫的 <code>mixup</code> 方法中<code>self</code> <code>Point</code> 的型別有所相異。此方法使用 <code>self</code> 的 <code>Point</code>（型別爲 <code>T</code>）的 <code>x</code> 值與由參數傳進來的 <code>Point</code>（型別爲 <code>W</code>）的 <code>y</code> 值。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T, U&gt; {
     x: T,
@@ -6360,7 +6360,7 @@ fn main() {
 let float = Some(5.0);
 <span class="boring">}
 </span></code></pre></pre>
-<p>當 Rust 編譯此程式碼時中，他會進行單態話。在此過程中，會讀取 <code>Option&lt;T&gt;</code> 實例中使用的數值並識別出兩種 <code>Option&lt;T&gt;</code>：一種是 <code>i32</code> 而另一種是 <code>f64</code>。接著它就會將 <code>Option&lt;T&gt;</code> 的泛型定義展開爲 <code>Option_i32</code> 和 <code>Option_f64</code>，以此替換函式定義爲特定型別。</p>
+<p>當 Rust 編譯此程式碼時中，他會進行單態化。在此過程中，會讀取 <code>Option&lt;T&gt;</code> 實例中使用的數值並識別出兩種 <code>Option&lt;T&gt;</code>：一種是 <code>i32</code> 而另一種是 <code>f64</code>。接著它就會將 <code>Option&lt;T&gt;</code> 的泛型定義展開爲 <code>Option_i32</code> 和 <code>Option_f64</code>，以此替換函式定義爲特定型別。</p>
 <p>單態化的版本看起來會像這樣，泛型 <code>Option&lt;T&gt;</code> 會被替換成編譯器定義的特定定義：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum Option_i32 {
@@ -6387,14 +6387,14 @@ fn main() {
 </ul>
 </blockquote>
 <h2><a class="header" href="#特徵定義共同行爲" id="特徵定義共同行爲">特徵：定義共同行爲</a></h2>
-<p>*特徵（trait）*會告訴 Rust 編譯器特定型能與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行爲。我們可以使用特徵界限（trait bounds）來指定泛型爲擁有特定行爲的任意型別。</p>
+<p><em>特徵（trait）</em> 會告訴 Rust 編譯器特定型別與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行爲。我們可以使用特徵界限（trait bounds）來指定泛型爲擁有特定行爲的任意型別。</p>
 <blockquote>
 <p>注意：特徵類似於其他語言常稱作*介面（interfaces）*的功能，但還是有些差異。</p>
 </blockquote>
 <h3><a class="header" href="#定義特徵" id="定義特徵">定義特徵</a></h3>
 <p>一個型別的行爲包含我們對該型別可以呼叫的方法。如果我們可以對不同型別呼叫相同的方法，這些型別就能定義共同行爲了。特徵定義是一個將方法簽名統整起來，來達成一些目的而定義一系列行爲的方法。</p>
 <p>舉例來說，如果我們有數個結構體各自擁有不同種類與不同數量的文字：結構體 <code>NewsArticle</code> 儲存特定地點的新聞故事，然後 <code>Tweet</code> 則有最多 280 字元的內容，且有個欄位來判斷是全新的推文、轉推或其他推文的回覆。</p>
-<p>我們想要建立個多媒體資料庫來顯示可能存在 <code>NewsArticle</code> 或 <code>Tweet</code> 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們需要呼該要該實例的 <code>summarize</code> 方法來索取總結。範例 10-12 顯示了表達此行爲的 <code>Summary</code> 特徵定義。</p>
+<p>我們想要建立個多媒體資料庫來顯示可能存在 <code>NewsArticle</code> 或 <code>Tweet</code> 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們需要呼叫該實例的 <code>summarize</code> 方法來索取總結。範例 10-12 顯示了表達此行爲的 <code>Summary</code> 特徵定義。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -6427,7 +6427,7 @@ fn main() {
 
 impl Summary for NewsArticle {
     fn summarize(&amp;self) -&gt; String {
-        format!(&quot;{}, by {} ({})&quot;, self.headline, self.author, self.location)
+        format!(&quot;{} {} 著 ({})&quot;, self.headline, self.author, self.location)
     }
 }
 
@@ -6460,14 +6460,14 @@ impl Summary for Tweet {
         retweet: false,
     };
 
-    println!(&quot;1 new tweet: {}&quot;, tweet.summarize());
+    println!(&quot;1 則新推文：{}&quot;, tweet.summarize());
 <span class="boring">}
 </span></code></pre>
-<p>此程式碼會印出「1 new tweet: horse_ebooks: of course, as you probably already
+<p>此程式碼會印出「1 則新推文：horse_ebooks: of course, as you probably already
 know, people」。</p>
 <p>注意到因爲我們將範例 10-13 的 <code>Summary</code> 特徵、<code>NewsArticle</code> 和 <code>Tweet</code> 型別都定義在 <em>lib.rs</em> ，所以它們都在同個作用域下。如果我們說此 <em>lib.rs</em> 對應的 crate 叫做 <code>aggregator</code>，然後有人想要使用我們 crate 的功能來對他們函式庫作用域中定義的結構體實作 <code>Summary</code> 特徵的話。他們會需要將該特徵引入作用域，可以像這樣指定 <code>use aggregator::Summary;</code>，如此一來就能對他們的型別實作 <code>Summary</code>。<code>Summary</code> 特徵一樣也必須是公開的才能讓其他 crate 使用。這就是爲何我們在範例 10-12 的 <code>trait</code> 前面就加上 <code>pub</code> 關鍵字。</p>
 <p>實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說我們可以對自訂型別像是 <code>Tweet</code> 來實作標準函式庫的 <code>Display</code> 特徵來爲我們 crate <code>aggregator</code> 增加更多功能。因爲 <code>Tweet</code> 位於我們的 <code>aggregator</code> crate 裡面。我們也可以在我們的 crate <code>aggregator</code> 內對 <code>Vec&lt;T&gt;</code> 實作 <code>Summary</code>。因爲特徵 <code>Summary</code> 也位於我們的 <code>aggregator</code> crate 裡面。</p>
-<p>但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 <code>aggregator</code> crate 裡面對 <code>Vec&lt;T&gt;</code> 實作 <code>Display</code> 特徵。因爲 <code>Display</code> 與 <code>Vec&lt;T&gt;</code> 都定義在表準函式庫中，並沒有在我們 <code>aggregator</code> crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因爲上一代（parent）型別不存這在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。</p>
+<p>但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 <code>aggregator</code> crate 裡面對 <code>Vec&lt;T&gt;</code> 實作 <code>Display</code> 特徵。因爲 <code>Display</code> 與 <code>Vec&lt;T&gt;</code> 都定義在標準函式庫中，並沒有在我們 <code>aggregator</code> crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因爲上一代（parent）型別不存這在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。</p>
 <h3><a class="header" href="#預設實作" id="預設實作">預設實作</a></h3>
 <p>有時候對特徵內的一些或所有方法定義預設行爲是很實用的，而不必要求每個型別都實作所有方法。然後當我們對特定型別實作特徵時，我們可以保留或覆蓋每個方法的預設行爲。</p>
 <p>範例 10-14 展示如何在 <code>Summary</code> 特徵內指定  <code>summarize</code> 方法的預設字串，而不必像範例 10-12 只定義了方法簽名。</p>
@@ -6477,7 +6477,7 @@ know, people」。</p>
 </span><span class="boring">fn main() {
 </span>pub trait Summary {
     fn summarize(&amp;self) -&gt; String {
-        String::from(&quot;(Read more...)&quot;)
+        String::from(&quot;(閱讀更多...)&quot;)
     }
 }
 <span class="boring">
@@ -6520,11 +6520,11 @@ know, people」。</p>
         ),
     };
 
-    println!(&quot;New article available! {}&quot;, article.summarize());
+    println!(&quot;有新文章發佈！{}&quot;, article.summarize());
 <span class="boring">}
 </span></code></pre>
-<p>此程式碼會印出 <code>New article available! (Read more...)</code>。</p>
-<p>建立 <code>summarize</code> 的預設實作不會影響範例 10-13 中 <code>Tweet</code> 實作的 <code>Summary</code>。因爲要取代預設射實作的語法，與當沒有預設實作時實作特徵方法的語法是一樣的。</p>
+<p>此程式碼會印出 <code>有新文章發佈！(閱讀更多...)</code>。</p>
+<p>建立 <code>summarize</code> 的預設實作不會影響範例 10-13 中 <code>Tweet</code> 實作的 <code>Summary</code>。因爲要取代預設實作的語法，與當沒有預設實作時實作特徵方法的語法是一樣的。</p>
 <p>預設實作也能呼叫同特徵中的其他方法，就算那些方法沒有預設實作。這樣一來，特徵就可以提供一堆實用的功能，並要求實作者只需處理一小部分就好。舉例來說，我們可以定義 <code>Summary</code> 特徵，使其擁有一個必須要實作的<code>summarize_author</code> 方法，以及另一個擁有預設實作會呼叫 <code>summarize_author</code> 的方法：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -6533,7 +6533,7 @@ know, people」。</p>
     fn summarize_author(&amp;self) -&gt; String;
 
     fn summarize(&amp;self) -&gt; String {
-        format!(&quot;(Read more from {}...)&quot;, self.summarize_author())
+        format!(&quot;(從 {} 閱讀更多...)&quot;, self.summarize_author())
     }
 }
 <span class="boring">
@@ -6556,7 +6556,7 @@ know, people」。</p>
 </span><span class="boring">    fn summarize_author(&amp;self) -&gt; String;
 </span><span class="boring">
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
-</span><span class="boring">        format!(&quot;(Read more from {}...)&quot;, self.summarize_author())
+</span><span class="boring">        format!(&quot;(從 {} 閱讀更多...)&quot;, self.summarize_author())
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -6586,11 +6586,11 @@ know, people」。</p>
         retweet: false,
     };
 
-    println!(&quot;1 new tweet: {}&quot;, tweet.summarize());
+    println!(&quot;1 則新推文：{}&quot;, tweet.summarize());
 <span class="boring">}
 </span></code></pre>
-<p>此程式碼會印出 <code>1 new tweet: (Read more from @horse_ebooks...)</code>。</p>
-<p>注意要是有對相同方法覆寫實作的話，就無法呼叫預設實作。</p>
+<p>此程式碼會印出 <code>1 則新推文：(從 @horse_ebooks 閱讀更多...)</code>。</p>
+<p>注意要是對相同方法覆寫實作的話，就無法呼叫預設實作。</p>
 <h3><a class="header" href="#特徵作爲參數" id="特徵作爲參數">特徵作爲參數</a></h3>
 <p>現在你知道如何定義與實作特徵，我們可以來探討如何使用特徵來定義函式來接受多種不同的型別。</p>
 <p>舉例來說，在範例 10-13 我們對 <code>NewsArticle</code> 與 <code>Tweet</code> 實作了 <code>Summary</code> 特徵。我們可以定義一個函式 <code>notify</code> 使用它自己的參數 <code>item</code> 來呼叫 <code>summarize</code> 方法，所以此參數的型別預期有實作 <code>Summary</code> 特徵。
@@ -6608,7 +6608,7 @@ know, people」。</p>
 </span><span class="boring">
 </span><span class="boring">impl Summary for NewsArticle {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
-</span><span class="boring">        format!(&quot;{}, by {} ({})&quot;, self.headline, self.author, self.location)
+</span><span class="boring">        format!(&quot;{} {} 著 ({})&quot;, self.headline, self.author, self.location)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -6626,14 +6626,14 @@ know, people」。</p>
 </span><span class="boring">}
 </span><span class="boring">
 </span>pub fn notify(item: &amp;impl Summary) {
-    println!(&quot;Breaking news! {}&quot;, item.summarize());
+    println!(&quot;頭條新聞！{}&quot;, item.summarize());
 }
 </code></pre>
 <p>與其在 <code>item</code> 參數指定實際型別，我們用的是 <code>impl</code> 關鍵字並加上特徵名稱。這樣此參數就會接受任何有實作指定特徵的型別。在 <code>notify</code> 本體中我們就可以用 <code>item</code> 呼叫 <code>Summary</code> 特徵的任何方法，像是 <code>summarize</code>。我們可以呼叫 <code>notify</code> 並傳遞任何 <code>NewsArticle</code> 或 <code>Tweet</code> 的實例。但如果用其他型別像是 <code>String</code> 或 <code>i32</code> 來呼叫此程式碼的話會無法編譯，因爲那些型別沒有實作 <code>Summary</code>。</p>
 <h4><a class="header" href="#特徵界限語法" id="特徵界限語法">特徵界限語法</a></h4>
 <p><code>impl Trait</code> 語法看起來很直觀，不過它其實是一個更長格式的語法糖，這個格式稱之爲「特徵界限（trait bound）」，它長得會像這樣：</p>
 <pre><code class="language-rust ignore">pub fn notify&lt;T: Summary&gt;(item: &amp;T) {
-    println!(&quot;Breaking news! {}&quot;, item.summarize());
+    println!(&quot;頭條新聞！{}&quot;, item.summarize());
 }
 </code></pre>
 <p>此格式等同於之前段落的範例，只是比較長一點。我們將特徵界限置於泛型型別參數的宣告中，在尖括號內接在冒號之後。</p>
@@ -6679,7 +6679,7 @@ know, people」。</p>
 </span><span class="boring">
 </span><span class="boring">impl Summary for NewsArticle {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
-</span><span class="boring">        format!(&quot;{}, by {} ({})&quot;, self.headline, self.author, self.location)
+</span><span class="boring">        format!(&quot;{} {} 著 ({})&quot;, self.headline, self.author, self.location)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -6708,7 +6708,7 @@ know, people」。</p>
 }
 </code></pre>
 <p>將 <code>impl Summary</code> 作爲回傳型別的同時，我們在函式 <code>returns_summarizable</code> 指定回傳有實作 <code>Summary</code> 特徵的型別而不必指出實際型別。在此例中，<code>returns_summarizable</code> 回傳 <code>Tweet</code>，但呼叫此函式的程式碼不會知道。</p>
-<p>回傳一個只有指定所需實作特徵的型別的能力在閉包（closures）與疊代器（iterators）中非常有用，我們會在第十三章介紹它們。閉包與疊代器能建立只有編譯器知道的型別，或是太長而難以指定的型別。<code>impl Trait</code> 語法允許你不用寫出很長的型別，而是只要指定函數會回傳有實作 <code>Iterator</code> 特徵的型別就好。</p>
+<p>回傳一個只有指定所需實作特徵的型別在閉包（closures）與疊代器（iterators）中非常有用，我們會在第十三章介紹它們。閉包與疊代器能建立只有編譯器知道的型別，或是太長而難以指定的型別。<code>impl Trait</code> 語法允許你不用寫出很長的型別，而是只要指定函數會回傳有實作 <code>Iterator</code> 特徵的型別就好。</p>
 <p>然而如果你使用 <code>impl Trait</code> 的話，你就只能回傳單一型別。舉例來說此程式碼指定回傳型別爲 <code>impl Summary</code> ，但是寫說可能會回傳 <code>NewsArticle</code> 或 <code>Tweet</code> 的話就會無法執行：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">pub trait Summary {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String;
@@ -6723,7 +6723,7 @@ know, people」。</p>
 </span><span class="boring">
 </span><span class="boring">impl Summary for NewsArticle {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
-</span><span class="boring">        format!(&quot;{}, by {} ({})&quot;, self.headline, self.author, self.location)
+</span><span class="boring">        format!(&quot;{} {} 著 ({})&quot;, self.headline, self.author, self.location)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -6787,7 +6787,7 @@ error: could not compile `chapter10`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>在 <code>largest</code> 我們想要用大於（<code>&gt;</code>）運算子比較兩個型別的爲 <code>T</code> 的數值。由於該運算子是從標準函式庫中的特徵 <code>std::cmp::PartialOrd</code> 的預設方法所定義的，我們希望在 <code>T</code> 中加上 <code>PartialOrd</code> 的特徵界限，讓函式可以比較任意型別的 slice。我們不需要將 <code>PartialOrd</code> 引入作用域因爲它由 prelude 提供。請變更 <code>largest</code> 的簽名如以下所示：</p>
+<p>在 <code>largest</code> 我們想要用大於（<code>&gt;</code>）運算子比較兩個型別的爲 <code>T</code> 的數值。由於該運算子是從標準函式庫中的特徵 <code>std::cmp::PartialOrd</code> 的預設方法所定義的，我們希望在 <code>T</code> 中加上 <code>PartialOrd</code> 的特徵界限，讓函式可以比較任意型別的切片。我們不需要將 <code>PartialOrd</code> 引入作用域因爲它由 prelude 提供。請變更 <code>largest</code> 的簽名如以下所示：</p>
 <pre><code class="language-rust ignore">fn largest&lt;T: PartialOrd&gt;(list: &amp;[T]) -&gt; T {
 <span class="boring">    let mut largest = list[0];
 </span><span class="boring">
@@ -6804,12 +6804,12 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    let number_list = vec![34, 50, 25, 100, 65];
 </span><span class="boring">
 </span><span class="boring">    let result = largest(&amp;number_list);
-</span><span class="boring">    println!(&quot;The largest number is {}&quot;, result);
+</span><span class="boring">    println!(&quot;最大數字爲 {}&quot;, result);
 </span><span class="boring">
 </span><span class="boring">    let char_list = vec!['y', 'm', 'a', 'q'];
 </span><span class="boring">
 </span><span class="boring">    let result = largest(&amp;char_list);
-</span><span class="boring">    println!(&quot;The largest char is {}&quot;, result);
+</span><span class="boring">    println!(&quot;最大字元爲 {}&quot;, result);
 </span><span class="boring">}
 </span></code></pre>
 <p>這次編譯程式碼時，我們會得到不同的錯誤：</p>
@@ -6843,8 +6843,8 @@ error: could not compile `chapter10`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>此錯誤的關鍵在 <code>cannot move out of type [T], a non-copy slice</code>。在我們非泛型版本的函式 <code>largest</code> 中，我們只有嘗試尋找 <code>i32</code> 或 <code>char</code> 的最大值。如同第四章<a href="ch04-01-what-is-ownership.html#stack-only-data-copy">「只在堆疊上的資料：拷貝（Copy）」</a><!-- ignore -->段落所提到的，像 <code>i32</code> 和 <code>char</code> 這樣的型別是已知大小可以存在堆疊上，所以它們有實作 <code>Copy</code> 特徵。但當我們建立泛型函式 <code>largest</code> 時，<code>list</code> 參數就有可能拿到沒有實作 <code>Copy</code> 特徵的型別。隨後導致我們無法將 <code>list[0]</code> 移出給變數 <code>largest</code>，最後產生錯誤。</p>
-<p>要限制此程式碼只允許有實作 <code>Copy</code> 特徵的型別，我們可以再 <code>T</code> 的特徵界限中加上 <code>Copy</code>！範例 10-15 展示了泛型函式 <code>largest</code> 完整的程式碼，只要我們傳遞給函式的 slice 數值型別有實作 <code>PartialOrd</code><em>和</em> <code>Copy</code> 特徵的話（像是 <code>i32</code> 和 <code>char</code>），就能編譯成功。</p>
+<p>此錯誤的關鍵在 <code>cannot move out of type [T], a non-copy slice</code>。在我們非泛型版本的函式 <code>largest</code> 中，我們只有嘗試尋找 <code>i32</code> 或 <code>char</code> 的最大值。如同第四章<a href="ch04-01-what-is-ownership.html#%E5%8F%AA%E5%9C%A8%E5%A0%86%E7%96%8A%E4%B8%8A%E7%9A%84%E8%B3%87%E6%96%99%E6%8B%B7%E8%B2%9Dcopy">「只在堆疊上的資料：拷貝（Copy）」</a><!-- ignore -->段落所提到的，像 <code>i32</code> 和 <code>char</code> 這樣的型別是已知大小可以存在堆疊上，所以它們有實作 <code>Copy</code> 特徵。但當我們建立泛型函式 <code>largest</code> 時，<code>list</code> 參數就有可能拿到沒有實作 <code>Copy</code> 特徵的型別。隨後導致我們無法將 <code>list[0]</code> 移出給變數 <code>largest</code>，最後產生錯誤。</p>
+<p>要限制此程式碼只允許有實作 <code>Copy</code> 特徵的型別，我們可以再 <code>T</code> 的特徵界限中加上 <code>Copy</code>！範例 10-15 展示了泛型函式 <code>largest</code> 完整的程式碼，只要我們傳遞給函式的切片數值型別有實作 <code>PartialOrd</code><em>和</em> <code>Copy</code> 特徵的話（像是 <code>i32</code> 和 <code>char</code>），就能編譯成功。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn largest&lt;T: PartialOrd + Copy&gt;(list: &amp;[T]) -&gt; T {
     let mut largest = list[0];
@@ -6862,17 +6862,17 @@ fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
     let result = largest(&amp;number_list);
-    println!(&quot;The largest number is {}&quot;, result);
+    println!(&quot;最大數字爲 {}&quot;, result);
 
     let char_list = vec!['y', 'm', 'a', 'q'];
 
     let result = largest(&amp;char_list);
-    println!(&quot;The largest char is {}&quot;, result);
+    println!(&quot;最大字元爲 {}&quot;, result);
 }
 </code></pre></pre>
 <p><span class="caption">範例 10-15：一個適用於任何實作 <code>PartialOrd</code> 與 <code>Copy</code> 特徵的泛型的 <code>largest</code> 函式</span></p>
-<p>如果我們不想要限制函式 <code>largest</code> 只接受實作 <code>Copy</code> 特徵的型別，我們可以在 <code>T</code> 中改指定 <code>Clone</code> 而非 <code>Copy</code>。這樣當我們想要 <code>largest</code> 取得所有權，我們就可以克隆 slice 的數值。使用 <code>clone</code> 函式代表我們對於像是 <code>String</code> 這樣擁有堆積資料的型別，可能會產生更多堆積分配。而如果我們處理的資料很龐大的話，堆積分配的速度可能就會很慢。</p>
-<p>另一種實作 <code>largest</code> 的方法是我們可以來回傳 slcie 中 <code>T</code> 數值的引用。如果我們將回傳型別改成 <code>&amp;T</code> 而非 <code>T</code>，也就是改變函式本體來回傳引用的話，我們就不需要 <code>Clone</code> 或 <code>Copy</code> 特徵界限，也能避免堆積分配。請試著自己實作這個解決辦法看看吧！</p>
+<p>如果我們不想要限制函式 <code>largest</code> 只接受實作 <code>Copy</code> 特徵的型別，我們可以在 <code>T</code> 中改指定 <code>Clone</code> 而非 <code>Copy</code>。這樣當我們想要 <code>largest</code> 取得所有權，我們就可以克隆切片的數值。使用 <code>clone</code> 函式代表我們對於像是 <code>String</code> 這樣擁有堆積資料的型別，可能會產生更多堆積分配。而如果我們處理的資料很龐大的話，堆積分配的速度可能就會很慢。</p>
+<p>另一種實作 <code>largest</code> 的方法是我們可以來回傳切片中 <code>T</code> 數值的引用。如果我們將回傳型別改成 <code>&amp;T</code> 而非 <code>T</code>，也就是改變函式本體來回傳引用的話，我們就不需要 <code>Clone</code> 或 <code>Copy</code> 特徵界限，也能避免堆積分配。請試著自己實作這個解決辦法看看吧！</p>
 <h3><a class="header" href="#透過特徵界限來選擇性實作方法" id="透過特徵界限來選擇性實作方法">透過特徵界限來選擇性實作方法</a></h3>
 <p>在有使用泛型型別參數 <code>impl</code> 區塊中使用特徵界限，我們可以選擇性地對有實作特定特徵的型別來時錯方法。舉例來說，範例 10-16 的 <code>Pair&lt;T&gt;</code> 只有在其內部型別 <code>T</code> 有實作能夠做比較的 <code>PartialOrd</code> 特徵以及能夠顯示在螢幕的 <code>Display</code> 特徵的話，才會實作 <code>cmp_display</code> 方法。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -6971,7 +6971,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>變數 <code>x</code> 「存在的不夠久」。原因是因爲當內部作用域在第 7 行結束時，<code>x</code> 會離開作用域。但是 <code>r</code> 卻還在外部作用域中有效，我們會說的「活得比較久」。如果 Rust 允許此程式碼可以執行的話，<code>r</code> 就會引用到 <code>x</code> 離開作用域後被釋放的記憶體位置，然後我們嘗試對 <code>r</code> 做的事情都不會是正確的了。所以 Rust 如何決定此程式碼無效呢？它使用了借用檢查器。</p>
 <h3><a class="header" href="#借用檢查器" id="借用檢查器">借用檢查器</a></h3>
-<p>Rust 編譯器有個*借用檢查器（borrow checker）*會比較作用域來檢測所有的借用是否有效。範例 10-18 顯示了範例 10-17 的程式碼，但加上了變數生命週期的詮釋。</p>
+<p>Rust 編譯器有個<em>借用檢查器（borrow checker）</em> 會比較作用域來檢測所有的借用是否有效。範例 10-18 顯示了範例 10-17 的程式碼，但加上了變數生命週期的詮釋。</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    {
         let r;                // ---------+-- 'a
@@ -7003,18 +7003,18 @@ To learn more, run the command again with --verbose.
 <p><code>x</code> 在此有生命週期 <code>'b</code>，此時它比 <code>'a</code> 還長。這代表 <code>r</code> 可以引用 <code>x</code>，因爲 Rust 知道 <code>r</code> 的引用在 <code>x</code> 是有效的時候永遠是有效的。</p>
 <p>現在你知道引用的生命週期，以及 Rust 如何分析生命週期以確保引用永遠有效了。讓我們來探索函式中參數與回傳值的泛型生命週期。</p>
 <h3><a class="header" href="#函式中的泛型生命週期" id="函式中的泛型生命週期">函式中的泛型生命週期</a></h3>
-<p>讓我們寫個回傳兩個字串切片中較長者的函式。此函式會回傳兩個字串切片並回傳一個字串 slcie。在我們實作 <code>longest</code> 函式後，範例 10-20 的程式碼應該要印出 <code>The longest string is abcd</code>。</p>
+<p>讓我們寫個回傳兩個字串切片中較長者的函式。此函式會回傳兩個字串切片並回傳一個字串切片。在我們實作 <code>longest</code> 函式後，範例 10-20 的程式碼應該要印出 <code>最長的字串爲 abcd</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">fn main() {
     let string1 = String::from(&quot;abcd&quot;);
     let string2 = &quot;xyz&quot;;
 
     let result = longest(string1.as_str(), string2);
-    println!(&quot;The longest string is {}&quot;, result);
+    println!(&quot;最長的字串爲 {}&quot;, result);
 }
 </code></pre>
 <p><span class="caption">範例 10-20：<code>main</code> 函式呼叫 <code>longest</code> 函式來找出兩個字串切片中較長的</span></p>
-<p>注意我們需要函式接收的字串切片屬於引用，因爲我們不希望 <code>longest</code> 函式會取得它參數的所有權。第四章的<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2-slice-%E4%BD%9C%E7%88%B2%E5%8F%83%E6%95%B8">「字串切片作爲參數」</a><!-- ignore -->段落有提到爲何範例 10-20 的參數正是我們所想要使用的參數。</p>
+<p>注意我們需要函式接收的字串切片屬於引用，因爲我們不希望 <code>longest</code> 函式會取得它參數的所有權。第四章的<a href="ch04-03-slices.html#%E5%AD%97%E4%B8%B2%E5%88%87%E7%89%87%E4%BD%9C%E7%88%B2%E5%8F%83%E6%95%B8">「字串切片作爲參數」</a><!-- ignore -->段落有提到爲何範例 10-20 的參數正是我們所想要使用的參數。</p>
 <p>如果我們嘗試實作 <code>longest</code> 函式時，如範例 10-21 所示，它不會編譯過。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
@@ -7022,7 +7022,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    let string2 = &quot;xyz&quot;;
 </span><span class="boring">
 </span><span class="boring">    let result = longest(string1.as_str(), string2);
-</span><span class="boring">    println!(&quot;The longest string is {}&quot;, result);
+</span><span class="boring">    println!(&quot;最長的字串爲 {}&quot;, result);
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn longest(x: &amp;str, y: &amp;str) -&gt; &amp;str {
@@ -7053,9 +7053,9 @@ error: could not compile `chapter10`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>提示文字表示回傳型別需要有一個泛型生命週期參數，因爲 Rust 無法辨別出回傳的引用指的是 <code>x</code> 還是 <code>y</code>。事實上，我們也不知道，因爲函式本體中的 <code>if</code> 區塊會回傳 <code>x</code> 引用而 <code>else</code> 區塊會回傳 <code>y</code> 引用！</p>
-<p>當我們定義函式時，我們不知道傳遞進此函式的實際數值會是什麼，所以我們不知道到底是 <code>if</code> 或 <code>else</code> 的區塊會被執行。我們也不知道傳遞進來的引用實際的生命週期爲何，所以我們無法像範例 10-18 和 10-19 那樣觀察作用域，來判定我們回傳的引用會永遠有效。要修正此錯誤，我們要加上泛型生命週期參數來定義引用之間的關係，所以借用檢查器能夠進行分析。</p>
+<p>當我們定義函式時，我們不知道傳遞進此函式的實際數值會是什麼，所以我們不知道到底是 <code>if</code> 或 <code>else</code> 的區塊會被執行。我們也不知道傳遞進來的引用實際的生命週期爲何，所以我們無法像範例 10-18 和 10-19 那樣觀察作用域，來判定我們回傳的引用會永遠有效。要修正此錯誤，我們要加上泛型生命週期參數來定義引用之間的關係，讓借用檢查器能夠進行分析。</p>
 <h3><a class="header" href="#生命週期詮釋語法" id="生命週期詮釋語法">生命週期詮釋語法</a></h3>
-<p>生命週期詮釋不會改變引用能存活多久。就像當函式簽名指定了一個泛型型別參數時，函式變能夠接受任意型別一樣。函式可以指定一個泛型生命週期參數，這樣函式就能接受任何生命週期。生命週期詮釋描述了數個引用的生命週期之間互相的關係，而不會影響其生命週期。</p>
+<p>生命週期詮釋不會改變引用能存活多久。就像當函式簽名指定了一個泛型型別參數時，函式便能夠接受任意型別一樣。函式可以指定一個泛型生命週期參數，這樣函式就能接受任何生命週期。生命週期詮釋描述了數個引用的生命週期之間互相的關係，而不會影響其生命週期。</p>
 <p>生命週期詮釋的語法有一點不一樣：生命週期參數的名稱必須以撇號（<code>'</code>）作爲開頭，通常全是小寫且很短，就像泛型型別一樣。大多數的人會使用名稱 <code>'a</code>。我們將生命週期參數置於引用的 <code>&amp;</code> 之後，並使用空格區隔詮釋與引用的型別。</p>
 <p>以下是一些例子：沒有生命週期參數的 <code>i32</code> 引用、有生命週期 <code>'a</code> 的 <code>i32</code> 引用以及有生命週期 <code>'a</code> 的 <code>i32</code> 可變引用。</p>
 <pre><code class="language-rust ignore">&amp;i32        // 一個引用
@@ -7071,7 +7071,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    let string2 = &quot;xyz&quot;;
 </span><span class="boring">
 </span><span class="boring">    let result = longest(string1.as_str(), string2);
-</span><span class="boring">    println!(&quot;The longest string is {}&quot;, result);
+</span><span class="boring">    println!(&quot;最長的字串爲 {}&quot;, result);
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;'a str) -&gt; &amp;'a str {
@@ -7084,18 +7084,18 @@ To learn more, run the command again with --verbose.
 </code></pre></pre>
 <p><span class="caption">範例 10-22：<code>longest</code> 函式定義指定所有簽名中的引用必須有相同的生命週期 <code>'a</code></span></p>
 <p>此程式碼能夠編譯成功並產生我們希望在範例 10-20 的 <code>main</code> 函式中得到的結果。</p>
-<p>此函式簽名告訴 Rust 它有個生命週期 <code>'a</code>，函式的兩個參數都是字串切片，並且會與生命週期<code>'a</code>。此函式簽名還靠素了 Rust 從函式回傳的字串切片也會和生命週期 <code>'a</code> 存活的一樣久。實際上它代表 <code>longest</code> 函式回傳引用的生命週期與傳入時字串長度較短的引用的生命週期一樣。這些約束是我們希望 Rust 去強制執行的。記住當我們在此函式簽名指定生命週期參數時，我們不會變更任何傳入或傳出數值的生命週期。我們只是告訴借用檢查器應該要拒絕任何沒有服從這些約束的數值。注意到 <code>longest</code> 函式不需要知道 <code>x</code> 和 <code>y</code> 實際上會活多久，只需要知道有某個作用域會用 <code>'a</code> 取代來滿足此簽名。</p>
+<p>此函式簽名告訴 Rust 它有個生命週期 <code>'a</code>，函式的兩個參數都是字串切片，並且會有生命週期<code>'a</code>。此函式簽名還告訴了 Rust 從函式回傳的字串切片也會和生命週期 <code>'a</code> 存活的一樣久。實際上它代表 <code>longest</code> 函式回傳引用的生命週期與傳入時字串長度較短的引用的生命週期一樣。這些約束是我們希望 Rust 去強制執行的。記住當我們在此函式簽名指定生命週期參數時，我們不會變更任何傳入或傳出數值的生命週期。我們只是告訴借用檢查器應該要拒絕任何沒有服從這些約束的數值。注意到 <code>longest</code> 函式不需要知道 <code>x</code> 和 <code>y</code> 實際上會活多久，只需要知道有某個作用域會用 <code>'a</code> 取代來滿足此簽名。</p>
 <p>當要在函式詮釋生命週期時，詮釋會位於函式簽名中，而不是函式本體。Rust 可以不用任何協助就能分析函式中的程式碼。然而當函式擁有傳入或傳出外部程式碼的引用時，Rust 無法自己判別出參數與回傳值的生命週期。每次函式呼叫時的生命週期可能都不一樣。這就是爲何我們得親自詮釋生命週期。</p>
 <p>當我們向 <code>longest</code> 傳入實際引用時，<code>'a</code> 實際替代的生命週期爲 <code>x</code> 作用域與 <code>y</code> 作用域重疊得部分。換句話說，泛型生命週期 <code>'a</code> 取得的生命週期會等於 <code>x</code> 與 <code>y</code> 的生命週期中較短的。因爲我們將回傳引用詮釋了相同的生命週期參數 <code>'a</code>，回傳引用的生命週期也會保證在 <code>x</code> 和 <code>y</code> 的生命週期較短的結束前有效。</p>
 <p>讓我們來看看如何透過傳入不同實際生命週期的引用來使生命週期詮釋能約束 <code>longest</code> 函式，如範例 10-23 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    let string1 = String::from(&quot;long string is long&quot;);
+    let string1 = String::from(&quot;很長的長字串&quot;);
 
     {
         let string2 = String::from(&quot;xyz&quot;);
         let result = longest(string1.as_str(), string2.as_str());
-        println!(&quot;The longest string is {}&quot;, result);
+        println!(&quot;最長的字串爲 {}&quot;, result);
     }
 }
 <span class="boring">
@@ -7108,17 +7108,17 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 10-23使用 <code>longest</code> 函式並傳入 <code>String</code> 數值的引用，但兩個參數的實際生命週期均不相同</span></p>
-<p>在此例中 <code>string1</code> 在外部作用域結束前都有效，而 <code>string2</code> 在內部作用域結束前都有效，然後 <code>result</code> 會取得某個有效引用直到內部作用域結束爲止。執行此程式的話，你會看到借用檢查器認可此程式碼，它會編譯成功然後印出 <code>The longest string is long string is long</code>。</p>
+<p>在此例中 <code>string1</code> 在外部作用域結束前都有效，而 <code>string2</code> 在內部作用域結束前都有效，然後 <code>result</code> 會取得某個有效引用直到內部作用域結束爲止。執行此程式的話，你會看到借用檢查器認可此程式碼，它會編譯成功然後印出 <code>最長的字串爲 很長的長字串</code>。</p>
 <p>接下來，讓我們寫一個範例能要求 <code>result</code> 生命週期的引用必須是兩個引數中較短的才行。我們會移動變數 <code>result</code> 的宣告到外部作用域，但保留變數 <code>result</code> 的賦值與 <code>string2</code> 一樣在內部作用域。然後我們也將使用到 <code>result</code> 的 <code>println!</code> 移到外部作用域，緊接在內部作用域結束之後。如範例 10-24 所示，此程式碼會編譯不過。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
-    let string1 = String::from(&quot;long string is long&quot;);
+    let string1 = String::from(&quot;很長的長字串&quot;);
     let result;
     {
         let string2 = String::from(&quot;xyz&quot;);
         result = longest(string1.as_str(), string2.as_str());
     }
-    println!(&quot;The longest string is {}&quot;, result);
+    println!(&quot;最長的字串爲 {}&quot;, result);
 }
 <span class="boring">
 </span><span class="boring">fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;'a str) -&gt; &amp;'a str {
@@ -7140,7 +7140,7 @@ error[E0597]: `string2` does not live long enough
   |                                            ^^^^^^^ borrowed value does not live long enough
 7 |     }
   |     - `string2` dropped here while still borrowed
-8 |     println!(&quot;The longest string is {}&quot;, result);
+8 |     println!(&quot;最長的字串爲 {}&quot;, result);
   |                                          ------ borrow later used here
 
 error: aborting due to previous error
@@ -7161,7 +7161,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    let string2 = &quot;efghijklmnopqrstuvwxyz&quot;;
 </span><span class="boring">
 </span><span class="boring">    let result = longest(string1.as_str(), string2);
-</span><span class="boring">    println!(&quot;The longest string is {}&quot;, result);
+</span><span class="boring">    println!(&quot;最長的字串爲 {}&quot;, result);
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;str) -&gt; &amp;'a str {
@@ -7176,11 +7176,11 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    let string2 = &quot;xyz&quot;;
 </span><span class="boring">
 </span><span class="boring">    let result = longest(string1.as_str(), string2);
-</span><span class="boring">    println!(&quot;The longest string is {}&quot;, result);
+</span><span class="boring">    println!(&quot;最長的字串爲 {}&quot;, result);
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn longest&lt;'a&gt;(x: &amp;str, y: &amp;str) -&gt; &amp;'a str {
-    let result = String::from(&quot;really long string&quot;);
+    let result = String::from(&quot;超長的字串&quot;);
     result.as_str()
 }
 </code></pre>
@@ -7213,8 +7213,8 @@ To learn more, run the command again with --verbose.
 }
 
 fn main() {
-    let novel = String::from(&quot;Call me Ishmael. Some years ago...&quot;);
-    let first_sentence = novel.split('.').next().expect(&quot;Could not find a '.'&quot;);
+    let novel = String::from(&quot;叫我以實瑪利。多年以前...&quot;);
+    let first_sentence = novel.split('.').next().expect(&quot;找不到'.'&quot;);
     let i = ImportantExcerpt {
         part: first_sentence,
     };
@@ -7222,9 +7222,9 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 10-25：擁有引用的結構體，所以它的定義需要加上生命週期詮釋</span></p>
 <p>此結構體有個欄位 <code>part</code> 並擁有字串切片引用。如同泛型資料型別，我們在結構體名稱之後的尖括號內宣告泛型生命週期參數，所以我們就可以在結構體定義的本體中使用生命週期參數。此詮釋代表 <code>ImportantExcerpt</code> 的實例不能比它持有的欄位 <code>part</code> 活得還久。</p>
-<p><code>main</code> 函式在此產生一個結構體 <code>ImportantExcerpt</code> 的實例並持有一個引用，其爲變數 <code>novel</code> 所擁有的 <code>String</code> 中的第一個句子的引用。<code>novel</code> 的資料是在 <code>ImportantExcerpt</code> 實例之前建立的。除此之外，<code>novel</code> 在 <code>ImportantExcerpt</code> 離開作用於之前不會離開作用域，所以 <code>ImportantExcerpt</code> 實例中的引用是有效的。</p>
+<p><code>main</code> 函式在此產生一個結構體 <code>ImportantExcerpt</code> 的實例並持有一個引用，其爲變數 <code>novel</code> 所擁有的 <code>String</code> 中的第一個句子的引用。<code>novel</code> 的資料是在 <code>ImportantExcerpt</code> 實例之前建立的。除此之外，<code>novel</code> 在 <code>ImportantExcerpt</code> 離開作用域之前不會離開作用域，所以 <code>ImportantExcerpt</code> 實例中的引用是有效的。</p>
 <h3><a class="header" href="#生命週期省略" id="生命週期省略">生命週期省略</a></h3>
-<p>你已經學到了每個引用都有個生命週期，而且你需要在有使用引用的函式與結構體中指定生命週期參數。然而在第四章的範例 4-9 我們有可以函式可以不詮釋生命週期並照樣編譯成功，我門在範例 10-26 在展示一次。</p>
+<p>你已經學到了每個引用都有個生命週期，而且你需要在有使用引用的函式與結構體中指定生命週期參數。然而在第四章的範例 4-9 我們有函式可以不詮釋生命週期並照樣編譯成功，我們在範例 10-26 再展示一次。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;str) -&gt; &amp;str {
     let bytes = s.as_bytes();
@@ -7255,16 +7255,16 @@ fn main() {
 </span><span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 10-26：在範例 4-9 定義過的函式，雖然其參數與回傳值均爲引用，卻仍可編譯成功</span></p>
-<p>此函式可以不用生命週期詮釋仍照樣編譯過是有歷史因素的：在早期版本的 Rust（1.0 之前），此程式碼是無法編譯的，因爲每個引用都得有顯示生命週期。在當時的情況下，此函式簽名會長得像這樣：</p>
+<p>此函式可以不用生命週期詮釋仍照樣編譯過是有歷史因素的：在早期版本的 Rust（1.0 之前），此程式碼是無法編譯的，因爲每個引用都得有顯式生命週期。在當時的情況下，此函式簽名會長得像這樣：</p>
 <pre><code class="language-rust ignore">fn first_word&lt;'a&gt;(s: &amp;'a str) -&gt; &amp;'a str {
 </code></pre>
-<p>在寫了大量的 Rust 程式碼後，Rust 團隊發現 Rust 開發者會在特定情況反復輸入同樣的生命週期詮釋。這些情形都是可預期的，而且可以遵循一些明確的模式。開發者將這些模式加入編譯器的程式碼中，所以借用檢查器可以依據這些情況自行推導生命週期，而讓我們不必顯式詮釋。</p>
+<p>在寫了大量的 Rust 程式碼後，Rust 團隊發現 Rust 開發者會在特定情況反覆輸入同樣的生命週期詮釋。這些情形都是可預期的，而且可以遵循一些明確的模式。開發者將這些模式加入編譯器的程式碼中，所以借用檢查器可以依據這些情況自行推導生命週期，而讓我們不必顯式詮釋。</p>
 <p>這樣的歷史值得提起的原因是因爲很可能會有更多明確的模式被找出來並加到編譯器中，意味著未來對於生命週期詮釋的要求會更少。</p>
-<p>被寫進 Rust 引用分析的模式被稱作<em>生命週期省略規則（lifetime elision rules）</em>。這些不是程式設計師要遵守的過烏賊額，而是一系列編譯器能去考慮的情形。而如果你的程式碼符合這些情形時，你就不必顯式寫出生命週期。</p>
-<p>省略規則無法提供完整的推導。如果 Rust 能明確套用規則，但在這之後還是有引用存在模棱兩可的生命週期，編譯器就無法猜出剩餘引用的生命週期。在此情況，編譯器不穢亂猜，它會回傳錯誤給你，你可以指定生命週期詮釋來指明引用之間的關係。</p>
+<p>被寫進 Rust 引用分析的模式被稱作<em>生命週期省略規則（lifetime elision rules）</em>。這些不是程式設計師要遵守的規則，而是一系列編譯器能去考慮的情形。而如果你的程式碼符合這些情形時，你就不必顯式寫出生命週期。</p>
+<p>省略規則無法提供完整的推導。如果 Rust 能明確套用規則，但在這之後還是有引用存在模棱兩可的生命週期，編譯器就無法猜出剩餘引用的生命週期。在此情況，編譯器不會亂猜，它會回傳錯誤給你，你可以指定生命週期詮釋來指明引用之間的關係。</p>
 <p>在函式或方法參數上的生命週期稱爲<em>輸入生命週期（input lifetimes）</em>，而在回傳值的生命週期則稱爲<em>輸出生命週期（output lifetimes）</em>。</p>
 <p>當引用沒有顯式詮釋生命週期時，編譯器會用三項規則來推導它們。第一個規則適用於輸入生命週期，而第二與第三個規則適用於輸出生命週期。如果編譯器處理完這三個規則，卻仍有引用無法推斷出生命週期時，編譯器就會停止並回傳錯誤。適用於 <code>fn</code> 定義的規則一樣適用於 <code>impl</code> 區塊。</p>
-<p>第一個規則是每個引用都會有自己的生命週期參數。換句話說，一個函式只有一個參數的話，就只會有一個生命週期：<code>fn foo&lt;'a&gt;(x: &amp;'a i32)</code>；一個函式有兩個參數的話，就會有分別兩個生命週期參數：<code>fn foo&lt;'a, 'b&gt;(x: &amp;'a i32, y: &amp;'b i32)</code>。以此類推。</p>
+<p>第一個規則是每個引用都會有自己的生命週期參數。換句話說，一個函式只有一個參數的話，就只會有一個生命週期：<code>fn foo&lt;'a&gt;(x: &amp;'a i32)</code>；一個函式有兩個參數的話，就會有分別兩個生命週期參數：<code>fn foo&lt;'a, 'b&gt;(x: &amp;'a i32, y: &amp;'b i32)</code>，以此類推。</p>
 <p>第二個規則是如果剛好只有一個輸入生命週期參數，該參數就會賦值給所有輸出生命週期參數：<code>fn foo&lt;'a&gt;(x: &amp;'a i32) -&gt; &amp;'a i32</code>。</p>
 <p>第三個規則是如果有多個輸入生命週期參數，但其中一個是 <code>&amp;self</code> 或 <code>&amp;mut self</code>，由於這是方法，<code>self</code> 的生命週期會賦值給所有輸出生命週期參數。此規則讓方法更容易讀寫，因爲不用寫更多符號出來。</p>
 <p>讓我們假裝我們是編譯器。我們會檢查這些規則並找出範例 10-26 中函式 <code>first_word</code> 簽名中引用的生命週期。簽名的引用一開始沒有任何生命週期：</p>
@@ -7302,14 +7302,14 @@ fn main() {
 <span class="boring">
 </span><span class="boring">impl&lt;'a&gt; ImportantExcerpt&lt;'a&gt; {
 </span><span class="boring">    fn announce_and_return_part(&amp;self, announcement: &amp;str) -&gt; &amp;str {
-</span><span class="boring">        println!(&quot;Attention please: {}&quot;, announcement);
+</span><span class="boring">        println!(&quot;請注意：{}&quot;, announcement);
 </span><span class="boring">        self.part
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn main() {
-</span><span class="boring">    let novel = String::from(&quot;Call me Ishmael. Some years ago...&quot;);
-</span><span class="boring">    let first_sentence = novel.split('.').next().expect(&quot;Could not find a '.'&quot;);
+</span><span class="boring">    let novel = String::from(&quot;叫我以實瑪利。多年以前...&quot;);
+</span><span class="boring">    let first_sentence = novel.split('.').next().expect(&quot;找不到'.'&quot;);
 </span><span class="boring">    let i = ImportantExcerpt {
 </span><span class="boring">        part: first_sentence,
 </span><span class="boring">    };
@@ -7329,26 +7329,26 @@ fn main() {
 </span><span class="boring">
 </span>impl&lt;'a&gt; ImportantExcerpt&lt;'a&gt; {
     fn announce_and_return_part(&amp;self, announcement: &amp;str) -&gt; &amp;str {
-        println!(&quot;Attention please: {}&quot;, announcement);
+        println!(&quot;請注意：{}&quot;, announcement);
         self.part
     }
 }
 <span class="boring">
 </span><span class="boring">fn main() {
-</span><span class="boring">    let novel = String::from(&quot;Call me Ishmael. Some years ago...&quot;);
-</span><span class="boring">    let first_sentence = novel.split('.').next().expect(&quot;Could not find a '.'&quot;);
+</span><span class="boring">    let novel = String::from(&quot;叫我以實瑪利。多年以前...&quot;);
+</span><span class="boring">    let first_sentence = novel.split('.').next().expect(&quot;找不到'.'&quot;);
 </span><span class="boring">    let i = ImportantExcerpt {
 </span><span class="boring">        part: first_sentence,
 </span><span class="boring">    };
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>這裏有兩個輸入生命週期，所以 Rust 用第一個生命週期省略規則給予 <code>&amp;self</code> 和 <code>announcement</code> 它們自己的生命週期。然後因爲其中一個參數是 <code>&amp;self</code>，回傳型別會取得 <code>&amp;self</code> 的生命週期，如此一來所有的生命週期都推導出來了。</p>
+<p>這裡有兩個輸入生命週期，所以 Rust 用第一個生命週期省略規則給予 <code>&amp;self</code> 和 <code>announcement</code> 它們自己的生命週期。然後因爲其中一個參數是 <code>&amp;self</code>，回傳型別會取得 <code>&amp;self</code> 的生命週期，如此一來所有的生命週期都推導出來了。</p>
 <h3><a class="header" href="#靜態生命週期" id="靜態生命週期">靜態生命週期</a></h3>
 <p>其中有個特殊的生命週期 <code>'static</code> 我們需要進一步討論，這是指該引用<em>可以</em>存活在整個程式期間。所有的字串字面值都有 <code>'static</code> 生命週期，我們可以這樣詮釋：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let s: &amp;'static str = &quot;I have a static lifetime.&quot;;
+</span>let s: &amp;'static str = &quot;我有靜態生命週期。&quot;;
 <span class="boring">}
 </span></code></pre></pre>
 <p>此字串的文字會直接儲存在程式的二進制檔案中，所以永遠有效。因此所有的字串字面值的生命週期都是 <code>'static</code>。</p>
@@ -7364,7 +7364,7 @@ fn main() {
 </span><span class="boring">        string2,
 </span><span class="boring">        &quot;Today is someone's birthday!&quot;,
 </span><span class="boring">    );
-</span><span class="boring">    println!(&quot;The longest string is {}&quot;, result);
+</span><span class="boring">    println!(&quot;最長的字串爲 {}&quot;, result);
 </span><span class="boring">}
 </span><span class="boring">
 </span>use std::fmt::Display;
@@ -7377,7 +7377,7 @@ fn longest_with_an_announcement&lt;'a, T&gt;(
 where
     T: Display,
 {
-    println!(&quot;Announcement! {}&quot;, ann);
+    println!(&quot;公告！{}&quot;, ann);
     if x.len() &gt; y.len() {
         x
     } else {
@@ -7388,7 +7388,7 @@ where
 <p>這是範例 10-22 會回傳兩個字串切片較長者的 <code>longest</code> 函式。不過現在它有個額外的參數 <code>ann</code>，使用的是泛型型別 <code>T</code>，它可以是任何在 <code>where</code> 中所指定有實作 <code>Display</code> 特徵的型別。此額外參數會在函式比較兩個字串切片前印出來，這也是爲何需要 <code>Display</code> 特徵界限。因爲生命週期也是一種泛型，生命週期參數 <code>'a</code> 與泛型型別參數 <code>T</code> 都宣告在函式名稱後的尖括號內。</p>
 <h2><a class="header" href="#總結-9" id="總結-9">總結</a></h2>
 <p>我們在此章節涵蓋了許多內容！現在你已經知道泛型型別參數、特徵與特徵界限以及泛型生命週期參數，你已經準備好能寫出適用於許多不同情況且不重複的程式碼了。泛型型別參數讓你可以讓程式碼適用於不同型別；特徵與特徵界限確保就算型別爲泛型，它們都會有相同的行爲。你還學到了使用生命週期詮釋確保此如此彈性的程式碼不會造成迷途引用。而且這些分析都發生在編譯期間，完全不影響執行時效能！</p>
-<p>不管你信不信，本章節還有很多延伸主體可以導論，像是第十七章就會討論特徵物件（trait objects），這是另一個使用特徵的方法。另外還有一些更複雜的場合會涉及到更進階的生命週期詮釋。對此你可能就會想閱讀 <a href="../reference/index.html">Rust Reference</a>。接下來，你想學習如何在 Rust 寫測試，讓你可以確保程式碼能如期執行。</p>
+<p>不管你信不信，本章節還有很多延伸主題可以導論，像是第十七章就會討論特徵物件（trait objects），這是另一個使用特徵的方法。另外還有一些更複雜的場合會涉及到更進階的生命週期詮釋。對此你可能就會想閱讀 <a href="../reference/index.html">Rust Reference</a>。接下來，你將學習如何在 Rust 寫測試，讓你可以確保程式碼能如期執行。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -14634,7 +14634,7 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 16-12：基於簡便考量先用單一執行緒探討 <code>Mutex&lt;T&gt;</code> 的 API</span></p>
 <p>就像許多型別一樣，我們使用關聯函式 <code>new</code> 建立 <code>Mutex&lt;T&gt;</code>。要取得互斥鎖內的資料，我們使用 <code>lock</code> 方法來獲取鎖。此呼叫會阻擋當前執行緒做任何事，直到輪到它取得鎖。</p>
-<p>如果其他持有鎖的執行緒恐慌的話 <code>lock</code> 的呼該要就會失敗。在這樣的情況下，就沒有任何人可以獲得鎖，因此當我們遇到這種情況時，我們選擇 <code>unwrap</code> 並讓此執行緒恐慌。</p>
+<p>如果其他持有鎖的執行緒恐慌的話 <code>lock</code> 的呼叫就會失敗。在這樣的情況下，就沒有任何人可以獲得鎖，因此當我們遇到這種情況時，我們選擇 <code>unwrap</code> 並讓此執行緒恐慌。</p>
 <p>在我們獲取鎖之後，我們在此例可以將回傳的數值取作 <code>num</code>，作爲內部資料的可變引用。型別系統能確保我們在使用數值 <code>m</code> 之前有獲取鎖，<code>Mutex&lt;i32&gt;</code> 並不是 <code>i32</code>，所以我們<em>必須</em>取得鎖才能使用 <code>i32</code> 數值。我們不可能會忘記這麼做，不然型別系統不會讓我們存取內部的 <code>i32</code>。</p>
 <p>如同你所想像的，<code>Mutex&lt;T&gt;</code> 就是個智慧指標。更精確的來說，<code>lock</code> 的呼叫會<em>回傳</em>一個智慧指標叫做 <code>MutexGuard</code>，這是我們從 <code>LockResult</code> 呼叫 <code>unwrap</code> 取得的型別。<code>MutexGuard</code> 智慧指標有實作 <code>Deref</code> 特徵來指向我們的內部資料。此智慧指標也有 <code>Drop</code> 的實作，這會在 <code>MutexGuard</code> 離開作用域時自動釋放鎖，在範例 16-12 的內部作用域結尾就會執行此動作。這樣一來，我們就不會忘記釋放鎖，怕互斥鎖會阻擋其他執行緒，因爲鎖會自動被釋放。</p>
 <p>在釋放鎖之後，我們就能印出互斥鎖的數值並觀察到我們能夠變更內部的 <code>i32</code> 爲 6。</p>
@@ -17708,7 +17708,7 @@ macro_rules! vec {
 <p>首先，一對圓括號包圍整個模式。在括號後面的錢字號（<code>$</code>）捕獲了在括號內匹配該模式的值，用來取代該段程式碼。在 <code>$()</code> 內的 <code>$x:expr</code> 會匹配任意 Rust 表達式，並給這個表達式一個 <code>$x</code> 名。</p>
 <p>在 <code>$()</code> 後的逗號代表字面上的逗號分隔，可以選擇性地在匹配 <code>$()</code> 內的程式碼後出現。而 <code>*</code> 這指明，這個模式可以匹配零至多個在 <code>*</code> 之前的東西。</p>
 <p>當我們的以 <code>vec![1, 2, 3]</code> 呼叫這個巨集，<code>$x</code> 模式會匹配到三次，分別為 <code>1</code>、<code>2</code> 和 <code>3</code> 三個表達式。</p>
-<p>現在來看看這個模式分支的主體程式碼：在 <code>$()*</code> 內的 <code>temp_vec.push()</code> 會根據 <code>$()</code> 模式匹配了幾次而產生幾次。這個 <code>$x</code> 會被每個匹配的表達式取代。當我們使用 <code>vec![1, 2, 3]</code> 呼叫巨集時，這個取代巨集呼叫而產生出來的程式碼會是：</p>
+<p>現在來看看這個模式分支的本體程式碼：在 <code>$()*</code> 內的 <code>temp_vec.push()</code> 會根據 <code>$()</code> 模式匹配了幾次而產生幾次。這個 <code>$x</code> 會被每個匹配的表達式取代。當我們使用 <code>vec![1, 2, 3]</code> 呼叫巨集時，這個取代巨集呼叫而產生出來的程式碼會是：</p>
 <pre><code class="language-rust ignore">{
     let mut temp_vec = Vec::new();
     temp_vec.push(1);

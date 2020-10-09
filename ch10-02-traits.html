@@ -168,14 +168,14 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#特徵定義共同行爲" id="特徵定義共同行爲">特徵：定義共同行爲</a></h2>
-<p>*特徵（trait）*會告訴 Rust 編譯器特定型能與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行爲。我們可以使用特徵界限（trait bounds）來指定泛型爲擁有特定行爲的任意型別。</p>
+<p><em>特徵（trait）</em> 會告訴 Rust 編譯器特定型別與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行爲。我們可以使用特徵界限（trait bounds）來指定泛型爲擁有特定行爲的任意型別。</p>
 <blockquote>
 <p>注意：特徵類似於其他語言常稱作*介面（interfaces）*的功能，但還是有些差異。</p>
 </blockquote>
 <h3><a class="header" href="#定義特徵" id="定義特徵">定義特徵</a></h3>
 <p>一個型別的行爲包含我們對該型別可以呼叫的方法。如果我們可以對不同型別呼叫相同的方法，這些型別就能定義共同行爲了。特徵定義是一個將方法簽名統整起來，來達成一些目的而定義一系列行爲的方法。</p>
 <p>舉例來說，如果我們有數個結構體各自擁有不同種類與不同數量的文字：結構體 <code>NewsArticle</code> 儲存特定地點的新聞故事，然後 <code>Tweet</code> 則有最多 280 字元的內容，且有個欄位來判斷是全新的推文、轉推或其他推文的回覆。</p>
-<p>我們想要建立個多媒體資料庫來顯示可能存在 <code>NewsArticle</code> 或 <code>Tweet</code> 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們需要呼該要該實例的 <code>summarize</code> 方法來索取總結。範例 10-12 顯示了表達此行爲的 <code>Summary</code> 特徵定義。</p>
+<p>我們想要建立個多媒體資料庫來顯示可能存在 <code>NewsArticle</code> 或 <code>Tweet</code> 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們需要呼叫該實例的 <code>summarize</code> 方法來索取總結。範例 10-12 顯示了表達此行爲的 <code>Summary</code> 特徵定義。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -208,7 +208,7 @@
 
 impl Summary for NewsArticle {
     fn summarize(&amp;self) -&gt; String {
-        format!(&quot;{}, by {} ({})&quot;, self.headline, self.author, self.location)
+        format!(&quot;{} {} 著 ({})&quot;, self.headline, self.author, self.location)
     }
 }
 
@@ -241,14 +241,14 @@ impl Summary for Tweet {
         retweet: false,
     };
 
-    println!(&quot;1 new tweet: {}&quot;, tweet.summarize());
+    println!(&quot;1 則新推文：{}&quot;, tweet.summarize());
 <span class="boring">}
 </span></code></pre>
-<p>此程式碼會印出「1 new tweet: horse_ebooks: of course, as you probably already
+<p>此程式碼會印出「1 則新推文：horse_ebooks: of course, as you probably already
 know, people」。</p>
 <p>注意到因爲我們將範例 10-13 的 <code>Summary</code> 特徵、<code>NewsArticle</code> 和 <code>Tweet</code> 型別都定義在 <em>lib.rs</em> ，所以它們都在同個作用域下。如果我們說此 <em>lib.rs</em> 對應的 crate 叫做 <code>aggregator</code>，然後有人想要使用我們 crate 的功能來對他們函式庫作用域中定義的結構體實作 <code>Summary</code> 特徵的話。他們會需要將該特徵引入作用域，可以像這樣指定 <code>use aggregator::Summary;</code>，如此一來就能對他們的型別實作 <code>Summary</code>。<code>Summary</code> 特徵一樣也必須是公開的才能讓其他 crate 使用。這就是爲何我們在範例 10-12 的 <code>trait</code> 前面就加上 <code>pub</code> 關鍵字。</p>
 <p>實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說我們可以對自訂型別像是 <code>Tweet</code> 來實作標準函式庫的 <code>Display</code> 特徵來爲我們 crate <code>aggregator</code> 增加更多功能。因爲 <code>Tweet</code> 位於我們的 <code>aggregator</code> crate 裡面。我們也可以在我們的 crate <code>aggregator</code> 內對 <code>Vec&lt;T&gt;</code> 實作 <code>Summary</code>。因爲特徵 <code>Summary</code> 也位於我們的 <code>aggregator</code> crate 裡面。</p>
-<p>但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 <code>aggregator</code> crate 裡面對 <code>Vec&lt;T&gt;</code> 實作 <code>Display</code> 特徵。因爲 <code>Display</code> 與 <code>Vec&lt;T&gt;</code> 都定義在表準函式庫中，並沒有在我們 <code>aggregator</code> crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因爲上一代（parent）型別不存這在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。</p>
+<p>但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 <code>aggregator</code> crate 裡面對 <code>Vec&lt;T&gt;</code> 實作 <code>Display</code> 特徵。因爲 <code>Display</code> 與 <code>Vec&lt;T&gt;</code> 都定義在標準函式庫中，並沒有在我們 <code>aggregator</code> crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因爲上一代（parent）型別不存這在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。</p>
 <h3><a class="header" href="#預設實作" id="預設實作">預設實作</a></h3>
 <p>有時候對特徵內的一些或所有方法定義預設行爲是很實用的，而不必要求每個型別都實作所有方法。然後當我們對特定型別實作特徵時，我們可以保留或覆蓋每個方法的預設行爲。</p>
 <p>範例 10-14 展示如何在 <code>Summary</code> 特徵內指定  <code>summarize</code> 方法的預設字串，而不必像範例 10-12 只定義了方法簽名。</p>
@@ -258,7 +258,7 @@ know, people」。</p>
 </span><span class="boring">fn main() {
 </span>pub trait Summary {
     fn summarize(&amp;self) -&gt; String {
-        String::from(&quot;(Read more...)&quot;)
+        String::from(&quot;(閱讀更多...)&quot;)
     }
 }
 <span class="boring">
@@ -301,11 +301,11 @@ know, people」。</p>
         ),
     };
 
-    println!(&quot;New article available! {}&quot;, article.summarize());
+    println!(&quot;有新文章發佈！{}&quot;, article.summarize());
 <span class="boring">}
 </span></code></pre>
-<p>此程式碼會印出 <code>New article available! (Read more...)</code>。</p>
-<p>建立 <code>summarize</code> 的預設實作不會影響範例 10-13 中 <code>Tweet</code> 實作的 <code>Summary</code>。因爲要取代預設射實作的語法，與當沒有預設實作時實作特徵方法的語法是一樣的。</p>
+<p>此程式碼會印出 <code>有新文章發佈！(閱讀更多...)</code>。</p>
+<p>建立 <code>summarize</code> 的預設實作不會影響範例 10-13 中 <code>Tweet</code> 實作的 <code>Summary</code>。因爲要取代預設實作的語法，與當沒有預設實作時實作特徵方法的語法是一樣的。</p>
 <p>預設實作也能呼叫同特徵中的其他方法，就算那些方法沒有預設實作。這樣一來，特徵就可以提供一堆實用的功能，並要求實作者只需處理一小部分就好。舉例來說，我們可以定義 <code>Summary</code> 特徵，使其擁有一個必須要實作的<code>summarize_author</code> 方法，以及另一個擁有預設實作會呼叫 <code>summarize_author</code> 的方法：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -314,7 +314,7 @@ know, people」。</p>
     fn summarize_author(&amp;self) -&gt; String;
 
     fn summarize(&amp;self) -&gt; String {
-        format!(&quot;(Read more from {}...)&quot;, self.summarize_author())
+        format!(&quot;(從 {} 閱讀更多...)&quot;, self.summarize_author())
     }
 }
 <span class="boring">
@@ -337,7 +337,7 @@ know, people」。</p>
 </span><span class="boring">    fn summarize_author(&amp;self) -&gt; String;
 </span><span class="boring">
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
-</span><span class="boring">        format!(&quot;(Read more from {}...)&quot;, self.summarize_author())
+</span><span class="boring">        format!(&quot;(從 {} 閱讀更多...)&quot;, self.summarize_author())
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -367,11 +367,11 @@ know, people」。</p>
         retweet: false,
     };
 
-    println!(&quot;1 new tweet: {}&quot;, tweet.summarize());
+    println!(&quot;1 則新推文：{}&quot;, tweet.summarize());
 <span class="boring">}
 </span></code></pre>
-<p>此程式碼會印出 <code>1 new tweet: (Read more from @horse_ebooks...)</code>。</p>
-<p>注意要是有對相同方法覆寫實作的話，就無法呼叫預設實作。</p>
+<p>此程式碼會印出 <code>1 則新推文：(從 @horse_ebooks 閱讀更多...)</code>。</p>
+<p>注意要是對相同方法覆寫實作的話，就無法呼叫預設實作。</p>
 <h3><a class="header" href="#特徵作爲參數" id="特徵作爲參數">特徵作爲參數</a></h3>
 <p>現在你知道如何定義與實作特徵，我們可以來探討如何使用特徵來定義函式來接受多種不同的型別。</p>
 <p>舉例來說，在範例 10-13 我們對 <code>NewsArticle</code> 與 <code>Tweet</code> 實作了 <code>Summary</code> 特徵。我們可以定義一個函式 <code>notify</code> 使用它自己的參數 <code>item</code> 來呼叫 <code>summarize</code> 方法，所以此參數的型別預期有實作 <code>Summary</code> 特徵。
@@ -389,7 +389,7 @@ know, people」。</p>
 </span><span class="boring">
 </span><span class="boring">impl Summary for NewsArticle {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
-</span><span class="boring">        format!(&quot;{}, by {} ({})&quot;, self.headline, self.author, self.location)
+</span><span class="boring">        format!(&quot;{} {} 著 ({})&quot;, self.headline, self.author, self.location)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -407,14 +407,14 @@ know, people」。</p>
 </span><span class="boring">}
 </span><span class="boring">
 </span>pub fn notify(item: &amp;impl Summary) {
-    println!(&quot;Breaking news! {}&quot;, item.summarize());
+    println!(&quot;頭條新聞！{}&quot;, item.summarize());
 }
 </code></pre>
 <p>與其在 <code>item</code> 參數指定實際型別，我們用的是 <code>impl</code> 關鍵字並加上特徵名稱。這樣此參數就會接受任何有實作指定特徵的型別。在 <code>notify</code> 本體中我們就可以用 <code>item</code> 呼叫 <code>Summary</code> 特徵的任何方法，像是 <code>summarize</code>。我們可以呼叫 <code>notify</code> 並傳遞任何 <code>NewsArticle</code> 或 <code>Tweet</code> 的實例。但如果用其他型別像是 <code>String</code> 或 <code>i32</code> 來呼叫此程式碼的話會無法編譯，因爲那些型別沒有實作 <code>Summary</code>。</p>
 <h4><a class="header" href="#特徵界限語法" id="特徵界限語法">特徵界限語法</a></h4>
 <p><code>impl Trait</code> 語法看起來很直觀，不過它其實是一個更長格式的語法糖，這個格式稱之爲「特徵界限（trait bound）」，它長得會像這樣：</p>
 <pre><code class="language-rust ignore">pub fn notify&lt;T: Summary&gt;(item: &amp;T) {
-    println!(&quot;Breaking news! {}&quot;, item.summarize());
+    println!(&quot;頭條新聞！{}&quot;, item.summarize());
 }
 </code></pre>
 <p>此格式等同於之前段落的範例，只是比較長一點。我們將特徵界限置於泛型型別參數的宣告中，在尖括號內接在冒號之後。</p>
@@ -460,7 +460,7 @@ know, people」。</p>
 </span><span class="boring">
 </span><span class="boring">impl Summary for NewsArticle {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
-</span><span class="boring">        format!(&quot;{}, by {} ({})&quot;, self.headline, self.author, self.location)
+</span><span class="boring">        format!(&quot;{} {} 著 ({})&quot;, self.headline, self.author, self.location)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -489,7 +489,7 @@ know, people」。</p>
 }
 </code></pre>
 <p>將 <code>impl Summary</code> 作爲回傳型別的同時，我們在函式 <code>returns_summarizable</code> 指定回傳有實作 <code>Summary</code> 特徵的型別而不必指出實際型別。在此例中，<code>returns_summarizable</code> 回傳 <code>Tweet</code>，但呼叫此函式的程式碼不會知道。</p>
-<p>回傳一個只有指定所需實作特徵的型別的能力在閉包（closures）與疊代器（iterators）中非常有用，我們會在第十三章介紹它們。閉包與疊代器能建立只有編譯器知道的型別，或是太長而難以指定的型別。<code>impl Trait</code> 語法允許你不用寫出很長的型別，而是只要指定函數會回傳有實作 <code>Iterator</code> 特徵的型別就好。</p>
+<p>回傳一個只有指定所需實作特徵的型別在閉包（closures）與疊代器（iterators）中非常有用，我們會在第十三章介紹它們。閉包與疊代器能建立只有編譯器知道的型別，或是太長而難以指定的型別。<code>impl Trait</code> 語法允許你不用寫出很長的型別，而是只要指定函數會回傳有實作 <code>Iterator</code> 特徵的型別就好。</p>
 <p>然而如果你使用 <code>impl Trait</code> 的話，你就只能回傳單一型別。舉例來說此程式碼指定回傳型別爲 <code>impl Summary</code> ，但是寫說可能會回傳 <code>NewsArticle</code> 或 <code>Tweet</code> 的話就會無法執行：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">pub trait Summary {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String;
@@ -504,7 +504,7 @@ know, people」。</p>
 </span><span class="boring">
 </span><span class="boring">impl Summary for NewsArticle {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
-</span><span class="boring">        format!(&quot;{}, by {} ({})&quot;, self.headline, self.author, self.location)
+</span><span class="boring">        format!(&quot;{} {} 著 ({})&quot;, self.headline, self.author, self.location)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -568,7 +568,7 @@ error: could not compile `chapter10`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>在 <code>largest</code> 我們想要用大於（<code>&gt;</code>）運算子比較兩個型別的爲 <code>T</code> 的數值。由於該運算子是從標準函式庫中的特徵 <code>std::cmp::PartialOrd</code> 的預設方法所定義的，我們希望在 <code>T</code> 中加上 <code>PartialOrd</code> 的特徵界限，讓函式可以比較任意型別的 slice。我們不需要將 <code>PartialOrd</code> 引入作用域因爲它由 prelude 提供。請變更 <code>largest</code> 的簽名如以下所示：</p>
+<p>在 <code>largest</code> 我們想要用大於（<code>&gt;</code>）運算子比較兩個型別的爲 <code>T</code> 的數值。由於該運算子是從標準函式庫中的特徵 <code>std::cmp::PartialOrd</code> 的預設方法所定義的，我們希望在 <code>T</code> 中加上 <code>PartialOrd</code> 的特徵界限，讓函式可以比較任意型別的切片。我們不需要將 <code>PartialOrd</code> 引入作用域因爲它由 prelude 提供。請變更 <code>largest</code> 的簽名如以下所示：</p>
 <pre><code class="language-rust ignore">fn largest&lt;T: PartialOrd&gt;(list: &amp;[T]) -&gt; T {
 <span class="boring">    let mut largest = list[0];
 </span><span class="boring">
@@ -585,12 +585,12 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    let number_list = vec![34, 50, 25, 100, 65];
 </span><span class="boring">
 </span><span class="boring">    let result = largest(&amp;number_list);
-</span><span class="boring">    println!(&quot;The largest number is {}&quot;, result);
+</span><span class="boring">    println!(&quot;最大數字爲 {}&quot;, result);
 </span><span class="boring">
 </span><span class="boring">    let char_list = vec!['y', 'm', 'a', 'q'];
 </span><span class="boring">
 </span><span class="boring">    let result = largest(&amp;char_list);
-</span><span class="boring">    println!(&quot;The largest char is {}&quot;, result);
+</span><span class="boring">    println!(&quot;最大字元爲 {}&quot;, result);
 </span><span class="boring">}
 </span></code></pre>
 <p>這次編譯程式碼時，我們會得到不同的錯誤：</p>
@@ -624,8 +624,8 @@ error: could not compile `chapter10`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>此錯誤的關鍵在 <code>cannot move out of type [T], a non-copy slice</code>。在我們非泛型版本的函式 <code>largest</code> 中，我們只有嘗試尋找 <code>i32</code> 或 <code>char</code> 的最大值。如同第四章<a href="ch04-01-what-is-ownership.html#stack-only-data-copy">「只在堆疊上的資料：拷貝（Copy）」</a><!-- ignore -->段落所提到的，像 <code>i32</code> 和 <code>char</code> 這樣的型別是已知大小可以存在堆疊上，所以它們有實作 <code>Copy</code> 特徵。但當我們建立泛型函式 <code>largest</code> 時，<code>list</code> 參數就有可能拿到沒有實作 <code>Copy</code> 特徵的型別。隨後導致我們無法將 <code>list[0]</code> 移出給變數 <code>largest</code>，最後產生錯誤。</p>
-<p>要限制此程式碼只允許有實作 <code>Copy</code> 特徵的型別，我們可以再 <code>T</code> 的特徵界限中加上 <code>Copy</code>！範例 10-15 展示了泛型函式 <code>largest</code> 完整的程式碼，只要我們傳遞給函式的 slice 數值型別有實作 <code>PartialOrd</code><em>和</em> <code>Copy</code> 特徵的話（像是 <code>i32</code> 和 <code>char</code>），就能編譯成功。</p>
+<p>此錯誤的關鍵在 <code>cannot move out of type [T], a non-copy slice</code>。在我們非泛型版本的函式 <code>largest</code> 中，我們只有嘗試尋找 <code>i32</code> 或 <code>char</code> 的最大值。如同第四章<a href="ch04-01-what-is-ownership.html#%E5%8F%AA%E5%9C%A8%E5%A0%86%E7%96%8A%E4%B8%8A%E7%9A%84%E8%B3%87%E6%96%99%E6%8B%B7%E8%B2%9Dcopy">「只在堆疊上的資料：拷貝（Copy）」</a><!-- ignore -->段落所提到的，像 <code>i32</code> 和 <code>char</code> 這樣的型別是已知大小可以存在堆疊上，所以它們有實作 <code>Copy</code> 特徵。但當我們建立泛型函式 <code>largest</code> 時，<code>list</code> 參數就有可能拿到沒有實作 <code>Copy</code> 特徵的型別。隨後導致我們無法將 <code>list[0]</code> 移出給變數 <code>largest</code>，最後產生錯誤。</p>
+<p>要限制此程式碼只允許有實作 <code>Copy</code> 特徵的型別，我們可以再 <code>T</code> 的特徵界限中加上 <code>Copy</code>！範例 10-15 展示了泛型函式 <code>largest</code> 完整的程式碼，只要我們傳遞給函式的切片數值型別有實作 <code>PartialOrd</code><em>和</em> <code>Copy</code> 特徵的話（像是 <code>i32</code> 和 <code>char</code>），就能編譯成功。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn largest&lt;T: PartialOrd + Copy&gt;(list: &amp;[T]) -&gt; T {
     let mut largest = list[0];
@@ -643,17 +643,17 @@ fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
     let result = largest(&amp;number_list);
-    println!(&quot;The largest number is {}&quot;, result);
+    println!(&quot;最大數字爲 {}&quot;, result);
 
     let char_list = vec!['y', 'm', 'a', 'q'];
 
     let result = largest(&amp;char_list);
-    println!(&quot;The largest char is {}&quot;, result);
+    println!(&quot;最大字元爲 {}&quot;, result);
 }
 </code></pre></pre>
 <p><span class="caption">範例 10-15：一個適用於任何實作 <code>PartialOrd</code> 與 <code>Copy</code> 特徵的泛型的 <code>largest</code> 函式</span></p>
-<p>如果我們不想要限制函式 <code>largest</code> 只接受實作 <code>Copy</code> 特徵的型別，我們可以在 <code>T</code> 中改指定 <code>Clone</code> 而非 <code>Copy</code>。這樣當我們想要 <code>largest</code> 取得所有權，我們就可以克隆 slice 的數值。使用 <code>clone</code> 函式代表我們對於像是 <code>String</code> 這樣擁有堆積資料的型別，可能會產生更多堆積分配。而如果我們處理的資料很龐大的話，堆積分配的速度可能就會很慢。</p>
-<p>另一種實作 <code>largest</code> 的方法是我們可以來回傳 slcie 中 <code>T</code> 數值的引用。如果我們將回傳型別改成 <code>&amp;T</code> 而非 <code>T</code>，也就是改變函式本體來回傳引用的話，我們就不需要 <code>Clone</code> 或 <code>Copy</code> 特徵界限，也能避免堆積分配。請試著自己實作這個解決辦法看看吧！</p>
+<p>如果我們不想要限制函式 <code>largest</code> 只接受實作 <code>Copy</code> 特徵的型別，我們可以在 <code>T</code> 中改指定 <code>Clone</code> 而非 <code>Copy</code>。這樣當我們想要 <code>largest</code> 取得所有權，我們就可以克隆切片的數值。使用 <code>clone</code> 函式代表我們對於像是 <code>String</code> 這樣擁有堆積資料的型別，可能會產生更多堆積分配。而如果我們處理的資料很龐大的話，堆積分配的速度可能就會很慢。</p>
+<p>另一種實作 <code>largest</code> 的方法是我們可以來回傳切片中 <code>T</code> 數值的引用。如果我們將回傳型別改成 <code>&amp;T</code> 而非 <code>T</code>，也就是改變函式本體來回傳引用的話，我們就不需要 <code>Clone</code> 或 <code>Copy</code> 特徵界限，也能避免堆積分配。請試著自己實作這個解決辦法看看吧！</p>
 <h3><a class="header" href="#透過特徵界限來選擇性實作方法" id="透過特徵界限來選擇性實作方法">透過特徵界限來選擇性實作方法</a></h3>
 <p>在有使用泛型型別參數 <code>impl</code> 區塊中使用特徵界限，我們可以選擇性地對有實作特定特徵的型別來時錯方法。舉例來說，範例 10-16 的 <code>Pair&lt;T&gt;</code> 只有在其內部型別 <code>T</code> 有實作能夠做比較的 <code>PartialOrd</code> 特徵以及能夠顯示在螢幕的 <code>Display</code> 特徵的話，才會實作 <code>cmp_display</code> 方法。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>

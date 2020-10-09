@@ -198,7 +198,7 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 16-12：基於簡便考量先用單一執行緒探討 <code>Mutex&lt;T&gt;</code> 的 API</span></p>
 <p>就像許多型別一樣，我們使用關聯函式 <code>new</code> 建立 <code>Mutex&lt;T&gt;</code>。要取得互斥鎖內的資料，我們使用 <code>lock</code> 方法來獲取鎖。此呼叫會阻擋當前執行緒做任何事，直到輪到它取得鎖。</p>
-<p>如果其他持有鎖的執行緒恐慌的話 <code>lock</code> 的呼該要就會失敗。在這樣的情況下，就沒有任何人可以獲得鎖，因此當我們遇到這種情況時，我們選擇 <code>unwrap</code> 並讓此執行緒恐慌。</p>
+<p>如果其他持有鎖的執行緒恐慌的話 <code>lock</code> 的呼叫就會失敗。在這樣的情況下，就沒有任何人可以獲得鎖，因此當我們遇到這種情況時，我們選擇 <code>unwrap</code> 並讓此執行緒恐慌。</p>
 <p>在我們獲取鎖之後，我們在此例可以將回傳的數值取作 <code>num</code>，作爲內部資料的可變引用。型別系統能確保我們在使用數值 <code>m</code> 之前有獲取鎖，<code>Mutex&lt;i32&gt;</code> 並不是 <code>i32</code>，所以我們<em>必須</em>取得鎖才能使用 <code>i32</code> 數值。我們不可能會忘記這麼做，不然型別系統不會讓我們存取內部的 <code>i32</code>。</p>
 <p>如同你所想像的，<code>Mutex&lt;T&gt;</code> 就是個智慧指標。更精確的來說，<code>lock</code> 的呼叫會<em>回傳</em>一個智慧指標叫做 <code>MutexGuard</code>，這是我們從 <code>LockResult</code> 呼叫 <code>unwrap</code> 取得的型別。<code>MutexGuard</code> 智慧指標有實作 <code>Deref</code> 特徵來指向我們的內部資料。此智慧指標也有 <code>Drop</code> 的實作，這會在 <code>MutexGuard</code> 離開作用域時自動釋放鎖，在範例 16-12 的內部作用域結尾就會執行此動作。這樣一來，我們就不會忘記釋放鎖，怕互斥鎖會阻擋其他執行緒，因爲鎖會自動被釋放。</p>
 <p>在釋放鎖之後，我們就能印出互斥鎖的數值並觀察到我們能夠變更內部的 <code>i32</code> 爲 6。</p>

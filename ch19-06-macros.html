@@ -221,7 +221,7 @@ macro_rules! vec {
 <p>首先，一對圓括號包圍整個模式。在括號後面的錢字號（<code>$</code>）捕獲了在括號內匹配該模式的值，用來取代該段程式碼。在 <code>$()</code> 內的 <code>$x:expr</code> 會匹配任意 Rust 表達式，並給這個表達式一個 <code>$x</code> 名。</p>
 <p>在 <code>$()</code> 後的逗號代表字面上的逗號分隔，可以選擇性地在匹配 <code>$()</code> 內的程式碼後出現。而 <code>*</code> 這指明，這個模式可以匹配零至多個在 <code>*</code> 之前的東西。</p>
 <p>當我們的以 <code>vec![1, 2, 3]</code> 呼叫這個巨集，<code>$x</code> 模式會匹配到三次，分別為 <code>1</code>、<code>2</code> 和 <code>3</code> 三個表達式。</p>
-<p>現在來看看這個模式分支的主體程式碼：在 <code>$()*</code> 內的 <code>temp_vec.push()</code> 會根據 <code>$()</code> 模式匹配了幾次而產生幾次。這個 <code>$x</code> 會被每個匹配的表達式取代。當我們使用 <code>vec![1, 2, 3]</code> 呼叫巨集時，這個取代巨集呼叫而產生出來的程式碼會是：</p>
+<p>現在來看看這個模式分支的本體程式碼：在 <code>$()*</code> 內的 <code>temp_vec.push()</code> 會根據 <code>$()</code> 模式匹配了幾次而產生幾次。這個 <code>$x</code> 會被每個匹配的表達式取代。當我們使用 <code>vec![1, 2, 3]</code> 呼叫巨集時，這個取代巨集呼叫而產生出來的程式碼會是：</p>
 <pre><code class="language-rust ignore">{
     let mut temp_vec = Vec::new();
     temp_vec.push(1);
