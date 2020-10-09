@@ -177,7 +177,7 @@
 <pre><code class="language-console">$ cargo run &gt; output.txt
 </code></pre>
 <p><code>&gt;</code> 語法告訴 shell 要將標準輸出的內容寫入 <em>output.txt</em> 而不是顯示在螢幕上。我們沒有看到應顯示在螢幕上的錯誤訊息，這代表它一定跑到檔案中了。以下是 <em>output.txt</em> 包含的內容：</p>
-<pre><code class="language-text">Problem parsing arguments: not enough arguments
+<pre><code class="language-text">解析引數時出現問題：引數不足
 </code></pre>
 <p>是的，我們的錯誤訊息印到了標準輸出。像這樣的錯誤訊息印到標準錯誤會比較好，這樣才能只讓成功執行的資料存至檔案中。讓我們來修正吧。</p>
 <h3><a class="header" href="#將錯誤印出至標準錯誤" id="將錯誤印出至標準錯誤">將錯誤印出至標準錯誤</a></h3>
@@ -192,12 +192,12 @@
     let args: Vec&lt;String&gt; = env::args().collect();
 
     let config = Config::new(&amp;args).unwrap_or_else(|err| {
-        eprintln!(&quot;Problem parsing arguments: {}&quot;, err);
+        eprintln!(&quot;解析引數時出現問題：{}&quot;, err);
         process::exit(1);
     });
 
     if let Err(e) = minigrep::run(config) {
-        eprintln!(&quot;Application error: {}&quot;, e);
+        eprintln!(&quot;應用程式錯誤：{}&quot;, e);
 
         process::exit(1);
     }
@@ -206,7 +206,7 @@
 <p><span class="caption">範例 12-24：使用 <code>eprintln!</code> 來將錯誤訊息印至標準錯誤而非標準輸出</span></p>
 <p>將 <code>println!</code> 變更成 <code>eprintln!</code> 之後，讓我們以相同方式再執行程式一次，沒有任何引數並用 <code>&gt;</code> 重新導向標準輸出：</p>
 <pre><code class="language-text">$ cargo run &gt; output.txt
-Problem parsing arguments: not enough arguments
+解析引數時出現問題：引數不足
 </code></pre>
 <p>現在我們看到錯誤顯示在螢幕上而且 <em>output.txt</em> 裡什麼也沒只有，這正是命令列程式所預期的行爲。</p>
 <p>讓我們加上不會產生錯誤的引數來執行程式，並仍衝心導向標準輸出至檔案中，如以下所示：</p>

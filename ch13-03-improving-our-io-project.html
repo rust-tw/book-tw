@@ -192,7 +192,7 @@ Listing 12-23:</p>
 </span>impl Config {
     pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
         if args.len() &lt; 3 {
-            return Err(&quot;not enough arguments&quot;);
+            return Err(&quot;引數不足&quot;);
         }
 
         let query = args[1].clone();
@@ -314,14 +314,14 @@ operations that borrow, we can move the <code>String</code> values from the iter
     let args: Vec&lt;String&gt; = env::args().collect();
 
     let config = Config::new(&amp;args).unwrap_or_else(|err| {
-        eprintln!(&quot;Problem parsing arguments: {}&quot;, err);
+        eprintln!(&quot;解析引數時出現問題：{}&quot;, err);
         process::exit(1);
     });
 
     // --省略--
 <span class="boring">
 </span><span class="boring">    if let Err(e) = minigrep::run(config) {
-</span><span class="boring">        eprintln!(&quot;Application error: {}&quot;, e);
+</span><span class="boring">        eprintln!(&quot;應用程式錯誤：{}&quot;, e);
 </span><span class="boring">
 </span><span class="boring">        process::exit(1);
 </span><span class="boring">    }
@@ -338,14 +338,14 @@ well.</p>
 </span><span class="boring">
 </span>fn main() {
     let config = Config::new(env::args()).unwrap_or_else(|err| {
-        eprintln!(&quot;Problem parsing arguments: {}&quot;, err);
+        eprintln!(&quot;解析引數時出現問題：{}&quot;, err);
         process::exit(1);
     });
 
     // --省略--
 <span class="boring">
 </span><span class="boring">    if let Err(e) = minigrep::run(config) {
-</span><span class="boring">        eprintln!(&quot;Application error: {}&quot;, e);
+</span><span class="boring">        eprintln!(&quot;應用程式錯誤：{}&quot;, e);
 </span><span class="boring">
 </span><span class="boring">        process::exit(1);
 </span><span class="boring">    }
@@ -376,7 +376,7 @@ body.</p>
     pub fn new(mut args: env::Args) -&gt; Result&lt;Config, &amp;'static str&gt; {
         // --省略--
 <span class="boring">        if args.len() &lt; 3 {
-</span><span class="boring">            return Err(&quot;not enough arguments&quot;);
+</span><span class="boring">            return Err(&quot;引數不足&quot;);
 </span><span class="boring">        }
 </span><span class="boring">
 </span><span class="boring">        let query = args[1].clone();
@@ -601,7 +601,7 @@ the program. We want to ignore that and get to the next value, so first we call
 <code>next</code> and do nothing with the return value. Second, we call <code>next</code> to get the
 value we want to put in the <code>query</code> field of <code>Config</code>. If <code>next</code> returns a
 <code>Some</code>, we use a <code>match</code> to extract the value. If it returns <code>None</code>, it means
-not enough arguments were given and we return early with an <code>Err</code> value. We do
+引數不足 were given and we return early with an <code>Err</code> value. We do
 the same thing for the <code>filename</code> value.</p>
 <h3><a class="header" href="#making-code-clearer-with-iterator-adaptors" id="making-code-clearer-with-iterator-adaptors">Making Code Clearer with Iterator Adaptors</a></h3>
 <p>We can also take advantage of iterators in the <code>search</code> function in our I/O
@@ -618,7 +618,7 @@ project, which is reproduced here in Listing 13-28 as it was in Listing 12-19:</
 </span><span class="boring">impl Config {
 </span><span class="boring">    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
 </span><span class="boring">        if args.len() &lt; 3 {
-</span><span class="boring">            return Err(&quot;not enough arguments&quot;);
+</span><span class="boring">            return Err(&quot;引數不足&quot;);
 </span><span class="boring">        }
 </span><span class="boring">
 </span><span class="boring">        let query = args[1].clone();

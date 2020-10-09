@@ -193,13 +193,13 @@ fn main() {
 </span><span class="boring">    let query = &amp;args[1];
 </span><span class="boring">    let filename = &amp;args[2];
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;Searching for {}&quot;, query);
-</span>    println!(&quot;In file {}&quot;, filename);
+</span><span class="boring">    println!(&quot;搜尋 {}&quot;, query);
+</span>    println!(&quot;目標檔案爲 {}&quot;, filename);
 
     let contents = fs::read_to_string(filename)
-        .expect(&quot;Something went wrong reading the file&quot;);
+        .expect(&quot;讀取檔案時發生了錯誤&quot;);
 
-    println!(&quot;With text:\n{}&quot;, contents);
+    println!(&quot;文字內容：\n{}&quot;, contents);
 }
 </code></pre></pre>
 <p><span class="caption">範例 12-4：讀取第二個引數指定的檔案內容</span></p>
@@ -211,9 +211,9 @@ fn main() {
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
      Running `target/debug/minigrep the poem.txt`
-Searching for the
-In file poem.txt
-With text:
+搜尋 the
+目標檔案爲 poem.txt
+文字內容：
 I’m nobody! Who are you?
 Are you nobody, too?
 Then there’s a pair of us - don’t tell!

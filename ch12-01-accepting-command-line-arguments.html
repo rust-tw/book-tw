@@ -189,7 +189,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 12-1：收集命令列引數至向量中並顯示它們</span></p>
-<p>首先我們透過 <code>use</code> 陳述式將 <code>std::env</code> 模組引入作用域，讓我們可以使用它的 <code>args</code> 函式。注意到 <code>std::env::args</code> 函式位於兩層模組下。如同我們在<a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html#creating-idiomatic-use-paths">第七章</a><!-- ignore -->談過的，如果我們要用的函式模組路徑超過一層以上的話，通常就會將上層模組引入作用域中，而不是函式本身。這樣的話，我們可以輕鬆使用 <code>std::env</code> 中的其他函式。而且這也比直接加上 <code>use std::env::args</code> 然後只使用 <code>args</code> 來呼叫函式還要明確些，因爲 <code>args</code> 容易被誤認成是由目前模組定義的函式。</p>
+<p>首先我們透過 <code>use</code> 陳述式將 <code>std::env</code> 模組引入作用域，讓我們可以使用它的 <code>args</code> 函式。注意到 <code>std::env::args</code> 函式位於兩層模組下。如同我們在<a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html#%E5%BB%BA%E7%AB%8B%E6%85%A3%E7%94%A8%E7%9A%84-use-%E8%B7%AF%E5%BE%91">第七章</a><!-- ignore -->談過的，如果我們要用的函式模組路徑超過一層以上的話，通常就會將上層模組引入作用域中，而不是函式本身。這樣的話，我們可以輕鬆使用 <code>std::env</code> 中的其他函式。而且這也比直接加上 <code>use std::env::args</code> 然後只使用 <code>args</code> 來呼叫函式還要明確些，因爲 <code>args</code> 容易被誤認成是由目前模組定義的函式。</p>
 <blockquote>
 <h3><a class="header" href="#args-函式與無效的-unicode" id="args-函式與無效的-unicode"><code>args</code> 函式與無效的 Unicode</a></h3>
 <p>值得注意的是如果任何引數包含無效 Unicode 的話，<code>std::env::args</code> 就會恐慌。如果你的程式想要接受包含無效 Unicode 引數的話，請改使用 <code>std::env::args_os</code>。該函式回傳會產生 <code>OsString</code> 數值的疊代器，而非 <code>String</code> 數值。我們出於簡單方便所以在此使用 <code>std::env::args</code>，因爲 <code>OsString</code> 在不同平台中數值會有所差異，且會比 <code>String</code> 數值還要難處理。</p>
@@ -220,19 +220,19 @@ fn main() {
     let query = &amp;args[1];
     let filename = &amp;args[2];
 
-    println!(&quot;Searching for {}&quot;, query);
-    println!(&quot;In file {}&quot;, filename);
+    println!(&quot;搜尋 {}&quot;, query);
+    println!(&quot;目標檔案爲 {}&quot;, filename);
 }
 </code></pre></pre>
 <p><span class="caption">範例 12-2：建立變數來儲存搜尋引數與檔案名稱引數</span></p>
-<p>如我們印出向量時鎖看到的，向量的第一個數值 <code>args[0]</code> 會是程式名稱，所以我們從引數 <code>1</code> 開始。<code>minigrep</code> 接收的第一個引數會是我們要搜尋的字串，所以我們將第一個引數的引用賦值給變數 <code>query</code>。第二個引數會是檔案名稱，所以我們將第二個引數的引用賦值給 <code>filename</code>。</p>
+<p>如我們印出向量時所看到的，向量的第一個數值 <code>args[0]</code> 會是程式名稱，所以我們從引數 <code>1</code> 開始。<code>minigrep</code> 接收的第一個引數會是我們要搜尋的字串，所以我們將第一個引數的引用賦值給變數 <code>query</code>。第二個引數會是檔案名稱，所以我們將第二個引數的引用賦值給 <code>filename</code>。</p>
 <p>我們暫時印出這些變數的數值來證明程式碼運作無誤。讓我們用引數 <code>test</code> 與 <code>sample.txt</code> 來再次執行程式：</p>
 <pre><code class="language-console">$ cargo run test sample.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
      Running `target/debug/minigrep test sample.txt`
-Searching for test
-In file sample.txt
+搜尋 test
+目標檔案爲 sample.txt
 </code></pre>
 <p>很好，程式能執行！我們想要的引數數值都有儲存至正確的變數中。之後我們會對特定潛在錯誤情形來加上一些錯誤處理，像是當使用者沒有提供引數的情況。現在我們先忽略這樣的情況，並開始加上讀取檔案的功能。</p>
 <blockquote>
