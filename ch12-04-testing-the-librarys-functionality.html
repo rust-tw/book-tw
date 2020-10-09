@@ -168,7 +168,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#透過測試驅動開發完善函式庫功能" id="透過測試驅動開發完善函式庫功能">透過測試驅動開發完善函式庫功能</a></h2>
-<p>現在我們提取邏輯到 <em>src/lib.rs</em> 並在 src/main.rs* 留下引數收集與錯誤處理的任務，現在對程式碼中的核心功能進行測試會簡單許多。我們可以使用各種引數直接呼叫函式來檢查回傳值，而不用從命令列呼叫我們的執行檔。歡迎自行對 <code>Config::new</code> 與 <code>run</code> 函式的功能寫些測試。</p>
+<p>現在我們提取邏輯到 <em>src/lib.rs</em> 並在 <em>src/main.rs</em> 留下引數收集與錯誤處理的任務，現在對程式碼中的核心功能進行測試會簡單許多。我們可以使用各種引數直接呼叫函式來檢查回傳值，而不用從命令列呼叫我們的執行檔。歡迎自行對 <code>Config::new</code> 與 <code>run</code> 函式的功能寫些測試。</p>
 <p>在此段落中，我們會在 <code>minigrep</code> 程式中利用試驅動開發（Test-driven development, TDD）來新增搜尋邏輯。此程式開發技巧遵循以下步驟：</p>
 <ol>
 <li>寫出一個會失敗的測試並執行它來確保它失敗的原因如你所預期。</li>
@@ -179,7 +179,7 @@
 <p>此流程是編寫軟體的許多方式之一，但 TDD 也有助於程式碼的設計。在寫出能通過測試的程式碼之前先寫好測試能夠協助在開發過程中維持高測試覆蓋率。</p>
 <p>我們將用測試驅動功能的實作，而要實作的功能就是在檔案內容中找到欲搜尋的字串，並產生符合查詢字串的行數列表。我們會在一個叫做 <code>search</code> 的函式新增此功能。</p>
 <h3><a class="header" href="#編寫失敗的測試" id="編寫失敗的測試">編寫失敗的測試</a></h3>
-<p>讓我們移除 <em>src/lib.rs</em> 與 <em>src/main.rs</em> 中用來檢查程式行爲的 <code>println!</code> 陳述式，因爲我們不再需要它們了。然後在 <em>src/lib.rs</em> 中，我們加上 <code>tests</code> 模組與一個測試函式，如我們在<a href="ch11-01-writing-tests.html#the-anatomy-of-a-test-function">第十一章</a><!-- ignore -->所做的一樣。測試函式會指定我們希望 <code>search</code> 函式所能擁有的行爲，它會接收搜尋字串與一段要被搜尋的文字，然後它只回傳文字中包含該搜尋字串的行數。範例 12-15 展示了此測試，但還不能編譯。</p>
+<p>讓我們移除 <em>src/lib.rs</em> 與 <em>src/main.rs</em> 中用來檢查程式行爲的 <code>println!</code> 陳述式，因爲我們不再需要它們了。然後在 <em>src/lib.rs</em> 中，我們加上 <code>tests</code> 模組與一個測試函式，如我們在<a href="ch11-01-writing-tests.html#%E6%B8%AC%E8%A9%A6%E5%87%BD%E5%BC%8F%E5%89%96%E6%9E%90">第十一章</a><!-- ignore -->所做的一樣。測試函式會指定我們希望 <code>search</code> 函式所能擁有的行爲，它會接收搜尋字串與一段要被搜尋的文字，然後它只回傳文字中包含該搜尋字串的行數。範例 12-15 展示了此測試，但還不能編譯。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -280,8 +280,8 @@ Pick three.&quot;;
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 12-16：定義足夠的 <code>search</code> 函式讓我們的測試能夠編譯</span></p>
-<p>值得注意的是在 <code>search</code> 的簽名中需要定義一個顯式的生命週期 <code>'a</code>，並用於 <code>contents</code> 引數與回傳值。回想一下在<a href="ch10-03-lifetime-syntax.html">第十章</a><!-- ignore -->中生命週期參數會連結引數生命週期與回傳值生命週期。在此例中，我們指明回傳值應包含字串切片且其會引用 <code>contents</code> 引數的 slices（而非引數 <code>query</code>）。</p>
-<p>換句話說，我們告訴 Rust <code>search</code> 函式回傳的資料會跟傳遞給 <code>search</code> 函式的引數 <code>contents</code> 資料存活的一樣久。這點很重要！被 slice 引用的資料必須有效，這樣其引用才會有效。如果編譯器假設是在建立 <code>query</code> 而非 <code>contents</code> 的字串切片，它的安全檢查就會不正確。</p>
+<p>值得注意的是在 <code>search</code> 的簽名中需要定義一個顯式的生命週期 <code>'a</code>，並用於 <code>contents</code> 引數與回傳值。回想一下在<a href="ch10-03-lifetime-syntax.html">第十章</a><!-- ignore -->中生命週期參數會連結引數生命週期與回傳值生命週期。在此例中，我們指明回傳值應包含字串切片且其會引用 <code>contents</code> 引數的切片（而非引數 <code>query</code>）。</p>
+<p>換句話說，我們告訴 Rust <code>search</code> 函式回傳的資料會跟傳遞給 <code>search</code> 函式的引數 <code>contents</code> 資料存活的一樣久。這點很重要！被切片引用的資料必須有效，這樣其引用才會有效。如果編譯器假設是在建立 <code>query</code> 而非 <code>contents</code> 的字串切片，它的安全檢查就會不正確。</p>
 <p>如果我們忘記詮釋生命週期並嘗試編譯此函式，我們會得到以下錯誤：</p>
 <pre><code class="language-console">$ cargo build
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -370,7 +370,7 @@ error: test failed, to rerun pass '--lib'
 </span><span class="boring">
 </span>pub fn search&lt;'a&gt;(query: &amp;str, contents: &amp;'a str) -&gt; Vec&lt;&amp;'a str&gt; {
     for line in contents.lines() {
-        // do something with line
+        // 對每行做些事情
     }
 }
 <span class="boring">
@@ -392,7 +392,7 @@ error: test failed, to rerun pass '--lib'
 </span></code></pre>
 <p><span class="caption">範例 12-17：在 <code>contents</code> 中遍歷每一行
 </span></p>
-<p><code>lines</code> 方法會回傳疊代器（iterator）。我們會在<a href="ch13-02-iterators.html">第十三章</a><!-- ignore -->詳細解釋疊代器，不過回想一下你在<a href="ch03-05-control-flow.html#looping-through-a-collection-with-for">範例 3-5</a><!-- ignore -->就看過疊代器的用法了，我們對疊代器使用 <code>for</code> 迴圈來對集合中的每個項目執行一些程式碼。</p>
+<p><code>lines</code> 方法會回傳疊代器（iterator）。我們會在<a href="ch13-02-iterators.html">第十三章</a><!-- ignore -->詳細解釋疊代器，不過回想一下你在<a href="ch03-05-control-flow.html#%E4%BD%BF%E7%94%A8-for-%E9%81%8D%E6%AD%B7%E9%9B%86%E5%90%88">範例 3-5</a><!-- ignore -->就看過疊代器的用法了，我們對疊代器使用 <code>for</code> 迴圈來對集合中的每個項目執行一些程式碼。</p>
 <h4><a class="header" href="#檢查每行是否有要搜尋的字串" id="檢查每行是否有要搜尋的字串">檢查每行是否有要搜尋的字串</a></h4>
 <p>接著，我們要檢查目前的行數是否有包含我們要搜尋的字串。幸運的是，字串有個好用的方法叫做 <code>contains</code> 能幫我處理這件事！在 <code>search</code> 函式中加上方法 <code>contains</code> 的呼叫，如範例 12-18 所示。注意這仍然無法編譯。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -426,7 +426,7 @@ error: test failed, to rerun pass '--lib'
 </span>pub fn search&lt;'a&gt;(query: &amp;str, contents: &amp;'a str) -&gt; Vec&lt;&amp;'a str&gt; {
     for line in contents.lines() {
         if line.contains(query) {
-            // do something with line
+            // 對每行做些事情
         }
     }
 }
@@ -619,7 +619,7 @@ How dreary to be somebody!
      Running `target/debug/minigrep monomorphization poem.txt`
 </code></pre>
 <p>漂亮！我們建立了一個屬於自己的迷你經典工具，並學到了很多如何架構應用程式的知識。我們也學了一些檔案輸入與輸出、生命週期、測試與命令列解析。</p>
-<p>爲了讓此專案更完勝，我們會簡單介紹如何使用環境變數，以及如何印出到標準錯誤（standard error），這兩項在寫命令列程式時都很實用。</p>
+<p>爲了讓此專案更完整，我們會簡單介紹如何使用環境變數，以及如何印出到標準錯誤（standard error），這兩項在寫命令列程式時都很實用。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
