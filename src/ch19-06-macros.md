@@ -179,7 +179,7 @@ $ cargo new hello_macro_derive --lib
 
 ```rust,ignore
 DeriveInput {
-    // --snip--
+    // --省略--
 
     ident: Ident {
         ident: "Pancakes",

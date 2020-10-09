@@ -3,7 +3,7 @@ use std::env;
 use std::fs;
 
 fn main() {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     let args: Vec<String> = env::args().collect();
 

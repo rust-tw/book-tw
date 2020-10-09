@@ -5,7 +5,7 @@ use std::process;
 use minigrep::Config;
 
 fn main() {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     let args: Vec<String> = env::args().collect();
 
@@ -19,7 +19,7 @@ fn main() {
 
     // ANCHOR: here
     if let Err(e) = minigrep::run(config) {
-        // --snip--
+        // --省略--
         // ANCHOR_END: here
         println!("Application error: {}", e);
 

@@ -13,7 +13,7 @@ impl Iterator for Counter {
     type Item = u32;
 
     fn next(&mut self) -> Option<Self::Item> {
-        // --snip--
+        // --省略--
         // ANCHOR_END: ch19
         if self.count < 5 {
             self.count += 1;

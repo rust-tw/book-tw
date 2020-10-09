@@ -2,7 +2,7 @@ pub struct ThreadPool;
 
 // ANCHOR: here
 impl ThreadPool {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     pub fn new(size: usize) -> ThreadPool {
         ThreadPool

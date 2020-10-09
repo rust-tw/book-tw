@@ -5,7 +5,7 @@
 //! calculations more convenient.
 
 /// Adds one to the number given.
-// --snip--
+// --省略--
 // ANCHOR_END: here
 ///
 /// # Examples

@@ -4,7 +4,7 @@ use std::cmp::Ordering;
 use std::io;
 
 fn main() {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     println!("請猜測一個數字！");
 

@@ -22,12 +22,12 @@ struct Config {
 
 impl Config {
     // ANCHOR: here
-    // --snip--
+    // --省略--
     fn new(args: &[String]) -> Config {
         if args.len() < 3 {
             panic!("not enough arguments");
         }
-        // --snip--
+        // --省略--
         // ANCHOR_END: here
 
         let query = args[1].clone();

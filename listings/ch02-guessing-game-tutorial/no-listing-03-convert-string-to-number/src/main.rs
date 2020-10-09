@@ -12,7 +12,7 @@ fn main() {
     println!("請輸入你的猜測數字。");
 
     // ANCHOR: here
-    // --snip--
+    // --省略--
 
     let mut guess = String::new();
 

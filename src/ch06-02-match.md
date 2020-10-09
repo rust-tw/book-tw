@@ -20,7 +20,7 @@ Rust 有個功能非常強大的控制流運算子叫做 `match`，你可以使�
 
 每個分支對應的程式碼都是表達式，然後在配對到的分支中表達式的數值結果就會是整個 `match` 表達式的回傳值。
 
-如果配對分支的程式碼很短的話，通常就不需要用到的大括號，像是範例 6-3 每個分支就只回傳一個數值。如果你想要在配對分支執行多行程式碼的話，你就可以用大括號。舉例來說，以下程式會在每次配對到 `Coin::Penny` 時印出「Lucky penny!」再回傳程式碼區塊最後的數值 `1`：
+如果配對分支的程式碼很短的話，通常就不需要用到的大括號，像是範例 6-3 每個分支就只回傳一個數值。如果你想要在配對分支執行多行程式碼的話，你就可以用大括號。舉例來說，以下程式會在每次配對到 `Coin::Penny` 時印出「幸運幣！」再回傳程式碼區塊最後的數值 `1`：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-08-match-arm-multiple-lines/src/main.rs:here}}
@@ -40,13 +40,13 @@ Rust 有個功能非常強大的控制流運算子叫做 `match`，你可以使�
 
 讓我們想像我們有一個朋友想要收集所有 50 州的 25 美分硬幣。當我們在排序零錢的同時，我們會在拿到 25 美分時喊出該硬幣對應的州，好讓我們的朋友知道，如果他沒有的話就可以納入收藏。
 
-在此程式中的配對表達式中,我們在 `Coin::Quarter` 變體的配對模式中新增了一個變數 `state`。當 `Coin::Quarter` 配對符合時，變數 `state` 會綁定該 25 美分的數值，然後我們就可以在分支程式碼中使用 `state`，如以下所示：
+在此程式中的配對表達式中，我們在 `Coin::Quarter` 變體的配對模式中新增了一個變數 `state`。當 `Coin::Quarter` 配對符合時，變數 `state` 會綁定該 25 美分的數值，然後我們就可以在分支程式碼中使用 `state`，如以下所示：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-09-variable-in-pattern/src/main.rs:here}}
 ```
 
-如果我們呼叫 `value_in_cents(Coin::Quarter(UsState::Alaska))` 的話，`coin` 就會是 `Coin::Quarter(UsState::Alaska)`。當我們比較每個配對分支時，我們會到 `Coin::Quarter(state)` 的分支才配對成功。此時 `state` 綁定的數值就會是 `UsState::Alaska`。我們就可以在 `println!` 表達式中使用該幫訂的值，以此取得 `Coin` 枚舉中 `Quarter` 變體內的值。
+如果我們呼叫 `value_in_cents(Coin::Quarter(UsState::Alaska))` 的話，`coin` 就會是 `Coin::Quarter(UsState::Alaska)`。當我們比較每個配對分支時，我們會到 `Coin::Quarter(state)` 的分支才配對成功。此時 `state` 綁定的數值就會是 `UsState::Alaska`。我們就可以在 `println!` 表達式中使用該綁定的值，以此取得 `Coin` 枚舉中 `Quarter` 變體內的值。
 
 ### 配對 `Option<T>`
 
@@ -100,17 +100,17 @@ Rust 有個功能非常強大的控制流運算子叫做 `match`，你可以使�
 {{#include ../listings/ch06-enums-and-pattern-matching/no-listing-10-non-exhaustive-match/output.txt}}
 ```
 
-Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是*徹底（exhaustive）*的：我們必須列舉出所有可能的情形，程式碼才能夠被視爲有效。尤其是在 `Option<T>` 的情況下，當 Rust 防止我們忘記處理 `None` 的情形時，它也使我們免於以爲擁有一個有效實際上卻是空的值。因此要造成之前提過的數十億元錯誤在這邊基本上是不可能的。
+Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是*徹底（exhaustive）* 的：我們必須列舉出所有可能的情形，程式碼才能夠被視爲有效。尤其是在 `Option<T>` 的情況下，當 Rust 防止我們忘記處理 `None` 的情形時，它也使我們免於以爲擁有一個有效實際上卻是空的值。因此要造成之前提過的數十億元錯誤在這邊基本上是不可能的。
 
 ### `_` 佔位符
 
-Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需要使用此模式就好。舉例來說 `u8` 可能的數值爲 0 到 255，如果我們只在意數值 1、3、5 和 7，我們就不會想要列出 0、2、4、6、8、9 還剩下一直到 255 的每個值。幸運的是，我們不需要這樣做，我們可以使用特殊模式 `_`：
+Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需要使用此模式就好。舉例來說 `u8` 可能的數值爲 0 到 255，如果我們只在意數值 1、3、5 和 7，我們就不會想要列出 0、2、4、6、8、9 以及剩下一直到 255 的每個值。幸運的是，我們不需要這樣做，我們可以使用特殊模式 `_`：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-11-underscore-placeholder/src/main.rs:here}}
 ```
 
-`_` 模式會配對任意數值，將它置於所有分支之後，`_`就會配對剩下尚未指明的可能情形。`()` 只是一個單位數值，所以在 `_` 的分支沒有任何事情會發生。所以我們可以說我們不想針對 `_` 佔位符之前沒有列出的可能情形，做任何動作。
+`_` 模式會配對任意數值，將它置於所有分支之後，`_`就會配對剩下尚未指明的可能情形。`()` 只是一個單位數值，所以在 `_` 的分支沒有任何事情會發生。所以我們可以說我們不想針對 `_` 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。
 
 不過有時候我們只在意其中*一種*情形的話， `match` 表達式的確會有點囉唆。針對此情形，Rust 提供 `if let`。
 

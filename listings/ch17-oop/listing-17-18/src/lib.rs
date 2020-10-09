@@ -34,7 +34,7 @@ impl Post {
 
 // ANCHOR: here
 trait State {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     fn request_review(self: Box<Self>) -> Box<dyn State>;
     fn approve(self: Box<Self>) -> Box<dyn State>;
@@ -45,7 +45,7 @@ trait State {
     }
 }
 
-// --snip--
+// --省略--
 // ANCHOR_END: here
 
 struct Draft {}
@@ -76,7 +76,7 @@ impl State for PendingReview {
 struct Published {}
 
 impl State for Published {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         self

@@ -11,7 +11,7 @@ fn main() {
         process::exit(1);
     });
 
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
 
     println!("Searching for {}", config.query);

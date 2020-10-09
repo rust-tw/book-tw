@@ -23,7 +23,7 @@ fn main() {
         println!("你的猜測數字：{}", guess);
 
         // ANCHOR: here
-        // --snip--
+        // --省略--
 
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("太小了！"),

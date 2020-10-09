@@ -8,14 +8,14 @@ fn main() {
     let secret_number = rand::thread_rng().gen_range(1, 101);
 
     // ANCHOR: here
-    // --snip--
+    // --省略--
 
     println!("祕密數字爲：{}", secret_number);
 
     loop {
         println!("請輸入你的猜測數字。");
 
-        // --snip--
+        // --省略--
 
         // ANCHOR_END: here
 

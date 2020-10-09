@@ -250,7 +250,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 
 ```rust,ignore
 impl<T: Display> ToString for T {
-    // --snip--
+    // --省略--
 }
 ```
 

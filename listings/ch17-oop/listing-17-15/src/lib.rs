@@ -5,7 +5,7 @@ pub struct Post {
 
 // ANCHOR: here
 impl Post {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     pub fn new() -> Post {
         Post {

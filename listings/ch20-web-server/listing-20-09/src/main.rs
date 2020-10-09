@@ -14,10 +14,10 @@ fn main() {
 }
 
 // ANCHOR: here
-// --snip--
+// --省略--
 
 fn handle_connection(mut stream: TcpStream) {
-    // --snip--
+    // --省略--
 
     // ANCHOR_END: here
     let mut buffer = [0; 1024];

@@ -1,6 +1,6 @@
 // ANCHOR: here
 use std::env;
-// --snip--
+// --省略--
 
 // ANCHOR_END: here
 use std::error::Error;

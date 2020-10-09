@@ -2,7 +2,7 @@
 enum UsState {
     Alabama,
     Alaska,
-    // --snip--
+    // --省略--
 }
 
 enum Coin {
@@ -17,7 +17,7 @@ fn main() {
     // ANCHOR: here
     let mut count = 0;
     match coin {
-        Coin::Quarter(state) => println!("State quarter from {:?}!", state),
+        Coin::Quarter(state) => println!("此 25 美分所屬的州爲 {:?}!", state),
         _ => count += 1,
     }
     // ANCHOR_END: here

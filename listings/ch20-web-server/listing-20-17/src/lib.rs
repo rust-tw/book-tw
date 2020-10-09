@@ -10,7 +10,7 @@ struct Job;
 
 // ANCHOR: here
 impl ThreadPool {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     /// Create a new ThreadPool.
     ///
@@ -33,7 +33,7 @@ impl ThreadPool {
 
         ThreadPool { workers, sender }
     }
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
 
     pub fn execute<F>(&self, f: F)
@@ -44,7 +44,7 @@ impl ThreadPool {
     // ANCHOR: here
 }
 
-// --snip--
+// --省略--
 
 // ANCHOR_END: here
 

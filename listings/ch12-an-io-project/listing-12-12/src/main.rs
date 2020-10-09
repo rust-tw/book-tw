@@ -4,7 +4,7 @@ use std::process;
 // ANCHOR: here
 use std::error::Error;
 
-// --snip--
+// --省略--
 
 // ANCHOR_END: here
 

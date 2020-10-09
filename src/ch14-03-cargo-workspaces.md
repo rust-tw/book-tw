@@ -175,7 +175,7 @@ copy output below; the output updating script doesn't handle subdirectories in p
 $ cargo build
     Updating crates.io index
   Downloaded rand v0.5.5
-   --snip--
+   --省略--
    Compiling rand v0.5.6
    Compiling add-one v0.1.0 (file:///projects/add/add-one)
    Compiling adder v0.1.0 (file:///projects/add/adder)
@@ -192,7 +192,7 @@ copy output below; the output updating script doesn't handle subdirectories in p
 
 ```console
 $ cargo build
-  --snip--
+  --省略--
    Compiling adder v0.1.0 (file:///projects/add/adder)
 error[E0432]: unresolved import `rand`
  --> adder/src/main.rs:2:5

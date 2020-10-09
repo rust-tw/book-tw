@@ -7,7 +7,7 @@ fn main() {
 
     let (query, filename) = parse_config(&args);
 
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
 
     println!("Searching for {}", query);

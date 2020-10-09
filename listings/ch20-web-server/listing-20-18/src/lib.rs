@@ -3,7 +3,7 @@ use std::thread;
 // ANCHOR: here
 use std::sync::Arc;
 use std::sync::Mutex;
-// --snip--
+// --省略--
 
 // ANCHOR_END: here
 pub struct ThreadPool {
@@ -15,7 +15,7 @@ struct Job;
 
 // ANCHOR: here
 impl ThreadPool {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     /// Create a new ThreadPool.
     ///
@@ -41,7 +41,7 @@ impl ThreadPool {
         ThreadPool { workers, sender }
     }
 
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
 
     pub fn execute<F>(&self, f: F)
@@ -52,7 +52,7 @@ impl ThreadPool {
     // ANCHOR: here
 }
 
-// --snip--
+// --省略--
 
 // ANCHOR_END: here
 struct Worker {
@@ -63,7 +63,7 @@ struct Worker {
 // ANCHOR: here
 impl Worker {
     fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        // --snip--
+        // --省略--
         // ANCHOR_END: here
         let thread = thread::spawn(|| {
             receiver;

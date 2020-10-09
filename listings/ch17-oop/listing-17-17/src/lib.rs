@@ -5,7 +5,7 @@ pub struct Post {
 
 // ANCHOR: here
 impl Post {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     pub fn new() -> Post {
         Post {
@@ -22,7 +22,7 @@ impl Post {
     pub fn content(&self) -> &str {
         self.state.as_ref().unwrap().content(self)
     }
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
 
     pub fn request_review(&mut self) {

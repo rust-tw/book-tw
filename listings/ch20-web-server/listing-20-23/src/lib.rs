@@ -9,7 +9,7 @@ pub struct ThreadPool {
     sender: mpsc::Sender<Message>,
 }
 
-// --snip--
+// --省略--
 
 // ANCHOR_END: here
 type Job = Box<dyn FnOnce() + Send + 'static>;
@@ -21,7 +21,7 @@ enum Message {
 
 // ANCHOR: here
 impl ThreadPool {
-    // --snip--
+    // --省略--
 
     // ANCHOR_END: here
     /// Create a new ThreadPool.
@@ -58,7 +58,7 @@ impl ThreadPool {
     }
 }
 
-// --snip--
+// --省略--
 
 // ANCHOR_END: here
 impl Drop for ThreadPool {

@@ -1,9 +1,9 @@
 use rand::Rng;
 // ANCHOR: here
-// --snip--
+// --省略--
 use std::cmp::Ordering;
 use std::io;
-// --snip--
+// --省略--
 // ANCHOR_END: here
 
 fn main() {

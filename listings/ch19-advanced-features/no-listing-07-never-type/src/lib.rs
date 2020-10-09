@@ -1,6 +1,6 @@
 // ANCHOR: here
 fn bar() -> ! {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     panic!();
     // ANCHOR: here

@@ -5,7 +5,7 @@ use std::net::TcpStream;
 // ANCHOR: here
 use std::thread;
 use std::time::Duration;
-// --snip--
+// --省略--
 // ANCHOR_END: here
 
 fn main() {
@@ -20,7 +20,7 @@ fn main() {
 // ANCHOR: here
 
 fn handle_connection(mut stream: TcpStream) {
-    // --snip--
+    // --省略--
 
     // ANCHOR_END: here
     let mut buffer = [0; 1024];
@@ -39,7 +39,7 @@ fn handle_connection(mut stream: TcpStream) {
         ("HTTP/1.1 404 NOT FOUND\r\n\r\n", "404.html")
     };
 
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
 
     let contents = fs::read_to_string(filename).unwrap();

@@ -9,7 +9,7 @@ pub struct Config {
 
 impl Config {
     pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        // --snip--
+        // --省略--
         // ANCHOR_END: here
         if args.len() < 3 {
             return Err("not enough arguments");
@@ -24,7 +24,7 @@ impl Config {
 }
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     let contents = fs::read_to_string(config.filename)?;
 

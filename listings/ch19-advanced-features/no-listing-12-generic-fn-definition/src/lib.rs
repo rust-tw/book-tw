@@ -1,3 +1,3 @@
 fn generic<T>(t: T) {
-    // --snip--
+    // --省略--
 }

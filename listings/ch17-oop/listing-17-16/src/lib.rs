@@ -5,7 +5,7 @@ pub struct Post {
 
 // ANCHOR: here
 impl Post {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     pub fn new() -> Post {
         Post {
@@ -44,7 +44,7 @@ trait State {
 struct Draft {}
 
 impl State for Draft {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         Box::new(PendingReview {})
@@ -59,7 +59,7 @@ impl State for Draft {
 struct PendingReview {}
 
 impl State for PendingReview {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         self

@@ -63,7 +63,7 @@ mod tests {
 
     #[test]
     fn it_sends_an_over_75_percent_warning_message() {
-        // --snip--
+        // --省略--
         // ANCHOR_END: here
         let mock_messenger = MockMessenger::new();
         let mut limit_tracker = LimitTracker::new(&mock_messenger, 100);

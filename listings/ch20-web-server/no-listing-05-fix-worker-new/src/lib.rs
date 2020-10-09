@@ -62,7 +62,7 @@ struct Worker {
 // ANCHOR: here
 impl Worker {
     fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        // --snip--
+        // --省略--
 
         // ANCHOR_END: here
         let thread = thread::spawn(move || loop {

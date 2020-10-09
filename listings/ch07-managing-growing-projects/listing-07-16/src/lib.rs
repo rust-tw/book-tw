@@ -3,14 +3,14 @@ use std::fmt::Result;
 use std::io::Result as IoResult;
 
 fn function1() -> Result {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     Ok(())
     // ANCHOR: here
 }
 
 fn function2() -> IoResult<()> {
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
     Ok(())
     // ANCHOR: here

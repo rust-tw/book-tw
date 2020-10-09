@@ -122,7 +122,7 @@ lazy_static! {
     |
     //\s*ANCHOR_END:\s*[\w_-]+  # Remove all anchor ending comments
     |
-    //\s*--snip--               # Remove all snip comments
+    //\s*--省略--               # Remove all snip comments
     "
     )
     .unwrap();

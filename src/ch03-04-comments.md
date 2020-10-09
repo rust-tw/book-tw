@@ -24,7 +24,7 @@
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-24-comments-end-of-line/src/main.rs}}
 ```
 
-不過你會更常看到它們用用以下格式，註解會爲於要說明的程式碼上一行：
+不過你會更常看到它們用用以下格式，註解會位於要說明的程式碼上一行：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 

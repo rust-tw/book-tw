@@ -10,7 +10,7 @@ fn main() {
         process::exit(1);
     });
 
-    // --snip--
+    // --省略--
     // ANCHOR_END: here
 
     if let Err(e) = minigrep::run(config) {
