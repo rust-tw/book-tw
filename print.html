@@ -5436,8 +5436,8 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </ul>
 </blockquote>
 <h1><a class="header" href="#錯誤處理" id="錯誤處理">錯誤處理</a></h1>
-<p>Rust 對可靠性的注重也包含錯誤處理。錯誤是重試開發中不可避免的一環，所以 Rust 有一些特色能夠處理發生錯誤的情形。在許多情況下，Rust 要求你要任知道可能出錯的地方，並在編譯前採取行動。這樣的要求能讓你的程式更穩定，確保你能發現錯誤並在程式碼發佈到生產環境前妥善處理它們！</p>
-<p>Rust 將錯誤分成兩大類：*可復原的（recoverable）<em>和</em>不可復原的（unrecoverable）*錯誤。像是找不到檔案這種可復原的錯誤，回報問題給使用者並重試是很合理的。而不可復原的錯誤就會是程式錯誤的跡象，像是嘗試取得陣列結尾之後的位置。</p>
+<p>Rust 對可靠性的注重也包含錯誤處理。錯誤是軟體開發中不可避免的一環，所以 Rust 有一些特色能夠處理發生錯誤的情形。在許多情況下，Rust 要求你要任知道可能出錯的地方，並在編譯前採取行動。這樣的要求能讓你的程式更穩定，確保你能發現錯誤並在程式碼發佈到生產環境前妥善處理它們！</p>
+<p>Rust 將錯誤分成兩大類：<em>可復原的（recoverable）</em> 和<em>不可復原的（unrecoverable）</em> 錯誤。像是找不到檔案這種可復原的錯誤，回報問題給使用者並重試是很合理的。而不可復原的錯誤就會是程式錯誤的跡象，像是嘗試取得陣列結尾之後的位置。</p>
 <p>許多語言不會區分這兩種錯誤，並以相同的方式處理，使用像是例外（exceptions）這樣統一的機制處理。Rust 沒有例外處理機制，取而代之的是它對可復原的錯誤提供 <code>Result&lt;T, E&gt;</code> 型別，對不可復原的錯誤使用 <code>panic!</code> 將程式停止執行。本章節會先介紹 <code>panic!</code> 再來討論 <code>Result&lt;T, E&gt;</code> 數值的回傳。除此之外，我們也將探討何時該從錯誤中復原，何時該選擇停止程式。</p>
 <blockquote>
 <ul>
@@ -5447,10 +5447,10 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </ul>
 </blockquote>
 <h2><a class="header" href="#對無法復原的錯誤使用-panic" id="對無法復原的錯誤使用-panic">對無法復原的錯誤使用 <code>panic!</code></a></h2>
-<p>有時候壞事就是壞發生在你的程式中，這本來就是你沒辦法全部避免的。在這種情況，Rust 有提供 <code>panic!</code> 巨集。當 <code>panic!</code> 巨集執行時，你的程式就會印出程式出錯的訊息，展開並清理堆疊，然後離開程式。這常用來處理當程式遇到某種錯誤時，開發者不清楚如何處理該錯誤的狀況。</p>
+<p>有時候壞事就是會發生在你的程式中，這本來就是你沒辦法全部避免的。在這種情況，Rust 有提供 <code>panic!</code> 巨集。當 <code>panic!</code> 巨集執行時，你的程式就會印出程式出錯的訊息，展開並清理堆疊，然後離開程式。這常用來處理當程式遇到某種錯誤時，開發者不清楚如何處理該錯誤的狀況。</p>
 <blockquote>
 <h3><a class="header" href="#恐慌時該解開堆疊還是直接終止" id="恐慌時該解開堆疊還是直接終止">恐慌時該解開堆疊還是直接終止</a></h3>
-<p>當恐慌（panic）發生時，程式預設會開始做*解開（unwind）<em>堆疊的動作，這代表 Rust 會回溯整個堆疊，並清理裡每個它遇到的函式資料。但是這樣回溯並清理的動做很花力氣。另一種方式是直接</em>終止（abort）*程式而不清理，程式使用的記憶體會需要由作業系統來清理。如果你需要你的專案產生的二進制檔案越小越好，你可以從解開切換成終止，只要在 <em>Cargo.toml</em> 檔案中的 <code>[profile]</code> 段落加上 <code>panic = 'abort'</code> 就好。舉例來說，如果你希望在發佈模式（release mode）恐慌時直接終止，那就加上：</p>
+<p>當恐慌（panic）發生時，程式預設會開始做<em>解開（unwind）</em> 堆疊的動作，這代表 Rust 會回溯整個堆疊，並清理每個它遇到的函式資料。但是這樣回溯並清理的動作很花力氣。另一種方式是直接<em>終止（abort）</em> 程式而不清理，程式使用的記憶體會需要由作業系統來清理。如果你需要你的專案產生的二進制檔案越小越好，你可以從解開切換成終止，只要在 <em>Cargo.toml</em> 檔案中的 <code>[profile]</code> 段落加上 <code>panic = 'abort'</code> 就好。舉例來說，如果你希望在發佈模式（release mode）恐慌時直接終止，那就加上：</p>
 <pre><code class="language-toml">[profile.release]
 panic = 'abort'
 </code></pre>
@@ -5458,7 +5458,7 @@ panic = 'abort'
 <p>讓我們先在小程式內試試呼叫 <code>panic!</code>：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic panics">fn main() {
-    panic!(&quot;crash and burn&quot;);
+    panic!(&quot;◢▆▅▄▃ 崩╰(〒皿〒)╯潰▃▄▅▆◣&quot;);
 }
 </code></pre></pre>
 <p>當你執行程式時，你會看到像這樣的結果：</p>
@@ -5466,7 +5466,7 @@ panic = 'abort'
    Compiling panic v0.1.0 (file:///projects/panic)
     Finished dev [unoptimized + debuginfo] target(s) in 0.25s
      Running `target/debug/panic`
-thread 'main' panicked at 'crash and burn', src/main.rs:2:5
+thread 'main' panicked at '◢▆▅▄▃ 崩╰(〒皿〒)╯潰▃▄▅▆◣', src/main.rs:2:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p><code>panic!</code> 的呼叫導致印出了最後兩行的錯誤訊息。第一行顯示了我們的恐慌訊息以及該恐慌是在原始碼何處發生的：<em>src/main.rs:2:5</em> 指的是它發生在我們的 <em>src/main.rs</em> 檔案第二行第五個字元。</p>
@@ -5482,7 +5482,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre></pre>
 <p><span class="caption">範例 9-1：嘗試取得超出向量長度的元素，進而導致 <code>panic!</code> 被呼叫</span></p>
 <p>我們在這邊嘗試取得向量中第 100 個元素（不過因爲索引從零開始，所以是索引 99），但是它只有 3 個元素。在此情況下，Rust 就會恐慌。使用 <code>[]</code> 會回傳元素，但是如果你傳遞了無效的索引，Rust 就回傳不了正確的元素。</p>
-<p>在 C 中，嘗試讀取資料結構結束之後的元素屬於未定義行爲。你可能會得到該記憶體位置對應其資料結構的元素，即使該記憶體完全不屬於該資料結構。這就稱做*緩衝區過讀（buffer overread）*而且會導致安全漏洞。攻擊者可能故意操縱該索引來取得在資料結構後面他們原本不應該讀寫的值。</p>
+<p>在 C 中，嘗試讀取資料結構結束之後的元素屬於未定義行爲。你可能會得到該記憶體位置對應其資料結構的元素，即使該記憶體完全不屬於該資料結構。這就稱做<em>緩衝區過讀（buffer overread）</em> 而且會導致安全漏洞。攻擊者可能故意操縱該索引來取得在資料結構後面他們原本不應該讀寫的值。</p>
 <p>爲了保護你的程式免於這樣的漏洞，如果你嘗試用一個不存在的索引讀取元素的話，Rust 會停止執行並拒絕繼續運作下去。讓我們嘗試執行並看看會如何：</p>
 <pre><code class="language-console">$ cargo run
    Compiling panic v0.1.0 (file:///projects/panic)
@@ -5557,7 +5557,7 @@ stack backtrace:
 </code></pre>
 <p><span class="caption">範例 9-2：當 <code>RUST_BACKTRACE</code> 設置時，透過呼叫 <code>panic!</code> 產生的 backtrace</span></p>
 <p>輸出結果有點多啊！你看到的實際輸出可能會因你的作業系統與 Rust 版本而有所不同。要取得這些資訊的 backtrace，除錯符號（debug symbols）必須啟用。當我們在使用 <code>cargo build</code> 或 <code>cargo run</code> 且沒有加上 <code>--release</code> 時，除錯符號預設是啟用的。</p>
-<p>在範例 9-2 的輸出結果中，第 17 行的 backtrace 指向了我們專案中產生問題的地方：<em>src/main.rs</em> 中的第四行。如果我們不想讓程式恐慌，我們就要來調查我們所寫的程式中第一個被錯誤訊息指向的位置。在範例 9-1 中，我們爲了寫是如何使用 backtrace，故意寫出會恐慌的程式碼。要修正的方法就是不要向只有 3 個元素的向量要求取得索引 99 的值。當在未來你的程式碼恐慌時，你會需要知道是程式碼中的什麼動作造成的、什麼數值導致恐慌以及正確的程式碼該怎麼處理。</p>
+<p>在範例 9-2 的輸出結果中，第 17 行的 backtrace 指向了我們專案中產生問題的地方：<em>src/main.rs</em> 中的第四行。如果我們不想讓程式恐慌，我們就要來調查我們所寫的程式中第一個被錯誤訊息指向的位置。在範例 9-1 中，我們爲了顯示如何使用 backtrace，故意寫出會恐慌的程式碼。要修正的方法就是不要向只有 3 個元素的向量要求取得索引 99 的值。當在未來你的程式碼恐慌時，你會需要知道是程式碼中的什麼動作造成的、什麼數值導致恐慌以及正確的程式碼該怎麼處理。</p>
 <p>我們會在本章節<a href="ch09-03-to-panic-or-not-to-panic.html#to-panic-or-not-to-panic">「要 <code>panic!</code> 還是不要 <code>panic!</code>」</a><!-- ignore -->的段落中再回來看 <code>panic!</code> 並研究何時該與不該使用 <code>panic!</code> 來處理錯誤條件。接下來，我們要看如何使用 <code>Result</code>來處理可回復的錯誤。</p>
 <blockquote>
 <ul>
@@ -5568,7 +5568,7 @@ stack backtrace:
 </blockquote>
 <h2><a class="header" href="#result-與可復原的錯誤" id="result-與可復原的錯誤"><code>Result</code> 與可復原的錯誤</a></h2>
 <p>大多數的錯誤沒有嚴重到需要讓整個程式停止執行。有時候當函式失敗時，你是可以輕易理解並作出反應的。舉例來說，如果你嘗試開啟一個檔案，但該動作卻因爲沒有該檔案而失敗的話，你可能會想要建立檔案，而不是終止程序。</p>
-<p>回憶一下第二章的<a href="ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-the-result-type">“使用 <code>Result</code> 型別處理可能的錯誤”</a><!-- ignore -->提到 <code>Result</code> 枚舉的定義有兩個變體 <code>Ok</code> 和 <code>Err</code>，如以下所示：</p>
+<p>回憶一下第二章的<a href="ch02-00-guessing-game-tutorial.html#%E4%BD%BF%E7%94%A8-result-%E5%9E%8B%E5%88%A5%E8%99%95%E7%90%86%E5%8F%AF%E8%83%BD%E7%9A%84%E9%8C%AF%E8%AA%A4">「使用 <code>Result</code> 型別處理可能的錯誤」</a><!-- ignore -->提到 <code>Result</code> 枚舉的定義有兩個變體 <code>Ok</code> 和 <code>Err</code>，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5578,7 +5578,7 @@ stack backtrace:
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><code>T</code> 和 <code>E</code> 是泛型型別參數，我們會在第十章深入討論泛型。你現在需要知道的事 <code>T</code> 代表我們在成功時會在 <code>Ok</code> 變體回傳的型別，而 <code>E</code> 則代表失敗時在 <code>Err</code> 變體會回傳的錯誤型別。因爲 <code>Result</code> 有這些泛型型別參數，我們可以將 <code>Result</code> 型別和標準函式庫運用到它的函式用在許多不同場合，讓成功與失敗時回傳的型別不相同。</p>
+<p><code>T</code> 和 <code>E</code> 是泛型型別參數，我們會在第十章深入討論泛型。你現在需要知道的是 <code>T</code> 代表我們在成功時會在 <code>Ok</code> 變體回傳的型別，而 <code>E</code> 則代表失敗時在 <code>Err</code> 變體會回傳的錯誤型別。因爲 <code>Result</code> 有這些泛型型別參數，我們可以將 <code>Result</code> 型別和標準函式庫運用到它的函式用在許多不同場合，讓成功與失敗時回傳的型別不相同。</p>
 <p>讓我們呼叫一個可能會失敗的函式並回傳 <code>Result</code> 型別。在範例 9-3 我們嘗試開啟一個檔案。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::fs::File;
@@ -5588,7 +5588,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 9-3：嘗試開啟一個檔案</span></p>
-<p>我們怎麼知道 <code>File::open</code> 會回傳 <code>Result</code>呢？我們可以查閱<a href="https://doc.rust-lang.org/std/index.html">標準函式庫的 API 技術文件</a><!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 <code>f</code> 一個型別詮釋，但是我們知道它和函式回傳值<em>並不</em>相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不服。錯誤訊息會告訴我們 <code>f</code> <em>該有</em>何種型別。讓我們試試看！我們知道 <code>File::open</code> 的回傳型別不是 <code>u32</code>，所以讓我們改變 <code>let f</code> 成這樣：</p>
+<p>我們怎麼知道 <code>File::open</code> 會回傳 <code>Result</code>呢？我們可以查閱<a href="https://doc.rust-lang.org/std/index.html">標準函式庫的 API 技術文件</a><!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 <code>f</code> 一個型別詮釋，但是我們知道它和函式回傳值<em>並不</em>相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不符。錯誤訊息會告訴我們 <code>f</code> <em>該有</em>何種型別。讓我們試試看！我們知道 <code>File::open</code> 的回傳型別不是 <code>u32</code>，所以讓我們改變 <code>let f</code> 成這樣：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::fs::File;
 </span><span class="boring">
 </span><span class="boring">fn main() {
@@ -5628,7 +5628,7 @@ fn main() {
 
     let f = match f {
         Ok(file) =&gt; file,
-        Err(error) =&gt; panic!(&quot;Problem opening the file: {:?}&quot;, error),
+        Err(error) =&gt; panic!(&quot;開啟檔案時發生問題：{:?}&quot;, error),
     };
 }
 </code></pre></pre>
@@ -5640,7 +5640,7 @@ fn main() {
    Compiling error-handling v0.1.0 (file:///projects/error-handling)
     Finished dev [unoptimized + debuginfo] target(s) in 0.73s
      Running `target/debug/error-handling`
-thread 'main' panicked at 'Problem opening the file: Os { code: 2, kind: NotFound, message: &quot;No such file or directory&quot; }', src/main.rs:8:23
+thread 'main' panicked at '開啟檔案時發生問題：Os { code: 2, kind: NotFound, message: &quot;No such file or directory&quot; }', src/main.rs:8:23
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p>如往常一樣，此輸出告訴我們哪裡出錯了。</p>
@@ -5660,10 +5660,10 @@ fn main() {
         Err(error) =&gt; match error.kind() {
             ErrorKind::NotFound =&gt; match File::create(&quot;hello.txt&quot;) {
                 Ok(fc) =&gt; fc,
-                Err(e) =&gt; panic!(&quot;Problem creating the file: {:?}&quot;, e),
+                Err(e) =&gt; panic!(&quot;建立檔案時發生問題：{:?}&quot;, e),
             },
             other_error =&gt; {
-                panic!(&quot;Problem opening the file: {:?}&quot;, other_error)
+                panic!(&quot;開啟檔案時發生問題：{:?}&quot;, other_error)
             }
         },
     };
@@ -5671,7 +5671,7 @@ fn main() {
 </code></pre>
 <p><span class="caption">範例 9-5：針對不同種類的錯誤採取不同動作</span></p>
 <p><code>File::open</code> 在 <code>Err</code> 變體的回傳型別爲 <code>io::Error</code>，這是標準函式庫提供的結構體。此結構體有個 <code>kind</code> 方法讓我們可以取得 <code>io::ErrorKind</code> 數值。標準函式庫提供的枚舉 <code>io::ErrorKind</code> 有從 <code>io</code> 運算可能發生的各種錯誤。我們想處理的變體是 <code>ErrorKind::NotFound</code>，這指的是我們嘗試開啟的檔案還不存在。所以我們對 <code>f</code> 配對並在用 <code>error.kind()</code> 繼續配對下去。</p>
-<p>我們像從內部配對檢查 <code>error.kind()</code> 的回傳值是否是 <code>ErrorKind</code> 枚舉中的 <code>NotFound</code> 變體。如果是的話，我們就嘗試使用 <code>File::create</code> 建立檔案。不過 <code>File::create</code> 也可能會失敗，所以我們需要第二個內部 <code>match</code> 表達式來處理。如果檔案無法建立的話，我們就會印出不同的錯誤訊息。第二個分支的外部 <code>match</code> 分支保持不變，如果程式遇到其他錯誤的話就會恐慌。</p>
+<p>我們從內部配對檢查 <code>error.kind()</code> 的回傳值是否是 <code>ErrorKind</code> 枚舉中的 <code>NotFound</code> 變體。如果是的話，我們就嘗試使用 <code>File::create</code> 建立檔案。不過 <code>File::create</code> 也可能會失敗，所以我們需要第二個內部 <code>match</code> 表達式來處理。如果檔案無法建立的話，我們就會印出不同的錯誤訊息。第二個分支的外部 <code>match</code> 分支保持不變，如果程式遇到其他錯誤的話就會恐慌。</p>
 <p>我們用的 <code>match</code> 的確有點多！<code>match</code> 表達式雖然很實用，不過它的行爲非常基本。在第十三章你會學到閉包（closure），<code>Result&lt;T, E&gt;</code> 型別有很多接收閉包並採用 <code>match</code> 實作的方法。使用那些方法可以讓你的程式碼更簡潔。更熟練的 Rustacean 可能會像這樣寫範例 9-5 的程式數碼：</p>
 <pre><code class="language-rust ignore">use std::fs::File;
 use std::io::ErrorKind;
@@ -5680,10 +5680,10 @@ fn main() {
     let f = File::open(&quot;hello.txt&quot;).unwrap_or_else(|error| {
         if error.kind() == ErrorKind::NotFound {
             File::create(&quot;hello.txt&quot;).unwrap_or_else(|error| {
-                panic!(&quot;Problem creating the file: {:?}&quot;, error);
+                panic!(&quot;建立檔案時發生問題：{:?}&quot;, error);
             })
         } else {
-            panic!(&quot;Problem opening the file: {:?}&quot;, error);
+            panic!(&quot;開啟檔案時發生問題：{:?}&quot;, error);
         }
     });
 }
@@ -5703,21 +5703,21 @@ fn main() {
 repr: Os { code: 2, message: &quot;No such file or directory&quot; } }',
 src/libcore/result.rs:906:4
 </code></pre>
-<p>還有另一個方法 <code>expect</code> 和 <code>unwrap</code> 類似，不過能讓我們選擇 <code>panic!</code> 回傳的錯誤訊息。使用 <code>expect</code> 而非 <code>unwrap</code> 並提供完善的錯誤訊息哦可以表明你的意圖，讓追蹤恐慌的源頭更容易。<code>expect</code> 的語法看起來就像這樣：</p>
+<p>還有另一個方法 <code>expect</code> 和 <code>unwrap</code> 類似，不過能讓我們選擇 <code>panic!</code> 回傳的錯誤訊息。使用 <code>expect</code> 而非 <code>unwrap</code> 並提供完善的錯誤訊息可以表明你的意圖，讓追蹤恐慌的源頭更容易。<code>expect</code> 的語法看起來就像這樣：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic">use std::fs::File;
 
 fn main() {
-    let f = File::open(&quot;hello.txt&quot;).expect(&quot;Failed to open hello.txt&quot;);
+    let f = File::open(&quot;hello.txt&quot;).expect(&quot;開啟 hello.txt 失敗&quot;);
 }
 </code></pre></pre>
 <p>我們使用 <code>expect</code> 的方式和 <code>unwrap</code> 一樣，不是回傳檔案控制代碼就是呼叫 <code>panic!</code> 巨集。使用 <code>expect</code> 呼叫 <code>panic!</code> 時的錯誤訊息會是我們傳遞給 <code>expect</code> 的參數，而不是像 <code>unwrap</code> 使用 <code>panic!</code> 預設的訊息。訊息看起來就會像這樣：</p>
-<pre><code class="language-text">thread 'main' panicked at 'Failed to open hello.txt: Error { repr: Os { code:
+<pre><code class="language-text">thread 'main' panicked at '開啟 hello.txt 失敗: Error { repr: Os { code:
 2, message: &quot;No such file or directory&quot; } }', src/libcore/result.rs:906:4
 </code></pre>
-<p>由於此錯誤訊息指明了我們想表達的訊息「Failed to open hello.txt」，我們比較能知道此錯誤訊息是從哪裡發生的。如果我們在多處使用 <code>unwrap</code>，我們會需要一些時間才能理解 <code>unwrap</code> 是從哪裡引發恐慌的，因爲 <code>unwrap</code> 很可能會顯示相同的訊息。</p>
+<p>由於此錯誤訊息指明了我們想表達的訊息「開啟 hello.txt 失敗」，我們比較能知道此錯誤訊息是從哪裡發生的。如果我們在多處使用 <code>unwrap</code>，我們會需要一些時間才能理解 <code>unwrap</code> 是從哪裡引發恐慌的，因爲 <code>unwrap</code> 很可能會顯示相同的訊息。</p>
 <h3><a class="header" href="#傳播錯誤" id="傳播錯誤">傳播錯誤</a></h3>
-<p>當你在寫某函式實作時，要是它的呼叫的程式碼可能會失敗，與其直接在此函式處理錯誤，你可以回傳錯誤給呼叫此程式的程式碼，由它們絕對如何處理。這稱之爲*傳播（propagating）*錯誤並讓呼叫者可以有更多的控制權，因爲比起你程式碼當下的內容，回傳的錯誤可能提供更多資訊與邏輯以利處理。</p>
+<p>當你在寫某函式實作時，要是它的呼叫的程式碼可能會失敗，與其直接在此函式處理錯誤，你可以回傳錯誤給呼叫此程式的程式碼，由它們決定如何處理。這稱之爲<em>傳播（propagating）</em> 錯誤並讓呼叫者可以有更多的控制權，因爲比起你程式碼當下的內容，回傳的錯誤可能提供更多資訊與邏輯以利處理。</p>
 <p>舉例來說，範例 9-6 展示了一個從檔案讀取使用者名稱的函式。如果檔案不存在或無法讀取的話，此函式會回傳該錯誤給呼叫此函式的程式碼。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- Deliberately not using rustdoc_include here; the `main` function in the
@@ -5748,7 +5748,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 9-6：使用 <code>match</code> 回傳錯誤給呼叫者的函式</span></p>
-<p>此函式還能在更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 <code>Result&lt;String, io::Error&gt;</code>。這代表此函式回傳的型別爲 <code>Result&lt;T, E&gt;</code>，而泛型型別 <code>T</code> 已經指明爲實際型別 <code>String</code> 然後泛型型別 <code>E</code> 也已經指明爲實際型別 <code>io::Error</code>。如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 <code>String</code> 的 <code>Ok</code> 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含有關問題發生資訊的 <code>io::Error</code> 實例的 <code>Err</code> 數值。我們選擇 <code>io::Error</code> 作爲使函式的回傳值是因爲它正是 <code>File::open</code> 函式和 <code>read_to_string</code> 方法失敗時的回傳的錯誤型別。</p>
+<p>此函式還能在更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 <code>Result&lt;String, io::Error&gt;</code>。這代表此函式回傳的型別爲 <code>Result&lt;T, E&gt;</code>，而泛型型別 <code>T</code> 已經指明爲實際型別 <code>String</code> 然後泛型型別 <code>E</code> 也已經指明爲實際型別 <code>io::Error</code>。如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 <code>String</code> 的 <code>Ok</code> 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含相關問題發生資訊的 <code>io::Error</code> 實例的 <code>Err</code> 數值。我們選擇 <code>io::Error</code> 作爲函式的回傳值是因爲它正是 <code>File::open</code> 函式和 <code>read_to_string</code> 方法失敗時的回傳的錯誤型別。</p>
 <p>函式本體從呼叫 <code>File::open</code> 開始，然後我們使用 <code>match</code> 回傳 <code>Result</code> 數值，就和範例 9-4 的 <code>match</code> 類似，但與其在 <code>Err</code> 情形時呼叫 <code>panic!</code>，我們儘早回傳 <code>File::open</code> 的錯誤型別給呼叫者。如果 <code>File::open</code> 成功的話，我們就將檔案控制代碼賦值給變數 <code>f</code> 並繼續執行下去。</p>
 <p>接著我們在變數 <code>s</code> 建立新的 <code>String</code> 並對檔案控制代碼 <code>f</code> 呼叫 <code>read_to_string</code> 方法來讀取檔案內容至 <code>s</code>。<code>read_to_string</code> 也會回傳 <code>Result</code> 因爲它也可能失敗，就算 <code>File::open</code> 是執行成功的。所以我們需要另一個 <code>match</code> 來處理該 <code>Result</code>，如果 <code>read_to_string</code> 成功的話，我們的函式就是成功的，然後在 <code>Ok</code> 回傳 <code>s</code> 中該檔案的使用者名稱。如果 <code>read_to_string</code> 失敗的話，我們就像處理 <code>File::open</code> 的 <code>match</code> 一樣回傳錯誤值。不過我們不需要顯式寫出 <code>return</code>，因爲這是函式中的最後一個表達式。</p>
 <p>呼叫此程式碼的程式就會需要處理包含使用者名稱的 <code>Ok</code> 數值以及包含 <code>io::Error</code> 的 <code>Err</code> 數值。我們不會知道呼叫此程式碼的人會如何處理這些數值。舉例來說，如果呼叫此程式碼而獲得錯誤的話，它可能選擇呼叫 <code>panic!</code> 讓程式崩潰，或者使用預設的使用者名稱從檔案以外的地方尋找該使用者。所以我們傳播所有成功或錯誤的資訊給呼叫者，讓它們能妥善處理。</p>
@@ -5861,7 +5861,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
     Ok(())
 }
 </code></pre>
-<p><code>Box&lt;dyn Error&gt;</code> 型別使用了特徵物件（trait object）我們會在第十七章的<a href="ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">「允許不同型別數值的特徵物件」“允許不同型別數值的特徵物件”</a><!-- ignore -->討論到。現在你可以將 <code>Box&lt;dyn Error&gt;</code> 視為它是「任何種類的錯誤」。這樣 <code>main</code> 中的回傳型別就會允許 <code>?</code> 了。</p>
+<p><code>Box&lt;dyn Error&gt;</code> 型別使用了特徵物件（trait object）我們會在第十七章的<a href="ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">「允許不同型別數值的特徵物件」</a><!-- ignore -->討論到。現在你可以將 <code>Box&lt;dyn Error&gt;</code> 視為它是「任何種類的錯誤」。這樣 <code>main</code> 中的回傳型別就會允許 <code>?</code> 了。</p>
 <p>現在我們已經討論了呼叫 <code>panic!</code> 與回傳 <code>Result</code> 的細節。現在讓我們回到何時該使用何種辦法的主題上吧。</p>
 <blockquote>
 <ul>
@@ -5874,7 +5874,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 <p>所以你該如何決定何時要呼叫 panic! 還是要回傳 Result 呢？當程式碼恐慌時，就沒有任何回復的方式。你可以在任何錯誤場合呼叫 <code>panic!</code>，無論是可能或不可能復原的情況。不過這樣你就等於替呼叫你的程式碼的呼叫者做出決定，讓情況變成無法復原的錯誤了。當你選擇回傳 <code>Result</code> 數值，你將決定權交給呼叫者的程式碼。呼叫者可能會選擇符合當下場合的方式嘗試復原錯誤，或者它可以選擇 Err 內的數值是不可回復的，所以它就呼叫 panic! 讓你原本可回復的錯誤轉成不可回復。因此，當你定義可能失敗的函式時預設回傳 Result 是不錯的選擇。</p>
 <p>在少數情況下，程式碼恐慌會比回傳 Result 來得恰當。讓我們來探討為何在範例、程式碼原型與測試選擇恐慌會比較好。然後我們將討論到一種編譯器無法辨別出不可能失敗，但人類的你卻可以的情況。本章節會總結一些通用指導原則來決定何時在函式庫程式碼中恐慌。</p>
 <h3><a class="header" href="#範例程式碼原型與測試" id="範例程式碼原型與測試">範例、程式碼原型與測試</a></h3>
-<p>當你在寫解釋一些概念的範例時，寫出完善錯誤處理的範例，反而會讓範例變得較不清楚。在範例中，，使用像是 unwrap 這樣會恐慌的方法可以被視為是一種要求使用者自行決定如何處理錯誤的表現，因為他們可以依據程式碼執行的方式來修改此方法。</p>
+<p>當你在寫解釋一些概念的範例時，寫出完善錯誤處理的範例，反而會讓範例變得較不清楚。在範例中，使用像是 unwrap 這樣會恐慌的方法可以被視為是一種要求使用者自行決定如何處理錯誤的表現，因為他們可以依據程式碼執行的方式來修改此方法。</p>
 <p>同樣地 unwrap 與 expect 方法也很適用在試做原型，你可以在決定準備開始處理錯誤前使用它們。它們會留下清楚的痕跡，當你準備好要讓程式碼更穩固時，你就能回來修改。</p>
 <p>如果有方法在測試內失敗時，你會希望整個測試都失敗，就算該方法不是要測試的功能。因為 panic! 會將測試標記為失敗，所以在此呼叫 unwrap 或 expect 是很正確的。</p>
 <h3><a class="header" href="#當你知道的比編譯器還多的時候" id="當你知道的比編譯器還多的時候">當你知道的比編譯器還多的時候</a></h3>
@@ -5893,12 +5893,12 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 <li>你的程式在此時需要避免這種嚴重狀態。</li>
 <li>你所使用的型別沒有適合的方式能夠處理此嚴重狀態。</li>
 </ul>
-<p>如果有人呼叫了你的程式碼卻傳遞了不合理的數值，最好的辦法是呼叫 <code>panic!</code> 並警告使用你函式庫的人他們程式碼錯誤發生地位置，好讓他們在開發時就能修正。同樣地，<code>panic!</code> 也適合用於如果你呼叫了你無法掌控的外部程式碼，然後它回傳了你無法修正的無效狀態。</p>
+<p>如果有人呼叫了你的程式碼卻傳遞了不合理的數值，最好的辦法是呼叫 <code>panic!</code> 並警告使用函式庫的人他們程式碼錯誤發生的位置，好讓他們在開發時就能修正。同樣地，<code>panic!</code> 也適合用於如果你呼叫了你無法掌控的外部程式碼，然後它回傳了你無法修正的無效狀態。</p>
 <p>不過如果失敗是可預期的，回傳 <code>Result</code> 就會比呼叫 <code>panic!</code> 來得好。類似的例子有，語法分析器 （parser）收到格式錯誤的資訊，或是 HTTP 請求回傳了一個狀態，告訴你已經達到請求上限了。在這樣的案例，回傳 <code>Result</code> 代表失敗是預期有時會發生的，而且呼叫者必須決定如何處理。</p>
 <p>當你的程式碼針對數值進行運算時，你的程式需要先驗證該數值，如果數值無效的話就要恐慌。這是基於安全原則，嘗試對無效資料做運算的話可能會導致你的程式碼產生漏洞。這也是標準函式庫在你嘗試取得超出界限的記憶體存取會呼叫 <code>panic!</code> 的主要原因。嘗試取得不屬於當前資料結構的記憶體是常見的安全問題。函式通常都會訂下一些<em>合約（contracts）</em>，它們的行爲只有在輸入資料符合特定要求時才帶有保障。當違反合約時恐慌是十分合理的，因爲違反合約就代表這是呼叫者的錯誤，這不是你的程式碼該主動處理的錯誤。事實上，呼叫者也沒有任何合理的理由來復原這樣的錯誤。函式的合約應該要寫在函式的技術文件中解釋，尤其是違反時會恐慌的情況。</p>
-<p>然而要在你的函式寫一大堆錯誤檢查有時是很冗長且麻煩的。幸運的是你可以利用 Rust 的型別系統（以及編譯器的型別檢查）來幫你完成檢驗。如果你的函式用特定型別作物喔爲參數的話，你就可以認定你的程式邏輯是編輯器已經幫你確保你拿到的數值是有效的。舉例來說，如果你有個一型別而非 <code>Option</code> 的話，你的程式就會預期取得<em>某個值</em>而不是<em>沒拿到值</em>。你的程式就不必處理 <code>Some</code> 和 <code>None</code> 這兩個變體情形，它只會有一種情況並絕對會拿到數值。要是有人沒有傳遞任何值給你的函式會根本無法編譯，所以你的函式就不需要在執行時做檢查。另一個例子是使用非帶號整數像是 <code>u32</code> 來確保參數不會是負數。</p>
+<p>然而要在你的函式寫一大堆錯誤檢查有時是很冗長且麻煩的。幸運的是你可以利用 Rust 的型別系統（以及編譯器的型別檢查）來幫你完成檢驗。如果你的函式用特定型別作爲參數的話，你就可以認定你的程式邏輯是編輯器已經幫你確保你拿到的數值是有效的。舉例來說，如果你有個一型別而非 <code>Option</code> 的話，你的程式就會預期取得<em>某個值</em>而不是<em>沒拿到值</em>。你的程式就不必處理 <code>Some</code> 和 <code>None</code> 這兩個變體情形，它只會有一種情況並絕對會拿到數值。要是有人沒有傳遞任何值給你的函式會根本無法編譯，所以你的函式就不需要在執行時做檢查。另一個例子是使用非帶號整數像是 <code>u32</code> 來確保參數不會是負數。</p>
 <h3><a class="header" href="#建立自訂型別來驗證" id="建立自訂型別來驗證">建立自訂型別來驗證</a></h3>
-<p>讓我們來試著使用 Rust 的型別系統來進一步確保我們擁有有效數值，並建立自訂型別來驗證。回想一下第二章的猜謎遊戲，我們的程式碼要使用者從 1 到 100 之間猜一個數字。在開始與祕密數字做比較之前，我們從未驗證使用者輸入的值，我們只驗證了它是否爲正的。在這種情況帶來的後果還不算嚴重：我們還是會顯示「Too high」或「Too low」。但是我們可以改善這段來引導使用者輸入有效數值，並在使用者輸入時猜了超出範圍的數字或字母時呈現不同行爲。</p>
+<p>讓我們來試著使用 Rust 的型別系統來進一步確保我們擁有有效數值，並建立自訂型別來驗證。回想一下第二章的猜謎遊戲，我們的程式碼要使用者從 1 到 100 之間猜一個數字。在開始與祕密數字做比較之前，我們從未驗證使用者輸入的值，我們只驗證了它是否爲正的。在這種情況帶來的後果還不算嚴重：我們還是會顯示「太大」或「太小」。但是我們可以改善這段來引導使用者輸入有效數值，並在使用者輸入時猜了超出範圍的數字或字母時呈現不同行爲。</p>
 <p>我們可以將輸入的猜測分析改成 <code>i32</code> 而非 <code>u32</code> 來允許負數，並檢查數字是否在範圍內，如以下所示：</p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span><span class="boring">use std::cmp::Ordering;
@@ -5926,7 +5926,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
         };
 
         if guess &lt; 1 || guess &gt; 100 {
-            println!(&quot;The secret number will be between 1 and 100.&quot;);
+            println!(&quot;祕密數字介於 1 到 100 之間。&quot;);
             continue;
         }
 
@@ -5944,7 +5944,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 </span></code></pre>
 <p><code>if</code> 表達式檢查我們的數值是否超出範圍，如果是的話就告訴使用者問題原因，並呼叫 <code>continue</code> 來進行下一次的猜測循環，要求再猜一次。在 <code>if</code> 表達式之後我們就能用已經知道範圍是在 1 到 100 的 <code>guess</code> 與祕密數字做比較。</p>
 <p>不過這並非理想解決方案：如果程式必定要求數值一定要是 1 到 100，而且我們有很多函式都有此需求的話，在每個函式都檢查就太囉唆了（而且可能會影響效能）。</p>
-<p>對此我們可以建立一個新的型別，並且建立一個驗證產生實例的函式，這樣我們就不必在每個地方都做驗證。這樣一來函式就可以安全地以這個新型別作爲簽名，並放心地使用收到的數值。範例 9-10 顯示了定義 <code>Guess</code> 型別的例子，它的 <code>new</code> 函式只會在接收值爲 1 到 100 時纔會建立 <code>Guess</code> 實例。</p>
+<p>對此我們可以建立一個新的型別，並且建立一個驗證產生實例的函式，這樣我們就不必在每個地方都做驗證。這樣一來函式就可以安全地以這個新型別作爲簽名，並放心地使用收到的數值。範例 9-10 顯示了定義 <code>Guess</code> 型別的例子，它的 <code>new</code> 函式只會在接收值爲 1 到 100 時才會建立 <code>Guess</code> 實例。</p>
 <!-- Deliberately not using rustdoc_include here; the `main` function in the
 file requires the `rand` crate. We do want to include it for reader
 experimentation purposes, but don't want to include it for rustdoc testing
@@ -5959,7 +5959,7 @@ purposes. -->
 impl Guess {
     pub fn new(value: i32) -&gt; Guess {
         if value &lt; 1 || value &gt; 100 {
-            panic!(&quot;Guess value must be between 1 and 100, got {}.&quot;, value);
+            panic!(&quot;猜測數字必須介於 1 到 100 之間，你輸入的是 {}。&quot;, value);
         }
 
         Guess { value }
@@ -7962,7 +7962,7 @@ error: test failed, to rerun pass '--lib'
 impl Guess {
     pub fn new(value: i32) -&gt; Guess {
         if value &lt; 1 || value &gt; 100 {
-            panic!(&quot;Guess value must be between 1 and 100, got {}.&quot;, value);
+            panic!(&quot;猜測數字必須介於 1 到 100 之間，你輸入的是 {}。&quot;, value);
         }
 
         Guess { value }
@@ -8010,7 +8010,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 impl Guess {
     pub fn new(value: i32) -&gt; Guess {
         if value &lt; 1 {
-            panic!(&quot;Guess value must be between 1 and 100, got {}.&quot;, value);
+            panic!(&quot;猜測數字必須介於 1 到 100 之間，你輸入的是 {}。&quot;, value);
         }
 
         Guess { value }
@@ -8052,7 +8052,7 @@ test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 error: test failed, to rerun pass '--lib'
 </code></pre>
 <p>我們在此情況得到的訊息並不是很有用，但是當我們查看測試函式，我們會看到它詮釋了 <code>#[should_panic]</code>。這個測試失敗代表測試函式內的程式碼沒有造成恐慌。</p>
-<p>使用 <code>should_panic</code> 的測試可能會有點模棱兩可，因爲它們只代表該程式碼會造成某種恐慌而已。<code>should_panic</code> 測試只要是有恐慌都會通過，就算是不同於我們預期發生地恐慌而造成的也一樣。要讓測試 <code>should_panic</code> 更精準的話，我們可以加上選擇性的 <code>expected</code> 參數到 <code>should_panic</code> 中。這樣測試就會確保錯誤訊息會包含我們所寫的文字。舉例來說，範例 11-9 更改了 <code>Guess</code> 讓 <code>new</code> 函式會依據數值太大或大小而有不同的錯誤訊息。</p>
+<p>使用 <code>should_panic</code> 的測試可能會有點模棱兩可，因爲它們只代表該程式碼會造成某種恐慌而已。<code>should_panic</code> 測試只要是有恐慌都會通過，就算是不同於我們預期發生的恐慌而造成的也一樣。要讓測試 <code>should_panic</code> 更精準的話，我們可以加上選擇性的 <code>expected</code> 參數到 <code>should_panic</code> 中。這樣測試就會確保錯誤訊息會包含我們所寫的文字。舉例來說，範例 11-9 更改了 <code>Guess</code> 讓 <code>new</code> 函式會依據數值太大或大小而有不同的錯誤訊息。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Guess {
 </span><span class="boring">    value: i32,
@@ -8635,7 +8635,7 @@ $ cd minigrep
 </code></pre>
 <p>但現在由 <code>cargo new</code> 產生的程式還無法處理我們給予的引數。<a href="https://crates.io/">crates.io</a> 有些函式庫可以幫助程式接收命令列中的引數，但有鑑於你要學習此概念，讓我們親自來實作一個。</p>
 <h3><a class="header" href="#讀取引數數值" id="讀取引數數值">讀取引數數值</a></h3>
-<p>要讓 <code>minigrep</code> 能夠讀取我們傳入的命令列引數數值，我們需要使用 Rust 標準函式庫中提供的函式，也就是 <code>std::env::args</code>。此函式會回傳一個包含我們傳給 <code>minigrep</code> 的命令列引數的疊代器（iterator）。我們會在<a href="ch13-00-functional-features.html">第十三章</a><!-- ignore -->詳細解釋疊代器。現在你只需要知道疊代器的兩項重點：疊代器會產生一系列的數值，然後我們可以對疊代器呼叫 <code>collect</code> 方法來將其轉換成像是 像是向量的集合，，來包含疊代器產生的所有元素。</p>
+<p>要讓 <code>minigrep</code> 能夠讀取我們傳入的命令列引數數值，我們需要使用 Rust 標準函式庫中提供的函式，也就是 <code>std::env::args</code>。此函式會回傳一個包含我們傳給 <code>minigrep</code> 的命令列引數的疊代器（iterator）。我們會在<a href="ch13-00-functional-features.html">第十三章</a><!-- ignore -->詳細解釋疊代器。現在你只需要知道疊代器的兩項重點：疊代器會產生一系列的數值，然後我們可以對疊代器呼叫 <code>collect</code> 方法來將其轉換成像是 像是向量的集合，來包含疊代器產生的所有元素。</p>
 <p>使用範例 21-1 的程式碼能讓你的 <code>minigrep</code> 程式能夠讀取任何傳入的命令列引數，然後收集數值成一個向量。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::env;
@@ -8818,7 +8818,7 @@ fn parse_config(args: &amp;[String]) -&gt; (&amp;str, &amp;str) {
 </code></pre>
 <p><span class="caption">範例 12-5：從 <code>main</code> 提取 <code>parse_config</code> 函式</span></p>
 <p>我們仍然收集命令列引數至向量中，但不同於在 <code>main</code> 函式中將索引 1 的引數數值賦值給變數 <code>query</code> 且將索引 2 的引數數值賦值給變數 <code>filename</code>，我們將整個向量傳至 <code>parse_config</code> 函式。<code>parse_config</code> 函式會擁有決定哪些引數要賦值給哪些變數的邏輯，並將數值回傳給 <code>main</code>。我們仍然在 <code>main</code> 中建立變數 <code>query</code> and <code>filename</code>，但 <code>main</code> 不再負責決定命令列引數與變數之間的關係。</p>
-<p>此重構可能對我們的小程式來說有點像是殺雞焉用牛刀，但是我們正一小步一小步地累積重構。走了這項改變後，請再次執行程式來驗證引數解析有沒有正常運作。經常檢查你的進展是很好的，這能幫助你找出問題發生地原因。</p>
+<p>此重構可能對我們的小程式來說有點像是殺雞焉用牛刀，但是我們正一小步一小步地累積重構。走了這項改變後，請再次執行程式來驗證引數解析有沒有正常運作。經常檢查你的進展是很好的，這能幫助你找出問題發生的原因。</p>
 <h4><a class="header" href="#集結配置數值" id="集結配置數值">集結配置數值</a></h4>
 <p>我們可以在進一步改善 <code>parse_config</code> 函式。目前我們回傳的是元組，但是我們馬上又將元組拆成獨立部分。這是個我們還沒有建立正確抽象的信號。</p>
 <p>另外一個告訴我們還有改善空鍵的地方是 <code>parse_config</code> 名稱中的 <code>config</code>，這指示我們回傳的兩個數值是相關的，且都是配置數值的一部分。我們現在沒有確實表達出這樣的資料結構，而只有將兩個數值組合成一個元組而已，我們可以將這兩個數值存入一個結構體，並對每個結構體欄位給予有意義的名稱。這樣做能讓未來的維護者可以清楚知道這些數值的不同與關聯，以及它們的用途。</p>
@@ -16074,7 +16074,7 @@ warning: irrefutable if-let pattern
 </span></code></pre></pre>
 <p><span class="caption">範例 18-11：<code>match</code> 表達式其中一個分支宣告了遮蔽的變數 <code>y</code></span></p>
 <p>讓我們跑一遍看看當 <code>match</code> 執行時發生了什麼事。第一個配對分支並不符合 <code>x</code> 定義的數值，所以程式繼續執行下去。</p>
-<p>第二個配對分支宣告了一個新的變數叫做 <code>y</code> 來配對 <code>Some</code> 內的任何數值。因為我們位於 <code>match</code> 表達式內的新作用域，此新的 <code>y</code> 變數並不是我們一開始宣告有數值 10 的 <code>y</code>。這個新的 <code>y</code> 會配對 <code>Some</code> 內的任何數值，，也就是 <code>x</code> 擁有的數值。因此，這個新的 <code>y</code> 會綁定 <code>x</code> 中 <code>Some</code> 的內部數值。該數值是 <code>5</code>，所以該分支的表達式就會執行並印出 <code>Matched, y = 5</code>。</p>
+<p>第二個配對分支宣告了一個新的變數叫做 <code>y</code> 來配對 <code>Some</code> 內的任何數值。因為我們位於 <code>match</code> 表達式內的新作用域，此新的 <code>y</code> 變數並不是我們一開始宣告有數值 10 的 <code>y</code>。這個新的 <code>y</code> 會配對 <code>Some</code> 內的任何數值，也就是 <code>x</code> 擁有的數值。因此，這個新的 <code>y</code> 會綁定 <code>x</code> 中 <code>Some</code> 的內部數值。該數值是 <code>5</code>，所以該分支的表達式就會執行並印出 <code>Matched, y = 5</code>。</p>
 <p>如果 <code>x</code> 是 <code>None</code> 數值而非 <code>Some(5)</code> 的話，前兩個分支的模式都不會配對到，所以數值會配對到底線的分支。我們沒有在底線分支的模式中宣告 <code>x</code> 變數，所以表達式中的 <code>x</code> 仍然是外部沒有被遮蔽的 <code>x</code> 。在這樣的假設狀況下，<code>match</code> 會印出 <code>Default case, x = None</code>。</p>
 <p>當 <code>match</code> 完成時，其作用域就會結束，所以作用域內的內部 <code>y</code> 也會結束。最後一個 <code>println!</code> 會顯示 <code>at the end: x = Some(5), y = 10</code>。</p>
 <p>要建立個能對外部 <code>x</code> 與 <code>y</code> 數值做比較的 <code>match</code> 表達式而非遮蔽變數的話，我們需要改用條件配對守護。我們會在之後的<a href="ch18-03-pattern-syntax.html#extra-conditionals-with-match-guards">「提供額外條件的配對守護」</a><!-- ignore -->段落討論配對守護。</p>
@@ -16574,7 +16574,7 @@ To learn more, run the command again with --verbose.
 </span></code></pre></pre>
 <p><span class="caption">範例 19-3：在 <code>unsafe</code> 區塊對裸指標取值</span></p>
 <p>建立一個指標沒有危險性，只有當我們嘗試存取它指向的值時，才可能需要處理非法的值。</p>
-<p>請注意，範例 19-1 與 19-3，我們建立了 <code>*const i32</code> 與 <code>*mut i32</code> 兩個裸指標，皆指向相同儲存 <code>num</code> 的記憶體位置。若我們走正常程序建立指向 <code>num</code>  的不可變與可變引用，，程式碼將因為 Rust 所有權規則不允許同時存在一個可變引用與多個不可變引用，進而無法編譯。有了裸指標，即可建立指向同個位置的可變指標和不可變指標，並透過可變指標改變其資料，但可能帶來資料競爭（data races），請小心！</p>
+<p>請注意，範例 19-1 與 19-3，我們建立了 <code>*const i32</code> 與 <code>*mut i32</code> 兩個裸指標，皆指向相同儲存 <code>num</code> 的記憶體位置。若我們走正常程序建立指向 <code>num</code>  的不可變與可變引用，程式碼將因為 Rust 所有權規則不允許同時存在一個可變引用與多個不可變引用，進而無法編譯。有了裸指標，即可建立指向同個位置的可變指標和不可變指標，並透過可變指標改變其資料，但可能帶來資料競爭（data races），請小心！</p>
 <p>既然有這些危險，為什麼你還要用裸指標呢？一個主要用例是與 C 程式碼介接，你將會在下一節<a href="ch19-01-unsafe-rust.html#%E5%91%BC%E5%8F%AB%E4%B8%8D%E5%AE%89%E5%85%A8%E5%87%BD%E5%BC%8F%E6%88%96%E6%96%B9%E6%B3%95">「呼叫不安全函式或方法」</a>讀到。另一個用例是在借用檢查器不理解之處建立一層安全抽象。我們將會介紹不安全函式，再探討一個使用到不安全程式碼的安全抽象範例。</p>
 <h3><a class="header" href="#呼叫不安全函式或方法" id="呼叫不安全函式或方法">呼叫不安全函式或方法</a></h3>
 <p>第二種需要不安全區塊的操作是呼叫不安全函式。不安全函式與方法外觀看起來與正常函式及方法並無二致，僅在整個函式定義前多了額外的 <code>unsafe</code> 。<code>unsafe</code> 關鍵字在此脈絡下是指此函式在呼叫時必須遵守某些要求，因為 Rust 無法保證我們能達成這項要求。當我們在一個 <code>unsafe</code> 區塊內呼叫一個 <code>unsafe</code> 函式，意味著我們已閱讀此函式的文件，而且有責任遵守此函式的使用條款。</p>

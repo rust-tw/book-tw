@@ -720,7 +720,7 @@ error: test failed, to rerun pass '--lib'
 impl Guess {
     pub fn new(value: i32) -&gt; Guess {
         if value &lt; 1 || value &gt; 100 {
-            panic!(&quot;Guess value must be between 1 and 100, got {}.&quot;, value);
+            panic!(&quot;猜測數字必須介於 1 到 100 之間，你輸入的是 {}。&quot;, value);
         }
 
         Guess { value }
@@ -768,7 +768,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 impl Guess {
     pub fn new(value: i32) -&gt; Guess {
         if value &lt; 1 {
-            panic!(&quot;Guess value must be between 1 and 100, got {}.&quot;, value);
+            panic!(&quot;猜測數字必須介於 1 到 100 之間，你輸入的是 {}。&quot;, value);
         }
 
         Guess { value }
@@ -810,7 +810,7 @@ test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 error: test failed, to rerun pass '--lib'
 </code></pre>
 <p>我們在此情況得到的訊息並不是很有用，但是當我們查看測試函式，我們會看到它詮釋了 <code>#[should_panic]</code>。這個測試失敗代表測試函式內的程式碼沒有造成恐慌。</p>
-<p>使用 <code>should_panic</code> 的測試可能會有點模棱兩可，因爲它們只代表該程式碼會造成某種恐慌而已。<code>should_panic</code> 測試只要是有恐慌都會通過，就算是不同於我們預期發生地恐慌而造成的也一樣。要讓測試 <code>should_panic</code> 更精準的話，我們可以加上選擇性的 <code>expected</code> 參數到 <code>should_panic</code> 中。這樣測試就會確保錯誤訊息會包含我們所寫的文字。舉例來說，範例 11-9 更改了 <code>Guess</code> 讓 <code>new</code> 函式會依據數值太大或大小而有不同的錯誤訊息。</p>
+<p>使用 <code>should_panic</code> 的測試可能會有點模棱兩可，因爲它們只代表該程式碼會造成某種恐慌而已。<code>should_panic</code> 測試只要是有恐慌都會通過，就算是不同於我們預期發生的恐慌而造成的也一樣。要讓測試 <code>should_panic</code> 更精準的話，我們可以加上選擇性的 <code>expected</code> 參數到 <code>should_panic</code> 中。這樣測試就會確保錯誤訊息會包含我們所寫的文字。舉例來說，範例 11-9 更改了 <code>Guess</code> 讓 <code>new</code> 函式會依據數值太大或大小而有不同的錯誤訊息。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Guess {
 </span><span class="boring">    value: i32,

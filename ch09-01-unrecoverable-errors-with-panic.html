@@ -168,10 +168,10 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#對無法復原的錯誤使用-panic" id="對無法復原的錯誤使用-panic">對無法復原的錯誤使用 <code>panic!</code></a></h2>
-<p>有時候壞事就是壞發生在你的程式中，這本來就是你沒辦法全部避免的。在這種情況，Rust 有提供 <code>panic!</code> 巨集。當 <code>panic!</code> 巨集執行時，你的程式就會印出程式出錯的訊息，展開並清理堆疊，然後離開程式。這常用來處理當程式遇到某種錯誤時，開發者不清楚如何處理該錯誤的狀況。</p>
+<p>有時候壞事就是會發生在你的程式中，這本來就是你沒辦法全部避免的。在這種情況，Rust 有提供 <code>panic!</code> 巨集。當 <code>panic!</code> 巨集執行時，你的程式就會印出程式出錯的訊息，展開並清理堆疊，然後離開程式。這常用來處理當程式遇到某種錯誤時，開發者不清楚如何處理該錯誤的狀況。</p>
 <blockquote>
 <h3><a class="header" href="#恐慌時該解開堆疊還是直接終止" id="恐慌時該解開堆疊還是直接終止">恐慌時該解開堆疊還是直接終止</a></h3>
-<p>當恐慌（panic）發生時，程式預設會開始做*解開（unwind）<em>堆疊的動作，這代表 Rust 會回溯整個堆疊，並清理裡每個它遇到的函式資料。但是這樣回溯並清理的動做很花力氣。另一種方式是直接</em>終止（abort）*程式而不清理，程式使用的記憶體會需要由作業系統來清理。如果你需要你的專案產生的二進制檔案越小越好，你可以從解開切換成終止，只要在 <em>Cargo.toml</em> 檔案中的 <code>[profile]</code> 段落加上 <code>panic = 'abort'</code> 就好。舉例來說，如果你希望在發佈模式（release mode）恐慌時直接終止，那就加上：</p>
+<p>當恐慌（panic）發生時，程式預設會開始做<em>解開（unwind）</em> 堆疊的動作，這代表 Rust 會回溯整個堆疊，並清理每個它遇到的函式資料。但是這樣回溯並清理的動作很花力氣。另一種方式是直接<em>終止（abort）</em> 程式而不清理，程式使用的記憶體會需要由作業系統來清理。如果你需要你的專案產生的二進制檔案越小越好，你可以從解開切換成終止，只要在 <em>Cargo.toml</em> 檔案中的 <code>[profile]</code> 段落加上 <code>panic = 'abort'</code> 就好。舉例來說，如果你希望在發佈模式（release mode）恐慌時直接終止，那就加上：</p>
 <pre><code class="language-toml">[profile.release]
 panic = 'abort'
 </code></pre>
@@ -179,7 +179,7 @@ panic = 'abort'
 <p>讓我們先在小程式內試試呼叫 <code>panic!</code>：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic panics">fn main() {
-    panic!(&quot;crash and burn&quot;);
+    panic!(&quot;◢▆▅▄▃ 崩╰(〒皿〒)╯潰▃▄▅▆◣&quot;);
 }
 </code></pre></pre>
 <p>當你執行程式時，你會看到像這樣的結果：</p>
@@ -187,7 +187,7 @@ panic = 'abort'
    Compiling panic v0.1.0 (file:///projects/panic)
     Finished dev [unoptimized + debuginfo] target(s) in 0.25s
      Running `target/debug/panic`
-thread 'main' panicked at 'crash and burn', src/main.rs:2:5
+thread 'main' panicked at '◢▆▅▄▃ 崩╰(〒皿〒)╯潰▃▄▅▆◣', src/main.rs:2:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p><code>panic!</code> 的呼叫導致印出了最後兩行的錯誤訊息。第一行顯示了我們的恐慌訊息以及該恐慌是在原始碼何處發生的：<em>src/main.rs:2:5</em> 指的是它發生在我們的 <em>src/main.rs</em> 檔案第二行第五個字元。</p>
@@ -203,7 +203,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre></pre>
 <p><span class="caption">範例 9-1：嘗試取得超出向量長度的元素，進而導致 <code>panic!</code> 被呼叫</span></p>
 <p>我們在這邊嘗試取得向量中第 100 個元素（不過因爲索引從零開始，所以是索引 99），但是它只有 3 個元素。在此情況下，Rust 就會恐慌。使用 <code>[]</code> 會回傳元素，但是如果你傳遞了無效的索引，Rust 就回傳不了正確的元素。</p>
-<p>在 C 中，嘗試讀取資料結構結束之後的元素屬於未定義行爲。你可能會得到該記憶體位置對應其資料結構的元素，即使該記憶體完全不屬於該資料結構。這就稱做*緩衝區過讀（buffer overread）*而且會導致安全漏洞。攻擊者可能故意操縱該索引來取得在資料結構後面他們原本不應該讀寫的值。</p>
+<p>在 C 中，嘗試讀取資料結構結束之後的元素屬於未定義行爲。你可能會得到該記憶體位置對應其資料結構的元素，即使該記憶體完全不屬於該資料結構。這就稱做<em>緩衝區過讀（buffer overread）</em> 而且會導致安全漏洞。攻擊者可能故意操縱該索引來取得在資料結構後面他們原本不應該讀寫的值。</p>
 <p>爲了保護你的程式免於這樣的漏洞，如果你嘗試用一個不存在的索引讀取元素的話，Rust 會停止執行並拒絕繼續運作下去。讓我們嘗試執行並看看會如何：</p>
 <pre><code class="language-console">$ cargo run
    Compiling panic v0.1.0 (file:///projects/panic)
@@ -278,7 +278,7 @@ stack backtrace:
 </code></pre>
 <p><span class="caption">範例 9-2：當 <code>RUST_BACKTRACE</code> 設置時，透過呼叫 <code>panic!</code> 產生的 backtrace</span></p>
 <p>輸出結果有點多啊！你看到的實際輸出可能會因你的作業系統與 Rust 版本而有所不同。要取得這些資訊的 backtrace，除錯符號（debug symbols）必須啟用。當我們在使用 <code>cargo build</code> 或 <code>cargo run</code> 且沒有加上 <code>--release</code> 時，除錯符號預設是啟用的。</p>
-<p>在範例 9-2 的輸出結果中，第 17 行的 backtrace 指向了我們專案中產生問題的地方：<em>src/main.rs</em> 中的第四行。如果我們不想讓程式恐慌，我們就要來調查我們所寫的程式中第一個被錯誤訊息指向的位置。在範例 9-1 中，我們爲了寫是如何使用 backtrace，故意寫出會恐慌的程式碼。要修正的方法就是不要向只有 3 個元素的向量要求取得索引 99 的值。當在未來你的程式碼恐慌時，你會需要知道是程式碼中的什麼動作造成的、什麼數值導致恐慌以及正確的程式碼該怎麼處理。</p>
+<p>在範例 9-2 的輸出結果中，第 17 行的 backtrace 指向了我們專案中產生問題的地方：<em>src/main.rs</em> 中的第四行。如果我們不想讓程式恐慌，我們就要來調查我們所寫的程式中第一個被錯誤訊息指向的位置。在範例 9-1 中，我們爲了顯示如何使用 backtrace，故意寫出會恐慌的程式碼。要修正的方法就是不要向只有 3 個元素的向量要求取得索引 99 的值。當在未來你的程式碼恐慌時，你會需要知道是程式碼中的什麼動作造成的、什麼數值導致恐慌以及正確的程式碼該怎麼處理。</p>
 <p>我們會在本章節<a href="ch09-03-to-panic-or-not-to-panic.html#to-panic-or-not-to-panic">「要 <code>panic!</code> 還是不要 <code>panic!</code>」</a><!-- ignore -->的段落中再回來看 <code>panic!</code> 並研究何時該與不該使用 <code>panic!</code> 來處理錯誤條件。接下來，我們要看如何使用 <code>Result</code>來處理可回復的錯誤。</p>
 <blockquote>
 <ul>

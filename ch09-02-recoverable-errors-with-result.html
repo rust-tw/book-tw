@@ -169,7 +169,7 @@
                     <main>
                         <h2><a class="header" href="#result-與可復原的錯誤" id="result-與可復原的錯誤"><code>Result</code> 與可復原的錯誤</a></h2>
 <p>大多數的錯誤沒有嚴重到需要讓整個程式停止執行。有時候當函式失敗時，你是可以輕易理解並作出反應的。舉例來說，如果你嘗試開啟一個檔案，但該動作卻因爲沒有該檔案而失敗的話，你可能會想要建立檔案，而不是終止程序。</p>
-<p>回憶一下第二章的<a href="ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-the-result-type">“使用 <code>Result</code> 型別處理可能的錯誤”</a><!-- ignore -->提到 <code>Result</code> 枚舉的定義有兩個變體 <code>Ok</code> 和 <code>Err</code>，如以下所示：</p>
+<p>回憶一下第二章的<a href="ch02-00-guessing-game-tutorial.html#%E4%BD%BF%E7%94%A8-result-%E5%9E%8B%E5%88%A5%E8%99%95%E7%90%86%E5%8F%AF%E8%83%BD%E7%9A%84%E9%8C%AF%E8%AA%A4">「使用 <code>Result</code> 型別處理可能的錯誤」</a><!-- ignore -->提到 <code>Result</code> 枚舉的定義有兩個變體 <code>Ok</code> 和 <code>Err</code>，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -179,7 +179,7 @@
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><code>T</code> 和 <code>E</code> 是泛型型別參數，我們會在第十章深入討論泛型。你現在需要知道的事 <code>T</code> 代表我們在成功時會在 <code>Ok</code> 變體回傳的型別，而 <code>E</code> 則代表失敗時在 <code>Err</code> 變體會回傳的錯誤型別。因爲 <code>Result</code> 有這些泛型型別參數，我們可以將 <code>Result</code> 型別和標準函式庫運用到它的函式用在許多不同場合，讓成功與失敗時回傳的型別不相同。</p>
+<p><code>T</code> 和 <code>E</code> 是泛型型別參數，我們會在第十章深入討論泛型。你現在需要知道的是 <code>T</code> 代表我們在成功時會在 <code>Ok</code> 變體回傳的型別，而 <code>E</code> 則代表失敗時在 <code>Err</code> 變體會回傳的錯誤型別。因爲 <code>Result</code> 有這些泛型型別參數，我們可以將 <code>Result</code> 型別和標準函式庫運用到它的函式用在許多不同場合，讓成功與失敗時回傳的型別不相同。</p>
 <p>讓我們呼叫一個可能會失敗的函式並回傳 <code>Result</code> 型別。在範例 9-3 我們嘗試開啟一個檔案。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::fs::File;
@@ -189,7 +189,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 9-3：嘗試開啟一個檔案</span></p>
-<p>我們怎麼知道 <code>File::open</code> 會回傳 <code>Result</code>呢？我們可以查閱<a href="https://doc.rust-lang.org/std/index.html">標準函式庫的 API 技術文件</a><!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 <code>f</code> 一個型別詮釋，但是我們知道它和函式回傳值<em>並不</em>相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不服。錯誤訊息會告訴我們 <code>f</code> <em>該有</em>何種型別。讓我們試試看！我們知道 <code>File::open</code> 的回傳型別不是 <code>u32</code>，所以讓我們改變 <code>let f</code> 成這樣：</p>
+<p>我們怎麼知道 <code>File::open</code> 會回傳 <code>Result</code>呢？我們可以查閱<a href="https://doc.rust-lang.org/std/index.html">標準函式庫的 API 技術文件</a><!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 <code>f</code> 一個型別詮釋，但是我們知道它和函式回傳值<em>並不</em>相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不符。錯誤訊息會告訴我們 <code>f</code> <em>該有</em>何種型別。讓我們試試看！我們知道 <code>File::open</code> 的回傳型別不是 <code>u32</code>，所以讓我們改變 <code>let f</code> 成這樣：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::fs::File;
 </span><span class="boring">
 </span><span class="boring">fn main() {
@@ -229,7 +229,7 @@ fn main() {
 
     let f = match f {
         Ok(file) =&gt; file,
-        Err(error) =&gt; panic!(&quot;Problem opening the file: {:?}&quot;, error),
+        Err(error) =&gt; panic!(&quot;開啟檔案時發生問題：{:?}&quot;, error),
     };
 }
 </code></pre></pre>
@@ -241,7 +241,7 @@ fn main() {
    Compiling error-handling v0.1.0 (file:///projects/error-handling)
     Finished dev [unoptimized + debuginfo] target(s) in 0.73s
      Running `target/debug/error-handling`
-thread 'main' panicked at 'Problem opening the file: Os { code: 2, kind: NotFound, message: &quot;No such file or directory&quot; }', src/main.rs:8:23
+thread 'main' panicked at '開啟檔案時發生問題：Os { code: 2, kind: NotFound, message: &quot;No such file or directory&quot; }', src/main.rs:8:23
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p>如往常一樣，此輸出告訴我們哪裡出錯了。</p>
@@ -261,10 +261,10 @@ fn main() {
         Err(error) =&gt; match error.kind() {
             ErrorKind::NotFound =&gt; match File::create(&quot;hello.txt&quot;) {
                 Ok(fc) =&gt; fc,
-                Err(e) =&gt; panic!(&quot;Problem creating the file: {:?}&quot;, e),
+                Err(e) =&gt; panic!(&quot;建立檔案時發生問題：{:?}&quot;, e),
             },
             other_error =&gt; {
-                panic!(&quot;Problem opening the file: {:?}&quot;, other_error)
+                panic!(&quot;開啟檔案時發生問題：{:?}&quot;, other_error)
             }
         },
     };
@@ -272,7 +272,7 @@ fn main() {
 </code></pre>
 <p><span class="caption">範例 9-5：針對不同種類的錯誤採取不同動作</span></p>
 <p><code>File::open</code> 在 <code>Err</code> 變體的回傳型別爲 <code>io::Error</code>，這是標準函式庫提供的結構體。此結構體有個 <code>kind</code> 方法讓我們可以取得 <code>io::ErrorKind</code> 數值。標準函式庫提供的枚舉 <code>io::ErrorKind</code> 有從 <code>io</code> 運算可能發生的各種錯誤。我們想處理的變體是 <code>ErrorKind::NotFound</code>，這指的是我們嘗試開啟的檔案還不存在。所以我們對 <code>f</code> 配對並在用 <code>error.kind()</code> 繼續配對下去。</p>
-<p>我們像從內部配對檢查 <code>error.kind()</code> 的回傳值是否是 <code>ErrorKind</code> 枚舉中的 <code>NotFound</code> 變體。如果是的話，我們就嘗試使用 <code>File::create</code> 建立檔案。不過 <code>File::create</code> 也可能會失敗，所以我們需要第二個內部 <code>match</code> 表達式來處理。如果檔案無法建立的話，我們就會印出不同的錯誤訊息。第二個分支的外部 <code>match</code> 分支保持不變，如果程式遇到其他錯誤的話就會恐慌。</p>
+<p>我們從內部配對檢查 <code>error.kind()</code> 的回傳值是否是 <code>ErrorKind</code> 枚舉中的 <code>NotFound</code> 變體。如果是的話，我們就嘗試使用 <code>File::create</code> 建立檔案。不過 <code>File::create</code> 也可能會失敗，所以我們需要第二個內部 <code>match</code> 表達式來處理。如果檔案無法建立的話，我們就會印出不同的錯誤訊息。第二個分支的外部 <code>match</code> 分支保持不變，如果程式遇到其他錯誤的話就會恐慌。</p>
 <p>我們用的 <code>match</code> 的確有點多！<code>match</code> 表達式雖然很實用，不過它的行爲非常基本。在第十三章你會學到閉包（closure），<code>Result&lt;T, E&gt;</code> 型別有很多接收閉包並採用 <code>match</code> 實作的方法。使用那些方法可以讓你的程式碼更簡潔。更熟練的 Rustacean 可能會像這樣寫範例 9-5 的程式數碼：</p>
 <pre><code class="language-rust ignore">use std::fs::File;
 use std::io::ErrorKind;
@@ -281,10 +281,10 @@ fn main() {
     let f = File::open(&quot;hello.txt&quot;).unwrap_or_else(|error| {
         if error.kind() == ErrorKind::NotFound {
             File::create(&quot;hello.txt&quot;).unwrap_or_else(|error| {
-                panic!(&quot;Problem creating the file: {:?}&quot;, error);
+                panic!(&quot;建立檔案時發生問題：{:?}&quot;, error);
             })
         } else {
-            panic!(&quot;Problem opening the file: {:?}&quot;, error);
+            panic!(&quot;開啟檔案時發生問題：{:?}&quot;, error);
         }
     });
 }
@@ -304,21 +304,21 @@ fn main() {
 repr: Os { code: 2, message: &quot;No such file or directory&quot; } }',
 src/libcore/result.rs:906:4
 </code></pre>
-<p>還有另一個方法 <code>expect</code> 和 <code>unwrap</code> 類似，不過能讓我們選擇 <code>panic!</code> 回傳的錯誤訊息。使用 <code>expect</code> 而非 <code>unwrap</code> 並提供完善的錯誤訊息哦可以表明你的意圖，讓追蹤恐慌的源頭更容易。<code>expect</code> 的語法看起來就像這樣：</p>
+<p>還有另一個方法 <code>expect</code> 和 <code>unwrap</code> 類似，不過能讓我們選擇 <code>panic!</code> 回傳的錯誤訊息。使用 <code>expect</code> 而非 <code>unwrap</code> 並提供完善的錯誤訊息可以表明你的意圖，讓追蹤恐慌的源頭更容易。<code>expect</code> 的語法看起來就像這樣：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic">use std::fs::File;
 
 fn main() {
-    let f = File::open(&quot;hello.txt&quot;).expect(&quot;Failed to open hello.txt&quot;);
+    let f = File::open(&quot;hello.txt&quot;).expect(&quot;開啟 hello.txt 失敗&quot;);
 }
 </code></pre></pre>
 <p>我們使用 <code>expect</code> 的方式和 <code>unwrap</code> 一樣，不是回傳檔案控制代碼就是呼叫 <code>panic!</code> 巨集。使用 <code>expect</code> 呼叫 <code>panic!</code> 時的錯誤訊息會是我們傳遞給 <code>expect</code> 的參數，而不是像 <code>unwrap</code> 使用 <code>panic!</code> 預設的訊息。訊息看起來就會像這樣：</p>
-<pre><code class="language-text">thread 'main' panicked at 'Failed to open hello.txt: Error { repr: Os { code:
+<pre><code class="language-text">thread 'main' panicked at '開啟 hello.txt 失敗: Error { repr: Os { code:
 2, message: &quot;No such file or directory&quot; } }', src/libcore/result.rs:906:4
 </code></pre>
-<p>由於此錯誤訊息指明了我們想表達的訊息「Failed to open hello.txt」，我們比較能知道此錯誤訊息是從哪裡發生的。如果我們在多處使用 <code>unwrap</code>，我們會需要一些時間才能理解 <code>unwrap</code> 是從哪裡引發恐慌的，因爲 <code>unwrap</code> 很可能會顯示相同的訊息。</p>
+<p>由於此錯誤訊息指明了我們想表達的訊息「開啟 hello.txt 失敗」，我們比較能知道此錯誤訊息是從哪裡發生的。如果我們在多處使用 <code>unwrap</code>，我們會需要一些時間才能理解 <code>unwrap</code> 是從哪裡引發恐慌的，因爲 <code>unwrap</code> 很可能會顯示相同的訊息。</p>
 <h3><a class="header" href="#傳播錯誤" id="傳播錯誤">傳播錯誤</a></h3>
-<p>當你在寫某函式實作時，要是它的呼叫的程式碼可能會失敗，與其直接在此函式處理錯誤，你可以回傳錯誤給呼叫此程式的程式碼，由它們絕對如何處理。這稱之爲*傳播（propagating）*錯誤並讓呼叫者可以有更多的控制權，因爲比起你程式碼當下的內容，回傳的錯誤可能提供更多資訊與邏輯以利處理。</p>
+<p>當你在寫某函式實作時，要是它的呼叫的程式碼可能會失敗，與其直接在此函式處理錯誤，你可以回傳錯誤給呼叫此程式的程式碼，由它們決定如何處理。這稱之爲<em>傳播（propagating）</em> 錯誤並讓呼叫者可以有更多的控制權，因爲比起你程式碼當下的內容，回傳的錯誤可能提供更多資訊與邏輯以利處理。</p>
 <p>舉例來說，範例 9-6 展示了一個從檔案讀取使用者名稱的函式。如果檔案不存在或無法讀取的話，此函式會回傳該錯誤給呼叫此函式的程式碼。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- Deliberately not using rustdoc_include here; the `main` function in the
@@ -349,7 +349,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 9-6：使用 <code>match</code> 回傳錯誤給呼叫者的函式</span></p>
-<p>此函式還能在更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 <code>Result&lt;String, io::Error&gt;</code>。這代表此函式回傳的型別爲 <code>Result&lt;T, E&gt;</code>，而泛型型別 <code>T</code> 已經指明爲實際型別 <code>String</code> 然後泛型型別 <code>E</code> 也已經指明爲實際型別 <code>io::Error</code>。如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 <code>String</code> 的 <code>Ok</code> 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含有關問題發生資訊的 <code>io::Error</code> 實例的 <code>Err</code> 數值。我們選擇 <code>io::Error</code> 作爲使函式的回傳值是因爲它正是 <code>File::open</code> 函式和 <code>read_to_string</code> 方法失敗時的回傳的錯誤型別。</p>
+<p>此函式還能在更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 <code>Result&lt;String, io::Error&gt;</code>。這代表此函式回傳的型別爲 <code>Result&lt;T, E&gt;</code>，而泛型型別 <code>T</code> 已經指明爲實際型別 <code>String</code> 然後泛型型別 <code>E</code> 也已經指明爲實際型別 <code>io::Error</code>。如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 <code>String</code> 的 <code>Ok</code> 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含相關問題發生資訊的 <code>io::Error</code> 實例的 <code>Err</code> 數值。我們選擇 <code>io::Error</code> 作爲函式的回傳值是因爲它正是 <code>File::open</code> 函式和 <code>read_to_string</code> 方法失敗時的回傳的錯誤型別。</p>
 <p>函式本體從呼叫 <code>File::open</code> 開始，然後我們使用 <code>match</code> 回傳 <code>Result</code> 數值，就和範例 9-4 的 <code>match</code> 類似，但與其在 <code>Err</code> 情形時呼叫 <code>panic!</code>，我們儘早回傳 <code>File::open</code> 的錯誤型別給呼叫者。如果 <code>File::open</code> 成功的話，我們就將檔案控制代碼賦值給變數 <code>f</code> 並繼續執行下去。</p>
 <p>接著我們在變數 <code>s</code> 建立新的 <code>String</code> 並對檔案控制代碼 <code>f</code> 呼叫 <code>read_to_string</code> 方法來讀取檔案內容至 <code>s</code>。<code>read_to_string</code> 也會回傳 <code>Result</code> 因爲它也可能失敗，就算 <code>File::open</code> 是執行成功的。所以我們需要另一個 <code>match</code> 來處理該 <code>Result</code>，如果 <code>read_to_string</code> 成功的話，我們的函式就是成功的，然後在 <code>Ok</code> 回傳 <code>s</code> 中該檔案的使用者名稱。如果 <code>read_to_string</code> 失敗的話，我們就像處理 <code>File::open</code> 的 <code>match</code> 一樣回傳錯誤值。不過我們不需要顯式寫出 <code>return</code>，因爲這是函式中的最後一個表達式。</p>
 <p>呼叫此程式碼的程式就會需要處理包含使用者名稱的 <code>Ok</code> 數值以及包含 <code>io::Error</code> 的 <code>Err</code> 數值。我們不會知道呼叫此程式碼的人會如何處理這些數值。舉例來說，如果呼叫此程式碼而獲得錯誤的話，它可能選擇呼叫 <code>panic!</code> 讓程式崩潰，或者使用預設的使用者名稱從檔案以外的地方尋找該使用者。所以我們傳播所有成功或錯誤的資訊給呼叫者，讓它們能妥善處理。</p>
@@ -462,7 +462,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
     Ok(())
 }
 </code></pre>
-<p><code>Box&lt;dyn Error&gt;</code> 型別使用了特徵物件（trait object）我們會在第十七章的<a href="ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">「允許不同型別數值的特徵物件」“允許不同型別數值的特徵物件”</a><!-- ignore -->討論到。現在你可以將 <code>Box&lt;dyn Error&gt;</code> 視為它是「任何種類的錯誤」。這樣 <code>main</code> 中的回傳型別就會允許 <code>?</code> 了。</p>
+<p><code>Box&lt;dyn Error&gt;</code> 型別使用了特徵物件（trait object）我們會在第十七章的<a href="ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">「允許不同型別數值的特徵物件」</a><!-- ignore -->討論到。現在你可以將 <code>Box&lt;dyn Error&gt;</code> 視為它是「任何種類的錯誤」。這樣 <code>main</code> 中的回傳型別就會允許 <code>?</code> 了。</p>
 <p>現在我們已經討論了呼叫 <code>panic!</code> 與回傳 <code>Result</code> 的細節。現在讓我們回到何時該使用何種辦法的主題上吧。</p>
 <blockquote>
 <ul>

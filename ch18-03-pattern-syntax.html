@@ -201,7 +201,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 18-11：<code>match</code> 表達式其中一個分支宣告了遮蔽的變數 <code>y</code></span></p>
 <p>讓我們跑一遍看看當 <code>match</code> 執行時發生了什麼事。第一個配對分支並不符合 <code>x</code> 定義的數值，所以程式繼續執行下去。</p>
-<p>第二個配對分支宣告了一個新的變數叫做 <code>y</code> 來配對 <code>Some</code> 內的任何數值。因為我們位於 <code>match</code> 表達式內的新作用域，此新的 <code>y</code> 變數並不是我們一開始宣告有數值 10 的 <code>y</code>。這個新的 <code>y</code> 會配對 <code>Some</code> 內的任何數值，，也就是 <code>x</code> 擁有的數值。因此，這個新的 <code>y</code> 會綁定 <code>x</code> 中 <code>Some</code> 的內部數值。該數值是 <code>5</code>，所以該分支的表達式就會執行並印出 <code>Matched, y = 5</code>。</p>
+<p>第二個配對分支宣告了一個新的變數叫做 <code>y</code> 來配對 <code>Some</code> 內的任何數值。因為我們位於 <code>match</code> 表達式內的新作用域，此新的 <code>y</code> 變數並不是我們一開始宣告有數值 10 的 <code>y</code>。這個新的 <code>y</code> 會配對 <code>Some</code> 內的任何數值，也就是 <code>x</code> 擁有的數值。因此，這個新的 <code>y</code> 會綁定 <code>x</code> 中 <code>Some</code> 的內部數值。該數值是 <code>5</code>，所以該分支的表達式就會執行並印出 <code>Matched, y = 5</code>。</p>
 <p>如果 <code>x</code> 是 <code>None</code> 數值而非 <code>Some(5)</code> 的話，前兩個分支的模式都不會配對到，所以數值會配對到底線的分支。我們沒有在底線分支的模式中宣告 <code>x</code> 變數，所以表達式中的 <code>x</code> 仍然是外部沒有被遮蔽的 <code>x</code> 。在這樣的假設狀況下，<code>match</code> 會印出 <code>Default case, x = None</code>。</p>
 <p>當 <code>match</code> 完成時，其作用域就會結束，所以作用域內的內部 <code>y</code> 也會結束。最後一個 <code>println!</code> 會顯示 <code>at the end: x = Some(5), y = 10</code>。</p>
 <p>要建立個能對外部 <code>x</code> 與 <code>y</code> 數值做比較的 <code>match</code> 表達式而非遮蔽變數的話，我們需要改用條件配對守護。我們會在之後的<a href="#extra-conditionals-with-match-guards">「提供額外條件的配對守護」</a><!-- ignore -->段落討論配對守護。</p>
