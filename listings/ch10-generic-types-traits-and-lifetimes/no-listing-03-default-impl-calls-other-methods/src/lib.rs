@@ -3,7 +3,7 @@ pub trait Summary {
     fn summarize_author(&self) -> String;
 
     fn summarize(&self) -> String {
-        format!("(Read more from {}...)", self.summarize_author())
+        format!("(從 {} 閱讀更多...)", self.summarize_author())
     }
 }
 // ANCHOR_END: here

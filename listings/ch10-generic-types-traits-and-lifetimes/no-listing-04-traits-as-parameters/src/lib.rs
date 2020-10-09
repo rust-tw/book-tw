@@ -11,7 +11,7 @@ pub struct NewsArticle {
 
 impl Summary for NewsArticle {
     fn summarize(&self) -> String {
-        format!("{}, by {} ({})", self.headline, self.author, self.location)
+        format!("{} {} 著 ({})", self.headline, self.author, self.location)
     }
 }
 
@@ -30,6 +30,6 @@ impl Summary for Tweet {
 
 // ANCHOR: here
 pub fn notify(item: &impl Summary) {
-    println!("Breaking news! {}", item.summarize());
+    println!("頭條新聞！{}", item.summarize());
 }
 // ANCHOR_END: here

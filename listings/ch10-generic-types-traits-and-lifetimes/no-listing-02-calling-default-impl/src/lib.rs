@@ -1,6 +1,6 @@
 pub trait Summary {
     fn summarize(&self) -> String {
-        String::from("(Read more...)")
+        String::from("(閱讀更多...)")
     }
 }
 

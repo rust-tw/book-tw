@@ -12,6 +12,6 @@ fn main() {
         ),
     };
 
-    println!("New article available! {}", article.summarize());
+    println!("有新文章發佈！{}", article.summarize());
     // ANCHOR_END: here
 }

@@ -11,7 +11,7 @@ pub struct NewsArticle {
 
 impl Summary for NewsArticle {
     fn summarize(&self) -> String {
-        format!("{}, by {} ({})", self.headline, self.author, self.location)
+        format!("{} {} 著 ({})", self.headline, self.author, self.location)
     }
 }
 

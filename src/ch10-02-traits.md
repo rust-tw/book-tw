@@ -1,6 +1,6 @@
 ## 特徵：定義共同行爲
 
-*特徵（trait）*會告訴 Rust 編譯器特定型能與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行爲。我們可以使用特徵界限（trait bounds）來指定泛型爲擁有特定行爲的任意型別。
+*特徵（trait）* 會告訴 Rust 編譯器特定型別與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行爲。我們可以使用特徵界限（trait bounds）來指定泛型爲擁有特定行爲的任意型別。
 
 > 注意：特徵類似於其他語言常稱作*介面（interfaces）*的功能，但還是有些差異。
 
@@ -10,7 +10,7 @@
 
 舉例來說，如果我們有數個結構體各自擁有不同種類與不同數量的文字：結構體 `NewsArticle` 儲存特定地點的新聞故事，然後 `Tweet` 則有最多 280 字元的內容，且有個欄位來判斷是全新的推文、轉推或其他推文的回覆。
 
-我們想要建立個多媒體資料庫來顯示可能存在 `NewsArticle` 或 `Tweet` 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們需要呼該要該實例的 `summarize` 方法來索取總結。範例 10-12 顯示了表達此行爲的 `Summary` 特徵定義。
+我們想要建立個多媒體資料庫來顯示可能存在 `NewsArticle` 或 `Tweet` 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們需要呼叫該實例的 `summarize` 方法來索取總結。範例 10-12 顯示了表達此行爲的 `Summary` 特徵定義。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -46,14 +46,14 @@
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-01-calling-trait-method/src/main.rs:here}}
 ```
 
-此程式碼會印出「1 new tweet: horse_ebooks: of course, as you probably already
+此程式碼會印出「1 則新推文：horse_ebooks: of course, as you probably already
 know, people」。
 
 注意到因爲我們將範例 10-13 的 `Summary` 特徵、`NewsArticle` 和 `Tweet` 型別都定義在 *lib.rs* ，所以它們都在同個作用域下。如果我們說此 *lib.rs* 對應的 crate 叫做 `aggregator`，然後有人想要使用我們 crate 的功能來對他們函式庫作用域中定義的結構體實作 `Summary` 特徵的話。他們會需要將該特徵引入作用域，可以像這樣指定 `use aggregator::Summary;`，如此一來就能對他們的型別實作 `Summary`。`Summary` 特徵一樣也必須是公開的才能讓其他 crate 使用。這就是爲何我們在範例 10-12 的 `trait` 前面就加上 `pub` 關鍵字。
 
 實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說我們可以對自訂型別像是 `Tweet` 來實作標準函式庫的 `Display` 特徵來爲我們 crate `aggregator` 增加更多功能。因爲 `Tweet` 位於我們的 `aggregator` crate 裡面。我們也可以在我們的 crate `aggregator` 內對 `Vec<T>` 實作 `Summary`。因爲特徵 `Summary` 也位於我們的 `aggregator` crate 裡面。
 
-但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 `aggregator` crate 裡面對 `Vec<T>` 實作 `Display` 特徵。因爲 `Display` 與 `Vec<T>` 都定義在表準函式庫中，並沒有在我們 `aggregator` crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因爲上一代（parent）型別不存這在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。
+但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 `aggregator` crate 裡面對 `Vec<T>` 實作 `Display` 特徵。因爲 `Display` 與 `Vec<T>` 都定義在標準函式庫中，並沒有在我們 `aggregator` crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因爲上一代（parent）型別不存這在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。
 
 ### 預設實作
 
@@ -77,9 +77,9 @@ know, people」。
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-02-calling-default-impl/src/main.rs:here}}
 ```
 
-此程式碼會印出 `New article available! (Read more...)`。
+此程式碼會印出 `有新文章發佈！(閱讀更多...)`。
 
-建立 `summarize` 的預設實作不會影響範例 10-13 中 `Tweet` 實作的 `Summary`。因爲要取代預設射實作的語法，與當沒有預設實作時實作特徵方法的語法是一樣的。
+建立 `summarize` 的預設實作不會影響範例 10-13 中 `Tweet` 實作的 `Summary`。因爲要取代預設實作的語法，與當沒有預設實作時實作特徵方法的語法是一樣的。
 
 預設實作也能呼叫同特徵中的其他方法，就算那些方法沒有預設實作。這樣一來，特徵就可以提供一堆實用的功能，並要求實作者只需處理一小部分就好。舉例來說，我們可以定義 `Summary` 特徵，使其擁有一個必須要實作的`summarize_author` 方法，以及另一個擁有預設實作會呼叫 `summarize_author` 的方法：
 
@@ -99,9 +99,9 @@ know, people」。
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-03-default-impl-calls-other-methods/src/main.rs:here}}
 ```
 
-此程式碼會印出 `1 new tweet: (Read more from @horse_ebooks...)`。
+此程式碼會印出 `1 則新推文：(從 @horse_ebooks 閱讀更多...)`。
 
-注意要是有對相同方法覆寫實作的話，就無法呼叫預設實作。
+注意要是對相同方法覆寫實作的話，就無法呼叫預設實作。
 
 ### 特徵作爲參數
 
@@ -122,7 +122,7 @@ know, people」。
 
 ```rust,ignore
 pub fn notify<T: Summary>(item: &T) {
-    println!("Breaking news! {}", item.summarize());
+    println!("頭條新聞！{}", item.summarize());
 }
 ```
 
@@ -188,7 +188,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 
 將 `impl Summary` 作爲回傳型別的同時，我們在函式 `returns_summarizable` 指定回傳有實作 `Summary` 特徵的型別而不必指出實際型別。在此例中，`returns_summarizable` 回傳 `Tweet`，但呼叫此函式的程式碼不會知道。
 
-回傳一個只有指定所需實作特徵的型別的能力在閉包（closures）與疊代器（iterators）中非常有用，我們會在第十三章介紹它們。閉包與疊代器能建立只有編譯器知道的型別，或是太長而難以指定的型別。`impl Trait` 語法允許你不用寫出很長的型別，而是只要指定函數會回傳有實作 `Iterator` 特徵的型別就好。
+回傳一個只有指定所需實作特徵的型別在閉包（closures）與疊代器（iterators）中非常有用，我們會在第十三章介紹它們。閉包與疊代器能建立只有編譯器知道的型別，或是太長而難以指定的型別。`impl Trait` 語法允許你不用寫出很長的型別，而是只要指定函數會回傳有實作 `Iterator` 特徵的型別就好。
 
 然而如果你使用 `impl Trait` 的話，你就只能回傳單一型別。舉例來說此程式碼指定回傳型別爲 `impl Summary` ，但是寫說可能會回傳 `NewsArticle` 或 `Tweet` 的話就會無法執行：
 
@@ -206,7 +206,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 {{#include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-05/output.txt}}
 ```
 
-在 `largest` 我們想要用大於（`>`）運算子比較兩個型別的爲 `T` 的數值。由於該運算子是從標準函式庫中的特徵 `std::cmp::PartialOrd` 的預設方法所定義的，我們希望在 `T` 中加上 `PartialOrd` 的特徵界限，讓函式可以比較任意型別的 slice。我們不需要將 `PartialOrd` 引入作用域因爲它由 prelude 提供。請變更 `largest` 的簽名如以下所示：
+在 `largest` 我們想要用大於（`>`）運算子比較兩個型別的爲 `T` 的數值。由於該運算子是從標準函式庫中的特徵 `std::cmp::PartialOrd` 的預設方法所定義的，我們希望在 `T` 中加上 `PartialOrd` 的特徵界限，讓函式可以比較任意型別的切片。我們不需要將 `PartialOrd` 引入作用域因爲它由 prelude 提供。請變更 `largest` 的簽名如以下所示：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-07-fixing-listing-10-05/src/main.rs:here}}
@@ -220,7 +220,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 
 此錯誤的關鍵在 `cannot move out of type [T], a non-copy slice`。在我們非泛型版本的函式 `largest` 中，我們只有嘗試尋找 `i32` 或 `char` 的最大值。如同第四章[「只在堆疊上的資料：拷貝（Copy）」][stack-only-data-copy]<!-- ignore -->段落所提到的，像 `i32` 和 `char` 這樣的型別是已知大小可以存在堆疊上，所以它們有實作 `Copy` 特徵。但當我們建立泛型函式 `largest` 時，`list` 參數就有可能拿到沒有實作 `Copy` 特徵的型別。隨後導致我們無法將 `list[0]` 移出給變數 `largest`，最後產生錯誤。
 
-要限制此程式碼只允許有實作 `Copy` 特徵的型別，我們可以再 `T` 的特徵界限中加上 `Copy`！範例 10-15 展示了泛型函式 `largest` 完整的程式碼，只要我們傳遞給函式的 slice 數值型別有實作 `PartialOrd`*和* `Copy` 特徵的話（像是 `i32` 和 `char`），就能編譯成功。
+要限制此程式碼只允許有實作 `Copy` 特徵的型別，我們可以再 `T` 的特徵界限中加上 `Copy`！範例 10-15 展示了泛型函式 `largest` 完整的程式碼，只要我們傳遞給函式的切片數值型別有實作 `PartialOrd`*和* `Copy` 特徵的話（像是 `i32` 和 `char`），就能編譯成功。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -230,9 +230,9 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 
 <span class="caption">範例 10-15：一個適用於任何實作 `PartialOrd` 與 `Copy` 特徵的泛型的 `largest` 函式</span>
 
-如果我們不想要限制函式 `largest` 只接受實作 `Copy` 特徵的型別，我們可以在 `T` 中改指定 `Clone` 而非 `Copy`。這樣當我們想要 `largest` 取得所有權，我們就可以克隆 slice 的數值。使用 `clone` 函式代表我們對於像是 `String` 這樣擁有堆積資料的型別，可能會產生更多堆積分配。而如果我們處理的資料很龐大的話，堆積分配的速度可能就會很慢。
+如果我們不想要限制函式 `largest` 只接受實作 `Copy` 特徵的型別，我們可以在 `T` 中改指定 `Clone` 而非 `Copy`。這樣當我們想要 `largest` 取得所有權，我們就可以克隆切片的數值。使用 `clone` 函式代表我們對於像是 `String` 這樣擁有堆積資料的型別，可能會產生更多堆積分配。而如果我們處理的資料很龐大的話，堆積分配的速度可能就會很慢。
 
-另一種實作 `largest` 的方法是我們可以來回傳 slcie 中 `T` 數值的引用。如果我們將回傳型別改成 `&T` 而非 `T`，也就是改變函式本體來回傳引用的話，我們就不需要 `Clone` 或 `Copy` 特徵界限，也能避免堆積分配。請試著自己實作這個解決辦法看看吧！
+另一種實作 `largest` 的方法是我們可以來回傳切片中 `T` 數值的引用。如果我們將回傳型別改成 `&T` 而非 `T`，也就是改變函式本體來回傳引用的話，我們就不需要 `Clone` 或 `Copy` 特徵界限，也能避免堆積分配。請試著自己實作這個解決辦法看看吧！
 
 ### 透過特徵界限來選擇性實作方法
 
@@ -267,7 +267,7 @@ let s = 3.to_string();
 另一種我們已經看過的泛型爲*生命週期（lifetimes）*。不同於確保一個型別有沒有我們要的行爲，生命週期確保我們在需要引用的時候，它們都是有效的。讓我們來看看生命週期是怎麼做到的。
 
 [stack-only-data-copy]:
-ch04-01-what-is-ownership.html#stack-only-data-copy
+ch04-01-what-is-ownership.html#只在堆疊上的資料拷貝copy
 [using-trait-objects-that-allow-for-values-of-different-types]:
 ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
 

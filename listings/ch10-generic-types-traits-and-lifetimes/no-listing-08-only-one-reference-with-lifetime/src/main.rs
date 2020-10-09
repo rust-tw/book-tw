@@ -3,7 +3,7 @@ fn main() {
     let string2 = "efghijklmnopqrstuvwxyz";
 
     let result = longest(string1.as_str(), string2);
-    println!("The longest string is {}", result);
+    println!("最長的字串爲 {}", result);
 }
 
 // ANCHOR: here

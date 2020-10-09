@@ -11,6 +11,6 @@ fn main() {
         retweet: false,
     };
 
-    println!("1 new tweet: {}", tweet.summarize());
+    println!("1 則新推文：{}", tweet.summarize());
     // ANCHOR_END: here
 }
