@@ -99,11 +99,11 @@ Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 
 
 <span class="caption">範例 15-22：在外部數值爲不可變時，使用 `RefCell<T>` 來改變內部數值</span>
 
-`sent_messages` 欄位現在是型別 `RefCell<Vec<String>>` 而非 `Vec<String>`。在 `new` 函式中，我們用空的 vector 來建立新的 `RefCell<Vec<String>>`。
+`sent_messages` 欄位現在是型別 `RefCell<Vec<String>>` 而非 `Vec<String>`。在 `new` 函式中，我們用空的向量來建立新的 `RefCell<Vec<String>>`。
 
-至於 `send` 方法的實作，第一個參數仍然是 `self` 的不可變借用，這就符合特徵所定義的。我們在 `self.sent_messages` 對 `RefCell<Vec<String>>` 呼叫 `borrow_mut` 來取得 `RefCell<Vec<String>>` 內的可變引用數值，也就是 vector。然後我們對 vector 的可變引用呼叫 `push` 來追蹤測試中的訊息。
+至於 `send` 方法的實作，第一個參數仍然是 `self` 的不可變借用，這就符合特徵所定義的。我們在 `self.sent_messages` 對 `RefCell<Vec<String>>` 呼叫 `borrow_mut` 來取得 `RefCell<Vec<String>>` 內的可變引用數值，也就是向量。然後我們對向量的可變引用呼叫 `push` 來追蹤測試中的訊息。
 
-最後一項改變是判定：要看到內部 vector 有多少項目的話，我們對 `RefCell<Vec<String>>` 呼叫 `borrow` 來取得 vector 的不可變引用。
+最後一項改變是判定：要看到內部向量有多少項目的話，我們對 `RefCell<Vec<String>>` 呼叫 `borrow` 來取得向量的不可變引用。
 
 現在你已經知道如何使用 `RefCell<T>`，讓我們進一步探討它如何運作的吧！
 

@@ -64,7 +64,7 @@ well.
 `Config::new`</span>
 
 The `env::args` function returns an iterator! Rather than collecting the
-iterator values into a vector and then passing a slice to `Config::new`, now
+iterator values into a向量and then passing a slice to `Config::new`, now
 we’re passing ownership of the iterator returned from `env::args` to
 `Config::new` directly.
 
@@ -128,11 +128,11 @@ project, which is reproduced here in Listing 13-28 as it was in Listing 12-19:
 function from Listing 12-19</span>
 
 We can write this code in a more concise way using iterator adaptor methods.
-Doing so also lets us avoid having a mutable intermediate `results` vector. The
+Doing so also lets us avoid having a mutable intermediate `results`向量. The
 functional programming style prefers to minimize the amount of mutable state to
 make code clearer. Removing the mutable state might enable a future enhancement
 to make searching happen in parallel, because we wouldn’t have to manage
-concurrent access to the `results` vector. Listing 13-29 shows this change:
+concurrent access to the `results`向量. Listing 13-29 shows this change:
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -147,7 +147,7 @@ Recall that the purpose of the `search` function is to return all lines in
 `contents` that contain the `query`. Similar to the `filter` example in Listing
 13-19, this code uses the `filter` adaptor to keep only the lines that
 `line.contains(query)` returns `true` for. We then collect the matching lines
-into another vector with `collect`. Much simpler! Feel free to make the same
+into another向量with `collect`. Much simpler! Feel free to make the same
 change to use iterator methods in the `search_case_insensitive` function as
 well.
 
@@ -157,7 +157,7 @@ iterators in Listing 13-29. Most Rust programmers prefer to use the iterator
 style. It’s a bit tougher to get the hang of at first, but once you get a feel
 for the various iterator adaptors and what they do, iterators can be easier to
 understand. Instead of fiddling with the various bits of looping and building
-new vectors, the code focuses on the high-level objective of the loop. This
+new向量s, the code focuses on the high-level objective of the loop. This
 abstracts away some of the commonplace code so it’s easier to see the concepts
 that are unique to this code, such as the filtering condition each element in
 the iterator must pass.

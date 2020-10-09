@@ -178,7 +178,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 `spawn` 函式會回傳 `JoinHandle<T>`，而 `T` 爲閉包回傳的型別。讓我們也試著使用 `JoinHandle` 來看看會發生什麼事。在我們的情況中，我們傳遞至執行緒池的閉包會處理連線但不會回傳任何值，所以 `T` 就會是單元型別 `()`。
 
-範例 20-14 的程式碼可以編譯，但還不會產生任何執行緒。我們變更了 `ThreadPool` 的定義來儲存一個有 `thread::JoinHandle<()>` 實例的 vector，用 `size` 來初始化 vector 的容量，設置一個會執行些程式碼來建立執行緒的 `for` 迴圈，然後回傳包含它們的 `ThreadPool` 實例。
+範例 20-14 的程式碼可以編譯，但還不會產生任何執行緒。我們變更了 `ThreadPool` 的定義來儲存一個有 `thread::JoinHandle<()>` 實例的向量，用 `size` 來初始化向量的容量，設置一個會執行些程式碼來建立執行緒的 `for` 迴圈，然後回傳包含它們的 `ThreadPool` 實例。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -186,11 +186,11 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-14/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 20-14：在 `ThreadPool` 中建立 vector 來儲存執行緒</span>
+<span class="caption">範例 20-14：在 `ThreadPool` 中建立向量來儲存執行緒</span>
 
-我們將 `std::thread` 引入函式庫 crate 中的作用域，因爲我們使用 `thread::JoinHandle` 作爲 `ThreadPool` 中 vector 的項目型別。
+我們將 `std::thread` 引入函式庫 crate 中的作用域，因爲我們使用 `thread::JoinHandle` 作爲 `ThreadPool` 中向量的項目型別。
 
-一旦有收到有效大小，`ThreadPool` 就會建立一個可以儲存 `size` 個項目的新 vector。我們還沒有在本書中使用過 `with_capacity` 函式，這會與 `Vec::new` 做同樣的事，但是有一個關鍵差別：它會預先分配空間給 vector。由於我們知道要儲存 `size` 個元素至 vector 中，這樣的分配方式會比 `Vec::new` 還要些微有效一點，因爲後者只會在元素插入時才重新分配自身大小。
+一旦有收到有效大小，`ThreadPool` 就會建立一個可以儲存 `size` 個項目的新向量。我們還沒有在本書中使用過 `with_capacity` 函式，這會與 `Vec::new` 做同樣的事，但是有一個關鍵差別：它會預先分配空間給向量。由於我們知道要儲存 `size` 個元素至向量中，這樣的分配方式會比 `Vec::new` 還要些微有效一點，因爲後者只會在元素插入時才重新分配自身大小。
 
 當你再次執行 `cargo check`，你會收到一些警告，但應該仍能成功編譯。
 
@@ -200,14 +200,14 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 我們實作此行爲的方法是在 `ThreadPool` 與執行緒間建立一個新的資料結構，這用來管理此新的行爲。我們將此資料結構稱爲 `Worker`，這在池實作中是很常見的術語。想像一下這是有一群人在餐廳廚房內工作：工作者（worker）會等待顧客的訂帶，然後他們負責接受這些訂單並完成它們。
 
-所以與其在執行緒池中儲存 `JoinHandle<()>` 實例的 vector，我們可以儲存 `Worker` 結構體的實例。每個 `Worker` 會儲存一個 `JoinHandle<()>` 實例。然後對 Then we’ll implement a method on `Worker` 實作一個方法來取得閉包要執行的程式碼，並傳入已經在執行的執行緒來處理。我們也會給每個 `Worker` 一個 `id`，好讓我們在紀錄日誌或除錯時，分辨池中不同的工作者。
+所以與其在執行緒池中儲存 `JoinHandle<()>` 實例的向量，我們可以儲存 `Worker` 結構體的實例。每個 `Worker` 會儲存一個 `JoinHandle<()>` 實例。然後對 Then we’ll implement a method on `Worker` 實作一個方法來取得閉包要執行的程式碼，並傳入已經在執行的執行緒來處理。我們也會給每個 `Worker` 一個 `id`，好讓我們在紀錄日誌或除錯時，分辨池中不同的工作者。
 
 讓我們改變 `ThreadPool` 建立時會發生的事情吧。我們會用以下方式在設置完 `Worker` 後，實作將閉包傳遞給執行緒的程式碼：
 
 1. 定義 `Worker` 結構體存有 `id` 與 `JoinHandle<()>`。
-2. 變更 `ThreadPool` 改儲存 `Worker` 實例的 vector。
+2. 變更 `ThreadPool` 改儲存 `Worker` 實例的向量。
 3. 定義 `Worker::new` 函式來接收 `id` 數字並回傳一個 `Worker` 實例，其包含該 `id` 與一條具有空閉包的執行緒。
-4. 在 `ThreadPool::new` 中，使用 `for` 迴圈計數來產生 `id`，以此建立對應 `id` 的新 `Worker`，並將其儲存至 vector 中。
+4. 在 `ThreadPool::new` 中，使用 `for` 迴圈計數來產生 `id`，以此建立對應 `id` 的新 `Worker`，並將其儲存至向量中。
 
 如果你想要挑戰看看的話，你可以試著先自己實作這些改變，再來查看範例 20-15 的程式碼。
 
@@ -221,7 +221,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 <span class="caption">範例 20-15：變更 `ThreadPool` 來儲存 `Worker` 實例，而非直接儲存執行緒</span>
 
-我們將 `ThreadPool` 中欄位的名稱從 `threads` 改爲 `workers`，因爲它現在啊儲存的是 `Worker` 實例而非 `JoinHandle<()>` 實例。我們使用 `for` 迴圈的計數作爲 `Worker::new` 的引數，然後我們將每個新的  `Worker` 儲存到名稱爲 `workers` 的 vector 中。
+我們將 `ThreadPool` 中欄位的名稱從 `threads` 改爲 `workers`，因爲它現在啊儲存的是 `Worker` 實例而非 `JoinHandle<()>` 實例。我們使用 `for` 迴圈的計數作爲 `Worker::new` 的引數，然後我們將每個新的  `Worker` 儲存到名稱爲 `workers` 的向量中。
 
 外部的程式碼（像是我們在 *src/bin/main.rs* 的伺服器）不需要知道 `ThreadPool` 內部實作細節已經改爲使用 `Worker` 結構體，所以我們讓 `Worker` 結構體與其 `new` 函式維持私有。`Worker::new` 函式會使用我們給予的 `id` 並儲存一個 `JoinHandle<()>` 實例，這是用空閉包產生的新執行緒所建立的。
 

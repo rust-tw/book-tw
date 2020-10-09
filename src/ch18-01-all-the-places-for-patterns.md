@@ -44,7 +44,7 @@ match VALUE {
 
 ### `while let` 條件迴圈
 
-與 `if let` 的結構類似，`while let` 條件迴圈允許 `while` 迴圈只要在模式持續配對符合的情況下一直執行。範例 18-2 的例子展示一個 `while let` 迴圈使用 vector 最爲堆疊，並以數值被插入 vector 時相反的順序印出它們。
+與 `if let` 的結構類似，`while let` 條件迴圈允許 `while` 迴圈只要在模式持續配對符合的情況下一直執行。範例 18-2 的例子展示一個 `while let` 迴圈使用向量最爲堆疊，並以數值被插入向量時相反的順序印出它們。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-02/src/main.rs:here}}
@@ -52,7 +52,7 @@ match VALUE {
 
 <span class="caption">範例 18-2：使用 `while let` 迴圈，且只要 `stack.pop()` 有回傳 `Some` 就持續印出數值</span>
 
-此範例會依序顯示 3、2 然後是 1。`pop` 方法會取得 vector 最後一個數值並回傳 `Some(value)`。如果 vector 是空的，`pop` 就回傳 `None`。只要 `pop` 有回傳 `Some`，`while` 迴圈就會持續執行其區塊中的程式碼。當 `pop` 回傳 `None` 時，迴圈就會結束。我們可以使用 `while let` 來取得堆疊彈出的每個數值。
+此範例會依序顯示 3、2 然後是 1。`pop` 方法會取得向量最後一個數值並回傳 `Some(value)`。如果向量是空的，`pop` 就回傳 `None`。只要 `pop` 有回傳 `Some`，`while` 迴圈就會持續執行其區塊中的程式碼。當 `pop` 回傳 `None` 時，迴圈就會結束。我們可以使用 `while let` 來取得堆疊彈出的每個數值。
 
 ### `for` 迴圈
 

@@ -58,7 +58,7 @@
 
 推導 `Clone` 會實作 `clone` 方法，這在整個型別實作時，會呼叫每個型別部分的 `clone`。這意味著該型別的所有欄位或數值都必須有實作 `Clone` 才能推導 `Clone`。
 
-會需要用到 `Clone` 的其中一個例子是對 slice 呼叫 `to_vec` 方法。Slice 不擁有其所包含的型別實例，但是 `to_vec` 回傳的 vector 會需要擁有其實例，所以 `to_vec` 會對每個項目呼叫 `clone`。因此，儲存在 slice 內的型別必須實作 `Clone`。
+會需要用到 `Clone` 的其中一個例子是對 slice 呼叫 `to_vec` 方法。Slice 不擁有其所包含的型別實例，但是 `to_vec` 回傳的向量會需要擁有其實例，所以 `to_vec` 會對每個項目呼叫 `clone`。因此，儲存在 slice 內的型別必須實作 `Clone`。
 
 `Copy` 特徵讓你能只拷貝堆疊上的資料來複製數值，而且不需要額外的程式碼。你可以在第四章的[「只在堆疊上的資料：拷貝（Copy）」][stack-only-data-copy]<!-- ignore -->段落瞭解更多關於 `Copy` 的資訊。
 

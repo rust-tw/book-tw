@@ -23,7 +23,7 @@
 
 有個你只會想接收 `fn` 但不要閉包例子，就是當你在與外部那些沒有閉包的程式碼打交道的時候，比如 C 可以接收函式作為引數，但 C 並沒有閉包。
 
-讓我們來看一下 `map` 的用法，`map` 就是可以用行內閉包（closure defined inline）或一個命名函式（named function）的例子。欲將數字的 vector 轉換成字串的 vector，我們可以使用閉包，例如：
+讓我們來看一下 `map` 的用法，`map` 就是可以用行內閉包（closure defined inline）或一個命名函式（named function）的例子。欲將數字的向量轉換成字串的向量，我們可以使用閉包，例如：
 
 ```rust
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-15-map-closure/src/main.rs:here}}

@@ -5,7 +5,7 @@ error[E0373]: closure may outlive the current function, but it borrows `v`, whic
   |
 6 |     let handle = thread::spawn(|| {
   |                                ^^ may outlive borrowed value `v`
-7 |         println!("Here's a vector: {:?}", v);
+7 |         println!("Here's a向量: {:?}", v);
   |                                           - `v` is borrowed here
   |
 note: function requires argument type to outlive `'static`
@@ -13,7 +13,7 @@ note: function requires argument type to outlive `'static`
   |
 6 |       let handle = thread::spawn(|| {
   |  __________________^
-7 | |         println!("Here's a vector: {:?}", v);
+7 | |         println!("Here's a向量: {:?}", v);
 8 | |     });
   | |______^
 help: to force the closure to take ownership of `v` (and any other referenced variables), use the `move` keyword

@@ -45,7 +45,7 @@
     - [將模組拆成不同檔案](ch07-05-separating-modules-into-different-files.md)
 
 - [常見集合](ch08-00-common-collections.md)
-    - [透過 Vector 儲存列表](ch08-01-vectors.md)
+    - [透過向量儲存列表](ch08-01-vectors.md)
     - [透過字串儲存 UTF-8 編碼的文字](ch08-02-strings.md)
     - [透過雜湊映射儲存鍵值配對](ch08-03-hash-maps.md)
 

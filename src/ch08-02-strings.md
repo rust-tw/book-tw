@@ -150,7 +150,7 @@ fn add(self, s: &str) -> String {
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-14/src/main.rs:spanish}}
 ```
 
-在此例中 `len` 會是 4，也就是 vector 儲存的字串「Hola」長度爲 4 個位元組。每個字母在用 UFT-8 編碼時長度均爲 1 個位元組。那接下來這段呢？（請注意字串的開頭是西里爾字母 Ze 的大寫，而不是阿拉伯數字 3）
+在此例中 `len` 會是 4，也就是向量儲存的字串「Hola」長度爲 4 個位元組。每個字母在用 UFT-8 編碼時長度均爲 1 個位元組。那接下來這段呢？（請注意字串的開頭是西里爾字母 Ze 的大寫，而不是阿拉伯數字 3）
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-14/src/main.rs:russian}}
@@ -169,7 +169,7 @@ let answer = &hello[0];
 
 UTF-8 還有一個重點是在 Rust 中我們實際上可以有三種觀點來理解字串：位元組、純量數值（scalar values）以及形素群集（grapheme clusters，最接近人們常說的「*字母*」）。
 
-如果我們觀察用天成體寫的印度語「नमस्ते」，它存在 vector 中的 `u8` 數值就會長這樣：
+如果我們觀察用天成體寫的印度語「नमस्ते」，它存在向量中的 `u8` 數值就會長這樣：
 
 ```text
 [224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
@@ -203,7 +203,7 @@ let s = &hello[0..4];
 
 `s` 在此會是 `&str` 並包含字串前 4 個位元組。稍早我們提過這些字元各佔 2 個位元組，所以這裡的 `s` 就是 `Зд`。
 
-那如果我們只用 `&hello[0..1]` 呢？答案是 Rust 會和在 vector 中取得無效索引一樣在執行時恐慌：
+那如果我們只用 `&hello[0..1]` 呢？答案是 Rust 會和在向量中取得無效索引一樣在執行時恐慌：
 
 ```console
 {{#include ../listings/ch08-common-collections/output-only-01-not-char-boundary/output.txt}}
