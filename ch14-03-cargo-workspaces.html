@@ -168,7 +168,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#cargo-工作空間" id="cargo-工作空間">Cargo 工作空間</a></h2>
-<p>在第十二章中，我們建立的套件包含一個二進制執行檔 crate 與一個函式庫 crate。隨著專案開發，你可能會發現函式庫 crate 變得越來越大，而你可能會想要將套件拆成數個函式庫 crate。針對這種情形，Cargo 提供了一個功能叫做*工作空間（workspaces）*能來幫助管理並開發數個相關的套件。</p>
+<p>在第十二章中，我們建立的套件包含一個二進制執行檔 crate 與一個函式庫 crate。隨著專案開發，你可能會發現函式庫 crate 變得越來越大，而你可能會想要將套件拆成數個函式庫 crate。針對這種情形，Cargo 提供了一個功能叫做<em>工作空間（workspaces）</em> 能來幫助管理並開發數個相關的套件。</p>
 <h3><a class="header" href="#建立工作空間" id="建立工作空間">建立工作空間</a></h3>
 <p><em>工作空間</em>是一系列的共享相同 <em>Cargo.lock</em> 與輸出目錄的套件。讓我們建立個使用工作空間的專案，我們會使用簡單的程式碼，好讓我們能專注在工作空間的架構上。組織工作空間的架構有很多種方式，我們會顯示其中一種常見的方式。我們的工作空間將會包含一個二進制執行檔與兩個函式庫。執行檔會提供主要功能，並依賴其他兩個函式庫。其中一個函式庫會提供函式 <code>add_one</code>，而另一個函式庫會提供函式 <code>add_two</code>。這三個 crate 會包含在相同的工作空間中，我們先從建立工作空間的目錄開始：</p>
 <pre><code class="language-console">$ mkdir add
@@ -259,7 +259,7 @@ add-one = { path = &quot;../add-one&quot; }
 fn main() {
     let num = 10;
     println!(
-        &quot;Hello, world! {} plus one is {}!&quot;,
+        &quot;你好，世界！{} 加一會是 {}！&quot;,
         num,
         add_one::add_one(num)
     );
@@ -286,7 +286,7 @@ copy output below; the output updating script doesn't handle subdirectories in p
 <pre><code class="language-console">$ cargo run -p adder
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
      Running `target/debug/adder`
-Hello, world! 10 plus one is 11!
+你好，世界！10 加一會是 11！
 </code></pre>
 <p>這就會執行 <em>adder/src/main.rs</em> 的程式碼，其依賴於 <code>add-one</code> crate。</p>
 <h4><a class="header" href="#在工作空間中依賴外部套件" id="在工作空間中依賴外部套件">在工作空間中依賴外部套件</a></h4>
