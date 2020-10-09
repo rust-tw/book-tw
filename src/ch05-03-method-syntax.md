@@ -14,9 +14,9 @@
 
 <span class="caption">範例 5-13：在 `Rectangle` 中定義 `area` 方法</span>
 
-要定義 `Rectangle` 中的方法，我們先從 `impl`（implementation） 區塊開始。再來將 `area` 移入 `impl` 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 `self`。在 `main` 中我們原先使用 `rect1` 作爲引數呼叫的 `area`，可以改成使用*方法語法（method syntax）*來呼叫 `Rectangle` 的 `area` 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。
+要定義 `Rectangle` 中的方法，我們先從 `impl`（implementation） 區塊開始。再來將 `area` 移入 `impl` 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 `self`。在 `main` 中我們原先使用 `rect1` 作爲引數呼叫的 `area`，可以改成使用*方法語法（method syntax）* 來呼叫 `Rectangle` 的 `area` 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。
 
-在 `area` 的簽名中，我們使用 `&self` 而非 `rectangle: &Rectangle`，這是因爲此方法位於 `impl Rectangle` 底下，Rust 知道 `self` 的型別爲 `Rectangle`。請注意我們仍然在 `self` 使用 `&`，如同我們之前用的 `&Rectangle`。方法讓我們擁有 `self` 的所有權的情況下，並在此借用不可變的 `self`。不過我們也可以在前面加上 `mut` 讓 `self` 的借用成爲可不變的，就像其他參數一樣。
+在 `area` 的簽名中，我們使用 `&self` 而非 `rectangle: &Rectangle`，這是因爲此方法位於 `impl Rectangle` 底下，Rust 知道 `self` 的型別爲 `Rectangle`。請注意我們仍然在 `self` 使用 `&`，如同我們之前用的 `&Rectangle`。方法可以取走 `self` 的所有權、像這裡一樣借用不可變的 `self` 或借用可變的 `self`，如同其他參數一樣。
 
 我們之所以選擇 `&self` 的原因和我們在之前函式版本的 `&Rectangle` 一樣，我們不想取得所有權，只想讀取結構體的資料，而非寫入它。如果我們想要透過方法改變實例的數值的話，我們會使用 `&mut self` 作爲第一個參數。而只使用 `self` 取得所有權的方法更是非常少見，這種使用技巧通常是爲了想改變 `self` 成你想要的樣子，並且希望能避免原本被改變的實例繼續被呼叫。
 
@@ -69,8 +69,8 @@
 然後我們預期的輸出結果會如以下所示，因爲 `rect2` 的兩個維度都比 `rect1` 小，但 `rect3` 會比 `rect1` 大：
 
 ```text
-Can rect1 hold rect2? true
-Can rect1 hold rect3? false
+rect1 能容納rect2？true
+rect1 能容納rect3？false
 ```
 
 我們知道我們要定義方法的話，它一定得在 `impl Rectangle` 區塊底下。方法的名稱會叫做 `can_hold`。它會取得另一個 `Rectangle` 的不可變引用作爲參數。我們可以從程式碼呼叫方法的地方來知道參數的可能的型別：`rect1.can_hold(&rect2)` 傳遞了 `&rect2`，這是一個 `rect2` 的不可變引用，同時也是 `Rectangle` 的實例。這是合理的，因爲我們只需要讀取 `rect2`（而不是寫入，寫入代表我們需要可變引用），且我們希望 `main` 能夠保持 `rect2` 的所有權，好讓我們之後能在繼續使用它來呼叫 `can_hold` 方法。`can_hold` 的回傳值會是布林值，然後實作細節會是檢查 `self` 的寬度與長度是否都大於其他 `Rectangle` 的寬度與長度。讓我們加入範例 5-13 的 `can_hold` 方法到 `impl` 區塊中，如範例 5-15 所示。
@@ -115,7 +115,7 @@ Can rect1 hold rect3? false
 
 結構體讓你可以自訂對你的領域有意義的型別。使用結構體的話，你可以讓每個資料部分與其他部分具有相關性，並爲每個部分讓程式更好讀懂。方法讓你可以爲你的結構體實例指定特定行爲，然後關聯函式讓你可以在沒有實例的情況下，將特定功能置入結構體的命名空間。
 
-但是結構體並不是自訂型別的唯一方法：讓我看看 Rust 的沒枚舉功能，讓你的工具箱可以再多一項工具使用。
+但是結構體並不是自訂型別的唯一方法：讓我看看 Rust 的枚舉功能，讓你的工具箱可以再多一項工具使用。
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [5c71aac](https://github.com/rust-lang/book/blob/5c71aac64380f74f34cd9a158cc2b1d9122b5ceb/src/ch05-03-method-syntax.md)
