@@ -585,7 +585,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 <p>最後，我們需要檢查環境變數。處理環境變數的函式位於標準函式庫中的 <code>env</code> 模組中，所以我們可以在 <em>src/lib.rs</em> 最上方加上 <code>use std::env;</code> 來將該模組引入作用域。然後我們使用 <code>env</code> 模組中的 <code>var</code> 函式來檢查一個叫做 <code>CASE_INSENSITIVE</code> 的環境變數，如範例 12-23 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::env;
-// --snip--
+// --省略--
 
 <span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;

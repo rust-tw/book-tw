@@ -194,7 +194,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 <p>接下來是 <code>match</code> 的分支，每個分支有兩個部分：一個模式以及對應的程式碼。這邊第一個分支的模式是 <code>Coin::Penny</code> 然後 <code>=&gt;</code> 會將模式與要執行的程式碼分開來，而在此例的程式碼就只是個 <code>1</code>。每個分支之間由逗號區隔開來。</p>
 <p>當 <code>match</code> 表達式執行時，他會將計算的數據結果依序與每個分支的模式做比較。如果有模式配對到該值的話，其對應的程式碼就會執行。如果該模式與數值不符的話，就繼續執行下一個分支，就像硬幣分類機器。</p>
 <p>每個分支對應的程式碼都是表達式，然後在配對到的分支中表達式的數值結果就會是整個 <code>match</code> 表達式的回傳值。</p>
-<p>如果配對分支的程式碼很短的話，通常就不需要用到的大括號，像是範例 6-3 每個分支就只回傳一個數值。如果你想要在配對分支執行多行程式碼的話，你就可以用大括號。舉例來說，以下程式會在每次配對到 <code>Coin::Penny</code> 時印出「Lucky penny!」再回傳程式碼區塊最後的數值 <code>1</code>：</p>
+<p>如果配對分支的程式碼很短的話，通常就不需要用到的大括號，像是範例 6-3 每個分支就只回傳一個數值。如果你想要在配對分支執行多行程式碼的話，你就可以用大括號。舉例來說，以下程式會在每次配對到 <code>Coin::Penny</code> 時印出「幸運幣！」再回傳程式碼區塊最後的數值 <code>1</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum Coin {
 </span><span class="boring">    Penny,
 </span><span class="boring">    Nickel,
@@ -205,7 +205,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </span>fn value_in_cents(coin: Coin) -&gt; u8 {
     match coin {
         Coin::Penny =&gt; {
-            println!(&quot;Lucky penny!&quot;);
+            println!(&quot;幸運幣！&quot;);
             1
         }
         Coin::Nickel =&gt; 5,
@@ -219,11 +219,11 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 <h3><a class="header" href="#綁定數值的模式" id="綁定數值的模式">綁定數值的模式</a></h3>
 <p>另一項配對分支的實用功能是它們可以綁定配對模式中部分的數值，這讓我們可以取出枚舉變體中的數值。</p>
 <p>舉例來說，讓我們改變我們其中一個枚舉變體成擁有資料。從 1999 年到 2008 年，美國在鑄造 25 美分硬幣時，其中一側會有 50 個州不同的設計。不過其他的硬幣就沒有這樣的設計，只有 25 美分會有特殊值而已。我們可以改變我們的 <code>enum</code> 中的 <code>Quarter</code> 變體成儲存 <code>UsState</code> 數值，如範例 6-4所示。</p>
-<pre><pre class="playground"><code class="language-rust">#[derive(Debug)] // so we can inspect the state in a minute
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)] // 這讓我們可以顯示每個州
 enum UsState {
     Alabama,
     Alaska,
-    // --snip--
+    // --省略--
 }
 
 enum Coin {
@@ -237,12 +237,12 @@ enum Coin {
 </span></code></pre></pre>
 <p><span class="caption">範例 6-4：修改 <code>Coin</code> 枚舉的 <code>Quarter</code> 變體來包含一個 <code>UsState</code> 數值</span></p>
 <p>讓我們想像我們有一個朋友想要收集所有 50 州的 25 美分硬幣。當我們在排序零錢的同時，我們會在拿到 25 美分時喊出該硬幣對應的州，好讓我們的朋友知道，如果他沒有的話就可以納入收藏。</p>
-<p>在此程式中的配對表達式中,我們在 <code>Coin::Quarter</code> 變體的配對模式中新增了一個變數 <code>state</code>。當 <code>Coin::Quarter</code> 配對符合時，變數 <code>state</code> 會綁定該 25 美分的數值，然後我們就可以在分支程式碼中使用 <code>state</code>，如以下所示：</p>
+<p>在此程式中的配對表達式中，我們在 <code>Coin::Quarter</code> 變體的配對模式中新增了一個變數 <code>state</code>。當 <code>Coin::Quarter</code> 配對符合時，變數 <code>state</code> 會綁定該 25 美分的數值，然後我們就可以在分支程式碼中使用 <code>state</code>，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
-</span><span class="boring">    // --snip--
+</span><span class="boring">    // --省略--
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">enum Coin {
@@ -258,7 +258,7 @@ enum Coin {
         Coin::Nickel =&gt; 5,
         Coin::Dime =&gt; 10,
         Coin::Quarter(state) =&gt; {
-            println!(&quot;State quarter from {:?}!&quot;, state);
+            println!(&quot;此 25 美分所屬的州爲 {:?}!&quot;, state);
             25
         }
     }
@@ -268,7 +268,7 @@ enum Coin {
 </span><span class="boring">    value_in_cents(Coin::Quarter(UsState::Alaska));
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>如果我們呼叫 <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code> 的話，<code>coin</code> 就會是 <code>Coin::Quarter(UsState::Alaska)</code>。當我們比較每個配對分支時，我們會到 <code>Coin::Quarter(state)</code> 的分支才配對成功。此時 <code>state</code> 綁定的數值就會是 <code>UsState::Alaska</code>。我們就可以在 <code>println!</code> 表達式中使用該幫訂的值，以此取得 <code>Coin</code> 枚舉中 <code>Quarter</code> 變體內的值。</p>
+<p>如果我們呼叫 <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code> 的話，<code>coin</code> 就會是 <code>Coin::Quarter(UsState::Alaska)</code>。當我們比較每個配對分支時，我們會到 <code>Coin::Quarter(state)</code> 的分支才配對成功。此時 <code>state</code> 綁定的數值就會是 <code>UsState::Alaska</code>。我們就可以在 <code>println!</code> 表達式中使用該綁定的值，以此取得 <code>Coin</code> 枚舉中 <code>Quarter</code> 變體內的值。</p>
 <h3><a class="header" href="#配對-optiont" id="配對-optiont">配對 <code>Option&lt;T&gt;</code></a></h3>
 <p>在上一個段落，我們想要在使用 <code>Option&lt;T&gt;</code> 時取得 <code>Some</code> 內部的 <code>T</code> 值。如同枚舉 <code>Coin</code>，我們一樣可以使用 <code>match</code> 來處理 <code>Option&lt;T&gt;</code>！ 相對於比較硬幣，我們要比較的是 <code>Option&lt;T&gt;</code> 的變體，不過 <code>match</code> 表達式運作的方式一模一樣。</p>
 <p>假設我們要寫個接受 <code>Option&lt;i32&gt;</code> 的函式，而且如果內部有值的話就將其加上 1。如果內部沒有數值的話，該函式就回傳 <code>None</code> 且不再嘗試做任何動作。</p>
@@ -364,9 +364,9 @@ error: could not compile `enums`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是*徹底（exhaustive）*的：我們必須列舉出所有可能的情形，程式碼才能夠被視爲有效。尤其是在 <code>Option&lt;T&gt;</code> 的情況下，當 Rust 防止我們忘記處理 <code>None</code> 的情形時，它也使我們免於以爲擁有一個有效實際上卻是空的值。因此要造成之前提過的數十億元錯誤在這邊基本上是不可能的。</p>
+<p>Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是<em>徹底（exhaustive）</em> 的：我們必須列舉出所有可能的情形，程式碼才能夠被視爲有效。尤其是在 <code>Option&lt;T&gt;</code> 的情況下，當 Rust 防止我們忘記處理 <code>None</code> 的情形時，它也使我們免於以爲擁有一個有效實際上卻是空的值。因此要造成之前提過的數十億元錯誤在這邊基本上是不可能的。</p>
 <h3><a class="header" href="#_-佔位符" id="_-佔位符"><code>_</code> 佔位符</a></h3>
-<p>Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需要使用此模式就好。舉例來說 <code>u8</code> 可能的數值爲 0 到 255，如果我們只在意數值 1、3、5 和 7，我們就不會想要列出 0、2、4、6、8、9 還剩下一直到 255 的每個值。幸運的是，我們不需要這樣做，我們可以使用特殊模式 <code>_</code>：</p>
+<p>Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需要使用此模式就好。舉例來說 <code>u8</code> 可能的數值爲 0 到 255，如果我們只在意數值 1、3、5 和 7，我們就不會想要列出 0、2、4、6、8、9 以及剩下一直到 255 的每個值。幸運的是，我們不需要這樣做，我們可以使用特殊模式 <code>_</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let some_u8_value = 0u8;
     match some_u8_value {
@@ -378,7 +378,7 @@ To learn more, run the command again with --verbose.
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code>就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值，所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符之前沒有列出的可能情形，做任何動作。</p>
+<p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code>就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值，所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。</p>
 <p>不過有時候我們只在意其中<em>一種</em>情形的話， <code>match</code> 表達式的確會有點囉唆。針對此情形，Rust 提供 <code>if let</code>。</p>
 <p>而更多有關配對模式的內容可以在<a href="ch18-00-patterns.html">第十八章</a>查閱。</p>
 <blockquote>

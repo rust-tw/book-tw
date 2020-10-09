@@ -200,7 +200,7 @@
 
     let (query, filename) = parse_config(&amp;args);
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    println!(&quot;Searching for {}&quot;, query);
 </span><span class="boring">    println!(&quot;In file {}&quot;, filename);
@@ -243,7 +243,7 @@ fn parse_config(args: &amp;[String]) -&gt; (&amp;str, &amp;str) {
     let contents = fs::read_to_string(config.filename)
         .expect(&quot;Something went wrong reading the file&quot;);
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    println!(&quot;With text:\n{}&quot;, contents);
 </span>}
@@ -289,10 +289,10 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;With text:\n{}&quot;, contents);
 </span>
-    // --snip--
+    // --省略--
 }
 
-// --snip--
+// --省略--
 
 <span class="boring">struct Config {
 </span><span class="boring">    query: String,
@@ -348,12 +348,12 @@ happened and what they should do instead. Let’s fix that now.</p>
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Config {
-</span>    // --snip--
+</span>    // --省略--
     fn new(args: &amp;[String]) -&gt; Config {
         if args.len() &lt; 3 {
             panic!(&quot;not enough arguments&quot;);
         }
-        // --snip--
+        // --省略--
 <span class="boring">
 </span><span class="boring">        let query = args[1].clone();
 </span><span class="boring">        let filename = args[2].clone();
@@ -431,7 +431,7 @@ fn main() {
         process::exit(1);
     });
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    println!(&quot;Searching for {}&quot;, config.query);
 </span><span class="boring">    println!(&quot;In file {}&quot;, config.filename);
@@ -479,7 +479,7 @@ Problem parsing arguments: not enough arguments
 </span><span class="boring">use std::process;
 </span><span class="boring">
 </span>fn main() {
-    // --snip--
+    // --省略--
 
 <span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
 </span><span class="boring">
@@ -501,7 +501,7 @@ fn run(config: Config) {
     println!(&quot;With text:\n{}&quot;, contents);
 }
 
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">struct Config {
 </span><span class="boring">    query: String,
@@ -531,7 +531,7 @@ fn run(config: Config) {
 </span><span class="boring">use std::process;
 </span>use std::error::Error;
 
-// --snip--
+// --省略--
 
 <span class="boring">
 </span><span class="boring">fn main() {
@@ -617,7 +617,7 @@ To an admiring bog!
 </span><span class="boring">use std::process;
 </span><span class="boring">
 </span>fn main() {
-    // --snip--
+    // --省略--
 
 <span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
 </span><span class="boring">
@@ -685,7 +685,7 @@ pub struct Config {
 
 impl Config {
     pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
-        // --snip--
+        // --省略--
 <span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;not enough arguments&quot;);
 </span><span class="boring">        }
@@ -698,7 +698,7 @@ impl Config {
 }
 
 pub fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
-    // --snip--
+    // --省略--
 <span class="boring">    let contents = fs::read_to_string(config.filename)?;
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;With text:\n{}&quot;, contents);
@@ -716,7 +716,7 @@ use std::process;
 use minigrep::Config;
 
 fn main() {
-    // --snip--
+    // --省略--
 <span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
 </span><span class="boring">
 </span><span class="boring">    let config = Config::new(&amp;args).unwrap_or_else(|err| {
@@ -728,7 +728,7 @@ fn main() {
 </span><span class="boring">    println!(&quot;In file {}&quot;, config.filename);
 </span><span class="boring">
 </span>    if let Err(e) = minigrep::run(config) {
-        // --snip--
+        // --省略--
 <span class="boring">        println!(&quot;Application error: {}&quot;, e);
 </span><span class="boring">
 </span><span class="boring">        process::exit(1);

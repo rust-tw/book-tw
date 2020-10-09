@@ -207,7 +207,7 @@
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
 </span>    loop {
-        // --snip--
+        // --省略--
 
 <span class="boring">        println!(&quot;請輸入你的猜測數字。&quot;);
 </span><span class="boring">
@@ -228,7 +228,7 @@
         }
 
         match guess.cmp(&amp;secret_number) {
-            // --snip--
+            // --省略--
 <span class="boring">            Ordering::Less =&gt; println!(&quot;太小了！&quot;),
 </span><span class="boring">            Ordering::Greater =&gt; println!(&quot;太大了！&quot;),
 </span><span class="boring">            Ordering::Equal =&gt; {

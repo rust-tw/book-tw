@@ -327,7 +327,7 @@ message-body
 <p>這是最小化的 HTML 文件，其附有一個標頭與一些文字。爲了要在收到請求後從伺服器回傳此檔案，我們要修改範例 20-5 的 <code>handle_connection</code> 來讀取 HTML 檔案、加進回應本體中然後傳送出去。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run">use std::fs;
-// --snip--
+// --省略--
 
 <span class="boring">use std::io::prelude::*;
 </span><span class="boring">use std::net::TcpListener;
@@ -382,7 +382,7 @@ message-body
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 
 fn handle_connection(mut stream: TcpStream) {
     let mut buffer = [0; 1024];
@@ -444,7 +444,7 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">
 </span><span class="boring">        stream.write(response.as_bytes()).unwrap();
 </span><span class="boring">        stream.flush().unwrap();
-</span>    // --snip--
+</span>    // --省略--
     } else {
         let status_line = &quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;;
         let contents = fs::read_to_string(&quot;404.html&quot;).unwrap();
@@ -491,10 +491,10 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 
 fn handle_connection(mut stream: TcpStream) {
-    // --snip--
+    // --省略--
 
 <span class="boring">    let mut buffer = [0; 1024];
 </span><span class="boring">    stream.read(&amp;mut buffer).unwrap();

@@ -258,7 +258,7 @@ c is at index 2
 <p>在整本書中，我們已經像這樣使用 <code>let</code> 無數次，而雖然你還沒有察覺到，但你已經使用過模式了！所以更正式地來說，<code>let</code> 陳述式是這樣定義的：</p>
 <pre><code class="language-text">let PATTERN = EXPRESSION;
 </code></pre>
-<p>像 <code>let x = 5;</code> 這樣的陳述式中變數名稱會爲於 <code>PATTERN</code> 的位置，變數名稱恰好是種特別簡單的模式。Rust 會將表達式與模式做比較，並賦值給它找到的任何名稱。所以在 <code>let x = 5;</code> 的範例中，<code>x</code> 是個模式並表示「將配對到的數值綁定給變數 <code>x</code>」。因爲名稱 <code>x</code> 就是整個模式，此模式實際上等同於「將任何數值綁定給變數 <code>x</code>，無論該數值爲何」。</p>
+<p>像 <code>let x = 5;</code> 這樣的陳述式中變數名稱會位於 <code>PATTERN</code> 的位置，變數名稱恰好是種特別簡單的模式。Rust 會將表達式與模式做比較，並賦值給它找到的任何名稱。所以在 <code>let x = 5;</code> 的範例中，<code>x</code> 是個模式並表示「將配對到的數值綁定給變數 <code>x</code>」。因爲名稱 <code>x</code> 就是整個模式，此模式實際上等同於「將任何數值綁定給變數 <code>x</code>，無論該數值爲何」。</p>
 <p>爲了更清楚理解 <code>let</code> 怎麼使用模式配對，請參考範例 18-4，這對 <code>let</code> 使用模式來解構一個元組。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let (x, y, z) = (1, 2, 3);

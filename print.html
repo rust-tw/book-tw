@@ -915,7 +915,7 @@ use std::cmp::Ordering;
 use std::io;
 
 fn main() {
-    // --snip--
+    // --省略--
 <span class="boring">    println!(&quot;請猜測一個數字！&quot;);
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
@@ -983,7 +983,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;請輸入你的猜測數字。&quot;);
 </span><span class="boring">
-</span>    // --snip--
+</span>    // --省略--
 
     let mut guess = String::new();
 
@@ -1040,14 +1040,14 @@ cargo run
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
-</span>    // --snip--
+</span>    // --省略--
 
     println!(&quot;祕密數字爲：{}&quot;, secret_number);
 
     loop {
         println!(&quot;請輸入你的猜測數字。&quot;);
 
-        // --snip--
+        // --省略--
 
 <span class="boring">
 </span><span class="boring">        let mut guess = String::new();
@@ -1129,7 +1129,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">
 </span><span class="boring">        println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">
-</span>        // --snip--
+</span>        // --省略--
 
         match guess.cmp(&amp;secret_number) {
             Ordering::Less =&gt; println!(&quot;太小了！&quot;),
@@ -1162,7 +1162,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">
 </span><span class="boring">        let mut guess = String::new();
 </span><span class="boring">
-</span>        // --snip--
+</span>        // --省略--
 
         io::stdin()
             .read_line(&amp;mut guess)
@@ -1175,7 +1175,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
         println!(&quot;你的猜測數字：{}&quot;, guess);
 
-        // --snip--
+        // --省略--
 <span class="boring">
 </span><span class="boring">        match guess.cmp(&amp;secret_number) {
 </span><span class="boring">            Ordering::Less =&gt; println!(&quot;太小了！&quot;),
@@ -1850,7 +1850,7 @@ To learn more, run the command again with --verbose.
     let lucky_number = 7; // 幸運 777！
 }
 </code></pre></pre>
-<p>不過你會更常看到它們用用以下格式，註解會爲於要說明的程式碼上一行：</p>
+<p>不過你會更常看到它們用用以下格式，註解會位於要說明的程式碼上一行：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     // 幸運 777！
@@ -3642,7 +3642,7 @@ impl Rectangle {
 </ul>
 </blockquote>
 <h1><a class="header" href="#枚舉與模式配對" id="枚舉與模式配對">枚舉與模式配對</a></h1>
-<p>在本章節中，我們將討論 <em>枚舉（enumerations）</em>，有時也被簡寫爲 <em>enums</em>。枚舉讓你定義一個能夠列舉其可能*變體（variants）*的型別。首先，我們會定義並使用枚舉來展示枚舉如何將其數據組織起來。再來，我們會來探討一個特定的實用枚舉：<code>Option</code>，其代表該值爲某些東西不然就是什麼都沒有。然後我們會看看 <code>match</code> 表達式的模式配對是怎麼運作的，讓它能夠針對枚舉中不同數值執行不同的程式碼。最後，我們會介紹 <code>if let</code> 如何組織你的程式碼，這是另一個讓你處理枚舉的方法，而且簡潔又方便。</p>
+<p>在本章節中，我們將討論 <em>枚舉（enumerations）</em>，有時也被簡寫爲 <em>enums</em>。枚舉讓你定義一個能夠列舉其可能<em>變體（variants）</em> 的型別。首先，我們會定義並使用枚舉來展示枚舉如何將其數據組織起來。再來，我們會來探討一個特定的實用枚舉：<code>Option</code>，其代表該值爲某些東西不然就是什麼都沒有。然後我們會看看 <code>match</code> 表達式的模式配對是怎麼運作的，讓它能夠針對枚舉中不同數值執行不同的程式碼。最後，我們會介紹 <code>if let</code> 如何組織你的程式碼，這是另一個讓你處理枚舉的方法，而且簡潔又方便。</p>
 <p>枚舉是許多語言中都有提供的功能，不過它們能做的事在不同語言而異。Rust 的枚舉最接近於函式語言的<em>代數型別（algebraic data types）</em>，像是 F#、OCaml 與 Haskell。</p>
 <blockquote>
 <ul>
@@ -3652,7 +3652,7 @@ impl Rectangle {
 </ul>
 </blockquote>
 <h2><a class="header" href="#定義枚舉" id="定義枚舉">定義枚舉</a></h2>
-<p>讓我們看一個程式碼表達的例子，來看看爲何此時用枚舉會比結構體更恰當且實用。假設我們要使用 IP 位址，而且現在有兩個主要的標準能使用 IP 位址：IPv4 與 IPv6。這些事我們的程式碼可能會遇到的 IP 位址，我們可以*枚舉（enumerate）*出所有可能的變體，這正是枚舉的由來。</p>
+<p>讓我們看一個程式碼表達的例子，來看看爲何此時用枚舉會比結構體更恰當且實用。假設我們要使用 IP 位址，而且現在有兩個主要的標準能使用 IP 位址：IPv4 與 IPv6。這些是我們的程式碼可能會遇到的 IP 位址，我們可以<em>枚舉（enumerate）</em> 出所有可能的變體，這正是枚舉的由來。</p>
 <p>任何 IP 位址可以是第四版或第六版，但不是同時存在。IP 位址這樣的特性非常適合使用枚舉資料結構，因爲枚舉的值只能是其中一個變體。第四版與第六版同時都屬於 IP 位址，所以當有程式碼要處理任何類型的 IP 位址時，它們都應該被視爲相同型別。</p>
 <p>要表達這樣的概念，我們可以定義 <code>IpAddrKind</code> 枚舉和列出 IP 位址可能的類型 <code>V4</code> 和 <code>V6</code>。這些稱爲枚舉的變體（variants）：</p>
 <pre><pre class="playground"><code class="language-rust">enum IpAddrKind {
@@ -3688,7 +3688,7 @@ impl Rectangle {
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}
 </span></code></pre></pre>
-<p>注意變體會爲於枚舉命名空間底下，所以我們用兩個冒號來標示。這樣的好處在於 <code>IpAddrKind::V4</code> 和 <code>IpAddrKind::V6</code> 都是同型別 <code>IpAddrKind</code>。比方說，我們就可以定義一個接收任 <code>IpAddrKind</code> 的函式：</p>
+<p>注意變體會位於枚舉命名空間底下，所以我們用兩個冒號來標示。這樣的好處在於 <code>IpAddrKind::V4</code> 和 <code>IpAddrKind::V6</code> 都是同型別 <code>IpAddrKind</code>。比方說，我們就可以定義一個接收任 <code>IpAddrKind</code> 的函式：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
@@ -3758,7 +3758,7 @@ impl Rectangle {
 <span class="boring">}
 </span></code></pre></pre>
 <p>我們將資料直接附加到枚舉的每個變體上，這樣就不再用結構體。</p>
-<p>改使用枚舉而非結構體的話還有另一項好處：每個變體可以擁有不同型別與資料的數量。第四版的 IP 位址永遠只會有四個 0 到 255 的數字部分，如果我們想要讓 <code>V4</code> 儲存四個 <code>u8</code>，但 <code>V6</code> 位址仍保持 String` 不變的話，我們在結構體是無法做到的。枚舉可以輕鬆勝任：</p>
+<p>改使用枚舉而非結構體的話還有另一項好處：每個變體可以擁有不同型別與資料的數量。第四版的 IP 位址永遠只會有四個 0 到 255 的數字部分，如果我們想要讓 <code>V4</code> 儲存四個 <code>u8</code>，但 <code>V6</code> 位址仍保持 <code>String</code> 不變的話，我們在結構體是無法做到的。枚舉可以輕鬆勝任：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum IpAddr {
         V4(u8, u8, u8, u8),
@@ -3775,11 +3775,11 @@ impl Rectangle {
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct Ipv4Addr {
-    // --snip--
+    // --省略--
 }
 
 struct Ipv6Addr {
-    // --snip--
+    // --省略--
 }
 
 enum IpAddr {
@@ -3843,12 +3843,12 @@ struct ChangeColorMessage(i32, i32, i32); // 元組結構體
 <p>讓我們再看看另一個標準函式庫內非常常見且實用的枚舉：<code>Option</code>。</p>
 <h3><a class="header" href="#option-枚舉相對於空值的優勢" id="option-枚舉相對於空值的優勢"><code>Option</code> 枚舉相對於空值的優勢</a></h3>
 <p>在之前的段落，我們看到了如何使用 <code>IpAddr</code> 枚舉，來讓我們利用 Rust 的型別系統來爲我們程式中的資料附加更多資訊。在此段落我們將來研究 <code>Option</code>，這是在標準函式庫中定義的另一種枚舉。<code>Option</code> 廣泛運用在許多場合，它能表示一個數值可能有某個東西，或者什麼都沒有。在型別系統中表達這樣的概念可以讓編譯器檢查我們是否都處理完我們該處理的情況了。這樣的功能可以防止其他程式語言中非常常見的程式錯誤。</p>
-<p>程式語言設計通常要考慮哪些功能是你要得，但同時哪些功能是你不要的也很重要。Rust 沒有像其他許多語言都有空值。*空值（Null）*代表的是沒有任何數值。在有空值的語言，所有變數都有兩種可能：空值或非空值。</p>
+<p>程式語言設計通常要考慮哪些功能是你要的，但同時哪些功能是你不要的也很重要。Rust 沒有像其他許多語言都有空值。<em>空值（Null）</em> 代表的是沒有任何數值。在有空值的語言，所有變數都有兩種可能：空值或非空值。</p>
 <p>而其發明者 Tony Hoare 在他 2009 的演講「空引用：造成數十億損失的錯誤」（“Null References: The Billion Dollar Mistake”）中提到：</p>
 <blockquote>
 <p>我稱它爲我數十億美元的錯誤。當時我正在爲一門物件導向語言設計第一個全方位的引用型別系統。我當時的目標是透過編譯器自動檢查來確保所有的引用都是安全的。但我無法抗拒去加入空引用的誘惑，因爲實作的方式實在太簡單了。這導致了無數的錯誤、漏洞與系統崩潰，在接下來的四十年中造成了大概十億美金的痛苦與傷害。</p>
 </blockquote>
-<p>空值的問題在於，如果你想在非空值使用空值的話，你會得到某種錯誤。由於空值與非空值的特性無所不再，你會很容易犯下這類型的錯誤。</p>
+<p>空值的問題在於，如果你想在非空值使用空值的話，你會得到某種錯誤。由於空值與非空值的特性無所不在，你會很容易犯下這類型的錯誤。</p>
 <p>但有時候能夠表達「空（null）」的概念還是很有用的：空值代表目前的數值因爲某些原因而無效或缺少。</p>
 <p>所以問題不在於概念本身，而在於如何實作。所以 Rust 並沒有空值，但是它有一個枚舉可以表達出這樣的概念，也就是一個值可能是存在或不存在的。此枚舉就是 <code>Option&lt;T&gt;</code>，它是在<a href="https://doc.rust-lang.org/std/option/enum.Option.html">標準函式庫中這樣定義的</a><!-- ignore -->：</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -3865,14 +3865,14 @@ struct ChangeColorMessage(i32, i32, i32); // 元組結構體
 <p><code>&lt;T&gt;</code> 語法是我們還沒介紹到的 Rust 功能。它是個泛型型別參數，我們會在第十章正式介紹泛型（generics）。現在你只需要知道 <code>&lt;T&gt;</code> 指的是 <code>Option</code> 枚舉中的 <code>Some</code> 變體可以是任意型別。以下是使用 <code>Option</code> 來包含數字與字串型別的範例：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let some_number = Some(5);
-    let some_string = Some(&quot;a string&quot;);
+    let some_string = Some(&quot;一個字串&quot;);
 
     let absent_number: Option&lt;i32&gt; = None;
 <span class="boring">}
 </span></code></pre></pre>
 <p>如果我們是用 <code>None</code> 而非 <code>Some</code> 的話，我們就需要告訴 Rust <code>Option&lt;T&gt;</code> 的確切型別，因爲編譯器無法從 <code>None</code> 值推斷出 <code>Some</code> 變體該擁有何種型別。</p>
 <p>當我們有 <code>Some</code> 值時，我們會知道數值是存在的而且就位於 <code>Some</code> 內。當我們有 <code>None</code> 值時，在某種意義上它代表該值是空的，我們沒有有效的數值。所以爲何 <code>Option&lt;T&gt;</code> 會比用空值來得好呢？</p>
-<p>簡單來說因爲 <code>Option&lt;T&gt;</code> 與 <code>T</code>（<code>T</code> 可以是任意型別）是不同的型別，編譯器不會允許我們像一般有效的值那樣來使用 <code>Option&lt;T&gt;</code>。舉例來說，以下範例是無法編譯的，因爲這場是將 <code>i8</code> 與 <code>Option&lt;i8&gt;</code> 相加：</p>
+<p>簡單來說因爲 <code>Option&lt;T&gt;</code> 與 <code>T</code>（<code>T</code> 可以是任意型別）是不同的型別，編譯器不會允許我們像一般有效的值那樣來使用 <code>Option&lt;T&gt;</code>。舉例來說，以下範例是無法編譯的，因爲這是將 <code>i8</code> 與 <code>Option&lt;i8&gt;</code> 相加：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let x: i8 = 5;
     let y: Option&lt;i8&gt; = Some(5);
@@ -3898,9 +3898,9 @@ error: could not compile `enums`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>這樣其實很好！此錯誤訊息事實上指的是 Rust 不知道如何將 <code>i8</code> 與 <code>Option&lt;i8&gt;</code> 相加，因爲它們是不同的型別。當我們在 Rust 中有個型別像是 <code>i8</code>，編譯器將會確保我們永遠會擁有有效數值。我們可以很放新的使用該值，而不必檢查是不是空的。我們只有在使用 <code>Option&lt;i8&gt;</code> （或者任何其他要使用的型別）時才需要去擔心會不會沒有值。然後編譯器會確保我們在使用該值前，有處理過該有的條件。</p>
+<p>這樣其實很好！此錯誤訊息事實上指的是 Rust 不知道如何將 <code>i8</code> 與 <code>Option&lt;i8&gt;</code> 相加，因爲它們是不同的型別。當我們在 Rust 中有個型別像是 <code>i8</code>，編譯器將會確保我們永遠會擁有有效數值。我們可以很放心地使用該值，而不必檢查是不是空的。我們只有在使用 <code>Option&lt;i8&gt;</code> （或者任何其他要使用的型別）時才需要去擔心會不會沒有值。然後編譯器會確保我們在使用該值前，有處理過該有的條件。</p>
 <p>換句話說，你必須將 <code>Option&lt;T&gt;</code> 轉換爲 <code>T</code> 你才能對 <code>T</code> 做運算。 這通常就能幫助我們抓到空值最常見的問題：認爲某值不爲空，但它其實就是空值。</p>
-<p>不用再擔心一個非空值是不是不正確的，可以讓你對你寫的程式碼更有信心。要讓一個值變成可能爲空的話，你必須顯式建立成對應型別的 <code>Option&lt;T&gt;</code>。然後當你要使用該值時，你就得顯式處理數值是否爲空的條件。只要一個數值的型別不是 <code>Option&lt;T&gt;</code>，你就<em>可以</em>安全地認定該值不爲空。這是 Rust 刻意考慮的設計決定，限制無所不再的空值，並增強 Rust 程式碼的安全性。</p>
+<p>不用再擔心一個非空值是不是不正確的，可以讓你對你寫的程式碼更有信心。要讓一個值變成可能爲空的話，你必須顯式建立成對應型別的 <code>Option&lt;T&gt;</code>。然後當你要使用該值時，你就得顯式處理數值是否爲空的條件。只要一個數值的型別不是 <code>Option&lt;T&gt;</code>，你就<em>可以</em>安全地認定該值不爲空。這是 Rust 刻意考慮的設計決定，限制無所不在的空值，並增強 Rust 程式碼的安全性。</p>
 <p>所以當我們有一個數值型別 <code>Option&lt;T&gt;</code>，我們要怎麼從 <code>Some</code> 變體取出 <code>T</code>，好讓我們可以使用該值呢？<code>Option&lt;T&gt;</code> 枚舉有大量實用的方法可以在不同的場合下使用。你可以在<a href="https://doc.rust-lang.org/std/option/enum.Option.html">它的技術文件</a><!-- ignore -->查閱。更加熟悉 <code>Option&lt;T&gt;</code> 的方法十分益於你接下來的 Rust 旅程。</p>
 <p>總之來說，要使用 <code>Option&lt;T&gt;</code> 數值的話，你要讓程式碼可以處理每個變體。你會希望有一些程式碼只會在當我們有 <code>Some(T)</code> 時執行，然後這些程式碼允許使用內部的 <code>T</code>。你會希望有另一部分的程式碼能在只有 <code>None</code> 時執行，且這些程式碼不會拿到有效的 <code>T</code> 數值。<code>match</code> 表達式正是處理此枚舉行爲的控制流結構：它會針對不同的枚舉變體執行不同的程式碼，而且程式碼可以使用配對到的數值資料。</p>
 <blockquote>
@@ -3937,7 +3937,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 <p>接下來是 <code>match</code> 的分支，每個分支有兩個部分：一個模式以及對應的程式碼。這邊第一個分支的模式是 <code>Coin::Penny</code> 然後 <code>=&gt;</code> 會將模式與要執行的程式碼分開來，而在此例的程式碼就只是個 <code>1</code>。每個分支之間由逗號區隔開來。</p>
 <p>當 <code>match</code> 表達式執行時，他會將計算的數據結果依序與每個分支的模式做比較。如果有模式配對到該值的話，其對應的程式碼就會執行。如果該模式與數值不符的話，就繼續執行下一個分支，就像硬幣分類機器。</p>
 <p>每個分支對應的程式碼都是表達式，然後在配對到的分支中表達式的數值結果就會是整個 <code>match</code> 表達式的回傳值。</p>
-<p>如果配對分支的程式碼很短的話，通常就不需要用到的大括號，像是範例 6-3 每個分支就只回傳一個數值。如果你想要在配對分支執行多行程式碼的話，你就可以用大括號。舉例來說，以下程式會在每次配對到 <code>Coin::Penny</code> 時印出「Lucky penny!」再回傳程式碼區塊最後的數值 <code>1</code>：</p>
+<p>如果配對分支的程式碼很短的話，通常就不需要用到的大括號，像是範例 6-3 每個分支就只回傳一個數值。如果你想要在配對分支執行多行程式碼的話，你就可以用大括號。舉例來說，以下程式會在每次配對到 <code>Coin::Penny</code> 時印出「幸運幣！」再回傳程式碼區塊最後的數值 <code>1</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum Coin {
 </span><span class="boring">    Penny,
 </span><span class="boring">    Nickel,
@@ -3948,7 +3948,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </span>fn value_in_cents(coin: Coin) -&gt; u8 {
     match coin {
         Coin::Penny =&gt; {
-            println!(&quot;Lucky penny!&quot;);
+            println!(&quot;幸運幣！&quot;);
             1
         }
         Coin::Nickel =&gt; 5,
@@ -3962,11 +3962,11 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 <h3><a class="header" href="#綁定數值的模式" id="綁定數值的模式">綁定數值的模式</a></h3>
 <p>另一項配對分支的實用功能是它們可以綁定配對模式中部分的數值，這讓我們可以取出枚舉變體中的數值。</p>
 <p>舉例來說，讓我們改變我們其中一個枚舉變體成擁有資料。從 1999 年到 2008 年，美國在鑄造 25 美分硬幣時，其中一側會有 50 個州不同的設計。不過其他的硬幣就沒有這樣的設計，只有 25 美分會有特殊值而已。我們可以改變我們的 <code>enum</code> 中的 <code>Quarter</code> 變體成儲存 <code>UsState</code> 數值，如範例 6-4所示。</p>
-<pre><pre class="playground"><code class="language-rust">#[derive(Debug)] // so we can inspect the state in a minute
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)] // 這讓我們可以顯示每個州
 enum UsState {
     Alabama,
     Alaska,
-    // --snip--
+    // --省略--
 }
 
 enum Coin {
@@ -3980,12 +3980,12 @@ enum Coin {
 </span></code></pre></pre>
 <p><span class="caption">範例 6-4：修改 <code>Coin</code> 枚舉的 <code>Quarter</code> 變體來包含一個 <code>UsState</code> 數值</span></p>
 <p>讓我們想像我們有一個朋友想要收集所有 50 州的 25 美分硬幣。當我們在排序零錢的同時，我們會在拿到 25 美分時喊出該硬幣對應的州，好讓我們的朋友知道，如果他沒有的話就可以納入收藏。</p>
-<p>在此程式中的配對表達式中,我們在 <code>Coin::Quarter</code> 變體的配對模式中新增了一個變數 <code>state</code>。當 <code>Coin::Quarter</code> 配對符合時，變數 <code>state</code> 會綁定該 25 美分的數值，然後我們就可以在分支程式碼中使用 <code>state</code>，如以下所示：</p>
+<p>在此程式中的配對表達式中，我們在 <code>Coin::Quarter</code> 變體的配對模式中新增了一個變數 <code>state</code>。當 <code>Coin::Quarter</code> 配對符合時，變數 <code>state</code> 會綁定該 25 美分的數值，然後我們就可以在分支程式碼中使用 <code>state</code>，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
-</span><span class="boring">    // --snip--
+</span><span class="boring">    // --省略--
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">enum Coin {
@@ -4001,7 +4001,7 @@ enum Coin {
         Coin::Nickel =&gt; 5,
         Coin::Dime =&gt; 10,
         Coin::Quarter(state) =&gt; {
-            println!(&quot;State quarter from {:?}!&quot;, state);
+            println!(&quot;此 25 美分所屬的州爲 {:?}!&quot;, state);
             25
         }
     }
@@ -4011,7 +4011,7 @@ enum Coin {
 </span><span class="boring">    value_in_cents(Coin::Quarter(UsState::Alaska));
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>如果我們呼叫 <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code> 的話，<code>coin</code> 就會是 <code>Coin::Quarter(UsState::Alaska)</code>。當我們比較每個配對分支時，我們會到 <code>Coin::Quarter(state)</code> 的分支才配對成功。此時 <code>state</code> 綁定的數值就會是 <code>UsState::Alaska</code>。我們就可以在 <code>println!</code> 表達式中使用該幫訂的值，以此取得 <code>Coin</code> 枚舉中 <code>Quarter</code> 變體內的值。</p>
+<p>如果我們呼叫 <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code> 的話，<code>coin</code> 就會是 <code>Coin::Quarter(UsState::Alaska)</code>。當我們比較每個配對分支時，我們會到 <code>Coin::Quarter(state)</code> 的分支才配對成功。此時 <code>state</code> 綁定的數值就會是 <code>UsState::Alaska</code>。我們就可以在 <code>println!</code> 表達式中使用該綁定的值，以此取得 <code>Coin</code> 枚舉中 <code>Quarter</code> 變體內的值。</p>
 <h3><a class="header" href="#配對-optiont" id="配對-optiont">配對 <code>Option&lt;T&gt;</code></a></h3>
 <p>在上一個段落，我們想要在使用 <code>Option&lt;T&gt;</code> 時取得 <code>Some</code> 內部的 <code>T</code> 值。如同枚舉 <code>Coin</code>，我們一樣可以使用 <code>match</code> 來處理 <code>Option&lt;T&gt;</code>！ 相對於比較硬幣，我們要比較的是 <code>Option&lt;T&gt;</code> 的變體，不過 <code>match</code> 表達式運作的方式一模一樣。</p>
 <p>假設我們要寫個接受 <code>Option&lt;i32&gt;</code> 的函式，而且如果內部有值的話就將其加上 1。如果內部沒有數值的話，該函式就回傳 <code>None</code> 且不再嘗試做任何動作。</p>
@@ -4107,9 +4107,9 @@ error: could not compile `enums`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是*徹底（exhaustive）*的：我們必須列舉出所有可能的情形，程式碼才能夠被視爲有效。尤其是在 <code>Option&lt;T&gt;</code> 的情況下，當 Rust 防止我們忘記處理 <code>None</code> 的情形時，它也使我們免於以爲擁有一個有效實際上卻是空的值。因此要造成之前提過的數十億元錯誤在這邊基本上是不可能的。</p>
+<p>Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是<em>徹底（exhaustive）</em> 的：我們必須列舉出所有可能的情形，程式碼才能夠被視爲有效。尤其是在 <code>Option&lt;T&gt;</code> 的情況下，當 Rust 防止我們忘記處理 <code>None</code> 的情形時，它也使我們免於以爲擁有一個有效實際上卻是空的值。因此要造成之前提過的數十億元錯誤在這邊基本上是不可能的。</p>
 <h3><a class="header" href="#_-佔位符" id="_-佔位符"><code>_</code> 佔位符</a></h3>
-<p>Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需要使用此模式就好。舉例來說 <code>u8</code> 可能的數值爲 0 到 255，如果我們只在意數值 1、3、5 和 7，我們就不會想要列出 0、2、4、6、8、9 還剩下一直到 255 的每個值。幸運的是，我們不需要這樣做，我們可以使用特殊模式 <code>_</code>：</p>
+<p>Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需要使用此模式就好。舉例來說 <code>u8</code> 可能的數值爲 0 到 255，如果我們只在意數值 1、3、5 和 7，我們就不會想要列出 0、2、4、6、8、9 以及剩下一直到 255 的每個值。幸運的是，我們不需要這樣做，我們可以使用特殊模式 <code>_</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let some_u8_value = 0u8;
     match some_u8_value {
@@ -4121,7 +4121,7 @@ To learn more, run the command again with --verbose.
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code>就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值，所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符之前沒有列出的可能情形，做任何動作。</p>
+<p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code>就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值，所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。</p>
 <p>不過有時候我們只在意其中<em>一種</em>情形的話， <code>match</code> 表達式的確會有點囉唆。針對此情形，Rust 提供 <code>if let</code>。</p>
 <p>而更多有關配對模式的內容可以在<a href="ch18-00-patterns.html">第十八章</a>查閱。</p>
 <blockquote>
@@ -4159,7 +4159,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
-</span><span class="boring">    // --snip--
+</span><span class="boring">    // --省略--
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">enum Coin {
@@ -4173,7 +4173,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    let coin = Coin::Penny;
 </span>    let mut count = 0;
     match coin {
-        Coin::Quarter(state) =&gt; println!(&quot;State quarter from {:?}!&quot;, state),
+        Coin::Quarter(state) =&gt; println!(&quot;此 25 美分所屬的州爲 {:?}!&quot;, state),
         _ =&gt; count += 1,
     }
 <span class="boring">}
@@ -4183,7 +4183,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
-</span><span class="boring">    // --snip--
+</span><span class="boring">    // --省略--
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">enum Coin {
@@ -4197,7 +4197,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    let coin = Coin::Penny;
 </span>    let mut count = 0;
     if let Coin::Quarter(state) = coin {
-        println!(&quot;State quarter from {:?}!&quot;, state);
+        println!(&quot;此 25 美分所屬的州爲 {:?}!&quot;, state);
     } else {
         count += 1;
     }
@@ -4599,12 +4599,12 @@ fn main() {
 use std::io;
 
 fn function1() -&gt; fmt::Result {
-    // --snip--
+    // --省略--
 <span class="boring">    Ok(())
 </span>}
 
 fn function2() -&gt; io::Result&lt;()&gt; {
-    // --snip--
+    // --省略--
 <span class="boring">    Ok(())
 </span>}
 <span class="boring">}
@@ -4621,12 +4621,12 @@ fn function2() -&gt; io::Result&lt;()&gt; {
 use std::io::Result as IoResult;
 
 fn function1() -&gt; Result {
-    // --snip--
+    // --省略--
 <span class="boring">    Ok(())
 </span>}
 
 fn function2() -&gt; IoResult&lt;()&gt; {
-    // --snip--
+    // --省略--
 <span class="boring">    Ok(())
 </span>}
 <span class="boring">}
@@ -4703,10 +4703,10 @@ fn main() {
 <p>如果我們要使用在相同 crate 或是相同模組內定義的數個項目，針對每個項目都單獨寫一行的話，會佔據我們檔案內很多空間。舉例來說，範例 2-4 中的猜謎遊戲我們用了這兩個 <code>use</code> 陳述式來引入作用域中：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span>// --snip--
+</span>// --省略--
 use std::cmp::Ordering;
 use std::io;
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!(&quot;請猜測一個數字！&quot;);
@@ -4735,9 +4735,9 @@ use std::io;
 <p>我們可以改使用巢狀路徑（nested paths）來只用一行就能將數個項目引入作用域中。我們先指明相同路徑的部分，加上雙冒號，然後在大括號內列出各自不同的路徑部分，如範例 7-18 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span>// --snip--
+</span>// --省略--
 use std::{cmp::Ordering, io};
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!(&quot;請猜測一個數字！&quot;);
@@ -5262,7 +5262,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 <p>此程式碼會印出此 <code>String</code> 的 18 個位元組：</p>
 <pre><code class="language-text">224
 164
-// --snip--
+// --省略--
 165
 135
 </code></pre>
@@ -5910,7 +5910,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
 </span>    loop {
-        // --snip--
+        // --省略--
 
 <span class="boring">        println!(&quot;請輸入你的猜測數字。&quot;);
 </span><span class="boring">
@@ -5931,7 +5931,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
         }
 
         match guess.cmp(&amp;secret_number) {
-            // --snip--
+            // --省略--
 <span class="boring">            Ordering::Less =&gt; println!(&quot;太小了！&quot;),
 </span><span class="boring">            Ordering::Greater =&gt; println!(&quot;太大了！&quot;),
 </span><span class="boring">            Ordering::Equal =&gt; {
@@ -6906,7 +6906,7 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 <p><span class="caption">範例 10-16：依據特徵界限來選擇性地在泛型型別實作方法</span></p>
 <p>我們還可以對有實作其他特徵的型別選擇性地來實作特徵。對滿足特徵界限的型別實作特徵會稱之爲<em>毯子實作（blanket implementations）</em>，這被廣泛地用在 Rust 標準函式庫中。舉例來說，標準函式庫會對任何有實作 <code>Display</code> 特徵的型別實作 <code>ToString</code>。標準函式庫中的 <code>impl</code> 區塊會有類似這樣的程式碼：</p>
 <pre><code class="language-rust ignore">impl&lt;T: Display&gt; ToString for T {
-    // --snip--
+    // --省略--
 }
 </code></pre>
 <p>因爲標準函式庫有此毯子實作，我們可以在任何有實作 <code>Display</code> 特徵的型別呼叫 <code>ToString</code> 特徵的 <code>to_string</code> 方法。舉例來說，我們可以像這樣將整數轉變成對應的 <code>String</code> 數值，因爲整數有實作 <code>Display</code>：</p>
@@ -7085,7 +7085,7 @@ To learn more, run the command again with --verbose.
 <p><span class="caption">範例 10-22：<code>longest</code> 函式定義指定所有簽名中的引用必須有相同的生命週期 <code>'a</code></span></p>
 <p>此程式碼能夠編譯成功並產生我們希望在範例 10-20 的 <code>main</code> 函式中得到的結果。</p>
 <p>此函式簽名告訴 Rust 它有個生命週期 <code>'a</code>，函式的兩個參數都是字串 slice，並且會與生命週期<code>'a</code>。此函式簽名還靠素了 Rust 從函式回傳的字串 slice 也會和生命週期 <code>'a</code> 存活的一樣久。實際上它代表 <code>longest</code> 函式回傳引用的生命週期與傳入時字串長度較短的引用的生命週期一樣。這些約束是我們希望 Rust 去強制執行的。記住當我們在此函式簽名指定生命週期參數時，我們不會變更任何傳入或傳出數值的生命週期。我們只是告訴借用檢查器應該要拒絕任何沒有服從這些約束的數值。注意到 <code>longest</code> 函式不需要知道 <code>x</code> 和 <code>y</code> 實際上會活多久，只需要知道有某個作用域會用 <code>'a</code> 取代來滿足此簽名。</p>
-<p>當要在函式詮釋生命週期時，詮釋會爲於函式簽名中，而不是函式本體。Rust 可以不用任何協助就能分析函式中的程式碼。然而當函式擁有傳入或傳出外部程式碼的引用時，Rust 無法自己判別出參數與回傳值的生命週期。每次函式呼叫時的生命週期可能都不一樣。這就是爲何我們得親自詮釋生命週期。</p>
+<p>當要在函式詮釋生命週期時，詮釋會位於函式簽名中，而不是函式本體。Rust 可以不用任何協助就能分析函式中的程式碼。然而當函式擁有傳入或傳出外部程式碼的引用時，Rust 無法自己判別出參數與回傳值的生命週期。每次函式呼叫時的生命週期可能都不一樣。這就是爲何我們得親自詮釋生命週期。</p>
 <p>當我們向 <code>longest</code> 傳入實際引用時，<code>'a</code> 實際替代的生命週期爲 <code>x</code> 作用域與 <code>y</code> 作用域重疊得部分。換句話說，泛型生命週期 <code>'a</code> 取得的生命週期會等於 <code>x</code> 與 <code>y</code> 的生命週期中較短的。因爲我們將回傳引用詮釋了相同的生命週期參數 <code>'a</code>，回傳引用的生命週期也會保證在 <code>x</code> 和 <code>y</code> 的生命週期較短的結束前有效。</p>
 <p>讓我們來看看如何透過傳入不同實際生命週期的引用來使生命週期詮釋能約束 <code>longest</code> 函式，如範例 10-23 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -7634,7 +7634,7 @@ mod tests {
 
     #[test]
     fn larger_can_hold_smaller() {
-        // --snip--
+        // --省略--
 <span class="boring">        let larger = Rectangle {
 </span><span class="boring">            width: 8,
 </span><span class="boring">            height: 7,
@@ -7690,7 +7690,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </span><span class="boring">    height: u32,
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 impl Rectangle {
     fn can_hold(&amp;self, other: &amp;Rectangle) -&gt; bool {
         self.width &lt; other.width &amp;&amp; self.height &gt; other.height
@@ -8006,7 +8006,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </span><span class="boring">    value: i32,
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 impl Guess {
     pub fn new(value: i32) -&gt; Guess {
         if value &lt; 1 {
@@ -8058,7 +8058,7 @@ error: test failed, to rerun pass '--lib'
 </span><span class="boring">    value: i32,
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 impl Guess {
     pub fn new(value: i32) -&gt; Guess {
         if value &lt; 1 {
@@ -8719,7 +8719,7 @@ To an admiring bog!
 use std::fs;
 
 fn main() {
-    // --snip--
+    // --省略--
 <span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
 </span><span class="boring">
 </span><span class="boring">    let query = &amp;args[1];
@@ -8798,7 +8798,7 @@ To an admiring bog!
 
     let (query, filename) = parse_config(&amp;args);
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    println!(&quot;Searching for {}&quot;, query);
 </span><span class="boring">    println!(&quot;In file {}&quot;, filename);
@@ -8841,7 +8841,7 @@ fn parse_config(args: &amp;[String]) -&gt; (&amp;str, &amp;str) {
     let contents = fs::read_to_string(config.filename)
         .expect(&quot;Something went wrong reading the file&quot;);
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    println!(&quot;With text:\n{}&quot;, contents);
 </span>}
@@ -8887,10 +8887,10 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;With text:\n{}&quot;, contents);
 </span>
-    // --snip--
+    // --省略--
 }
 
-// --snip--
+// --省略--
 
 <span class="boring">struct Config {
 </span><span class="boring">    query: String,
@@ -8946,12 +8946,12 @@ happened and what they should do instead. Let’s fix that now.</p>
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Config {
-</span>    // --snip--
+</span>    // --省略--
     fn new(args: &amp;[String]) -&gt; Config {
         if args.len() &lt; 3 {
             panic!(&quot;not enough arguments&quot;);
         }
-        // --snip--
+        // --省略--
 <span class="boring">
 </span><span class="boring">        let query = args[1].clone();
 </span><span class="boring">        let filename = args[2].clone();
@@ -9029,7 +9029,7 @@ fn main() {
         process::exit(1);
     });
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    println!(&quot;Searching for {}&quot;, config.query);
 </span><span class="boring">    println!(&quot;In file {}&quot;, config.filename);
@@ -9077,7 +9077,7 @@ Problem parsing arguments: not enough arguments
 </span><span class="boring">use std::process;
 </span><span class="boring">
 </span>fn main() {
-    // --snip--
+    // --省略--
 
 <span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
 </span><span class="boring">
@@ -9099,7 +9099,7 @@ fn run(config: Config) {
     println!(&quot;With text:\n{}&quot;, contents);
 }
 
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">struct Config {
 </span><span class="boring">    query: String,
@@ -9129,7 +9129,7 @@ fn run(config: Config) {
 </span><span class="boring">use std::process;
 </span>use std::error::Error;
 
-// --snip--
+// --省略--
 
 <span class="boring">
 </span><span class="boring">fn main() {
@@ -9215,7 +9215,7 @@ To an admiring bog!
 </span><span class="boring">use std::process;
 </span><span class="boring">
 </span>fn main() {
-    // --snip--
+    // --省略--
 
 <span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
 </span><span class="boring">
@@ -9283,7 +9283,7 @@ pub struct Config {
 
 impl Config {
     pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
-        // --snip--
+        // --省略--
 <span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;not enough arguments&quot;);
 </span><span class="boring">        }
@@ -9296,7 +9296,7 @@ impl Config {
 }
 
 pub fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
-    // --snip--
+    // --省略--
 <span class="boring">    let contents = fs::read_to_string(config.filename)?;
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;With text:\n{}&quot;, contents);
@@ -9314,7 +9314,7 @@ use std::process;
 use minigrep::Config;
 
 fn main() {
-    // --snip--
+    // --省略--
 <span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
 </span><span class="boring">
 </span><span class="boring">    let config = Config::new(&amp;args).unwrap_or_else(|err| {
@@ -9326,7 +9326,7 @@ fn main() {
 </span><span class="boring">    println!(&quot;In file {}&quot;, config.filename);
 </span><span class="boring">
 </span>    if let Err(e) = minigrep::run(config) {
-        // --snip--
+        // --省略--
 <span class="boring">        println!(&quot;Application error: {}&quot;, e);
 </span><span class="boring">
 </span><span class="boring">        process::exit(1);
@@ -10222,7 +10222,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 <p>最後，我們需要檢查環境變數。處理環境變數的函式位於標準函式庫中的 <code>env</code> 模組中，所以我們可以在 <em>src/lib.rs</em> 最上方加上 <code>use std::env;</code> 來將該模組引入作用域。然後我們使用 <code>env</code> 模組中的 <code>var</code> 函式來檢查一個叫做 <code>CASE_INSENSITIVE</code> 的環境變數，如範例 12-23 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::env;
-// --snip--
+// --省略--
 
 <span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -11548,7 +11548,7 @@ operations that borrow, we can move the <code>String</code> values from the iter
         process::exit(1);
     });
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    if let Err(e) = minigrep::run(config) {
 </span><span class="boring">        eprintln!(&quot;Application error: {}&quot;, e);
@@ -11572,7 +11572,7 @@ well.</p>
         process::exit(1);
     });
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    if let Err(e) = minigrep::run(config) {
 </span><span class="boring">        eprintln!(&quot;Application error: {}&quot;, e);
@@ -11604,7 +11604,7 @@ body.</p>
 </span><span class="boring">
 </span>impl Config {
     pub fn new(mut args: env::Args) -&gt; Result&lt;Config, &amp;'static str&gt; {
-        // --snip--
+        // --省略--
 <span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;not enough arguments&quot;);
 </span><span class="boring">        }
@@ -12223,7 +12223,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 //! calculations more convenient.
 
 /// Adds one to the number given.
-// --snip--
+// --省略--
 <span class="boring">///
 </span><span class="boring">/// # Examples
 </span><span class="boring">///
@@ -12275,7 +12275,7 @@ pub mod utils {
     /// Combines two primary colors in equal amounts to create
     /// a secondary color.
     pub fn mix(c1: PrimaryColor, c2: PrimaryColor) -&gt; SecondaryColor {
-        // --snip--
+        // --省略--
 <span class="boring">        SecondaryColor::Orange
 </span>    }
 }
@@ -12311,7 +12311,7 @@ pub use self::kinds::SecondaryColor;
 pub use self::utils::mix;
 
 pub mod kinds {
-    // --snip--
+    // --省略--
 <span class="boring">    /// The primary colors according to the RYB color model.
 </span><span class="boring">    pub enum PrimaryColor {
 </span><span class="boring">        Red,
@@ -12328,7 +12328,7 @@ pub mod kinds {
 </span>}
 
 pub mod utils {
-    // --snip--
+    // --省略--
 <span class="boring">    use crate::kinds::*;
 </span><span class="boring">
 </span><span class="boring">    /// Combines two primary colors in equal amounts to create
@@ -12348,7 +12348,7 @@ pub mod utils {
 use art::PrimaryColor;
 
 fn main() {
-    // --snip--
+    // --省略--
 <span class="boring">    let red = PrimaryColor::Red;
 </span><span class="boring">    let yellow = PrimaryColor::Yellow;
 </span><span class="boring">    mix(red, yellow);
@@ -12379,7 +12379,7 @@ copy just the relevant lines below
     Updating crates.io index
 warning: manifest has no description, license, license-file, documentation, homepage or repository.
 See https://doc.rust-lang.org/cargo/reference/manifest.html#package-metadata for more info.
---snip--
+--省略--
 error: api errors (status 200 OK): missing or empty metadata fields: description, license. Please see https://doc.rust-lang.org/cargo/reference/manifest.html for how to upload metadata
 </code></pre>
 <p>原因是因爲你還缺少一些關鍵資訊：描述與授權條款是必須的，所以人們才能知道你的 crate 在做什麼以及在何種情況下允許使用。要修正此錯誤，你就需要將這些資訊加到 <em>Cargo.toml</em> 檔案中。</p>
@@ -12589,7 +12589,7 @@ copy output below; the output updating script doesn't handle subdirectories in p
 <pre><code class="language-console">$ cargo build
     Updating crates.io index
   Downloaded rand v0.5.5
-   --snip--
+   --省略--
    Compiling rand v0.5.6
    Compiling add-one v0.1.0 (file:///projects/add/add-one)
    Compiling adder v0.1.0 (file:///projects/add/adder)
@@ -12602,7 +12602,7 @@ cargo build
 copy output below; the output updating script doesn't handle subdirectories in paths properly
 -->
 <pre><code class="language-console">$ cargo build
-  --snip--
+  --省略--
    Compiling adder v0.1.0 (file:///projects/add/adder)
 error[E0432]: unresolved import `rand`
  --&gt; adder/src/main.rs:2:5
@@ -12706,7 +12706,7 @@ cargo install something you don't have, copy relevant output below
   Downloaded ripgrep v11.0.2
   Downloaded 1 crate (243.3 KB) in 0.88s
   Installing ripgrep v11.0.2
---snip--
+--省略--
    Compiling ripgrep v11.0.2
     Finished release [optimized] target(s) in 3m 10s
   Installing ~/.cargo/bin/rg
@@ -13626,7 +13626,7 @@ mod tests {
 
     #[test]
     fn it_sends_an_over_75_percent_warning_message() {
-        // --snip--
+        // --省略--
 <span class="boring">        let mock_messenger = MockMessenger::new();
 </span><span class="boring">        let mut limit_tracker = LimitTracker::new(&amp;mock_messenger, 100);
 </span><span class="boring">
@@ -14539,7 +14539,7 @@ Got: thread
 </span><span class="boring">use std::time::Duration;
 </span><span class="boring">
 </span><span class="boring">fn main() {
-</span>    // --snip--
+</span>    // --省略--
 
     let (tx, rx) = mpsc::channel();
 
@@ -14576,7 +14576,7 @@ Got: thread
         println!(&quot;Got: {}&quot;, received);
     }
 
-    // --snip--
+    // --省略--
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 16-11：從多重生產者傳遞數個訊息</span></p>
@@ -15244,7 +15244,7 @@ impl State for Draft {}
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Post {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new() -&gt; Post {
 </span><span class="boring">        Post {
 </span><span class="boring">            state: Some(Box::new(Draft {})),
@@ -15276,7 +15276,7 @@ impl State for Draft {}
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Post {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new() -&gt; Post {
 </span><span class="boring">        Post {
 </span><span class="boring">            state: Some(Box::new(Draft {})),
@@ -15312,7 +15312,7 @@ impl State for Draft {}
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Post {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new() -&gt; Post {
 </span><span class="boring">        Post {
 </span><span class="boring">            state: Some(Box::new(Draft {})),
@@ -15377,7 +15377,7 @@ impl State for PendingReview {
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Post {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new() -&gt; Post {
 </span><span class="boring">        Post {
 </span><span class="boring">            state: Some(Box::new(Draft {})),
@@ -15414,7 +15414,7 @@ trait State {
 struct Draft {}
 
 impl State for Draft {
-    // --snip--
+    // --省略--
 <span class="boring">    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
 </span><span class="boring">        Box::new(PendingReview {})
 </span><span class="boring">    }
@@ -15427,7 +15427,7 @@ impl State for Draft {
 struct PendingReview {}
 
 impl State for PendingReview {
-    // --snip--
+    // --省略--
 <span class="boring">    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
 </span><span class="boring">        self
 </span><span class="boring">    }
@@ -15461,7 +15461,7 @@ impl State for Published {
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Post {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new() -&gt; Post {
 </span><span class="boring">        Post {
 </span><span class="boring">            state: Some(Box::new(Draft {})),
@@ -15476,7 +15476,7 @@ impl State for Published {
 </span>    pub fn content(&amp;self) -&gt; &amp;str {
         self.state.as_ref().unwrap().content(self)
     }
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn request_review(&amp;mut self) {
 </span><span class="boring">        if let Some(s) = self.state.take() {
@@ -15576,7 +15576,7 @@ impl State for Published {
 </span><span class="boring">}
 </span><span class="boring">
 </span>trait State {
-    // --snip--
+    // --省略--
 <span class="boring">    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt;;
 </span><span class="boring">    fn approve(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt;;
 </span><span class="boring">
@@ -15585,7 +15585,7 @@ impl State for Published {
     }
 }
 
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">struct Draft {}
 </span><span class="boring">
@@ -15614,7 +15614,7 @@ impl State for Published {
 </span>struct Published {}
 
 impl State for Published {
-    // --snip--
+    // --省略--
 <span class="boring">    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
 </span><span class="boring">        self
 </span><span class="boring">    }
@@ -15730,7 +15730,7 @@ impl DraftPost {
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl DraftPost {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn add_text(&amp;mut self, text: &amp;str) {
 </span><span class="boring">        self.content.push_str(text);
 </span><span class="boring">    }
@@ -15897,7 +15897,7 @@ c is at index 2
 <p>在整本書中，我們已經像這樣使用 <code>let</code> 無數次，而雖然你還沒有察覺到，但你已經使用過模式了！所以更正式地來說，<code>let</code> 陳述式是這樣定義的：</p>
 <pre><code class="language-text">let PATTERN = EXPRESSION;
 </code></pre>
-<p>像 <code>let x = 5;</code> 這樣的陳述式中變數名稱會爲於 <code>PATTERN</code> 的位置，變數名稱恰好是種特別簡單的模式。Rust 會將表達式與模式做比較，並賦值給它找到的任何名稱。所以在 <code>let x = 5;</code> 的範例中，<code>x</code> 是個模式並表示「將配對到的數值綁定給變數 <code>x</code>」。因爲名稱 <code>x</code> 就是整個模式，此模式實際上等同於「將任何數值綁定給變數 <code>x</code>，無論該數值爲何」。</p>
+<p>像 <code>let x = 5;</code> 這樣的陳述式中變數名稱會位於 <code>PATTERN</code> 的位置，變數名稱恰好是種特別簡單的模式。Rust 會將表達式與模式做比較，並賦值給它找到的任何名稱。所以在 <code>let x = 5;</code> 的範例中，<code>x</code> 是個模式並表示「將配對到的數值綁定給變數 <code>x</code>」。因爲名稱 <code>x</code> 就是整個模式，此模式實際上等同於「將任何數值綁定給變數 <code>x</code>，無論該數值爲何」。</p>
 <p>爲了更清楚理解 <code>let</code> 怎麼使用模式配對，請參考範例 18-4，這對 <code>let</code> 使用模式來解構一個元組。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let (x, y, z) = (1, 2, 3);
@@ -16827,7 +16827,7 @@ fn main() {}
     type Item = u32;
 
     fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
-        // --snip--
+        // --省略--
 <span class="boring">        if self.count &lt; 5 {
 </span><span class="boring">            self.count += 1;
 </span><span class="boring">            Some(self.count)
@@ -17341,11 +17341,11 @@ fn main() {
 </span>    let f: Box&lt;dyn Fn() + Send + 'static&gt; = Box::new(|| println!(&quot;hi&quot;));
 
     fn takes_long_type(f: Box&lt;dyn Fn() + Send + 'static&gt;) {
-        // --snip--
+        // --省略--
     }
 
     fn returns_long_type() -&gt; Box&lt;dyn Fn() + Send + 'static&gt; {
-        // --snip--
+        // --省略--
 <span class="boring">        Box::new(|| ())
 </span>    }
 <span class="boring">}
@@ -17358,11 +17358,11 @@ fn main() {
     let f: Thunk = Box::new(|| println!(&quot;hi&quot;));
 
     fn takes_long_type(f: Thunk) {
-        // --snip--
+        // --省略--
     }
 
     fn returns_long_type() -&gt; Thunk {
-        // --snip--
+        // --省略--
 <span class="boring">        Box::new(|| ())
 </span>    }
 <span class="boring">}
@@ -17419,7 +17419,7 @@ pub trait Write {
 <h3><a class="header" href="#永不回傳的永不型別" id="永不回傳的永不型別">永不回傳的永不型別</a></h3>
 <p>Rust 有一個特殊的型別叫做 <code>!</code>，由於它沒有任何值，在型別理論的行話中又稱為<strong>空型別（empty type）</strong>。不過我們更喜歡稱之為<strong>永不型別（never type）</strong>，因為當一個函式永遠不會回傳，永不型別將會替代原本的回傳型別。這裡來個範例:</p>
 <pre><pre class="playground"><code class="language-rust">fn bar() -&gt; ! {
-    // --snip--
+    // --省略--
 <span class="boring">    panic!();
 </span>}
 <span class="boring">
@@ -17443,7 +17443,7 @@ pub trait Write {
 </span><span class="boring">
 </span><span class="boring">        let mut guess = String::new();
 </span><span class="boring">
-</span><span class="boring">        // --snip--
+</span><span class="boring">        // --省略--
 </span><span class="boring">
 </span><span class="boring">        io::stdin()
 </span><span class="boring">            .read_line(&amp;mut guess)
@@ -17456,7 +17456,7 @@ pub trait Write {
 <span class="boring">
 </span><span class="boring">        println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">
-</span><span class="boring">        // --snip--
+</span><span class="boring">        // --省略--
 </span><span class="boring">
 </span><span class="boring">        match guess.cmp(&amp;secret_number) {
 </span><span class="boring">            Ordering::Less =&gt; println!(&quot;太小了！&quot;),
@@ -17524,17 +17524,17 @@ pub trait Write {
 <p>我們將各種指標與 <code>str</code> 結合，例如 <code>Box&lt;str&gt;</code> 或 <code>Rc&lt;str&gt;</code>。事實上，你早已看過此類作法，不過是在其他動態大小型別上看過，那個型別就是特徵（trait）。每個特徵都是一個動態大小型別，我們可以透過使用特徵的名字來指涉它。在第十七章的<a href="ch17-02-trait-objects.html#%E5%85%81%E8%A8%B1%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%88%A5%E6%95%B8%E5%80%BC%E7%9A%84%E7%89%B9%E5%BE%B5%E7%89%A9%E4%BB%B6">「允許不同型別數值的特徵物件」</a>部分，我們提及欲將特徵做為特徵物件（trait object）來使用，必須將特徵放在指標之後，例如 <code>&amp;dyn Trait</code> 或 <code>Box&lt;dyn Trait&gt;</code>（<code>Rc&lt;dyn Trait&gt;</code> 也行）。</p>
 <p>為了使用 DST，Rust 提供一個 <code>Sized</code> 特徵，來決定一個型別的大小可否在編譯期就確定下來。對於能在編譯期得知大小的所有東西，都會自動實作這個特徵。此外 Rust 自動替所有泛型函式隱含加上 <code>Sized</code> 的約束（bound）。也就是說若一泛型函數定義如下：</p>
 <pre><code class="language-rust ignore">fn generic&lt;T&gt;(t: T) {
-    // --snip--
+    // --省略--
 }
 </code></pre>
 <p>實際上就如同寫成這樣：</p>
 <pre><code class="language-rust ignore">fn generic&lt;T: Sized&gt;(t: T) {
-    // --snip--
+    // --省略--
 }
 </code></pre>
 <p>預設情形下，泛型函式只能在編譯器得知大小的型別上使用。然而，你可以加上以下這個特殊語言來放寬這個限制：</p>
 <pre><code class="language-rust ignore">fn generic&lt;T: ?Sized&gt;(t: &amp;T) {
-    // --snip--
+    // --省略--
 }
 </code></pre>
 <p><code>?Sized</code> 特徵約束與 <code>Sized</code> 特徵約束的效果相反：可以解讀為「<code>T</code> 可能是或不是 <code>Sized</code>」。這個語法只能用在 <code>Sized</code>，不適用於其他特徵。</p>
@@ -17815,7 +17815,7 @@ pub fn hello_macro_derive(input: TokenStream) -&gt; TokenStream {
 <p>當使用者在一個型別上指定 <code>#[derive(HelloMacro)]</code>，<code>hello_macro_derive</code> 函式就會被呼叫，這是由於我們使用 <code>proc_macro_derive</code> 和指定的 <code>HelloMacro</code> 名稱來標註 <code>hello_macro_derive</code> 函式，而其中的 <code>HelloMacro</code> 是我們的特徵名稱。以上就是大多數程序式巨集遵守的慣例。</p>
 <p><code>hello_macro_derive</code> 函式會先將輸入 <code>input</code> 的 <code>TokenStream</code> 轉換成一個我們可以翻譯並執行操作的資料結構，這就是 <code>syn</code> 參與的部分，<code>syn</code> 的 <code>parse</code> 函式需要一個 <code>TokenStream</code> 並回傳一個 <code>DeriveInput</code> 結構體，代表解析過後的 Rust 程式碼。範例 19-32 展示了解析完 <code>struct Pancakes</code> 字串後所得的 <code>DeriveInput</code> 的部分：</p>
 <pre><code class="language-rust ignore">DeriveInput {
-    // --snip--
+    // --省略--
 
     ident: Ident {
         ident: &quot;Pancakes&quot;,
@@ -18092,7 +18092,7 @@ message-body
 <p>這是最小化的 HTML 文件，其附有一個標頭與一些文字。爲了要在收到請求後從伺服器回傳此檔案，我們要修改範例 20-5 的 <code>handle_connection</code> 來讀取 HTML 檔案、加進回應本體中然後傳送出去。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run">use std::fs;
-// --snip--
+// --省略--
 
 <span class="boring">use std::io::prelude::*;
 </span><span class="boring">use std::net::TcpListener;
@@ -18147,7 +18147,7 @@ message-body
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 
 fn handle_connection(mut stream: TcpStream) {
     let mut buffer = [0; 1024];
@@ -18209,7 +18209,7 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">
 </span><span class="boring">        stream.write(response.as_bytes()).unwrap();
 </span><span class="boring">        stream.flush().unwrap();
-</span>    // --snip--
+</span>    // --省略--
     } else {
         let status_line = &quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;;
         let contents = fs::read_to_string(&quot;404.html&quot;).unwrap();
@@ -18256,10 +18256,10 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 
 fn handle_connection(mut stream: TcpStream) {
-    // --snip--
+    // --省略--
 
 <span class="boring">    let mut buffer = [0; 1024];
 </span><span class="boring">    stream.read(&amp;mut buffer).unwrap();
@@ -18303,7 +18303,7 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">use std::net::TcpStream;
 </span>use std::thread;
 use std::time::Duration;
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    let listener = TcpListener::bind(&quot;127.0.0.1:7878&quot;).unwrap();
@@ -18316,7 +18316,7 @@ use std::time::Duration;
 </span><span class="boring">}
 </span>
 fn handle_connection(mut stream: TcpStream) {
-    // --snip--
+    // --省略--
 
 <span class="boring">    let mut buffer = [0; 1024];
 </span><span class="boring">    stream.read(&amp;mut buffer).unwrap();
@@ -18333,7 +18333,7 @@ fn handle_connection(mut stream: TcpStream) {
         (&quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;, &quot;404.html&quot;)
     };
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
 </span><span class="boring">
@@ -18583,7 +18583,7 @@ To learn more, run the command again with --verbose.
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct ThreadPool;
 </span><span class="boring">
 </span>impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
 </span><span class="boring">        ThreadPool
 </span><span class="boring">    }
@@ -18626,7 +18626,7 @@ To learn more, run the command again with --verbose.
         ThreadPool
     }
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -18659,7 +18659,7 @@ pub struct ThreadPool {
 }
 
 impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -18679,7 +18679,7 @@ impl ThreadPool {
         ThreadPool { threads }
     }
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -18713,7 +18713,7 @@ pub struct ThreadPool {
 }
 
 impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -18732,7 +18732,7 @@ impl ThreadPool {
 
         ThreadPool { workers }
     }
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -18774,7 +18774,7 @@ impl Worker {
 <p>讓我們先在 <code>ThreadPool::new</code> 建立通道並讓 <code>ThreadPool</code> 實例儲存發送端，如範例 20-16 所示。現在結構體 <code>Job</code> 還不會儲存任何東西，但是它最終會是我們傳送給通道的型別。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::thread;
-</span>// --snip--
+</span>// --省略--
 use std::sync::mpsc;
 
 pub struct ThreadPool {
@@ -18785,7 +18785,7 @@ pub struct ThreadPool {
 struct Job;
 
 impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -18806,7 +18806,7 @@ impl ThreadPool {
 
         ThreadPool { workers, sender }
     }
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -18845,7 +18845,7 @@ impl ThreadPool {
 </span><span class="boring">struct Job;
 </span><span class="boring">
 </span>impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -18866,7 +18866,7 @@ impl ThreadPool {
 
         ThreadPool { workers, sender }
     }
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -18875,7 +18875,7 @@ impl ThreadPool {
 </span><span class="boring">    }
 </span>}
 
-// --snip--
+// --省略--
 
 <span class="boring">
 </span><span class="boring">struct Worker {
@@ -18922,7 +18922,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">use std::thread;
 </span>use std::sync::Arc;
 use std::sync::Mutex;
-// --snip--
+// --省略--
 
 <span class="boring">pub struct ThreadPool {
 </span><span class="boring">    workers: Vec&lt;Worker&gt;,
@@ -18932,7 +18932,7 @@ use std::sync::Mutex;
 </span><span class="boring">struct Job;
 </span><span class="boring">
 </span>impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -18956,7 +18956,7 @@ use std::sync::Mutex;
         ThreadPool { workers, sender }
     }
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -18965,7 +18965,7 @@ use std::sync::Mutex;
 </span><span class="boring">    }
 </span>}
 
-// --snip--
+// --省略--
 
 <span class="boring">struct Worker {
 </span><span class="boring">    id: usize,
@@ -18974,7 +18974,7 @@ use std::sync::Mutex;
 </span><span class="boring">
 </span>impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-        // --snip--
+        // --省略--
 <span class="boring">        let thread = thread::spawn(|| {
 </span><span class="boring">            receiver;
 </span><span class="boring">        });
@@ -19001,12 +19001,12 @@ use std::sync::Mutex;
 </span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 
 type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
 
 impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -19040,7 +19040,7 @@ impl ThreadPool {
     }
 }
 
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">struct Worker {
 </span><span class="boring">    id: usize,
@@ -19117,7 +19117,7 @@ impl ThreadPool {
 </span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 
 impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
@@ -19236,7 +19236,7 @@ Worker 2 got a job; executing.
 </span><span class="boring">    id: usize,
 </span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
 </span><span class="boring">}
-</span>// --snip--
+</span>// --省略--
 
 impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
@@ -19533,7 +19533,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">
 </span>impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-        // --snip--
+        // --省略--
 
 <span class="boring">        let thread = thread::spawn(move || loop {
 </span><span class="boring">            let job = receiver.lock().unwrap().recv().unwrap();
@@ -19737,7 +19737,7 @@ To learn more, run the command again with --verbose.
     sender: mpsc::Sender&lt;Message&gt;,
 }
 
-// --snip--
+// --省略--
 
 <span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
 </span><span class="boring">
@@ -19747,7 +19747,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl ThreadPool {
-    // --snip--
+    // --省略--
 
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
@@ -19782,7 +19782,7 @@ To learn more, run the command again with --verbose.
     }
 }
 
-// --snip--
+// --省略--
 
 <span class="boring">impl Drop for ThreadPool {
 </span><span class="boring">    fn drop(&amp;mut self) {

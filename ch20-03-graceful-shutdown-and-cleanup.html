@@ -438,7 +438,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">
 </span>impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-        // --snip--
+        // --省略--
 
 <span class="boring">        let thread = thread::spawn(move || loop {
 </span><span class="boring">            let job = receiver.lock().unwrap().recv().unwrap();
@@ -642,7 +642,7 @@ To learn more, run the command again with --verbose.
     sender: mpsc::Sender&lt;Message&gt;,
 }
 
-// --snip--
+// --省略--
 
 <span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
 </span><span class="boring">
@@ -652,7 +652,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl ThreadPool {
-    // --snip--
+    // --省略--
 
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
@@ -687,7 +687,7 @@ To learn more, run the command again with --verbose.
     }
 }
 
-// --snip--
+// --省略--
 
 <span class="boring">impl Drop for ThreadPool {
 </span><span class="boring">    fn drop(&amp;mut self) {

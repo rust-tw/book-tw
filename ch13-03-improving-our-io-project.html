@@ -318,7 +318,7 @@ operations that borrow, we can move the <code>String</code> values from the iter
         process::exit(1);
     });
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    if let Err(e) = minigrep::run(config) {
 </span><span class="boring">        eprintln!(&quot;Application error: {}&quot;, e);
@@ -342,7 +342,7 @@ well.</p>
         process::exit(1);
     });
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    if let Err(e) = minigrep::run(config) {
 </span><span class="boring">        eprintln!(&quot;Application error: {}&quot;, e);
@@ -374,7 +374,7 @@ body.</p>
 </span><span class="boring">
 </span>impl Config {
     pub fn new(mut args: env::Args) -&gt; Result&lt;Config, &amp;'static str&gt; {
-        // --snip--
+        // --省略--
 <span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;not enough arguments&quot;);
 </span><span class="boring">        }

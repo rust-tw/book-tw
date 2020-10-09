@@ -226,7 +226,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 //! calculations more convenient.
 
 /// Adds one to the number given.
-// --snip--
+// --省略--
 <span class="boring">///
 </span><span class="boring">/// # Examples
 </span><span class="boring">///
@@ -278,7 +278,7 @@ pub mod utils {
     /// Combines two primary colors in equal amounts to create
     /// a secondary color.
     pub fn mix(c1: PrimaryColor, c2: PrimaryColor) -&gt; SecondaryColor {
-        // --snip--
+        // --省略--
 <span class="boring">        SecondaryColor::Orange
 </span>    }
 }
@@ -314,7 +314,7 @@ pub use self::kinds::SecondaryColor;
 pub use self::utils::mix;
 
 pub mod kinds {
-    // --snip--
+    // --省略--
 <span class="boring">    /// The primary colors according to the RYB color model.
 </span><span class="boring">    pub enum PrimaryColor {
 </span><span class="boring">        Red,
@@ -331,7 +331,7 @@ pub mod kinds {
 </span>}
 
 pub mod utils {
-    // --snip--
+    // --省略--
 <span class="boring">    use crate::kinds::*;
 </span><span class="boring">
 </span><span class="boring">    /// Combines two primary colors in equal amounts to create
@@ -351,7 +351,7 @@ pub mod utils {
 use art::PrimaryColor;
 
 fn main() {
-    // --snip--
+    // --省略--
 <span class="boring">    let red = PrimaryColor::Red;
 </span><span class="boring">    let yellow = PrimaryColor::Yellow;
 </span><span class="boring">    mix(red, yellow);
@@ -382,7 +382,7 @@ copy just the relevant lines below
     Updating crates.io index
 warning: manifest has no description, license, license-file, documentation, homepage or repository.
 See https://doc.rust-lang.org/cargo/reference/manifest.html#package-metadata for more info.
---snip--
+--省略--
 error: api errors (status 200 OK): missing or empty metadata fields: description, license. Please see https://doc.rust-lang.org/cargo/reference/manifest.html for how to upload metadata
 </code></pre>
 <p>原因是因爲你還缺少一些關鍵資訊：描述與授權條款是必須的，所以人們才能知道你的 crate 在做什麼以及在何種情況下允許使用。要修正此錯誤，你就需要將這些資訊加到 <em>Cargo.toml</em> 檔案中。</p>

@@ -178,7 +178,7 @@
 </span><span class="boring">use std::net::TcpStream;
 </span>use std::thread;
 use std::time::Duration;
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    let listener = TcpListener::bind(&quot;127.0.0.1:7878&quot;).unwrap();
@@ -191,7 +191,7 @@ use std::time::Duration;
 </span><span class="boring">}
 </span>
 fn handle_connection(mut stream: TcpStream) {
-    // --snip--
+    // --省略--
 
 <span class="boring">    let mut buffer = [0; 1024];
 </span><span class="boring">    stream.read(&amp;mut buffer).unwrap();
@@ -208,7 +208,7 @@ fn handle_connection(mut stream: TcpStream) {
         (&quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;, &quot;404.html&quot;)
     };
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
 </span><span class="boring">
@@ -458,7 +458,7 @@ To learn more, run the command again with --verbose.
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct ThreadPool;
 </span><span class="boring">
 </span>impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
 </span><span class="boring">        ThreadPool
 </span><span class="boring">    }
@@ -501,7 +501,7 @@ To learn more, run the command again with --verbose.
         ThreadPool
     }
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -534,7 +534,7 @@ pub struct ThreadPool {
 }
 
 impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -554,7 +554,7 @@ impl ThreadPool {
         ThreadPool { threads }
     }
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -588,7 +588,7 @@ pub struct ThreadPool {
 }
 
 impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -607,7 +607,7 @@ impl ThreadPool {
 
         ThreadPool { workers }
     }
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -649,7 +649,7 @@ impl Worker {
 <p>讓我們先在 <code>ThreadPool::new</code> 建立通道並讓 <code>ThreadPool</code> 實例儲存發送端，如範例 20-16 所示。現在結構體 <code>Job</code> 還不會儲存任何東西，但是它最終會是我們傳送給通道的型別。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::thread;
-</span>// --snip--
+</span>// --省略--
 use std::sync::mpsc;
 
 pub struct ThreadPool {
@@ -660,7 +660,7 @@ pub struct ThreadPool {
 struct Job;
 
 impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -681,7 +681,7 @@ impl ThreadPool {
 
         ThreadPool { workers, sender }
     }
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -720,7 +720,7 @@ impl ThreadPool {
 </span><span class="boring">struct Job;
 </span><span class="boring">
 </span>impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -741,7 +741,7 @@ impl ThreadPool {
 
         ThreadPool { workers, sender }
     }
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -750,7 +750,7 @@ impl ThreadPool {
 </span><span class="boring">    }
 </span>}
 
-// --snip--
+// --省略--
 
 <span class="boring">
 </span><span class="boring">struct Worker {
@@ -797,7 +797,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">use std::thread;
 </span>use std::sync::Arc;
 use std::sync::Mutex;
-// --snip--
+// --省略--
 
 <span class="boring">pub struct ThreadPool {
 </span><span class="boring">    workers: Vec&lt;Worker&gt;,
@@ -807,7 +807,7 @@ use std::sync::Mutex;
 </span><span class="boring">struct Job;
 </span><span class="boring">
 </span>impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -831,7 +831,7 @@ use std::sync::Mutex;
         ThreadPool { workers, sender }
     }
 
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
 </span><span class="boring">    where
@@ -840,7 +840,7 @@ use std::sync::Mutex;
 </span><span class="boring">    }
 </span>}
 
-// --snip--
+// --省略--
 
 <span class="boring">struct Worker {
 </span><span class="boring">    id: usize,
@@ -849,7 +849,7 @@ use std::sync::Mutex;
 </span><span class="boring">
 </span>impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-        // --snip--
+        // --省略--
 <span class="boring">        let thread = thread::spawn(|| {
 </span><span class="boring">            receiver;
 </span><span class="boring">        });
@@ -876,12 +876,12 @@ use std::sync::Mutex;
 </span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 
 type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
 
 impl ThreadPool {
-    // --snip--
+    // --省略--
 <span class="boring">    /// Create a new ThreadPool.
 </span><span class="boring">    ///
 </span><span class="boring">    /// The size is the number of threads in the pool.
@@ -915,7 +915,7 @@ impl ThreadPool {
     }
 }
 
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">struct Worker {
 </span><span class="boring">    id: usize,
@@ -992,7 +992,7 @@ impl ThreadPool {
 </span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
 </span><span class="boring">}
 </span><span class="boring">
-</span>// --snip--
+</span>// --省略--
 
 impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
@@ -1111,7 +1111,7 @@ Worker 2 got a job; executing.
 </span><span class="boring">    id: usize,
 </span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
 </span><span class="boring">}
-</span>// --snip--
+</span>// --省略--
 
 impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {

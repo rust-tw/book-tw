@@ -250,12 +250,12 @@ fn main() {
 use std::io;
 
 fn function1() -&gt; fmt::Result {
-    // --snip--
+    // --省略--
 <span class="boring">    Ok(())
 </span>}
 
 fn function2() -&gt; io::Result&lt;()&gt; {
-    // --snip--
+    // --省略--
 <span class="boring">    Ok(())
 </span>}
 <span class="boring">}
@@ -272,12 +272,12 @@ fn function2() -&gt; io::Result&lt;()&gt; {
 use std::io::Result as IoResult;
 
 fn function1() -&gt; Result {
-    // --snip--
+    // --省略--
 <span class="boring">    Ok(())
 </span>}
 
 fn function2() -&gt; IoResult&lt;()&gt; {
-    // --snip--
+    // --省略--
 <span class="boring">    Ok(())
 </span>}
 <span class="boring">}
@@ -354,10 +354,10 @@ fn main() {
 <p>如果我們要使用在相同 crate 或是相同模組內定義的數個項目，針對每個項目都單獨寫一行的話，會佔據我們檔案內很多空間。舉例來說，範例 2-4 中的猜謎遊戲我們用了這兩個 <code>use</code> 陳述式來引入作用域中：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span>// --snip--
+</span>// --省略--
 use std::cmp::Ordering;
 use std::io;
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!(&quot;請猜測一個數字！&quot;);
@@ -386,9 +386,9 @@ use std::io;
 <p>我們可以改使用巢狀路徑（nested paths）來只用一行就能將數個項目引入作用域中。我們先指明相同路徑的部分，加上雙冒號，然後在大括號內列出各自不同的路徑部分，如範例 7-18 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span>// --snip--
+</span>// --省略--
 use std::{cmp::Ordering, io};
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!(&quot;請猜測一個數字！&quot;);

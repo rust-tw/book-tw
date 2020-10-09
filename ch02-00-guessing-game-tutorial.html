@@ -558,7 +558,7 @@ use std::cmp::Ordering;
 use std::io;
 
 fn main() {
-    // --snip--
+    // --省略--
 <span class="boring">    println!(&quot;請猜測一個數字！&quot;);
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
@@ -626,7 +626,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;請輸入你的猜測數字。&quot;);
 </span><span class="boring">
-</span>    // --snip--
+</span>    // --省略--
 
     let mut guess = String::new();
 
@@ -683,14 +683,14 @@ cargo run
 </span><span class="boring">
 </span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
 </span><span class="boring">
-</span>    // --snip--
+</span>    // --省略--
 
     println!(&quot;祕密數字爲：{}&quot;, secret_number);
 
     loop {
         println!(&quot;請輸入你的猜測數字。&quot;);
 
-        // --snip--
+        // --省略--
 
 <span class="boring">
 </span><span class="boring">        let mut guess = String::new();
@@ -772,7 +772,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">
 </span><span class="boring">        println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">
-</span>        // --snip--
+</span>        // --省略--
 
         match guess.cmp(&amp;secret_number) {
             Ordering::Less =&gt; println!(&quot;太小了！&quot;),
@@ -805,7 +805,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">
 </span><span class="boring">        let mut guess = String::new();
 </span><span class="boring">
-</span>        // --snip--
+</span>        // --省略--
 
         io::stdin()
             .read_line(&amp;mut guess)
@@ -818,7 +818,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
         println!(&quot;你的猜測數字：{}&quot;, guess);
 
-        // --snip--
+        // --省略--
 <span class="boring">
 </span><span class="boring">        match guess.cmp(&amp;secret_number) {
 </span><span class="boring">            Ordering::Less =&gt; println!(&quot;太小了！&quot;),

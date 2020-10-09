@@ -195,7 +195,7 @@
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
-</span><span class="boring">    // --snip--
+</span><span class="boring">    // --省略--
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">enum Coin {
@@ -209,7 +209,7 @@
 </span><span class="boring">    let coin = Coin::Penny;
 </span>    let mut count = 0;
     match coin {
-        Coin::Quarter(state) =&gt; println!(&quot;State quarter from {:?}!&quot;, state),
+        Coin::Quarter(state) =&gt; println!(&quot;此 25 美分所屬的州爲 {:?}!&quot;, state),
         _ =&gt; count += 1,
     }
 <span class="boring">}
@@ -219,7 +219,7 @@
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
-</span><span class="boring">    // --snip--
+</span><span class="boring">    // --省略--
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">enum Coin {
@@ -233,7 +233,7 @@
 </span><span class="boring">    let coin = Coin::Penny;
 </span>    let mut count = 0;
     if let Coin::Quarter(state) = coin {
-        println!(&quot;State quarter from {:?}!&quot;, state);
+        println!(&quot;此 25 美分所屬的州爲 {:?}!&quot;, state);
     } else {
         count += 1;
     }

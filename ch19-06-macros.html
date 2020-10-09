@@ -328,7 +328,7 @@ pub fn hello_macro_derive(input: TokenStream) -&gt; TokenStream {
 <p>當使用者在一個型別上指定 <code>#[derive(HelloMacro)]</code>，<code>hello_macro_derive</code> 函式就會被呼叫，這是由於我們使用 <code>proc_macro_derive</code> 和指定的 <code>HelloMacro</code> 名稱來標註 <code>hello_macro_derive</code> 函式，而其中的 <code>HelloMacro</code> 是我們的特徵名稱。以上就是大多數程序式巨集遵守的慣例。</p>
 <p><code>hello_macro_derive</code> 函式會先將輸入 <code>input</code> 的 <code>TokenStream</code> 轉換成一個我們可以翻譯並執行操作的資料結構，這就是 <code>syn</code> 參與的部分，<code>syn</code> 的 <code>parse</code> 函式需要一個 <code>TokenStream</code> 並回傳一個 <code>DeriveInput</code> 結構體，代表解析過後的 Rust 程式碼。範例 19-32 展示了解析完 <code>struct Pancakes</code> 字串後所得的 <code>DeriveInput</code> 的部分：</p>
 <pre><code class="language-rust ignore">DeriveInput {
-    // --snip--
+    // --省略--
 
     ident: Ident {
         ident: &quot;Pancakes&quot;,

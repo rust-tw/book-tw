@@ -687,7 +687,7 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 <p><span class="caption">範例 10-16：依據特徵界限來選擇性地在泛型型別實作方法</span></p>
 <p>我們還可以對有實作其他特徵的型別選擇性地來實作特徵。對滿足特徵界限的型別實作特徵會稱之爲<em>毯子實作（blanket implementations）</em>，這被廣泛地用在 Rust 標準函式庫中。舉例來說，標準函式庫會對任何有實作 <code>Display</code> 特徵的型別實作 <code>ToString</code>。標準函式庫中的 <code>impl</code> 區塊會有類似這樣的程式碼：</p>
 <pre><code class="language-rust ignore">impl&lt;T: Display&gt; ToString for T {
-    // --snip--
+    // --省略--
 }
 </code></pre>
 <p>因爲標準函式庫有此毯子實作，我們可以在任何有實作 <code>Display</code> 特徵的型別呼叫 <code>ToString</code> 特徵的 <code>to_string</code> 方法。舉例來說，我們可以像這樣將整數轉變成對應的 <code>String</code> 數值，因爲整數有實作 <code>Display</code>：</p>

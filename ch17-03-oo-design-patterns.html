@@ -238,7 +238,7 @@ impl State for Draft {}
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Post {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new() -&gt; Post {
 </span><span class="boring">        Post {
 </span><span class="boring">            state: Some(Box::new(Draft {})),
@@ -270,7 +270,7 @@ impl State for Draft {}
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Post {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new() -&gt; Post {
 </span><span class="boring">        Post {
 </span><span class="boring">            state: Some(Box::new(Draft {})),
@@ -306,7 +306,7 @@ impl State for Draft {}
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Post {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new() -&gt; Post {
 </span><span class="boring">        Post {
 </span><span class="boring">            state: Some(Box::new(Draft {})),
@@ -371,7 +371,7 @@ impl State for PendingReview {
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Post {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new() -&gt; Post {
 </span><span class="boring">        Post {
 </span><span class="boring">            state: Some(Box::new(Draft {})),
@@ -408,7 +408,7 @@ trait State {
 struct Draft {}
 
 impl State for Draft {
-    // --snip--
+    // --省略--
 <span class="boring">    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
 </span><span class="boring">        Box::new(PendingReview {})
 </span><span class="boring">    }
@@ -421,7 +421,7 @@ impl State for Draft {
 struct PendingReview {}
 
 impl State for PendingReview {
-    // --snip--
+    // --省略--
 <span class="boring">    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
 </span><span class="boring">        self
 </span><span class="boring">    }
@@ -455,7 +455,7 @@ impl State for Published {
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Post {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn new() -&gt; Post {
 </span><span class="boring">        Post {
 </span><span class="boring">            state: Some(Box::new(Draft {})),
@@ -470,7 +470,7 @@ impl State for Published {
 </span>    pub fn content(&amp;self) -&gt; &amp;str {
         self.state.as_ref().unwrap().content(self)
     }
-    // --snip--
+    // --省略--
 <span class="boring">
 </span><span class="boring">    pub fn request_review(&amp;mut self) {
 </span><span class="boring">        if let Some(s) = self.state.take() {
@@ -570,7 +570,7 @@ impl State for Published {
 </span><span class="boring">}
 </span><span class="boring">
 </span>trait State {
-    // --snip--
+    // --省略--
 <span class="boring">    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt;;
 </span><span class="boring">    fn approve(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt;;
 </span><span class="boring">
@@ -579,7 +579,7 @@ impl State for Published {
     }
 }
 
-// --snip--
+// --省略--
 <span class="boring">
 </span><span class="boring">struct Draft {}
 </span><span class="boring">
@@ -608,7 +608,7 @@ impl State for Published {
 </span>struct Published {}
 
 impl State for Published {
-    // --snip--
+    // --省略--
 <span class="boring">    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
 </span><span class="boring">        self
 </span><span class="boring">    }
@@ -724,7 +724,7 @@ impl DraftPost {
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl DraftPost {
-    // --snip--
+    // --省略--
 <span class="boring">    pub fn add_text(&amp;mut self, text: &amp;str) {
 </span><span class="boring">        self.content.push_str(text);
 </span><span class="boring">    }

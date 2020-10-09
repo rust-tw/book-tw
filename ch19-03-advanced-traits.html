@@ -202,7 +202,7 @@
     type Item = u32;
 
     fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
-        // --snip--
+        // --省略--
 <span class="boring">        if self.count &lt; 5 {
 </span><span class="boring">            self.count += 1;
 </span><span class="boring">            Some(self.count)
