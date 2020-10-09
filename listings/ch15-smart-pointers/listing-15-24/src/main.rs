@@ -18,7 +18,7 @@ fn main() {
 
     *value.borrow_mut() += 10;
 
-    println!("a after = {:?}", a);
-    println!("b after = {:?}", b);
-    println!("c after = {:?}", c);
+    println!("a 之後 = {:?}", a);
+    println!("b 之後 = {:?}", b);
+    println!("c 之後 = {:?}", c);
 }

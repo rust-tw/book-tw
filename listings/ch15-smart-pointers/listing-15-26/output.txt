@@ -2,10 +2,10 @@ $ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
     Finished dev [unoptimized + debuginfo] target(s) in 0.53s
      Running `target/debug/cons-list`
-a initial rc count = 1
-a next item = Some(RefCell { value: Nil })
-a rc count after b creation = 2
-b initial rc count = 1
-b next item = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
-b rc count after changing a = 2
-a rc count after changing a = 2
+a 初始引用計數 = 1
+a 下個項目 = Some(RefCell { value: Nil })
+a 在 b 建立後的引用計數 = 2
+b 初始引用計數 = 1
+b 下個項目 = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
+b 在變更 a 後的引用計數 = 2
+a 在變更 a 後的引用計數 = 2

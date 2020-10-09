@@ -17,7 +17,7 @@ fn main() {
     });
 
     println!(
-        "leaf strong = {}, weak = {}",
+        "leaf 的強引用 = {}、弱引用 = {}",
         Rc::strong_count(&leaf),
         Rc::weak_count(&leaf),
     );
@@ -32,21 +32,21 @@ fn main() {
         *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
 
         println!(
-            "branch strong = {}, weak = {}",
+            "branch 的強引用 = {}、弱引用 = {}",
             Rc::strong_count(&branch),
             Rc::weak_count(&branch),
         );
 
         println!(
-            "leaf strong = {}, weak = {}",
+            "leaf 的強引用 = {}、弱引用 = {}",
             Rc::strong_count(&leaf),
             Rc::weak_count(&leaf),
         );
     }
 
-    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+    println!("leaf 的父節點 {:?}", leaf.parent.borrow().upgrade());
     println!(
-        "leaf strong = {}, weak = {}",
+        "leaf 的強引用 = {}、弱引用 = {}",
         Rc::strong_count(&leaf),
         Rc::weak_count(&leaf),
     );

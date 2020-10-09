@@ -1,6 +1,6 @@
 ## `RefCell<T>` 與內部可變性模式
 
-*內部可變性（Interior mutability）*是 Rust 中的一種設計模式，能讓你能對即使是不可變引用的資料也能改變。正常狀況下，借用規則是不允許這種動作的。爲了改變資料，這樣的模式會在資料結構內使用 `unsafe` 程式碼來繞過 Rust 的常見可變性與借用規則。我們尚未介紹什麼是不安全（unsafe）的程式碼，我們會在第十九章談到。當編譯器無法保障，但我們可以確保借用規則在執行時能夠遵循的話，我們就可以使用擁有內部可變性模式的型別。其內的 `unsafe` 程式碼會透過安全的 API 封裝起來，讓外部型別仍然是不可變的。
+*內部可變性（Interior mutability）* 是 Rust 中的一種設計模式，能讓你能對即使是不可變引用的資料也能改變。正常狀況下，借用規則是不允許這種動作的。爲了改變資料，這樣的模式會在資料結構內使用 `unsafe` 程式碼來繞過 Rust 的常見可變性與借用規則。我們尚未介紹什麼是不安全（unsafe）的程式碼，我們會在第十九章談到。當編譯器無法保障，但我們可以確保借用規則在執行時能夠遵循的話，我們就可以使用擁有內部可變性模式的型別。其內的 `unsafe` 程式碼會透過安全的 API 封裝起來，讓外部型別仍然是不可變的。
 
 讓我們觀察擁有內部可變性模式的 `RefCell<T>` 型別來探討此概念。
 
@@ -49,7 +49,7 @@
 
 #### 內部可變性的使用案例：模擬物件
 
-*測試替身（test double）*是一個通用程式設計概念，表示一個在測試中替代某種型別的型別。*模擬物件（Mock objects）*是測試替身其中一種特定型別，這能紀錄測試過程中發生什麼事並讓你能判斷動作是否正確。
+*測試替身（test double）* 是一個通用程式設計概念，表示一個在測試中替代某種型別的型別。*模擬物件（Mock objects）* 是測試替身其中一種特定型別，這能紀錄測試過程中發生什麼事並讓你能判斷動作是否正確。
 
 Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 的標準函式庫內也沒有如其他語言會內建的模擬物件功能。不過你還是可以有方法來建立結構體來作爲模擬物件。
 
@@ -79,7 +79,7 @@ Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 
 
 此測試程式碼定義了一個結構體 `MockMessenger` 其有個 `sent_messages` 欄位並存有 `String` 數值的 `Vec` 來追蹤被通知要傳送的訊息。我們也定義了一個關聯函式 `new` 讓我們可以方便建立起始訊息列表爲空的 `MockMessenger`。我們對 `MockMessenger` 實作 `Messenger` 特徵，這樣我們才能將 `MockMessenger` 交給 `LimitTracker`。在 `send` 方法的定義中，我們取得由參數傳遞的訊息，並存入 `MockMessenger` 的 `sent_messages` 列表中。
 
-在測試中，我們測試當 `LimitTracker` 被通知將 `value` 設爲超過 `max` 數值 75% 的某個值。首先，我們建立新的 `MockMessenger`，其起始爲一個空的訊息列表。然後我們建立一個新的 `LimitTracker` 並將 `MockMessenger` 的引用與一個 `max` 爲 100 的數值賦值給它。我們用數值 80 來呼叫 `LimitTracker` 的 `set_value` 方法，此值會超過 100 的 75%。然後我們判定 `MockMessenger` 追蹤的訊息列表需要至守有一個訊息。
+在測試中，我們測試當 `LimitTracker` 被通知將 `value` 設爲超過 `max` 數值 75% 的某個值。首先，我們建立新的 `MockMessenger`，其起始爲一個空的訊息列表。然後我們建立一個新的 `LimitTracker` 並將 `MockMessenger` 的引用與一個 `max` 爲 100 的數值賦值給它。我們用數值 80 來呼叫 `LimitTracker` 的 `set_value` 方法，此值會超過 100 的 75%。然後我們判定 `MockMessenger` 追蹤的訊息列表需要至少有一個訊息。
 
 但是此測試有個問題，如以下所示：
 
@@ -87,7 +87,7 @@ Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 
 {{#include ../listings/ch15-smart-pointers/listing-15-21/output.txt}}
 ```
 
-我們無法修改 `MockMessenger` 來追蹤訊息，因爲 `send` 方法取得的是 `self` 的不可變引用。而我們也無法使用錯誤訊息中推薦使用的 `&mut self`，因爲 `send` 的簽名就會與 `Messenger` 特徵所定義的不相符（你可以是看看並觀察錯誤訊息）。
+我們無法修改 `MockMessenger` 來追蹤訊息，因爲 `send` 方法取得的是 `self` 的不可變引用。而我們也無法使用錯誤訊息中推薦使用的 `&mut self`，因爲 `send` 的簽名就會與 `Messenger` 特徵所定義的不相符（你可以試看看並觀察錯誤訊息）。
 
 這就是內部可變性能帶來幫助的場合！我們會將 `sent_messages` 存入 `RefCell<T>` 內，然後 `send` 訊息就也能夠進行修改存入訊息。範例 15-22 顯示了變更後的程式碼：
 
@@ -107,13 +107,13 @@ Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 
 
 現在你已經知道如何使用 `RefCell<T>`，讓我們進一步探討它如何運作的吧！
 
-#### Keeping Track of Borrows at Runtime with `RefCell<T>`
+#### 透過 `RefCell<T>` 在執行時追蹤借用
 
 當建立不可變與可變引用時，我們分別使用 `&` 和 `&mut` 語法。而對於 `RefCell<T>` 的話，我們使用 `borrow` 和 `borrow_mut` 方法，這是 `RefCell<T>` 所提供的安全 API 之一。`borrow` 方法回傳一個智慧指標型別 `Ref<T>`，而 `borrow_mut` 回傳智慧指標型別 `RefMut<T>`。這兩個型別都有實作 `Deref`，所以我們可以像一般引用來對待它們。
 
 `RefCell<T>` 會追蹤當前有多少 `Ref<T>` 和 `RefMut<T>` 智慧指標存在。每次我們呼叫 `borrow` 時，`RefCell<T>` 會增加不可變借用計數。當 `Ref<T>` 離開作用域時，不可變借用計數就會減一。就和編譯時借用規則一樣，`RefCell<T>` 讓我們同一時間要麼只能有一個可變引用，要麼可以有數個不可變引用。
 
-如果我們嘗試違法這些規則，我們不會像引用那樣得到編譯器錯誤，`RefCell<T>` 的實作會在執行時恐慌。 範例 15-23 修改了範例 15-22 的 `send` 實作。我們故意嘗試在同個作用域下建立兩個可變引用，來說明 `RefCell<T>` 會不允許我們在執行時這樣做。
+如果我們嘗試違反這些規則，我們不會像引用那樣得到編譯器錯誤，`RefCell<T>` 的實作會在執行時恐慌。 範例 15-23 修改了範例 15-22 的 `send` 實作。我們故意嘗試在同個作用域下建立兩個可變引用，來說明 `RefCell<T>` 會不允許我們在執行時這樣做。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -147,7 +147,7 @@ Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 
 
 <span class="caption">範例 15-24：使用 `Rc<RefCell<i32>>` 建立一個可變的 `List`</span>
 
-我們建立了一個 `Rc<RefCell<i32>>` 實例數值並將其存入變數 `value` 好像我們之後可以直接取得。然後我們在 `a` 用持有 `value` 的 `Cons` 變體來建立 `List`。我們需要克隆 `value`，這樣 `a` 和 `value` 才能都有內部數值 `5` 的所有權，而不是從 `value` 轉移所有權給 `a`，或是讓 `a` 借用 `value`。
+我們建立了一個 `Rc<RefCell<i32>>` 實例數值並將其存入變數 `value` 好讓我們之後可以直接取得。然後我們在 `a` 用持有 `value` 的 `Cons` 變體來建立 `List`。我們需要克隆 `value`，這樣 `a` 和 `value` 才能都有內部數值 `5` 的所有權，而不是從 `value` 轉移所有權給 `a`，或是讓 `a` 借用 `value`。
 
 我們用 `Rc<T>` 封裝列表 `a`，所以當我們建立列表 `b` 和 `c` 時，它們都可以引用 `a`，就像範例 15-18 一樣。
 
@@ -159,11 +159,11 @@ Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 
 {{#include ../listings/ch15-smart-pointers/listing-15-24/output.txt}}
 ```
 
-此技巧是不是很厲害！透過使用 `RefCell<T>`，我們可以得到一個外部是不可變的 `List` 數值，但是我們可以使用 `RefCell<T>` 提供的方法來取得其內部可變性，讓我們可以在我們想要時改變我們的資料。執行時的借用規則檢查檢查能防止資料競爭，並在某些場合犧牲一點速度來換取資料結構的彈性。
+此技巧是不是很厲害！透過使用 `RefCell<T>`，我們可以得到一個外部是不可變的 `List` 數值，但是我們可以使用 `RefCell<T>` 提供的方法來取得其內部可變性，讓我們可以在我們想要時改變我們的資料。執行時的借用規則檢查能防止資料競爭，並在某些場合犧牲一點速度來換取資料結構的彈性。
 
 標準函式庫也提供了其他具有內部可變性的型別。像是 `Cell<T>`，這類似 `RefCell<T>` 但不同於給予內部數值的引用，`Cell<T>` 的數值會被拷貝出去。還有 `Mutex<T>` 能提供跨執行緒安全的內部可變性，我們會在第十六章討論如何使用它。歡迎查閱標準函式庫的計數文件來瞭解這些型別之間的細節差異。
 
-[wheres-the---operator]: ch05-03-method-syntax.html#運算子跑去哪了
+[wheres-the---operator]: ch05-03-method-syntax.html#--運算子跑去哪了
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-05-interior-mutability.md)

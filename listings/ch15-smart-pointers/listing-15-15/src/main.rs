@@ -4,17 +4,17 @@ struct CustomSmartPointer {
 
 impl Drop for CustomSmartPointer {
     fn drop(&mut self) {
-        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+        println!("釋放 CustomSmartPointer 的資料 `{}`！", self.data);
     }
 }
 
 // ANCHOR: here
 fn main() {
     let c = CustomSmartPointer {
-        data: String::from("some data"),
+        data: String::from("某些資料"),
     };
-    println!("CustomSmartPointer created.");
+    println!("CustomSmartPointer 建立完畢。");
     c.drop();
-    println!("CustomSmartPointer dropped before the end of main.");
+    println!("CustomSmartPointer 在 main 結束前就被釋放了。");
 }
 // ANCHOR_END: here

@@ -18,7 +18,7 @@ fn main() {
         children: RefCell::new(vec![]),
     });
 
-    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+    println!("leaf 的父節點 {:?}", leaf.parent.borrow().upgrade());
 
     let branch = Rc::new(Node {
         value: 5,
@@ -28,6 +28,6 @@ fn main() {
 
     *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
 
-    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+    println!("leaf 的父節點 {:?}", leaf.parent.borrow().upgrade());
 }
 // ANCHOR_END: there

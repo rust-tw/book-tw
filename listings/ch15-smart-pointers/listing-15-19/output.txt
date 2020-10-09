@@ -2,7 +2,7 @@ $ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
     Finished dev [unoptimized + debuginfo] target(s) in 0.45s
      Running `target/debug/cons-list`
-count after creating a = 1
-count after creating b = 2
-count after creating c = 3
-count after c goes out of scope = 2
+建立 a 後的計數 = 1
+建立 b 後的計數 = 2
+建立 c 後的計數 = 3
+c 離開作用域後的計數 = 2

@@ -1,6 +1,6 @@
 ## 引用循環會導致記憶體泄漏
 
-Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情況（通稱爲*記憶體泄漏, memory leak*）難以發生，但這並不是絕對不可能。和在編譯期間不允許資料競爭的情況不同，Rust 並不保證能完全避免記憶體泄漏，代表記憶體泄漏 Rust 中被視爲是記憶體安全的。我們可以透過使用 `Rc<T>` 和 `RefCell<T>` 觀察到 Rust 仍會產生記憶體泄漏，產生引用循環是有可能的，這會導致記憶體泄漏，因爲循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。
+Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情況（通稱爲*記憶體泄漏／memory leak*）難以發生，但這並不是絕對不可能。和在編譯期間不允許資料競爭的情況不同，Rust 並不保證能完全避免記憶體泄漏，代表記憶體泄漏 Rust 中被視爲是記憶體安全的。我們可以透過使用 `Rc<T>` 和 `RefCell<T>` 觀察到 Rust 仍會產生記憶體泄漏，產生引用循環是有可能的，這會導致記憶體泄漏，因爲循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。
 
 ### 產生引用循環
 
@@ -46,7 +46,7 @@ Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情
 
 如果你解除最後一個 `println!` 的註解並執行程式的話，Rust 會嘗試印出此循環，因爲 `a` 會指向 `b` 會指向 `a` 以此循環下去，直到堆疊溢位（stack overflow）。
 
-在此例中，當我們建立完循環引用，程式究詰數了。此循環造成的影響並不嚴重。不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很常一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。
+在此例中，當我們建立完循環引用，程式就結束了。此循環造成的影響並不嚴重。不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很常一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。
 
 要產生循環引用並不是件容易的事，但也不是絕對不可能。如果你有包含 `Rc<T>` 數值的 `RefCell<T>` 數值，或是有類似具內部可變性與引用計數巢狀組合的話，你必須確保不會產生循環引用，你無法依靠 Rust 來檢查它們。產生循環引用是程式中的邏輯錯誤，你需要使用自動化測試、程式碼審查以及其他軟體開發技巧來最小化問題。
 
@@ -84,7 +84,7 @@ Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情
 
 <span class="caption">範例 15-27：建立一個沒有子節點的 `leaf` 節點與一個有 `leaf` 作爲子節點的 `branch` 節點</span>
 
-我們克隆 `leaf` 的 `Rc<Node>` 並存入 `branch`，代表 `leaf` 的 `Node` 現在有兩個擁有者：`leaf` 和 `branch`。我們可以透過 `branch.children` 從 `branch` 取得 `leaf`，但是從 `leaf` 無法取得 `branch`。云因是因爲 `leaf` 沒有 `branch` 的引用且不知道它們之間是有關聯的。我們想要 `leaf` 能知道 `branch` 是它的父節點。這就是我們接下來要做的事。
+我們克隆 `leaf` 的 `Rc<Node>` 並存入 `branch`，代表 `leaf` 的 `Node` 現在有兩個擁有者：`leaf` 和 `branch`。我們可以透過 `branch.children` 從 `branch` 取得 `leaf`，但是從 `leaf` 無法取得 `branch`。原因是因爲 `leaf` 沒有 `branch` 的引用且不知道它們之間是有關聯的。我們想要 `leaf` 能知道 `branch` 是它的父節點。這就是我們接下來要做的事。
 
 #### 新增從子節點到父節點的引用
 
@@ -115,7 +115,7 @@ Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情
 此時當我們透過 `upgrade` 方法嘗試取得 `leaf` 的父節點引用的話，我們會取得 `None` 數值。我們能在輸出結果的第一個 `println!` 陳述式看到：
 
 ```text
-leaf parent = None
+leaf 的父節點 None
 ```
 
 當我們建立 `branch` 節點，它的 `parent` 欄位也會有個新的 `Weak<Node>` 引用，因爲 `branch` 沒有父節點。我們仍然有 `leaf` 作爲 `branch` 其中一個子節點。一旦我們有了 `branch` 的 `Node` 實例，我們可以修改 `leaf` 使其擁有父節點的 `Weak<Node>` 引用。我們對 `leaf` 中 `parent` 欄位的 `RefCell<Weak<Node>>` 使用 `borrow_mut` 方法，然後我們使用 `Rc::downgrade` 函式來從 `branch` 的 `Rc<Node>` 建立一個 `branch` 的 `Weak<Node>` 引用。
@@ -123,7 +123,7 @@ leaf parent = None
 當我們再次印出 `leaf` 的父節點，這次我們就會取得 `Some` 變體其內就是 `branch`，現在 `leaf` 可以取得它的父節點了！當我們印出 `leaf`，我們也能避免產生像範例 15-26 那樣最終導致堆疊溢位（stack overflow）的循環，`Weak<Node>` 會印成 `(Weak)`：
 
 ```text
-leaf parent = Some(Node { value: 5, parent: RefCell { value: (Weak) },
+leaf 的父節點 Some(Node { value: 5, parent: RefCell { value: (Weak) },
 children: RefCell { value: [Node { value: 3, parent: RefCell { value: (Weak) },
 children: RefCell { value: [] } }] } })
 ```
@@ -158,7 +158,7 @@ children: RefCell { value: [] } }] } })
 
 如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱[「The Rustonomicon」][nomicon]來學習更多實用資訊。
 
-接下來，我們將討論 Rust 的並行性。你還會在學到一些新的智慧指標。
+接下來，我們將討論 Rust 的並行性。你還會再學到一些新的智慧指標。
 
 [nomicon]: ../nomicon/index.html
 
