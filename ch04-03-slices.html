@@ -270,7 +270,7 @@
 <p>現在我們得同時紀錄起始<em>與</em>結束的索引，而且我們還產生了更多與原本數值沒辦法直接相關的計算結果。我們現在有三個非直接相關的變數需要保持同步。</p>
 <p>幸運的是 Rust 爲此提供了一個解決辦法：字串切片（String切片）。</p>
 <h3><a class="header" href="#字串切片" id="字串切片">字串切片</a></h3>
-<p><em>字串切片</em> 是 <code>String</code> 其中一部分的引用，它長得像這樣：</p>
+<p><em>字串切片</em>是 <code>String</code> 其中一部分的引用，它長得像這樣：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s = String::from(&quot;hello world&quot;);
 
@@ -342,7 +342,7 @@ let slice = &amp;s[..];
 <p>這樣函式 <code>second_word</code>  一樣也可以回傳切片：</p>
 <pre><code class="language-rust ignore">fn second_word(s: &amp;String) -&gt; &amp;str {
 </code></pre>
-<p>我們現在有個不可能出錯且更直觀的 API，因爲編譯器會確保 <code>String</code> 的引用會是有效的。還記得我們在範例 4-8 的錯誤嗎？就是那個當我們取得單字結尾索引，但字串卻已清空變成無效的錯誤。那段程式碼邏輯是錯誤的，卻不會馬上顯示錯誤。要是我們持續嘗試用該索引存取空字串的話，問題才會浮現。Slice 可以讓這樣的程式錯誤無所遁形，並及早讓我們知道我們程式碼有問題。使用切片版本 <code>first_word</code> 的程式碼的話就會出現編譯期錯誤：</p>
+<p>我們現在有個不可能出錯且更直觀的 API，因爲編譯器會確保 <code>String</code> 的引用會是有效的。還記得我們在範例 4-8 的錯誤嗎？就是那個當我們取得單字結尾索引，但字串卻已清空變成無效的錯誤。那段程式碼邏輯是錯誤的，卻不會馬上顯示錯誤。要是我們持續嘗試用該索引存取空字串的話，問題才會浮現。切片可以讓這樣的程式錯誤無所遁形，並及早讓我們知道我們程式碼有問題。使用切片版本 <code>first_word</code> 的程式碼的話就會出現編譯期錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn first_word(s: &amp;String) -&gt; &amp;str {
 </span><span class="boring">    let bytes = s.as_bytes();

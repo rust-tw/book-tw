@@ -171,8 +171,8 @@
 <p>我們已經在第四章提到字串（String），但現在我們要更加深入探討。Rustaceans 初心者常常會卡在三個環節：Rust 傾向於回報可能的錯誤、字串的資料結構比開發者所熟悉的還要複雜，以及 UTF-8。這些要素讓來自其他程式語言背景的開發者會遇到一些困難。</p>
 <p>我們會在集合章節討論字串的原因是，字串本身就是位元組的集合，且位元組作爲文字呈現時，它會提供一些實用的方法。在此段落我們將和其他集合型別一樣討論 <code>String</code> 的操作，像是建立、更新與讀取。我們還會討論到 <code>String</code> 與其他集合不一樣的地方，像是 <code>String</code> 的索引就比其他集合還複雜，因爲它會依據人們對於 <code>String</code> 資料型別的理解而有所不同。</p>
 <h3><a class="header" href="#什麼是字串" id="什麼是字串">什麼是字串？</a></h3>
-<p>首先我們要好好定義<em>字串（String）<em>這個術語。Rust 在核心語言中只有一個字串型別，那就是字串切片<code>str</code>，它通常是以借用的形式存在 <code>&amp;str</code>。在第四章中我們提到</em>字串切片</em>是一個針對存在某處的  UTF-8 編碼資料的引用。舉例來說，字串字面值（String literals）就儲存在程式的二進制檔案中，因此就是字串切片。</p>
-<p><code>String</code> 型別是 Rust 標準函式庫所提供的型別，並不是核心語言內建的型別，它是可增長的、可變的、可擁有所有權的 UTF-8 編碼字串型別。當 Rustaceans 提及 Rust 中的「字串」時，他們通常指的是 <code>String</code> 以及字串切片<code>&amp;str</code> 型別，而不只是其中一種型別。雖然此段落大部分都在討論 <code>String</code>，這兩個型別都時常用在 Rust 的標準函式庫中，且 <code>String</code> 與字串切片s 都是 UTF-8 編碼的。</p>
+<p>首先我們要好好定義<em>字串（String）<em>這個術語。Rust 在核心語言中只有一個字串型別，那就是字串切片 <code>str</code>，它通常是以借用的形式存在 <code>&amp;str</code>。在第四章中我們提到</em>字串切片</em>是一個針對存在某處的  UTF-8 編碼資料的引用。舉例來說，字串字面值（String literals）就儲存在程式的二進制檔案中，因此就是字串切片。</p>
+<p><code>String</code> 型別是 Rust 標準函式庫所提供的型別，並不是核心語言內建的型別，它是可增長的、可變的、可擁有所有權的 UTF-8 編碼字串型別。當 Rustaceans 提及 Rust 中的「字串」時，他們通常指的是 <code>String</code> 以及字串切片 <code>&amp;str</code> 型別，而不只是其中一種型別。雖然此段落大部分都在討論 <code>String</code>，這兩個型別都時常用在 Rust 的標準函式庫中，且 <code>String</code> 與字串切片都是 UTF-8 編碼的。</p>
 <p>Rust 的標準函式庫還包含了其他種類的字串型別，像是 <code>OsString</code>、<code>OsStr</code>、<code>CString</code> 以及 <code>CStr</code>。函式庫 crates 更可以提供儲存字串資料的更多選項。你應該會注意到這些型別的結尾都是 <code>String</code> 和 <code>Str</code>，它們分別代表擁有所有權與借用的變體。就像你之前看到的 <code>String</code> 和 <code>str</code> 型別一樣。這些字串型別可以儲存不同編碼的文字或者以不同的記憶體形式呈現。我們不會在本章節討論這些字串型別，要是你想知道如何或何時使用它們的話，你可以查閱它們的 API 技術文件。</p>
 <h3><a class="header" href="#建立新的字串" id="建立新的字串">建立新的字串</a></h3>
 <p>許多 <code>Vec&lt;T&gt;</code> 可使用的方法在 <code>String</code> 也都能用，像是用 <code>new</code> 函式建立新的字串，如範例 8-11 所示。</p>
@@ -181,21 +181,21 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-11：建立新的空 <code>String</code></span></p>
-<p>此行會建立新的字串叫做 <code>s</code> ，我們之後可以在寫入資料。不過通常我們會希望建立字串的同時能夠初始化資料。爲此我們可以使用 <code>to_string</code> 方法，任何有實作 <code>Display</code> 特徵的型別都可以使用此方法，就像字串字面值的使用方式一樣。範例 8-12 就展示了兩種例子。</p>
+<p>此行會建立新的字串叫做 <code>s</code>，我們之後可以再寫入資料。不過通常我們會希望建立字串的同時能夠初始化資料。爲此我們可以使用 <code>to_string</code> 方法，任何有實作 <code>Display</code> 特徵的型別都可以使用此方法，就像字串字面值的使用方式一樣。範例 8-12 就展示了兩種例子。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
-</span>    let data = &quot;initial contents&quot;;
+</span>    let data = &quot;初始內容&quot;;
 
     let s = data.to_string();
 
-    // the method also works on a literal directly:
-    let s = &quot;initial contents&quot;.to_string();
+    // 此方法也能直接用於字面值上
+    let s = &quot;初始內容&quot;.to_string();
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-12：從字串字面值使用 <code>to_string</code> 方法來建立 <code>String</code></span></p>
-<p>此程式碼建立了一個字串內容爲 <code>initial contents</code>。</p>
+<p>此程式碼建立了一個字串內容爲 <code>初始內容</code>。</p>
 <p>我們也可以用函式 <code>String::from</code> 從字串字面值建立 <code>String</code>。範例 8-13 的程式碼和使用 <code>to_string</code> 的範例 8-12 效果一樣。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
-</span>    let s = String::from(&quot;initial contents&quot;);
+</span>    let s = String::from(&quot;初始內容&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-13：使用函式 <code>String::from</code> 從字串字面值建立 <code>String</code></span></p>
@@ -259,8 +259,8 @@
 </code></pre>
 <p>這不全是標準函式庫中實際的簽名，在標準函式庫中 <code>add</code> 是用泛型（generics）定義。我們在此看到的是使用實際型別指明泛型的 <code>add</code> 簽名。我們會在第十章討論到泛型。此簽名給了一些我們需要瞭解 <code>+</code> 運算子的一些線索。</p>
 <p>首先 <code>s2</code> 有 <code>&amp;</code> 代表我們是將第二個字串的<em>引用</em>與第一個字串相加，因爲函式 <code>add</code> 中的參數 <code>s</code> 說明我們只能將 <code>&amp;str</code> 與 <code>String</code> 相加，我們無法將兩個 <code>String</code> 數值相加。但等等 <code>&amp;s2</code> 是 <code>&amp;String</code> 才對，並非 <code>add</code> 第二個參數所指定的 <code>&amp;str</code>。爲何範例 8-18 可以編譯呢？</p>
-<p>我們可以在 <code>add</code> 的呼叫中使用 <code>&amp;s2</code> 的原因是因爲編譯器可以<em>強制（coerce）</em> <code>&amp;String</code> 引數轉換成 <code>&amp;str</code>。當我們我們呼叫 <code>add</code> 方法時，Rust <em>強制解引用（deref coercion</em>）*讓 <code>&amp;s2</code> 變成 <code>&amp;s2[..]</code>。我們會在第十五章深入探討強制解引用。因爲 <code>add</code> 不會取得 <code>s</code> 參數的所有權，<code>s2</code> 在此運算後仍然是個有效的 <code>String</code>。</p>
-<p>再來，我們可以看到 <code>add</code> 的簽名會取得 <code>self</code> 的所有權，因爲 <code>self</code> <em>沒有</em> <code>&amp;</code>。這代表範例 8-18 的 <code>s1</code> 會移動到 <code>add</code> 的呼叫內，在之後就不再有效。所以雖然然 <code>let s3 = s1 + &amp;s2;</code> 看起來像是它拷貝了兩個字串的值並產生了一個新的，但此陳述式實際上是取得 <code>s1</code> 的所有權、追加一份 <code>s2</code> 的複製內容、然後回傳最終結果的所有權。換句話說，雖然它看起來像是產生了很多拷貝，但實際上並不是。此實作反而比較有效率。</p>
+<p>我們可以在 <code>add</code> 的呼叫中使用 <code>&amp;s2</code> 的原因是因爲編譯器可以<em>強制（coerce）</em> <code>&amp;String</code> 引數轉換成 <code>&amp;str</code>。當我們我們呼叫 <code>add</code> 方法時，Rust <em>強制解引用（deref coercion）</em> 讓 <code>&amp;s2</code> 變成 <code>&amp;s2[..]</code>。我們會在第十五章深入探討強制解引用。因爲 <code>add</code> 不會取得 <code>s</code> 參數的所有權，<code>s2</code> 在此運算後仍然是個有效的 <code>String</code>。</p>
+<p>再來，我們可以看到 <code>add</code> 的簽名會取得 <code>self</code> 的所有權，因爲 <code>self</code> <em>沒有</em> <code>&amp;</code>。這代表範例 8-18 的 <code>s1</code> 會移動到 <code>add</code> 的呼叫內，在之後就不再有效。所以雖然 <code>let s3 = s1 + &amp;s2;</code> 看起來像是它拷貝了兩個字串的值並產生了一個新的，但此陳述式實際上是取得 <code>s1</code> 的所有權、追加一份 <code>s2</code> 的複製內容、然後回傳最終結果的所有權。換句話說，雖然它看起來像是產生了很多拷貝，但實際上並不是。此實作反而比較有效率。</p>
 <p>如果我們需要串接數個字串的話，<code>+</code> 運算子的行爲看起來就顯得有點笨重了：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;tic&quot;);
@@ -415,7 +415,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 <p>請確定你已經瞭解有效的 Unicode 純量數值可能不止佔 1 個位元組。</p>
 <p>而要從字串取得形素群集的話就非常複雜了，所以標準函式庫並未提供這項功能。如果你需要的話，<a href="https://crates.io/">crates.io</a> 上會有提供這項功能的 crate。</p>
 <h3><a class="header" href="#字串並不簡單" id="字串並不簡單">字串並不簡單</a></h3>
-<p>總結來說，字串是很複雜的。不同的程式語言會選擇不同的決定來呈現給程式設計師。Rust 選擇正確處理 <code>String</code> 的方式作爲所有Rust 程式的預設行爲，這也代表開發者在處理 UTF-8 資料時需要多加考量。這樣的取捨的確對比其他程式語言來說，增加了不少字串的複雜程度，但是這能讓你在開發週期免於處理非 ASCII 字元相關的錯誤。</p>
+<p>總結來說，字串是很複雜的。不同的程式語言會選擇不同的決定來呈現給程式設計師。Rust 選擇正確處理 <code>String</code> 的方式作爲所有 Rust 程式的預設行爲，這也代表開發者在處理 UTF-8 資料時需要多加考量。這樣的取捨的確對比其他程式語言來說，增加了不少字串的複雜程度，但是這能讓你在開發週期免於處理非 ASCII 字元相關的錯誤。</p>
 <p>讓我們接下去開一個較簡單地集合吧：雜湊映射（hash maps）！</p>
 <blockquote>
 <ul>

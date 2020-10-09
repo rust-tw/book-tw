@@ -2152,7 +2152,7 @@ CTRL-C
 </ul>
 </blockquote>
 <h1><a class="header" href="#理解所有權" id="理解所有權">理解所有權</a></h1>
-<p>所有權可以說是 Rust 最與衆不同的特色，這讓 Rust 不需要垃圾回收（garbage collector）就可以保障記憶體安全。因此理解 Rust 中的所有權如何運作是非常重要的。在本章節，我們將討論所有權以及一些相關的功能：借用、slices 與 Rust 如何在記憶體分配資料。</p>
+<p>所有權可以說是 Rust 最與衆不同的特色，這讓 Rust 不需要垃圾回收（garbage collector）就可以保障記憶體安全。因此理解 Rust 中的所有權如何運作是非常重要的。在本章節，我們將討論所有權以及一些相關的功能：借用、切片與 Rust 如何在記憶體分配資料。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -2809,7 +2809,7 @@ for it to be borrowed from.
 <p>現在我們得同時紀錄起始<em>與</em>結束的索引，而且我們還產生了更多與原本數值沒辦法直接相關的計算結果。我們現在有三個非直接相關的變數需要保持同步。</p>
 <p>幸運的是 Rust 爲此提供了一個解決辦法：字串切片（String切片）。</p>
 <h3><a class="header" href="#字串切片" id="字串切片">字串切片</a></h3>
-<p><em>字串切片</em> 是 <code>String</code> 其中一部分的引用，它長得像這樣：</p>
+<p><em>字串切片</em>是 <code>String</code> 其中一部分的引用，它長得像這樣：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s = String::from(&quot;hello world&quot;);
 
@@ -2881,7 +2881,7 @@ let slice = &amp;s[..];
 <p>這樣函式 <code>second_word</code>  一樣也可以回傳切片：</p>
 <pre><code class="language-rust ignore">fn second_word(s: &amp;String) -&gt; &amp;str {
 </code></pre>
-<p>我們現在有個不可能出錯且更直觀的 API，因爲編譯器會確保 <code>String</code> 的引用會是有效的。還記得我們在範例 4-8 的錯誤嗎？就是那個當我們取得單字結尾索引，但字串卻已清空變成無效的錯誤。那段程式碼邏輯是錯誤的，卻不會馬上顯示錯誤。要是我們持續嘗試用該索引存取空字串的話，問題才會浮現。Slice 可以讓這樣的程式錯誤無所遁形，並及早讓我們知道我們程式碼有問題。使用切片版本 <code>first_word</code> 的程式碼的話就會出現編譯期錯誤：</p>
+<p>我們現在有個不可能出錯且更直觀的 API，因爲編譯器會確保 <code>String</code> 的引用會是有效的。還記得我們在範例 4-8 的錯誤嗎？就是那個當我們取得單字結尾索引，但字串卻已清空變成無效的錯誤。那段程式碼邏輯是錯誤的，卻不會馬上顯示錯誤。要是我們持續嘗試用該索引存取空字串的話，問題才會浮現。切片可以讓這樣的程式錯誤無所遁形，並及早讓我們知道我們程式碼有問題。使用切片版本 <code>first_word</code> 的程式碼的話就會出現編譯期錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn first_word(s: &amp;String) -&gt; &amp;str {
 </span><span class="boring">    let bytes = s.as_bytes();
@@ -5005,7 +5005,7 @@ To learn more, run the command again with --verbose.
 
     let row = vec![
         SpreadsheetCell::Int(3),
-        SpreadsheetCell::Text(String::from(&quot;blue&quot;)),
+        SpreadsheetCell::Text(String::from(&quot;藍色&quot;)),
         SpreadsheetCell::Float(10.12),
     ];
 <span class="boring">}
@@ -5025,8 +5025,8 @@ To learn more, run the command again with --verbose.
 <p>我們已經在第四章提到字串（String），但現在我們要更加深入探討。Rustaceans 初心者常常會卡在三個環節：Rust 傾向於回報可能的錯誤、字串的資料結構比開發者所熟悉的還要複雜，以及 UTF-8。這些要素讓來自其他程式語言背景的開發者會遇到一些困難。</p>
 <p>我們會在集合章節討論字串的原因是，字串本身就是位元組的集合，且位元組作爲文字呈現時，它會提供一些實用的方法。在此段落我們將和其他集合型別一樣討論 <code>String</code> 的操作，像是建立、更新與讀取。我們還會討論到 <code>String</code> 與其他集合不一樣的地方，像是 <code>String</code> 的索引就比其他集合還複雜，因爲它會依據人們對於 <code>String</code> 資料型別的理解而有所不同。</p>
 <h3><a class="header" href="#什麼是字串" id="什麼是字串">什麼是字串？</a></h3>
-<p>首先我們要好好定義<em>字串（String）<em>這個術語。Rust 在核心語言中只有一個字串型別，那就是字串切片<code>str</code>，它通常是以借用的形式存在 <code>&amp;str</code>。在第四章中我們提到</em>字串切片</em>是一個針對存在某處的  UTF-8 編碼資料的引用。舉例來說，字串字面值（String literals）就儲存在程式的二進制檔案中，因此就是字串切片。</p>
-<p><code>String</code> 型別是 Rust 標準函式庫所提供的型別，並不是核心語言內建的型別，它是可增長的、可變的、可擁有所有權的 UTF-8 編碼字串型別。當 Rustaceans 提及 Rust 中的「字串」時，他們通常指的是 <code>String</code> 以及字串切片<code>&amp;str</code> 型別，而不只是其中一種型別。雖然此段落大部分都在討論 <code>String</code>，這兩個型別都時常用在 Rust 的標準函式庫中，且 <code>String</code> 與字串切片s 都是 UTF-8 編碼的。</p>
+<p>首先我們要好好定義<em>字串（String）<em>這個術語。Rust 在核心語言中只有一個字串型別，那就是字串切片 <code>str</code>，它通常是以借用的形式存在 <code>&amp;str</code>。在第四章中我們提到</em>字串切片</em>是一個針對存在某處的  UTF-8 編碼資料的引用。舉例來說，字串字面值（String literals）就儲存在程式的二進制檔案中，因此就是字串切片。</p>
+<p><code>String</code> 型別是 Rust 標準函式庫所提供的型別，並不是核心語言內建的型別，它是可增長的、可變的、可擁有所有權的 UTF-8 編碼字串型別。當 Rustaceans 提及 Rust 中的「字串」時，他們通常指的是 <code>String</code> 以及字串切片 <code>&amp;str</code> 型別，而不只是其中一種型別。雖然此段落大部分都在討論 <code>String</code>，這兩個型別都時常用在 Rust 的標準函式庫中，且 <code>String</code> 與字串切片都是 UTF-8 編碼的。</p>
 <p>Rust 的標準函式庫還包含了其他種類的字串型別，像是 <code>OsString</code>、<code>OsStr</code>、<code>CString</code> 以及 <code>CStr</code>。函式庫 crates 更可以提供儲存字串資料的更多選項。你應該會注意到這些型別的結尾都是 <code>String</code> 和 <code>Str</code>，它們分別代表擁有所有權與借用的變體。就像你之前看到的 <code>String</code> 和 <code>str</code> 型別一樣。這些字串型別可以儲存不同編碼的文字或者以不同的記憶體形式呈現。我們不會在本章節討論這些字串型別，要是你想知道如何或何時使用它們的話，你可以查閱它們的 API 技術文件。</p>
 <h3><a class="header" href="#建立新的字串" id="建立新的字串">建立新的字串</a></h3>
 <p>許多 <code>Vec&lt;T&gt;</code> 可使用的方法在 <code>String</code> 也都能用，像是用 <code>new</code> 函式建立新的字串，如範例 8-11 所示。</p>
@@ -5035,21 +5035,21 @@ To learn more, run the command again with --verbose.
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-11：建立新的空 <code>String</code></span></p>
-<p>此行會建立新的字串叫做 <code>s</code> ，我們之後可以在寫入資料。不過通常我們會希望建立字串的同時能夠初始化資料。爲此我們可以使用 <code>to_string</code> 方法，任何有實作 <code>Display</code> 特徵的型別都可以使用此方法，就像字串字面值的使用方式一樣。範例 8-12 就展示了兩種例子。</p>
+<p>此行會建立新的字串叫做 <code>s</code>，我們之後可以再寫入資料。不過通常我們會希望建立字串的同時能夠初始化資料。爲此我們可以使用 <code>to_string</code> 方法，任何有實作 <code>Display</code> 特徵的型別都可以使用此方法，就像字串字面值的使用方式一樣。範例 8-12 就展示了兩種例子。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
-</span>    let data = &quot;initial contents&quot;;
+</span>    let data = &quot;初始內容&quot;;
 
     let s = data.to_string();
 
-    // the method also works on a literal directly:
-    let s = &quot;initial contents&quot;.to_string();
+    // 此方法也能直接用於字面值上
+    let s = &quot;初始內容&quot;.to_string();
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-12：從字串字面值使用 <code>to_string</code> 方法來建立 <code>String</code></span></p>
-<p>此程式碼建立了一個字串內容爲 <code>initial contents</code>。</p>
+<p>此程式碼建立了一個字串內容爲 <code>初始內容</code>。</p>
 <p>我們也可以用函式 <code>String::from</code> 從字串字面值建立 <code>String</code>。範例 8-13 的程式碼和使用 <code>to_string</code> 的範例 8-12 效果一樣。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
-</span>    let s = String::from(&quot;initial contents&quot;);
+</span>    let s = String::from(&quot;初始內容&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-13：使用函式 <code>String::from</code> 從字串字面值建立 <code>String</code></span></p>
@@ -5113,8 +5113,8 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>這不全是標準函式庫中實際的簽名，在標準函式庫中 <code>add</code> 是用泛型（generics）定義。我們在此看到的是使用實際型別指明泛型的 <code>add</code> 簽名。我們會在第十章討論到泛型。此簽名給了一些我們需要瞭解 <code>+</code> 運算子的一些線索。</p>
 <p>首先 <code>s2</code> 有 <code>&amp;</code> 代表我們是將第二個字串的<em>引用</em>與第一個字串相加，因爲函式 <code>add</code> 中的參數 <code>s</code> 說明我們只能將 <code>&amp;str</code> 與 <code>String</code> 相加，我們無法將兩個 <code>String</code> 數值相加。但等等 <code>&amp;s2</code> 是 <code>&amp;String</code> 才對，並非 <code>add</code> 第二個參數所指定的 <code>&amp;str</code>。爲何範例 8-18 可以編譯呢？</p>
-<p>我們可以在 <code>add</code> 的呼叫中使用 <code>&amp;s2</code> 的原因是因爲編譯器可以<em>強制（coerce）</em> <code>&amp;String</code> 引數轉換成 <code>&amp;str</code>。當我們我們呼叫 <code>add</code> 方法時，Rust <em>強制解引用（deref coercion</em>）*讓 <code>&amp;s2</code> 變成 <code>&amp;s2[..]</code>。我們會在第十五章深入探討強制解引用。因爲 <code>add</code> 不會取得 <code>s</code> 參數的所有權，<code>s2</code> 在此運算後仍然是個有效的 <code>String</code>。</p>
-<p>再來，我們可以看到 <code>add</code> 的簽名會取得 <code>self</code> 的所有權，因爲 <code>self</code> <em>沒有</em> <code>&amp;</code>。這代表範例 8-18 的 <code>s1</code> 會移動到 <code>add</code> 的呼叫內，在之後就不再有效。所以雖然然 <code>let s3 = s1 + &amp;s2;</code> 看起來像是它拷貝了兩個字串的值並產生了一個新的，但此陳述式實際上是取得 <code>s1</code> 的所有權、追加一份 <code>s2</code> 的複製內容、然後回傳最終結果的所有權。換句話說，雖然它看起來像是產生了很多拷貝，但實際上並不是。此實作反而比較有效率。</p>
+<p>我們可以在 <code>add</code> 的呼叫中使用 <code>&amp;s2</code> 的原因是因爲編譯器可以<em>強制（coerce）</em> <code>&amp;String</code> 引數轉換成 <code>&amp;str</code>。當我們我們呼叫 <code>add</code> 方法時，Rust <em>強制解引用（deref coercion）</em> 讓 <code>&amp;s2</code> 變成 <code>&amp;s2[..]</code>。我們會在第十五章深入探討強制解引用。因爲 <code>add</code> 不會取得 <code>s</code> 參數的所有權，<code>s2</code> 在此運算後仍然是個有效的 <code>String</code>。</p>
+<p>再來，我們可以看到 <code>add</code> 的簽名會取得 <code>self</code> 的所有權，因爲 <code>self</code> <em>沒有</em> <code>&amp;</code>。這代表範例 8-18 的 <code>s1</code> 會移動到 <code>add</code> 的呼叫內，在之後就不再有效。所以雖然 <code>let s3 = s1 + &amp;s2;</code> 看起來像是它拷貝了兩個字串的值並產生了一個新的，但此陳述式實際上是取得 <code>s1</code> 的所有權、追加一份 <code>s2</code> 的複製內容、然後回傳最終結果的所有權。換句話說，雖然它看起來像是產生了很多拷貝，但實際上並不是。此實作反而比較有效率。</p>
 <p>如果我們需要串接數個字串的話，<code>+</code> 運算子的行爲看起來就顯得有點笨重了：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;tic&quot;);
@@ -5269,7 +5269,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 <p>請確定你已經瞭解有效的 Unicode 純量數值可能不止佔 1 個位元組。</p>
 <p>而要從字串取得形素群集的話就非常複雜了，所以標準函式庫並未提供這項功能。如果你需要的話，<a href="https://crates.io/">crates.io</a> 上會有提供這項功能的 crate。</p>
 <h3><a class="header" href="#字串並不簡單" id="字串並不簡單">字串並不簡單</a></h3>
-<p>總結來說，字串是很複雜的。不同的程式語言會選擇不同的決定來呈現給程式設計師。Rust 選擇正確處理 <code>String</code> 的方式作爲所有Rust 程式的預設行爲，這也代表開發者在處理 UTF-8 資料時需要多加考量。這樣的取捨的確對比其他程式語言來說，增加了不少字串的複雜程度，但是這能讓你在開發週期免於處理非 ASCII 字元相關的錯誤。</p>
+<p>總結來說，字串是很複雜的。不同的程式語言會選擇不同的決定來呈現給程式設計師。Rust 選擇正確處理 <code>String</code> 的方式作爲所有 Rust 程式的預設行爲，這也代表開發者在處理 UTF-8 資料時需要多加考量。這樣的取捨的確對比其他程式語言來說，增加了不少字串的複雜程度，但是這能讓你在開發週期免於處理非 ASCII 字元相關的錯誤。</p>
 <p>讓我們接下去開一個較簡單地集合吧：雜湊映射（hash maps）！</p>
 <blockquote>
 <ul>
@@ -5279,7 +5279,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </ul>
 </blockquote>
 <h2><a class="header" href="#透過雜湊映射儲存鍵值配對" id="透過雜湊映射儲存鍵值配對">透過雜湊映射儲存鍵值配對</a></h2>
-<p>我們最後一個常見的集合是<em>雜湊映射（hash map）</em>，<code>HashMap&lt;K, V&gt;</code> 型別會儲存一個鍵（key）型別 <code>K</code> 對應到一個數值（value）型別 <code>V</code>。它透過*雜湊函式（hashing function）*來決定要將這些鍵與值放在記憶體何處。許多程式語言都有支援這種類型的資料結構，不過通常它們會提供不同的名稱，像是 hash、map、object、hash table、dictionary 或 associative array 等等。</p>
+<p>我們最後一個常見的集合是<em>雜湊映射（hash map）</em>，<code>HashMap&lt;K, V&gt;</code> 型別會儲存一個鍵（key）型別 <code>K</code> 對應到一個數值（value）型別 <code>V</code>。它透過<em>雜湊函式（hashing function）</em> 來決定要將這些鍵與值放在記憶體何處。許多程式語言都有支援這種類型的資料結構，不過通常它們會提供不同的名稱，像是 hash、map、object、hash table、dictionary 或 associative array 等等。</p>
 <p>雜湊映射適合用於當你不想像向量那樣用索引搜尋資料，而是透過一個可以爲任意型別的鍵來搜尋的情況。舉例來說，在比賽中我們可以使用雜湊映射來儲存每隊的分數，每個鍵代表對與名稱，而每個值代表隊伍分數。給予一個隊伍名稱，你就能取得該隊伍分數。</p>
 <p>我們會在此段落介紹雜湊映射的基本 API，但還有很多實用的函式定義在標準函式庫的 <code>HashMap&lt;K, V&gt;</code> 中，所以別忘了查閱標準函式庫的技術文件來瞭解更多資訊。</p>
 <h3><a class="header" href="#建立新的雜湊映射" id="建立新的雜湊映射">建立新的雜湊映射</a></h3>
@@ -5289,18 +5289,18 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
     let mut scores = HashMap::new();
 
-    scores.insert(String::from(&quot;Blue&quot;), 10);
-    scores.insert(String::from(&quot;Yellow&quot;), 50);
+    scores.insert(String::from(&quot;藍隊&quot;), 10);
+    scores.insert(String::from(&quot;黃隊&quot;), 50);
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-20：建立新的雜湊映射並插入一些鍵值</span></p>
 <p>注意到我們需要先使用 <code>use</code> 將標準函式庫的 <code>HashMap</code> 集合引入。在我們介紹的三個常見集合中，此集合是最少被用到的，所以它並沒有包含在 prelude 內讓我們能自動引用。雜湊映射也沒有像前者那麼多標準函式庫提供的支援，像是內建建構它們的巨集。</p>
 <p>和向量一樣，雜湊映射會將它們的資料儲存在堆積上。此 <code>HashMap</code> 得鍵是 <code>String</code> 型別而值是 <code>i32</code> 型別。和向量一樣，雜湊函式宣告後就都得是同類的，所有的鍵都必須是同型別，且所有的值也都必須是同型別。</p>
-<p>另一種建構雜湊映射的方式爲使用疊代器並在一個元組組成的向量中使用 <code>collect</code> 方法，其中每個元組都包含一個鍵與值的配對。我們會在第十三章的<a href="ch13-02-iterators.html">「使用疊代器來處理一系列的項目」</a><!-- ignore -->段落中深入探討疊代器與它們相關的方法。<code>collect</code> 方法會將收集的資料轉換成其他集合型別，包含 <code>HashMap</code>。舉例來說，如果我們有兩個向量分別是隊伍名稱與隊伍分數的話，我們可以使用 <code>zip</code> 方法來產生由元組組成的向量，其中「Blue」會與 10 配對，以此類推。然後我們就能用 <code>collect</code> 方法將元組向量轉換成雜湊映射，如範例 8-21 所示。</p>
+<p>另一種建構雜湊映射的方式爲使用疊代器並在一個元組組成的向量中使用 <code>collect</code> 方法，其中每個元組都包含一個鍵與值的配對。我們會在第十三章的<a href="ch13-02-iterators.html">「使用疊代器來處理一系列的項目」</a><!-- ignore -->段落中深入探討疊代器與它們相關的方法。<code>collect</code> 方法會將收集的資料轉換成其他集合型別，包含 <code>HashMap</code>。舉例來說，如果我們有兩個向量分別是隊伍名稱與隊伍分數的話，我們可以使用 <code>zip</code> 方法來產生由元組組成的向量，其中「藍隊」會與 10 配對，以此類推。然後我們就能用 <code>collect</code> 方法將元組向量轉換成雜湊映射，如範例 8-21 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
 
-    let teams = vec![String::from(&quot;Blue&quot;), String::from(&quot;Yellow&quot;)];
+    let teams = vec![String::from(&quot;藍隊&quot;), String::from(&quot;黃隊&quot;)];
     let initial_scores = vec![10, 50];
 
     let mut scores: HashMap&lt;_, _&gt; =
@@ -5316,7 +5316,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span>    use std::collections::HashMap;
 
     let field_name = String::from(&quot;Favorite color&quot;);
-    let field_value = String::from(&quot;Blue&quot;);
+    let field_value = String::from(&quot;藍隊&quot;);
 
     let mut map = HashMap::new();
     map.insert(field_name, field_value);
@@ -5334,10 +5334,10 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
     let mut scores = HashMap::new();
 
-    scores.insert(String::from(&quot;Blue&quot;), 10);
-    scores.insert(String::from(&quot;Yellow&quot;), 50);
+    scores.insert(String::from(&quot;藍隊&quot;), 10);
+    scores.insert(String::from(&quot;黃隊&quot;), 50);
 
-    let team_name = String::from(&quot;Blue&quot;);
+    let team_name = String::from(&quot;藍隊&quot;);
     let score = scores.get(&amp;team_name);
 <span class="boring">}
 </span></code></pre></pre>
@@ -5349,8 +5349,8 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
     let mut scores = HashMap::new();
 
-    scores.insert(String::from(&quot;Blue&quot;), 10);
-    scores.insert(String::from(&quot;Yellow&quot;), 50);
+    scores.insert(String::from(&quot;藍隊&quot;), 10);
+    scores.insert(String::from(&quot;黃隊&quot;), 50);
 
     for (key, value) in &amp;scores {
         println!(&quot;{}: {}&quot;, key, value);
@@ -5358,8 +5358,8 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 <span class="boring">}
 </span></code></pre></pre>
 <p>此程式會以任意順序印出每個配對：</p>
-<pre><code class="language-text">Yellow: 50
-Blue: 10
+<pre><code class="language-text">黃隊: 50
+藍隊: 10
 </code></pre>
 <h3><a class="header" href="#更新雜湊映射" id="更新雜湊映射">更新雜湊映射</a></h3>
 <p>雖然鍵值配對的數量可以增加，但每個鍵同一時間就只能有一個對應的值而已。當你想要改變雜湊映射的資料的話，你必須決定如何處理當一個鍵已經有一個值的情況。你可以不管舊的值，直接用新值取代。你也可以保留舊值、忽略新值，只有在該鍵<em>尚未</em>擁有對應數值時才賦值給它。或者你也可以將舊值與新值組合起來。讓我們看看分別怎麼處理吧！</p>
@@ -5370,31 +5370,31 @@ Blue: 10
 
     let mut scores = HashMap::new();
 
-    scores.insert(String::from(&quot;Blue&quot;), 10);
-    scores.insert(String::from(&quot;Blue&quot;), 25);
+    scores.insert(String::from(&quot;藍隊&quot;), 10);
+    scores.insert(String::from(&quot;藍隊&quot;), 25);
 
     println!(&quot;{:?}&quot;, scores);
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-24：替換某個特定鍵對應的數值</span></p>
-<p>此程式碼會印出 <code>{&quot;Blue&quot;: 25}</code>，原本的數值 <code>10</code> 會被覆蓋。</p>
+<p>此程式碼會印出 <code>{&quot;藍隊&quot;: 25}</code>，原本的數值 <code>10</code> 會被覆蓋。</p>
 <h4><a class="header" href="#只在鍵沒有值的情況下插入數值" id="只在鍵沒有值的情況下插入數值">只在鍵沒有值的情況下插入數值</a></h4>
 <p>通常檢查某個特定的鍵有沒有數值，如果沒有的話才插入數值是很常見的。雜湊映射提供了一個特別的 API 叫做 <code>entry</code> 讓你可以用想要檢查的鍵作爲參數。<code>entry</code> 方法的回傳值是一個枚舉叫做 <code>Entry</code>，它代表了一個可能存在或不存在的數值。假設我們想要檢查黃隊的鍵有沒有對應的數值。如果沒有的話，我們想插入 50。而對藍隊也一樣。使用 <code>entry</code> API 的話，程式碼會長得像範例 8-25。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
 
     let mut scores = HashMap::new();
-    scores.insert(String::from(&quot;Blue&quot;), 10);
+    scores.insert(String::from(&quot;藍隊&quot;), 10);
 
-    scores.entry(String::from(&quot;Yellow&quot;)).or_insert(50);
-    scores.entry(String::from(&quot;Blue&quot;)).or_insert(50);
+    scores.entry(String::from(&quot;黃隊&quot;)).or_insert(50);
+    scores.entry(String::from(&quot;藍隊&quot;)).or_insert(50);
 
     println!(&quot;{:?}&quot;, scores);
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-25：使用 <code>entry</code> 方法在只有該鍵尚無任何數值時插入數值</span></p>
-<p><code>Entry</code> 中的 <code>or_insert</code> 方法定義了如果 <code>Entry</code> 的鍵有對應的數值的話，就回傳該值得可變引用；如果沒有的話，那就插入參數作爲新數值，並回傳此值的可變引用。這樣的技巧比我們親自寫邏輯還來的清楚，而且更有利於借用檢查器的檢查。</p>
-<p>執行範例 8-25 的程式碼會印出 <code>{&quot;Yellow&quot;: 50, &quot;Blue&quot;: 10}</code>。第一次 <code>entry</code> 的呼叫會對黃隊插入數值 50，因爲黃隊尚未有任何數值。第二次 <code>entry</code> 的呼叫則不會改變雜湊映射，因爲藍隊已經有數值 10。</p>
+<p><code>Entry</code> 中的 <code>or_insert</code> 方法定義了如果 <code>Entry</code> 的鍵有對應的數值的話，就回傳該值的可變引用；如果沒有的話，那就插入參數作爲新數值，並回傳此值的可變引用。這樣的技巧比我們親自寫邏輯還來的清楚，而且更有利於借用檢查器的檢查。</p>
+<p>執行範例 8-25 的程式碼會印出 <code>{&quot;黃隊&quot;: 50, &quot;藍隊&quot;: 10}</code>。第一次 <code>entry</code> 的呼叫會對黃隊插入數值 50，因爲黃隊尚未有任何數值。第二次 <code>entry</code> 的呼叫則不會改變雜湊映射，因爲藍隊已經有數值 10。</p>
 <h4><a class="header" href="#依據舊值更新數值" id="依據舊值更新數值">依據舊值更新數值</a></h4>
 <p>雜湊映射還有另一種常見的用法是，依照鍵的舊數值來更新它。舉例來說，範例 8-26 展示了一支如何計算一些文字內每個單字各出現多少次的程式碼。我們使用雜湊映射，鍵爲單字然後值爲我們每次追蹤計算對應單字出現多少次的次數。如果我們是第一次看到該單字的話，我們插入數值 0。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -5415,7 +5415,7 @@ Blue: 10
 <p><span class="caption">範例 8-26：使用雜湊映射儲存單字與次數來計算每個字出現的次數</span></p>
 <p>此程式碼會印出 <code>{&quot;world&quot;: 2, &quot;hello&quot;: 1, &quot;wonderful&quot;: 1}</code>。<code>or_insert</code> 方法會回傳該鍵對應數值的可變引用（<code>&amp;mut V</code>）。在此我們將可變引用儲存在 <code>count</code> 變數中，所以要賦值的話，我們必須先使用 <code>*</code> 來解引用（dereference）<code>count</code>。可變引用會在 <code>for</code> 結束時離開作用域，所以所有的改變都是安全的且符合借用規則。</p>
 <h3><a class="header" href="#雜湊函式" id="雜湊函式">雜湊函式</a></h3>
-<p><code>HashMap</code> 預設是使用一種「密碼學安全（cryptographically strong）」<sup class="footnote-reference"><a href="#siphash">1</a></sup>的雜湊函式（hashing function），這可以抵禦阻斷服務（Denial of Service, DoS）的攻擊。這並不是最快的雜湊演算法，但爲了提升安全性唲犧牲一點效能是值得的。如果你做評測時覺得預設的雜湊函式太慢無法滿足你的需求的話，你可以指定不同的 <em>hasher</em> 來切換成其他雜湊函式。Hasher 是一個有實作 <code>BuildHasher</code> 特徵的型別。我們會在第十章討論到特徵以及如何實作它們。你不必從頭自己實作一個 hasher，<a href="https://crates.io/">crates.io</a> 上有其他 Rust 使用者分享的函式庫，其中就有不少提供許多常見雜湊演算法的 hasher 實作。</p>
+<p><code>HashMap</code> 預設是使用一種「密碼學安全（cryptographically strong）」<sup class="footnote-reference"><a href="#siphash">1</a></sup>的雜湊函式（hashing function），這可以抵禦阻斷服務（Denial of Service, DoS）的攻擊。這並不是最快的雜湊演算法，但爲了提升安全性而犧牲一點效能是值得的。如果你做評測時覺得預設的雜湊函式太慢無法滿足你的需求的話，你可以指定不同的 <em>hasher</em> 來切換成其他雜湊函式。Hasher 是一個有實作 <code>BuildHasher</code> 特徵的型別。我們會在第十章討論到特徵以及如何實作它們。你不必從頭自己實作一個 hasher，<a href="https://crates.io/">crates.io</a> 上有其他 Rust 使用者分享的函式庫，其中就有不少提供許多常見雜湊演算法的 hasher 實作。</p>
 <div class="footnote-definition" id="siphash"><sup class="footnote-definition-label">1</sup>
 <p><a href="https://www.131002.net/siphash/siphash.pdf">https://www.131002.net/siphash/siphash.pdf</a></p>
 </div>
@@ -5424,7 +5424,7 @@ Blue: 10
 <ul>
 <li>給予一個整數列表，請使用向量並回傳算數平均數、中位數（排序列表後正中間的值）以及眾數（出現最多次的值，雜湊映射在此應該會很有用）。</li>
 <li>將字串轉換成 pig latin。每個單字的第一個字母爲子音的話，就將該字母移到單字後方，並加上「ay」，所以「first」會變成「irst-fay」。而單字第一個字母爲母音的話，就在單字後方加上「hay」，所以「apple」會變成「apple-hay」。請注意要考慮到 UTF-8 編碼！</li>
-<li>使用雜湊映射與向量來建立文字介面，讓使用者能新增員工名字到公司內的一個部門。舉來來說「Add Sally to Engineering」或「Add Amir to Sales」。然後讓使用者可以索取一個部門所有的員工列表，或是依據部門用字點順序排序，取得公司內所有的員工。</li>
+<li>使用雜湊映射與向量來建立文字介面，讓使用者能新增員工名字到公司內的一個部門。舉來來說「將莎莉加入工程部門」或「將阿米爾加入業務部門」。然後讓使用者可以索取一個部門所有的員工列表，或是依據部門用字點順序排序，取得公司內所有的員工。</li>
 </ul>
 <p>標準函式庫的 API 技術文件有詳細介紹向量、字串與雜湊映射的所有方法，這對於這些練習題應該會很有幫助！</p>
 <p>我們現在已經開始遇到有可能會運作失敗的複雜程式了，所以接下來正是來討論錯誤處理的時候！</p>
