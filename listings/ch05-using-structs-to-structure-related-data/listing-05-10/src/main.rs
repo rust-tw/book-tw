@@ -10,7 +10,7 @@ fn main() {
     };
 
     println!(
-        "The area of the rectangle is {} square pixels.",
+        "長方形的面積爲 {} 平方像素。",
         area(&rect1)
     );
 }

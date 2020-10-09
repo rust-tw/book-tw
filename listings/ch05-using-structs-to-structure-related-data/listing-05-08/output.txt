@@ -2,4 +2,4 @@ $ cargo run
    Compiling structs v0.1.0 (file:///projects/structs)
     Finished dev [unoptimized + debuginfo] target(s) in 0.42s
      Running `target/debug/structs`
-The area of the rectangle is 1500 square pixels.
+長方形的面積爲 1500 平方像素。
