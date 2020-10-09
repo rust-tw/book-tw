@@ -1,6 +1,6 @@
 ## 透過測試驅動開發完善函式庫功能
 
-現在我們提取邏輯到 *src/lib.rs* 並在 src/main.rs* 留下引數收集與錯誤處理的任務，現在對程式碼中的核心功能進行測試會簡單許多。我們可以使用各種引數直接呼叫函式來檢查回傳值，而不用從命令列呼叫我們的執行檔。歡迎自行對 `Config::new` 與 `run` 函式的功能寫些測試。
+現在我們提取邏輯到 *src/lib.rs* 並在 *src/main.rs* 留下引數收集與錯誤處理的任務，現在對程式碼中的核心功能進行測試會簡單許多。我們可以使用各種引數直接呼叫函式來檢查回傳值，而不用從命令列呼叫我們的執行檔。歡迎自行對 `Config::new` 與 `run` 函式的功能寫些測試。
 
 在此段落中，我們會在 `minigrep` 程式中利用試驅動開發（Test-driven development, TDD）來新增搜尋邏輯。此程式開發技巧遵循以下步驟：
 
@@ -37,9 +37,9 @@
 
 <span class="caption">範例 12-16：定義足夠的 `search` 函式讓我們的測試能夠編譯</span>
 
-值得注意的是在 `search` 的簽名中需要定義一個顯式的生命週期 `'a`，並用於 `contents` 引數與回傳值。回想一下在[第十章][ch10-lifetimes]<!-- ignore -->中生命週期參數會連結引數生命週期與回傳值生命週期。在此例中，我們指明回傳值應包含字串切片且其會引用 `contents` 引數的 slices（而非引數 `query`）。
+值得注意的是在 `search` 的簽名中需要定義一個顯式的生命週期 `'a`，並用於 `contents` 引數與回傳值。回想一下在[第十章][ch10-lifetimes]<!-- ignore -->中生命週期參數會連結引數生命週期與回傳值生命週期。在此例中，我們指明回傳值應包含字串切片且其會引用 `contents` 引數的切片（而非引數 `query`）。
 
-換句話說，我們告訴 Rust `search` 函式回傳的資料會跟傳遞給 `search` 函式的引數 `contents` 資料存活的一樣久。這點很重要！被 slice 引用的資料必須有效，這樣其引用才會有效。如果編譯器假設是在建立 `query` 而非 `contents` 的字串切片，它的安全檢查就會不正確。
+換句話說，我們告訴 Rust `search` 函式回傳的資料會跟傳遞給 `search` 函式的引數 `contents` 資料存活的一樣久。這點很重要！被切片引用的資料必須有效，這樣其引用才會有效。如果編譯器假設是在建立 `query` 而非 `contents` 的字串切片，它的安全檢查就會不正確。
 
 如果我們忘記詮釋生命週期並嘗試編譯此函式，我們會得到以下錯誤：
 
@@ -152,13 +152,13 @@ Rust 有個實用的方法能逐步處理字串的每一行，這方法就叫 `l
 
 漂亮！我們建立了一個屬於自己的迷你經典工具，並學到了很多如何架構應用程式的知識。我們也學了一些檔案輸入與輸出、生命週期、測試與命令列解析。
 
-爲了讓此專案更完勝，我們會簡單介紹如何使用環境變數，以及如何印出到標準錯誤（standard error），這兩項在寫命令列程式時都很實用。
+爲了讓此專案更完整，我們會簡單介紹如何使用環境變數，以及如何印出到標準錯誤（standard error），這兩項在寫命令列程式時都很實用。
 
 [validating-references-with-lifetimes]:
 ch10-03-lifetime-syntax.html#透過生命週期驗證引用
-[ch11-anatomy]: ch11-01-writing-tests.html#the-anatomy-of-a-test-function
+[ch11-anatomy]: ch11-01-writing-tests.html#測試函式剖析
 [ch10-lifetimes]: ch10-03-lifetime-syntax.html
-[ch3-iter]: ch03-05-control-flow.html#looping-through-a-collection-with-for
+[ch3-iter]: ch03-05-control-flow.html#使用-for-遍歷集合
 [ch13-iterators]: ch13-02-iterators.html
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]

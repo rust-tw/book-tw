@@ -28,7 +28,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 // ANCHOR: here
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     for line in contents.lines() {
-        // do something with line
+        // 對每行做些事情
     }
 }
 // ANCHOR_END: here
