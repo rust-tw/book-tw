@@ -8,7 +8,7 @@ mod tests {
 
     #[test]
     fn another() {
-        panic!("Make this test fail");
+        panic!("此測試會失敗");
     }
 }
 // ANCHOR_END: here

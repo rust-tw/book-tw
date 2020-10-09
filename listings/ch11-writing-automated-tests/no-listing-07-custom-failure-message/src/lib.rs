@@ -1,5 +1,5 @@
 pub fn greeting(name: &str) -> String {
-    String::from("Hello!")
+    String::from("哈囉！")
 }
 
 #[cfg(test)]
@@ -9,10 +9,10 @@ mod tests {
     // ANCHOR: here
     #[test]
     fn greeting_contains_name() {
-        let result = greeting("Carol");
+        let result = greeting("卡爾");
         assert!(
-            result.contains("Carol"),
-            "Greeting did not contain name, value was `{}`",
+            result.contains("卡爾"),
+            "打招呼時並沒有喊出名稱，其數值爲 `{}`",
             result
         );
     }

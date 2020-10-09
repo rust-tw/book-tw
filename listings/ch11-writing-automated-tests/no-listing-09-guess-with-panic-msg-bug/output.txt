@@ -9,11 +9,11 @@ test tests::greater_than_100 ... FAILED
 failures:
 
 ---- tests::greater_than_100 stdout ----
-thread 'main' panicked at 'Guess value must be greater than or equal to 1, got 200.', src/lib.rs:13:13
+thread 'main' panicked at '猜測數字必須大於等於 1，取得的數值是 200。', src/lib.rs:13:13
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 note: panic did not contain expected string
-      panic message: `"Guess value must be greater than or equal to 1, got 200."`,
- expected substring: `"Guess value must be less than or equal to 100"`
+      panic message: `"猜測數字必須大於等於 1，取得的數值是 200。"`,
+ expected substring: `"猜測數字必須小於等於 100"`
 
 failures:
     tests::greater_than_100

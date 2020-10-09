@@ -121,7 +121,7 @@ after doing automatic regeneration, look at listings/ch15-smart-pointers/listing
 <span class="caption">範例 15-5：使用 `Box<T>` 定義的 `List` 就有已知大小</span>
 
 `Cons` 變體需要的大小爲 `i32` 加上儲存 box 指標的空間。`Nil` 變體沒有儲存任何數值，所以它需要的空間比 `Cons` 變體少。現在我們知道任何
-We now know that any `List` 數值會佔的空間都是一個 `i32` 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 `List` 數值鎖需要的大小。圖示 15-2 顯示了 `Cons` 變體看起來的樣子。
+We now know that any `List` 數值會佔的空間都是一個 `i32` 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 `List` 數值所需要的大小。圖示 15-2 顯示了 `Cons` 變體看起來的樣子。
 
 <img alt="A finite Cons list" src="img/trpl15-02.svg" class="center" />
 

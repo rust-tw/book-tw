@@ -2,7 +2,7 @@
 
 測試是一種 Rust 函式來驗證非測試程式碼是否以預期的方式執行。測試函式的本體通常會做三件動作：
 
-1. 設置任何鎖需要的資料或狀態。
+1. 設置任何所需要的資料或狀態。
 2. 執行你希望測試的程式碼
 3. 判定結果是否與你預期的相符。
 
@@ -48,11 +48,11 @@ $ cd adder
 
 Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之後會出現 `running 1 test` 此行。下一行會顯示自動產生的測試函式 `it_works` 以及測試執行的結果 `ok`。再來可以看到整體總結，`test result: ok.` 代表所有測試都有通過，然後 `1 passed; 0 failed` 指出所有測試成功或失敗的數量。
 
-因爲我們尚未有任何會忽略的程式碼，所以總結會顯示 `0 ignored`。我們也沒有過濾會值行的測試，所以總結最後顯示 `0 filtered out`。我們會在下個段落 [「控制程式如何執行」][controlling-how-tests-are-run]<!-- ignore --> 來討論忽略與過濾測試。
+因爲我們尚未有任何會忽略的程式碼，所以總結會顯示 `0 ignored`。我們也沒有過濾會執行的測試，所以總結最後顯示 `0 filtered out`。我們會在下個段落 [「控制程式如何執行」][controlling-how-tests-are-run]<!-- ignore --> 來討論忽略與過濾測試。
 
 `0 measured` 的統計數值是指評測效能的效能測試。效能測試（Benchmark tests）在本書撰寫時，仍然僅在 nightly Rust 可用。請查閱[效能測試的技術文件][bench]來瞭解詳情。
 
-[bench]: ../unstable-book/library-features/test.html
+[bench]: https://doc.rust-lang.org/unstable-book/library-features/test.html
 
 測試輸出結果的下一部分，也就是 `Doc-tests adder`，是指任何技術文件測試的結果。我們還沒有任何技術文件測試，但是 Rust 可以編譯在 API 技術文件中的任何程式碼範例。此功能能幫助我們將技術文件與程式碼保持同步！我們會在第十四章的 [「將技術文件註解作爲測試」][doc-comments]<!-- ignore -->段落討論如何寫技術文件測試。現在我們會先忽略 `Doc-tests` 的輸出結果。
 
@@ -88,7 +88,7 @@ Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之�
 
 <span class="caption">範例 11-4：其中一個測試通過，而另一個失敗的輸出結果</span>
 
-`test tests::another` 這行會顯示 `FAILED` 而非 `ok`。在獨立結果與總結之間出現了兩個新的段落，第一個段落會顯示每個測試失敗的原因細節。在此例中，`another` 因爲 *src/lib.rs* 檔案中第十行的恐慌 `panicked at 'Make this test fail'` 而失敗。下一個段落則是會列出所有失敗的測試，要是測試很多且失敗測試輸出結果很長的話，此資訊就很實用。我們可以使用失敗測試的名稱來只執行這個測試以便除錯。我們會在[「控制程式如何執行」][controlling-how-tests-are-run]<!-- ignore -->段落討論更多執行測試的方法。
+`test tests::another` 這行會顯示 `FAILED` 而非 `ok`。在獨立結果與總結之間出現了兩個新的段落，第一個段落會顯示每個測試失敗的原因細節。在此例中，`another` 因爲 *src/lib.rs* 檔案中第十行的恐慌 `panicked at '此測試會失敗'` 而失敗。下一個段落則是會列出所有失敗的測試，要是測試很多且失敗測試輸出結果很長的話，此資訊就很實用。我們可以使用失敗測試的名稱來只執行這個測試以便除錯。我們會在[「控制程式如何執行」][controlling-how-tests-are-run]<!-- ignore -->段落討論更多執行測試的方法。
 
 總結會顯示在最後一行，在此例中它表示我們有一個測試結果是 `FAILED`。也就是我們有一個測試通過，一個測試失敗。
 
@@ -195,11 +195,11 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 
 `assert_ne!` 巨集會在我們給予的兩個值不相等時通過，相等時失敗。此巨集適用於當我們不確定一個數值*會是*什麼樣子，但是我們確定知道如果我們程式如預期執行的話，該數值*不會*是某種樣子。舉例來說，如果我們要測試一個保證會以某種形式更改其輸入的函式，但輸入變更的方式是依照我們執行程式時的當天是星期幾來決定，此時最好的判定方式就是檢查函式的輸出不等於輸入。
 
-`assert_eq!` 和 `assert_ne!` 巨集底下分別使用了 `==` 和 `!=` 運算子。當判定失敗時，巨集會透過除錯格式化資訊來顯示它們的引數，代表要比較的數值必須要實作 `PartialEq` 和 `Debug` 特徵。所有的基本型別與大多數標準函式庫中提供的型別都有實作這些特徵。對於你自己定義的結構體與枚舉，你需要實作 `PartialEq`，這樣該型別的數值才能判定相等或不相等。你需要實作 `Debug` 來顯示判定失敗時的數值。因爲這兩個特徵都是可推導的特徵，就像第五章的範例 5-12 所寫的那樣，我們通常只要在你定義的結構體或枚舉前加上 `#[derive(PartialEq, Debug)]` 的詮釋就好。你可以查閱附錄 C [“可推導的特徵,”][derivable-traits]<!-- ignore --> 來發現更多可推導的特徵。
+`assert_eq!` 和 `assert_ne!` 巨集底下分別使用了 `==` 和 `!=` 運算子。當判定失敗時，巨集會透過除錯格式化資訊來顯示它們的引數，代表要比較的數值必須要實作 `PartialEq` 和 `Debug` 特徵。所有的基本型別與大多數標準函式庫中提供的型別都有實作這些特徵。對於你自己定義的結構體與枚舉，你需要實作 `PartialEq`，這樣該型別的數值才能判定相等或不相等。你需要實作 `Debug` 來顯示判定失敗時的數值。因爲這兩個特徵都是可推導的特徵，就像第五章的範例 5-12 所寫的那樣，我們通常只要在你定義的結構體或枚舉前加上 `#[derive(PartialEq, Debug)]` 的詮釋就好。你可以查閱附錄 C [「可推導的特徵」][derivable-traits]<!-- ignore --> 來發現更多可推導的特徵。
 
 ### 加入自訂失敗訊息
 
-你可以寫一個一個與失敗訊息一同顯示的自訂訊息，作爲 `assert!`、`assert_eq!` 與 `assert_ne!` 巨集的選擇性引數。任何指定在 `assert!` 一個必要引數或 `assert_eq!` 和 `assert_ne!` 兩個必要引數後方的任何引數都會傳給 `format!` 巨集（我們在第八章[“Concatenation with the `+` Operator or the `format!` Macro”][concatenation-with-the--operator-or-the-format-macro]<!-- ignore -->的段落討論過），所以你可以傳入一個包含 `{}` 佔位符（placeholder）的格式化字串以及其對應的數值。自訂訊息可以用來紀錄判定的意義，當測試失敗時，你可以更清楚知道程式碼的問題。
+你可以寫一個一個與失敗訊息一同顯示的自訂訊息，作爲 `assert!`、`assert_eq!` 與 `assert_ne!` 巨集的選擇性引數。任何指定在 `assert!` 一個必要引數或 `assert_eq!` 和 `assert_ne!` 兩個必要引數後方的任何引數都會傳給 `format!` 巨集（我們在第八章[「使用 `+` 運算子或 `format!` 巨集串接字串」][concatenation-with-the--operator-or-the-format-macro]<!-- ignore -->的段落討論過），所以你可以傳入一個包含 `{}` 佔位符（placeholder）的格式化字串以及其對應的數值。自訂訊息可以用來紀錄判定的意義，當測試失敗時，你可以更清楚知道程式碼的問題。
 
 舉例來說，假設我們有個函式會以收到的名字像人們打招呼，而且我們希望測試我們傳入的名字有出現在輸出：
 
@@ -283,7 +283,7 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 
 <span class="caption">範例 11-9：只在造成 `panic!` 的特定錯誤訊息會通過的測試</span>
 
-此測試會通過是因爲我們在 `should_panic` 屬性加上的 `expected` 就是 `Guess::new` 函式恐慌時的子字串。我們也可以指定整個恐慌訊息，在此例的話就是 `Guess value must be less than or equal to 100, got 200.`。你在 `should_panic` 所指定的預期參數取決於該恐慌訊息是獨特或動態的，以及你希望你的測試要多精準。在此例中，恐慌訊息的子訊息就足以確認測試函式中的程式碼會執行 `else if value > 100` 的分支。
+此測試會通過是因爲我們在 `should_panic` 屬性加上的 `expected` 就是 `Guess::new` 函式恐慌時的子字串。我們也可以指定整個恐慌訊息，在此例的話就是 `猜測數字必須小於等於 100，取得的數值是 200。`。你在 `should_panic` 所指定的預期參數取決於該恐慌訊息是獨特或動態的，以及你希望你的測試要多精準。在此例中，恐慌訊息的子訊息就足以確認測試函式中的程式碼會執行 `else if value > 100` 的分支。
 
 爲了觀察擁有 `expected` 訊息的 `should_panic` 失敗時會發生什麼事。讓我同樣再次將錯誤引入程式中，將 `if value < 1` 與 `else if value > 100` 的區塊本體對調：
 
@@ -297,7 +297,7 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 {{#include ../listings/ch11-writing-automated-tests/no-listing-09-guess-with-panic-msg-bug/output.txt}}
 ```
 
-錯誤訊息表示此程式碼的確有如我們預期地恐慌，但是恐慌訊息並沒有包含預期的字串 `'Guess value must be less than or equal to 100'`。在此例我們的會得到的恐慌訊息爲 `Guess value must be greater than or equal to 1, got 200.`。這樣我們就能尋找錯誤在哪了！
+錯誤訊息表示此程式碼的確有如我們預期地恐慌，但是恐慌訊息並沒有包含預期的字串 `'猜測數字必須小於等於 100'`。在此例我們的會得到的恐慌訊息爲 `猜測數字必須大於等於 1，取得的數值是 200。`這樣我們就能尋找錯誤在哪了！
 
 ### 在測試中使用 `Result<T, E>`
 
@@ -316,7 +316,7 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 現在你知道了各種寫測試的方法，讓我們看看執行程式時發生了什麼事，並探索我們可以對 `cargo test` 使用的選項。
 
 [concatenation-with-the--operator-or-the-format-macro]:
-ch08-02-strings.html#使用-運算子或-format-巨集串接字串
+ch08-02-strings.html#使用--運算子或-format-巨集串接字串
 [controlling-how-tests-are-run]:
 ch11-02-running-tests.html#控制程式如何執行
 [derivable-traits]: appendix-03-derivable-traits.html
