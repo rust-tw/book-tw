@@ -12726,18 +12726,18 @@ cargo install something you don't have, copy relevant output below
 </ul>
 </blockquote>
 <h1><a class="header" href="#智慧指標" id="智慧指標">智慧指標</a></h1>
-<p>*指標（pointer）*是一個將變數儲存記憶體位址的通用概念。此引位址引用，或者說是「指向」一些其他資料。Rust 中最常見的指標種類就是第四章介紹的引用（reference）。引用以 <code>&amp;</code> 符號作爲指示並借用它們指向的數值。它們除了引用資料以外，沒有其他的特殊能力。此外，它們也沒有任何額外開銷，所以這是我們最常使用到的指標種類。</p>
-<p>另一方面，*智慧指標（Smart pointers）<em>是個不止會有像是指標的行爲，還會包含擁有的詮釋資料與能力。智慧指標的概念並不是 Rust 獨有的，智慧指標起源於 C++ 且也都存在於其他語言。在 Rust 中，定義在標準函式庫中的不同智慧指標不止能引用，還更多的功能。其中一個我們會在本章䩞探索到的就是</em>引用計數（reference counting）*智慧指標型別。此指標允許一個資料可以有多個擁有者，並追蹤擁有者的數量，當沒有任何擁有者時，就清除資料。</p>
+<p><em>指標（pointer）</em> 是一個將變數儲存記憶體位址的通用概念。此位址引用，或者說是「指向」一些其他資料。Rust 中最常見的指標種類就是第四章介紹的引用（reference）。引用以 <code>&amp;</code> 符號作爲指示並借用它們指向的數值。它們除了引用資料以外，沒有其他的特殊能力。此外，它們也沒有任何額外開銷，所以這是我們最常使用到的指標種類。</p>
+<p>另一方面，<em>智慧指標（Smart pointers）</em> 是個不止會有像是指標的行爲，還會包含擁有的詮釋資料與能力。智慧指標的概念並不是 Rust 獨有的，智慧指標起源於 C++ 且也都存在於其他語言。在 Rust 中，定義在標準函式庫中的不同智慧指標不止能引用，還具備更多的功能。其中一個我們會在本章會探索到的就是<em>引用計數（reference counting）</em> 智慧指標型別。此指標允許一個資料可以有多個擁有者，並追蹤擁有者的數量，當沒有任何擁有者時，就清除資料。</p>
 <p>在 Rust 中，我們有所有權與借用的概念，所以引用與智慧指標之間還有有一項差別。引用是只有借用資料的指標，但智慧指標在很多時候都<em>擁有</em>它們指向的資料。</p>
 <p>我們已經在本書中遇過一些智慧指標了，像是第八章的 <code>String</code> 和 <code>Vec&lt;T&gt;</code>，雖然當時我們沒有稱呼它們爲智慧指標。這些型別都算是智慧指標，因爲它們都擁有一些記憶體並允許你操控它們。它們也有詮釋資料（像是容量）以及額外的能力或保障（像是 <code>String</code> 確保其資料永遠是有效的 UTF-8）。</p>
-<p>智慧指標通常都使用結果體實作。要區分智慧指標與一般結構體的差別爲智慧指標會實作 <code>Deref</code> 與 <code>Drop</code> 特徵。<code>Deref</code> 特徵允許智慧指標結構體的實例表現的像是引用一樣，讓你可以寫出能用在引用與智慧指標的程式碼。<code>Drop</code> 特徵允許你自訂當智慧指標實例離開作用域時要執行的程式碼。在本章節我們會討論這兩個特徵並解釋爲何它們對智慧指標很重要。</p>
+<p>智慧指標通常都使用結構體實作。要區分智慧指標與一般結構體的差別爲智慧指標會實作 <code>Deref</code> 與 <code>Drop</code> 特徵。<code>Deref</code> 特徵允許智慧指標結構體的實例表現的像是引用一樣，讓你可以寫出能用在引用與智慧指標的程式碼。<code>Drop</code> 特徵允許你自訂當智慧指標實例離開作用域時要執行的程式碼。在本章節我們會討論這兩個特徵並解釋爲何它們對智慧指標很重要。</p>
 <p>有鑑於智慧指標在 Rust 是個常用的通用設計模式，本章不會涵蓋每一個現有的智慧指標。許多函式庫也都會提供它們自己的智慧指標，你甚至能寫個你自己的。我們會提及標準函式庫中最常用到的智慧指標：</p>
 <ul>
 <li><code>Box&lt;T&gt;</code> 將數值分配到堆積上</li>
 <li><code>Rc&lt;T&gt;</code>, 引用計數型別來允許資料能有數個擁有者</li>
 <li><code>Ref&lt;T&gt;</code> 與 <code>RefMut&lt;T&gt;</code> 透過 <code>RefCell&lt;T&gt;</code> 來取得，這是在執行時而非編譯時強制執行借用規則的型別</li>
 </ul>
-<p>除此之外，我們還會涵蓋到*內部可變性（interior mutability）<em>模式，這讓不可變引用的型別能提供改變內部數值的 API。我們還會討論</em>引用循環（reference cycles）*爲何會導致記憶體泄漏以及如何預防它們。</p>
+<p>除此之外，我們還會涵蓋到<em>內部可變性（interior mutability）</em> 模式，這讓不可變引用的型別能提供改變內部數值的 API。我們還會討論<em>引用循環（reference cycles）</em> 爲何會導致記憶體泄漏以及如何預防它們。</p>
 <p>讓我們開始吧！</p>
 <blockquote>
 <ul>
@@ -12754,7 +12754,7 @@ cargo install something you don't have, copy relevant output below
 <li>當你有個龐大的資料，而你想要轉移所有權並確保資料不會被拷貝。</li>
 <li>當你想要擁有某個值，但你只在意該型別有實作特定的特徵，而不再是何種特定型別</li>
 </ul>
-<p>我們會在<a href="ch15-01-box.html#enabling-recursive-types-with-boxes">「透過 Box 建立遞迴型別」</a><!-- ignore -->段落解說第一種情形。而在第二種情形，轉移龐大的資料的所有權可能會很花費時間，因爲在堆疊上的話會拷貝所有資料。要改善此情形，我們可以用 box 將龐大的資料儲存在堆積上。這樣就只有少量的指標資料在堆疊上被拷貝，而其引用的資料仍然保留在堆積上的同個位置。第三種情況被<em>特徵物件（trait object）</em>，第十七章會花整個<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->段落來討論此議題。所以你在此學到的到第十七章會再次用上！</p>
+<p>我們會在<a href="ch15-01-box.html#%E9%80%8F%E9%81%8E-box-%E5%BB%BA%E7%AB%8B%E9%81%9E%E8%BF%B4%E5%9E%8B%E5%88%A5">「透過 Box 建立遞迴型別」</a><!-- ignore -->段落解說第一種情形。而在第二種情形，轉移龐大的資料的所有權可能會很花費時間，因爲在堆疊上的話會拷貝所有資料。要改善此情形，我們可以用 box 將龐大的資料儲存在堆積上。這樣就只有少量的指標資料在堆疊上被拷貝，而其引用的資料仍然保留在堆積上的同個位置。第三種情況被稱之爲<em>特徵物件（trait object）</em>，第十七章會花整個<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->段落來討論此議題。所以你在此學到的到第十七章會再次用上！</p>
 <h3><a class="header" href="#使用-boxt-儲存資料到堆積上" id="使用-boxt-儲存資料到堆積上">使用 <code>Box&lt;T&gt;</code> 儲存資料到堆積上</a></h3>
 <p>在我們討論 <code>Box&lt;T&gt;</code> 的使用場合前，我們會先介紹語法以及如何對 <code>Box&lt;T&gt;</code> 內儲存的數值進行互動。</p>
 <p>範例 15-1 顯示如何使用 box 在堆積上儲存一個 <code>i32</code> 數值：</p>
@@ -12768,7 +12768,7 @@ cargo install something you don't have, copy relevant output below
 <p>我們定義了變數 <code>b</code> 其數值爲 <code>Box</code> 分配在堆積上指向的數值 <code>5</code>。程式在此例會印出 <code>b = 5</code>，在此例中我們可以用在堆疊上相同的方式取得 box 的資料。就像任何有所有權的數值一樣，當 box 離開作用域時會釋放記憶體，在此例就是當 <code>b</code> 抵達 <code>main</code> 結尾的時候。釋放記憶體作用於 box（儲存在堆疊上）以及其所指向的資料（儲存在堆積上）。</p>
 <p>將單一數值放在堆積上的確沒什麼用處，所以你不會對這種類型經常使用 box。在大多數情況下將像 <code>i32</code> 這種單一數值預設儲存在堆疊的確比較適合。</p>
 <h3><a class="header" href="#透過-box-建立遞迴型別" id="透過-box-建立遞迴型別">透過 Box 建立遞迴型別</a></h3>
-<p>在編譯時期，Rust 需要知道一個型別佔用的空間有多少。其中一種無法在編譯期間知道大小的型別就是<em>遞迴型別（recursive type）</em>，其值的一部分可以是相同型別的另一個值。由於這種巢狀數值理論上可以無限循環下去，Rust無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。</p>
+<p>在編譯時期，Rust 需要知道一個型別佔用的空間有多少。其中一種無法在編譯期間知道大小的型別就是<em>遞迴型別（recursive type）</em>，其值的一部分可以是相同型別的另一個值。由於這種巢狀數值理論上可以無限循環下去，Rust 無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。</p>
 <p>讓我們來探索 <em>cons list</em>，這是個在函式程式語言中常見的資料型別，很適合作爲遞迴型別的範例。我們要定義的 cons list 型別除了遞迴的部分以外都很直白，因此這個例子的概念在往後你遇到更複雜的遞迴型別時會很實用。</p>
 <h4><a class="header" href="#更多關於-cons-list-的資訊" id="更多關於-cons-list-的資訊">更多關於 Cons List 的資訊</a></h4>
 <p><em>cons list</em> 是個起源於 Lisp 程式設計語言與其方言的資料結構。在 Lisp 中，<code>cons</code> 函式（「construct function」的縮寫）會從兩個引數建構一個新的配對，而這通常是一個數值與另一個配對，而這些配對就包含了列表中的配對。</p>
@@ -12873,8 +12873,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-5：使用 <code>Box&lt;T&gt;</code> 定義的 <code>List</code> 就有已知大小</span></p>
-<p><code>Cons</code> 變體需要的大小爲 <code>i32</code> 加上儲存 box 指標的空間。<code>Nil</code> 變體沒有儲存任何數值，所以它需要的空間比 <code>Cons</code> 變體少。現在我們知道任何
-We now know that any <code>List</code> 數值會佔的空間都是一個 <code>i32</code> 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 <code>List</code> 數值所需要的大小。圖示 15-2 顯示了 <code>Cons</code> 變體看起來的樣子。</p>
+<p><code>Cons</code> 變體需要的大小爲 <code>i32</code> 加上儲存 box 指標的空間。<code>Nil</code> 變體沒有儲存任何數值，所以它需要的空間比 <code>Cons</code> 變體少。現在我們知道任何 <code>List</code> 數值會佔的空間都是一個 <code>i32</code> 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 <code>List</code> 數值所需要的大小。圖示 15-2 顯示了 <code>Cons</code> 變體看起來的樣子。</p>
 <img alt="A finite Cons list" src="img/trpl15-02.svg" class="center" />
 <p><span class="caption">圖示 15-2：不再是無限大小的 <code>List</code>，因爲其 <code>Cons</code> 存的是 <code>Box</code></span></p>
 <p>Boxes 只提供了間接儲存與堆積分配，它們沒有其他任何特殊功能，比如我們等下就會看到的其他智慧指標型別。它們也沒有任何因這些特殊功能產生的額外效能開銷，所以它們很適合用於像是 cons list 這種我們只需要間接儲存的場合。我們在第十七章還會再介紹到更多 box 的使用情境。</p>
@@ -12887,13 +12886,13 @@ We now know that any <code>List</code> 數值會佔的空間都是一個 <code>i
 </ul>
 </blockquote>
 <h2><a class="header" href="#透過-deref-特徵將智慧指標視為一般引用" id="透過-deref-特徵將智慧指標視為一般引用">透過 <code>Deref</code> 特徵將智慧指標視為一般引用</a></h2>
-<p>實作 <code>Deref</code> 特徵讓你可以自訂<em>解引用運算子（dereference operator）</em> <code>*</code> 的行爲（而不是相乘或全域運算子）。透過這種方式實作 <code>Deref</code> 的智慧指標可以被視爲正常引用來對待，這樣操作引用的程式碼也能用在智慧指標中。</p>
-<p>讓我們先看解引用運算子如何在正常引用中使用。然後我們會嘗試定義一個行爲類似 <code>Box&lt;T&gt;</code> 的自定型別，並看看爲何解引用運算子無法像引用那樣用在我們新定義的型別。我們將會探討如何實作 <code>Deref</code> 特徵使智慧指標能像類似引用的方式運作。接著我們會看看 Rust 的*強制解引用（deref coercion）*功能並瞭解它如何處理引用與智慧指標。</p>
+<p>實作 <code>Deref</code> 特徵讓你可以自訂<em>解引用運算子（dereference operator）</em> <code>*</code> 的行爲（這不是相乘或全域運算子）。透過這種方式實作 <code>Deref</code> 的智慧指標可以被視爲正常引用來對待，這樣操作引用的程式碼也能用在智慧指標中。</p>
+<p>讓我們先看解引用運算子如何在正常引用中使用。然後我們會嘗試定義一個行爲類似 <code>Box&lt;T&gt;</code> 的自定型別，並看看爲何解引用運算子無法像引用那樣用在我們新定義的型別。我們將會探討如何實作 <code>Deref</code> 特徵使智慧指標能像類似引用的方式運作。接著我們會看看 Rust 的<em>強制解引用（deref coercion）</em> 功能並瞭解它如何處理引用與智慧指標。</p>
 <blockquote>
 <p>注意：我們即將定義的 <code>MyBox&lt;T&gt;</code> 型別與真正的 <code>Box&lt;T&gt;</code> 有一項很大的差別，就是我們的版本不會將其資料儲存在堆積上。我們在此例會專注在 <code>Deref</code> 上，所以資料實際上儲存在何處，並沒有比指標相關行爲來得重要。</p>
 </blockquote>
 <h3><a class="header" href="#使用解引用運算子追蹤指標的數值" id="使用解引用運算子追蹤指標的數值">使用解引用運算子追蹤指標的數值</a></h3>
-<p>一般引用一種指標，其中一種理解指標的方式是看成一個會指向存於某處數值的箭頭。在範例 15-6 中我們建立了數值 <code>i32</code> 的引用，接著使用解引用運算子來追蹤引用的資料：</p>
+<p>一般的引用是一種指標，其中一種理解指標的方式是看成一個會指向存於某處數值的箭頭。在範例 15-6 中我們建立了數值 <code>i32</code> 的引用，接著使用解引用運算子來追蹤引用的資料：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;
@@ -13030,7 +13029,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p><code>deref</code> 方法會回傳一個數值引用，以及括號外要再加上普通解引用的原因，都是因爲所有權系統。如果 <code>deref</code> 方法直接回傳數值而非引用數值的話，該數值就會移出 <code>self</code>。我們不希望在此例或是大多數使用解引用運算子的場合下，取走 <code>MyBox&lt;T&gt;</code> 內部數值的所有權。</p>
 <p>注意到每次我們在程式碼中使用 <code>*</code> 時，<code>*</code> 運算子被替換成 <code>deref</code> 方法呼叫，然後再呼叫 <code>*</code> 剛好一次。因爲 <code>*</code> 運算子不會被無限遞迴替換，我們能剛好取得型別 <code>i32</code> 並符合範例 15-9 <code>assert_eq!</code> 中與 <code>5</code> 的判定。</p>
 <h3><a class="header" href="#函式與方法的隱式強制解引用" id="函式與方法的隱式強制解引用">函式與方法的隱式強制解引用</a></h3>
-<p>*強制解引用（Deref coercion）*是一個 Rust 針對函式或方法的引數的便利設計。強制解引用只適用於有實作 <code>Deref</code> 特徵的型別。強制解引用會將一個型別轉換成另一個型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因爲 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>str</code>。當我們將某個特定型別數值的引用作爲引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
+<p><em>強制解引用（Deref coercion）</em> 是一個 Rust 針對函式或方法的引數的便利設計。強制解引用只適用於有實作 <code>Deref</code> 特徵的型別。強制解引用會將一個型別轉換成另一個型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因爲 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>str</code>。當我們將某個特定型別數值的引用作爲引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
 <p>Rust 會加入強制解引用的原因是因爲程式設計師在寫函式與方法呼叫時，就不必加上許多顯式引用 <code>&amp;</code> 與解引用 <code>*</code>。強制解引用還讓我們可以寫出能同時用於引用或智慧指標的程式碼。</p>
 <p>爲了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 有個函式定義且有個字串切片作爲參數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -13133,35 +13132,35 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 
 impl Drop for CustomSmartPointer {
     fn drop(&amp;mut self) {
-        println!(&quot;Dropping CustomSmartPointer with data `{}`!&quot;, self.data);
+        println!(&quot;釋放 CustomSmartPointer 的資料 `{}`！&quot;, self.data);
     }
 }
 
 fn main() {
     let c = CustomSmartPointer {
-        data: String::from(&quot;my stuff&quot;),
+        data: String::from(&quot;我的東東&quot;),
     };
     let d = CustomSmartPointer {
-        data: String::from(&quot;other stuff&quot;),
+        data: String::from(&quot;其他東東&quot;),
     };
-    println!(&quot;CustomSmartPointers created.&quot;);
+    println!(&quot;CustomSmartPointers 建立完畢。&quot;);
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-14：<code>CustomSmartPointer</code> 結構體實作了會放置清理程式碼的 <code>Drop</code> 特徵</span></p>
 <p><code>Drop</code> 特徵包含在 prelude 中，所以我們不需要特地引入作用域。我們對 <code>CustomSmartPointer</code> 實作 <code>Drop</code> 特徵並提供會呼叫 <code>println!</code> 的 <code>drop</code> 方法實作。<code>drop</code> 的函式本體用來放置你想要在型別實例離開作用域時執行的邏輯。我們在此印出一些文字來展示 Rust 如何呼叫 <code>drop</code>。</p>
-<p>在 <code>main</code> 中，我們建立了兩個 <code>CustomSmartPointer</code> 實例並印出 <code>CustomSmartPointers created</code>。在 <code>main</code> 結尾，我們的 <code>CustomSmartPointer</code> 實例會離開作用域，然後 Rust 就會呼叫我們放在 <code>drop</code> 方法的程式碼，也就是印出我們的最終訊息。注意到我們不需要顯式呼叫 <code>drop</code> 方法。</p>
+<p>在 <code>main</code> 中，我們建立了兩個 <code>CustomSmartPointer</code> 實例並印出 <code>CustomSmartPointers 建立完畢</code>。在 <code>main</code> 結尾，我們的 <code>CustomSmartPointer</code> 實例會離開作用域，然後 Rust 就會呼叫我們放在 <code>drop</code> 方法的程式碼，也就是印出我們的最終訊息。注意到我們不需要顯式呼叫 <code>drop</code> 方法。</p>
 <p>當我們執行此程式時，我們會看到以下輸出：</p>
 <pre><code class="language-console">$ cargo run
    Compiling drop-example v0.1.0 (file:///projects/drop-example)
     Finished dev [unoptimized + debuginfo] target(s) in 0.60s
      Running `target/debug/drop-example`
-CustomSmartPointers created.
-Dropping CustomSmartPointer with data `other stuff`!
-Dropping CustomSmartPointer with data `my stuff`!
+CustomSmartPointers 建立完畢。
+釋放 CustomSmartPointer 的資料 `其他東東`!
+釋放 CustomSmartPointer 的資料 `我的東東`!
 </code></pre>
-<p>當我們的實例離開作用域時，Rust 會自動呼叫 <code>drop</code>，呼叫我們指定的程式碼。變數會以與建立時相反的順序被釋放，所以 <code>d</code> 會在 <code>c</code> 之前被釋放。此範例給了我們一個觀察 <code>drop</code> 如何執行的視覺化指引，通常你會指定該型別所須得清除程式碼，而不是印出訊息。</p>
+<p>當我們的實例離開作用域時，Rust 會自動呼叫 <code>drop</code>，呼叫我們指定的程式碼。變數會以與建立時相反的順序被釋放，所以 <code>d</code> 會在 <code>c</code> 之前被釋放。此範例給了我們一個觀察 <code>drop</code> 如何執行的視覺化指引，通常你會指定該型別所需的清除程式碼，而不是印出訊息。</p>
 <h3><a class="header" href="#透過-stdmemdrop-提早釋放數值" id="透過-stdmemdrop-提早釋放數值">透過 <code>std::mem::drop</code> 提早釋放數值</a></h3>
-<p>不幸的是，我們無法值接了當地取消自動 <code>drop</code> 的功能。停用 <code>drop</code> 通常是不必要的整個 <code>Drop</code> 的目的本來就是要能自動處理。不過有些時候你可能會想要提早清除數值。其中一個例子是使用智慧指標來管理鎖：你可能會想要強制呼叫 <code>drop</code> 方法來釋放鎖，好讓作用域中的其他程式碼可以取得該鎖。Rust 不會讓你手動呼叫 <code>Drop</code> 特徵的 <code>drop</code> 方法。不過如果你想要一個數值在離開作用域前就被釋放的話，你可以使用標準函式庫提供的 <code>std::mem::drop</code> 函式來呼叫。</p>
+<p>不幸的是，我們無法值接了當地取消自動 <code>drop</code> 的功能。停用 <code>drop</code> 通常是不必要的，整個 <code>Drop</code> 的目的本來就是要能自動處理。不過有些時候你可能會想要提早清除數值。其中一個例子是使用智慧指標來管理鎖：你可能會想要強制呼叫 <code>drop</code> 方法來釋放鎖，好讓作用域中的其他程式碼可以取得該鎖。Rust 不會讓你手動呼叫 <code>Drop</code> 特徵的 <code>drop</code> 方法。不過如果你想要一個數值在離開作用域前就被釋放的話，你可以使用標準函式庫提供的 <code>std::mem::drop</code> 函式來呼叫。</p>
 <p>如果我們嘗試修改範例 15-14 的 <code>main</code> 函式來手動呼叫 <code>Drop</code> 特徵的 <code>drop</code> 方法，如範例 15-15 所示，我們會得到編譯錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">struct CustomSmartPointer {
@@ -13170,17 +13169,17 @@ Dropping CustomSmartPointer with data `my stuff`!
 </span><span class="boring">
 </span><span class="boring">impl Drop for CustomSmartPointer {
 </span><span class="boring">    fn drop(&amp;mut self) {
-</span><span class="boring">        println!(&quot;Dropping CustomSmartPointer with data `{}`!&quot;, self.data);
+</span><span class="boring">        println!(&quot;釋放 CustomSmartPointer 的資料 `{}`！&quot;, self.data);
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn main() {
     let c = CustomSmartPointer {
-        data: String::from(&quot;some data&quot;),
+        data: String::from(&quot;某些資料&quot;),
     };
-    println!(&quot;CustomSmartPointer created.&quot;);
+    println!(&quot;CustomSmartPointer 建立完畢。&quot;);
     c.drop();
-    println!(&quot;CustomSmartPointer dropped before the end of main.&quot;);
+    println!(&quot;CustomSmartPointer 在 main 結束前就被釋放了。&quot;);
 }
 </code></pre>
 <p><span class="caption">範例 15-15：嘗試呼叫 <code>Drop</code> 特徵的 <code>drop</code> 方法來手動提早清除</span></p>
@@ -13201,7 +13200,7 @@ error: could not compile `drop-example`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>此錯誤訊息表示我們不允許顯式呼叫 <code>drop</code>。錯誤訊息使用了一個術語<em>解構子（destructor）</em>，這是通用程式設計術語中表達會清除實例的函式。<em>解構子</em>對應的術語就是<em>建構子（constructor）</em>，這會建立實例。Rust 中的 <code>drop</code> 函式就是一種特定的解構子。</p>
-<p>Rust 不讓我們顯式呼叫 <code>drop</code>，因爲 Rust 還是會在 <code>main</code> 結束時自動呼叫 <code>drop</code>。這樣可能會導致*重複釋放（double free）*的錯誤，因爲 Rust 可能會嘗試清除相同的數值兩次。</p>
+<p>Rust 不讓我們顯式呼叫 <code>drop</code>，因爲 Rust 還是會在 <code>main</code> 結束時自動呼叫 <code>drop</code>。這樣可能會導致<em>重複釋放（double free）</em> 的錯誤，因爲 Rust 可能會嘗試清除相同的數值兩次。</p>
 <p>當數值離開作用域時我們無法停用自動插入的 <code>drop</code>，而且我們無法顯式呼叫 <code>drop</code> 方法，所以如果我必須強制讓一個數值提早清除的話，我們可以用 <code>std::mem::drop</code> 函式。</p>
 <p><code>std::mem::drop</code> 函式不同於 <code>Drop</code> 中的 <code>drop</code> 方法，我們將我們想要強制提早釋放的數值作爲引數傳遞並呼叫它。此函式也包含在 prelude，所以我們可以修改範例 15-15 的 <code>main</code> 來呼叫 <code>drop</code> 函式，如範例 15-16 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -13211,17 +13210,17 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">
 </span><span class="boring">impl Drop for CustomSmartPointer {
 </span><span class="boring">    fn drop(&amp;mut self) {
-</span><span class="boring">        println!(&quot;Dropping CustomSmartPointer with data `{}`!&quot;, self.data);
+</span><span class="boring">        println!(&quot;釋放 CustomSmartPointer 的資料 `{}`！&quot;, self.data);
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn main() {
     let c = CustomSmartPointer {
-        data: String::from(&quot;some data&quot;),
+        data: String::from(&quot;某些資料&quot;),
     };
-    println!(&quot;CustomSmartPointer created.&quot;);
+    println!(&quot;CustomSmartPointer 建立完畢。&quot;);
     drop(c);
-    println!(&quot;CustomSmartPointer dropped before the end of main.&quot;);
+    println!(&quot;CustomSmartPointer 在 main 結束前就被釋放了。&quot;);
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-16：在數值離開作用域前呼叫 <code>std::mem::drop</code> 來顯示釋放數值</span></p>
@@ -13230,12 +13229,12 @@ To learn more, run the command again with --verbose.
    Compiling drop-example v0.1.0 (file:///projects/drop-example)
     Finished dev [unoptimized + debuginfo] target(s) in 0.73s
      Running `target/debug/drop-example`
-CustomSmartPointer created.
-Dropping CustomSmartPointer with data `some data`!
-CustomSmartPointer dropped before the end of main.
+CustomSmartPointer 建立完畢。
+釋放 CustomSmartPointer 的資料 `某些資料`!
+CustomSmartPointer 在 main 結束前就被釋放了。
 </code></pre>
-<p><code>Dropping CustomSmartPointer with data `some data`!</code> 這段文字會在 <code>CustomSmartPointer created.</code> 與 <code>CustomSmartPointer dropped before the end of main.</code> 文字之間印出，顯示  <code>drop</code> 方法會在那時釋放 <code>c</code>。</p>
-<p>你可以在許多地方使用 <code>Drop</code> 特徵實作所指定的程式碼，讓清除實例變得方便又安全。舉例來說，你可以用它來建立你自己的記憶體分配器！透過 <code>Drop</code> 特徵與 Rust 的所有權系統，你不必去擔心要既得清理，因爲 Rust 會自動處理。</p>
+<p><code>釋放 CustomSmartPointer 的資料 `某些資料`!</code> 這段文字會在 <code>CustomSmartPointer 建立完畢。</code> 與 <code>CustomSmartPointer 在 main 結束前就被釋放了。</code> 文字之間印出，顯示  <code>drop</code> 方法會在那時釋放 <code>c</code>。</p>
+<p>你可以在許多地方使用 <code>Drop</code> 特徵實作所指定的程式碼，讓清除實例變得方便又安全。舉例來說，你可以用它來建立你自己的記憶體分配器！透過 <code>Drop</code> 特徵與 Rust 的所有權系統，你不必去擔心要記得清理，因爲 Rust 會自動處理。</p>
 <p>你也不必擔心會意外清理仍在使用的數值：所有權系統會確保所有引用永遠有效，並確保當數值不再需要使用時只會呼叫 <code>drop</code> 一次。</p>
 <p>現在你看過 <code>Box&lt;T&gt;</code> 以及一些智慧指標的特性了，讓我們來看看一些其他定義在標準函式庫的智慧指標吧。</p>
 <blockquote>
@@ -13247,7 +13246,7 @@ CustomSmartPointer dropped before the end of main.
 </blockquote>
 <h2><a class="header" href="#rct-引用計數智慧指標" id="rct-引用計數智慧指標"><code>Rc&lt;T&gt;</code> 引用計數智慧指標</a></h2>
 <p>在大多數的場合，所有權是很明確的：你能確切知道哪些變數擁有哪些數值。然而還是有些情況會需要讓一個數值能有數個擁有者。舉例來說，在資料結構中數個邊可能就會指向同個節點，而該節點概念上就被所有指向它的邊所擁有。節點直到沒有任何邊指向它時才會被清除。</p>
-<p>要有多重所有權的話，Rust 有一個型別叫做 <code>Rc&lt;T&gt;</code>，這是*引用計數（reference counting）*的簡寫。<code>Rc&lt;T&gt;</code> 型別會追蹤引用其數值的數量來決定該數值是否還在使用中。如果數值沒有任何引用的話，該數值就可以被清除，因爲不會產生任何無效引用。</p>
+<p>要有多重所有權的話，Rust 有一個型別叫做 <code>Rc&lt;T&gt;</code>，這是<em>引用計數（reference counting）</em> 的簡寫。<code>Rc&lt;T&gt;</code> 型別會追蹤引用其數值的數量來決定該數值是否還在使用中。如果數值沒有任何引用的話，該數值就可以被清除，因爲不會產生任何無效引用。</p>
 <p>想像 <code>Rc&lt;T&gt;</code> 是個在客廳裡的電視，當有人進入客廳要看電視時，它們就會打開它。其他人也能進來觀看電視。當最後一個人離開客廳時，它們會關掉電視，因爲沒有任何人會再看了。如果當其他人還在看電視時，有人關掉了它，其他在看電視的人肯定會生氣。</p>
 <p><code>Rc&lt;T&gt;</code> 型別的使用時機在於當我們想要在堆積上分配一些資料給程式中數個部分讀取，但是我們無法在編譯時期決定哪個部分會最後一個結束使用數值的部分。如果我們知道哪個部分會最後結束的話，我們可以將那個部分作爲資料的擁有者就好，然後正常的所有權規則就會在編譯時生效。</p>
 <p>注意到 <code>Rc&lt;T&gt;</code> 只適用於單一執行緒（single-threaded）的場合。當我們在第十六章討論並行（concurrency）時，我們會介紹如何在多執行緒程式達成引用計數。</p>
@@ -13313,7 +13312,7 @@ fn main() {
 <p><span class="caption">範例 15-18：使用 <code>Rc&lt;T&gt;</code> 來定義 <code>List</code></span></p>
 <p>我們需要使用 <code>use</code> 陳述式來將 <code>Rc&lt;T&gt;</code> 引入作用域，因爲它沒有被包含在 prelude 中。在 <code>main</code> 中，我們建立了一個包含 5 與 10 的列表並存入 <code>a</code> 的 <code>Rc&lt;List&gt;</code>。然後當我們建立 <code>b</code> 與 <code>c</code> 時，我們會呼叫函式 <code>Rc::clone</code> 來將 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 引用作爲引數傳入。</p>
 <p>當然我們可以呼叫 <code>a.clone()</code> 而非 <code>Rc::clone(&amp;a)</code>，但是在此情形中 Rust 的慣例是使用 <code>Rc::clone</code>。<code>Rc::clone</code> 的實作不會像大多數型別的 <code>clone</code> 實作會深拷貝（deep copy）所有的資料。 <code>Rc::clone</code> 的呼叫只會增加引用計數，這花費的時間就相對很少。深拷貝通常會花費比較多的時間。透過使用 <code>Rc::clone</code> 來引用計數，我們可以以視覺辨別出這是深拷貝的克隆還是增加引用計數的克隆。當我們需要調查程式碼的效能問題時，我們就只需要考慮深拷貝的克隆，而不必在意 <code>Rc::clone</code>。</p>
-<h3><a class="header" href="#cloning-an-rct-increases-the-reference-count" id="cloning-an-rct-increases-the-reference-count">Cloning an <code>Rc&lt;T&gt;</code> Increases the Reference Count</a></h3>
+<h3><a class="header" href="#克隆-rct-實例會增加其引用計數" id="克隆-rct-實例會增加其引用計數">克隆 <code>Rc&lt;T&gt;</code> 實例會增加其引用計數</a></h3>
 <p>讓我們改變範例 15-18 的範例，好讓我們能觀察引用計數在我們建立與釋放 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 引用時產生的變化。</p>
 <p>範例 15-19，我們改變了 <code>main</code> 讓列表 <code>c</code> 寫在一個內部作用域中，然後我們就能觀察到當 <code>c</code> 離開作用域時引用計數產生的改變。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -13327,14 +13326,14 @@ fn main() {
 </span><span class="boring">
 </span>fn main() {
     let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
-    println!(&quot;count after creating a = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;建立 a 後的計數 = {}&quot;, Rc::strong_count(&amp;a));
     let b = Cons(3, Rc::clone(&amp;a));
-    println!(&quot;count after creating b = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;建立 b 後的計數 = {}&quot;, Rc::strong_count(&amp;a));
     {
         let c = Cons(4, Rc::clone(&amp;a));
-        println!(&quot;count after creating c = {}&quot;, Rc::strong_count(&amp;a));
+        println!(&quot;建立 c 後的計數 = {}&quot;, Rc::strong_count(&amp;a));
     }
-    println!(&quot;count after c goes out of scope = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;c 離開作用域後的計數 = {}&quot;, Rc::strong_count(&amp;a));
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-19：印出引用計數</span></p>
@@ -13344,10 +13343,10 @@ fn main() {
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
     Finished dev [unoptimized + debuginfo] target(s) in 0.45s
      Running `target/debug/cons-list`
-count after creating a = 1
-count after creating b = 2
-count after creating c = 3
-count after c goes out of scope = 2
+建立 a 後的計數 = 1
+建立 b 後的計數 = 2
+建立 c 後的計數 = 3
+c 離開作用域後的計數 = 2
 </code></pre>
 <p>我們可以看到 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 會有個初始引用計數 1，然後我們每次呼叫 <code>clone</code> 時，計數會加 1。當 <code>c</code> 離開作用域時，計數會減 1。我們不必呼叫任何函式來減少引用計數，像呼叫 <code>Rc::clone</code> 時才會增加引用計數那樣。當 <code>Rc&lt;T&gt;</code> 數值離開作用域時，<code>Drop</code> 特徵的實作就會自動減少引用計數。</p>
 <p>我們無法從此例觀察到的是當 <code>b</code> 然後是 <code>a</code> 從 <code>main</code> 的結尾離開作用域時，計數會是 0，然後 <code>Rc&lt;List&gt;</code> 在此時就會完全被清除。使用 <code>Rc&lt;T&gt;</code> 能允許單一數值能有數個擁有者，然後計數會確保只要有任何擁有者還存在的狀況下，數值會保持是有效的。</p>
@@ -13360,7 +13359,7 @@ count after c goes out of scope = 2
 </ul>
 </blockquote>
 <h2><a class="header" href="#refcellt-與內部可變性模式" id="refcellt-與內部可變性模式"><code>RefCell&lt;T&gt;</code> 與內部可變性模式</a></h2>
-<p>*內部可變性（Interior mutability）*是 Rust 中的一種設計模式，能讓你能對即使是不可變引用的資料也能改變。正常狀況下，借用規則是不允許這種動作的。爲了改變資料，這樣的模式會在資料結構內使用 <code>unsafe</code> 程式碼來繞過 Rust 的常見可變性與借用規則。我們尚未介紹什麼是不安全（unsafe）的程式碼，我們會在第十九章談到。當編譯器無法保障，但我們可以確保借用規則在執行時能夠遵循的話，我們就可以使用擁有內部可變性模式的型別。其內的 <code>unsafe</code> 程式碼會透過安全的 API 封裝起來，讓外部型別仍然是不可變的。</p>
+<p><em>內部可變性（Interior mutability）</em> 是 Rust 中的一種設計模式，能讓你能對即使是不可變引用的資料也能改變。正常狀況下，借用規則是不允許這種動作的。爲了改變資料，這樣的模式會在資料結構內使用 <code>unsafe</code> 程式碼來繞過 Rust 的常見可變性與借用規則。我們尚未介紹什麼是不安全（unsafe）的程式碼，我們會在第十九章談到。當編譯器無法保障，但我們可以確保借用規則在執行時能夠遵循的話，我們就可以使用擁有內部可變性模式的型別。其內的 <code>unsafe</code> 程式碼會透過安全的 API 封裝起來，讓外部型別仍然是不可變的。</p>
 <p>讓我們觀察擁有內部可變性模式的 <code>RefCell&lt;T&gt;</code> 型別來探討此概念。</p>
 <h3><a class="header" href="#透過-refcellt-在執行時強制檢測借用規則" id="透過-refcellt-在執行時強制檢測借用規則">透過 <code>RefCell&lt;T&gt;</code> 在執行時強制檢測借用規則</a></h3>
 <p>不像 <code>Rc&lt;T&gt;</code>，<code>RefCell&lt;T&gt;</code> 型別的資料只會有一個所有權。所以 <code>RefCell&lt;T&gt;</code> 與 <code>Box&lt;T&gt;</code> 這種型別有何差別呢？回憶一下你在第四章學到的借用規則：</p>
@@ -13408,7 +13407,7 @@ To learn more, run the command again with --verbose.
 <p>然而在某些特定情況，我們會想要能夠有個方法可以改變一個數值，但該數值對其他程式碼而言仍然是不可變的。數值提供的方法以外的程式碼都無法改變其值。使用 <code>RefCell&lt;T&gt;</code> 是取得內部可變性的方式之一。但 <code>RefCell&lt;T&gt;</code> 仍然要完全遵守借用規則：編譯器的借用檢查器會允許這些內部可變性，然後在執行時才檢查借用規則。如果你違反規則，你就會得到 <code>panic!</code> 而非編譯錯誤。</p>
 <p>讓我們用一個實際例子來探討如何使用 <code>RefCell&lt;T&gt;</code> 來改變不可變數值，並瞭解爲何這是很實用的。</p>
 <h4><a class="header" href="#內部可變性的使用案例模擬物件" id="內部可變性的使用案例模擬物件">內部可變性的使用案例：模擬物件</a></h4>
-<p>*測試替身（test double）*是一個通用程式設計概念，表示一個在測試中替代某種型別的型別。*模擬物件（Mock objects）*是測試替身其中一種特定型別，這能紀錄測試過程中發生什麼事並讓你能判斷動作是否正確。</p>
+<p><em>測試替身（test double）</em> 是一個通用程式設計概念，表示一個在測試中替代某種型別的型別。<em>模擬物件（Mock objects）</em> 是測試替身其中一種特定型別，這能紀錄測試過程中發生什麼事並讓你能判斷動作是否正確。</p>
 <p>Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 的標準函式庫內也沒有如其他語言會內建的模擬物件功能。不過你還是可以有方法來建立結構體來作爲模擬物件。</p>
 <p>以下是我們要測試的情境：我們建立一個函式庫來追蹤一個數值與最大值的差距，並依據該差距傳送訊息。舉例來說，此函式庫就能用來追蹤使用者允許呼叫 API 次數的上限。</p>
 <p>我們的函式庫提供的功能這只有追蹤與最大值的距離以及何時該傳送什麼訊息。使用函式庫的應用程式要提供傳送訊息的機制，應用程式可以將訊息存在應用程式內、傳送電子郵件、傳送文字訊息或其他等等。函式庫不需要知道細節，它只需要在意會有項目實作我們提供的 <code>Messenger</code> 特徵。範例 15-20 顯示了函式庫的程式碼：</p>
@@ -13444,13 +13443,13 @@ where
         let percentage_of_max = self.value as f64 / self.max as f64;
 
         if percentage_of_max &gt;= 1.0 {
-            self.messenger.send(&quot;Error: You are over your quota!&quot;);
+            self.messenger.send(&quot;錯誤：你超過使用上限了！&quot;);
         } else if percentage_of_max &gt;= 0.9 {
             self.messenger
-                .send(&quot;Urgent warning: You've used up over 90% of your quota!&quot;);
+                .send(&quot;緊急警告：你已經使用 90% 的配額了！&quot;);
         } else if percentage_of_max &gt;= 0.75 {
             self.messenger
-                .send(&quot;Warning: You've used up over 75% of your quota!&quot;);
+                .send(&quot;警告：你已經使用 75% 的配額了！&quot;);
         }
     }
 }
@@ -13488,13 +13487,13 @@ where
 </span><span class="boring">        let percentage_of_max = self.value as f64 / self.max as f64;
 </span><span class="boring">
 </span><span class="boring">        if percentage_of_max &gt;= 1.0 {
-</span><span class="boring">            self.messenger.send(&quot;Error: You are over your quota!&quot;);
+</span><span class="boring">            self.messenger.send(&quot;錯誤：你超過使用上限了！&quot;);
 </span><span class="boring">        } else if percentage_of_max &gt;= 0.9 {
 </span><span class="boring">            self.messenger
-</span><span class="boring">                .send(&quot;Urgent warning: You've used up over 90% of your quota!&quot;);
+</span><span class="boring">                .send(&quot;緊急警告：你已經使用 90% 的配額了！&quot;);
 </span><span class="boring">        } else if percentage_of_max &gt;= 0.75 {
 </span><span class="boring">            self.messenger
-</span><span class="boring">                .send(&quot;Warning: You've used up over 75% of your quota!&quot;);
+</span><span class="boring">                .send(&quot;警告：你已經使用 75% 的配額了！&quot;);
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}
@@ -13534,7 +13533,7 @@ mod tests {
 </code></pre>
 <p><span class="caption">範例 15-21：嘗試實作 <code>MockMessenger</code> 但借用檢查器不允許</span></p>
 <p>此測試程式碼定義了一個結構體 <code>MockMessenger</code> 其有個 <code>sent_messages</code> 欄位並存有 <code>String</code> 數值的 <code>Vec</code> 來追蹤被通知要傳送的訊息。我們也定義了一個關聯函式 <code>new</code> 讓我們可以方便建立起始訊息列表爲空的 <code>MockMessenger</code>。我們對 <code>MockMessenger</code> 實作 <code>Messenger</code> 特徵，這樣我們才能將 <code>MockMessenger</code> 交給 <code>LimitTracker</code>。在 <code>send</code> 方法的定義中，我們取得由參數傳遞的訊息，並存入 <code>MockMessenger</code> 的 <code>sent_messages</code> 列表中。</p>
-<p>在測試中，我們測試當 <code>LimitTracker</code> 被通知將 <code>value</code> 設爲超過 <code>max</code> 數值 75% 的某個值。首先，我們建立新的 <code>MockMessenger</code>，其起始爲一個空的訊息列表。然後我們建立一個新的 <code>LimitTracker</code> 並將 <code>MockMessenger</code> 的引用與一個 <code>max</code> 爲 100 的數值賦值給它。我們用數值 80 來呼叫 <code>LimitTracker</code> 的 <code>set_value</code> 方法，此值會超過 100 的 75%。然後我們判定 <code>MockMessenger</code> 追蹤的訊息列表需要至守有一個訊息。</p>
+<p>在測試中，我們測試當 <code>LimitTracker</code> 被通知將 <code>value</code> 設爲超過 <code>max</code> 數值 75% 的某個值。首先，我們建立新的 <code>MockMessenger</code>，其起始爲一個空的訊息列表。然後我們建立一個新的 <code>LimitTracker</code> 並將 <code>MockMessenger</code> 的引用與一個 <code>max</code> 爲 100 的數值賦值給它。我們用數值 80 來呼叫 <code>LimitTracker</code> 的 <code>set_value</code> 方法，此值會超過 100 的 75%。然後我們判定 <code>MockMessenger</code> 追蹤的訊息列表需要至少有一個訊息。</p>
 <p>但是此測試有個問題，如以下所示：</p>
 <pre><code class="language-text">$ cargo test
    Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
@@ -13553,7 +13552,7 @@ error: could not compile `limit-tracker`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>我們無法修改 <code>MockMessenger</code> 來追蹤訊息，因爲 <code>send</code> 方法取得的是 <code>self</code> 的不可變引用。而我們也無法使用錯誤訊息中推薦使用的 <code>&amp;mut self</code>，因爲 <code>send</code> 的簽名就會與 <code>Messenger</code> 特徵所定義的不相符（你可以是看看並觀察錯誤訊息）。</p>
+<p>我們無法修改 <code>MockMessenger</code> 來追蹤訊息，因爲 <code>send</code> 方法取得的是 <code>self</code> 的不可變引用。而我們也無法使用錯誤訊息中推薦使用的 <code>&amp;mut self</code>，因爲 <code>send</code> 的簽名就會與 <code>Messenger</code> 特徵所定義的不相符（你可以試看看並觀察錯誤訊息）。</p>
 <p>這就是內部可變性能帶來幫助的場合！我們會將 <code>sent_messages</code> 存入 <code>RefCell&lt;T&gt;</code> 內，然後 <code>send</code> 訊息就也能夠進行修改存入訊息。範例 15-22 顯示了變更後的程式碼：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub trait Messenger {
@@ -13584,13 +13583,13 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">        let percentage_of_max = self.value as f64 / self.max as f64;
 </span><span class="boring">
 </span><span class="boring">        if percentage_of_max &gt;= 1.0 {
-</span><span class="boring">            self.messenger.send(&quot;Error: You are over your quota!&quot;);
+</span><span class="boring">            self.messenger.send(&quot;錯誤：你超過使用上限了！&quot;);
 </span><span class="boring">        } else if percentage_of_max &gt;= 0.9 {
 </span><span class="boring">            self.messenger
-</span><span class="boring">                .send(&quot;Urgent warning: You've used up over 90% of your quota!&quot;);
+</span><span class="boring">                .send(&quot;緊急警告：你已經使用 90% 的配額了！&quot;);
 </span><span class="boring">        } else if percentage_of_max &gt;= 0.75 {
 </span><span class="boring">            self.messenger
-</span><span class="boring">                .send(&quot;Warning: You've used up over 75% of your quota!&quot;);
+</span><span class="boring">                .send(&quot;警告：你已經使用 75% 的配額了！&quot;);
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}
@@ -13637,10 +13636,10 @@ mod tests {
 <p>至於 <code>send</code> 方法的實作，第一個參數仍然是 <code>self</code> 的不可變借用，這就符合特徵所定義的。我們在 <code>self.sent_messages</code> 對 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> 呼叫 <code>borrow_mut</code> 來取得 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> 內的可變引用數值，也就是向量。然後我們對向量的可變引用呼叫 <code>push</code> 來追蹤測試中的訊息。</p>
 <p>最後一項改變是判定：要看到內部向量有多少項目的話，我們對 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> 呼叫 <code>borrow</code> 來取得向量的不可變引用。</p>
 <p>現在你已經知道如何使用 <code>RefCell&lt;T&gt;</code>，讓我們進一步探討它如何運作的吧！</p>
-<h4><a class="header" href="#keeping-track-of-borrows-at-runtime-with-refcellt" id="keeping-track-of-borrows-at-runtime-with-refcellt">Keeping Track of Borrows at Runtime with <code>RefCell&lt;T&gt;</code></a></h4>
+<h4><a class="header" href="#透過-refcellt-在執行時追蹤借用" id="透過-refcellt-在執行時追蹤借用">透過 <code>RefCell&lt;T&gt;</code> 在執行時追蹤借用</a></h4>
 <p>當建立不可變與可變引用時，我們分別使用 <code>&amp;</code> 和 <code>&amp;mut</code> 語法。而對於 <code>RefCell&lt;T&gt;</code> 的話，我們使用 <code>borrow</code> 和 <code>borrow_mut</code> 方法，這是 <code>RefCell&lt;T&gt;</code> 所提供的安全 API 之一。<code>borrow</code> 方法回傳一個智慧指標型別 <code>Ref&lt;T&gt;</code>，而 <code>borrow_mut</code> 回傳智慧指標型別 <code>RefMut&lt;T&gt;</code>。這兩個型別都有實作 <code>Deref</code>，所以我們可以像一般引用來對待它們。</p>
 <p><code>RefCell&lt;T&gt;</code> 會追蹤當前有多少 <code>Ref&lt;T&gt;</code> 和 <code>RefMut&lt;T&gt;</code> 智慧指標存在。每次我們呼叫 <code>borrow</code> 時，<code>RefCell&lt;T&gt;</code> 會增加不可變借用計數。當 <code>Ref&lt;T&gt;</code> 離開作用域時，不可變借用計數就會減一。就和編譯時借用規則一樣，<code>RefCell&lt;T&gt;</code> 讓我們同一時間要麼只能有一個可變引用，要麼可以有數個不可變引用。</p>
-<p>如果我們嘗試違法這些規則，我們不會像引用那樣得到編譯器錯誤，<code>RefCell&lt;T&gt;</code> 的實作會在執行時恐慌。 範例 15-23 修改了範例 15-22 的 <code>send</code> 實作。我們故意嘗試在同個作用域下建立兩個可變引用，來說明 <code>RefCell&lt;T&gt;</code> 會不允許我們在執行時這樣做。</p>
+<p>如果我們嘗試違反這些規則，我們不會像引用那樣得到編譯器錯誤，<code>RefCell&lt;T&gt;</code> 的實作會在執行時恐慌。 範例 15-23 修改了範例 15-22 的 <code>send</code> 實作。我們故意嘗試在同個作用域下建立兩個可變引用，來說明 <code>RefCell&lt;T&gt;</code> 會不允許我們在執行時這樣做。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore panics"><span class="boring">pub trait Messenger {
 </span><span class="boring">    fn send(&amp;self, msg: &amp;str);
@@ -13670,13 +13669,13 @@ mod tests {
 </span><span class="boring">        let percentage_of_max = self.value as f64 / self.max as f64;
 </span><span class="boring">
 </span><span class="boring">        if percentage_of_max &gt;= 1.0 {
-</span><span class="boring">            self.messenger.send(&quot;Error: You are over your quota!&quot;);
+</span><span class="boring">            self.messenger.send(&quot;錯誤：你超過使用上限了！&quot;);
 </span><span class="boring">        } else if percentage_of_max &gt;= 0.9 {
 </span><span class="boring">            self.messenger
-</span><span class="boring">                .send(&quot;Urgent warning: You've used up over 90% of your quota!&quot;);
+</span><span class="boring">                .send(&quot;緊急警告：你已經使用 90% 的配額了！&quot;);
 </span><span class="boring">        } else if percentage_of_max &gt;= 0.75 {
 </span><span class="boring">            self.messenger
-</span><span class="boring">                .send(&quot;Warning: You've used up over 75% of your quota!&quot;);
+</span><span class="boring">                .send(&quot;警告：你已經使用 75% 的配額了！&quot;);
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}
@@ -13769,25 +13768,25 @@ fn main() {
 
     *value.borrow_mut() += 10;
 
-    println!(&quot;a after = {:?}&quot;, a);
-    println!(&quot;b after = {:?}&quot;, b);
-    println!(&quot;c after = {:?}&quot;, c);
+    println!(&quot;a 之後 = {:?}&quot;, a);
+    println!(&quot;b 之後 = {:?}&quot;, b);
+    println!(&quot;c 之後 = {:?}&quot;, c);
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-24：使用 <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> 建立一個可變的 <code>List</code></span></p>
-<p>我們建立了一個 <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> 實例數值並將其存入變數 <code>value</code> 好像我們之後可以直接取得。然後我們在 <code>a</code> 用持有 <code>value</code> 的 <code>Cons</code> 變體來建立 <code>List</code>。我們需要克隆 <code>value</code>，這樣 <code>a</code> 和 <code>value</code> 才能都有內部數值 <code>5</code> 的所有權，而不是從 <code>value</code> 轉移所有權給 <code>a</code>，或是讓 <code>a</code> 借用 <code>value</code>。</p>
+<p>我們建立了一個 <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> 實例數值並將其存入變數 <code>value</code> 好讓我們之後可以直接取得。然後我們在 <code>a</code> 用持有 <code>value</code> 的 <code>Cons</code> 變體來建立 <code>List</code>。我們需要克隆 <code>value</code>，這樣 <code>a</code> 和 <code>value</code> 才能都有內部數值 <code>5</code> 的所有權，而不是從 <code>value</code> 轉移所有權給 <code>a</code>，或是讓 <code>a</code> 借用 <code>value</code>。</p>
 <p>我們用 <code>Rc&lt;T&gt;</code> 封裝列表 <code>a</code>，所以當我們建立列表 <code>b</code> 和 <code>c</code> 時，它們都可以引用 <code>a</code>，就像範例 15-18 一樣。</p>
-<p>在我們建立完列表 <code>a</code>、<code>b</code> 和 <code>c</code> 之後，我們對 <code>value</code> 的數值加上 10。我們對 <code>value</code> 呼叫 <code>borrow_mut</code>，其中使用到了我們在第五章討論過的自動解引用功能（請查閱<a href="ch05-03-method-syntax.html#%E9%81%8B%E7%AE%97%E5%AD%90%E8%B7%91%E5%8E%BB%E5%93%AA%E4%BA%86">「<code>-&gt;</code> 運算子跑去哪了？」</a><!-- ignore -->的段落）來解引用 <code>Rc&lt;T&gt;</code> 成內部的 <code>RefCell&lt;T&gt;</code> 數值。<code>borrow_mut</code> 方法會回傳 <code>RefMut&lt;T&gt;</code> 智慧指標，而我們使用解引用運算子並改變其內部數值。</p>
+<p>在我們建立完列表 <code>a</code>、<code>b</code> 和 <code>c</code> 之後，我們對 <code>value</code> 的數值加上 10。我們對 <code>value</code> 呼叫 <code>borrow_mut</code>，其中使用到了我們在第五章討論過的自動解引用功能（請查閱<a href="ch05-03-method-syntax.html#--%E9%81%8B%E7%AE%97%E5%AD%90%E8%B7%91%E5%8E%BB%E5%93%AA%E4%BA%86">「<code>-&gt;</code> 運算子跑去哪了？」</a><!-- ignore -->的段落）來解引用 <code>Rc&lt;T&gt;</code> 成內部的 <code>RefCell&lt;T&gt;</code> 數值。<code>borrow_mut</code> 方法會回傳 <code>RefMut&lt;T&gt;</code> 智慧指標，而我們使用解引用運算子並改變其內部數值。</p>
 <p>當我們印出 <code>a</code>、<code>b</code> 和 <code>c</code> 時，我們可以看到它們的數值都改成了 15 而非 5：</p>
 <pre><code class="language-console">$ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
     Finished dev [unoptimized + debuginfo] target(s) in 0.63s
      Running `target/debug/cons-list`
-a after = Cons(RefCell { value: 15 }, Nil)
-b after = Cons(RefCell { value: 3 }, Cons(RefCell { value: 15 }, Nil))
-c after = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
+a 之後 = Cons(RefCell { value: 15 }, Nil)
+b 之後 = Cons(RefCell { value: 3 }, Cons(RefCell { value: 15 }, Nil))
+c 之後 = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
 </code></pre>
-<p>此技巧是不是很厲害！透過使用 <code>RefCell&lt;T&gt;</code>，我們可以得到一個外部是不可變的 <code>List</code> 數值，但是我們可以使用 <code>RefCell&lt;T&gt;</code> 提供的方法來取得其內部可變性，讓我們可以在我們想要時改變我們的資料。執行時的借用規則檢查檢查能防止資料競爭，並在某些場合犧牲一點速度來換取資料結構的彈性。</p>
+<p>此技巧是不是很厲害！透過使用 <code>RefCell&lt;T&gt;</code>，我們可以得到一個外部是不可變的 <code>List</code> 數值，但是我們可以使用 <code>RefCell&lt;T&gt;</code> 提供的方法來取得其內部可變性，讓我們可以在我們想要時改變我們的資料。執行時的借用規則檢查能防止資料競爭，並在某些場合犧牲一點速度來換取資料結構的彈性。</p>
 <p>標準函式庫也提供了其他具有內部可變性的型別。像是 <code>Cell&lt;T&gt;</code>，這類似 <code>RefCell&lt;T&gt;</code> 但不同於給予內部數值的引用，<code>Cell&lt;T&gt;</code> 的數值會被拷貝出去。還有 <code>Mutex&lt;T&gt;</code> 能提供跨執行緒安全的內部可變性，我們會在第十六章討論如何使用它。歡迎查閱標準函式庫的計數文件來瞭解這些型別之間的細節差異。</p>
 <blockquote>
 <ul>
@@ -13797,7 +13796,7 @@ c after = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
 </ul>
 </blockquote>
 <h2><a class="header" href="#引用循環會導致記憶體泄漏" id="引用循環會導致記憶體泄漏">引用循環會導致記憶體泄漏</a></h2>
-<p>Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情況（通稱爲<em>記憶體泄漏, memory leak</em>）難以發生，但這並不是絕對不可能。和在編譯期間不允許資料競爭的情況不同，Rust 並不保證能完全避免記憶體泄漏，代表記憶體泄漏 Rust 中被視爲是記憶體安全的。我們可以透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 觀察到 Rust 仍會產生記憶體泄漏，產生引用循環是有可能的，這會導致記憶體泄漏，因爲循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
+<p>Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情況（通稱爲<em>記憶體泄漏／memory leak</em>）難以發生，但這並不是絕對不可能。和在編譯期間不允許資料競爭的情況不同，Rust 並不保證能完全避免記憶體泄漏，代表記憶體泄漏 Rust 中被視爲是記憶體安全的。我們可以透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 觀察到 Rust 仍會產生記憶體泄漏，產生引用循環是有可能的，這會導致記憶體泄漏，因爲循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
 <h3><a class="header" href="#產生引用循環" id="產生引用循環">產生引用循環</a></h3>
 <p>讓我們看看引用循環是怎麼發生的，以及如何避免它。我們從範例 15-25 的 <code>List</code> 枚舉定義與一個 <code>tail</code> 方法開始：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -13848,25 +13847,25 @@ fn main() {}
 </span>fn main() {
     let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
 
-    println!(&quot;a initial rc count = {}&quot;, Rc::strong_count(&amp;a));
-    println!(&quot;a next item = {:?}&quot;, a.tail());
+    println!(&quot;a 初始引用計數 = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;a 下個項目 = {:?}&quot;, a.tail());
 
     let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&amp;a))));
 
-    println!(&quot;a rc count after b creation = {}&quot;, Rc::strong_count(&amp;a));
-    println!(&quot;b initial rc count = {}&quot;, Rc::strong_count(&amp;b));
-    println!(&quot;b next item = {:?}&quot;, b.tail());
+    println!(&quot;a 在 b 建立後的引用計數 = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;b 初始引用計數 = {}&quot;, Rc::strong_count(&amp;b));
+    println!(&quot;b 下個項目 = {:?}&quot;, b.tail());
 
     if let Some(link) = a.tail() {
         *link.borrow_mut() = Rc::clone(&amp;b);
     }
 
-    println!(&quot;b rc count after changing a = {}&quot;, Rc::strong_count(&amp;b));
-    println!(&quot;a rc count after changing a = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;b 在變更 a 後的引用計數 = {}&quot;, Rc::strong_count(&amp;b));
+    println!(&quot;a 在變更 a 後的引用計數 = {}&quot;, Rc::strong_count(&amp;a));
 
-    // Uncomment the next line to see that we have a cycle;
-    // it will overflow the stack
-    // println!(&quot;a next item = {:?}&quot;, a.tail());
+    // 取消下一行的註解可以看到循環產生
+    // 這會讓堆疊溢位
+    // println!(&quot;a 下個項目 = {:?}&quot;, a.tail());
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-26：透過兩個彼此指向對方的 <code>List</code> 數值來產生引用循環</span></p>
@@ -13877,20 +13876,20 @@ fn main() {}
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
     Finished dev [unoptimized + debuginfo] target(s) in 0.53s
      Running `target/debug/cons-list`
-a initial rc count = 1
-a next item = Some(RefCell { value: Nil })
-a rc count after b creation = 2
-b initial rc count = 1
-b next item = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
-b rc count after changing a = 2
-a rc count after changing a = 2
+a 初始引用計數 = 1
+a 下個項目 = Some(RefCell { value: Nil })
+a 在 b 建立後的引用計數 = 2
+b 初始引用計數 = 1
+b 下個項目 = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
+b 在變更 a 後的引用計數 = 2
+a 在變更 a 後的引用計數 = 2
 </code></pre>
 <p>在我們變更列表 <code>a</code> 來指向 <code>b</code> 後，<code>a</code> 和 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例引用計數都是 2。在 <code>main</code> 結束後，Rust 會先嘗試釋放 <code>b</code>，讓 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例計數減一。</p>
 <p>然而，因爲 <code>a</code> 仍然引用 <code>b</code> 的 <code>Rc&lt;List&gt;</code>，該 <code>Rc&lt;List&gt;</code> 的計數會是 1 而非 0，所以 <code>Rc&lt;List&gt;</code> 在堆積上的記憶體不會被釋放。記憶體會永遠維持在那並保持計數爲 1。爲了視覺化引用循環，我們用圖示 15-4 表示。</p>
 <img alt="Reference cycle of lists" src="img/trpl15-04.svg" class="center" />
 <p><span class="caption">圖示 15-4：列表 <code>a</code> 與 <code>b</code> 彼此指向對方的引用循環</span></p>
 <p>如果你解除最後一個 <code>println!</code> 的註解並執行程式的話，Rust 會嘗試印出此循環，因爲 <code>a</code> 會指向 <code>b</code> 會指向 <code>a</code> 以此循環下去，直到堆疊溢位（stack overflow）。</p>
-<p>在此例中，當我們建立完循環引用，程式究詰數了。此循環造成的影響並不嚴重。不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很常一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
+<p>在此例中，當我們建立完循環引用，程式就結束了。此循環造成的影響並不嚴重。不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很常一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
 <p>要產生循環引用並不是件容易的事，但也不是絕對不可能。如果你有包含 <code>Rc&lt;T&gt;</code> 數值的 <code>RefCell&lt;T&gt;</code> 數值，或是有類似具內部可變性與引用計數巢狀組合的話，你必須確保不會產生循環引用，你無法依靠 Rust 來檢查它們。產生循環引用是程式中的邏輯錯誤，你需要使用自動化測試、程式碼審查以及其他軟體開發技巧來最小化問題。</p>
 <p>另一個避免引用循環的解決辦法是重新組織你的資料結構，確定哪些引用要有所有權，哪些引用不用。這樣一來，循環會由一些有所有權的關係與沒有所有權的關係所組成，而只有所有權關係能影響數值是否能被釋放。在範例 15-25 中。我們永遠會希望 <code>Cons</code> 變體擁有它們的列表，讓重新組織資料結構變得有可能。讓我們看看一個由父節點與子節點的圖形結構，來看看無所有權的關係何時適合用來避免循環引用。</p>
 <h3><a class="header" href="#避免引用循環將-rct-轉換成-weakt" id="避免引用循環將-rct-轉換成-weakt">避免引用循環：將 <code>Rc&lt;T&gt;</code> 轉換成 <code>Weak&lt;T&gt;</code></a></h3>
@@ -13947,7 +13946,7 @@ struct Node {
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-27：建立一個沒有子節點的 <code>leaf</code> 節點與一個有 <code>leaf</code> 作爲子節點的 <code>branch</code> 節點</span></p>
-<p>我們克隆 <code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 並存入 <code>branch</code>，代表 <code>leaf</code> 的 <code>Node</code> 現在有兩個擁有者：<code>leaf</code> 和 <code>branch</code>。我們可以透過 <code>branch.children</code> 從 <code>branch</code> 取得 <code>leaf</code>，但是從 <code>leaf</code> 無法取得 <code>branch</code>。云因是因爲 <code>leaf</code> 沒有 <code>branch</code> 的引用且不知道它們之間是有關聯的。我們想要 <code>leaf</code> 能知道 <code>branch</code> 是它的父節點。這就是我們接下來要做的事。</p>
+<p>我們克隆 <code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 並存入 <code>branch</code>，代表 <code>leaf</code> 的 <code>Node</code> 現在有兩個擁有者：<code>leaf</code> 和 <code>branch</code>。我們可以透過 <code>branch.children</code> 從 <code>branch</code> 取得 <code>leaf</code>，但是從 <code>leaf</code> 無法取得 <code>branch</code>。原因是因爲 <code>leaf</code> 沒有 <code>branch</code> 的引用且不知道它們之間是有關聯的。我們想要 <code>leaf</code> 能知道 <code>branch</code> 是它的父節點。這就是我們接下來要做的事。</p>
 <h4><a class="header" href="#新增從子節點到父節點的引用" id="新增從子節點到父節點的引用">新增從子節點到父節點的引用</a></h4>
 <p>要讓子節點意識到它的父節點，我們需要在我們的 <code>Node</code> 結構體定義中加個 <code>parent</code> 欄位。問題在於 <code>parent</code> 應該要是什麼型別。我們知道它不能包含 <code>Rc&lt;T&gt;</code>，因爲那就會造成引用循環，<code>leaf.parent</code> 就會指向 <code>branch</code> 且 <code>branch.children</code> 就會指向 <code>leaf</code>，導致同名的 <code>strong_count</code> 數值無法歸零。</p>
 <p>讓我們換種方式思考此關係，父節點必須擁有它的子節點，如果父節點釋放的話，它的子節點也應該要被釋放。但子節點不應該擁有它的父節點，如果我們釋放子節點的話，父節點應該要還存在。這就是弱引用的使用時機！</p>
@@ -13970,7 +13969,7 @@ struct Node {
 </span><span class="boring">        children: RefCell::new(vec![]),
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+</span><span class="boring">    println!(&quot;leaf 的父節點 {:?}&quot;, leaf.parent.borrow().upgrade());
 </span><span class="boring">
 </span><span class="boring">    let branch = Rc::new(Node {
 </span><span class="boring">        value: 5,
@@ -13980,7 +13979,7 @@ struct Node {
 </span><span class="boring">
 </span><span class="boring">    *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+</span><span class="boring">    println!(&quot;leaf 的父節點 {:?}&quot;, leaf.parent.borrow().upgrade());
 </span><span class="boring">}
 </span></code></pre></pre>
 <p>節點能夠引用其父節點但不會擁有它。在範例 15-28 中我們更新了 <code>main</code> 來使用新的定義，讓 <code>leaf</code> 節點有辦法引用它的父節點 <code>branch</code>：</p>
@@ -14002,7 +14001,7 @@ struct Node {
         children: RefCell::new(vec![]),
     });
 
-    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+    println!(&quot;leaf 的父節點 {:?}&quot;, leaf.parent.borrow().upgrade());
 
     let branch = Rc::new(Node {
         value: 5,
@@ -14012,17 +14011,17 @@ struct Node {
 
     *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
 
-    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+    println!(&quot;leaf 的父節點 {:?}&quot;, leaf.parent.borrow().upgrade());
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-28：<code>leaf</code> 節點有其父節點 <code>branch</code> 的弱引用</span></p>
 <p>建立 <code>leaf</code> 節點與建立範例 15-27 的 <code>leaf</code> 節點類似，只是要多加個 <code>parent</code> 欄位：<code>leaf</code> 一開始沒有任何父節點，所以我們建立一個空的 <code>Weak&lt;Node&gt;</code> 引用實例。</p>
 <p>此時當我們透過 <code>upgrade</code> 方法嘗試取得 <code>leaf</code> 的父節點引用的話，我們會取得 <code>None</code> 數值。我們能在輸出結果的第一個 <code>println!</code> 陳述式看到：</p>
-<pre><code class="language-text">leaf parent = None
+<pre><code class="language-text">leaf 的父節點 None
 </code></pre>
 <p>當我們建立 <code>branch</code> 節點，它的 <code>parent</code> 欄位也會有個新的 <code>Weak&lt;Node&gt;</code> 引用，因爲 <code>branch</code> 沒有父節點。我們仍然有 <code>leaf</code> 作爲 <code>branch</code> 其中一個子節點。一旦我們有了 <code>branch</code> 的 <code>Node</code> 實例，我們可以修改 <code>leaf</code> 使其擁有父節點的 <code>Weak&lt;Node&gt;</code> 引用。我們對 <code>leaf</code> 中 <code>parent</code> 欄位的 <code>RefCell&lt;Weak&lt;Node&gt;&gt;</code> 使用 <code>borrow_mut</code> 方法，然後我們使用 <code>Rc::downgrade</code> 函式來從 <code>branch</code> 的 <code>Rc&lt;Node&gt;</code> 建立一個 <code>branch</code> 的 <code>Weak&lt;Node&gt;</code> 引用。</p>
 <p>當我們再次印出 <code>leaf</code> 的父節點，這次我們就會取得 <code>Some</code> 變體其內就是 <code>branch</code>，現在 <code>leaf</code> 可以取得它的父節點了！當我們印出 <code>leaf</code>，我們也能避免產生像範例 15-26 那樣最終導致堆疊溢位（stack overflow）的循環，<code>Weak&lt;Node&gt;</code> 會印成 <code>(Weak)</code>：</p>
-<pre><code class="language-text">leaf parent = Some(Node { value: 5, parent: RefCell { value: (Weak) },
+<pre><code class="language-text">leaf 的父節點 Some(Node { value: 5, parent: RefCell { value: (Weak) },
 children: RefCell { value: [Node { value: 3, parent: RefCell { value: (Weak) },
 children: RefCell { value: [] } }] } })
 </code></pre>
@@ -14048,7 +14047,7 @@ children: RefCell { value: [] } }] } })
     });
 
     println!(
-        &quot;leaf strong = {}, weak = {}&quot;,
+        &quot;leaf 的強引用 = {}、弱引用 = {}&quot;,
         Rc::strong_count(&amp;leaf),
         Rc::weak_count(&amp;leaf),
     );
@@ -14063,21 +14062,21 @@ children: RefCell { value: [] } }] } })
         *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
 
         println!(
-            &quot;branch strong = {}, weak = {}&quot;,
+            &quot;branch 的強引用 = {}、弱引用 = {}&quot;,
             Rc::strong_count(&amp;branch),
             Rc::weak_count(&amp;branch),
         );
 
         println!(
-            &quot;leaf strong = {}, weak = {}&quot;,
+            &quot;leaf 的強引用 = {}、弱引用 = {}&quot;,
             Rc::strong_count(&amp;leaf),
             Rc::weak_count(&amp;leaf),
         );
     }
 
-    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+    println!(&quot;leaf 的父節點 {:?}&quot;, leaf.parent.borrow().upgrade());
     println!(
-        &quot;leaf strong = {}, weak = {}&quot;,
+        &quot;leaf 的強引用 = {}、弱引用 = {}&quot;,
         Rc::strong_count(&amp;leaf),
         Rc::weak_count(&amp;leaf),
     );
@@ -14092,7 +14091,7 @@ children: RefCell { value: [] } }] } })
 <p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設引用所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料分配到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的引用數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，其會在執行時強制檢測借用規則，而非編譯時。</p>
 <p>我們也討論了 <code>Deref</code> 與 <code>Drop</code> 特徵，這些對智慧指標提供了許多功能。我們探討了引用循環可能會導致記憶體泄漏以及如何使用 <code>Weak&lt;T&gt;</code> 避免它們。</p>
 <p>如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱<a href="../nomicon/index.html">「The Rustonomicon」</a>來學習更多實用資訊。</p>
-<p>接下來，我們將討論 Rust 的並行性。你還會在學到一些新的智慧指標。</p>
+<p>接下來，我們將討論 Rust 的並行性。你還會再學到一些新的智慧指標。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>

@@ -168,7 +168,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#引用循環會導致記憶體泄漏" id="引用循環會導致記憶體泄漏">引用循環會導致記憶體泄漏</a></h2>
-<p>Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情況（通稱爲<em>記憶體泄漏, memory leak</em>）難以發生，但這並不是絕對不可能。和在編譯期間不允許資料競爭的情況不同，Rust 並不保證能完全避免記憶體泄漏，代表記憶體泄漏 Rust 中被視爲是記憶體安全的。我們可以透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 觀察到 Rust 仍會產生記憶體泄漏，產生引用循環是有可能的，這會導致記憶體泄漏，因爲循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
+<p>Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情況（通稱爲<em>記憶體泄漏／memory leak</em>）難以發生，但這並不是絕對不可能。和在編譯期間不允許資料競爭的情況不同，Rust 並不保證能完全避免記憶體泄漏，代表記憶體泄漏 Rust 中被視爲是記憶體安全的。我們可以透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 觀察到 Rust 仍會產生記憶體泄漏，產生引用循環是有可能的，這會導致記憶體泄漏，因爲循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
 <h3><a class="header" href="#產生引用循環" id="產生引用循環">產生引用循環</a></h3>
 <p>讓我們看看引用循環是怎麼發生的，以及如何避免它。我們從範例 15-25 的 <code>List</code> 枚舉定義與一個 <code>tail</code> 方法開始：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -219,25 +219,25 @@ fn main() {}
 </span>fn main() {
     let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
 
-    println!(&quot;a initial rc count = {}&quot;, Rc::strong_count(&amp;a));
-    println!(&quot;a next item = {:?}&quot;, a.tail());
+    println!(&quot;a 初始引用計數 = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;a 下個項目 = {:?}&quot;, a.tail());
 
     let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&amp;a))));
 
-    println!(&quot;a rc count after b creation = {}&quot;, Rc::strong_count(&amp;a));
-    println!(&quot;b initial rc count = {}&quot;, Rc::strong_count(&amp;b));
-    println!(&quot;b next item = {:?}&quot;, b.tail());
+    println!(&quot;a 在 b 建立後的引用計數 = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;b 初始引用計數 = {}&quot;, Rc::strong_count(&amp;b));
+    println!(&quot;b 下個項目 = {:?}&quot;, b.tail());
 
     if let Some(link) = a.tail() {
         *link.borrow_mut() = Rc::clone(&amp;b);
     }
 
-    println!(&quot;b rc count after changing a = {}&quot;, Rc::strong_count(&amp;b));
-    println!(&quot;a rc count after changing a = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;b 在變更 a 後的引用計數 = {}&quot;, Rc::strong_count(&amp;b));
+    println!(&quot;a 在變更 a 後的引用計數 = {}&quot;, Rc::strong_count(&amp;a));
 
-    // Uncomment the next line to see that we have a cycle;
-    // it will overflow the stack
-    // println!(&quot;a next item = {:?}&quot;, a.tail());
+    // 取消下一行的註解可以看到循環產生
+    // 這會讓堆疊溢位
+    // println!(&quot;a 下個項目 = {:?}&quot;, a.tail());
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-26：透過兩個彼此指向對方的 <code>List</code> 數值來產生引用循環</span></p>
@@ -248,20 +248,20 @@ fn main() {}
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
     Finished dev [unoptimized + debuginfo] target(s) in 0.53s
      Running `target/debug/cons-list`
-a initial rc count = 1
-a next item = Some(RefCell { value: Nil })
-a rc count after b creation = 2
-b initial rc count = 1
-b next item = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
-b rc count after changing a = 2
-a rc count after changing a = 2
+a 初始引用計數 = 1
+a 下個項目 = Some(RefCell { value: Nil })
+a 在 b 建立後的引用計數 = 2
+b 初始引用計數 = 1
+b 下個項目 = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
+b 在變更 a 後的引用計數 = 2
+a 在變更 a 後的引用計數 = 2
 </code></pre>
 <p>在我們變更列表 <code>a</code> 來指向 <code>b</code> 後，<code>a</code> 和 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例引用計數都是 2。在 <code>main</code> 結束後，Rust 會先嘗試釋放 <code>b</code>，讓 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例計數減一。</p>
 <p>然而，因爲 <code>a</code> 仍然引用 <code>b</code> 的 <code>Rc&lt;List&gt;</code>，該 <code>Rc&lt;List&gt;</code> 的計數會是 1 而非 0，所以 <code>Rc&lt;List&gt;</code> 在堆積上的記憶體不會被釋放。記憶體會永遠維持在那並保持計數爲 1。爲了視覺化引用循環，我們用圖示 15-4 表示。</p>
 <img alt="Reference cycle of lists" src="img/trpl15-04.svg" class="center" />
 <p><span class="caption">圖示 15-4：列表 <code>a</code> 與 <code>b</code> 彼此指向對方的引用循環</span></p>
 <p>如果你解除最後一個 <code>println!</code> 的註解並執行程式的話，Rust 會嘗試印出此循環，因爲 <code>a</code> 會指向 <code>b</code> 會指向 <code>a</code> 以此循環下去，直到堆疊溢位（stack overflow）。</p>
-<p>在此例中，當我們建立完循環引用，程式究詰數了。此循環造成的影響並不嚴重。不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很常一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
+<p>在此例中，當我們建立完循環引用，程式就結束了。此循環造成的影響並不嚴重。不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很常一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
 <p>要產生循環引用並不是件容易的事，但也不是絕對不可能。如果你有包含 <code>Rc&lt;T&gt;</code> 數值的 <code>RefCell&lt;T&gt;</code> 數值，或是有類似具內部可變性與引用計數巢狀組合的話，你必須確保不會產生循環引用，你無法依靠 Rust 來檢查它們。產生循環引用是程式中的邏輯錯誤，你需要使用自動化測試、程式碼審查以及其他軟體開發技巧來最小化問題。</p>
 <p>另一個避免引用循環的解決辦法是重新組織你的資料結構，確定哪些引用要有所有權，哪些引用不用。這樣一來，循環會由一些有所有權的關係與沒有所有權的關係所組成，而只有所有權關係能影響數值是否能被釋放。在範例 15-25 中。我們永遠會希望 <code>Cons</code> 變體擁有它們的列表，讓重新組織資料結構變得有可能。讓我們看看一個由父節點與子節點的圖形結構，來看看無所有權的關係何時適合用來避免循環引用。</p>
 <h3><a class="header" href="#避免引用循環將-rct-轉換成-weakt" id="避免引用循環將-rct-轉換成-weakt">避免引用循環：將 <code>Rc&lt;T&gt;</code> 轉換成 <code>Weak&lt;T&gt;</code></a></h3>
@@ -318,7 +318,7 @@ struct Node {
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-27：建立一個沒有子節點的 <code>leaf</code> 節點與一個有 <code>leaf</code> 作爲子節點的 <code>branch</code> 節點</span></p>
-<p>我們克隆 <code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 並存入 <code>branch</code>，代表 <code>leaf</code> 的 <code>Node</code> 現在有兩個擁有者：<code>leaf</code> 和 <code>branch</code>。我們可以透過 <code>branch.children</code> 從 <code>branch</code> 取得 <code>leaf</code>，但是從 <code>leaf</code> 無法取得 <code>branch</code>。云因是因爲 <code>leaf</code> 沒有 <code>branch</code> 的引用且不知道它們之間是有關聯的。我們想要 <code>leaf</code> 能知道 <code>branch</code> 是它的父節點。這就是我們接下來要做的事。</p>
+<p>我們克隆 <code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 並存入 <code>branch</code>，代表 <code>leaf</code> 的 <code>Node</code> 現在有兩個擁有者：<code>leaf</code> 和 <code>branch</code>。我們可以透過 <code>branch.children</code> 從 <code>branch</code> 取得 <code>leaf</code>，但是從 <code>leaf</code> 無法取得 <code>branch</code>。原因是因爲 <code>leaf</code> 沒有 <code>branch</code> 的引用且不知道它們之間是有關聯的。我們想要 <code>leaf</code> 能知道 <code>branch</code> 是它的父節點。這就是我們接下來要做的事。</p>
 <h4><a class="header" href="#新增從子節點到父節點的引用" id="新增從子節點到父節點的引用">新增從子節點到父節點的引用</a></h4>
 <p>要讓子節點意識到它的父節點，我們需要在我們的 <code>Node</code> 結構體定義中加個 <code>parent</code> 欄位。問題在於 <code>parent</code> 應該要是什麼型別。我們知道它不能包含 <code>Rc&lt;T&gt;</code>，因爲那就會造成引用循環，<code>leaf.parent</code> 就會指向 <code>branch</code> 且 <code>branch.children</code> 就會指向 <code>leaf</code>，導致同名的 <code>strong_count</code> 數值無法歸零。</p>
 <p>讓我們換種方式思考此關係，父節點必須擁有它的子節點，如果父節點釋放的話，它的子節點也應該要被釋放。但子節點不應該擁有它的父節點，如果我們釋放子節點的話，父節點應該要還存在。這就是弱引用的使用時機！</p>
@@ -341,7 +341,7 @@ struct Node {
 </span><span class="boring">        children: RefCell::new(vec![]),
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+</span><span class="boring">    println!(&quot;leaf 的父節點 {:?}&quot;, leaf.parent.borrow().upgrade());
 </span><span class="boring">
 </span><span class="boring">    let branch = Rc::new(Node {
 </span><span class="boring">        value: 5,
@@ -351,7 +351,7 @@ struct Node {
 </span><span class="boring">
 </span><span class="boring">    *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+</span><span class="boring">    println!(&quot;leaf 的父節點 {:?}&quot;, leaf.parent.borrow().upgrade());
 </span><span class="boring">}
 </span></code></pre></pre>
 <p>節點能夠引用其父節點但不會擁有它。在範例 15-28 中我們更新了 <code>main</code> 來使用新的定義，讓 <code>leaf</code> 節點有辦法引用它的父節點 <code>branch</code>：</p>
@@ -373,7 +373,7 @@ struct Node {
         children: RefCell::new(vec![]),
     });
 
-    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+    println!(&quot;leaf 的父節點 {:?}&quot;, leaf.parent.borrow().upgrade());
 
     let branch = Rc::new(Node {
         value: 5,
@@ -383,17 +383,17 @@ struct Node {
 
     *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
 
-    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+    println!(&quot;leaf 的父節點 {:?}&quot;, leaf.parent.borrow().upgrade());
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-28：<code>leaf</code> 節點有其父節點 <code>branch</code> 的弱引用</span></p>
 <p>建立 <code>leaf</code> 節點與建立範例 15-27 的 <code>leaf</code> 節點類似，只是要多加個 <code>parent</code> 欄位：<code>leaf</code> 一開始沒有任何父節點，所以我們建立一個空的 <code>Weak&lt;Node&gt;</code> 引用實例。</p>
 <p>此時當我們透過 <code>upgrade</code> 方法嘗試取得 <code>leaf</code> 的父節點引用的話，我們會取得 <code>None</code> 數值。我們能在輸出結果的第一個 <code>println!</code> 陳述式看到：</p>
-<pre><code class="language-text">leaf parent = None
+<pre><code class="language-text">leaf 的父節點 None
 </code></pre>
 <p>當我們建立 <code>branch</code> 節點，它的 <code>parent</code> 欄位也會有個新的 <code>Weak&lt;Node&gt;</code> 引用，因爲 <code>branch</code> 沒有父節點。我們仍然有 <code>leaf</code> 作爲 <code>branch</code> 其中一個子節點。一旦我們有了 <code>branch</code> 的 <code>Node</code> 實例，我們可以修改 <code>leaf</code> 使其擁有父節點的 <code>Weak&lt;Node&gt;</code> 引用。我們對 <code>leaf</code> 中 <code>parent</code> 欄位的 <code>RefCell&lt;Weak&lt;Node&gt;&gt;</code> 使用 <code>borrow_mut</code> 方法，然後我們使用 <code>Rc::downgrade</code> 函式來從 <code>branch</code> 的 <code>Rc&lt;Node&gt;</code> 建立一個 <code>branch</code> 的 <code>Weak&lt;Node&gt;</code> 引用。</p>
 <p>當我們再次印出 <code>leaf</code> 的父節點，這次我們就會取得 <code>Some</code> 變體其內就是 <code>branch</code>，現在 <code>leaf</code> 可以取得它的父節點了！當我們印出 <code>leaf</code>，我們也能避免產生像範例 15-26 那樣最終導致堆疊溢位（stack overflow）的循環，<code>Weak&lt;Node&gt;</code> 會印成 <code>(Weak)</code>：</p>
-<pre><code class="language-text">leaf parent = Some(Node { value: 5, parent: RefCell { value: (Weak) },
+<pre><code class="language-text">leaf 的父節點 Some(Node { value: 5, parent: RefCell { value: (Weak) },
 children: RefCell { value: [Node { value: 3, parent: RefCell { value: (Weak) },
 children: RefCell { value: [] } }] } })
 </code></pre>
@@ -419,7 +419,7 @@ children: RefCell { value: [] } }] } })
     });
 
     println!(
-        &quot;leaf strong = {}, weak = {}&quot;,
+        &quot;leaf 的強引用 = {}、弱引用 = {}&quot;,
         Rc::strong_count(&amp;leaf),
         Rc::weak_count(&amp;leaf),
     );
@@ -434,21 +434,21 @@ children: RefCell { value: [] } }] } })
         *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
 
         println!(
-            &quot;branch strong = {}, weak = {}&quot;,
+            &quot;branch 的強引用 = {}、弱引用 = {}&quot;,
             Rc::strong_count(&amp;branch),
             Rc::weak_count(&amp;branch),
         );
 
         println!(
-            &quot;leaf strong = {}, weak = {}&quot;,
+            &quot;leaf 的強引用 = {}、弱引用 = {}&quot;,
             Rc::strong_count(&amp;leaf),
             Rc::weak_count(&amp;leaf),
         );
     }
 
-    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+    println!(&quot;leaf 的父節點 {:?}&quot;, leaf.parent.borrow().upgrade());
     println!(
-        &quot;leaf strong = {}, weak = {}&quot;,
+        &quot;leaf 的強引用 = {}、弱引用 = {}&quot;,
         Rc::strong_count(&amp;leaf),
         Rc::weak_count(&amp;leaf),
     );
@@ -463,7 +463,7 @@ children: RefCell { value: [] } }] } })
 <p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設引用所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料分配到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的引用數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，其會在執行時強制檢測借用規則，而非編譯時。</p>
 <p>我們也討論了 <code>Deref</code> 與 <code>Drop</code> 特徵，這些對智慧指標提供了許多功能。我們探討了引用循環可能會導致記憶體泄漏以及如何使用 <code>Weak&lt;T&gt;</code> 避免它們。</p>
 <p>如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱<a href="../nomicon/index.html">「The Rustonomicon」</a>來學習更多實用資訊。</p>
-<p>接下來，我們將討論 Rust 的並行性。你還會在學到一些新的智慧指標。</p>
+<p>接下來，我們將討論 Rust 的並行性。你還會再學到一些新的智慧指標。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>

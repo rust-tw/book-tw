@@ -179,35 +179,35 @@
 
 impl Drop for CustomSmartPointer {
     fn drop(&amp;mut self) {
-        println!(&quot;Dropping CustomSmartPointer with data `{}`!&quot;, self.data);
+        println!(&quot;釋放 CustomSmartPointer 的資料 `{}`！&quot;, self.data);
     }
 }
 
 fn main() {
     let c = CustomSmartPointer {
-        data: String::from(&quot;my stuff&quot;),
+        data: String::from(&quot;我的東東&quot;),
     };
     let d = CustomSmartPointer {
-        data: String::from(&quot;other stuff&quot;),
+        data: String::from(&quot;其他東東&quot;),
     };
-    println!(&quot;CustomSmartPointers created.&quot;);
+    println!(&quot;CustomSmartPointers 建立完畢。&quot;);
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-14：<code>CustomSmartPointer</code> 結構體實作了會放置清理程式碼的 <code>Drop</code> 特徵</span></p>
 <p><code>Drop</code> 特徵包含在 prelude 中，所以我們不需要特地引入作用域。我們對 <code>CustomSmartPointer</code> 實作 <code>Drop</code> 特徵並提供會呼叫 <code>println!</code> 的 <code>drop</code> 方法實作。<code>drop</code> 的函式本體用來放置你想要在型別實例離開作用域時執行的邏輯。我們在此印出一些文字來展示 Rust 如何呼叫 <code>drop</code>。</p>
-<p>在 <code>main</code> 中，我們建立了兩個 <code>CustomSmartPointer</code> 實例並印出 <code>CustomSmartPointers created</code>。在 <code>main</code> 結尾，我們的 <code>CustomSmartPointer</code> 實例會離開作用域，然後 Rust 就會呼叫我們放在 <code>drop</code> 方法的程式碼，也就是印出我們的最終訊息。注意到我們不需要顯式呼叫 <code>drop</code> 方法。</p>
+<p>在 <code>main</code> 中，我們建立了兩個 <code>CustomSmartPointer</code> 實例並印出 <code>CustomSmartPointers 建立完畢</code>。在 <code>main</code> 結尾，我們的 <code>CustomSmartPointer</code> 實例會離開作用域，然後 Rust 就會呼叫我們放在 <code>drop</code> 方法的程式碼，也就是印出我們的最終訊息。注意到我們不需要顯式呼叫 <code>drop</code> 方法。</p>
 <p>當我們執行此程式時，我們會看到以下輸出：</p>
 <pre><code class="language-console">$ cargo run
    Compiling drop-example v0.1.0 (file:///projects/drop-example)
     Finished dev [unoptimized + debuginfo] target(s) in 0.60s
      Running `target/debug/drop-example`
-CustomSmartPointers created.
-Dropping CustomSmartPointer with data `other stuff`!
-Dropping CustomSmartPointer with data `my stuff`!
+CustomSmartPointers 建立完畢。
+釋放 CustomSmartPointer 的資料 `其他東東`!
+釋放 CustomSmartPointer 的資料 `我的東東`!
 </code></pre>
-<p>當我們的實例離開作用域時，Rust 會自動呼叫 <code>drop</code>，呼叫我們指定的程式碼。變數會以與建立時相反的順序被釋放，所以 <code>d</code> 會在 <code>c</code> 之前被釋放。此範例給了我們一個觀察 <code>drop</code> 如何執行的視覺化指引，通常你會指定該型別所須得清除程式碼，而不是印出訊息。</p>
+<p>當我們的實例離開作用域時，Rust 會自動呼叫 <code>drop</code>，呼叫我們指定的程式碼。變數會以與建立時相反的順序被釋放，所以 <code>d</code> 會在 <code>c</code> 之前被釋放。此範例給了我們一個觀察 <code>drop</code> 如何執行的視覺化指引，通常你會指定該型別所需的清除程式碼，而不是印出訊息。</p>
 <h3><a class="header" href="#透過-stdmemdrop-提早釋放數值" id="透過-stdmemdrop-提早釋放數值">透過 <code>std::mem::drop</code> 提早釋放數值</a></h3>
-<p>不幸的是，我們無法值接了當地取消自動 <code>drop</code> 的功能。停用 <code>drop</code> 通常是不必要的整個 <code>Drop</code> 的目的本來就是要能自動處理。不過有些時候你可能會想要提早清除數值。其中一個例子是使用智慧指標來管理鎖：你可能會想要強制呼叫 <code>drop</code> 方法來釋放鎖，好讓作用域中的其他程式碼可以取得該鎖。Rust 不會讓你手動呼叫 <code>Drop</code> 特徵的 <code>drop</code> 方法。不過如果你想要一個數值在離開作用域前就被釋放的話，你可以使用標準函式庫提供的 <code>std::mem::drop</code> 函式來呼叫。</p>
+<p>不幸的是，我們無法值接了當地取消自動 <code>drop</code> 的功能。停用 <code>drop</code> 通常是不必要的，整個 <code>Drop</code> 的目的本來就是要能自動處理。不過有些時候你可能會想要提早清除數值。其中一個例子是使用智慧指標來管理鎖：你可能會想要強制呼叫 <code>drop</code> 方法來釋放鎖，好讓作用域中的其他程式碼可以取得該鎖。Rust 不會讓你手動呼叫 <code>Drop</code> 特徵的 <code>drop</code> 方法。不過如果你想要一個數值在離開作用域前就被釋放的話，你可以使用標準函式庫提供的 <code>std::mem::drop</code> 函式來呼叫。</p>
 <p>如果我們嘗試修改範例 15-14 的 <code>main</code> 函式來手動呼叫 <code>Drop</code> 特徵的 <code>drop</code> 方法，如範例 15-15 所示，我們會得到編譯錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">struct CustomSmartPointer {
@@ -216,17 +216,17 @@ Dropping CustomSmartPointer with data `my stuff`!
 </span><span class="boring">
 </span><span class="boring">impl Drop for CustomSmartPointer {
 </span><span class="boring">    fn drop(&amp;mut self) {
-</span><span class="boring">        println!(&quot;Dropping CustomSmartPointer with data `{}`!&quot;, self.data);
+</span><span class="boring">        println!(&quot;釋放 CustomSmartPointer 的資料 `{}`！&quot;, self.data);
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn main() {
     let c = CustomSmartPointer {
-        data: String::from(&quot;some data&quot;),
+        data: String::from(&quot;某些資料&quot;),
     };
-    println!(&quot;CustomSmartPointer created.&quot;);
+    println!(&quot;CustomSmartPointer 建立完畢。&quot;);
     c.drop();
-    println!(&quot;CustomSmartPointer dropped before the end of main.&quot;);
+    println!(&quot;CustomSmartPointer 在 main 結束前就被釋放了。&quot;);
 }
 </code></pre>
 <p><span class="caption">範例 15-15：嘗試呼叫 <code>Drop</code> 特徵的 <code>drop</code> 方法來手動提早清除</span></p>
@@ -247,7 +247,7 @@ error: could not compile `drop-example`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>此錯誤訊息表示我們不允許顯式呼叫 <code>drop</code>。錯誤訊息使用了一個術語<em>解構子（destructor）</em>，這是通用程式設計術語中表達會清除實例的函式。<em>解構子</em>對應的術語就是<em>建構子（constructor）</em>，這會建立實例。Rust 中的 <code>drop</code> 函式就是一種特定的解構子。</p>
-<p>Rust 不讓我們顯式呼叫 <code>drop</code>，因爲 Rust 還是會在 <code>main</code> 結束時自動呼叫 <code>drop</code>。這樣可能會導致*重複釋放（double free）*的錯誤，因爲 Rust 可能會嘗試清除相同的數值兩次。</p>
+<p>Rust 不讓我們顯式呼叫 <code>drop</code>，因爲 Rust 還是會在 <code>main</code> 結束時自動呼叫 <code>drop</code>。這樣可能會導致<em>重複釋放（double free）</em> 的錯誤，因爲 Rust 可能會嘗試清除相同的數值兩次。</p>
 <p>當數值離開作用域時我們無法停用自動插入的 <code>drop</code>，而且我們無法顯式呼叫 <code>drop</code> 方法，所以如果我必須強制讓一個數值提早清除的話，我們可以用 <code>std::mem::drop</code> 函式。</p>
 <p><code>std::mem::drop</code> 函式不同於 <code>Drop</code> 中的 <code>drop</code> 方法，我們將我們想要強制提早釋放的數值作爲引數傳遞並呼叫它。此函式也包含在 prelude，所以我們可以修改範例 15-15 的 <code>main</code> 來呼叫 <code>drop</code> 函式，如範例 15-16 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -257,17 +257,17 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">
 </span><span class="boring">impl Drop for CustomSmartPointer {
 </span><span class="boring">    fn drop(&amp;mut self) {
-</span><span class="boring">        println!(&quot;Dropping CustomSmartPointer with data `{}`!&quot;, self.data);
+</span><span class="boring">        println!(&quot;釋放 CustomSmartPointer 的資料 `{}`！&quot;, self.data);
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn main() {
     let c = CustomSmartPointer {
-        data: String::from(&quot;some data&quot;),
+        data: String::from(&quot;某些資料&quot;),
     };
-    println!(&quot;CustomSmartPointer created.&quot;);
+    println!(&quot;CustomSmartPointer 建立完畢。&quot;);
     drop(c);
-    println!(&quot;CustomSmartPointer dropped before the end of main.&quot;);
+    println!(&quot;CustomSmartPointer 在 main 結束前就被釋放了。&quot;);
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-16：在數值離開作用域前呼叫 <code>std::mem::drop</code> 來顯示釋放數值</span></p>
@@ -276,12 +276,12 @@ To learn more, run the command again with --verbose.
    Compiling drop-example v0.1.0 (file:///projects/drop-example)
     Finished dev [unoptimized + debuginfo] target(s) in 0.73s
      Running `target/debug/drop-example`
-CustomSmartPointer created.
-Dropping CustomSmartPointer with data `some data`!
-CustomSmartPointer dropped before the end of main.
+CustomSmartPointer 建立完畢。
+釋放 CustomSmartPointer 的資料 `某些資料`!
+CustomSmartPointer 在 main 結束前就被釋放了。
 </code></pre>
-<p><code>Dropping CustomSmartPointer with data `some data`!</code> 這段文字會在 <code>CustomSmartPointer created.</code> 與 <code>CustomSmartPointer dropped before the end of main.</code> 文字之間印出，顯示  <code>drop</code> 方法會在那時釋放 <code>c</code>。</p>
-<p>你可以在許多地方使用 <code>Drop</code> 特徵實作所指定的程式碼，讓清除實例變得方便又安全。舉例來說，你可以用它來建立你自己的記憶體分配器！透過 <code>Drop</code> 特徵與 Rust 的所有權系統，你不必去擔心要既得清理，因爲 Rust 會自動處理。</p>
+<p><code>釋放 CustomSmartPointer 的資料 `某些資料`!</code> 這段文字會在 <code>CustomSmartPointer 建立完畢。</code> 與 <code>CustomSmartPointer 在 main 結束前就被釋放了。</code> 文字之間印出，顯示  <code>drop</code> 方法會在那時釋放 <code>c</code>。</p>
+<p>你可以在許多地方使用 <code>Drop</code> 特徵實作所指定的程式碼，讓清除實例變得方便又安全。舉例來說，你可以用它來建立你自己的記憶體分配器！透過 <code>Drop</code> 特徵與 Rust 的所有權系統，你不必去擔心要記得清理，因爲 Rust 會自動處理。</p>
 <p>你也不必擔心會意外清理仍在使用的數值：所有權系統會確保所有引用永遠有效，並確保當數值不再需要使用時只會呼叫 <code>drop</code> 一次。</p>
 <p>現在你看過 <code>Box&lt;T&gt;</code> 以及一些智慧指標的特性了，讓我們來看看一些其他定義在標準函式庫的智慧指標吧。</p>
 <blockquote>

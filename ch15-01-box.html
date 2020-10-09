@@ -175,7 +175,7 @@
 <li>當你有個龐大的資料，而你想要轉移所有權並確保資料不會被拷貝。</li>
 <li>當你想要擁有某個值，但你只在意該型別有實作特定的特徵，而不再是何種特定型別</li>
 </ul>
-<p>我們會在<a href="#enabling-recursive-types-with-boxes">「透過 Box 建立遞迴型別」</a><!-- ignore -->段落解說第一種情形。而在第二種情形，轉移龐大的資料的所有權可能會很花費時間，因爲在堆疊上的話會拷貝所有資料。要改善此情形，我們可以用 box 將龐大的資料儲存在堆積上。這樣就只有少量的指標資料在堆疊上被拷貝，而其引用的資料仍然保留在堆積上的同個位置。第三種情況被<em>特徵物件（trait object）</em>，第十七章會花整個<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->段落來討論此議題。所以你在此學到的到第十七章會再次用上！</p>
+<p>我們會在<a href="#%E9%80%8F%E9%81%8E-box-%E5%BB%BA%E7%AB%8B%E9%81%9E%E8%BF%B4%E5%9E%8B%E5%88%A5">「透過 Box 建立遞迴型別」</a><!-- ignore -->段落解說第一種情形。而在第二種情形，轉移龐大的資料的所有權可能會很花費時間，因爲在堆疊上的話會拷貝所有資料。要改善此情形，我們可以用 box 將龐大的資料儲存在堆積上。這樣就只有少量的指標資料在堆疊上被拷貝，而其引用的資料仍然保留在堆積上的同個位置。第三種情況被稱之爲<em>特徵物件（trait object）</em>，第十七章會花整個<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->段落來討論此議題。所以你在此學到的到第十七章會再次用上！</p>
 <h3><a class="header" href="#使用-boxt-儲存資料到堆積上" id="使用-boxt-儲存資料到堆積上">使用 <code>Box&lt;T&gt;</code> 儲存資料到堆積上</a></h3>
 <p>在我們討論 <code>Box&lt;T&gt;</code> 的使用場合前，我們會先介紹語法以及如何對 <code>Box&lt;T&gt;</code> 內儲存的數值進行互動。</p>
 <p>範例 15-1 顯示如何使用 box 在堆積上儲存一個 <code>i32</code> 數值：</p>
@@ -189,7 +189,7 @@
 <p>我們定義了變數 <code>b</code> 其數值爲 <code>Box</code> 分配在堆積上指向的數值 <code>5</code>。程式在此例會印出 <code>b = 5</code>，在此例中我們可以用在堆疊上相同的方式取得 box 的資料。就像任何有所有權的數值一樣，當 box 離開作用域時會釋放記憶體，在此例就是當 <code>b</code> 抵達 <code>main</code> 結尾的時候。釋放記憶體作用於 box（儲存在堆疊上）以及其所指向的資料（儲存在堆積上）。</p>
 <p>將單一數值放在堆積上的確沒什麼用處，所以你不會對這種類型經常使用 box。在大多數情況下將像 <code>i32</code> 這種單一數值預設儲存在堆疊的確比較適合。</p>
 <h3><a class="header" href="#透過-box-建立遞迴型別" id="透過-box-建立遞迴型別">透過 Box 建立遞迴型別</a></h3>
-<p>在編譯時期，Rust 需要知道一個型別佔用的空間有多少。其中一種無法在編譯期間知道大小的型別就是<em>遞迴型別（recursive type）</em>，其值的一部分可以是相同型別的另一個值。由於這種巢狀數值理論上可以無限循環下去，Rust無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。</p>
+<p>在編譯時期，Rust 需要知道一個型別佔用的空間有多少。其中一種無法在編譯期間知道大小的型別就是<em>遞迴型別（recursive type）</em>，其值的一部分可以是相同型別的另一個值。由於這種巢狀數值理論上可以無限循環下去，Rust 無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。</p>
 <p>讓我們來探索 <em>cons list</em>，這是個在函式程式語言中常見的資料型別，很適合作爲遞迴型別的範例。我們要定義的 cons list 型別除了遞迴的部分以外都很直白，因此這個例子的概念在往後你遇到更複雜的遞迴型別時會很實用。</p>
 <h4><a class="header" href="#更多關於-cons-list-的資訊" id="更多關於-cons-list-的資訊">更多關於 Cons List 的資訊</a></h4>
 <p><em>cons list</em> 是個起源於 Lisp 程式設計語言與其方言的資料結構。在 Lisp 中，<code>cons</code> 函式（「construct function」的縮寫）會從兩個引數建構一個新的配對，而這通常是一個數值與另一個配對，而這些配對就包含了列表中的配對。</p>
@@ -294,8 +294,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-5：使用 <code>Box&lt;T&gt;</code> 定義的 <code>List</code> 就有已知大小</span></p>
-<p><code>Cons</code> 變體需要的大小爲 <code>i32</code> 加上儲存 box 指標的空間。<code>Nil</code> 變體沒有儲存任何數值，所以它需要的空間比 <code>Cons</code> 變體少。現在我們知道任何
-We now know that any <code>List</code> 數值會佔的空間都是一個 <code>i32</code> 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 <code>List</code> 數值所需要的大小。圖示 15-2 顯示了 <code>Cons</code> 變體看起來的樣子。</p>
+<p><code>Cons</code> 變體需要的大小爲 <code>i32</code> 加上儲存 box 指標的空間。<code>Nil</code> 變體沒有儲存任何數值，所以它需要的空間比 <code>Cons</code> 變體少。現在我們知道任何 <code>List</code> 數值會佔的空間都是一個 <code>i32</code> 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 <code>List</code> 數值所需要的大小。圖示 15-2 顯示了 <code>Cons</code> 變體看起來的樣子。</p>
 <img alt="A finite Cons list" src="img/trpl15-02.svg" class="center" />
 <p><span class="caption">圖示 15-2：不再是無限大小的 <code>List</code>，因爲其 <code>Cons</code> 存的是 <code>Box</code></span></p>
 <p>Boxes 只提供了間接儲存與堆積分配，它們沒有其他任何特殊功能，比如我們等下就會看到的其他智慧指標型別。它們也沒有任何因這些特殊功能產生的額外效能開銷，所以它們很適合用於像是 cons list 這種我們只需要間接儲存的場合。我們在第十七章還會再介紹到更多 box 的使用情境。</p>
