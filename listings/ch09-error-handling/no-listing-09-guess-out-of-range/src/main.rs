@@ -27,7 +27,7 @@ fn main() {
         };
 
         if guess < 1 || guess > 100 {
-            println!("The secret number will be between 1 and 100.");
+            println!("祕密數字介於 1 到 100 之間。");
             continue;
         }
 

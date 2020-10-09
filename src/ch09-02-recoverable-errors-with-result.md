@@ -2,9 +2,9 @@
 
 大多數的錯誤沒有嚴重到需要讓整個程式停止執行。有時候當函式失敗時，你是可以輕易理解並作出反應的。舉例來說，如果你嘗試開啟一個檔案，但該動作卻因爲沒有該檔案而失敗的話，你可能會想要建立檔案，而不是終止程序。
 
-回憶一下第二章的[“使用 `Result` 型別處理可能的錯誤”][handle_failure]<!-- ignore -->提到 `Result` 枚舉的定義有兩個變體 `Ok` 和 `Err`，如以下所示：
+回憶一下第二章的[「使用 `Result` 型別處理可能的錯誤」][handle_failure]<!-- ignore -->提到 `Result` 枚舉的定義有兩個變體 `Ok` 和 `Err`，如以下所示：
 
-[handle_failure]: ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-the-result-type
+[handle_failure]: ch02-00-guessing-game-tutorial.html#使用-result-型別處理可能的錯誤
 
 ```rust
 enum Result<T, E> {
@@ -13,7 +13,7 @@ enum Result<T, E> {
 }
 ```
 
-`T` 和 `E` 是泛型型別參數，我們會在第十章深入討論泛型。你現在需要知道的事 `T` 代表我們在成功時會在 `Ok` 變體回傳的型別，而 `E` 則代表失敗時在 `Err` 變體會回傳的錯誤型別。因爲 `Result` 有這些泛型型別參數，我們可以將 `Result` 型別和標準函式庫運用到它的函式用在許多不同場合，讓成功與失敗時回傳的型別不相同。
+`T` 和 `E` 是泛型型別參數，我們會在第十章深入討論泛型。你現在需要知道的是 `T` 代表我們在成功時會在 `Ok` 變體回傳的型別，而 `E` 則代表失敗時在 `Err` 變體會回傳的錯誤型別。因爲 `Result` 有這些泛型型別參數，我們可以將 `Result` 型別和標準函式庫運用到它的函式用在許多不同場合，讓成功與失敗時回傳的型別不相同。
 
 讓我們呼叫一個可能會失敗的函式並回傳 `Result` 型別。在範例 9-3 我們嘗試開啟一個檔案。
 
@@ -25,7 +25,7 @@ enum Result<T, E> {
 
 <span class="caption">範例 9-3：嘗試開啟一個檔案</span>
 
-我們怎麼知道 `File::open` 會回傳 `Result`呢？我們可以查閱[標準函式庫的 API 技術文件](https://doc.rust-lang.org/std/index.html)<!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 `f` 一個型別詮釋，但是我們知道它和函式回傳值*並不*相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不服。錯誤訊息會告訴我們 `f` *該有*何種型別。讓我們試試看！我們知道 `File::open` 的回傳型別不是 `u32`，所以讓我們改變 `let f` 成這樣：
+我們怎麼知道 `File::open` 會回傳 `Result`呢？我們可以查閱[標準函式庫的 API 技術文件](https://doc.rust-lang.org/std/index.html)<!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 `f` 一個型別詮釋，但是我們知道它和函式回傳值*並不*相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不符。錯誤訊息會告訴我們 `f` *該有*何種型別。讓我們試試看！我們知道 `File::open` 的回傳型別不是 `u32`，所以讓我們改變 `let f` 成這樣：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch09-error-handling/no-listing-02-ask-compiler-for-type/src/main.rs:here}}
@@ -82,7 +82,7 @@ tests to fail lol -->
 
 `File::open` 在 `Err` 變體的回傳型別爲 `io::Error`，這是標準函式庫提供的結構體。此結構體有個 `kind` 方法讓我們可以取得 `io::ErrorKind` 數值。標準函式庫提供的枚舉 `io::ErrorKind` 有從 `io` 運算可能發生的各種錯誤。我們想處理的變體是 `ErrorKind::NotFound`，這指的是我們嘗試開啟的檔案還不存在。所以我們對 `f` 配對並在用 `error.kind()` 繼續配對下去。
 
-我們像從內部配對檢查 `error.kind()` 的回傳值是否是 `ErrorKind` 枚舉中的 `NotFound` 變體。如果是的話，我們就嘗試使用 `File::create` 建立檔案。不過 `File::create` 也可能會失敗，所以我們需要第二個內部 `match` 表達式來處理。如果檔案無法建立的話，我們就會印出不同的錯誤訊息。第二個分支的外部 `match` 分支保持不變，如果程式遇到其他錯誤的話就會恐慌。
+我們從內部配對檢查 `error.kind()` 的回傳值是否是 `ErrorKind` 枚舉中的 `NotFound` 變體。如果是的話，我們就嘗試使用 `File::create` 建立檔案。不過 `File::create` 也可能會失敗，所以我們需要第二個內部 `match` 表達式來處理。如果檔案無法建立的話，我們就會印出不同的錯誤訊息。第二個分支的外部 `match` 分支保持不變，如果程式遇到其他錯誤的話就會恐慌。
 
 我們用的 `match` 的確有點多！`match` 表達式雖然很實用，不過它的行爲非常基本。在第十三章你會學到閉包（closure），`Result<T, E>` 型別有很多接收閉包並採用 `match` 實作的方法。使用那些方法可以讓你的程式碼更簡潔。更熟練的 Rustacean 可能會像這樣寫範例 9-5 的程式數碼：
 
@@ -110,7 +110,7 @@ repr: Os { code: 2, message: "No such file or directory" } }',
 src/libcore/result.rs:906:4
 ```
 
-還有另一個方法 `expect` 和 `unwrap` 類似，不過能讓我們選擇 `panic!` 回傳的錯誤訊息。使用 `expect` 而非 `unwrap` 並提供完善的錯誤訊息哦可以表明你的意圖，讓追蹤恐慌的源頭更容易。`expect` 的語法看起來就像這樣：
+還有另一個方法 `expect` 和 `unwrap` 類似，不過能讓我們選擇 `panic!` 回傳的錯誤訊息。使用 `expect` 而非 `unwrap` 並提供完善的錯誤訊息可以表明你的意圖，讓追蹤恐慌的源頭更容易。`expect` 的語法看起來就像這樣：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -121,15 +121,15 @@ src/libcore/result.rs:906:4
 我們使用 `expect` 的方式和 `unwrap` 一樣，不是回傳檔案控制代碼就是呼叫 `panic!` 巨集。使用 `expect` 呼叫 `panic!` 時的錯誤訊息會是我們傳遞給 `expect` 的參數，而不是像 `unwrap` 使用 `panic!` 預設的訊息。訊息看起來就會像這樣：
 
 ```text
-thread 'main' panicked at 'Failed to open hello.txt: Error { repr: Os { code:
+thread 'main' panicked at '開啟 hello.txt 失敗: Error { repr: Os { code:
 2, message: "No such file or directory" } }', src/libcore/result.rs:906:4
 ```
 
-由於此錯誤訊息指明了我們想表達的訊息「Failed to open hello.txt」，我們比較能知道此錯誤訊息是從哪裡發生的。如果我們在多處使用 `unwrap`，我們會需要一些時間才能理解 `unwrap` 是從哪裡引發恐慌的，因爲 `unwrap` 很可能會顯示相同的訊息。
+由於此錯誤訊息指明了我們想表達的訊息「開啟 hello.txt 失敗」，我們比較能知道此錯誤訊息是從哪裡發生的。如果我們在多處使用 `unwrap`，我們會需要一些時間才能理解 `unwrap` 是從哪裡引發恐慌的，因爲 `unwrap` 很可能會顯示相同的訊息。
 
 ### 傳播錯誤
 
-當你在寫某函式實作時，要是它的呼叫的程式碼可能會失敗，與其直接在此函式處理錯誤，你可以回傳錯誤給呼叫此程式的程式碼，由它們絕對如何處理。這稱之爲*傳播（propagating）*錯誤並讓呼叫者可以有更多的控制權，因爲比起你程式碼當下的內容，回傳的錯誤可能提供更多資訊與邏輯以利處理。
+當你在寫某函式實作時，要是它的呼叫的程式碼可能會失敗，與其直接在此函式處理錯誤，你可以回傳錯誤給呼叫此程式的程式碼，由它們決定如何處理。這稱之爲*傳播（propagating）* 錯誤並讓呼叫者可以有更多的控制權，因爲比起你程式碼當下的內容，回傳的錯誤可能提供更多資訊與邏輯以利處理。
 
 舉例來說，範例 9-6 展示了一個從檔案讀取使用者名稱的函式。如果檔案不存在或無法讀取的話，此函式會回傳該錯誤給呼叫此函式的程式碼。
 
@@ -145,7 +145,7 @@ don't want to include it for rustdoc testing purposes. -->
 
 <span class="caption">範例 9-6：使用 `match` 回傳錯誤給呼叫者的函式</span>
 
-此函式還能在更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 `Result<String, io::Error>`。這代表此函式回傳的型別爲 `Result<T, E>`，而泛型型別 `T` 已經指明爲實際型別 `String` 然後泛型型別 `E` 也已經指明爲實際型別 `io::Error`。如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 `String` 的 `Ok` 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含有關問題發生資訊的 `io::Error` 實例的 `Err` 數值。我們選擇 `io::Error` 作爲使函式的回傳值是因爲它正是 `File::open` 函式和 `read_to_string` 方法失敗時的回傳的錯誤型別。
+此函式還能在更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 `Result<String, io::Error>`。這代表此函式回傳的型別爲 `Result<T, E>`，而泛型型別 `T` 已經指明爲實際型別 `String` 然後泛型型別 `E` 也已經指明爲實際型別 `io::Error`。如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 `String` 的 `Ok` 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含相關問題發生資訊的 `io::Error` 實例的 `Err` 數值。我們選擇 `io::Error` 作爲函式的回傳值是因爲它正是 `File::open` 函式和 `read_to_string` 方法失敗時的回傳的錯誤型別。
 
 函式本體從呼叫 `File::open` 開始，然後我們使用 `match` 回傳 `Result` 數值，就和範例 9-4 的 `match` 類似，但與其在 `Err` 情形時呼叫 `panic!`，我們儘早回傳 `File::open` 的錯誤型別給呼叫者。如果 `File::open` 成功的話，我們就將檔案控制代碼賦值給變數 `f` 並繼續執行下去。
 
@@ -233,7 +233,7 @@ don't want to include it for rustdoc testing purposes. -->
 {{#rustdoc_include ../listings/ch09-error-handling/no-listing-07-main-returning-result/src/main.rs}}
 ```
 
-`Box<dyn Error>` 型別使用了特徵物件（trait object）我們會在第十七章的[「允許不同型別數值的特徵物件」“允許不同型別數值的特徵物件”][trait-objects]<!-- ignore -->討論到。現在你可以將 `Box<dyn Error>` 視為它是「任何種類的錯誤」。這樣 `main` 中的回傳型別就會允許 `?` 了。
+`Box<dyn Error>` 型別使用了特徵物件（trait object）我們會在第十七章的[「允許不同型別數值的特徵物件」][trait-objects]<!-- ignore -->討論到。現在你可以將 `Box<dyn Error>` 視為它是「任何種類的錯誤」。這樣 `main` 中的回傳型別就會允許 `?` 了。
 
 現在我們已經討論了呼叫 `panic!` 與回傳 `Result` 的細節。現在讓我們回到何時該使用何種辦法的主題上吧。
 

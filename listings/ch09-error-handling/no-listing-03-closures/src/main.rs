@@ -5,10 +5,10 @@ fn main() {
     let f = File::open("hello.txt").unwrap_or_else(|error| {
         if error.kind() == ErrorKind::NotFound {
             File::create("hello.txt").unwrap_or_else(|error| {
-                panic!("Problem creating the file: {:?}", error);
+                panic!("建立檔案時發生問題：{:?}", error);
             })
         } else {
-            panic!("Problem opening the file: {:?}", error);
+            panic!("開啟檔案時發生問題：{:?}", error);
         }
     });
 }
