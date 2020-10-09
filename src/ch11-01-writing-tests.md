@@ -64,7 +64,7 @@ Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之�
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-01-changing-test-name/src/lib.rs:here}}
 ```
 
-然後在執行一次 `cargo test`，輸出會顯示 `exploration` 而非 `it_works`：
+然後再執行一次 `cargo test`，輸出會顯示 `exploration` 而非 `it_works`：
 
 ```console
 {{#include ../listings/ch11-writing-automated-tests/no-listing-01-changing-test-name/output.txt}}

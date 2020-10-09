@@ -4,8 +4,8 @@
 
 路徑可以有兩種形式：
 
-* *絕對路徑（absolute path）*是從 crate 的源頭開始找起，用 crate 的名稱或 `crate` 作爲起頭。
-* *相對路徑（relative path）*則是從本身的模組開始，使用 `self`、`super`或是當前模組的標識符（identifiers）。
+* *絕對路徑（absolute path）* 是從 crate 的源頭開始找起，用 crate 的名稱或 `crate` 作爲起頭。
+* *相對路徑（relative path）* 則是從本身的模組開始，使用 `self`、`super`或是當前模組的標識符（identifiers）。
 
 無論是絕對或相對路徑其後都會接著一或多個標識符，並使用雙冒號（`::`）區隔開來。
 
@@ -35,17 +35,17 @@
 
 <span class="caption">範例 7-4：範例 7-3 嘗試編譯程式碼出現的錯誤</span>
 
-錯誤訊息表示 `hosting` 模組是私有地。換句話說，我們指定 `hosting` 模組與 `add_to_waitlist` 函式的路徑是正確的，但是因爲它沒有私有部分的存取權，所以 Rust 不讓我們使用。
+錯誤訊息表示 `hosting` 模組是私有的。換句話說，我們指定 `hosting` 模組與 `add_to_waitlist` 函式的路徑是正確的，但是因爲它沒有私有部分的存取權，所以 Rust 不讓我們使用。
 
-模組不僅用來組織你的程式碼，它們還定義了 Rust 的*隱私界限（privacy boundary）*：這是條封裝實作細節，讓外部程式碼無法看到、呼叫或依賴的界限。所以你想要建立私有的函式或結構體，你可以將它們放入模組內。
+模組不僅用來組織你的程式碼，它們還定義了 Rust 的*隱私界限（privacy boundary）*：這是條封裝實作細節讓外部程式碼無法看到、呼叫或依賴的界限。所以你想要建立私有的函式或結構體，你可以將它們放入模組內。
 
-Rust 隱私權的運作方式是預設所有的項目（函式、方法、結構體、枚舉、模組與常數）都是私有的。上層模組的項目無法使用下層模組的私有項目，但下層模組能使用它們上方所有模組的項目。這麼做的原因是因爲下層模組上用了來實現實作細節，而下層模組應該要能夠看到在自己所定義的地方的其他內容。讓我們繼續用餐廳做比喻的話，我們可以想像隱私權規則就像是餐廳的後臺辦公室。對餐廳顧客來說裡面發生什麼事情都是未知的，但是辦公室經理可以知道經營餐廳時的所有事物。
+Rust 隱私權的運作方式是預設所有的項目（函式、方法、結構體、枚舉、模組與常數）都是私有的。上層模組的項目無法使用下層模組的私有項目，但下層模組能使用它們上方所有模組的項目。這麼做的原因是因爲下層模組用來實現實作細節，而下層模組應該要能夠看到在自己所定義的地方的其他內容。讓我們繼續用餐廳做比喻的話，我們可以想像隱私權規則就像是餐廳的後臺辦公室。對餐廳顧客來說裡面發生什麼事情都是未知的，但是辦公室經理可以知道經營餐廳時的所有事物。
 
 Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來的。這樣一來，你就能知道內部哪些程式碼需要修改，而不會破壞到外部的程式碼。不過你可以使用 `pub` 關鍵字來讓下層模組內部的一些程式碼公開給上層模組來使用。
 
 ### 使用 `pub` 關鍵字公開路徑
 
-讓我們在執行一次範例 7-4 的錯誤，它告訴我們 `hosting` 模組是私有的。我們希望上層模組中的 `eat_at_restaurant` 函式可以呼叫下層模組的 `add_to_waitlist` 函式，所以我們將 `hosting` 模組加上 `pub` 關鍵字，如範例 7-5 所示。
+讓我們再執行一次範例 7-4 的錯誤，它告訴我們 `hosting` 模組是私有的。我們希望上層模組中的 `eat_at_restaurant` 函式可以呼叫下層模組的 `add_to_waitlist` 函式，所以我們將 `hosting` 模組加上 `pub` 關鍵字，如範例 7-5 所示。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -79,7 +79,7 @@ Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來
 
 現在程式碼就能成功編譯了！讓我們看看絕對與相對路徑，以及再次檢查爲何 `pub` 關鍵字是如何遵守隱私權規則，讓我們可以在 `add_to_waitlist` 取得這些路徑。
 
-在絕對路徑中，我們始於 `crate`，這是 crate 模組樹的源頭。再來 `front_of_house` 模組被定義在 crate 源頭中，`front_of_house` 模組不是公開，但因爲 `eat_at_restaurant` 函式被定義在與 `front_of_house` 同一層模組中（也就是 `eat_at_restaurant` 與 `front_of_house` 同輩（siblings）），我們可以從 `eat_at_restaurant` 引用 `front_of_house`。接下來是有 `pub` 標記的 `hosting` 模組，我們可以取得 `hosting` 的上層模組，所以我們可以取得 `hosting`。最後 `add_to_waitlist` 函式也有 `pub` 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！
+在絕對路徑中，我們始於 `crate`，這是 crate 模組樹的跟。再來 `front_of_house` 模組被定義在 crate 源頭中，`front_of_house` 模組不是公開，但因爲 `eat_at_restaurant` 函式被定義在與 `front_of_house` 同一層模組中（也就是 `eat_at_restaurant` 與 `front_of_house` 同輩（siblings）），我們可以從 `eat_at_restaurant` 引用 `front_of_house`。接下來是有 `pub` 標記的 `hosting` 模組，我們可以取得 `hosting` 的上層模組，所以我們可以取得 `hosting`。最後 `add_to_waitlist` 函式也有 `pub` 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！
 
 而在相對路徑中，基本邏輯與絕對路徑一樣，不過第一步有點不同。我們不是從 crate 源頭開始，路徑是從 `front_of_house` 開始。`front_of_house` 與 `eat_at_restaurant` 被定義在同一層模組中，所以從 `eat_at_restaurant` 開始定義的相對路徑是有效的。再來因爲 `hosting` 與 `add_to_waitlist` 都有 `pub` 標記，其餘的路徑也都是可以進入的，所以此函式呼叫也是有效的！
 
@@ -127,9 +127,9 @@ Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來
 
 因爲我們公開了 `Appetizer` 枚舉，我們可以在 `eat_at_restaurant` 使用 `Soup` 和 `Salad`。枚舉的變體沒有全部都公開的話，通常會讓枚舉很不好用。要用 `pub` 標註所有的枚舉變體都公開的話又很麻煩。所以公開枚舉的話，預設就會公開其變體。相反地，結構體不讓它的欄位全部都公開的話，通常反而比較實用。因此結構體欄位的通用原則是預設爲私有，除非有 `pub` 標註。
 
-我們會還有一個 `pub` 的使用情境還沒提到，也就是我們模組系統最後一項功能：`use` 關鍵字。我們接下來會先解釋 `use`，再來研究如何組合 `pub` 和 `use`。
+我們還有一個 `pub` 的使用情境還沒提到，也就是我們模組系統最後一項功能：`use` 關鍵字。我們接下來會先解釋 `use`，再來研究如何組合 `pub` 和 `use`。
 
-[pub]: ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#exposing-paths-with-the-pub-keyword
+[pub]: ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#使用-pub-關鍵字公開路徑
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)

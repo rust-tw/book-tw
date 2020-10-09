@@ -2,7 +2,7 @@
 
 本章節目前所有的範例將數個模組定義在同一個檔案中。當模組增長時，你可能會想要將它們的定義拆開到別的檔案中，好讓程式碼容易瀏覽。
 
-舉例來說，讓我修將範例 7-17 中的 `front_of_house` 模組移到它自己的檔案 *src/front_of_house.rs*，然後在 crate 源頭檔案加上這個模組，如範例 7-21 所示。在此例中，源頭檔案爲 *src/lib.rs* 不過這步驟在二進制執行檔 crate 的 src/main.rs* 一樣可行。
+舉例來說，讓我修將範例 7-17 中的 `front_of_house` 模組移到它自己的檔案 *src/front_of_house.rs*，然後在 crate 源頭檔案加上這個模組，如範例 7-21 所示。在此例中，源頭檔案爲 *src/lib.rs* 不過這步驟在二進制執行檔 crate 的 *src/main.rs* 一樣可行。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 

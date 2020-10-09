@@ -5,7 +5,7 @@ fn main() {
     match x {
         1 => println!("one"),
         2 => println!("two"),
-        3 => println!("three"),
+        3 => println!("三"),
         _ => println!("anything"),
     }
     // ANCHOR_END: here
