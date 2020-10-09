@@ -1,6 +1,6 @@
 ## Cargo 工作空間
 
-在第十二章中，我們建立的套件包含一個二進制執行檔 crate 與一個函式庫 crate。隨著專案開發，你可能會發現函式庫 crate 變得越來越大，而你可能會想要將套件拆成數個函式庫 crate。針對這種情形，Cargo 提供了一個功能叫做*工作空間（workspaces）*能來幫助管理並開發數個相關的套件。
+在第十二章中，我們建立的套件包含一個二進制執行檔 crate 與一個函式庫 crate。隨著專案開發，你可能會發現函式庫 crate 變得越來越大，而你可能會想要將套件拆成數個函式庫 crate。針對這種情形，Cargo 提供了一個功能叫做*工作空間（workspaces）* 能來幫助管理並開發數個相關的套件。
 
 ### 建立工作空間
 
@@ -142,7 +142,7 @@ copy output below; the output updating script doesn't handle subdirectories in p
 $ cargo run -p adder
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
      Running `target/debug/adder`
-Hello, world! 10 plus one is 11!
+你好，世界！10 加一會是 11！
 ```
 
 這就會執行 *adder/src/main.rs* 的程式碼，其依賴於 `add-one` crate。
