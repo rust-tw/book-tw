@@ -11,16 +11,16 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     let config = Config::new(&args).unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {}", err);
+        println!("解析引數時出現問題：{}", err);
         process::exit(1);
     });
 
     // ANCHOR: here
-    println!("Searching for {}", config.query);
-    println!("In file {}", config.filename);
+    println!("搜尋 {}", config.query);
+    println!("目標檔案爲 {}", config.filename);
 
     if let Err(e) = run(config) {
-        println!("Application error: {}", e);
+        println!("應用程式錯誤：{}", e);
 
         process::exit(1);
     }
@@ -30,7 +30,7 @@ fn main() {
 fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.filename)?;
 
-    println!("With text:\n{}", contents);
+    println!("文字內容：\n{}", contents);
 
     Ok(())
 }
@@ -43,7 +43,7 @@ struct Config {
 impl Config {
     fn new(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
-            return Err("not enough arguments");
+            return Err("引數不足");
         }
 
         let query = args[1].clone();

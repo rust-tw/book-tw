@@ -62,7 +62,7 @@ $ cargo run searchstring example-filename.txt
 
 <span class="caption">範例 12-2：建立變數來儲存搜尋引數與檔案名稱引數</span>
 
-如我們印出向量時鎖看到的，向量的第一個數值 `args[0]` 會是程式名稱，所以我們從引數 `1` 開始。`minigrep` 接收的第一個引數會是我們要搜尋的字串，所以我們將第一個引數的引用賦值給變數 `query`。第二個引數會是檔案名稱，所以我們將第二個引數的引用賦值給 `filename`。
+如我們印出向量時所看到的，向量的第一個數值 `args[0]` 會是程式名稱，所以我們從引數 `1` 開始。`minigrep` 接收的第一個引數會是我們要搜尋的字串，所以我們將第一個引數的引用賦值給變數 `query`。第二個引數會是檔案名稱，所以我們將第二個引數的引用賦值給 `filename`。
 
 我們暫時印出這些變數的數值來證明程式碼運作無誤。讓我們用引數 `test` 與 `sample.txt` 來再次執行程式：
 
@@ -73,7 +73,7 @@ $ cargo run searchstring example-filename.txt
 很好，程式能執行！我們想要的引數數值都有儲存至正確的變數中。之後我們會對特定潛在錯誤情形來加上一些錯誤處理，像是當使用者沒有提供引數的情況。現在我們先忽略這樣的情況，並開始加上讀取檔案的功能。
 
 [ch13]: ch13-00-functional-features.html
-[ch7-idiomatic-use]: ch07-04-bringing-paths-into-scope-with-the-use-keyword.html#creating-idiomatic-use-paths
+[ch7-idiomatic-use]: ch07-04-bringing-paths-into-scope-with-the-use-keyword.html#建立慣用的-use-路徑
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-01-accepting-command-line-arguments.md)

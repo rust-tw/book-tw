@@ -9,7 +9,7 @@ pub struct Config {
 impl Config {
     pub fn new(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
-            return Err("not enough arguments");
+            return Err("引數不足");
         }
 
         let query = args[1].clone();
@@ -22,7 +22,7 @@ impl Config {
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.filename)?;
 
-    println!("With text:\n{}", contents);
+    println!("文字內容：\n{}", contents);
 
     Ok(())
 }

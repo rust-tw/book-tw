@@ -19,7 +19,7 @@ $ cargo run > output.txt
 `>` 語法告訴 shell 要將標準輸出的內容寫入 *output.txt* 而不是顯示在螢幕上。我們沒有看到應顯示在螢幕上的錯誤訊息，這代表它一定跑到檔案中了。以下是 *output.txt* 包含的內容：
 
 ```text
-Problem parsing arguments: not enough arguments
+解析引數時出現問題：引數不足
 ```
 
 是的，我們的錯誤訊息印到了標準輸出。像這樣的錯誤訊息印到標準錯誤會比較好，這樣才能只讓成功執行的資料存至檔案中。讓我們來修正吧。
@@ -40,7 +40,7 @@ Problem parsing arguments: not enough arguments
 
 ```text
 $ cargo run > output.txt
-Problem parsing arguments: not enough arguments
+解析引數時出現問題：引數不足
 ```
 
 現在我們看到錯誤顯示在螢幕上而且 *output.txt* 裡什麼也沒只有，這正是命令列程式所預期的行爲。

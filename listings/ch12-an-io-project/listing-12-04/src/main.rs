@@ -10,13 +10,13 @@ fn main() {
     let query = &args[1];
     let filename = &args[2];
 
-    println!("Searching for {}", query);
+    println!("搜尋 {}", query);
     // ANCHOR: here
-    println!("In file {}", filename);
+    println!("目標檔案爲 {}", filename);
 
     let contents = fs::read_to_string(filename)
-        .expect("Something went wrong reading the file");
+        .expect("讀取檔案時發生了錯誤");
 
-    println!("With text:\n{}", contents);
+    println!("文字內容：\n{}", contents);
 }
 // ANCHOR_END: here

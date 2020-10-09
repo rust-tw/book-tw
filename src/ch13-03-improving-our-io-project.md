@@ -110,7 +110,7 @@ the program. We want to ignore that and get to the next value, so first we call
 `next` and do nothing with the return value. Second, we call `next` to get the
 value we want to put in the `query` field of `Config`. If `next` returns a
 `Some`, we use a `match` to extract the value. If it returns `None`, it means
-not enough arguments were given and we return early with an `Err` value. We do
+引數不足 were given and we return early with an `Err` value. We do
 the same thing for the `filename` value.
 
 ### Making Code Clearer with Iterator Adaptors
