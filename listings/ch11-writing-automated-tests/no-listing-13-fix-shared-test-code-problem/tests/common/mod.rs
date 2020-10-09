@@ -1,3 +1,3 @@
 pub fn setup() {
-    // setup code specific to your library's tests would go here
+    // 在此設置測試函式庫會用到的程式碼
 }

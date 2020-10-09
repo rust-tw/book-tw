@@ -7,7 +7,7 @@ fn it_works() {
 #[test]
 #[ignore]
 fn expensive_test() {
-    // code that takes an hour to run
+    // 會執行一小時的程式碼
 }
 // ANCHOR_END: here
 

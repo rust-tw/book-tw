@@ -1,5 +1,5 @@
 pub fn prints_and_returns_10(a: i32) -> i32 {
-    println!("I got the value {}", a);
+    println!("我得到的數值爲 {}", a);
     10
 }
 
