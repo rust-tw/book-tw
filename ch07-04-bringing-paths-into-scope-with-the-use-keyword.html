@@ -229,7 +229,7 @@ pub fn eat_at_restaurant() {
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 7-13：使用 <code>use</code> 將 <code>add_to_waitlist</code> 函式引入作用域，但這較不符合習慣</span></p>
-<p>雖然範例 7-11 與範例 7-13 都能完成相同的任務，但是範例 7-11 使用 <code>use</code> 講函式引入作用域的方法比較符合習慣用法。使用 <code>use</code> 將函式的上層模組引入作用域，讓我們必須在呼叫函式時得指明對應模組。這樣清楚知道該函式並非本地定義的，同時一樣能簡化路徑。範例 7-13 的程式碼會不清楚 <code>add_to_waitlist</code> 是在哪定義的。</p>
+<p>雖然範例 7-11 與範例 7-13 都能完成相同的任務，但是範例 7-11 使用 <code>use</code> 將函式引入作用域的方法比較符合習慣用法。使用 <code>use</code> 將函式的上層模組引入作用域，讓我們必須在呼叫函式時得指明對應模組。這樣清楚知道該函式並非本地定義的，同時一樣能簡化路徑。範例 7-13 的程式碼會不清楚 <code>add_to_waitlist</code> 是在哪定義的。</p>
 <p>另一方面，如果是要使用 <code>use</code> 引入結構體、枚舉或其他項目的話，直接指明完整路徑反而是符合習慣的方式。範例 7-14 顯示了將標準函式庫的 <code>HashMap</code> 引入二進制 crate 作用域的習慣用法。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::collections::HashMap;
@@ -261,7 +261,7 @@ fn function2() -&gt; io::Result&lt;()&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 7-15：要將兩個同名的型別引入相同作用域的話，必須使用它們所屬的模組</span></p>
-<p>如同你所見使用對應的模組可以分辨出是再使用哪個 <code>Result</code> 型別。如果我們直接指明 <code>use std::fmt::Result</code> 和 <code>use std::io::Result</code> 的話，我們會在同一個作用域中擁有兩個 <code>Result</code> 型別，這樣一來 Rust 就無法知道我們想用的 <code>Result</code> 是哪一個。</p>
+<p>如同你所見使用對應的模組可以分辨出是在使用哪個 <code>Result</code> 型別。如果我們直接指明 <code>use std::fmt::Result</code> 和 <code>use std::io::Result</code> 的話，我們會在同一個作用域中擁有兩個 <code>Result</code> 型別，這樣一來 Rust 就無法知道我們想用的 <code>Result</code> 是哪一個。</p>
 <h3><a class="header" href="#使用-as-關鍵字提供新名稱" id="使用-as-關鍵字提供新名稱">使用 <code>as</code> 關鍵字提供新名稱</a></h3>
 <p>要在相同作用域中使用 <code>use</code> 引入兩個同名型別的話，還有另一個辦法。在路徑之後，我們可以用 <code>as</code> 指定一個該型別在本地的新名稱，或者說別名。範例 7-16 展示重寫了範例 7-15，將其中一個 <code>Result</code> 型別使用 <code>as</code> 重新命名。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -285,8 +285,8 @@ fn function2() -&gt; IoResult&lt;()&gt; {
 <p><span class="caption">範例 7-16：使用 <code>as</code> 將型別引入作用域的同時重新命名</span></p>
 <p>在第二個 <code>use</code> 陳述式，我們選擇了將 <code>std::io::Result</code> 型別重新命名爲 <code>IoResult</code>，這樣就不會和同樣引入作用域內 <code>std::fmt</code> 的 <code>Result</code> 有所衝突。範例 7-15 與 範例 7-16 都屬於習慣用法，你可以選擇你比較喜歡的方式！</p>
 <h3><a class="header" href="#使用-pub-use-重新匯出名稱" id="使用-pub-use-重新匯出名稱">使用 <code>pub use</code> 重新匯出名稱</a></h3>
-<p>當我們使用 <code>use</code> 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 <code>pub</code> 和 <code>use</code>。這樣的技巧稱之爲 <em>重新匯出（re-exporting）</em>，因爲我們將項目引入作用域，並同時公開給其他作用域引用。</p>
-<p>範例 7-17 顯示將範例 7-11 在源頭模組中原本的 <code>use</code> 改成 <code>pub use</code>。</p>
+<p>當我們使用 <code>use</code> 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 <code>pub</code> 和 <code>use</code>。這樣的技巧稱之爲<em>重新匯出（re-exporting）</em>，因爲我們將項目引入作用域，並同時公開給其他作用域引用。</p>
+<p>範例 7-17 將範例 7-11 在源頭模組中原本的 <code>use</code> 改成 <code>pub use</code>。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
@@ -319,7 +319,7 @@ pub fn eat_at_restaurant() {
 rand = &quot;0.5.5&quot;
 </code></pre>
 <p>在 <em>Cargo.toml</em> 新增  <code>rand</code> 作爲依賴函式庫會告訴 Cargo 要從 <a href="https://crates.io/">crates.io</a> 下載  <code>rand</code> 以及其他相關的依賴，讓我們可專案可以使用 <code>rand</code>。</p>
-<p>接下來要將 <code>rand</code> 的定義引入我們套件的作用域的話，我們加上一行 <code>use</code> 後面接著 crate 的名稱 <code>rand</code> 然後列出我們想要引入作用域的項目。回想一下在第二章<a href="ch02-00-guessing-game-tutorial.html#generating-a-random-number">「產生隨機數字」</a><!-- ignore -->的段落，我們將 <code>Rng</code> 特徵引入作用域中，並呼叫函式 <code>rand::thread_rng</code>：</p>
+<p>接下來要將 <code>rand</code> 的定義引入我們套件的作用域的話，我們加上一行 <code>use</code> 後面接著 crate 的名稱 <code>rand</code> 然後列出我們想要引入作用域的項目。回想一下在第二章<a href="ch02-00-guessing-game-tutorial.html#%E7%94%A2%E7%94%9F%E9%9A%A8%E6%A9%9F%E6%95%B8%E5%AD%97">「產生隨機數字」</a><!-- ignore -->的段落，我們將 <code>Rng</code> 特徵引入作用域中，並呼叫函式 <code>rand::thread_rng</code>：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
 </span>use rand::Rng;
 
@@ -350,7 +350,7 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <p>這是個用標準函式庫的 crate 名稱 <code>std</code> 起頭的絕對路徑。</p>
-<h3><a class="header" href="#使用巢狀路徑來大量的-use-行數" id="使用巢狀路徑來大量的-use-行數">使用巢狀路徑來大量的 <code>use</code> 行數</a></h3>
+<h3><a class="header" href="#使用巢狀路徑來清理大量的-use-行數" id="使用巢狀路徑來清理大量的-use-行數">使用巢狀路徑來清理大量的 <code>use</code> 行數</a></h3>
 <p>如果我們要使用在相同 crate 或是相同模組內定義的數個項目，針對每個項目都單獨寫一行的話，會佔據我們檔案內很多空間。舉例來說，範例 2-4 中的猜謎遊戲我們用了這兩個 <code>use</code> 陳述式來引入作用域中：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;

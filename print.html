@@ -4114,7 +4114,7 @@ To learn more, run the command again with --verbose.
 </span>    let some_u8_value = 0u8;
     match some_u8_value {
         1 =&gt; println!(&quot;one&quot;),
-        3 =&gt; println!(&quot;three&quot;),
+        3 =&gt; println!(&quot;三&quot;),
         5 =&gt; println!(&quot;five&quot;),
         7 =&gt; println!(&quot;seven&quot;),
         _ =&gt; (),
@@ -4136,7 +4136,7 @@ To learn more, run the command again with --verbose.
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let some_u8_value = Some(0u8);
     match some_u8_value {
-        Some(3) =&gt; println!(&quot;three&quot;),
+        Some(3) =&gt; println!(&quot;三&quot;),
         _ =&gt; (),
     }
 <span class="boring">}
@@ -4147,7 +4147,7 @@ To learn more, run the command again with --verbose.
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let some_u8_value = Some(0u8);
 </span>    if let Some(3) = some_u8_value {
-        println!(&quot;three&quot;);
+        println!(&quot;三&quot;);
     }
 <span class="boring">}
 </span></code></pre></pre>
@@ -4205,8 +4205,8 @@ To learn more, run the command again with --verbose.
 </span></code></pre></pre>
 <p>如果你的程式碼邏輯遇到使用 <code>match</code> 表達會太囉唆的話，記得 <code>if let</code> 也在你的 Rust 工具箱中可以使用。</p>
 <h2><a class="header" href="#總結-5" id="總結-5">總結</a></h2>
-<p>我們現在含蓋了如何使用枚舉來建立一系列枚舉數值的自訂型別。我們展示了邊準函式庫的 <code>Option&lt;T&gt;</code> 型別如何用型別系統來預防錯誤。當枚舉數值其內有資料時，你可以依照你想處理的情況數量，使用 <code>match</code> 或 <code>if let</code> 來取出並使用那些數值。</p>
-<p>你的 Rust 程式碼現在能夠使用結構體與枚舉來表達你所知領域的概念了。在你的 API 建立自訂型別可以確保型別安全，編譯器會保證你的函式只會取得該函式預期的型別數值。</p>
+<p>我們現在涵蓋了如何使用枚舉來建立一系列枚舉數值的自訂型別。我們展示了標準函式庫的 <code>Option&lt;T&gt;</code> 型別如何用型別系統來預防錯誤。當枚舉數值其內有資料時，你可以依照你想處理的情況數量，使用 <code>match</code> 或 <code>if let</code> 來取出並使用那些數值。</p>
+<p>你的 Rust 程式碼現在能夠使用結構體與枚舉來表達你所相關研究領域的概念了。在你的 API 建立自訂型別可以確保型別安全，編譯器會保證你的函式只會取得該函式預期的型別數值。</p>
 <p>接下來爲了提供組織完善且直觀的的 API 供你的使用者使用，並只表達出使用者確切所需要的內容，我們需要瞭解 Rust 的模組。</p>
 <blockquote>
 <ul>
@@ -4216,16 +4216,16 @@ To learn more, run the command again with --verbose.
 </ul>
 </blockquote>
 <h1><a class="header" href="#透過套件crate-與模組管理成長中的專案" id="透過套件crate-與模組管理成長中的專案">透過套件、Crate 與模組管理成長中的專案</a></h1>
-<p>當你寫的程式規模更大時，組織你的程式碼就很重要。因爲用你的腦帶要記住整個程式碼是幾乎不可能的。要是能組織相關功能的程式碼並將它們分成明確功能的話，你就能清楚地找到實作特定功能的程式碼，以及該在哪裏修改該功能的行爲。</p>
+<p>當你寫的程式規模更大時，組織你的程式碼就很重要。因爲用你的腦袋要記住整個程式碼是幾乎不可能的。要是能組織相關功能的程式碼並將它們分成明確功能的話，你就能清楚地找到實作特定功能的程式碼，以及該在哪裏修改該功能的行爲。</p>
 <p>我們之前寫過的程式都只在一個檔案內的一個模組（module）中。隨著專案成長，我們可以組織程式碼，拆成數個模組與數個檔案。一個套件（package）可以包含數個二進制 crate 以及選擇性提供一個函式庫 crate。隨著套件增長，你可以取出不同的部分作爲獨立的 crate，成爲對外的依賴函式庫。此章節將會介紹這些所有概念。對於非常龐大的專案，需要一系列的關聯套件組合在一起的話，Cargo 有提供工作空間（workspaces），我們會在第十四章的<a href="ch14-03-cargo-workspaces.html">「Cargo 工作空間」</a><!-- ignore -->做介紹。</p>
-<p>除了爲了組織功能以外，對實作細節進行封裝可以讓你的程式碼在頂層更好使用。一旦你實作了某項功能，其他程式就可以用程式碼的公開介面呼叫該程式碼，而不必去知道它實作如何運作。你在寫程式碼時會去定義哪些部分是給其他程式碼公開使用的，以及哪些部分是私底下你可以任意修改的實作細節。這是能再減少你的腦袋需要煩惱的細節數量。</p>
+<p>除了爲了組織功能以外，對實作細節進行封裝可以讓你的程式碼在頂層更好使用。一旦你實作了某項功能，其他程式就可以用程式碼的公開介面呼叫該程式碼，而不必去知道它實作如何運作。你在寫程式碼時會去定義哪些部分是給其他程式碼公開使用的，以及哪些部分是私底下你可以任意修改的實作細節。這能再減少你的腦袋需要煩惱的細節數量。</p>
 <p>還有一個概念需要再提一次，也就是作用域（scope）：程式碼需要能被定義在「作用域內」並要能夠指明此作用域。當讀取寫入或編譯程式碼時，程式設計師與編譯器需要知道特定地點的名稱，才能知道其內的變數、函式、結構體、枚舉、常數或其他任何有意義的項目。你可以建立作用域，並改變其在作用域內與作用域外的名稱。你無法在同個作用域內擁有兩個相同名稱的項目。我們可以使用一些工具來解決名稱衝突的問題。</p>
-<p>Rust 有一系列的功能能讓你管理你的程式碼組織，包含哪些細節能對外提供、哪些細節是私有地，以及程式中每個作用域的名稱爲何。這些功能有時會統一稱作<em>模組系統「module system」</em>，其中包含：</p>
+<p>Rust 有一系列的功能能讓你管理你的程式碼組織，包含哪些細節能對外提供、哪些細節是私有的，以及程式中每個作用域的名稱爲何。這些功能有時會統一稱作<em>模組系統（module system）</em>，其中包含：</p>
 <ul>
-<li>**套件（Package）：**讓你建構、測試並分享 crate 的 Cargo 功能</li>
-<li>**Crates：**產生函式庫或執行檔的模組集合</li>
-<li><strong>模組（Modules）</strong> 與 **use：**讓你控制組織、作用域與路徑的隱私權</li>
-<li>**路徑（Paths）:**對一個項目的命名方式，像是一個結構體、函式或模組</li>
+<li><strong>套件（Package）：</strong> 讓你建構、測試並分享 crate 的 Cargo 功能</li>
+<li><strong>Crates：</strong> 產生函式庫或執行檔的模組集合</li>
+<li><strong>模組（Modules）</strong> 與 <strong>use：</strong> 讓你控制組織、作用域與路徑的隱私權</li>
+<li><strong>路徑（Paths）:</strong> 對一個項目的命名方式，像是一個結構體、函式或模組</li>
 </ul>
 <p>在本章節中，我們會涵蓋所有這些功能，討論它們如何互動，並解釋如何使用它們來管理作用域。在讀完後，你應該就會對模組系統有紮實的認知，並能夠對作用域的使用駕輕就熟！</p>
 <blockquote>
@@ -4236,7 +4236,7 @@ To learn more, run the command again with --verbose.
 </ul>
 </blockquote>
 <h2><a class="header" href="#套件與-crates" id="套件與-crates">套件與 Crates</a></h2>
-<p>首先我們要介紹的第一個模組系統部分爲套件與 crates。一個 crate 指的是一個二進制執行檔或函式庫。<em>crate 的源頭</em>會是一個原始檔案，讓 Rust 的編譯器可以作爲起始點並組織 crate 模組的地方（我們會在<a href="ch07-02-defining-modules-to-control-scope-and-privacy.html">「定義模組來控制作用域與隱私權」</a><!-- ignore -->的段落更加解釋模組）。*套件（package）*則是提供一系列功能的一或數個 crate。一個套件會包含一個 <em>Cargo.toml</em> 檔案來解釋如何建構那些 crate。</p>
+<p>首先我們要介紹的第一個模組系統部分爲套件與 crates。一個 crate 指的是一個二進制執行檔或函式庫。<em>crate 的源頭</em>會是一個原始檔案，讓 Rust 的編譯器可以作爲起始點並組織 crate 模組的地方（我們會在<a href="ch07-02-defining-modules-to-control-scope-and-privacy.html">「定義模組來控制作用域與隱私權」</a><!-- ignore -->的段落更加解釋模組）。<em>套件（package）</em> 則是提供一系列功能的一或數個 crate。一個套件會包含一個 <em>Cargo.toml</em> 檔案來解釋如何建構那些 crate。</p>
 <p>套件依據一些規則來組成。一個套件<em>必須</em>包含零或一個函式庫 crate，不能再更多。它可以包含多少二進制執行檔 crate 都沒關係，但一定得至少提供一個 crate（無論是函式庫或二進制執行檔）。</p>
 <p>讓我們看看當我們建立一個套件時發生了什麼事。首先我們先輸入 <code>cargo new</code> 命令：</p>
 <pre><code class="language-console">$ cargo new my-project
@@ -4248,10 +4248,10 @@ $ ls my-project/src
 main.rs
 </code></pre>
 <p>當我們輸入命令時，Cargo 會建立一個 <em>Cargo.toml</em> 檔案並以此作爲套件依據。查看 <em>Cargo.toml</em> 的內容時，你會發現沒有提到 <em>src/main.rs</em>，這是因爲 Cargo 遵循一個常規，也就是 <em>src/main.rs</em> 就是與套件同名的
-二進制 crate 的 crate 源頭。同樣地，Cargo 也會知道如果套件目錄包含 <em>src/lib.rs</em>的話，則該套件就會包含與套件同名的 函式庫 crate。Cargo 會將 crate 源頭檔案傳遞給 <code>rustc</code> 來建構函式庫或二進制執行檔</p>
+二進制 crate 的 crate 源頭。同樣地，Cargo 也會知道如果套件目錄包含 <em>src/lib.rs</em>的話，則該套件就會包含與套件同名的函式庫 crate。Cargo 會將 crate 源頭檔案傳遞給 <code>rustc</code> 來建構函式庫或二進制執行檔。</p>
 <p>我們在此的套件只有包含 <em>src/main.rs</em> 代表它只有一個同名的二進制 crate 叫做 <code>my-project</code>。如果套件包含 <em>src/main.rs</em> 與 <em>src/lib.rs</em> 的話，它就有兩個 crate：一個函式庫與一個二進制執行檔，兩者都與套件同名。一個套件可以有多個二進制 crate，只要將檔案放在 <em>src/bin</em> 目錄底下就好，每個檔案會被視爲獨立的二進制 crate。</p>
-<p>Crate 會將相關的程式碼組織在一個作用域內，好讓其通能易於分享給其他專案。舉例來說，我們在<a href="ch02-00-guessing-game-tutorial.html#generating-a-random-number">第二章</a><!-- ignore -->使用到的 <code>rand</code> crate 就提供了產生隨機數值的功能。我們可以將 <code>rand</code> crate 引入我們的專案，讓我們可以在我們的專案使用這項功能。所有 <code>rand</code> crate 提供的功能都可以透過 crate 的名稱 <code>rand</code> 來索取。</p>
-<p>將 crate 的功能維持在各自的作用域內能清楚地表達特定功能是定義在我們自己的 crate 還是 <code>rand</code> crate 的，以防止可能的衝突。舉例來說，<code>rand</code> crate 提供了一個特徵叫做 <code>Rng</code>，我們也可以在我們自己的 crate 中定義一個 <code>struct</code> 叫做 <code>Rng</code>。由於 crate 的功能都位於它所屬的作用域的命名空間底下，當我們加入 <code>rand</code> 作爲依賴時，編譯器不會被搞不清楚是哪個 <code>Rng</code> 被使用。在我們的 crate 中，它指的是我們定義的 <code>struct Rng</code>。而要使用 <code>rand</code> crate 的 <code>Rng</code> 特徵的話，我們得這樣使用 <code>rand::Rng</code>。</p>
+<p>Crate 會將相關的程式碼組織在一個作用域內，好讓其能易於分享給其他專案。舉例來說，我們在<a href="ch02-00-guessing-game-tutorial.html#%E7%94%A2%E7%94%9F%E9%9A%A8%E6%A9%9F%E6%95%B8%E5%AD%97">第二章</a><!-- ignore -->使用到的 <code>rand</code> crate 就提供了產生隨機數值的功能。我們可以將 <code>rand</code> crate 引入我們的專案，讓我們可以在我們的專案使用這項功能。所有 <code>rand</code> crate 提供的功能都可以透過 crate 的名稱 <code>rand</code> 來索取。</p>
+<p>將 crate 的功能維持在各自的作用域內能清楚地表達特定功能是定義在我們自己的 crate 還是 <code>rand</code> crate 的，以防止可能的衝突。舉例來說，<code>rand</code> crate 提供了一個特徵叫做 <code>Rng</code>，我們也可以在我們自己的 crate 中定義一個 <code>struct</code> 叫做 <code>Rng</code>。由於 crate 的功能都位於它所屬的作用域的命名空間底下，當我們加入 <code>rand</code> 作爲依賴時，編譯器不會搞不清楚是哪個 <code>Rng</code> 被使用。在我們的 crate 中，它指的是我們定義的 <code>struct Rng</code>。而要使用 <code>rand</code> crate 的 <code>Rng</code> 特徵的話，我們得這樣使用 <code>rand::Rng</code>。</p>
 <p>接下來讓我們繼續討論模組系統吧！</p>
 <blockquote>
 <ul>
@@ -4261,8 +4261,8 @@ main.rs
 </ul>
 </blockquote>
 <h2><a class="header" href="#定義模組來控制作用域與隱私權" id="定義模組來控制作用域與隱私權">定義模組來控制作用域與隱私權</a></h2>
-<p>在此段落，我們將討論模組以及其他模組系統的部分，像是*路徑（paths）*項允許你來命名項目，而 <code>use</code> 關鍵字可以將路徑引入作用域，再來 <code>pub</code> 關鍵字可以讓指定的項目對外公開。我們還會討論到 <code>as</code> 關鍵字、外部套件以及全域（glob）運算子。現在讓我們先專注在模組吧！</p>
-<p><em>模組（Modules）<em>讓我們在 crate 內組織程式碼成數個群組以便使用且增加閱讀性。模組也能控制項目的</em>隱私權</em>，也就是該項目能否被外部程式碼（<em>公開（public）</em>）使用，或者只作爲內部實作細節，對外是無法使用的（<em>私有（private）</em>）。</p>
+<p>在此段落，我們將討論模組以及其他模組系統的部分，像是<em>路徑（paths）</em> 允許你來命名項目，而 <code>use</code> 關鍵字可以將路徑引入作用域，再來 <code>pub</code> 關鍵字可以讓指定的項目對外公開。我們還會討論到 <code>as</code> 關鍵字、外部套件以及全域（glob）運算子。現在讓我們先專注在模組吧！</p>
+<p><em>模組（Modules）</em> 能讓我們在 crate 內組織程式碼成數個群組以便使用且增加閱讀性。模組也能控制項目的<em>隱私權</em>，也就是該項目能否被外部程式碼<em>公開（public）</em> 使用，或者只作爲內部<em>私有（private）</em> 實作細節，對外是無法使用的。</p>
 <p>舉例來說，讓我們建立一個提供餐廳功能的函式庫 crate。我們定義一個函式簽名不過本體會是空的，好讓我們專注在程式組織，而非餐廳程式碼的實作。</p>
 <p>在餐飲業中，餐廳有些地方會被稱作<em>前端（front of house）<em>而其他部分則是</em>後端（back of house）</em>。前端是消費者的所在區域，這裡是安排顧客座位、點餐並結帳、吧台調酒的地方。而後台則是主廚與廚師工作的廚房、洗碗工洗碗以及經理管理行政工作的地方。</p>
 <p>要讓我們的 crate 像真正的餐廳一樣的話，我們可以組織函式進入模組中。要建立一個新的函式庫叫做 <code>restaurant</code> 的話，請執行 <code>cargo new --lib restaurant</code>。然後將範例 7-1 的程式碼放入 <em>src/lib.rs</em> 中，這定義了一些模組與函式簽名。</p>
@@ -4287,7 +4287,7 @@ main.rs
 </span></code></pre></pre>
 <p><span class="caption">範例 7-1：<code>front_of_house</code> 模組包含了其他擁有函式的模組</span></p>
 <p>我們用 <code>mod</code> 關鍵字加上模組的名稱（在此例爲 <code>front_of_house</code>）來定義一個模組，並用大括號涵蓋模組的本體。在模組中，我們可以再包含其他模組，在此例中我們包含了 <code>hosting</code> 和 <code>serving</code>。模組還能包含其他項目，像是結構體、枚舉、常數、特徵、或像是 範例 7-1 的函式。</p>
-<p>使用模組的話，我們就能加相關的定義組合起來，並用名稱指出會合它們互相關聯。程式設計師在使用此程式碼時就能快找到他們想使用的定義，因爲他們就不必遍歷所有的定義，只要觀察依據組合起來的模組名稱就好。要對此程式碼增加新功能的開發者也能知道該將程式碼放在哪裡，以維持程式碼的組織。</p>
+<p>使用模組的話，我們就能將相關的定義組合起來，並用名稱指出會與它們互相關聯。程式設計師在使用此程式碼時就能快速找到他們想使用的定義，因爲他們就不必遍歷所有的定義，只要觀察依據組合起來的模組名稱就好。要對此程式碼增加新功能的開發者也能知道該將程式碼放在哪裡，以維持程式碼的組織。</p>
 <p>稍早我們提到說 <em>src/main.rs</em> 和 <em>src/lib.rs</em> 屬於 crate 的源頭。之所以這樣命名的原因是因爲這兩個文件的內容都會在 crate 源頭模組架構中組成一個模組叫做 <code>crate</code>，這樣的結構稱之爲<em>模組樹（module tree）</em>。</p>
 <p>範例 7-2 顯示了範例 7-1 的模組樹架構。</p>
 <pre><code class="language-text">crate
@@ -4301,7 +4301,7 @@ main.rs
          └── take_payment
 </code></pre>
 <p><span class="caption">範例 7-2：範例 7-1 的模組樹</span></p>
-<p>此樹顯示了有些模組是包含在其他模組內的（比方說 <code>hosting</code> 就在 <code>front_of_house</code> 底下）。此樹也顯示了有些模組是其他模組的<em>同輩（siblings）</em>，代表它們是在同模組底下定義的（<code>hosting</code> 和 <code>serving</code> 都在 <code>front_of_house</code> 底下定義）。繼續沿用家庭來譬喻的話，如果模組 A 被包含在模組 B 中，我們會說模組 A 是模組 B 的<em>下一代（child）</em>，而模組 B 是模組 A 的<em>上一代（parent）</em>。注意到整個模組樹的源頭是一個隱性模組叫做 <code>crate</code>。</p>
+<p>此樹顯示了有些模組是包含在其他模組內的（比方說 <code>hosting</code> 就在 <code>front_of_house</code> 底下）。此樹也顯示了有些模組是其他模組的<em>同輩（siblings）</em>，代表它們是在同模組底下定義的（<code>hosting</code> 和 <code>serving</code> 都在 <code>front_of_house</code> 底下定義）。繼續沿用家庭來譬喻的話，如果模組 A 被包含在模組 B 中，我們會說模組 A 是模組 B 的<em>下一代（child）</em>，而模組 B 是模組 A 的<em>上一代（parent）</em>。注意到整個模組樹的跟是一個隱性模組叫做 <code>crate</code>。</p>
 <p>模組樹可能會讓你想到電腦中檔案系統的目錄樹，這是一個非常恰當的比喻！就像檔案系統中的目錄，你使用模組來組織你的程式碼。而且就像目錄中的檔案，我們需要有方法可以找到我們的模組。</p>
 <blockquote>
 <ul>
@@ -4314,11 +4314,11 @@ main.rs
 <p>要展示 Rust 如何從模組樹中找到一個項目，我們要使用和查閱檔案系統時一樣的路徑方法。如果我們想要呼叫函式，我們需要知道它的路徑：</p>
 <p>路徑可以有兩種形式：</p>
 <ul>
-<li>*絕對路徑（absolute path）*是從 crate 的源頭開始找起，用 crate 的名稱或 <code>crate</code> 作爲起頭。</li>
-<li>*相對路徑（relative path）*則是從本身的模組開始，使用 <code>self</code>、<code>super</code>或是當前模組的標識符（identifiers）。</li>
+<li><em>絕對路徑（absolute path）</em> 是從 crate 的源頭開始找起，用 crate 的名稱或 <code>crate</code> 作爲起頭。</li>
+<li><em>相對路徑（relative path）</em> 則是從本身的模組開始，使用 <code>self</code>、<code>super</code>或是當前模組的標識符（identifiers）。</li>
 </ul>
 <p>無論是絕對或相對路徑其後都會接著一或多個標識符，並使用雙冒號（<code>::</code>）區隔開來。</p>
-<p>讓我們回頭看看範例 7-1，我們要如何呼叫函式 <code>add_to_waitlist</code> 呢？這就和問函式 <code>add_to_waitlist</code> 在哪的問題是一樣的。在範例 7-3，我們移除了一些模組與函式來精簡程式碼的呈現方式。我們會展示兩種從 crate 源頭定義的 <code>eat_at_restaurant</code> 函式內呼叫 <code>add_to_waitlist</code> 的方法。<code>eat_at_restaurant</code> 函式是我們函式庫 crate 公開 API 的一部分，所以我們會加上 <code>pub</code> 關鍵字。在<a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#exposing-paths-with-the-pub-keyword">「使用 <code>pub</code> 關鍵字公開路徑」</a><!-- ignore -->的段落中，我們會提到更多 <code>pub</code> 的細節。請注意此範例還不能編譯，我們等等會解釋原因。</p>
+<p>讓我們回頭看看範例 7-1，我們要如何呼叫函式 <code>add_to_waitlist</code> 呢？這就和問函式 <code>add_to_waitlist</code> 在哪的問題是一樣的。在範例 7-3，我們移除了一些模組與函式來精簡程式碼的呈現方式。我們會展示兩種從 crate 源頭定義的 <code>eat_at_restaurant</code> 函式內呼叫 <code>add_to_waitlist</code> 的方法。<code>eat_at_restaurant</code> 函式是我們函式庫 crate 公開 API 的一部分，所以我們會加上 <code>pub</code> 關鍵字。在<a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#%E4%BD%BF%E7%94%A8-pub-%E9%97%9C%E9%8D%B5%E5%AD%97%E5%85%AC%E9%96%8B%E8%B7%AF%E5%BE%91">「使用 <code>pub</code> 關鍵字公開路徑」</a><!-- ignore -->的段落中，我們會提到更多 <code>pub</code> 的細節。請注意此範例還不能編譯，我們等等會解釋原因。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
     mod hosting {
@@ -4327,10 +4327,10 @@ main.rs
 }
 
 pub fn eat_at_restaurant() {
-    // Absolute path
+    // 絕對路徑
     crate::front_of_house::hosting::add_to_waitlist();
 
-    // Relative path
+    // 相對路徑
     front_of_house::hosting::add_to_waitlist();
 }
 </code></pre>
@@ -4362,12 +4362,12 @@ error: could not compile `restaurant`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p><span class="caption">範例 7-4：範例 7-3 嘗試編譯程式碼出現的錯誤</span></p>
-<p>錯誤訊息表示 <code>hosting</code> 模組是私有地。換句話說，我們指定 <code>hosting</code> 模組與 <code>add_to_waitlist</code> 函式的路徑是正確的，但是因爲它沒有私有部分的存取權，所以 Rust 不讓我們使用。</p>
-<p>模組不僅用來組織你的程式碼，它們還定義了 Rust 的<em>隱私界限（privacy boundary）</em>：這是條封裝實作細節，讓外部程式碼無法看到、呼叫或依賴的界限。所以你想要建立私有的函式或結構體，你可以將它們放入模組內。</p>
-<p>Rust 隱私權的運作方式是預設所有的項目（函式、方法、結構體、枚舉、模組與常數）都是私有的。上層模組的項目無法使用下層模組的私有項目，但下層模組能使用它們上方所有模組的項目。這麼做的原因是因爲下層模組上用了來實現實作細節，而下層模組應該要能夠看到在自己所定義的地方的其他內容。讓我們繼續用餐廳做比喻的話，我們可以想像隱私權規則就像是餐廳的後臺辦公室。對餐廳顧客來說裡面發生什麼事情都是未知的，但是辦公室經理可以知道經營餐廳時的所有事物。</p>
+<p>錯誤訊息表示 <code>hosting</code> 模組是私有的。換句話說，我們指定 <code>hosting</code> 模組與 <code>add_to_waitlist</code> 函式的路徑是正確的，但是因爲它沒有私有部分的存取權，所以 Rust 不讓我們使用。</p>
+<p>模組不僅用來組織你的程式碼，它們還定義了 Rust 的<em>隱私界限（privacy boundary）</em>：這是條封裝實作細節讓外部程式碼無法看到、呼叫或依賴的界限。所以你想要建立私有的函式或結構體，你可以將它們放入模組內。</p>
+<p>Rust 隱私權的運作方式是預設所有的項目（函式、方法、結構體、枚舉、模組與常數）都是私有的。上層模組的項目無法使用下層模組的私有項目，但下層模組能使用它們上方所有模組的項目。這麼做的原因是因爲下層模組用來實現實作細節，而下層模組應該要能夠看到在自己所定義的地方的其他內容。讓我們繼續用餐廳做比喻的話，我們可以想像隱私權規則就像是餐廳的後臺辦公室。對餐廳顧客來說裡面發生什麼事情都是未知的，但是辦公室經理可以知道經營餐廳時的所有事物。</p>
 <p>Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來的。這樣一來，你就能知道內部哪些程式碼需要修改，而不會破壞到外部的程式碼。不過你可以使用 <code>pub</code> 關鍵字來讓下層模組內部的一些程式碼公開給上層模組來使用。</p>
 <h3><a class="header" href="#使用-pub-關鍵字公開路徑" id="使用-pub-關鍵字公開路徑">使用 <code>pub</code> 關鍵字公開路徑</a></h3>
-<p>讓我們在執行一次範例 7-4 的錯誤，它告訴我們 <code>hosting</code> 模組是私有的。我們希望上層模組中的 <code>eat_at_restaurant</code> 函式可以呼叫下層模組的 <code>add_to_waitlist</code> 函式，所以我們將 <code>hosting</code> 模組加上 <code>pub</code> 關鍵字，如範例 7-5 所示。</p>
+<p>讓我們再執行一次範例 7-4 的錯誤，它告訴我們 <code>hosting</code> 模組是私有的。我們希望上層模組中的 <code>eat_at_restaurant</code> 函式可以呼叫下層模組的 <code>add_to_waitlist</code> 函式，所以我們將 <code>hosting</code> 模組加上 <code>pub</code> 關鍵字，如範例 7-5 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
     pub mod hosting {
@@ -4376,10 +4376,10 @@ To learn more, run the command again with --verbose.
 }
 
 pub fn eat_at_restaurant() {
-    // Absolute path
+    // 絕對路徑
     crate::front_of_house::hosting::add_to_waitlist();
 
-    // Relative path
+    // 相對路徑
     front_of_house::hosting::add_to_waitlist();
 }
 </code></pre>
@@ -4418,10 +4418,10 @@ To learn more, run the command again with --verbose.
 }
 
 pub fn eat_at_restaurant() {
-    // Absolute path
+    // 絕對路徑
     crate::front_of_house::hosting::add_to_waitlist();
 
-    // Relative path
+    // 相對路徑
     front_of_house::hosting::add_to_waitlist();
 }
 <span class="boring">
@@ -4429,7 +4429,7 @@ pub fn eat_at_restaurant() {
 </span></code></pre></pre>
 <p><span class="caption">範例 7-7：將 <code>mod hosting</code> 和 <code>fn add_to_waitlist</code> 都加上 <code>pub</code> 關鍵字，讓我們可以從 <code>eat_at_restaurant</code> 呼叫函式</span></p>
 <p>現在程式碼就能成功編譯了！讓我們看看絕對與相對路徑，以及再次檢查爲何 <code>pub</code> 關鍵字是如何遵守隱私權規則，讓我們可以在 <code>add_to_waitlist</code> 取得這些路徑。</p>
-<p>在絕對路徑中，我們始於 <code>crate</code>，這是 crate 模組樹的源頭。再來 <code>front_of_house</code> 模組被定義在 crate 源頭中，<code>front_of_house</code> 模組不是公開，但因爲 <code>eat_at_restaurant</code> 函式被定義在與 <code>front_of_house</code> 同一層模組中（也就是 <code>eat_at_restaurant</code> 與 <code>front_of_house</code> 同輩（siblings）），我們可以從 <code>eat_at_restaurant</code> 引用 <code>front_of_house</code>。接下來是有 <code>pub</code> 標記的 <code>hosting</code> 模組，我們可以取得 <code>hosting</code> 的上層模組，所以我們可以取得 <code>hosting</code>。最後 <code>add_to_waitlist</code> 函式也有 <code>pub</code> 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！</p>
+<p>在絕對路徑中，我們始於 <code>crate</code>，這是 crate 模組樹的跟。再來 <code>front_of_house</code> 模組被定義在 crate 源頭中，<code>front_of_house</code> 模組不是公開，但因爲 <code>eat_at_restaurant</code> 函式被定義在與 <code>front_of_house</code> 同一層模組中（也就是 <code>eat_at_restaurant</code> 與 <code>front_of_house</code> 同輩（siblings）），我們可以從 <code>eat_at_restaurant</code> 引用 <code>front_of_house</code>。接下來是有 <code>pub</code> 標記的 <code>hosting</code> 模組，我們可以取得 <code>hosting</code> 的上層模組，所以我們可以取得 <code>hosting</code>。最後 <code>add_to_waitlist</code> 函式也有 <code>pub</code> 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！</p>
 <p>而在相對路徑中，基本邏輯與絕對路徑一樣，不過第一步有點不同。我們不是從 crate 源頭開始，路徑是從 <code>front_of_house</code> 開始。<code>front_of_house</code> 與 <code>eat_at_restaurant</code> 被定義在同一層模組中，所以從 <code>eat_at_restaurant</code> 開始定義的相對路徑是有效的。再來因爲 <code>hosting</code> 與 <code>add_to_waitlist</code> 都有 <code>pub</code> 標記，其餘的路徑也都是可以進入的，所以此函式呼叫也是有效的！</p>
 <h3><a class="header" href="#使用-super-作爲相對路徑的開頭" id="使用-super-作爲相對路徑的開頭">使用 <code>super</code> 作爲相對路徑的開頭</a></h3>
 <p>我們還可以在路徑開頭使用 <code>super</code> 來建構從上層模組出發的相對路徑。這就像在檔案系統中使用 <code>..</code> 作爲路徑開頭一樣。不過爲何我們想要這樣做呢？</p>
@@ -4466,22 +4466,22 @@ mod back_of_house {
         pub fn summer(toast: &amp;str) -&gt; Breakfast {
             Breakfast {
                 toast: String::from(toast),
-                seasonal_fruit: String::from(&quot;peaches&quot;),
+                seasonal_fruit: String::from(&quot;桃子&quot;),
             }
         }
     }
 }
 
 pub fn eat_at_restaurant() {
-    // Order a breakfast in the summer with Rye toast
-    let mut meal = back_of_house::Breakfast::summer(&quot;Rye&quot;);
-    // Change our mind about what bread we'd like
-    meal.toast = String::from(&quot;Wheat&quot;);
-    println!(&quot;I'd like {} toast please&quot;, meal.toast);
+    // 點夏季早餐並選擇黑麥麵包
+    let mut meal = back_of_house::Breakfast::summer(&quot;黑麥&quot;);
+    // 我們想改成全麥麵包
+    meal.toast = String::from(&quot;全麥&quot;);
+    println!(&quot;我想要{}麵包，謝謝&quot;, meal.toast);
 
-    // The next line won't compile if we uncomment it; we're not allowed
-    // to see or modify the seasonal fruit that comes with the meal
-    // meal.seasonal_fruit = String::from(&quot;blueberries&quot;);
+    // 接下來這行取消註解的話，我們就無法編譯通過
+    // 我們無法擅自更改餐點搭配的季節水果
+    // meal.seasonal_fruit = String::from(&quot;藍莓&quot;);
 }
 <span class="boring">}
 </span></code></pre></pre>
@@ -4508,7 +4508,7 @@ pub fn eat_at_restaurant() {
 </span></code></pre></pre>
 <p><span class="caption">範例 7-10：公開枚舉會讓其所有變體也公開</span></p>
 <p>因爲我們公開了 <code>Appetizer</code> 枚舉，我們可以在 <code>eat_at_restaurant</code> 使用 <code>Soup</code> 和 <code>Salad</code>。枚舉的變體沒有全部都公開的話，通常會讓枚舉很不好用。要用 <code>pub</code> 標註所有的枚舉變體都公開的話又很麻煩。所以公開枚舉的話，預設就會公開其變體。相反地，結構體不讓它的欄位全部都公開的話，通常反而比較實用。因此結構體欄位的通用原則是預設爲私有，除非有 <code>pub</code> 標註。</p>
-<p>我們會還有一個 <code>pub</code> 的使用情境還沒提到，也就是我們模組系統最後一項功能：<code>use</code> 關鍵字。我們接下來會先解釋 <code>use</code>，再來研究如何組合 <code>pub</code> 和 <code>use</code>。</p>
+<p>我們還有一個 <code>pub</code> 的使用情境還沒提到，也就是我們模組系統最後一項功能：<code>use</code> 關鍵字。我們接下來會先解釋 <code>use</code>，再來研究如何組合 <code>pub</code> 和 <code>use</code>。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -4578,7 +4578,7 @@ pub fn eat_at_restaurant() {
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 7-13：使用 <code>use</code> 將 <code>add_to_waitlist</code> 函式引入作用域，但這較不符合習慣</span></p>
-<p>雖然範例 7-11 與範例 7-13 都能完成相同的任務，但是範例 7-11 使用 <code>use</code> 講函式引入作用域的方法比較符合習慣用法。使用 <code>use</code> 將函式的上層模組引入作用域，讓我們必須在呼叫函式時得指明對應模組。這樣清楚知道該函式並非本地定義的，同時一樣能簡化路徑。範例 7-13 的程式碼會不清楚 <code>add_to_waitlist</code> 是在哪定義的。</p>
+<p>雖然範例 7-11 與範例 7-13 都能完成相同的任務，但是範例 7-11 使用 <code>use</code> 將函式引入作用域的方法比較符合習慣用法。使用 <code>use</code> 將函式的上層模組引入作用域，讓我們必須在呼叫函式時得指明對應模組。這樣清楚知道該函式並非本地定義的，同時一樣能簡化路徑。範例 7-13 的程式碼會不清楚 <code>add_to_waitlist</code> 是在哪定義的。</p>
 <p>另一方面，如果是要使用 <code>use</code> 引入結構體、枚舉或其他項目的話，直接指明完整路徑反而是符合習慣的方式。範例 7-14 顯示了將標準函式庫的 <code>HashMap</code> 引入二進制 crate 作用域的習慣用法。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::collections::HashMap;
@@ -4610,7 +4610,7 @@ fn function2() -&gt; io::Result&lt;()&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 7-15：要將兩個同名的型別引入相同作用域的話，必須使用它們所屬的模組</span></p>
-<p>如同你所見使用對應的模組可以分辨出是再使用哪個 <code>Result</code> 型別。如果我們直接指明 <code>use std::fmt::Result</code> 和 <code>use std::io::Result</code> 的話，我們會在同一個作用域中擁有兩個 <code>Result</code> 型別，這樣一來 Rust 就無法知道我們想用的 <code>Result</code> 是哪一個。</p>
+<p>如同你所見使用對應的模組可以分辨出是在使用哪個 <code>Result</code> 型別。如果我們直接指明 <code>use std::fmt::Result</code> 和 <code>use std::io::Result</code> 的話，我們會在同一個作用域中擁有兩個 <code>Result</code> 型別，這樣一來 Rust 就無法知道我們想用的 <code>Result</code> 是哪一個。</p>
 <h3><a class="header" href="#使用-as-關鍵字提供新名稱" id="使用-as-關鍵字提供新名稱">使用 <code>as</code> 關鍵字提供新名稱</a></h3>
 <p>要在相同作用域中使用 <code>use</code> 引入兩個同名型別的話，還有另一個辦法。在路徑之後，我們可以用 <code>as</code> 指定一個該型別在本地的新名稱，或者說別名。範例 7-16 展示重寫了範例 7-15，將其中一個 <code>Result</code> 型別使用 <code>as</code> 重新命名。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -4634,8 +4634,8 @@ fn function2() -&gt; IoResult&lt;()&gt; {
 <p><span class="caption">範例 7-16：使用 <code>as</code> 將型別引入作用域的同時重新命名</span></p>
 <p>在第二個 <code>use</code> 陳述式，我們選擇了將 <code>std::io::Result</code> 型別重新命名爲 <code>IoResult</code>，這樣就不會和同樣引入作用域內 <code>std::fmt</code> 的 <code>Result</code> 有所衝突。範例 7-15 與 範例 7-16 都屬於習慣用法，你可以選擇你比較喜歡的方式！</p>
 <h3><a class="header" href="#使用-pub-use-重新匯出名稱" id="使用-pub-use-重新匯出名稱">使用 <code>pub use</code> 重新匯出名稱</a></h3>
-<p>當我們使用 <code>use</code> 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 <code>pub</code> 和 <code>use</code>。這樣的技巧稱之爲 <em>重新匯出（re-exporting）</em>，因爲我們將項目引入作用域，並同時公開給其他作用域引用。</p>
-<p>範例 7-17 顯示將範例 7-11 在源頭模組中原本的 <code>use</code> 改成 <code>pub use</code>。</p>
+<p>當我們使用 <code>use</code> 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 <code>pub</code> 和 <code>use</code>。這樣的技巧稱之爲<em>重新匯出（re-exporting）</em>，因爲我們將項目引入作用域，並同時公開給其他作用域引用。</p>
+<p>範例 7-17 將範例 7-11 在源頭模組中原本的 <code>use</code> 改成 <code>pub use</code>。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
     pub mod hosting {
@@ -4668,7 +4668,7 @@ pub fn eat_at_restaurant() {
 rand = &quot;0.5.5&quot;
 </code></pre>
 <p>在 <em>Cargo.toml</em> 新增  <code>rand</code> 作爲依賴函式庫會告訴 Cargo 要從 <a href="https://crates.io/">crates.io</a> 下載  <code>rand</code> 以及其他相關的依賴，讓我們可專案可以使用 <code>rand</code>。</p>
-<p>接下來要將 <code>rand</code> 的定義引入我們套件的作用域的話，我們加上一行 <code>use</code> 後面接著 crate 的名稱 <code>rand</code> 然後列出我們想要引入作用域的項目。回想一下在第二章<a href="ch02-00-guessing-game-tutorial.html#generating-a-random-number">「產生隨機數字」</a><!-- ignore -->的段落，我們將 <code>Rng</code> 特徵引入作用域中，並呼叫函式 <code>rand::thread_rng</code>：</p>
+<p>接下來要將 <code>rand</code> 的定義引入我們套件的作用域的話，我們加上一行 <code>use</code> 後面接著 crate 的名稱 <code>rand</code> 然後列出我們想要引入作用域的項目。回想一下在第二章<a href="ch02-00-guessing-game-tutorial.html#%E7%94%A2%E7%94%9F%E9%9A%A8%E6%A9%9F%E6%95%B8%E5%AD%97">「產生隨機數字」</a><!-- ignore -->的段落，我們將 <code>Rng</code> 特徵引入作用域中，並呼叫函式 <code>rand::thread_rng</code>：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
 </span>use rand::Rng;
 
@@ -4699,7 +4699,7 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <p>這是個用標準函式庫的 crate 名稱 <code>std</code> 起頭的絕對路徑。</p>
-<h3><a class="header" href="#使用巢狀路徑來大量的-use-行數" id="使用巢狀路徑來大量的-use-行數">使用巢狀路徑來大量的 <code>use</code> 行數</a></h3>
+<h3><a class="header" href="#使用巢狀路徑來清理大量的-use-行數" id="使用巢狀路徑來清理大量的-use-行數">使用巢狀路徑來清理大量的 <code>use</code> 行數</a></h3>
 <p>如果我們要使用在相同 crate 或是相同模組內定義的數個項目，針對每個項目都單獨寫一行的話，會佔據我們檔案內很多空間。舉例來說，範例 2-4 中的猜謎遊戲我們用了這兩個 <code>use</code> 陳述式來引入作用域中：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
@@ -4806,7 +4806,7 @@ use std::io::Write;
 </blockquote>
 <h2><a class="header" href="#將模組拆成不同檔案" id="將模組拆成不同檔案">將模組拆成不同檔案</a></h2>
 <p>本章節目前所有的範例將數個模組定義在同一個檔案中。當模組增長時，你可能會想要將它們的定義拆開到別的檔案中，好讓程式碼容易瀏覽。</p>
-<p>舉例來說，讓我修將範例 7-17 中的 <code>front_of_house</code> 模組移到它自己的檔案 <em>src/front_of_house.rs</em>，然後在 crate 源頭檔案加上這個模組，如範例 7-21 所示。在此例中，源頭檔案爲 <em>src/lib.rs</em> 不過這步驟在二進制執行檔 crate 的 src/main.rs* 一樣可行。</p>
+<p>舉例來說，讓我修將範例 7-17 中的 <code>front_of_house</code> 模組移到它自己的檔案 <em>src/front_of_house.rs</em>，然後在 crate 源頭檔案加上這個模組，如範例 7-21 所示。在此例中，源頭檔案爲 <em>src/lib.rs</em> 不過這步驟在二進制執行檔 crate 的 <em>src/main.rs</em> 一樣可行。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">mod front_of_house;
 
@@ -7476,7 +7476,7 @@ mod tests {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p>然後在執行一次 <code>cargo test</code>，輸出會顯示 <code>exploration</code> 而非 <code>it_works</code>：</p>
+<p>然後再執行一次 <code>cargo test</code>，輸出會顯示 <code>exploration</code> 而非 <code>it_works</code>：</p>
 <pre><code class="language-console">$ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
     Finished test [unoptimized + debuginfo] target(s) in 0.59s
@@ -16050,7 +16050,7 @@ warning: irrefutable if-let pattern
     match x {
         1 =&gt; println!(&quot;one&quot;),
         2 =&gt; println!(&quot;two&quot;),
-        3 =&gt; println!(&quot;three&quot;),
+        3 =&gt; println!(&quot;三&quot;),
         _ =&gt; println!(&quot;anything&quot;),
     }
 <span class="boring">}
@@ -16085,7 +16085,7 @@ warning: irrefutable if-let pattern
 
     match x {
         1 | 2 =&gt; println!(&quot;one or two&quot;),
-        3 =&gt; println!(&quot;three&quot;),
+        3 =&gt; println!(&quot;三&quot;),
         _ =&gt; println!(&quot;anything&quot;),
     }
 <span class="boring">}
