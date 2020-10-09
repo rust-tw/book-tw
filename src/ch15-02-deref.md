@@ -112,7 +112,7 @@ Rust 將 `*` 運算子替換爲方法 `deref` 的呼叫再進行普通的解引�
 
 Rust 會加入強制解引用的原因是因爲程式設計師在寫函式與方法呼叫時，就不必加上許多顯式引用 `&` 與解引用 `*`。強制解引用還讓我們可以寫出能同時用於引用或智慧指標的程式碼。
 
-爲了展示強制解引用，讓我們使用範例 15-8 定義的 `MyBox<T>` 型別以及範例 15-10 所加上的 `Deref` 實作。範例 15-11 有個函式定義且有個字串 slice 作爲參數：
+爲了展示強制解引用，讓我們使用範例 15-8 定義的 `MyBox<T>` 型別以及範例 15-10 所加上的 `Deref` 實作。範例 15-11 有個函式定義且有個字串切片作爲參數：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -122,7 +122,7 @@ Rust 會加入強制解引用的原因是因爲程式設計師在寫函式與方
 
 <span class="caption">範例 15-11：`hello` 函式且有參數 `name` 其型別爲 `&str`</span>
 
-我們可以使用字串 slice 作爲引數來呼叫函式 `hello`，比方說 `hello("Rust");`。強制解引用讓我們可以透過 `MyBox<String>` 型別數值的引用來呼叫 `hello`，如範例 15-12 所示：
+我們可以使用字串切片作爲引數來呼叫函式 `hello`，比方說 `hello("Rust");`。強制解引用讓我們可以透過 `MyBox<String>` 型別數值的引用來呼叫 `hello`，如範例 15-12 所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -132,7 +132,7 @@ Rust 會加入強制解引用的原因是因爲程式設計師在寫函式與方
 
 <span class="caption">範例 15-12：利用強制解引用透過 `MyBox<String>` 數值的引用來呼叫 `hello`</span>
 
-我們在此使用 `&m` 作爲引數來呼叫函式 `hello`，這是 `MyBox<String>` 數值的引用。因爲我們在範例 15-10 有對 `MyBox<T>` 實作 `Deref` 特徵，Rust 可以呼叫 `deref` 將 `&MyBox<String>` 變成 `&String`。標準函式庫對 `String` 也有實作 `Deref` 並會回傳字串 slice，這可以在 `Deref` 的 API 技術文件中看到。所以 Rust 會在呼叫 `deref` 一次來將 `&String` 變成 `&str`，這樣就符合函式 `hello` 的定義了。
+我們在此使用 `&m` 作爲引數來呼叫函式 `hello`，這是 `MyBox<String>` 數值的引用。因爲我們在範例 15-10 有對 `MyBox<T>` 實作 `Deref` 特徵，Rust 可以呼叫 `deref` 將 `&MyBox<String>` 變成 `&String`。標準函式庫對 `String` 也有實作 `Deref` 並會回傳字串切片，這可以在 `Deref` 的 API 技術文件中看到。所以 Rust 會在呼叫 `deref` 一次來將 `&String` 變成 `&str`，這樣就符合函式 `hello` 的定義了。
 
 如果 Rust 沒有實作強制解引用的話，我們就得用範例 15-13 的方式才能辦到範例 15-12 使用型別 `&MyBox<String>` 的數值來呼叫 `hello` 的動作。
 
@@ -144,7 +144,7 @@ Rust 會加入強制解引用的原因是因爲程式設計師在寫函式與方
 
 <span class="caption">範例 15-13：如果 Rust 沒有強制解引用，我們就得這樣寫程式碼</span>
 
-`(*m)` 會將 `MyBox<String>` 解引用成 `String`，然後 `&` 和 `[..]` 會從 `String` 中取得等於整個字串的字串 slice，這就符合 `hello` 的簽名。沒有強制解引用的程式碼就難以閱讀、寫入或是理解，因爲有太多的符號參雜其中。強制解引用能讓 Rust 自動幫我們做這些轉換。
+`(*m)` 會將 `MyBox<String>` 解引用成 `String`，然後 `&` 和 `[..]` 會從 `String` 中取得等於整個字串的字串切片，這就符合 `hello` 的簽名。沒有強制解引用的程式碼就難以閱讀、寫入或是理解，因爲有太多的符號參雜其中。強制解引用能讓 Rust 自動幫我們做這些轉換。
 
 當某型別有定義 `Deref` 特徵時，Rust 會分析該型別並重複使用 `Deref::deref` 直到能取得與參數型別相符的引用。`Deref::deref` 需要呼叫的次數會在編譯時期插入，所以使用強制解引用沒有任何的執行時開銷！
 

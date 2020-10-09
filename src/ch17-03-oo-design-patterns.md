@@ -61,7 +61,7 @@
 
 ### 確保文章草稿的內容爲空
 
-儘管我們已經能透過 `add_text` 來爲我們的文章加些內容，但我們還是希望 `content` 方法會回傳空字串 slice，因爲文章還在草稿階段中，如範例 17-11 的第七行所示。現在先讓我們用能滿足需求最簡單的方式來實作 `content` 方法，也就是永遠回傳空字串 slice。之後一旦我們實作出能改變文章狀態爲已發佈的能力，我們會回來修改這部分。目前文章只能處於草稿階段，所以文章內容應該要永遠爲空。範例 17-14 顯示了此暫時的實作方式：
+儘管我們已經能透過 `add_text` 來爲我們的文章加些內容，但我們還是希望 `content` 方法會回傳空字串切片，因爲文章還在草稿階段中，如範例 17-11 的第七行所示。現在先讓我們用能滿足需求最簡單的方式來實作 `content` 方法，也就是永遠回傳空字串切片。之後一旦我們實作出能改變文章狀態爲已發佈的能力，我們會回來修改這部分。目前文章只能處於草稿階段，所以文章內容應該要永遠爲空。範例 17-14 顯示了此暫時的實作方式：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -69,7 +69,7 @@
 {{#rustdoc_include ../listings/ch17-oop/listing-17-14/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 17-14：`Post` 暫時實作的 `content` 方法，這會永遠回傳一個空字串 slice</span>
+<span class="caption">範例 17-14：`Post` 暫時實作的 `content` 方法，這會永遠回傳一個空字串切片</span>
 
 透過此 `content` 方法，範例 17-11 的程式碼到地七行都能如期執行。
 
@@ -97,7 +97,7 @@
 
 現在我們可以開始看出狀態模式的優勢了，`Post` 的 `request_review` 方法不管其 `state` 數值爲何都是一樣的。每個狀態負責自己的規則。
 
-我們維持 `Post` 的方法 `content` 不變，依然回傳一個空字串 slice。我們現在的 `Post` 可以處於 `PendingReview` 狀態與 `Draft` 狀態，但我們想要 `PendingReview` 狀態也有相同的行爲。現在範例 17-11 可以運行到第十行了！
+我們維持 `Post` 的方法 `content` 不變，依然回傳一個空字串切片。我們現在的 `Post` 可以處於 `PendingReview` 狀態與 `Draft` 狀態，但我們想要 `PendingReview` 狀態也有相同的行爲。現在範例 17-11 可以運行到第十行了！
 
 ### 新增改變 `content` 行爲的 `approve` 方法
 
@@ -115,7 +115,7 @@
 
 和 `request_review` 類似，如果我們對 `Draft` 呼叫 `approve` 方法，它不會有任何效果，因爲它會回傳 `self`。當我們對 `PendingReview` 呼叫 `approve`，它會回傳一個新的結構體 `Published` box 實例。`Published` 也有實作 `State` 特徵，對於 `request_review` 方法與 `approve` 方法，它只會回傳自己，因爲文章在這些情況下都應該維持 `Published` 狀態。
 
-現在我們需要更新 `Post` 的 `content` 方法，如果狀態是 `Published` 的話，我們想回傳文章的 `content` 欄位；不然的話，我們仍然回傳一個空字串 slice，如範例 17-17 所示：
+現在我們需要更新 `Post` 的 `content` 方法，如果狀態是 `Published` 的話，我們想回傳文章的 `content` 欄位；不然的話，我們仍然回傳一個空字串切片，如範例 17-17 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -141,7 +141,7 @@
 
 <span class="caption">範例 17-18：在 `State` 特徵加上 `content` 方法</span>
 
-我們對 `content` 方法加上預設實作來回傳一個空字串 slice。這代表我們不需要在 `Draft` 與 `PendingReview` 結構體實作 `content`。`Published` 結構體會覆寫 `content` 方法並回傳 `post.content` 的數值。
+我們對 `content` 方法加上預設實作來回傳一個空字串切片。這代表我們不需要在 `Draft` 與 `PendingReview` 結構體實作 `content`。`Published` 結構體會覆寫 `content` 方法並回傳 `post.content` 的數值。
 
 注意到我們在此方法需要生命週期詮釋，如我們在第十章所討論到的。我們取得 `post` 的引用作爲引數並回傳 `post` 的部分引用，所以回傳引用的生命週期與 `post` 引數的生命週期有關聯。
 

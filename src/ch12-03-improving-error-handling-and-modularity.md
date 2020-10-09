@@ -63,7 +63,7 @@
 
 <span class="caption">範例 12-6：重構 `parse_config` 來返回 `Config` 結構體實例</span>
 
-我們定義了一個結構體 `Config` 其欄位有 `query` 與 `filename`。`parse_config` 的簽名現在指明它會回傳一個 `Config` 數值。在 `parse_config` 的本體中，我們原先回傳 `args` 中 `String` 數值引用的字串 slice，現在我們定義 `Config` 來包含具所有權的 `String` 數值。`main` 中的 `args` 變數是引數數值的擁有者，而且只是借用它們給 `parse_config` 函式，這意味著如果 `Config` 嘗試取得 `args` 中數值的所有權的話，我們會違反 Rust 的借用規則。
+我們定義了一個結構體 `Config` 其欄位有 `query` 與 `filename`。`parse_config` 的簽名現在指明它會回傳一個 `Config` 數值。在 `parse_config` 的本體中，我們原先回傳 `args` 中 `String` 數值引用的字串切片，現在我們定義 `Config` 來包含具所有權的 `String` 數值。`main` 中的 `args` 變數是引數數值的擁有者，而且只是借用它們給 `parse_config` 函式，這意味著如果 `Config` 嘗試取得 `args` 中數值的所有權的話，我們會違反 Rust 的借用規則。
 
 我們可以用許多不同的方式來管理 `String` 的資料，但最簡單（卻較不有效率）的方式是對數值呼叫 `clone` 方法。這會複製整個資料讓 `Config` 能夠擁有，這會比引用字串資料還要花時間與記憶體。然而克隆資料讓我們的程式碼比較直白，因爲在此情況下我們就不需要管理引用的生命週期，犧牲一點效能以換取簡潔性是值得的。
 

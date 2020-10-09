@@ -164,7 +164,7 @@ $ cargo run
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-33-return-value-from-loop/src/main.rs}}
 ```
 
-在迴圈之前，我們宣告了一個變數 `counter` 並初始化爲 `0`，然後我們宣告了另一個變數 `result` 來取的迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 `counter` 加上 `1` 並檢查它是否等於 `10`。如果是的話就用 `break` 關鍵字回傳 `counter * 2`。在迴圈結束後，我們用分號才結束這個賦值給 `result` 的陳述式。最後我們印出 `result`，而結果爲 20。
+在迴圈之前，我們宣告了一個變數 `counter` 並初始化爲 `0`，然後我們宣告了另一個變數 `result` 來取得迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 `counter` 加上 `1` 並檢查它是否等於 `10`。如果是的話就用 `break` 關鍵字回傳 `counter * 2`。在迴圈結束後，我們用分號才結束這個賦值給 `result` 的陳述式。最後我們印出 `result`，而結果爲 20。
 
 #### 使用 `while` 做條件迴圈
 
