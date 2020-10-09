@@ -446,7 +446,7 @@ fn main() {
 <p>我們在此收到沒有使用變數 <code>y</code> 的警告，但是我們沒有收到警告說未使用以底線開頭的變數。</p>
 <p>注意到只使用 <code>_</code> 與在名稱前加上底線之間是有些差別的。<code>_x</code> 仍會綁定數值到變數中，但 <code>_</code> 不會做任何綁定。爲了展示這樣的區別是有差的，我們用範例 18-21 來展示一個錯誤。</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
-</span>    let s = Some(String::from(&quot;Hello!&quot;));
+</span>    let s = Some(String::from(&quot;哈囉！&quot;));
 
     if let Some(_s) = s {
         println!(&quot;found a string&quot;);
@@ -458,7 +458,7 @@ fn main() {
 <p><span class="caption">範例 18-21：以底線開頭的未使用變數仍會綁定數值，因而造成數值所有權被移動</span></p>
 <p>我們會收到錯誤，因爲 <code>s</code> 的數值仍會被移至 <code>_s</code>，讓我們無法再使用 <code>s</code>。不過只使用底線的話就不會綁定數值。範例 18-22 就能夠編譯不會產生任何錯誤，因爲 <code>s</code> 沒有移至 <code>_</code>。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
-</span>    let s = Some(String::from(&quot;Hello!&quot;));
+</span>    let s = Some(String::from(&quot;哈囉！&quot;));
 
     if let Some(_) = s {
         println!(&quot;found a string&quot;);

@@ -170,7 +170,7 @@
                         <h2><a class="header" href="#如何寫測試" id="如何寫測試">如何寫測試</a></h2>
 <p>測試是一種 Rust 函式來驗證非測試程式碼是否以預期的方式執行。測試函式的本體通常會做三件動作：</p>
 <ol>
-<li>設置任何鎖需要的資料或狀態。</li>
+<li>設置任何所需要的資料或狀態。</li>
 <li>執行你希望測試的程式碼</li>
 <li>判定結果是否與你預期的相符。</li>
 </ol>
@@ -219,8 +219,8 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </code></pre>
 <p><span class="caption">範例 11-2：執行自動產生的測試的輸出結果</span></p>
 <p>Cargo 會編譯並執行測試。在 <code>Compiling</code>、<code>Finished</code> 與 <code>Running</code> 之後會出現 <code>running 1 test</code> 此行。下一行會顯示自動產生的測試函式 <code>it_works</code> 以及測試執行的結果 <code>ok</code>。再來可以看到整體總結，<code>test result: ok.</code> 代表所有測試都有通過，然後 <code>1 passed; 0 failed</code> 指出所有測試成功或失敗的數量。</p>
-<p>因爲我們尚未有任何會忽略的程式碼，所以總結會顯示 <code>0 ignored</code>。我們也沒有過濾會值行的測試，所以總結最後顯示 <code>0 filtered out</code>。我們會在下個段落 <a href="ch11-02-running-tests.html#%E6%8E%A7%E5%88%B6%E7%A8%8B%E5%BC%8F%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C">「控制程式如何執行」</a><!-- ignore --> 來討論忽略與過濾測試。</p>
-<p><code>0 measured</code> 的統計數值是指評測效能的效能測試。效能測試（Benchmark tests）在本書撰寫時，仍然僅在 nightly Rust 可用。請查閱<a href="../unstable-book/library-features/test.html">效能測試的技術文件</a>來瞭解詳情。</p>
+<p>因爲我們尚未有任何會忽略的程式碼，所以總結會顯示 <code>0 ignored</code>。我們也沒有過濾會執行的測試，所以總結最後顯示 <code>0 filtered out</code>。我們會在下個段落 <a href="ch11-02-running-tests.html#%E6%8E%A7%E5%88%B6%E7%A8%8B%E5%BC%8F%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C">「控制程式如何執行」</a><!-- ignore --> 來討論忽略與過濾測試。</p>
+<p><code>0 measured</code> 的統計數值是指評測效能的效能測試。效能測試（Benchmark tests）在本書撰寫時，仍然僅在 nightly Rust 可用。請查閱<a href="https://doc.rust-lang.org/unstable-book/library-features/test.html">效能測試的技術文件</a>來瞭解詳情。</p>
 <p>測試輸出結果的下一部分，也就是 <code>Doc-tests adder</code>，是指任何技術文件測試的結果。我們還沒有任何技術文件測試，但是 Rust 可以編譯在 API 技術文件中的任何程式碼範例。此功能能幫助我們將技術文件與程式碼保持同步！我們會在第十四章的 <a href="ch14-02-publishing-to-crates-io.html#%E5%B0%87%E6%8A%80%E8%A1%93%E6%96%87%E4%BB%B6%E8%A8%BB%E8%A7%A3%E4%BD%9C%E7%88%B2%E6%B8%AC%E8%A9%A6">「將技術文件註解作爲測試」</a><!-- ignore -->段落討論如何寫技術文件測試。現在我們會先忽略 <code>Doc-tests</code> 的輸出結果。</p>
 <p>讓我們變更程式碼的名稱來看看測試輸出會變成什麼。將 <code>it_works</code> 函式變更名稱，像是以下改成 <code>exploration</code> 這樣：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -263,7 +263,7 @@ mod tests {
 
     #[test]
     fn another() {
-        panic!(&quot;Make this test fail&quot;);
+        panic!(&quot;此測試會失敗&quot;);
     }
 }
 <span class="boring">
@@ -283,7 +283,7 @@ test tests::exploration ... ok
 failures:
 
 ---- tests::another stdout ----
-thread 'main' panicked at 'Make this test fail', src/lib.rs:10:9
+thread 'main' panicked at '此測試會失敗', src/lib.rs:10:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
 
@@ -295,7 +295,7 @@ test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 error: test failed, to rerun pass '--lib'
 </code></pre>
 <p><span class="caption">範例 11-4：其中一個測試通過，而另一個失敗的輸出結果</span></p>
-<p><code>test tests::another</code> 這行會顯示 <code>FAILED</code> 而非 <code>ok</code>。在獨立結果與總結之間出現了兩個新的段落，第一個段落會顯示每個測試失敗的原因細節。在此例中，<code>another</code> 因爲 <em>src/lib.rs</em> 檔案中第十行的恐慌 <code>panicked at 'Make this test fail'</code> 而失敗。下一個段落則是會列出所有失敗的測試，要是測試很多且失敗測試輸出結果很長的話，此資訊就很實用。我們可以使用失敗測試的名稱來只執行這個測試以便除錯。我們會在<a href="ch11-02-running-tests.html#%E6%8E%A7%E5%88%B6%E7%A8%8B%E5%BC%8F%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C">「控制程式如何執行」</a><!-- ignore -->段落討論更多執行測試的方法。</p>
+<p><code>test tests::another</code> 這行會顯示 <code>FAILED</code> 而非 <code>ok</code>。在獨立結果與總結之間出現了兩個新的段落，第一個段落會顯示每個測試失敗的原因細節。在此例中，<code>another</code> 因爲 <em>src/lib.rs</em> 檔案中第十行的恐慌 <code>panicked at '此測試會失敗'</code> 而失敗。下一個段落則是會列出所有失敗的測試，要是測試很多且失敗測試輸出結果很長的話，此資訊就很實用。我們可以使用失敗測試的名稱來只執行這個測試以便除錯。我們會在<a href="ch11-02-running-tests.html#%E6%8E%A7%E5%88%B6%E7%A8%8B%E5%BC%8F%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C">「控制程式如何執行」</a><!-- ignore -->段落討論更多執行測試的方法。</p>
 <p>總結會顯示在最後一行，在此例中它表示我們有一個測試結果是 <code>FAILED</code>。也就是我們有一個測試通過，一個測試失敗。</p>
 <p>現在你知道測試結果在不同場合看起來的樣子，讓我們來看看除了 <code>panic!</code> 以外對測試也很有幫助的巨集吧。</p>
 <h3><a class="header" href="#透過-assert-巨集檢查結果" id="透過-assert-巨集檢查結果">透過 <code>assert!</code> 巨集檢查結果</a></h3>
@@ -600,13 +600,13 @@ error: test failed, to rerun pass '--lib'
 <p>我們的測試抓到了錯誤！<code>it_adds_two</code> 測試失敗了，並顯示<code>assertion failed: `(left == right)`</code> 然後接著顯示 <code>left</code> 是 <code>4</code> 且 <code>right</code> 是 <code>5</code>。此訊息非常有用，且能幫助我們開始除錯，它代表 <code>assert_eq!</code> 的引數 <code>left</code> 是 <code>4</code> 但是擁有 <code>add_two(2)</code> 的引數 <code>right</code> 卻是 <code>5</code>。</p>
 <p>注意到在有些語言或測試框架中，判定兩個數值是否相等的函式的參數會稱作 <code>expected</code> 和 <code>actual</code>，然後它們會因爲指定的引數順序而有差。但在 Rust 中它們被稱爲 <code>left</code> 和 <code>right</code>，且我們預期的值與測試中程式碼產生的值之間的順序沒有任何影響。我們可以在此程式這樣寫判定 <code>assert_eq!(add_two(2), 4)</code>，而錯誤訊息就會顯示成 <code>assertion failed: `(left == right)`</code>，然後 <code>left</code> 會是 <code>5</code> 而 <code>right</code> 會是 <code>4</code>。</p>
 <p><code>assert_ne!</code> 巨集會在我們給予的兩個值不相等時通過，相等時失敗。此巨集適用於當我們不確定一個數值<em>會是</em>什麼樣子，但是我們確定知道如果我們程式如預期執行的話，該數值<em>不會</em>是某種樣子。舉例來說，如果我們要測試一個保證會以某種形式更改其輸入的函式，但輸入變更的方式是依照我們執行程式時的當天是星期幾來決定，此時最好的判定方式就是檢查函式的輸出不等於輸入。</p>
-<p><code>assert_eq!</code> 和 <code>assert_ne!</code> 巨集底下分別使用了 <code>==</code> 和 <code>!=</code> 運算子。當判定失敗時，巨集會透過除錯格式化資訊來顯示它們的引數，代表要比較的數值必須要實作 <code>PartialEq</code> 和 <code>Debug</code> 特徵。所有的基本型別與大多數標準函式庫中提供的型別都有實作這些特徵。對於你自己定義的結構體與枚舉，你需要實作 <code>PartialEq</code>，這樣該型別的數值才能判定相等或不相等。你需要實作 <code>Debug</code> 來顯示判定失敗時的數值。因爲這兩個特徵都是可推導的特徵，就像第五章的範例 5-12 所寫的那樣，我們通常只要在你定義的結構體或枚舉前加上 <code>#[derive(PartialEq, Debug)]</code> 的詮釋就好。你可以查閱附錄 C <a href="appendix-03-derivable-traits.html">“可推導的特徵,”</a><!-- ignore --> 來發現更多可推導的特徵。</p>
+<p><code>assert_eq!</code> 和 <code>assert_ne!</code> 巨集底下分別使用了 <code>==</code> 和 <code>!=</code> 運算子。當判定失敗時，巨集會透過除錯格式化資訊來顯示它們的引數，代表要比較的數值必須要實作 <code>PartialEq</code> 和 <code>Debug</code> 特徵。所有的基本型別與大多數標準函式庫中提供的型別都有實作這些特徵。對於你自己定義的結構體與枚舉，你需要實作 <code>PartialEq</code>，這樣該型別的數值才能判定相等或不相等。你需要實作 <code>Debug</code> 來顯示判定失敗時的數值。因爲這兩個特徵都是可推導的特徵，就像第五章的範例 5-12 所寫的那樣，我們通常只要在你定義的結構體或枚舉前加上 <code>#[derive(PartialEq, Debug)]</code> 的詮釋就好。你可以查閱附錄 C <a href="appendix-03-derivable-traits.html">「可推導的特徵」</a><!-- ignore --> 來發現更多可推導的特徵。</p>
 <h3><a class="header" href="#加入自訂失敗訊息" id="加入自訂失敗訊息">加入自訂失敗訊息</a></h3>
-<p>你可以寫一個一個與失敗訊息一同顯示的自訂訊息，作爲 <code>assert!</code>、<code>assert_eq!</code> 與 <code>assert_ne!</code> 巨集的選擇性引數。任何指定在 <code>assert!</code> 一個必要引數或 <code>assert_eq!</code> 和 <code>assert_ne!</code> 兩個必要引數後方的任何引數都會傳給 <code>format!</code> 巨集（我們在第八章<a href="ch08-02-strings.html#%E4%BD%BF%E7%94%A8-%E9%81%8B%E7%AE%97%E5%AD%90%E6%88%96-format-%E5%B7%A8%E9%9B%86%E4%B8%B2%E6%8E%A5%E5%AD%97%E4%B8%B2">“Concatenation with the <code>+</code> Operator or the <code>format!</code> Macro”</a><!-- ignore -->的段落討論過），所以你可以傳入一個包含 <code>{}</code> 佔位符（placeholder）的格式化字串以及其對應的數值。自訂訊息可以用來紀錄判定的意義，當測試失敗時，你可以更清楚知道程式碼的問題。</p>
+<p>你可以寫一個一個與失敗訊息一同顯示的自訂訊息，作爲 <code>assert!</code>、<code>assert_eq!</code> 與 <code>assert_ne!</code> 巨集的選擇性引數。任何指定在 <code>assert!</code> 一個必要引數或 <code>assert_eq!</code> 和 <code>assert_ne!</code> 兩個必要引數後方的任何引數都會傳給 <code>format!</code> 巨集（我們在第八章<a href="ch08-02-strings.html#%E4%BD%BF%E7%94%A8--%E9%81%8B%E7%AE%97%E5%AD%90%E6%88%96-format-%E5%B7%A8%E9%9B%86%E4%B8%B2%E6%8E%A5%E5%AD%97%E4%B8%B2">「使用 <code>+</code> 運算子或 <code>format!</code> 巨集串接字串」</a><!-- ignore -->的段落討論過），所以你可以傳入一個包含 <code>{}</code> 佔位符（placeholder）的格式化字串以及其對應的數值。自訂訊息可以用來紀錄判定的意義，當測試失敗時，你可以更清楚知道程式碼的問題。</p>
 <p>舉例來說，假設我們有個函式會以收到的名字像人們打招呼，而且我們希望測試我們傳入的名字有出現在輸出：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">pub fn greeting(name: &amp;str) -&gt; String {
-    format!(&quot;Hello {}!&quot;, name)
+    format!(&quot;哈囉{}!&quot;, name)
 }
 
 #[cfg(test)]
@@ -615,8 +615,8 @@ mod tests {
 
     #[test]
     fn greeting_contains_name() {
-        let result = greeting(&quot;Carol&quot;);
-        assert!(result.contains(&quot;Carol&quot;));
+        let result = greeting(&quot;卡爾&quot;);
+        assert!(result.contains(&quot;卡爾&quot;));
     }
 }
 <span class="boring">
@@ -625,7 +625,7 @@ mod tests {
 <p>此函式的要求還沒完全確定，而我們招呼開頭的文字 <code>Hello</code> 很可能會在之後改變。我們決定當需求改變時，我們不想要得同時更新測試。所以我們不打算檢查 <code>greeting</code> 函式回傳的整個數值，我們只需要判定輸出有沒有包含輸入參數。</p>
 <p>讓我們將錯誤引進程式中吧，將 <code>greeting</code> 改成不會包含 <code>name</code> 然後看看測試會怎麼失敗：</p>
 <pre><pre class="playground"><code class="language-rust not_desired_behavior">pub fn greeting(name: &amp;str) -&gt; String {
-    String::from(&quot;Hello!&quot;)
+    String::from(&quot;哈囉！&quot;)
 }
 <span class="boring">
 </span><span class="boring">#[cfg(test)]
@@ -634,8 +634,8 @@ mod tests {
 </span><span class="boring">
 </span><span class="boring">    #[test]
 </span><span class="boring">    fn greeting_contains_name() {
-</span><span class="boring">        let result = greeting(&quot;Carol&quot;);
-</span><span class="boring">        assert!(result.contains(&quot;Carol&quot;));
+</span><span class="boring">        let result = greeting(&quot;卡爾&quot;);
+</span><span class="boring">        assert!(result.contains(&quot;卡爾&quot;));
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -653,7 +653,7 @@ test tests::greeting_contains_name ... FAILED
 failures:
 
 ---- tests::greeting_contains_name stdout ----
-thread 'main' panicked at 'assertion failed: result.contains(&quot;Carol&quot;)', src/lib.rs:12:9
+thread 'main' panicked at 'assertion failed: result.contains(&quot;卡爾&quot;)', src/lib.rs:12:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
 
@@ -666,7 +666,7 @@ error: test failed, to rerun pass '--lib'
 </code></pre>
 <p>此結果指出判定失敗以及發生的位置。現在要是錯誤訊息可以提供我們從 <code>greeting</code> 函式取得的數值就更好了。讓我們來在測試函式中加入自訂訊息，該訊息會是個格式化字串，並有個佔位符（placeholder）來填入我們從 <code>greeting</code> 函式取得的確切數值：</p>
 <pre><code class="language-rust ignore"><span class="boring">pub fn greeting(name: &amp;str) -&gt; String {
-</span><span class="boring">    String::from(&quot;Hello!&quot;)
+</span><span class="boring">    String::from(&quot;哈囉！&quot;)
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">#[cfg(test)]
@@ -675,10 +675,10 @@ error: test failed, to rerun pass '--lib'
 </span><span class="boring">
 </span>    #[test]
     fn greeting_contains_name() {
-        let result = greeting(&quot;Carol&quot;);
+        let result = greeting(&quot;卡爾&quot;);
         assert!(
-            result.contains(&quot;Carol&quot;),
-            &quot;Greeting did not contain name, value was `{}`&quot;,
+            result.contains(&quot;卡爾&quot;),
+            &quot;打招呼時並沒有喊出名稱，其數值爲 `{}`&quot;,
             result
         );
     }
@@ -696,7 +696,7 @@ test tests::greeting_contains_name ... FAILED
 failures:
 
 ---- tests::greeting_contains_name stdout ----
-thread 'main' panicked at 'Greeting did not contain name, value was `Hello!`', src/lib.rs:12:9
+thread 'main' panicked at '打招呼時並沒有喊出名稱，其數值爲 `Hello!`', src/lib.rs:12:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
 
@@ -821,12 +821,12 @@ impl Guess {
     pub fn new(value: i32) -&gt; Guess {
         if value &lt; 1 {
             panic!(
-                &quot;Guess value must be greater than or equal to 1, got {}.&quot;,
+                &quot;猜測數字必須大於等於 1，取得的數值是 {}。&quot;,
                 value
             );
         } else if value &gt; 100 {
             panic!(
-                &quot;Guess value must be less than or equal to 100, got {}.&quot;,
+                &quot;猜測數字必須小於等於 100，取得的數值是 {}。&quot;,
                 value
             );
         }
@@ -840,7 +840,7 @@ mod tests {
     use super::*;
 
     #[test]
-    #[should_panic(expected = &quot;Guess value must be less than or equal to 100&quot;)]
+    #[should_panic(expected = &quot;猜測數字必須小於等於 100&quot;)]
     fn greater_than_100() {
         Guess::new(200);
     }
@@ -849,7 +849,7 @@ mod tests {
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 11-9：只在造成 <code>panic!</code> 的特定錯誤訊息會通過的測試</span></p>
-<p>此測試會通過是因爲我們在 <code>should_panic</code> 屬性加上的 <code>expected</code> 就是 <code>Guess::new</code> 函式恐慌時的子字串。我們也可以指定整個恐慌訊息，在此例的話就是 <code>Guess value must be less than or equal to 100, got 200.</code>。你在 <code>should_panic</code> 所指定的預期參數取決於該恐慌訊息是獨特或動態的，以及你希望你的測試要多精準。在此例中，恐慌訊息的子訊息就足以確認測試函式中的程式碼會執行 <code>else if value &gt; 100</code> 的分支。</p>
+<p>此測試會通過是因爲我們在 <code>should_panic</code> 屬性加上的 <code>expected</code> 就是 <code>Guess::new</code> 函式恐慌時的子字串。我們也可以指定整個恐慌訊息，在此例的話就是 <code>猜測數字必須小於等於 100，取得的數值是 200。</code>。你在 <code>should_panic</code> 所指定的預期參數取決於該恐慌訊息是獨特或動態的，以及你希望你的測試要多精準。在此例中，恐慌訊息的子訊息就足以確認測試函式中的程式碼會執行 <code>else if value &gt; 100</code> 的分支。</p>
 <p>爲了觀察擁有 <code>expected</code> 訊息的 <code>should_panic</code> 失敗時會發生什麼事。讓我同樣再次將錯誤引入程式中，將 <code>if value &lt; 1</code> 與 <code>else if value &gt; 100</code> 的區塊本體對調：</p>
 <pre><code class="language-rust ignore not_desired_behavior"><span class="boring">pub struct Guess {
 </span><span class="boring">    value: i32,
@@ -859,12 +859,12 @@ mod tests {
 </span><span class="boring">    pub fn new(value: i32) -&gt; Guess {
 </span>        if value &lt; 1 {
             panic!(
-                &quot;Guess value must be less than or equal to 100, got {}.&quot;,
+                &quot;猜測數字必須小於等於 100，取得的數值是 {}。&quot;,
                 value
             );
         } else if value &gt; 100 {
             panic!(
-                &quot;Guess value must be greater than or equal to 1, got {}.&quot;,
+                &quot;猜測數字必須大於等於 1，取得的數值是 {}。&quot;,
                 value
             );
         }
@@ -878,7 +878,7 @@ mod tests {
 </span><span class="boring">    use super::*;
 </span><span class="boring">
 </span><span class="boring">    #[test]
-</span><span class="boring">    #[should_panic(expected = &quot;Guess value must be less than or equal to 100&quot;)]
+</span><span class="boring">    #[should_panic(expected = &quot;猜測數字必須小於等於 100&quot;)]
 </span><span class="boring">    fn greater_than_100() {
 </span><span class="boring">        Guess::new(200);
 </span><span class="boring">    }
@@ -896,11 +896,11 @@ test tests::greater_than_100 ... FAILED
 failures:
 
 ---- tests::greater_than_100 stdout ----
-thread 'main' panicked at 'Guess value must be greater than or equal to 1, got 200.', src/lib.rs:13:13
+thread 'main' panicked at '猜測數字必須大於等於 1，取得的數值是 200。', src/lib.rs:13:13
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 note: panic did not contain expected string
-      panic message: `&quot;Guess value must be greater than or equal to 1, got 200.&quot;`,
- expected substring: `&quot;Guess value must be less than or equal to 100&quot;`
+      panic message: `&quot;猜測數字必須大於等於 1，取得的數值是 200。&quot;`,
+ expected substring: `&quot;猜測數字必須小於等於 100&quot;`
 
 failures:
     tests::greater_than_100
@@ -909,7 +909,7 @@ test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 
 error: test failed, to rerun pass '--lib'
 </code></pre>
-<p>錯誤訊息表示此程式碼的確有如我們預期地恐慌，但是恐慌訊息並沒有包含預期的字串 <code>'Guess value must be less than or equal to 100'</code>。在此例我們的會得到的恐慌訊息爲 <code>Guess value must be greater than or equal to 1, got 200.</code>。這樣我們就能尋找錯誤在哪了！</p>
+<p>錯誤訊息表示此程式碼的確有如我們預期地恐慌，但是恐慌訊息並沒有包含預期的字串 <code>'猜測數字必須小於等於 100'</code>。在此例我們的會得到的恐慌訊息爲 <code>猜測數字必須大於等於 1，取得的數值是 200。</code>這樣我們就能尋找錯誤在哪了！</p>
 <h3><a class="header" href="#在測試中使用-resultt-e" id="在測試中使用-resultt-e">在測試中使用 <code>Result&lt;T, E&gt;</code></a></h3>
 <p>目前爲止，我們的測試在失敗時就會恐慌。我們也可以寫出使用 <code>Result&lt;T, E&gt;</code> 的測試！以下是範例 11-1 的測試，不過重寫成 <code>Result&lt;T, E&gt;</code> 的版本並回傳 <code>Err</code> 而非恐慌：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused_variables)]

@@ -295,7 +295,7 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 15-5：使用 <code>Box&lt;T&gt;</code> 定義的 <code>List</code> 就有已知大小</span></p>
 <p><code>Cons</code> 變體需要的大小爲 <code>i32</code> 加上儲存 box 指標的空間。<code>Nil</code> 變體沒有儲存任何數值，所以它需要的空間比 <code>Cons</code> 變體少。現在我們知道任何
-We now know that any <code>List</code> 數值會佔的空間都是一個 <code>i32</code> 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 <code>List</code> 數值鎖需要的大小。圖示 15-2 顯示了 <code>Cons</code> 變體看起來的樣子。</p>
+We now know that any <code>List</code> 數值會佔的空間都是一個 <code>i32</code> 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 <code>List</code> 數值所需要的大小。圖示 15-2 顯示了 <code>Cons</code> 變體看起來的樣子。</p>
 <img alt="A finite Cons list" src="img/trpl15-02.svg" class="center" />
 <p><span class="caption">圖示 15-2：不再是無限大小的 <code>List</code>，因爲其 <code>Cons</code> 存的是 <code>Box</code></span></p>
 <p>Boxes 只提供了間接儲存與堆積分配，它們沒有其他任何特殊功能，比如我們等下就會看到的其他智慧指標型別。它們也沒有任何因這些特殊功能產生的額外效能開銷，所以它們很適合用於像是 cons list 這種我們只需要間接儲存的場合。我們在第十七章還會再介紹到更多 box 的使用情境。</p>
