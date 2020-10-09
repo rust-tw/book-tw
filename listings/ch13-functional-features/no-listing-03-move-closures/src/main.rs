@@ -3,7 +3,7 @@ fn main() {
 
     let equal_to_x = move |z| z == x;
 
-    println!("can't use x here: {:?}", x);
+    println!("無法在此使用 x：{:?}", x);
 
     let y = vec![1, 2, 3];
 

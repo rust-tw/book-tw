@@ -4,20 +4,20 @@ use std::time::Duration;
 // ANCHOR: here
 fn generate_workout(intensity: u32, random_number: u32) {
     let expensive_closure = |num| {
-        println!("calculating slowly...");
+        println!("緩慢計算中...");
         thread::sleep(Duration::from_secs(2));
         num
     };
 
     if intensity < 25 {
-        println!("Today, do {} pushups!", expensive_closure(intensity));
-        println!("Next, do {} situps!", expensive_closure(intensity));
+        println!("今天請做 {} 下伏地挺身！", expensive_closure(intensity));
+        println!("然後請做 {} 下仰臥起坐！", expensive_closure(intensity));
     } else {
         if random_number == 3 {
-            println!("Take a break today! Remember to stay hydrated!");
+            println!("今天休息！別忘了多喝水！");
         } else {
             println!(
-                "Today, run for {} minutes!",
+                "今天請慢跑 {} 分鐘！",
                 expensive_closure(intensity)
             );
         }

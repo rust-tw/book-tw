@@ -2,7 +2,7 @@
 
 疊代器（Iterator）模式讓你可以對 一個項目序列依序進行某些任務。一個疊代器負責遍歷序每個項目以及序列何時結束的邏輯。當你使用疊代器，你不需要自己實作這些邏輯。
 
-在 Rust 中疊代器是*惰性（lazy）*的，代表除非你呼叫方法來使用疊代器，不然它們不會有任何效果。舉例來說，範例 13-13 的程式碼會透過 `Vec<T>` 定義的方法 `iter` 從向量`v1` 建立一個疊代器來遍歷它的項目。此程式碼本身沒有啥實用之處。
+在 Rust 中疊代器是*惰性（lazy）* 的，代表除非你呼叫方法來使用疊代器，不然它們不會有任何效果。舉例來說，範例 13-13 的程式碼會透過 `Vec<T>` 定義的方法 `iter` 從向量`v1` 建立一個疊代器來遍歷它的項目。此程式碼本身沒有啥實用之處。
 
 ```rust
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-13/src/main.rs:here}}
@@ -189,7 +189,7 @@ pub trait Iterator {
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-23/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 13-23：對我們的 `Counter` 疊代器使用特是特樣的 `Iterator` 特徵方法</span>
+<span class="caption">範例 13-23：對我們的 `Counter` 疊代器使用各式各樣的 `Iterator` 特徵方法</span>
 
 注意到 `zip` 只會產生四個配對，理論上的 `(5, None)` 配對是不會產生出來的，因爲 `zip` 會在它的其中一個輸入疊代器回傳 `None` 時就回傳 `None`。
 

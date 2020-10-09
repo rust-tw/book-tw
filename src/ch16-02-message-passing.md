@@ -59,7 +59,7 @@ the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-Got: hi
+取得：hi
 ```
 
 太棒了！
@@ -107,10 +107,10 @@ the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-Got: hi
-Got: from
-Got: the
-Got: thread
+取得：hi
+取得：from
+取得：the
+取得：thread
 ```
 
 因爲我們在主執行緒中的 `for` 迴圈內沒有任何會暫停或延遲的程式碼，所以我們可以看出主執行緒是在等待產生的執行緒傳送的數值。
@@ -136,14 +136,14 @@ the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-Got: hi
-Got: more
-Got: from
-Got: messages
-Got: for
-Got: the
-Got: thread
-Got: you
+取得：hi
+取得：more
+取得：from
+取得：messages
+取得：for
+取得：the
+取得：thread
+取得：you
 ```
 
 你可能會看到數值以不同順序排序，這完全依據你的系統來決定。這正是並行程式設計既有趣卻又困難。如果你加上 `thread::sleep` 來實驗，並在不同執行緒給予不同數值的話，就會發現每一輪都會更不確定，每次都會產生不同的輸出結果。

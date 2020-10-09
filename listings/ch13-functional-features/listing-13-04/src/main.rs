@@ -2,7 +2,7 @@ use std::thread;
 use std::time::Duration;
 
 fn simulated_expensive_calculation(intensity: u32) -> u32 {
-    println!("calculating slowly...");
+    println!("緩慢計算中...");
     thread::sleep(Duration::from_secs(2));
     intensity
 }
@@ -12,13 +12,13 @@ fn generate_workout(intensity: u32, random_number: u32) {
     let expensive_result = simulated_expensive_calculation(intensity);
 
     if intensity < 25 {
-        println!("Today, do {} pushups!", expensive_result);
-        println!("Next, do {} situps!", expensive_result);
+        println!("今天請做 {} 下伏地挺身！", expensive_result);
+        println!("然後請做 {} 下仰臥起坐！", expensive_result);
     } else {
         if random_number == 3 {
-            println!("Take a break today! Remember to stay hydrated!");
+            println!("今天休息！別忘了多喝水！");
         } else {
-            println!("Today, run for {} minutes!", expensive_result);
+            println!("今天請慢跑 {} 分鐘！", expensive_result);
         }
     }
 }

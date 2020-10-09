@@ -38,7 +38,7 @@ fn main() {
     });
 
     for received in rx {
-        println!("Got: {}", received);
+        println!("取得：{}", received);
     }
 
     // --省略--

@@ -17,15 +17,15 @@ mod tests {
         let shoes = vec![
             Shoe {
                 size: 10,
-                style: String::from("sneaker"),
+                style: String::from("運動鞋"),
             },
             Shoe {
                 size: 13,
-                style: String::from("sandal"),
+                style: String::from("涼鞋"),
             },
             Shoe {
                 size: 10,
-                style: String::from("boot"),
+                style: String::from("靴子"),
             },
         ];
 
@@ -36,11 +36,11 @@ mod tests {
             vec![
                 Shoe {
                     size: 10,
-                    style: String::from("sneaker")
+                    style: String::from("運動鞋")
                 },
                 Shoe {
                     size: 10,
-                    style: String::from("boot")
+                    style: String::from("靴子")
                 },
             ]
         );
