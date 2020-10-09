@@ -171,7 +171,7 @@
 <p>如同本章開頭提到的，測試是個複雜的領域，不同的人可能使用不同的術語與組織架構。Rust 社群將測試分爲兩大分類術語：<em>單元測試（unit tests）<em>和</em>整合測試（integration tests）</em>。單元測試比較小且較專注，傾向在隔離環境中一次只測試一個模組，且能夠測試私有介面。整合測試對於你的函式庫來說是個完全外部的程式碼，所以會如其他外部程式碼一樣使用你的程式碼，只能使用公開介面且每個測試可能會有數個模組。</p>
 <p>這兩種測試都很重要，且能確保函式庫每個部分能在分別或一起執行的情況下，如你預期的方式運作。</p>
 <h3><a class="header" href="#單元測試" id="單元測試">單元測試</a></h3>
-<p>單元測試的目的是要在隔離其他程式碼的狀況下測試每個程式碼單元，迅速查明程式碼有沒有如預期或非預期的方式運作。你會將單元測試放在 <em>src</em> 目錄中每個你要測試的程式同個檔案下。我們常見的做法是在每個檔案建立一個模組 <code>tests</code> 來包含測試函式，並用 <code>cfg(test)</code> 來詮釋模組</p>
+<p>單元測試的目的是要在隔離其他程式碼的狀況下測試每個程式碼單元，迅速查明程式碼有沒有如預期或非預期的方式運作。你會將單元測試放在 <em>src</em> 目錄中每個你要測試的程式同個檔案下。我們常見的做法是在每個檔案建立一個模組 <code>tests</code> 來包含測試函式，並用 <code>cfg(test)</code> 來詮釋模組。</p>
 <h4><a class="header" href="#測試模組與-cfgtest" id="測試模組與-cfgtest">測試模組與 <code>#[cfg(test)]</code></a></h4>
 <p>測試模組上的 <code>#[cfg(test)]</code> 詮釋會告訴 Rust 當你執行 <code>cargo test</code> 才會編譯並執行測試程式碼。而不是當你執行 <code>cargo build</code>。當你想要建構函式庫時，這能節省編譯時間並降低編譯出的檔案所佔的空間，因爲這些測試沒有被包含到。整合測試位於不同目錄，所以它們不需要 <code>#[cfg(test)]</code>。但是因爲單元測試與程式碼位於相同的檔案下，你需要使用 <code>#[cfg(test)]</code> 來指明它們不應該被包含在編譯結果。</p>
 <p>回想一下本章節第一個段落中我們建立了一個新專案 <code>adder</code>，並用 Cargo 爲我們產生以下程式碼：</p>
@@ -188,7 +188,7 @@ mod tests {
 </span></code></pre></pre>
 <p>此程式碼是自動產生的測試模組。<code>cfg</code> 屬性代表的是 <em>configuration</em> 並告訴 Rust 以下項目只有在給予特定配置選項時才會被考慮。在此例中配置選項是 <code>test</code>，這是 Rust 提供用來編譯與執行測試的選項。使用 <code>cfg</code> 屬性的話，Cargo 只有在我們透過 <code>cargo test</code> 執行測試時才會編譯我們的測試程式碼。這包含此模組能可能需要的輔助函式，以及用 <code>#[test]</code> 詮釋的測試函式。</p>
 <h4><a class="header" href="#測試私有函式" id="測試私有函式">測試私有函式</a></h4>
-<p>在測試領域的社群中對於是否應該直接測試私有函式一直存在著爭議，而且有些其他語言會讓測試私有函式變得很困難，甚至不可能。不管你認爲哪個論點比較理想，Rust 的隱私權規則還是能讓你肏是私有函式。考慮以下範例 11-12 擁有私有函式 <code>internal_adder</code> 的程式碼。</p>
+<p>在測試領域的社群中對於是否應該直接測試私有函式一直存在著爭議，而且有些其他語言會讓測試私有函式變得很困難，甚至不可能。不管你認爲哪個論點比較理想，Rust 的隱私權規則還是能讓你測試私有函式。考慮以下範例 11-12 擁有私有函式 <code>internal_adder</code> 的程式碼。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">pub fn add_two(a: i32) -&gt; i32 {
     internal_adder(a, 2)
@@ -277,7 +277,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn setup() {
-    // setup code specific to your library's tests would go here
+    // 在此設置測試函式庫會用到的程式碼
 }
 <span class="boring">}
 </span></code></pre></pre>

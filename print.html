@@ -8197,7 +8197,7 @@ mod tests {
 <pre><pre class="playground"><code class="language-rust panics"><span class="boring">fn main() {}
 </span><span class="boring">
 </span>fn prints_and_returns_10(a: i32) -&gt; i32 {
-    println!(&quot;I got the value {}&quot;, a);
+    println!(&quot;我得到的數值爲 {}&quot;, a);
     10
 }
 
@@ -8232,7 +8232,7 @@ test tests::this_test_will_pass ... ok
 failures:
 
 ---- tests::this_test_will_fail stdout ----
-I got the value 8
+我得到的數值爲 8
 thread 'main' panicked at 'assertion failed: `(left == right)`
   left: `5`,
  right: `10`', src/lib.rs:19:9
@@ -8246,7 +8246,7 @@ test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 
 error: test failed, to rerun pass '--lib'
 </code></pre>
-<p>注意到此輸出結果我們看不到 <code>I got the value 4</code>，這是當測試通過時印出的訊息。這個輸出被獲取走了。而測試會失敗的標準輸出 <code>I got the value 8</code> 則會出現在測試總結輸出的段落上，並同時顯示錯誤發生的原因。</p>
+<p>注意到此輸出結果我們看不到 <code>我得到的數值爲 4</code>，這是當測試通過時印出的訊息。這個輸出被獲取走了。而測試會失敗的標準輸出 <code>我得到的數值爲 8</code> 則會出現在測試總結輸出的段落上，並同時顯示錯誤發生的原因。</p>
 <p>如果我們希望在測試通過時也能看到印出的數值，我們可以用 <code>--show-output</code> 告訴 Rust 也在成功的測試顯示輸出結果。</p>
 <pre><code class="language-console">$ cargo test -- --show-output
 </code></pre>
@@ -8263,7 +8263,7 @@ test tests::this_test_will_pass ... ok
 successes:
 
 ---- tests::this_test_will_pass stdout ----
-I got the value 4
+我得到的數值爲 4
 
 
 successes:
@@ -8272,7 +8272,7 @@ successes:
 failures:
 
 ---- tests::this_test_will_fail stdout ----
-I got the value 8
+我得到的數值爲 8
 thread 'main' panicked at 'assertion failed: `(left == right)`
   left: `5`,
  right: `10`', src/lib.rs:19:9
@@ -8370,7 +8370,7 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out
 </code></pre>
 <p>此命令會執行所有名稱中包含 <code>add</code> 的測試，並過濾掉 <code>one_hundred</code> 的測試名稱。另外測試所在的模組也屬於測試名稱中，所以我們可以透過過濾模組名稱來執行該模組的所有測試。</p>
 <h3><a class="header" href="#忽略某些測試除非特別指定" id="忽略某些測試除非特別指定">忽略某些測試除非特別指定</a></h3>
-<p>有時候有些特定的測試執行會花非常多時間，所以你可能希望在執行 <code>cargo test</code> 時能排除它們。與其列出所有你想要的測試作爲引數，你可以在花石間的測試前加上 <code>ignore</code> 屬性詮釋來排除它們，如以下所示：</p>
+<p>有時候有些特定的測試執行會花非常多時間，所以你可能希望在執行 <code>cargo test</code> 時能排除它們。與其列出所有你想要的測試作爲引數，你可以在花時間的測試前加上 <code>ignore</code> 屬性詮釋來排除它們，如以下所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[test]
 fn it_works() {
@@ -8380,7 +8380,7 @@ fn it_works() {
 #[test]
 #[ignore]
 fn expensive_test() {
-    // code that takes an hour to run
+    // 會執行一小時的程式碼
 }
 <span class="boring">
 </span><span class="boring">fn main() {}
@@ -8434,7 +8434,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 <p>如同本章開頭提到的，測試是個複雜的領域，不同的人可能使用不同的術語與組織架構。Rust 社群將測試分爲兩大分類術語：<em>單元測試（unit tests）<em>和</em>整合測試（integration tests）</em>。單元測試比較小且較專注，傾向在隔離環境中一次只測試一個模組，且能夠測試私有介面。整合測試對於你的函式庫來說是個完全外部的程式碼，所以會如其他外部程式碼一樣使用你的程式碼，只能使用公開介面且每個測試可能會有數個模組。</p>
 <p>這兩種測試都很重要，且能確保函式庫每個部分能在分別或一起執行的情況下，如你預期的方式運作。</p>
 <h3><a class="header" href="#單元測試" id="單元測試">單元測試</a></h3>
-<p>單元測試的目的是要在隔離其他程式碼的狀況下測試每個程式碼單元，迅速查明程式碼有沒有如預期或非預期的方式運作。你會將單元測試放在 <em>src</em> 目錄中每個你要測試的程式同個檔案下。我們常見的做法是在每個檔案建立一個模組 <code>tests</code> 來包含測試函式，並用 <code>cfg(test)</code> 來詮釋模組</p>
+<p>單元測試的目的是要在隔離其他程式碼的狀況下測試每個程式碼單元，迅速查明程式碼有沒有如預期或非預期的方式運作。你會將單元測試放在 <em>src</em> 目錄中每個你要測試的程式同個檔案下。我們常見的做法是在每個檔案建立一個模組 <code>tests</code> 來包含測試函式，並用 <code>cfg(test)</code> 來詮釋模組。</p>
 <h4><a class="header" href="#測試模組與-cfgtest" id="測試模組與-cfgtest">測試模組與 <code>#[cfg(test)]</code></a></h4>
 <p>測試模組上的 <code>#[cfg(test)]</code> 詮釋會告訴 Rust 當你執行 <code>cargo test</code> 才會編譯並執行測試程式碼。而不是當你執行 <code>cargo build</code>。當你想要建構函式庫時，這能節省編譯時間並降低編譯出的檔案所佔的空間，因爲這些測試沒有被包含到。整合測試位於不同目錄，所以它們不需要 <code>#[cfg(test)]</code>。但是因爲單元測試與程式碼位於相同的檔案下，你需要使用 <code>#[cfg(test)]</code> 來指明它們不應該被包含在編譯結果。</p>
 <p>回想一下本章節第一個段落中我們建立了一個新專案 <code>adder</code>，並用 Cargo 爲我們產生以下程式碼：</p>
@@ -8451,7 +8451,7 @@ mod tests {
 </span></code></pre></pre>
 <p>此程式碼是自動產生的測試模組。<code>cfg</code> 屬性代表的是 <em>configuration</em> 並告訴 Rust 以下項目只有在給予特定配置選項時才會被考慮。在此例中配置選項是 <code>test</code>，這是 Rust 提供用來編譯與執行測試的選項。使用 <code>cfg</code> 屬性的話，Cargo 只有在我們透過 <code>cargo test</code> 執行測試時才會編譯我們的測試程式碼。這包含此模組能可能需要的輔助函式，以及用 <code>#[test]</code> 詮釋的測試函式。</p>
 <h4><a class="header" href="#測試私有函式" id="測試私有函式">測試私有函式</a></h4>
-<p>在測試領域的社群中對於是否應該直接測試私有函式一直存在著爭議，而且有些其他語言會讓測試私有函式變得很困難，甚至不可能。不管你認爲哪個論點比較理想，Rust 的隱私權規則還是能讓你肏是私有函式。考慮以下範例 11-12 擁有私有函式 <code>internal_adder</code> 的程式碼。</p>
+<p>在測試領域的社群中對於是否應該直接測試私有函式一直存在著爭議，而且有些其他語言會讓測試私有函式變得很困難，甚至不可能。不管你認爲哪個論點比較理想，Rust 的隱私權規則還是能讓你測試私有函式。考慮以下範例 11-12 擁有私有函式 <code>internal_adder</code> 的程式碼。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">pub fn add_two(a: i32) -&gt; i32 {
     internal_adder(a, 2)
@@ -8540,7 +8540,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn setup() {
-    // setup code specific to your library's tests would go here
+    // 在此設置測試函式庫會用到的程式碼
 }
 <span class="boring">}
 </span></code></pre></pre>

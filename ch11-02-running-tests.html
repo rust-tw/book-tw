@@ -184,7 +184,7 @@
 <pre><pre class="playground"><code class="language-rust panics"><span class="boring">fn main() {}
 </span><span class="boring">
 </span>fn prints_and_returns_10(a: i32) -&gt; i32 {
-    println!(&quot;I got the value {}&quot;, a);
+    println!(&quot;我得到的數值爲 {}&quot;, a);
     10
 }
 
@@ -219,7 +219,7 @@ test tests::this_test_will_pass ... ok
 failures:
 
 ---- tests::this_test_will_fail stdout ----
-I got the value 8
+我得到的數值爲 8
 thread 'main' panicked at 'assertion failed: `(left == right)`
   left: `5`,
  right: `10`', src/lib.rs:19:9
@@ -233,7 +233,7 @@ test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 
 error: test failed, to rerun pass '--lib'
 </code></pre>
-<p>注意到此輸出結果我們看不到 <code>I got the value 4</code>，這是當測試通過時印出的訊息。這個輸出被獲取走了。而測試會失敗的標準輸出 <code>I got the value 8</code> 則會出現在測試總結輸出的段落上，並同時顯示錯誤發生的原因。</p>
+<p>注意到此輸出結果我們看不到 <code>我得到的數值爲 4</code>，這是當測試通過時印出的訊息。這個輸出被獲取走了。而測試會失敗的標準輸出 <code>我得到的數值爲 8</code> 則會出現在測試總結輸出的段落上，並同時顯示錯誤發生的原因。</p>
 <p>如果我們希望在測試通過時也能看到印出的數值，我們可以用 <code>--show-output</code> 告訴 Rust 也在成功的測試顯示輸出結果。</p>
 <pre><code class="language-console">$ cargo test -- --show-output
 </code></pre>
@@ -250,7 +250,7 @@ test tests::this_test_will_pass ... ok
 successes:
 
 ---- tests::this_test_will_pass stdout ----
-I got the value 4
+我得到的數值爲 4
 
 
 successes:
@@ -259,7 +259,7 @@ successes:
 failures:
 
 ---- tests::this_test_will_fail stdout ----
-I got the value 8
+我得到的數值爲 8
 thread 'main' panicked at 'assertion failed: `(left == right)`
   left: `5`,
  right: `10`', src/lib.rs:19:9
@@ -357,7 +357,7 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out
 </code></pre>
 <p>此命令會執行所有名稱中包含 <code>add</code> 的測試，並過濾掉 <code>one_hundred</code> 的測試名稱。另外測試所在的模組也屬於測試名稱中，所以我們可以透過過濾模組名稱來執行該模組的所有測試。</p>
 <h3><a class="header" href="#忽略某些測試除非特別指定" id="忽略某些測試除非特別指定">忽略某些測試除非特別指定</a></h3>
-<p>有時候有些特定的測試執行會花非常多時間，所以你可能希望在執行 <code>cargo test</code> 時能排除它們。與其列出所有你想要的測試作爲引數，你可以在花石間的測試前加上 <code>ignore</code> 屬性詮釋來排除它們，如以下所示：</p>
+<p>有時候有些特定的測試執行會花非常多時間，所以你可能希望在執行 <code>cargo test</code> 時能排除它們。與其列出所有你想要的測試作爲引數，你可以在花時間的測試前加上 <code>ignore</code> 屬性詮釋來排除它們，如以下所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[test]
 fn it_works() {
@@ -367,7 +367,7 @@ fn it_works() {
 #[test]
 #[ignore]
 fn expensive_test() {
-    // code that takes an hour to run
+    // 會執行一小時的程式碼
 }
 <span class="boring">
 </span><span class="boring">fn main() {}
