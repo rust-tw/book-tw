@@ -197,8 +197,8 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 5-13：在 <code>Rectangle</code> 中定義 <code>area</code> 方法</span></p>
-<p>要定義 <code>Rectangle</code> 中的方法，我們先從 <code>impl</code>（implementation） 區塊開始。再來將 <code>area</code> 移入 <code>impl</code> 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 <code>self</code>。在 <code>main</code> 中我們原先使用 <code>rect1</code> 作爲引數呼叫的 <code>area</code>，可以改成使用*方法語法（method syntax）*來呼叫 <code>Rectangle</code> 的 <code>area</code> 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。</p>
-<p>在 <code>area</code> 的簽名中，我們使用 <code>&amp;self</code> 而非 <code>rectangle: &amp;Rectangle</code>，這是因爲此方法位於 <code>impl Rectangle</code> 底下，Rust 知道 <code>self</code> 的型別爲 <code>Rectangle</code>。請注意我們仍然在 <code>self</code> 使用 <code>&amp;</code>，如同我們之前用的 <code>&amp;Rectangle</code>。方法讓我們擁有 <code>self</code> 的所有權的情況下，並在此借用不可變的 <code>self</code>。不過我們也可以在前面加上 <code>mut</code> 讓 <code>self</code> 的借用成爲可不變的，就像其他參數一樣。</p>
+<p>要定義 <code>Rectangle</code> 中的方法，我們先從 <code>impl</code>（implementation） 區塊開始。再來將 <code>area</code> 移入 <code>impl</code> 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 <code>self</code>。在 <code>main</code> 中我們原先使用 <code>rect1</code> 作爲引數呼叫的 <code>area</code>，可以改成使用<em>方法語法（method syntax）</em> 來呼叫 <code>Rectangle</code> 的 <code>area</code> 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。</p>
+<p>在 <code>area</code> 的簽名中，我們使用 <code>&amp;self</code> 而非 <code>rectangle: &amp;Rectangle</code>，這是因爲此方法位於 <code>impl Rectangle</code> 底下，Rust 知道 <code>self</code> 的型別爲 <code>Rectangle</code>。請注意我們仍然在 <code>self</code> 使用 <code>&amp;</code>，如同我們之前用的 <code>&amp;Rectangle</code>。方法可以取走 <code>self</code> 的所有權、像這裡一樣借用不可變的 <code>self</code> 或借用可變的 <code>self</code>，如同其他參數一樣。</p>
 <p>我們之所以選擇 <code>&amp;self</code> 的原因和我們在之前函式版本的 <code>&amp;Rectangle</code> 一樣，我們不想取得所有權，只想讀取結構體的資料，而非寫入它。如果我們想要透過方法改變實例的數值的話，我們會使用 <code>&amp;mut self</code> 作爲第一個參數。而只使用 <code>self</code> 取得所有權的方法更是非常少見，這種使用技巧通常是爲了想改變 <code>self</code> 成你想要的樣子，並且希望能避免原本被改變的實例繼續被呼叫。</p>
 <p>使用方法而非函式最大的好處是，除了可以使用方法語法而不必在方法簽名重複 <code>self</code> 的型別之外，其更具組織性。我們將所有一個型別所能做的事都放入 <code>impl</code> 區塊中了，而不必讓未來的使用者在茫茫函式庫中尋找 <code>Rectangle</code> 的功能。</p>
 <blockquote>
@@ -251,14 +251,14 @@ fn main() {
         height: 45,
     };
 
-    println!(&quot;Can rect1 hold rect2? {}&quot;, rect1.can_hold(&amp;rect2));
-    println!(&quot;Can rect1 hold rect3? {}&quot;, rect1.can_hold(&amp;rect3));
+    println!(&quot;rect1 能容納rect2？{}&quot;, rect1.can_hold(&amp;rect2));
+    println!(&quot;rect1 能容納rect3？{}&quot;, rect1.can_hold(&amp;rect3));
 }
 </code></pre>
 <p><span class="caption">範例 5-14：使用一個還沒定義完的方法 <code>can_hold</code></span></p>
 <p>然後我們預期的輸出結果會如以下所示，因爲 <code>rect2</code> 的兩個維度都比 <code>rect1</code> 小，但 <code>rect3</code> 會比 <code>rect1</code> 大：</p>
-<pre><code class="language-text">Can rect1 hold rect2? true
-Can rect1 hold rect3? false
+<pre><code class="language-text">rect1 能容納rect2？true
+rect1 能容納rect3？false
 </code></pre>
 <p>我們知道我們要定義方法的話，它一定得在 <code>impl Rectangle</code> 區塊底下。方法的名稱會叫做 <code>can_hold</code>。它會取得另一個 <code>Rectangle</code> 的不可變引用作爲參數。我們可以從程式碼呼叫方法的地方來知道參數的可能的型別：<code>rect1.can_hold(&amp;rect2)</code> 傳遞了 <code>&amp;rect2</code>，這是一個 <code>rect2</code> 的不可變引用，同時也是 <code>Rectangle</code> 的實例。這是合理的，因爲我們只需要讀取 <code>rect2</code>（而不是寫入，寫入代表我們需要可變引用），且我們希望 <code>main</code> 能夠保持 <code>rect2</code> 的所有權，好讓我們之後能在繼續使用它來呼叫 <code>can_hold</code> 方法。<code>can_hold</code> 的回傳值會是布林值，然後實作細節會是檢查 <code>self</code> 的寬度與長度是否都大於其他 <code>Rectangle</code> 的寬度與長度。讓我們加入範例 5-13 的 <code>can_hold</code> 方法到 <code>impl</code> 區塊中，如範例 5-15 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -292,8 +292,8 @@ Can rect1 hold rect3? false
 </span><span class="boring">        height: 45,
 </span><span class="boring">    };
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;Can rect1 hold rect2? {}&quot;, rect1.can_hold(&amp;rect2));
-</span><span class="boring">    println!(&quot;Can rect1 hold rect3? {}&quot;, rect1.can_hold(&amp;rect3));
+</span><span class="boring">    println!(&quot;rect1 能容納rect2？{}&quot;, rect1.can_hold(&amp;rect2));
+</span><span class="boring">    println!(&quot;rect1 能容納rect3？{}&quot;, rect1.can_hold(&amp;rect3));
 </span><span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 5-15：在 <code>Rectangle</code> 中實作了取得其他 <code>Rectangle</code> 作爲參數的 <code>can_hold</code> 方法</span></p>
@@ -356,15 +356,15 @@ impl Rectangle {
 </span><span class="boring">        height: 45,
 </span><span class="boring">    };
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;Can rect1 hold rect2? {}&quot;, rect1.can_hold(&amp;rect2));
-</span><span class="boring">    println!(&quot;Can rect1 hold rect3? {}&quot;, rect1.can_hold(&amp;rect3));
+</span><span class="boring">    println!(&quot;rect1 能容納rect2？{}&quot;, rect1.can_hold(&amp;rect2));
+</span><span class="boring">    println!(&quot;rect1 能容納rect3？{}&quot;, rect1.can_hold(&amp;rect3));
 </span><span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 5-16：使用多重 <code>impl</code> 來重寫範例 5-15</span></p>
 <p>這邊我們的確沒有將方法拆爲 <code>impl</code> 區塊的理由，不過這樣的語法是合理的。我們會在第十章介紹泛型型別與特徵，看到多重 <code>impl</code> 區塊是非常實用的案例。</p>
 <h2><a class="header" href="#總結" id="總結">總結</a></h2>
 <p>結構體讓你可以自訂對你的領域有意義的型別。使用結構體的話，你可以讓每個資料部分與其他部分具有相關性，並爲每個部分讓程式更好讀懂。方法讓你可以爲你的結構體實例指定特定行爲，然後關聯函式讓你可以在沒有實例的情況下，將特定功能置入結構體的命名空間。</p>
-<p>但是結構體並不是自訂型別的唯一方法：讓我看看 Rust 的沒枚舉功能，讓你的工具箱可以再多一項工具使用。</p>
+<p>但是結構體並不是自訂型別的唯一方法：讓我看看 Rust 的枚舉功能，讓你的工具箱可以再多一項工具使用。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
