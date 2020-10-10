@@ -170,7 +170,7 @@
                         <h2><a class="header" href="#將單一執行緒伺服器轉換爲多執行緒伺服器" id="將單一執行緒伺服器轉換爲多執行緒伺服器">將單一執行緒伺服器轉換爲多執行緒伺服器</a></h2>
 <p>現在的伺服器會依序處理請求，代表它處理完第一個連線之前，都無法處理第二個連線。如果伺服器收到越來越多請求，這樣的連續處理方式會變得越來越沒效率。如果伺服器收到一個會花很久時間才能處理完成的請求，之後的請求都得等待這個長時間的請求完成才行，就算新的請求能很快處理完成也是如此。我們需要修正此問題，但首先讓我們先觀察此問題怎麼發生的。</p>
 <h3><a class="header" href="#對目前伺服器實作模擬緩慢的請求" id="對目前伺服器實作模擬緩慢的請求">對目前伺服器實作模擬緩慢的請求</a></h3>
-<p>我們來觀察看看處理緩慢的請求如何影響我們目前伺服器實作中的其他請求。範例 20-10實作了處理 <em>/sleep</em> 的請求，其在回應前讓伺服器沉睡 5 秒鐘來模擬緩慢的回應。</p>
+<p>我們來觀察看看處理緩慢的請求如何影響我們目前伺服器實作中的其他請求。範例 20-10實作了處理 <code>/sleep</code> 的請求，其在回應前讓伺服器沉睡 5 秒鐘來模擬緩慢的回應。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::fs;
 </span><span class="boring">use std::io::prelude::*;
@@ -218,13 +218,13 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">    stream.flush().unwrap();
 </span>}
 </code></pre></pre>
-<p><span class="caption">範例 20-10：識別 <em>/sleep</em> 並沉睡 5 秒鐘來模擬緩慢的請求</span></p>
-<p>此程式碼有點砸算，但已經足夠作爲模擬用途了。我們建立了另一個請求 <code>sleep</code>，且我們的伺服器能識別其資料。我們在 <code>if</code> 區塊後加上 <code>else if</code> 來檢查 <em>/sleep</em> 的請求。當收到請求時，伺服器將會在成功回傳 HTML 頁面前沉睡 5 秒鐘。</p>
+<p><span class="caption">範例 20-10：識別 <code>/sleep</code> 並沉睡 5 秒鐘來模擬緩慢的請求</span></p>
+<p>此程式碼有點雜亂，但已經足夠作爲模擬用途了。我們建立了另一個請求 <code>sleep</code>，且我們的伺服器能識別其資料。我們在 <code>if</code> 區塊後加上 <code>else if</code> 來檢查 <code>/sleep</code> 的請求。當收到請求時，伺服器將會在成功回傳 HTML 頁面前沉睡 5 秒鐘。</p>
 <p>你可以看出我們的伺服器有多基本：真實的函式庫會以較不冗長的方式來識別處理數種請求！</p>
-<p>使用 <code>cargo run</code> 來啓動伺服器，然後開啟兩個瀏覽器視窗：一個請求 <em>http://127.0.0.1:7878/</em> 然後另一個請求 <em>http://127.0.0.1:7878/sleep</em>。如果你輸入好幾次 <em>/</em> URI 的話，你會如之前一樣迅速地收到回應。但如果你先輸入 <em>/sleep</em> 在讀取 <em>/</em> 的話，你會看到 <em>/</em> 得等待 <code>sleep</code> 沉睡整整 5 秒鐘後才能讀取。</p>
+<p>使用 <code>cargo run</code> 來啟動伺服器，然後開啟兩個瀏覽器視窗：一個請求 <em>http://127.0.0.1:7878/</em> 然後另一個請求 <em>http://127.0.0.1:7878/sleep</em>。如果你輸入好幾次 <code>/</code> URI 的話，你會如之前一樣迅速地收到回應。但如果你先輸入 <code>/sleep</code> 在讀取 <code>/</code> 的話，你會看到 <code>/</code> 得等待 <code>sleep</code> 沉睡整整 5 秒鐘後才能讀取。</p>
 <p>我們有好幾種方式能改變網頁伺服器的運作方式，來避免緩慢請求造成的請求堆積。其中一種就是我們要實作的執行緒池（thread pool）。</p>
 <h3><a class="header" href="#透過執行緒池改善吞吐量" id="透過執行緒池改善吞吐量">透過執行緒池改善吞吐量</a></h3>
-<p>*執行緒池（thread pool）*會產生一群執行緒來等待並隨時準備好處理任務。當程式收到新任務時，它會將此任務分配給執行緒池其中一條執行緒，然後該執行緒就會處理該任務。池中剩餘的執行緒在第一條執行緒處理任務時，仍能隨時處理任何其他來臨的任務。當第一條執行緒處理完成時，他會回到閒置執行緒池之中，等待處理新的任務。執行緒池讓你能並行處理連線，增加伺服器的吞吐量。</p>
+<p><em>執行緒池（thread pool）</em> 會產生一群執行緒來等待並隨時準備好處理任務。當程式收到新任務時，它會將此任務分配給執行緒池其中一條執行緒，然後該執行緒就會處理該任務。池中剩餘的執行緒在第一條執行緒處理任務時，仍能隨時處理任何其他來臨的任務。當第一條執行緒處理完成時，他會回到閒置執行緒池之中，等待處理新的任務。執行緒池讓你能並行處理連線，增加伺服器的吞吐量。</p>
 <p>我們會限制執行緒池的數量爲少量的數量就好，以避免我們造成阻斷服務（Denial of Service,  DOS）攻擊。如果我們的程式每次遇到新的請求時就產生新的執行緒，某個人就可以產生一千萬個請求至我們的伺服器，來破壞並用光我們伺服器的資源，並導致所有請求的處理都被擱置。</p>
 <p>所以與其產生無限制的執行緒，我們會有個固定數量的執行緒在池中等待。當有請求來臨時，它們會被送至池中處理。此池會維護一個接收請求的佇列（queue）。每個執行緒會從此佇列彈出一個請求、處理該請求然後再繼續向佇列索取下一個請求。有了此設計，我們就可以同時處理 <code>N</code> 個請求，其中 <code>N</code> 就是執行緒的數量。如果每個執行緒都負責到需要長時間處理的請求，隨後的請求還是會阻塞佇列，但是我們至少增加了能夠同時處理長時間請求的數量。</p>
 <p>此技巧只是其中一種改善網頁伺服器吞吐量的方式而已。其他你可能會探索到的選項還有 fork/join 模型或是單執行緒非同步模型。如果你對此議題有興趣，你可以閱讀其他解決方案，並嘗試實作到 Rust 中。像 Rust 這種低階語言，這些所有選項都是可能的。</p>
@@ -277,7 +277,7 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 20-11：對每個流都產生新的一條執行緒</span></p>
-<p>如你在第十六章所學到的，<code>thread::spawn</code> 會建立一條執行緒並在新的執行緒執行閉包的程式碼。如果你執行此程式碼，並在瀏覽器中讀取 <em>/sleep</em>，然後在開兩個瀏覽器分頁來讀取 <em>/</em> 的話，你的確就能看到 <em>/</em> 請求不必等待 <em>/sleep</em> 完成。但如我們所提的，這最終可能會拖累系統，因爲你可以無限制地產生新的執行緒。</p>
+<p>如你在第十六章所學到的，<code>thread::spawn</code> 會建立一條執行緒並在新的執行緒執行閉包的程式碼。如果你執行此程式碼，並在瀏覽器中讀取 <code>/sleep</code>，然後在開兩個瀏覽器分頁來讀取 <code>/</code> 的話，你的確就能看到 <code>/</code> 請求不必等待 <code>/sleep</code> 完成。但如我們所提的，這最終可能會拖累系統，因爲你可以無限制地產生新的執行緒。</p>
 <h4><a class="header" href="#用有限數量的執行緒建立類似介面" id="用有限數量的執行緒建立類似介面">用有限數量的執行緒建立類似介面</a></h4>
 <p>我們想要我們的執行緒池能以類似的方式運作，這樣從執行緒切換成執行緒池時，使用我們 API 的程式碼就不必作出大量修改。範例 20-12 顯示一個我們想使用的假想 <code>ThreadPool</code> 結構體，而非使用 <code>thread::spawn</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -445,7 +445,7 @@ error: could not compile `hello`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>現在錯誤的原因是因爲我們的 <code>ThreadPool</code> 沒有 <code>execute</code> 方法。回想一下<a href="#creating-a-similar-interface-for-a-finite-number-of-threads">「用有限數量的執行緒建立類似介面」</a><!-- ignore -->段落中，我們決定我們的執行緒池要有類似於 <code>thread::spawn</code> 的介面。除此之外，我們會實作 <code>execute</code> 函式使其接收給予的閉包並傳至執行緒池中閒置的執行緒來執行。</p>
+<p>現在錯誤的原因是因爲我們的 <code>ThreadPool</code> 沒有 <code>execute</code> 方法。回想一下<a href="#%E7%94%A8%E6%9C%89%E9%99%90%E6%95%B8%E9%87%8F%E7%9A%84%E5%9F%B7%E8%A1%8C%E7%B7%92%E5%BB%BA%E7%AB%8B%E9%A1%9E%E4%BC%BC%E4%BB%8B%E9%9D%A2">「用有限數量的執行緒建立類似介面」</a><!-- ignore -->段落中，我們決定我們的執行緒池要有類似於 <code>thread::spawn</code> 的介面。除此之外，我們會實作 <code>execute</code> 函式使其接收給予的閉包並傳至執行緒池中閒置的執行緒來執行。</p>
 <p>我們定義 <code>ThreadPool</code> 的 <code>execute</code> 方法接收一個閉包來作爲參數。回憶一下第十三章的<a href="ch13-01-closures.html#%E9%80%8F%E9%81%8E%E6%B3%9B%E5%9E%8B%E5%8F%83%E6%95%B8%E8%88%87-fn-%E7%89%B9%E5%BE%B5%E5%84%B2%E5%AD%98%E9%96%89%E5%8C%85">「透過泛型參數與 Fn 特徵儲存閉包」</a><!-- ignore -->段落中，我們可以透過三種不同的特徵來接受閉包：<code>Fn</code>、<code>FnMut</code> 與 <code>FnOnce</code>。我們需要決定這裡該使用何種閉包。我們知道我們的行爲會類似於標準函式庫中 <code>thread::spawn</code> 的實作，所以讓我們看看 <code>thread::spawn</code> 簽名中的參數有哪些界限吧。技術文件會顯示以下結果給我們：</p>
 <pre><code class="language-rust ignore">pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
     where
@@ -548,7 +548,7 @@ impl ThreadPool {
         let mut threads = Vec::with_capacity(size);
 
         for _ in 0..size {
-            // create some threads and store them in the向量
+            // 就產生些執行緒並儲存至向量
         }
 
         ThreadPool { threads }
@@ -570,7 +570,7 @@ impl ThreadPool {
 <h4><a class="header" href="#結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒" id="結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒">結構體 <code>Worker</code> 負責從 <code>ThreadPool</code> 傳遞程式碼給一條執行緒</a></h4>
 <p>我們在範例 20-14 的 <code>for</code> 迴圈中留下一個關於建立執行緒的註解。我們在此將看看我們該如何實際建立執行緒。標準函式庫提供 <code>thread::spawn</code> 作爲建立執行緒的方式，然後 <code>thread::spawn</code> 預期在執行緒建立時就會獲得一些程式碼讓執行緒能夠執行。但在我們的場合中，我們希望建立執行緒，並讓它們<em>等待</em>我們之後會傳送的程式碼。標準函式庫的執行緒實作並不包含這種方式，我們得自己實作。</p>
 <p>我們實作此行爲的方法是在 <code>ThreadPool</code> 與執行緒間建立一個新的資料結構，這用來管理此新的行爲。我們將此資料結構稱爲 <code>Worker</code>，這在池實作中是很常見的術語。想像一下這是有一群人在餐廳廚房內工作：工作者（worker）會等待顧客的訂帶，然後他們負責接受這些訂單並完成它們。</p>
-<p>所以與其在執行緒池中儲存 <code>JoinHandle&lt;()&gt;</code> 實例的向量，我們可以儲存 <code>Worker</code> 結構體的實例。每個 <code>Worker</code> 會儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例。然後對 Then we’ll implement a method on <code>Worker</code> 實作一個方法來取得閉包要執行的程式碼，並傳入已經在執行的執行緒來處理。我們也會給每個 <code>Worker</code> 一個 <code>id</code>，好讓我們在紀錄日誌或除錯時，分辨池中不同的工作者。</p>
+<p>所以與其在執行緒池中儲存 <code>JoinHandle&lt;()&gt;</code> 實例的向量，我們可以儲存 <code>Worker</code> 結構體的實例。每個 <code>Worker</code> 會儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例。然後對 <code>Worker</code> 實作一個方法來取得閉包要執行的程式碼，並傳入已經在執行的執行緒來處理。我們也會給每個 <code>Worker</code> 一個 <code>id</code>，好讓我們在紀錄日誌或除錯時，分辨池中不同的工作者。</p>
 <p>讓我們改變 <code>ThreadPool</code> 建立時會發生的事情吧。我們會用以下方式在設置完 <code>Worker</code> 後，實作將閉包傳遞給執行緒的程式碼：</p>
 <ol>
 <li>定義 <code>Worker</code> 結構體存有 <code>id</code> 與 <code>JoinHandle&lt;()&gt;</code>。</li>
@@ -1010,7 +1010,7 @@ impl Worker {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 20-20：在工作者的執行緒中接收並執行任務</span></p>
-<p>我們在此首先對 <code>receiver</code> 呼叫 <code>lock</code> 以取得互斥鎖，然後我們呼叫 <code>unwrap</code> 讓任何錯誤都會恐慌。如果互斥鎖處於*污染（poisoned）*狀態的話，該鎖可能就會失敗，這在其他執行緒持有鎖時，卻發生恐慌而沒有釋放鎖的話就可能發生。在這種情形，呼叫 <code>unwrap</code> 來讓此執行緒恐慌是正確的選擇。你也可以將 <code>unwrap</code> 改成 <code>expect</code> 來加上一些對你更有幫助的錯誤訊息。</p>
+<p>我們在此首先對 <code>receiver</code> 呼叫 <code>lock</code> 以取得互斥鎖，然後我們呼叫 <code>unwrap</code> 讓任何錯誤都會恐慌。如果互斥鎖處於<em>污染（poisoned）</em> 狀態的話，該鎖可能就會失敗，這在其他執行緒持有鎖時，卻發生恐慌而沒有釋放鎖的話就可能發生。在這種情形，呼叫 <code>unwrap</code> 來讓此執行緒恐慌是正確的選擇。你也可以將 <code>unwrap</code> 改成 <code>expect</code> 來加上一些對你更有幫助的錯誤訊息。</p>
 <p>如果我們得到互斥鎖的話，我們呼叫 <code>recv</code> 來從通道中取得 <code>Job</code>。最後的 <code>unwrap</code> 也繞過了任何錯誤，這在持有通道發送端的執行緒被關閉時就可能發生；就和如果接收端關閉時 <code>send</code> 方法就會回傳 <code>Err</code> 的情況類似。</p>
 <p><code>recv</code> 的呼叫會阻擋執行緒，所以如果沒有任何任務的話，當前執行緒對等待直到下一個任務出現爲止。<code>Mutex&lt;T&gt;</code> 確保同時間只會有一個 <code>Worker</code> 執行緒嘗試取得任務。</p>
 <p>透過實作此技巧，我們的執行緒池終於可以運作了！賞它個 <code>cargo run</code> 然後下達一些請求吧：</p>
@@ -1055,9 +1055,9 @@ Worker 3 got a job; executing.
 Worker 0 got a job; executing.
 Worker 2 got a job; executing.
 </code></pre>
-<p>成功了！我們現在有個執行緒池能非同步地處理連線。我們產生的執行緒不超過四條，所以如果伺服器收到大量請求時，我們的系統就不會超載。如果我們下達 <em>/sleep</em> 的請求，伺服器會有其他執行緒來處理其他請求並執行它們。</p>
+<p>成功了！我們現在有個執行緒池能非同步地處理連線。我們產生的執行緒不超過四條，所以如果伺服器收到大量請求時，我們的系統就不會超載。如果我們下達 <code>/sleep</code> 的請求，伺服器會有其他執行緒來處理其他請求並執行它們。</p>
 <blockquote>
-<p>注意：如果你在數個瀏覽器視窗同時打開 <em>/sleep</em>，它們可能會彼此間格 5 秒鐘來讀取。這是因爲有些網頁流來器會對多個相同請求的實例做快取。這項限制不是網頁伺服器造成的。</p>
+<p>注意：如果你在數個瀏覽器視窗同時打開 <code>/sleep</code>，它們可能會彼此間格 5 秒鐘來讀取。這是因爲有些網頁流來器會對多個相同請求的實例做快取。這項限制不是網頁伺服器造成的。</p>
 </blockquote>
 <p>在學習過第十八章的 <code>while let</code> 迴圈後，你可能會好奇爲何我們不像範例 20-21 這樣來寫工作者執行緒的程式碼。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
