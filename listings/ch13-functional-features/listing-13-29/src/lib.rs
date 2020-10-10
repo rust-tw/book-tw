@@ -14,12 +14,12 @@ impl Config {
 
         let query = match args.next() {
             Some(arg) => arg,
-            None => return Err("Didn't get a query string"),
+            None => return Err("沒有取得欲搜尋的字串"),
         };
 
         let filename = match args.next() {
             Some(arg) => arg,
-            None => return Err("Didn't get a file name"),
+            None => return Err("沒有取得檔案名稱"),
         };
 
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
