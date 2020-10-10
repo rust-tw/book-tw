@@ -17,5 +17,5 @@ fn handle_connection(mut stream: TcpStream) {
 
     stream.read(&mut buffer).unwrap();
 
-    println!("Request: {}", String::from_utf8_lossy(&buffer[..]));
+    println!("請求：{}", String::from_utf8_lossy(&buffer[..]));
 }
