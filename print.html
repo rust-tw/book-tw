@@ -11395,17 +11395,10 @@ fn main() {}
 <li>updated: 2020-09-18</li>
 </ul>
 </blockquote>
-<h2><a class="header" href="#improving-our-io-project" id="improving-our-io-project">Improving Our I/O Project</a></h2>
-<p>With this new knowledge about iterators, we can improve the I/O project in
-Chapter 12 by using iterators to make places in the code clearer and more
-concise. Let’s look at how iterators can improve our implementation of the
-<code>Config::new</code> function and the <code>search</code> function.</p>
-<h3><a class="header" href="#removing-a-clone-using-an-iterator" id="removing-a-clone-using-an-iterator">Removing a <code>clone</code> Using an Iterator</a></h3>
-<p>In Listing 12-6, we added code that took a slice of <code>String</code> values and created
-an instance of the <code>Config</code> struct by indexing into the slice and cloning the
-values, allowing the <code>Config</code> struct to own those values. In Listing 13-24,
-we’ve reproduced the implementation of the <code>Config::new</code> function as it was in
-Listing 12-23:</p>
+<h2><a class="header" href="#改善我們的-io-專案" id="改善我們的-io-專案">改善我們的 I/O 專案</a></h2>
+<p>有了疊代器這樣的新知識，我們可以使用疊代器來改善第十二章的 I/O 專案，讓程式碼更清楚與簡潔。我們來看看疊代器如何改善 <code>Config::new</code> 函式與 <code>search</code> 函式的實作。</p>
+<h3><a class="header" href="#使用疊代器移除-clone" id="使用疊代器移除-clone">使用疊代器移除 <code>clone</code></a></h3>
+<p>在範例 12-6 中，我們加了些程式碼來取得 <code>String</code> 數值的切片並透過索引切片與克隆數值來產生 <code>Config</code> 實例，讓 <code>Config</code> 結構體能擁有其數值。在範例 13-24 中，我們重現了範例 12-23 的 <code>Config::new</code> 函式實作：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::error::Error;
@@ -11514,24 +11507,13 @@ Listing 12-23:</p>
 </span><span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre>
-<p><span class="caption">範例 13-24: Reproduction of the <code>Config::new</code> function
-from Listing 12-23</span></p>
-<p>At the time, we said not to worry about the inefficient <code>clone</code> calls because
-we would remove them in the future. Well, that time is now!</p>
-<p>We needed <code>clone</code> here because we have a slice with <code>String</code> elements in the
-parameter <code>args</code>, but the <code>new</code> function doesn’t own <code>args</code>. To return
-ownership of a <code>Config</code> instance, we had to clone the values from the <code>query</code>
-and <code>filename</code> fields of <code>Config</code> so the <code>Config</code> instance can own its values.</p>
-<p>With our new knowledge about iterators, we can change the <code>new</code> function to
-take ownership of an iterator as its argument instead of borrowing a slice.
-We’ll use the iterator functionality instead of the code that checks the length
-of the slice and indexes into specific locations. This will clarify what the
-<code>Config::new</code> function is doing because the iterator will access the values.</p>
-<p>Once <code>Config::new</code> takes ownership of the iterator and stops using indexing
-operations that borrow, we can move the <code>String</code> values from the iterator into
-<code>Config</code> rather than calling <code>clone</code> and making a new allocation.</p>
-<h4><a class="header" href="#using-the-returned-iterator-directly" id="using-the-returned-iterator-directly">Using the Returned Iterator Directly</a></h4>
-<p>Open your I/O project’s <em>src/main.rs</em> file, which should look like this:</p>
+<p><span class="caption">範例 13-24：重現範例 12-23 的 <code>Config::new</code> 函式</span></p>
+<p>當時我們說先不用擔心 <code>clone</code> 呼叫帶來的效率問題，因爲我們會在之後移除它們。現在正是絕佳時機！</p>
+<p>我們在此需要 <code>clone</code> 的原因爲我們的參數 <code>args</code> 是擁有 <code>String</code> 元素的切片，但是 <code>new</code> 函式並不擁有 <code>args</code>。要回傳 <code>Config</code> 實例的所有權，我們必須克隆數值給 <code>Config</code> 的 <code>query</code> 與 <code>filename</code> 欄位，<code>Config</code> 實例才能擁有其值。</p>
+<p>有了我們新學到的疊代器，我們可以改變 <code>new</code> 函式來取得疊代器的所有權來作爲引數，而非借用切片。我們會來使用疊代器的功能，而不是檢查切片長度並索引特定位置。這能讓 <code>Config::new</code> 函式的意圖更清楚，因爲疊代器會存取數值。</p>
+<p>一旦 <code>Config::new</code> 取得疊代器的所有權並不在使用借用的索引動作，我們就可以從疊代器中移動 <code>String</code> 的數值至 <code>Config</code> 而非呼叫 <code>clone</code> 來產生新的分配。</p>
+<h4><a class="header" href="#直接使用回傳的疊代器" id="直接使用回傳的疊代器">直接使用回傳的疊代器</a></h4>
+<p>請開啟你的 I/O 專案下的 <em>src/main.rs</em> 檔案，這應該會看起來像這樣：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::process;
@@ -11555,9 +11537,7 @@ operations that borrow, we can move the <code>String</code> values from the iter
 </span><span class="boring">    }
 </span>}
 </code></pre>
-<p>We’ll change the start of the <code>main</code> function that we had in Listing 12-24 to
-the code in Listing 13-25. This won’t compile until we update <code>Config::new</code> as
-well.</p>
+<p>我們會改變範例 12-24 的 <code>main</code> 函式開頭段落成範例 13-25 的程式碼。這在我們更新 <code>Config::new</code> 之前都還無法編譯。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::process;
@@ -11579,16 +11559,9 @@ well.</p>
 </span><span class="boring">    }
 </span>}
 </code></pre>
-<p><span class="caption">範例 13-25: Passing the return value of <code>env::args</code> to
-<code>Config::new</code></span></p>
-<p>The <code>env::args</code> function returns an iterator! Rather than collecting the
-iterator values into a向量and then passing a slice to <code>Config::new</code>, now
-we’re passing ownership of the iterator returned from <code>env::args</code> to
-<code>Config::new</code> directly.</p>
-<p>Next, we need to update the definition of <code>Config::new</code>. In your I/O project’s
-<em>src/lib.rs</em> file, let’s change the signature of <code>Config::new</code> to look like
-Listing 13-26. This still won’t compile because we need to update the function
-body.</p>
+<p><span class="caption">範例 13-25：傳遞 <code>env::args</code> 的回傳值給 <code>Config::new</code></span></p>
+<p><code>env::args</code> 函式回傳的是疊代器！與其收集疊代器的數值成一個向量再傳遞切片給 <code>Config::new</code>，現在我們可以直接傳遞 <code>env::args</code> 回傳的疊代器所有權給 <code>Config::new</code>。</p>
+<p>接下來，我們需要更新 <code>Config::new</code> 的定義。在 I/O 專案的 <em>src/lib.rs</em> 檔案中，讓我們變更 <code>Config::new</code> 的簽名成範例 13-26 的樣子。這還無法編譯，因爲我們需要更新函式本體。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::error::Error;
@@ -11696,19 +11669,10 @@ body.</p>
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 13-26: Updating the signature of <code>Config::new</code> to
-expect an iterator</span></p>
-<p>The standard library documentation for the <code>env::args</code> function shows that the
-type of the iterator it returns is <code>std::env::Args</code>. We’ve updated the
-signature of the <code>Config::new</code> function so the parameter <code>args</code> has the type
-<code>std::env::Args</code> instead of <code>&amp;[String]</code>. Because we’re taking ownership of
-<code>args</code> and we’ll be mutating <code>args</code> by iterating over it, we can add the <code>mut</code>
-keyword into the specification of the <code>args</code> parameter to make it mutable.</p>
-<h4><a class="header" href="#using-iterator-trait-methods-instead-of-indexing" id="using-iterator-trait-methods-instead-of-indexing">Using <code>Iterator</code> Trait Methods Instead of Indexing</a></h4>
-<p>Next, we’ll fix the body of <code>Config::new</code>. The standard library documentation
-also mentions that <code>std::env::Args</code> implements the <code>Iterator</code> trait, so we know
-we can call the <code>next</code> method on it! Listing 13-27 updates the code from
-Listing 12-23 to use the <code>next</code> method:</p>
+<p><span class="caption">範例 13-26：更新 <code>Config::new</code> 的簽名來接收疊代器</span></p>
+<p>標準函式庫技術文件顯示 <code>env::args</code> 函式回傳的疊代器型別爲 <code>std::env::Args</code>。我們更新了 <code>Config::new</code> 函式的簽名，讓參數 <code>args</code> 的型別爲 <code>std::env::Args</code> 而非 <code>&amp;[String]</code>。因爲我們取得了 <code>args</code> 的所有權，而且我們需要將 <code>args</code> 成爲可變的讓我們可以疊代它，所以我們將關鍵字 <code>mut</code> 加到 <code>args</code> 的參數指定使其成爲可變的。</p>
+<h4><a class="header" href="#使用-iterator-特徵方法而非索引" id="使用-iterator-特徵方法而非索引">使用 <code>Iterator</code> 特徵方法而非索引</a></h4>
+<p>接下來，我們要修正 <code>Config::new</code> 的本體。標準函式庫還提到了 <code>std::env::Args</code> 有實作 <code>Iterator</code> 特徵，所以我們知道我們可以對它呼叫 <code>next</code> 方法！範例 13-27 更新了範例 12-23 的程式碼來使用 <code>next</code> 方法：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::env;
 </span><span class="boring">use std::error::Error;
@@ -11726,12 +11690,12 @@ Listing 12-23 to use the <code>next</code> method:</p>
 
         let query = match args.next() {
             Some(arg) =&gt; arg,
-            None =&gt; return Err(&quot;Didn't get a query string&quot;),
+            None =&gt; return Err(&quot;沒有取得欲搜尋的字串&quot;),
         };
 
         let filename = match args.next() {
             Some(arg) =&gt; arg,
-            None =&gt; return Err(&quot;Didn't get a file name&quot;),
+            None =&gt; return Err(&quot;沒有取得檔案名稱&quot;),
         };
 
         let case_sensitive = env::var(&quot;CASE_INSENSITIVE&quot;).is_err();
@@ -11822,18 +11786,10 @@ Listing 12-23 to use the <code>next</code> method:</p>
 </span><span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">範例 13-27: Changing the body of <code>Config::new</code> to use
-iterator methods</span></p>
-<p>Remember that the first value in the return value of <code>env::args</code> is the name of
-the program. We want to ignore that and get to the next value, so first we call
-<code>next</code> and do nothing with the return value. Second, we call <code>next</code> to get the
-value we want to put in the <code>query</code> field of <code>Config</code>. If <code>next</code> returns a
-<code>Some</code>, we use a <code>match</code> to extract the value. If it returns <code>None</code>, it means
-引數不足 were given and we return early with an <code>Err</code> value. We do
-the same thing for the <code>filename</code> value.</p>
-<h3><a class="header" href="#making-code-clearer-with-iterator-adaptors" id="making-code-clearer-with-iterator-adaptors">Making Code Clearer with Iterator Adaptors</a></h3>
-<p>We can also take advantage of iterators in the <code>search</code> function in our I/O
-project, which is reproduced here in Listing 13-28 as it was in Listing 12-19:</p>
+<p><span class="caption">範例 13-27：變更 <code>Config::new</code> 的本體來使用疊代器方法</span></p>
+<p>我們還記得 <code>env::args</code> 回傳的第一個數值會是程式名稱。我們想要忽略該值並取得下個數值，所以我們第一次呼叫 <code>next</code> 時不會對回傳值做任何事。再來我們才會呼叫 <code>next</code> 來取得我們想要的數值置入 <code>Config</code> 中的 <code>query</code> 欄位。如果 <code>next</code> 回傳 <code>Some</code> 的話，我們使用 <code>match</code> 來提取數值。如果它回傳 <code>None</code> 的話，這代表引數不足，所以我們提早用 <code>Err</code> 數值回傳。我們對 <code>filename</code> 數值也做一樣的事。</p>
+<h3><a class="header" href="#透過疊代配接器讓程式碼更清楚" id="透過疊代配接器讓程式碼更清楚">透過疊代配接器讓程式碼更清楚</a></h3>
+<p>我們也可以對 I/O 專案中的 <code>search</code> 函式利用疊代器的優勢，範例 13-28 重現了範例 12-19 的程式碼：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -11890,14 +11846,8 @@ project, which is reproduced here in Listing 13-28 as it was in Listing 12-19:</
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 13-28: The implementation of the <code>search</code>
-function from Listing 12-19</span></p>
-<p>We can write this code in a more concise way using iterator adaptor methods.
-Doing so also lets us avoid having a mutable intermediate <code>results</code>向量. The
-functional programming style prefers to minimize the amount of mutable state to
-make code clearer. Removing the mutable state might enable a future enhancement
-to make searching happen in parallel, because we wouldn’t have to manage
-concurrent access to the <code>results</code>向量. Listing 13-29 shows this change:</p>
+<p><span class="caption">範例 13-28：範例 12-19 的 <code>search</code> 函式實作</span></p>
+<p>我們可以使用疊代配接器（iterator adapto）方法讓此程式碼更精簡。這樣做也能避免我們產生過程中的 <code>results</code> 可變向量。函式程式設計風格傾向於最小化可變狀態的數量使程式碼更加簡潔。移除可變狀態還在未來有機會讓搜尋可以平行化，因爲我們不需要去管理 <code>results</code> 向量的並行存取。範例 13-29 展示了此改變：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::error::Error;
@@ -11915,12 +11865,12 @@ concurrent access to the <code>results</code>向量. Listing 13-29 shows this ch
 </span><span class="boring">
 </span><span class="boring">        let query = match args.next() {
 </span><span class="boring">            Some(arg) =&gt; arg,
-</span><span class="boring">            None =&gt; return Err(&quot;Didn't get a query string&quot;),
+</span><span class="boring">            None =&gt; return Err(&quot;沒有取得欲搜尋的字串&quot;),
 </span><span class="boring">        };
 </span><span class="boring">
 </span><span class="boring">        let filename = match args.next() {
 </span><span class="boring">            Some(arg) =&gt; arg,
-</span><span class="boring">            None =&gt; return Err(&quot;Didn't get a file name&quot;),
+</span><span class="boring">            None =&gt; return Err(&quot;沒有取得檔案名稱&quot;),
 </span><span class="boring">        };
 </span><span class="boring">
 </span><span class="boring">        let case_sensitive = env::var(&quot;CASE_INSENSITIVE&quot;).is_err();
@@ -12004,28 +11954,10 @@ concurrent access to the <code>results</code>向量. Listing 13-29 shows this ch
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 13-29: Using iterator adaptor methods in the
-implementation of the <code>search</code> function</span></p>
-<p>Recall that the purpose of the <code>search</code> function is to return all lines in
-<code>contents</code> that contain the <code>query</code>. Similar to the <code>filter</code> example in Listing
-13-19, this code uses the <code>filter</code> adaptor to keep only the lines that
-<code>line.contains(query)</code> returns <code>true</code> for. We then collect the matching lines
-into another向量with <code>collect</code>. Much simpler! Feel free to make the same
-change to use iterator methods in the <code>search_case_insensitive</code> function as
-well.</p>
-<p>The next logical question is which style you should choose in your own code and
-why: the original implementation in Listing 13-28 or the version using
-iterators in Listing 13-29. Most Rust programmers prefer to use the iterator
-style. It’s a bit tougher to get the hang of at first, but once you get a feel
-for the various iterator adaptors and what they do, iterators can be easier to
-understand. Instead of fiddling with the various bits of looping and building
-new向量s, the code focuses on the high-level objective of the loop. This
-abstracts away some of the commonplace code so it’s easier to see the concepts
-that are unique to this code, such as the filtering condition each element in
-the iterator must pass.</p>
-<p>But are the two implementations truly equivalent? The intuitive assumption
-might be that the more low-level loop will be faster. Let’s talk about
-performance.</p>
+<p><span class="caption">範例 13-29：對 <code>search</code> 函式實作使用疊代配接器方法</span></p>
+<p>回想一下 <code>search</code> 函式的目的是要回傳 <code>contents</code> 中所有包含 <code>query</code> 的行數。類似於範例 13-19 的 <code>filter</code> 範例，此程式碼使用 <code>filter</code> 配接器來只保留 <code>line.contains(query)</code> 回傳爲 <code>true</code> 的行數。我們接著就可以用 <code>collect</code> 收集符合的行數成另一個向量。這樣簡單多了！你也可以對 <code>search_case_insensitive</code> 函式使用疊代器方法做出相同的改變。</p>
+<p>接下來的邏輯問題是在你自己的程式碼中你應該與爲何要使用哪種風格呢：是要原本範例 13-28 的程式碼，還是範例 13-29 使用疊代器的版本呢？大多數的 Rust 程式設計師傾向於使用疊代器。一開始的確會有點難上手，不過一旦你熟悉各種疊代配接器與它們的用途後，疊代器就會很好理解了。不同於用迴圈迂迴處理每一步並建構新的向量，疊代器能更專注在迴圈的高階抽象上。這能抽象出常見的程式碼，並能更容易看出程式碼中的重點部位，比如疊代器中每個元素要過濾的條件。</p>
+<p>但是這兩種實作真的完全相等嗎？你的直覺可能會假設低階的迴圈可能更快些。讓我們來討論效能吧。</p>
 <h2><a class="header" href="#comparing-performance-loops-vs-iterators" id="comparing-performance-loops-vs-iterators">Comparing Performance: Loops vs. Iterators</a></h2>
 <p>To determine whether to use loops or iterators, you need to know which version
 of our <code>search</code> functions is faster: the version with an explicit <code>for</code> loop or
