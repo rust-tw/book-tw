@@ -170,7 +170,7 @@
                         <h2><a class="header" href="#進階函式與閉包" id="進階函式與閉包">進階函式與閉包</a></h2>
 <p>接下來，我們會探索函式與閉包相關的進階特色，包括函式指標和回傳閉包。</p>
 <h3><a class="header" href="#函式指標" id="函式指標">函式指標</a></h3>
-<p>我們已探討過如何將閉包傳遞給函式，其實你還可以將一般的函式傳給函式！當你想要傳遞已經定義好的函式，而不是新的閉包時，就會凸顯這個技巧好用之處。有了函式指標，就可以將函式當作其他函式的引數，而這個作為引數的函式會轉型為 <code>fn</code> 型別（小寫的 f），別和閉包特徵的 <code>Fn</code> 搞混了。這個 <code>fn</code> 型別就稱為<strong>函式指標（function pointer）</strong>。其語法與閉包語法類似，可用於將函式指標作為參數的型別，如範例 19-27 所示。</p>
+<p>我們已探討過如何將閉包傳遞給函式，其實你還可以將一般的函式傳給函式！當你想要傳遞已經定義好的函式，而不是新的閉包時，就會凸顯這個技巧好用之處。有了函式指標，就可以將函式當作其他函式的引數，而這個作為引數的函式會轉型為 <code>fn</code> 型別（小寫的 f），別和閉包特徵的 <code>Fn</code> 搞混了。這個 <code>fn</code> 型別就稱為<em>函式指標（function pointer）</em> 。其語法與閉包語法類似，可用於將函式指標作為參數的型別，如範例 19-27 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn add_one(x: i32) -&gt; i32 {
     x + 1
@@ -189,7 +189,7 @@ fn main() {
 <p><span class="caption">範例 19-27：藉由 <code>fn</code> 型別接收函式指標引數</span></p>
 <p>這段程式碼會印出 <code>答案是：12</code>。我們可以指定 <code>do_twice</code> 的參數 <code>f</code> 是一個需要一個 <code>i32</code> 當參數的 <code>fn</code>，並會回傳 <code>i32</code>。接下來我們在 <code>do_twice</code> 內呼叫 <code>f</code>。在 <code>main</code> 中，我們就可將 <code>add_one</code> 函式作為 <code>do_twice</code> 第一個引數。</p>
 <p>和閉包不同的是，<code>fn</code> 不是特徵而是一個型別，所以我們可以直接將 <code>fn</code> 作為參數型別，而不需要宣告一個以 <code>Fn</code> 特徵作為特徵限制的泛型型別參數。</p>
-<p>函式指標將 三個閉包特徵（<code>Fn</code>、<code>FnMut</code>、<code>FnOnce</code>）通通實作了，所以在預期要傳入閉包之處，你一定可以將函式指標作為引數傳進去。最佳的 做法是寫一個同時使用泛型型別和其中一個閉包特徵的函式，這樣無論是函式還是閉包，你的函式全都可以接收。</p>
+<p>函式指標將 三個閉包特徵（<code>Fn</code>、<code>FnMut</code>、<code>FnOnce</code>）通通實作了，所以在預期要傳入閉包之處，你一定可以將函式指標作為引數傳進去。最佳的做法是寫一個同時使用泛型型別和其中一個閉包特徵的函式，這樣無論是函式還是閉包，你的函式全都可以接收。</p>
 <p>有個你只會想接收 <code>fn</code> 但不要閉包例子，就是當你在與外部那些沒有閉包的程式碼打交道的時候，比如 C 可以接收函式作為引數，但 C 並沒有閉包。</p>
 <p>讓我們來看一下 <code>map</code> 的用法，<code>map</code> 就是可以用行內閉包（closure defined inline）或一個命名函式（named function）的例子。欲將數字的向量轉換成字串的向量，我們可以使用閉包，例如：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -206,7 +206,7 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <p>請注意，因為有多個可用的函式都叫做 <code>to_string</code>，所以我們必須使用先前在<a href="ch19-03-advanced-traits.html#%E9%80%B2%E9%9A%8E%E7%89%B9%E5%BE%B5">「進階特徵」</a>一節提及的完全限定語法。這裡，我們使用了在 <code>ToString</code> 特徵中定義的 <code>to_string</code> 函式，只要有實作 <code>Display</code> 的型別，標準函式庫都會提供 <code>ToString</code> 的實作。</p>
-<p>另一個實用模式是深度利用元組結構體和在枚舉變體（enum variant）中的的元組結構體的實作細節。這些型別以 <code>()</code> 作為初始化語法，看起來就像函式呼叫。事實上這些初始化以函式來實作，這個函式接收引數來建立並回傳一個實例。我們可以將這些初始化函式當作實作了閉包特徵的函式指標，這就代表我們可以指定初始化函式作為引數，傳給需要閉包的方法，例如：</p>
+<p>另一個實用模式是深度利用元組結構體和在枚舉變體中的的元組結構體的實作細節。這些型別以 <code>()</code> 作為初始化語法，看起來就像函式呼叫。事實上這些初始化以函式來實作，這個函式接收引數來建立並回傳一個實例。我們可以將這些初始化函式當作實作了閉包特徵的函式指標，這就代表我們可以指定初始化函式作為引數，傳給需要閉包的方法，例如：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum Status {
         Value(u32),
@@ -256,7 +256,7 @@ error: could not compile `functions-example`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>這個錯誤再度指出 <code>Sized</code> 特徵！Rust 不知道我們需要多少空間儲存這個閉包，我們之前看過這類問題的解法。可以使用特徵物件（trait object）：</p>
+<p>這個錯誤再度指出 <code>Sized</code> 特徵！Rust 不知道我們需要多少空間儲存這個閉包，我們之前看過這類問題的解法。可以使用特徵物件：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -266,7 +266,7 @@ To learn more, run the command again with --verbose.
 <span class="boring">}
 </span></code></pre></pre>
 <p>這段程式碼恰巧能通過編譯。欲知更多特徵物件相關資訊，請查閱第十七章<a href="ch17-02-trait-objects.html#%E5%85%81%E8%A8%B1%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%88%A5%E6%95%B8%E5%80%BC%E7%9A%84%E7%89%B9%E5%BE%B5%E7%89%A9%E4%BB%B6">「允許不同型別數值的特徵物件」</a>部分。</p>
-<p>接下來，一起來關注巨集吧！</p>
+<p>接下來，讓我們來探討巨集吧！</p>
 <blockquote>
 <ul>
 <li>translators: [Weihang Lo <a href="mailto:me@weihanglo.tw">me@weihanglo.tw</a>]</li>
