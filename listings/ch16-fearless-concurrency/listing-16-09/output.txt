@@ -7,7 +7,7 @@ error[E0382]: borrow of moved value: `val`
    |             --- move occurs because `val` has type `std::string::String`, which does not implement the `Copy` trait
 9  |         tx.send(val).unwrap();
    |                 --- value moved here
-10 |         println!("val 爲 {}", val);
+10 |         println!("val 為 {}", val);
    |                               ^^^ value borrowed here after move
 
 error: aborting due to previous error

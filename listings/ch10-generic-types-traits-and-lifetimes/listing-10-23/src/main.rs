@@ -5,7 +5,7 @@ fn main() {
     {
         let string2 = String::from("xyz");
         let result = longest(string1.as_str(), string2.as_str());
-        println!("最長的字串爲 {}", result);
+        println!("最長的字串為 {}", result);
     }
 }
 // ANCHOR_END: here

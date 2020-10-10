@@ -7,7 +7,7 @@ fn main() {
     thread::spawn(move || {
         let val = String::from("嗨");
         tx.send(val).unwrap();
-        println!("val 爲 {}", val);
+        println!("val 為 {}", val);
     });
 
     let received = rx.recv().unwrap();

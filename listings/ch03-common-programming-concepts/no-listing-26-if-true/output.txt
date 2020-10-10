@@ -2,4 +2,4 @@ $ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/branches`
-條件爲真
+條件為真

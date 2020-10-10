@@ -12,6 +12,6 @@ fn main() {
         }
     }
 
-    println!("設定爲 {:?}", setting_value);
+    println!("設定為 {:?}", setting_value);
     // ANCHOR_END: here
 }

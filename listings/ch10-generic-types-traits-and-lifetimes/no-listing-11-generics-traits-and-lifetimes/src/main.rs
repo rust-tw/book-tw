@@ -7,7 +7,7 @@ fn main() {
         string2,
         "Today is someone's birthday!",
     );
-    println!("最長的字串爲 {}", result);
+    println!("最長的字串為 {}", result);
 }
 
 // ANCHOR: here

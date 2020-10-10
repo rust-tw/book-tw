@@ -18,6 +18,6 @@ fn main() {
 
     s.clear(); // 錯誤！
 
-    println!("第一個單字爲：{}", word);
+    println!("第一個單字為：{}", word);
 }
 // ANCHOR_END: here

@@ -27,7 +27,7 @@
 
 ### 建立慣用的 `use` 路徑
 
-在範例 7-11 你可能會好奇爲何我們指明 `use crate::front_of_house::hosting` 然後在 `eat_at_restaurant` 呼叫，而不是直接用 `use` 指明 `add_to_waitlist` 函式的整個路徑就好。像範例 7-13 這樣寫。
+在範例 7-11 你可能會好奇為何我們指明 `use crate::front_of_house::hosting` 然後在 `eat_at_restaurant` 呼叫，而不是直接用 `use` 指明 `add_to_waitlist` 函式的整個路徑就好。像範例 7-13 這樣寫。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -51,7 +51,7 @@
 
 此習慣沒什麼強硬的理由：就只是大家已經習慣這樣的用法來讀寫 Rust 的程式碼。
 
-這樣的習慣有個例外，那就是如果我們將兩個相同名稱的項目使用 `use` 陳述式引入作用域時，因爲 Rust 不會允許。範例 7-15 展示了如何引入兩個同名但屬於不同模組的 `Result` 型別進作用域中並使用的方法。
+這樣的習慣有個例外，那就是如果我們將兩個相同名稱的項目使用 `use` 陳述式引入作用域時，因為 Rust 不會允許。範例 7-15 展示了如何引入兩個同名但屬於不同模組的 `Result` 型別進作用域中並使用的方法。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -75,11 +75,11 @@
 
 <span class="caption">範例 7-16：使用 `as` 將型別引入作用域的同時重新命名</span>
 
-在第二個 `use` 陳述式，我們選擇了將 `std::io::Result` 型別重新命名爲 `IoResult`，這樣就不會和同樣引入作用域內 `std::fmt` 的 `Result` 有所衝突。範例 7-15 與 範例 7-16 都屬於習慣用法，你可以選擇你比較喜歡的方式！
+在第二個 `use` 陳述式，我們選擇了將 `std::io::Result` 型別重新命名為 `IoResult`，這樣就不會和同樣引入作用域內 `std::fmt` 的 `Result` 有所衝突。範例 7-15 與 範例 7-16 都屬於習慣用法，你可以選擇你比較喜歡的方式！
 
 ### 使用 `pub use` 重新匯出名稱
 
-當我們使用 `use` 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 `pub` 和 `use`。這樣的技巧稱之爲*重新匯出（re-exporting）*，因爲我們將項目引入作用域，並同時公開給其他作用域引用。
+當我們使用 `use` 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 `pub` 和 `use`。這樣的技巧稱之為*重新匯出（re-exporting）*，因為我們將項目引入作用域，並同時公開給其他作用域引用。
 
 範例 7-17 將範例 7-11 在源頭模組中原本的 `use` 改成 `pub use`。
 
@@ -112,7 +112,7 @@
 ```
 
 
-在 *Cargo.toml* 新增  `rand` 作爲依賴函式庫會告訴 Cargo 要從 [crates.io](https://crates.io/) 下載  `rand` 以及其他相關的依賴，讓我們可專案可以使用 `rand`。
+在 *Cargo.toml* 新增  `rand` 作為依賴函式庫會告訴 Cargo 要從 [crates.io](https://crates.io/) 下載  `rand` 以及其他相關的依賴，讓我們可專案可以使用 `rand`。
 
 接下來要將 `rand` 的定義引入我們套件的作用域的話，我們加上一行 `use` 後面接著 crate 的名稱 `rand` 然後列出我們想要引入作用域的項目。回想一下在第二章[「產生隨機數字」][rand]<!-- ignore -->的段落，我們將 `Rng` 特徵引入作用域中，並呼叫函式 `rand::thread_rng`：
 
@@ -162,7 +162,7 @@ use std::collections::HashMap;
 
 <span class="caption">範例 7-19：兩個 `use` 陳述式且其中一個是另一個的子路徑</span>
 
-這兩個路徑的相同部分是 `std::io`，這也是整個第一個路徑。要將這兩個路徑合爲一個 `use` 陳述式的話，我們可以在巢狀路徑使用 `self`，如範例 7-20 所示。
+這兩個路徑的相同部分是 `std::io`，這也是整個第一個路徑。要將這兩個路徑合為一個 `use` 陳述式的話，我們可以在巢狀路徑使用 `self`，如範例 7-20 所示。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -170,7 +170,7 @@ use std::collections::HashMap;
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-20/src/lib.rs}}
 ```
 
-<span class="caption">範例 7-20：組合範例 7-19 的路徑爲一個 `use` 陳述式</span>
+<span class="caption">範例 7-20：組合範例 7-19 的路徑為一個 `use` 陳述式</span>
 
 此行就會將 `std::io` 和 `std::io::Write` 引入作用域。
 

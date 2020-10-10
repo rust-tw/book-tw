@@ -4,7 +4,7 @@ fn main() {
     let height1 = 50;
 
     println!(
-        "長方形的面積爲 {} 平方像素。",
+        "長方形的面積為 {} 平方像素。",
         area(width1, height1)
     );
 }

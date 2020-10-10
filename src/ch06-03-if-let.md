@@ -1,16 +1,16 @@
 ## 透過 `if let` 簡化控制流
 
-`if let` 語法讓你可以用 `if` 與 `let` 的組合來以比較不冗長的方式，來處理只在乎其中一種模式而忽略其餘的數值。現在考慮一支程式如範例 6-6 所示，我們配對 `Option<u8>` 的值，但只想在數值爲 3 時執行程式。
+`if let` 語法讓你可以用 `if` 與 `let` 的組合來以比較不冗長的方式，來處理只在乎其中一種模式而忽略其餘的數值。現在考慮一支程式如範例 6-6 所示，我們配對 `Option<u8>` 的值，但只想在數值為 3 時執行程式。
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-06/src/main.rs:here}}
 ```
 
-<span class="caption">範例 6-6：`match` 只在數值爲 `Some(3)` 時執行程式</span>
+<span class="caption">範例 6-6：`match` 只在數值為 `Some(3)` 時執行程式</span>
 
-我們想在 `Some(3)` 配對到時做些事情，但不想管其他 `Some<u8>` 的值或是 `None`。爲了滿足 `match` 表達式，我們必須在只處理一種變體的分支後面，再加上 `_ => ()`。這樣就加了不少樣板程式碼。
+我們想在 `Some(3)` 配對到時做些事情，但不想管其他 `Some<u8>` 的值或是 `None`。為了滿足 `match` 表達式，我們必須在只處理一種變體的分支後面，再加上 `_ => ()`。這樣就加了不少樣板程式碼。
 
-不過我們可以使用 `if let` 以更精簡的方式寫出來，以下程式碼的行爲就與範例 6-6 的 `match` 一樣：
+不過我們可以使用 `if let` 以更精簡的方式寫出來，以下程式碼的行為就與範例 6-6 的 `match` 一樣：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-12-if-let/src/main.rs:here}}
@@ -42,7 +42,7 @@
 
 你的 Rust 程式碼現在能夠使用結構體與枚舉來表達你所相關研究領域的概念了。在你的 API 建立自訂型別可以確保型別安全，編譯器會保證你的函式只會取得該函式預期的型別數值。
 
-接下來爲了提供組織完善且直觀的的 API 供你的使用者使用，並只表達出使用者確切所需要的內容，我們需要瞭解 Rust 的模組。
+接下來為了提供組織完善且直觀的的 API 供你的使用者使用，並只表達出使用者確切所需要的內容，我們需要瞭解 Rust 的模組。
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [41d9f4c](https://github.com/rust-lang/book/blob/41d9f4c9ae6ba07191f55338e864c713cd49a876/src/ch06-03-if-let.md)

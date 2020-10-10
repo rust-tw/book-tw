@@ -9,7 +9,7 @@ fn main() {
         }
     }
 
-    println!("最大數字爲 {}", largest);
+    println!("最大數字為 {}", largest);
 
     let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
 
@@ -21,5 +21,5 @@ fn main() {
         }
     }
 
-    println!("最大數字爲 {}", largest);
+    println!("最大數字為 {}", largest);
 }

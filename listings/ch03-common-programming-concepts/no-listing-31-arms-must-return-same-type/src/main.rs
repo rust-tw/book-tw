@@ -3,5 +3,5 @@ fn main() {
 
     let number = if condition { 5 } else { "六" };
 
-    println!("數字結果爲：{}", number);
+    println!("數字結果為：{}", number);
 }

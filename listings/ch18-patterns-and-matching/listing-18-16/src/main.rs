@@ -15,11 +15,11 @@ fn main() {
 
     match msg {
         Message::ChangeColor(Color::Rgb(r, g, b)) => println!(
-            "變更顏色爲紅色 {}、綠色 {} 與藍色 {}",
+            "變更顏色為紅色 {}、綠色 {} 與藍色 {}",
             r, g, b
         ),
         Message::ChangeColor(Color::Hsv(h, s, v)) => println!(
-            "變更顏色爲色相 {}、飽和度 {} 與明度 {}",
+            "變更顏色為色相 {}、飽和度 {} 與明度 {}",
             h, s, v
         ),
         _ => (),

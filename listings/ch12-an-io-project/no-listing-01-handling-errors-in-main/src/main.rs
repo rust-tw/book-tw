@@ -17,7 +17,7 @@ fn main() {
 
     // ANCHOR: here
     println!("搜尋 {}", config.query);
-    println!("目標檔案爲 {}", config.filename);
+    println!("目標檔案為 {}", config.filename);
 
     if let Err(e) = run(config) {
         println!("應用程式錯誤：{}", e);

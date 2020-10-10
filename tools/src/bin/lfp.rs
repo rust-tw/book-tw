@@ -130,7 +130,7 @@ mod tests {
                Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
                  Running `target/guessing_game`
             請猜測一個數字！
-            祕密數字爲：61
+            祕密數字為：61
             請輸入你的猜測數字。
             10
             你的猜測數字：10
@@ -149,14 +149,14 @@ mod tests {
                Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
                  Running `target/debug/guessing_game`
             請猜測一個數字！
-            祕密數字爲：7
+            祕密數字為：7
             請輸入你的猜測數字。
             4
             你的猜測數字：4
             $ cargo run
                  Running `target/debug/guessing_game`
             請猜測一個數字！
-            祕密數字爲：83
+            祕密數字為：83
             請輸入你的猜測數字。
             5
             $ cargo run
@@ -181,7 +181,7 @@ mod tests {
                Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
                  Running `target/guessing_game`
             請猜測一個數字！
-            祕密數字爲：61
+            祕密數字為：61
             請輸入你的猜測數字。
             10
             你的猜測數字：10

@@ -2,5 +2,5 @@ $ cargo run
    Compiling variables v0.1.0 (file:///projects/variables)
     Finished dev [unoptimized + debuginfo] target(s) in 0.30s
      Running `target/debug/variables`
-x 的數值爲：5
-x 的數值爲：6
+x 的數值為：5
+x 的數值為：6

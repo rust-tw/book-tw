@@ -2,8 +2,8 @@ $ cargo run
    Compiling loops v0.1.0 (file:///projects/loops)
     Finished dev [unoptimized + debuginfo] target(s) in 0.32s
      Running `target/debug/loops`
-數值爲：10
-數值爲：20
-數值爲：30
-數值爲：40
-數值爲：50
+數值為：10
+數值為：20
+數值為：30
+數值為：40
+數值為：50

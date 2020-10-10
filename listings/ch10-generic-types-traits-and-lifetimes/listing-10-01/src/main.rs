@@ -10,7 +10,7 @@ fn main() {
         }
     }
 
-    println!("最大數字爲 {}", largest);
+    println!("最大數字為 {}", largest);
     // ANCHOR_END: here
     assert_eq!(largest, 100);
     // ANCHOR: here

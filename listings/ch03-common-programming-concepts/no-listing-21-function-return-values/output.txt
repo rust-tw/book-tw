@@ -2,4 +2,4 @@ $ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
     Finished dev [unoptimized + debuginfo] target(s) in 0.30s
      Running `target/debug/functions`
-x 的數值爲：5
+x 的數值為：5

@@ -15,7 +15,7 @@ fn main() {
     });
 
     println!("搜尋 {}", config.query);
-    println!("目標檔案爲 {}", config.filename);
+    println!("目標檔案為 {}", config.filename);
 
     // ANCHOR: here
     if let Err(e) = minigrep::run(config) {

@@ -2,7 +2,7 @@ fn main() {}
 
 // ANCHOR: here
 fn prints_and_returns_10(a: i32) -> i32 {
-    println!("我得到的數值爲 {}", a);
+    println!("我得到的數值為 {}", a);
     10
 }
 

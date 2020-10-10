@@ -3,4 +3,4 @@ $ cargo run test sample.txt
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
      Running `target/debug/minigrep test sample.txt`
 搜尋 test
-目標檔案爲 sample.txt
+目標檔案為 sample.txt

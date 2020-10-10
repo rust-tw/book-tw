@@ -3,7 +3,7 @@ $ cargo run the poem.txt
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
      Running `target/debug/minigrep the poem.txt`
 搜尋 the
-目標檔案爲 poem.txt
+目標檔案為 poem.txt
 文字內容：
 I’m nobody! Who are you?
 Are you nobody, too?

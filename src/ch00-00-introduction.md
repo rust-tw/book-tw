@@ -19,7 +19,7 @@ Rust 也將一些現代化的開發工具帶入系統程式設計的世界中：
 
 * Cargo 是個管理依賴函式庫暨建構的工具，讓新增、編譯與管理依賴變得十分輕鬆，並在 Rust 生態系統維持一致性。
 * Rustfmt 確保開發者遵循統一的程式碼風格。
-* Rust Language Server 爲整合開發環境（IDE）提供了程式碼補全與行內錯誤訊息。
+* Rust Language Server 為整合開發環境（IDE）提供了程式碼補全與行內錯誤訊息。
 
 透過使用這些與其他 Rust 生態系統中的工具，開發者可以在寫系統層級的程式語言時，維持一定的生產力。
 
@@ -80,7 +80,7 @@ Rust 語言也希望能支援其他許多使用者，這裡提及的只是一部
 | <img src="img/ferris/does_not_compile.svg" class="ferris-explain"/>    | 此程式碼無法編譯！                               |
 | <img src="img/ferris/panics.svg" class="ferris-explain"/>              | 此程式碼會恐慌！                                 |
 | <img src="img/ferris/unsafe.svg" class="ferris-explain"/>              | 此程式碼區塊包含不安全的程式碼。                 |
-| <img src="img/ferris/not_desired_behavior.svg" class="ferris-explain"/>| 此程式碼沒有產生預期的行爲。                     |
+| <img src="img/ferris/not_desired_behavior.svg" class="ferris-explain"/>| 此程式碼沒有產生預期的行為。                     |
 
 在大多數的情況下，我們會引導你將無法編譯的程式碼寫成正確的版本。
 

@@ -5,5 +5,5 @@ fn main() {
 
     let x = x * 2;
 
-    println!("x 的數值爲：{}", x);
+    println!("x 的數值為：{}", x);
 }

@@ -56,7 +56,7 @@
 
 - [泛型型別、特徵與生命週期](ch10-00-generics.md)
     - [泛型資料型別](ch10-01-syntax.md)
-    - [特徵：定義共同行爲](ch10-02-traits.md)
+    - [特徵：定義共同行為](ch10-02-traits.md)
     - [透過生命週期驗證引用](ch10-03-lifetime-syntax.md)
 
 - [編寫自動化測試](ch11-00-testing.md)
@@ -122,7 +122,7 @@
 
 - [最終專案：建立多執行緒網頁伺服器](ch20-00-final-project-a-web-server.md)
     - [建立單一執行緒的網頁伺服器](ch20-01-single-threaded.md)
-    - [將單一執行緒伺服器轉換爲多執行緒伺服器](ch20-02-multithreaded.md)
+    - [將單一執行緒伺服器轉換為多執行緒伺服器](ch20-02-multithreaded.md)
     - [正常關機與清理](ch20-03-graceful-shutdown-and-cleanup.md)
 
 - [附錄](appendix-00.md)

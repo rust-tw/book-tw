@@ -12,7 +12,7 @@ warning: unused `std::result::Result` that must be used
     Finished dev [unoptimized + debuginfo] target(s) in 0.71s
      Running `target/debug/minigrep the poem.txt`
 搜尋 the
-目標檔案爲 poem.txt
+目標檔案為 poem.txt
 文字內容：
 I’m nobody! Who are you?
 Are you nobody, too?

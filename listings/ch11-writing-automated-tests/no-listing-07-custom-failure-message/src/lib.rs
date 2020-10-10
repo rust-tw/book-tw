@@ -12,7 +12,7 @@ mod tests {
         let result = greeting("卡爾");
         assert!(
             result.contains("卡爾"),
-            "打招呼時並沒有喊出名稱，其數值爲 `{}`",
+            "打招呼時並沒有喊出名稱，其數值為 `{}`",
             result
         );
     }

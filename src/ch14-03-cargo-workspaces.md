@@ -11,7 +11,7 @@ $ mkdir add
 $ cd add
 ```
 
-接著在 *add* 目錄中，我們建立會設置整個工作空間的 *Cargo.toml* 檔案。此檔案不會有 `[package]` 段落或是我們在其他 *Cargo.toml* 檔案看過的詮釋資料。反之，他會使用一個 `[workspace]` 段落作爲起始，讓我們可以透過指定二進制 crate 的套件路徑來將它加到工作空間的成員中。在此例中，我們的路徑是 *adder*：
+接著在 *add* 目錄中，我們建立會設置整個工作空間的 *Cargo.toml* 檔案。此檔案不會有 `[package]` 段落或是我們在其他 *Cargo.toml* 檔案看過的詮釋資料。反之，他會使用一個 `[workspace]` 段落作為起始，讓我們可以透過指定二進制 crate 的套件路徑來將它加到工作空間的成員中。在此例中，我們的路徑是 *adder*：
 
 <span class="filename">檔案名稱：Cargo.toml</span>
 
@@ -45,7 +45,7 @@ $ cargo new adder
 └── target
 ```
 
-工作空間在頂層有一個 *target* 目錄用來儲存編譯結果。`adder` 套件不會有自己的 *target* 目錄。就算我們在 *adder* 目錄底下執行 `cargo build`，編譯結果仍然會在 *add/target* 底下而非 *add/adder/target*。Cargo 之所以這樣組織工作空間的 *target* 目錄是因爲工作空間的 crate 是會彼此互相依賴的。 如果每個 crate 都有自己的 *target* 目錄，每個 crate 就得重新編譯工作空間中的其他每個 crate 才能將編譯結果放入它們自己的 *target* 目錄。共享 *target* 目錄的話，crate 可以避免不必要的重新建構。
+工作空間在頂層有一個 *target* 目錄用來儲存編譯結果。`adder` 套件不會有自己的 *target* 目錄。就算我們在 *adder* 目錄底下執行 `cargo build`，編譯結果仍然會在 *add/target* 底下而非 *add/adder/target*。Cargo 之所以這樣組織工作空間的 *target* 目錄是因為工作空間的 crate 是會彼此互相依賴的。 如果每個 crate 都有自己的 *target* 目錄，每個 crate 就得重新編譯工作空間中的其他每個 crate 才能將編譯結果放入它們自己的 *target* 目錄。共享 *target* 目錄的話，crate 可以避免不必要的重新建構。
 
 ### 在工作空間中建立第二個套件
 
@@ -149,7 +149,7 @@ $ cargo run -p adder
 
 #### 在工作空間中依賴外部套件
 
-注意到工作空間只有在頂層有一個 *Cargo.lock* 檔案，而不是在每個 crate 目錄都有一個 *Cargo.lock*。這確保所有的 crate 都對所有的依賴使用相同的版本。如果我們加了 `rand` 套件到 *adder/Cargo.toml* 與 *add-one/Cargo.toml* 檔案中，Cargo 會將兩者的版本解析爲同一個 `rand` 版本並記錄到同個 *Cargo.lock* 中。確保工作空間所有 crate 都會使用相同依賴代表工作空間中的 crate 永遠都彼此相容。讓我們將 `rand` crate 加到 *add-one/Cargo.toml* 檔案的 `[dependencies]` 段落中，使 `add-one` crate 可以使用 `rand` crate：
+注意到工作空間只有在頂層有一個 *Cargo.lock* 檔案，而不是在每個 crate 目錄都有一個 *Cargo.lock*。這確保所有的 crate 都對所有的依賴使用相同的版本。如果我們加了 `rand` 套件到 *adder/Cargo.toml* 與 *add-one/Cargo.toml* 檔案中，Cargo 會將兩者的版本解析為同一個 `rand` 版本並記錄到同個 *Cargo.lock* 中。確保工作空間所有 crate 都會使用相同依賴代表工作空間中的 crate 永遠都彼此相容。讓我們將 `rand` crate 加到 *add-one/Cargo.toml* 檔案的 `[dependencies]` 段落中，使 `add-one` crate 可以使用 `rand` crate：
 
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -182,7 +182,7 @@ $ cargo build
     Finished dev [unoptimized + debuginfo] target(s) in 10.18s
 ```
 
-頂層的 *Cargo.lock* 現在就包含 `add-one` 有 `rand` 作爲依賴的資訊。不過就算我們能在工作空間的某處使用 `rand`，並不代表我們可以在工作空間的其他 crate 中使用它，除非它們的 *Cargo.toml* 也加上了 `rand`。舉例來說，如果我們將 `use rand;` 加到 *adder/src/main.rs* 檔案中想讓 `adder` 套件也使用的話，我們就會得到錯誤：
+頂層的 *Cargo.lock* 現在就包含 `add-one` 有 `rand` 作為依賴的資訊。不過就算我們能在工作空間的某處使用 `rand`，並不代表我們可以在工作空間的其他 crate 中使用它，除非它們的 *Cargo.toml* 也加上了 `rand`。舉例來說，如果我們將 `use rand;` 加到 *adder/src/main.rs* 檔案中想讓 `adder` 套件也使用的話，我們就會得到錯誤：
 
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/output-only-03-use-rand/add
@@ -201,7 +201,7 @@ error[E0432]: unresolved import `rand`
   |     ^^^^ no `rand` external crate
 ```
 
-要修正此問題，只要修改 `adder` 套件的 *Cargo.toml* 檔案，指示它也加入 `rand` 作爲依賴就好了。這樣建構 `adder` 套件就會將在 *Cargo.lock* 中將 `rand` 加入 `adder` 的依賴，但是沒有額外的 `rand` 會被下載。Cargo 會確保工作空間中每個套件的每個 crate 都會使用相同的 `rand` 套件版本。在工作空間中使用相同版本的 `rand` 可以節省空間，因爲我們就不會重複下載並能確保工作空間中的 crate 彼此可以互相兼容。
+要修正此問題，只要修改 `adder` 套件的 *Cargo.toml* 檔案，指示它也加入 `rand` 作為依賴就好了。這樣建構 `adder` 套件就會將在 *Cargo.lock* 中將 `rand` 加入 `adder` 的依賴，但是沒有額外的 `rand` 會被下載。Cargo 會確保工作空間中每個套件的每個 crate 都會使用相同的 `rand` 套件版本。在工作空間中使用相同版本的 `rand` 可以節省空間，因為我們就不會重複下載並能確保工作空間中的 crate 彼此可以互相兼容。
 
 #### 在工作空間中新增測試
 

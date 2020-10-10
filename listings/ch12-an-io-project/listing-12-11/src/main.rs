@@ -16,7 +16,7 @@ fn main() {
 
     // ANCHOR: here
     println!("搜尋 {}", config.query);
-    println!("目標檔案爲 {}", config.filename);
+    println!("目標檔案為 {}", config.filename);
 
     run(config);
 }

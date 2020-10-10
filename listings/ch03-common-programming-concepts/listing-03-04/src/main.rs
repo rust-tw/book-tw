@@ -3,7 +3,7 @@ fn main() {
     let mut index = 0;
 
     while index < 5 {
-        println!("數值爲：{}", a[index]);
+        println!("數值為：{}", a[index]);
 
         index += 1;
     }

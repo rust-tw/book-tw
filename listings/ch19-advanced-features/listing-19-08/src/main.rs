@@ -4,6 +4,6 @@ extern "C" {
 
 fn main() {
     unsafe {
-        println!("依據 C 所判斷 -3 的絕對值爲：{}", abs(-3));
+        println!("依據 C 所判斷 -3 的絕對值為：{}", abs(-3));
     }
 }

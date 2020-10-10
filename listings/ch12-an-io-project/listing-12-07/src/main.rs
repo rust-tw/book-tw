@@ -9,7 +9,7 @@ fn main() {
     // ANCHOR_END: here
 
     println!("搜尋 {}", config.query);
-    println!("目標檔案爲 {}", config.filename);
+    println!("目標檔案為 {}", config.filename);
 
     let contents = fs::read_to_string(config.filename)
         .expect("讀取檔案時發生了錯誤");

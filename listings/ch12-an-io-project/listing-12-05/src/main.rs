@@ -11,7 +11,7 @@ fn main() {
     // ANCHOR_END: here
 
     println!("搜尋 {}", query);
-    println!("目標檔案爲 {}", filename);
+    println!("目標檔案為 {}", filename);
 
     let contents = fs::read_to_string(filename)
         .expect("讀取檔案時發生了錯誤");

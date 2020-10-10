@@ -1,12 +1,12 @@
 ## 發佈 Crate 到 Crates.io
 
-我們已經使用過 [crates.io](https://crates.io/)<!-- ignore --> 的套件來作爲我們專案的依賴函式庫，但是你也可以發佈你自己的套件來將你的程式碼提供給其他人使用。[crates.io](https://crates.io/)<!-- ignore --> 會發行套件的原始碼，所以它主要用來託管開源程式碼。
+我們已經使用過 [crates.io](https://crates.io/)<!-- ignore --> 的套件來作為我們專案的依賴函式庫，但是你也可以發佈你自己的套件來將你的程式碼提供給其他人使用。[crates.io](https://crates.io/)<!-- ignore --> 會發行套件的原始碼，所以它主要用來託管開源程式碼。
 
 Rust 與 Cargo 有許多功能可以幫助其他人更容易找到並使用你發佈的套件。我們會介紹其中一些功能並解釋如何發佈套件。
 
 ### 寫上有幫助的技術文件註解
 
-準確地加上套件的技術文件有助於其他使用者知道如何及何時使用它們，所以投資時間在寫技術文件上是值得的。在第三章我們提過如何使用兩條斜線 `//` 來加上 Rust 程式碼註解。Rust 還有個特別的註解用來作爲技術文件，俗稱爲*技術文件註解（documentation comment）*，這能用來產生 HTML 技術文件。這些 HTML 顯示公開 API 項目中技術文件註解的內容，讓對此函式庫有興趣的開發者知道如何*使用*你的 crate，而不需知道 crate 是如何*實作*的。
+準確地加上套件的技術文件有助於其他使用者知道如何及何時使用它們，所以投資時間在寫技術文件上是值得的。在第三章我們提過如何使用兩條斜線 `//` 來加上 Rust 程式碼註解。Rust 還有個特別的註解用來作為技術文件，俗稱為*技術文件註解（documentation comment）*，這能用來產生 HTML 技術文件。這些 HTML 顯示公開 API 項目中技術文件註解的內容，讓對此函式庫有興趣的開發者知道如何*使用*你的 crate，而不需知道 crate 是如何*實作*的。
 
 技術文件註解使用三條斜線 `///` 而不是兩條，並支援 Markdown 符號來格式化文字。技術文件註解位於它們對應項目的上方。範例 14-1 顯示了 `my_crate` crate 中 `add_one` 的技術文件註解：
 
@@ -18,9 +18,9 @@ Rust 與 Cargo 有許多功能可以幫助其他人更容易找到並使用你�
 
 <span class="caption">範例 14-1：函式的技術文件註解</span>
 
-我們在這裡加上了解釋函式 `add_one` 行爲的描述、加上一個標題爲 `Examples` 的段落並附上展示如何使用 `add_one` 函式的程式碼。我們可以透過執行 `cargo doc` 來從技術文件註解產生 HTML 技術文件。此命令會執行隨著 Rust 一起發佈的工具 `rustdoc`，並在 *target/doc* 目錄下產生 HTML 技術文件。
+我們在這裡加上了解釋函式 `add_one` 行為的描述、加上一個標題為 `Examples` 的段落並附上展示如何使用 `add_one` 函式的程式碼。我們可以透過執行 `cargo doc` 來從技術文件註解產生 HTML 技術文件。此命令會執行隨著 Rust 一起發佈的工具 `rustdoc`，並在 *target/doc* 目錄下產生 HTML 技術文件。
 
-爲了方便起見，你可以執行 `cargo doc --open` 來建構當前 crate 的 HTML 技術文件（以及 crate 所有依賴的技術文件）並在網頁瀏覽器中開啟結果。導向到函式 `add_one` 而你就能看到技術文件註解是如何呈現的，如圖示 14-1 所示：
+為了方便起見，你可以執行 `cargo doc --open` 來建構當前 crate 的 HTML 技術文件（以及 crate 所有依賴的技術文件）並在網頁瀏覽器中開啟結果。導向到函式 `add_one` 而你就能看到技術文件註解是如何呈現的，如圖示 14-1 所示：
 
 <img alt="Rendered HTML documentation for the `add_one` function of `my_crate`" src="img/trpl14-01.png" class="center" />
 
@@ -28,17 +28,17 @@ Rust 與 Cargo 有許多功能可以幫助其他人更容易找到並使用你�
 
 #### 常見技術文件段落
 
-我們在範例 14-1 使用 `# Examples` Markdown 標題來在 HTML 中建立一個標題爲「Examples」的段落。以下是 crate 技術文件中常見的段落標題：
+我們在範例 14-1 使用 `# Examples` Markdown 標題來在 HTML 中建立一個標題為「Examples」的段落。以下是 crate 技術文件中常見的段落標題：
 
 * **Panics**：該函式可能會導致恐慌的可能場合。函式的呼叫者不希望他們的程式恐慌的話，就要確保他們沒有在這些情況下呼叫該函式。
 * **Errors**：如果函式回傳 `Result`，解釋發生錯誤的可能種類以及在何種條件下可能會回傳這些錯誤有助於呼叫者，讓他們可以用不同方式來寫出處理不同種錯誤的程式碼。
-* **Safety**: 如果呼叫的函式是 `unsafe` 的話（我們會在第十九章討論不安全的議題），就必須要有個段落解釋爲何該函式是不安全的，並提及函式預期呼叫者要確保哪些不變條件（invariants）。
+* **Safety**: 如果呼叫的函式是 `unsafe` 的話（我們會在第十九章討論不安全的議題），就必須要有個段落解釋為何該函式是不安全的，並提及函式預期呼叫者要確保哪些不變條件（invariants）。
 
-大多數的技術文件註解不全都需要這些段落，但這些是呼叫程式碼的人可能有興趣瞭解的內容，你可以作爲提醒你的檢查列表。
+大多數的技術文件註解不全都需要這些段落，但這些是呼叫程式碼的人可能有興趣瞭解的內容，你可以作為提醒你的檢查列表。
 
-#### 將技術文件註解作爲測試
+#### 將技術文件註解作為測試
 
-在技術文件註解加上範例程式碼區塊有助於解釋如何使用你的函式庫，而且這麼做還有個額外好處：執行 `cargo test` 也會將你的技術文件視爲測試來執行！在技術文件加上範例的確是最佳示範，但是如果程式碼在技術文件寫完之後變更的話，該範例可能就會無法執行了。如果我們對範例 14-1 中有附上技術文件的函式 `add_one` 執行 `cargo test` 的話，我們會看見測試結果有以下這樣的段落：
+在技術文件註解加上範例程式碼區塊有助於解釋如何使用你的函式庫，而且這麼做還有個額外好處：執行 `cargo test` 也會將你的技術文件視為測試來執行！在技術文件加上範例的確是最佳示範，但是如果程式碼在技術文件寫完之後變更的話，該範例可能就會無法執行了。如果我們對範例 14-1 中有附上技術文件的函式 `add_one` 執行 `cargo test` 的話，我們會看見測試結果有以下這樣的段落：
 
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/listing-14-01/
@@ -59,7 +59,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 #### 包含項目結構的註解
 
-還有另一種技術文件註解的風格爲 `//!`，這是對其包含該註解的項目所加上的技術文件，而不是對註解後的項目所加上的技術文件。我通常將此技術文件註解用於 crate 源頭檔（通常爲 *src/lib.rs*）或模組來對整個 crate 或模組加上技術文件。
+還有另一種技術文件註解的風格為 `//!`，這是對其包含該註解的項目所加上的技術文件，而不是對註解後的項目所加上的技術文件。我通常將此技術文件註解用於 crate 源頭檔（通常為 *src/lib.rs*）或模組來對整個 crate 或模組加上技術文件。
 
 舉例來說，如果我們希望能加上技術文件來描述包含 `add_one` 函式的 `my_crate` 目的，我們可以用  `//!` 在 *src/lib.rs* 檔案開頭加上技術文件註解，如範例 14-2 所示：
 
@@ -71,7 +71,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 <span class="caption">範例 14-2：描述整個 `my_crate` crate 的技術文件</span>
 
-注意到 `//!` 最後一行之後並沒有緊貼任何程式碼，因爲我們是用 `//!` 而非 `///` 來下註解，我們是對包含此註解的整個項目加上技術文件，而不是此註解之後的項目。在此例中，包含此註解的項目爲 *src/lib.rs* 檔案，也就是 crate 的源頭。這些註解會描述整個 crate。
+注意到 `//!` 最後一行之後並沒有緊貼任何程式碼，因為我們是用 `//!` 而非 `///` 來下註解，我們是對包含此註解的整個項目加上技術文件，而不是此註解之後的項目。在此例中，包含此註解的項目為 *src/lib.rs* 檔案，也就是 crate 的源頭。這些註解會描述整個 crate。
 
 當我們執行 `cargo doc --open`，這些註解會顯示在 `my_crate` 技術文件的首頁，位於 crate 公開項目列表的上方，如圖示 14-2 所示：
 
@@ -117,7 +117,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 <span class="caption">範例 14-4：一個使用 `art` 並匯出內部架構項目的 crate</span>
 
-範例 14-4 中使用 `art` crate 的程式碼作者必須搞清楚 `PrimaryColor` 位於 `kinds` 模組中而 `mix` 位於 `utils` 模組中。`art` crate 的模組架構對開發 `art` crate 的開發者才比較有意義，對使用 `art` crate 的開發者來說就沒那麼重要。內部架構是爲了組織 crate 的不同部分至 `kinds` 模組與 `utils` 模組，這對想要知道如何使用 `art` crate 的人來說沒有提供什麼有用的資訊。`art` crate 模組架構還容易造成混淆，因爲開發者得自己搞清楚要從何處找起。而且這樣的架構也很不方便，因爲開發者必須在 `use` 陳述式中指定每個模組名稱。
+範例 14-4 中使用 `art` crate 的程式碼作者必須搞清楚 `PrimaryColor` 位於 `kinds` 模組中而 `mix` 位於 `utils` 模組中。`art` crate 的模組架構對開發 `art` crate 的開發者才比較有意義，對使用 `art` crate 的開發者來說就沒那麼重要。內部架構是為了組織 crate 的不同部分至 `kinds` 模組與 `utils` 模組，這對想要知道如何使用 `art` crate 的人來說沒有提供什麼有用的資訊。`art` crate 模組架構還容易造成混淆，因為開發者得自己搞清楚要從何處找起。而且這樣的架構也很不方便，因為開發者必須在 `use` 陳述式中指定每個模組名稱。
 
 要從公開 API 移除內部架構，我們可以修改範例 14-3 中 `art` crate 的程式碼，並加上 `pub use` 陳述式來在頂層重新匯出項目，如範例 14-5 所示：
 
@@ -157,7 +157,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 $ cargo login abcdefghijklmnopqrstuvwxyz012345
 ```
 
-此命令會傳遞你的 API token 給 Cargo 並儲存在本地的 *~/.cargo/credentials*。注意此 token 是個*祕密（secret）*，千萬不要分享給其他人。如果你因爲任何原因分享給任何人的話，你最好撤銷掉並回到 [crates.io](https://crates.io/)<!-- ignore --> 產生新的 token。
+此命令會傳遞你的 API token 給 Cargo 並儲存在本地的 *~/.cargo/credentials*。注意此 token 是個*祕密（secret）*，千萬不要分享給其他人。如果你因為任何原因分享給任何人的話，你最好撤銷掉並回到 [crates.io](https://crates.io/)<!-- ignore --> 產生新的 token。
 
 ### 新增詮釋資料到新的 Crate
 
@@ -189,7 +189,7 @@ See https://doc.rust-lang.org/cargo/reference/manifest.html#package-metadata for
 error: api errors (status 200 OK): missing or empty metadata fields: description, license. Please see https://doc.rust-lang.org/cargo/reference/manifest.html for how to upload metadata
 ```
 
-原因是因爲你還缺少一些關鍵資訊：描述與授權條款是必須的，所以人們才能知道你的 crate 在做什麼以及在何種情況下允許使用。要修正此錯誤，你就需要將這些資訊加到 *Cargo.toml* 檔案中。
+原因是因為你還缺少一些關鍵資訊：描述與授權條款是必須的，所以人們才能知道你的 crate 在做什麼以及在何種情況下允許使用。要修正此錯誤，你就需要將這些資訊加到 *Cargo.toml* 檔案中。
 
 加上一兩句描述，它就會顯示在你的 crate 的搜尋結果中。至於 `license` 欄位，你需要給予 *license identifier value*。[Linux Foundation’s Software Package Data
 Exchange (SPDX)][spdx] 有列出你可以使用的標識符數值。舉例來說，要指定你的 crate 使用 MIT 授權條款的話，就加上 `MIT` 標識符：
@@ -206,7 +206,7 @@ license = "MIT"
 
 如果你想使用沒有出現在 SPDX 的授權條款，你需要將該授權條款的文字儲存在一個檔案中、將該檔案加入你的專案中並使用 `license-file` 來指定該檔案名稱，而不使用 `license`。
 
-你的專案適合使用什麼樣的授權條款超出了本書的範疇。不過 Rust 社群中許多人都會用 `MIT OR Apache-2.0` 雙授權條款作爲它們專案的授權方式，這和 Rust 的授權條款一樣。這也剛好展示你也可以用 `OR` 指定數個授權條款，讓你的專案擁有數個不同的授權方式。
+你的專案適合使用什麼樣的授權條款超出了本書的範疇。不過 Rust 社群中許多人都會用 `MIT OR Apache-2.0` 雙授權條款作為它們專案的授權方式，這和 Rust 的授權條款一樣。這也剛好展示你也可以用 `OR` 指定數個授權條款，讓你的專案擁有數個不同的授權方式。
 
 有了當你用 `cargo new` 建立 crate 時就會產生的獨特名稱、版本與作者資訊，以及你的手動加入的描述與授權條款，已經準備好發佈的 *Cargo.toml* 檔案會如以下所示：
 
@@ -230,7 +230,7 @@ license = "MIT OR Apache-2.0"
 
 現在你已經建立了帳號、儲存了 API token、選擇了 crate 的獨特名稱並指定了所需的詮釋資料，你現在已經準備好發佈了！發佈 crate 會上傳一個指定版本到 [crates.io](https://crates.io/)<!-- ignore --> 供其他人使用。
 
-發佈 crate 時請格外小心，因爲發佈是會*永遠*存在的。該版本無法被覆寫，而且程式碼無法被刪除。[crates.io](https://crates.io/)<!-- ignore --> 其中一個主要目標就是要作爲儲存程式碼的永久伺服器，讓所有依賴 [crates.io](https://crates.io/)<!-- ignore --> 的 crate 的專案可以持續正常運作。允許刪除版本會讓此目標幾乎無法達成。不過你能發佈的 crate 版本不會有數量限制。
+發佈 crate 時請格外小心，因為發佈是會*永遠*存在的。該版本無法被覆寫，而且程式碼無法被刪除。[crates.io](https://crates.io/)<!-- ignore --> 其中一個主要目標就是要作為儲存程式碼的永久伺服器，讓所有依賴 [crates.io](https://crates.io/)<!-- ignore --> 的 crate 的專案可以持續正常運作。允許刪除版本會讓此目標幾乎無法達成。不過你能發佈的 crate 版本不會有數量限制。
 
 再次執行 `cargo publish` 命令，這次就應該會成功了：
 
@@ -251,7 +251,7 @@ $ cargo publish
    Uploading guessing_game v0.1.0 (file:///projects/guessing_game)
 ```
 
-恭喜！你現在將你的程式碼分享給 Rust 社群了，任何人現在都可以輕鬆將你的 crate 加到他們的專案中作爲依賴了。
+恭喜！你現在將你的程式碼分享給 Rust 社群了，任何人現在都可以輕鬆將你的 crate 加到他們的專案中作為依賴了。
 
 ### 對現有 Crate 發佈新版本
 
@@ -261,9 +261,9 @@ $ cargo publish
 
 ### 透過 `cargo yank` 移除 Crates.io 的版本
 
-雖然你無法刪除 crate 之前的版本，你還是可以防止任何未來的專案加入它們作爲依賴。這在 crate 版本因某些原因而被破壞時會很有用。在這樣的情況下，Cargo 支援*撤回（yanking）* crate 版本。
+雖然你無法刪除 crate 之前的版本，你還是可以防止任何未來的專案加入它們作為依賴。這在 crate 版本因某些原因而被破壞時會很有用。在這樣的情況下，Cargo 支援*撤回（yanking）* crate 版本。
 
-撤回一個版本能防止新專案用該版本作爲依賴，同時允許現存依賴它的專案能夠繼續下載並依賴該版本。實際上，撤回代表所有專案的 *Cargo.lock* 都不會被破壞，且任何未來產生的 *Cargo.lock* 檔案不會使用被撤回的版本。
+撤回一個版本能防止新專案用該版本作為依賴，同時允許現存依賴它的專案能夠繼續下載並依賴該版本。實際上，撤回代表所有專案的 *Cargo.lock* 都不會被破壞，且任何未來產生的 *Cargo.lock* 檔案不會使用被撤回的版本。
 
 要撤回一個 crate 的版本，執行 `cargo yank` 並指定你想撤回的版本：
 

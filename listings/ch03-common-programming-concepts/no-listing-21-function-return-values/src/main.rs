@@ -5,5 +5,5 @@ fn five() -> i32 {
 fn main() {
     let x = five();
 
-    println!("x 的數值爲：{}", x);
+    println!("x 的數值為：{}", x);
 }

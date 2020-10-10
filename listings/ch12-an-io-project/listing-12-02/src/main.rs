@@ -7,5 +7,5 @@ fn main() {
     let filename = &args[2];
 
     println!("搜尋 {}", query);
-    println!("目標檔案爲 {}", filename);
+    println!("目標檔案為 {}", filename);
 }
