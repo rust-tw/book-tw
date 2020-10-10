@@ -167,44 +167,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#comparing-performance-loops-vs-iterators" id="comparing-performance-loops-vs-iterators">Comparing Performance: Loops vs. Iterators</a></h2>
-<p>To determine whether to use loops or iterators, you need to know which version
-of our <code>search</code> functions is faster: the version with an explicit <code>for</code> loop or
-the version with iterators.</p>
-<p>We ran a benchmark by loading the entire contents of <em>The Adventures of
-Sherlock Holmes</em> by Sir Arthur Conan Doyle into a <code>String</code> and looking for the
-word <em>the</em> in the contents. Here are the results of the benchmark on the
-version of <code>search</code> using the <code>for</code> loop and the version using iterators:</p>
+                        <h2><a class="header" href="#比較效能迴圈-vs-疊代器" id="比較效能迴圈-vs-疊代器">比較效能：迴圈 vs. 疊代器</a></h2>
+<p>爲了決定該使用迴圈還是疊代器，你需要知道哪個 <code>search</code> 函式的版本比較快：是顯式 <code>for</code> 迴圈的版本，還是疊代器的版本。</p>
+<p>我們可以透過讀取整本 Sir Arthur Conan Doyle 寫的 <em>The Adventures of Sherlock Holmes</em> 到 <code>String</code> 中並搜尋內容中的 <em>the</em> 來進行評測。以下爲針對 <code>search</code> 函式使用 <code>for</code> 迴圈與使用疊代器的版本評測（benchmark）：</p>
 <pre><code class="language-text">test bench_search_for  ... bench:  19,620,300 ns/iter (+/- 915,700)
 test bench_search_iter ... bench:  19,234,900 ns/iter (+/- 657,200)
 </code></pre>
-<p>The iterator version was slightly faster! We won’t explain the benchmark code
-here, because the point is not to prove that the two versions are equivalent
-but to get a general sense of how these two implementations compare
-performance-wise.</p>
-<p>For a more comprehensive benchmark, you should check using various texts of
-various sizes as the <code>contents</code>, different words and words of different lengths
-as the <code>query</code>, and all kinds of other variations. The point is this:
-iterators, although a high-level abstraction, get compiled down to roughly the
-same code as if you’d written the lower-level code yourself. Iterators are one
-of Rust’s <em>zero-cost abstractions</em>, by which we mean using the abstraction
-imposes no additional runtime overhead. This is analogous to how Bjarne
-Stroustrup, the original designer and implementor of C++, defines
-<em>zero-overhead</em> in “Foundations of C++” (2012):</p>
+<p>疊代器版本竟然比較快一些！我們在此不會解釋評測的程式碼，因爲這裡的重點不再於證明這兩種版本是一樣快的，而是要理解這兩種實作對效能的影響。</p>
+<p>要做更全面的評測的話，你應該要檢查使用不同大小的不同文字來作爲 <code>contents</code>、不同單字與不同長度來作爲 <code>query</code>，以及所有各式各樣的可能性。這邊的重點在於：疊代器雖然是高階抽象，但其編譯出來的程式碼與你親自寫出低階的程式碼幾乎相同。疊代器是 Rust 其中一種<em>零成本抽象（zero-cost abstractions）</em> ，這指的是使用的抽象不會在執行時有額外的開銷。這是 C++ 的初始設計暨實作者 Bjarne Stroustrup 在 <em>Foundations of C++” (2012) 書中所定義的</em>零開銷（zero-overhead）* 的概念：</p>
 <blockquote>
-<p>In general, C++ implementations obey the zero-overhead principle: What you
-don’t use, you don’t pay for. And further: What you do use, you couldn’t hand
-code any better.</p>
+<p>大致上來說，C++ 的實作遵守著零開銷的原則：你沒有使用到的話，你就不必買單。而且你有使用到的話，你不可能在寫出更好的程式碼。</p>
 </blockquote>
-<p>As another example, the following code is taken from an audio decoder. The
-decoding algorithm uses the linear prediction mathematical operation to
-estimate future values based on a linear function of the previous samples. This
-code uses an iterator chain to do some math on three variables in scope: a
-<code>buffer</code> slice of data, an array of 12 <code>coefficients</code>, and an amount by which
-to shift data in <code>qlp_shift</code>. We’ve declared the variables within this example
-but not given them any values; although this code doesn’t have much meaning
-outside of its context, it’s still a concise, real-world example of how Rust
-translates high-level ideas to low-level code.</p>
+<p>作爲另一個例子，以下程式碼是音訊解碼器的其中一個段落。解碼演算碼使用線性預測數學運算，並依據之前樣本的線性函式來預估未來的數值。此程式碼使用一連串的疊代器來對作用域中的三個變數進行數學運算：資料切片 <code>buffer</code>、長度爲 12 的 <code>coefficients</code> 陣列以及要偏移的數量 <code>qlp_shift</code>。我們在範例中宣告變數但沒有給予任何數值，雖然只看此程式碼的確沒有什麼意義，但是這仍然是個現實世界中的其中一個簡例，可以來看出 Rust 如何將高階的想法轉換成低階的程式碼。</p>
 <pre><code class="language-rust ignore">let buffer: &amp;mut [i32];
 let coefficients: [i64; 12];
 let qlp_shift: i16;
@@ -218,35 +192,12 @@ for i in 12..buffer.len() {
     buffer[i] = prediction as i32 + delta;
 }
 </code></pre>
-<p>To calculate the value of <code>prediction</code>, this code iterates through each of the
-12 values in <code>coefficients</code> and uses the <code>zip</code> method to pair the coefficient
-values with the previous 12 values in <code>buffer</code>. Then, for each pair, we
-multiply the values together, sum all the results, and shift the bits in the
-sum <code>qlp_shift</code> bits to the right.</p>
-<p>Calculations in applications like audio decoders often prioritize performance
-most highly. Here, we’re creating an iterator, using two adaptors, and then
-consuming the value. What assembly code would this Rust code compile to? Well,
-as of this writing, it compiles down to the same assembly you’d write by hand.
-There’s no loop at all corresponding to the iteration over the values in
-<code>coefficients</code>: Rust knows that there are 12 iterations, so it “unrolls” the
-loop. <em>Unrolling</em> is an optimization that removes the overhead of the loop
-controlling code and instead generates repetitive code for each iteration of
-the loop.</p>
-<p>All of the coefficients get stored in registers, which means accessing the
-values is very fast. There are no bounds checks on the array access at runtime.
-All these optimizations that Rust is able to apply make the resulting code
-extremely efficient. Now that you know this, you can use iterators and closures
-without fear! They make code seem like it’s higher level but don’t impose a
-runtime performance penalty for doing so.</p>
-<h2><a class="header" href="#summary" id="summary">Summary</a></h2>
-<p>Closures and iterators are Rust features inspired by functional programming
-language ideas. They contribute to Rust’s capability to clearly express
-high-level ideas at low-level performance. The implementations of closures and
-iterators are such that runtime performance is not affected. This is part of
-Rust’s goal to strive to provide zero-cost abstractions.</p>
-<p>Now that we’ve improved the expressiveness of our I/O project, let’s look at
-some more features of <code>cargo</code> that will help us share the project with the
-world.</p>
+<p>要計算 <code>prediction</code> 的數值的話，此程式碼會遍歷 <code>coefficients</code> 的 12 個數值並使用 <code>zip</code> 方法將係數數值與 <code>buffer</code> 中之前 12 個數值做配對。然後在每個配對中，我們將數值相乘，然後相加所有結果，最後對總和往右偏移 <code>qlp_shift</code> 位。</p>
+<p>像音訊解碼器這種的應用程式運算通常最注重效率。我們在此建立了一個疊代器，使用兩個配接器，然後消化數值。這段 Rust 程式碼會產生什麼樣的組合語言程式碼呢？在本書撰寫時，它會編譯出與你自己手寫一樣的組合語言。遍歷 <code>coefficients</code> 的數值完全不需用到迴圈：Rust 知道一共有 12 次疊代，所以它會「展開（unroll）」迴圈。<em>展開</em>是一種優化方式，這會移除迴圈控制程式碼並改產生針對迴圈中每次疊代的重複程式碼。</p>
+<p>所有的係數都會存在暫存器中，這意味著存取數值會非常地快。在執行時不會有對陣列的界限檢查。這些所有 Rust 能做的優化讓產生的程式碼可以十分迅速。現在既然你已經知道了，你就可以自在地使用疊代器與閉包！它們可以寫出高階的程式碼，但不會犧牲執行時的效能。</p>
+<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<p>閉包與疊代是是 Rust 啟發自函式程式語言的概念。它們讓 Rust 在表達高階概念的同時，仍能擁有低階程式碼的效能。閉包與疊代器的實作對執行時效能不會有影響。這是 Rust 竭力提供零成本抽象的目標之一。</p>
+<p>現在我們改善了 I/O 專案的可讀性，讓我們看看 <code>cargo</code> 一些更多的功能，來幫助我們分享專案給全世界。</p>
 
                     </main>
 
