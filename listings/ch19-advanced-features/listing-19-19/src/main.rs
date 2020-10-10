@@ -6,16 +6,16 @@ struct Dog;
 
 impl Dog {
     fn baby_name() -> String {
-        String::from("Spot")
+        String::from("小不點")
     }
 }
 
 impl Animal for Dog {
     fn baby_name() -> String {
-        String::from("puppy")
+        String::from("小狗狗")
     }
 }
 
 fn main() {
-    println!("A baby dog is called a {}", Dog::baby_name());
+    println!("幼犬被稱作{}", Dog::baby_name());
 }

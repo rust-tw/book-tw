@@ -1,9 +1,9 @@
 fn main() {
     // ANCHOR: here
-    print!("forever ");
+    print!("永永");
 
     loop {
-        print!("and ever ");
+        print!("遠遠");
     }
     // ANCHOR_END: here
 }
