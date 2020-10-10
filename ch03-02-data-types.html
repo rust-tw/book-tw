@@ -218,7 +218,7 @@ To learn more, run the command again with --verbose.
 <tr><td>二進制</td><td><code>0b1111_0000</code></td></tr>
 <tr><td>位元組（僅限<code>u8</code>）</td><td><code>b'A'</code></td></tr>
 </tbody></table>
-<p>所以你該用哪些整數型別呢？如果你不確定的話，Rust 預設的型別通常就很好了，整數型別預設是 <code>i32</code>：此型別通常是最快的，甚至在 62 位元系統上也是。而你會用到 <code>isize</code> 或 <code>usize</code> 的主要時機是作爲某些集合的索引。</p>
+<p>所以你該用哪些整數型別呢？如果你不確定的話，Rust 預設的型別通常就很好了，整數型別預設是 <code>i32</code>：此型別通常是最快的，甚至在 64 位元系統上也是。而你會用到 <code>isize</code> 或 <code>usize</code> 的主要時機是作爲某些集合的索引。</p>
 <blockquote>
 <h5><a class="header" href="#整數溢位" id="整數溢位">整數溢位</a></h5>
 <p>假設你有個變數型別是 <code>u8</code> 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生<em>整數溢位</em>。Rust 有一些有趣的規則來處理這項行爲。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在運行時<em>恐慌（panic）</em>。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的<a href="ch09-01-unrecoverable-errors-with-panic.html">「對無法復原的錯誤使用 <code>panic!</code>」</a><!-- ignore -->段落討論更多造成恐慌的細節。</p>
