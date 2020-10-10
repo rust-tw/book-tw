@@ -202,7 +202,7 @@ error: could not compile `patterns`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>因爲 <code>Some(x)</code> 模式沒有涵蓋（且也涵蓋不了！）所有有效的數值，Rust 合理地產生了編譯錯誤。</p>
-<p>要修正在需要不可反駁模式的地方使用可反駁模式的錯誤，我們可以變更使用此模式的程式碼，與其使用 <code>let</code>，我們可以改用 <code>if let</code>。這樣如果模式不符的話，程式碼就會跳過大括號鐘的程式碼，讓我們可以繼續有效執行下去。範例 18-9 顯示了如何修正範例 18-8 的程式碼。</p>
+<p>要修正在需要不可反駁模式的地方使用可反駁模式的錯誤，我們可以變更使用此模式的程式碼，與其使用 <code>let</code>，我們可以改用 <code>if let</code>。這樣如果模式不符的話，程式碼就會跳過大括號中的程式碼，讓我們可以繼續有效執行下去。範例 18-9 顯示了如何修正範例 18-8 的程式碼。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let some_option_value: Option&lt;i32&gt; = None;
 </span>    if let Some(x) = some_option_value {

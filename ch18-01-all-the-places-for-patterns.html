@@ -190,23 +190,23 @@
     let age: Result&lt;u8, _&gt; = &quot;34&quot;.parse();
 
     if let Some(color) = favorite_color {
-        println!(&quot;Using your favorite color, {}, as the background&quot;, color);
+        println!(&quot;使用你最喜歡的顏色{}作爲背景&quot;, color);
     } else if is_tuesday {
-        println!(&quot;Tuesday is green day!&quot;);
+        println!(&quot;星期二就用綠色！&quot;);
     } else if let Ok(age) = age {
         if age &gt; 30 {
-            println!(&quot;Using purple as the background color&quot;);
+            println!(&quot;使用紫色作爲背景顏色&quot;);
         } else {
-            println!(&quot;Using orange as the background color&quot;);
+            println!(&quot;使用橘色作爲背景顏色&quot;);
         }
     } else {
-        println!(&quot;Using blue as the background color&quot;);
+        println!(&quot;使用藍色作爲背景顏色&quot;);
     }
 }
 </code></pre></pre>
 <p><span class="caption">範例 18-1：混合 <code>if let</code>、<code>else if</code>、<code>else if let</code> 與 <code>else</code></span></p>
 <p>如果使用者指定的最喜歡的顏色，該顏色就是背景顏色。如果今天是星期二，背景顏色就是綠色。如果使用者用字串指定他們的年齡且可以成功轉換成數字的話，背景顏色依據數字結果就是紫色或橘色。如果以上條件都不符合的話，背景顏色就是藍色。</p>
-<p>這樣的條件結構讓我們可以職員複雜的需求。透過我們在此寫死的數值，此例會印出 <code>Using purple as the background color</code>。</p>
+<p>這樣的條件結構讓我們可以支援複雜的需求。透過我們在此寫死的數值，此例會印出 <code>Using purple as the background color</code>。</p>
 <p>你可以看到 <code>if let</code> 也能如同 <code>match</code> 的分支一樣遮蔽變數，<code>if let Ok(age) = age</code> 這行就產生了新的遮蔽變數 <code>age</code> 來包含 <code>Ok</code> 變體內的數值。這意味著我們需要將 <code>if age &gt; 30</code> 的條件方在區塊內，我們不能組合這兩個條件成 <code>if let Ok(age) = age &amp;&amp; age &gt; 30</code>。遮蔽的 <code>age</code> 在大括號開始之後的新作用域才有效，此時才能與 30 做比較。</p>
 <p>使用 <code>if let</code> 表達式的缺點是編譯器不會徹底檢查，而 <code>match</code> 表達式則會。如果我們省略最後一個 <code>else</code> 區塊而因此忘了處理一些情況，編譯器不會警告我們這種可能的邏輯錯誤。</p>
 <h3><a class="header" href="#while-let-條件迴圈" id="while-let-條件迴圈"><code>while let</code> 條件迴圈</a></h3>
@@ -232,7 +232,7 @@
 </span>    let v = vec!['a', 'b', 'c'];
 
     for (index, value) in v.iter().enumerate() {
-        println!(&quot;{} is at index {}&quot;, value, index);
+        println!(&quot;{} 位於索引 {}&quot;, value, index);
     }
 <span class="boring">}
 </span></code></pre></pre>
@@ -242,9 +242,9 @@
    Compiling patterns v0.1.0 (file:///projects/patterns)
     Finished dev [unoptimized + debuginfo] target(s) in 0.52s
      Running `target/debug/patterns`
-a is at index 0
-b is at index 1
-c is at index 2
+a 位於索引 0
+b 位於索引 1
+c 位於索引 2
 </code></pre>
 <p>我們使用 <code>enumerate</code> 方法來配接一個疊代器來產生一個數值與該數值在疊代器中的索引，並放入元組中。第一次呼叫 <code>enumerate</code> 會產生元組 <code>(0, 'a')</code>。當此數值配對到 <code>(index, value)</code> 模式時，<code>index</code> 會是 <code>0</code> 而 <code>value</code> 會是 <code>'a'</code>，並印出第一行的輸出。</p>
 <h3><a class="header" href="#let-陳述式" id="let-陳述式"><code>let</code> 陳述式</a></h3>
@@ -295,7 +295,7 @@ To learn more, run the command again with --verbose.
 <h3><a class="header" href="#函式參數" id="函式參數">函式參數</a></h3>
 <p>函式參數也可以是模式。範例 18-6 的程式碼宣告了一個函式叫做 <code>foo</code> 來接收一個參數叫做 <code>x</code> 其型別爲 <code>i32</code>，現在這看起來你應該都還很熟悉。</p>
 <pre><pre class="playground"><code class="language-rust">fn foo(x: i32) {
-    // code goes here
+    // 內部的程式碼
 }
 <span class="boring">
 </span><span class="boring">fn main() {}
@@ -304,7 +304,7 @@ To learn more, run the command again with --verbose.
 <p><code>x</code> 的部分就是模式！就如同我們在 <code>let</code> 所做的一樣，我們可以在函式引數中使用模式來配對元組，範例 18-7 將傳遞給函式的元組拆爲不同數值。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn print_coordinates(&amp;(x, y): &amp;(i32, i32)) {
-    println!(&quot;Current location: ({}, {})&quot;, x, y);
+    println!(&quot;目前位置：({}, {})&quot;, x, y);
 }
 
 fn main() {
@@ -313,7 +313,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 18-7：函式透過參數來解構元組</span></p>
-<p>此程式碼會顯示 <code>Current location: (3, 5)</code>。數值 <code>&amp;(3, 5)</code> 能配對到模式 <code>&amp;(x, y)</code>，所以 <code>x</code> 會是數值 <code>3</code> 而 <code>y</code> 會是數值 <code>5</code>。</p>
+<p>此程式碼會顯示 <code>目前位置：(3, 5)</code>。數值 <code>&amp;(3, 5)</code> 能配對到模式 <code>&amp;(x, y)</code>，所以 <code>x</code> 會是數值 <code>3</code> 而 <code>y</code> 會是數值 <code>5</code>。</p>
 <p>我們還可以在閉包參數列表中像函式參數列表這樣使用模式，因爲第十三章就提過閉包類似於函式。</p>
 <p>到目前爲止，你已經見過許多使用模式的方式，但模式在我們能使用的地方並不都會有相同的行爲。在某些地方，模式必須是不可反駁的（irrefutable），而在其他場合它們則是可反駁的（refutable）。接下來我們會來討論這兩個概念。</p>
 <blockquote>

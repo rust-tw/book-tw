@@ -175,14 +175,14 @@
 </span>    let x = 1;
 
     match x {
-        1 =&gt; println!(&quot;one&quot;),
-        2 =&gt; println!(&quot;two&quot;),
+        1 =&gt; println!(&quot;一&quot;),
+        2 =&gt; println!(&quot;二&quot;),
         3 =&gt; println!(&quot;三&quot;),
-        _ =&gt; println!(&quot;anything&quot;),
+        _ =&gt; println!(&quot;任意數字&quot;),
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>此程式碼會顯示 one 因爲 x 的數值爲 1。此語法適用於當你想要程式碼取得一個特定數值時，就馬上採取行動的情況。</p>
+<p>此程式碼會顯示「一」因爲 x 的數值爲 1。此語法適用於當你想要程式碼取得一個特定數值時，就馬上採取行動的情況。</p>
 <h3><a class="header" href="#配對變數名稱" id="配對變數名稱">配對變數名稱</a></h3>
 <p>變數名稱是能配對任何數值的不可反駁模式，而且我們在本書中已經使用非常多次。不過當你在 <code>match</code> 表達式中使用變數名稱時會複雜一點。因為 <code>match</code> 會初始一個新的作用域，作為 <code>match</code> 表達式部分模式的宣告變數會遮蔽 <code>match</code> 結構外同名的變數，和所有變數一樣。在範例 18-11 中，我宣告了一個變數叫做 <code>x</code> 其有數值 <code>Some(5)</code> 和一個變數 <code>y</code> 其有數值 <code>10</code>。然後我們建立一個數值 <code>x</code> 的 <code>match</code> 表達式。檢查配對分之中的模式並在最後用 <code>println!</code> 顯示出來，並嘗試在程式碼執行或進一步閱讀之前推測其會顯示的結果會為何。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -191,41 +191,41 @@
     let y = 10;
 
     match x {
-        Some(50) =&gt; println!(&quot;Got 50&quot;),
-        Some(y) =&gt; println!(&quot;Matched, y = {:?}&quot;, y),
-        _ =&gt; println!(&quot;Default case, x = {:?}&quot;, x),
+        Some(50) =&gt; println!(&quot;取得 50&quot;),
+        Some(y) =&gt; println!(&quot;配對成功，y = {:?}&quot;, y),
+        _ =&gt; println!(&quot;預設情形，x = {:?}&quot;, x),
     }
 
-    println!(&quot;at the end: x = {:?}, y = {:?}&quot;, x, y);
+    println!(&quot;最後結果：x = {:?}, y = {:?}&quot;, x, y);
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 18-11：<code>match</code> 表達式其中一個分支宣告了遮蔽的變數 <code>y</code></span></p>
 <p>讓我們跑一遍看看當 <code>match</code> 執行時發生了什麼事。第一個配對分支並不符合 <code>x</code> 定義的數值，所以程式繼續執行下去。</p>
-<p>第二個配對分支宣告了一個新的變數叫做 <code>y</code> 來配對 <code>Some</code> 內的任何數值。因為我們位於 <code>match</code> 表達式內的新作用域，此新的 <code>y</code> 變數並不是我們一開始宣告有數值 10 的 <code>y</code>。這個新的 <code>y</code> 會配對 <code>Some</code> 內的任何數值，也就是 <code>x</code> 擁有的數值。因此，這個新的 <code>y</code> 會綁定 <code>x</code> 中 <code>Some</code> 的內部數值。該數值是 <code>5</code>，所以該分支的表達式就會執行並印出 <code>Matched, y = 5</code>。</p>
-<p>如果 <code>x</code> 是 <code>None</code> 數值而非 <code>Some(5)</code> 的話，前兩個分支的模式都不會配對到，所以數值會配對到底線的分支。我們沒有在底線分支的模式中宣告 <code>x</code> 變數，所以表達式中的 <code>x</code> 仍然是外部沒有被遮蔽的 <code>x</code> 。在這樣的假設狀況下，<code>match</code> 會印出 <code>Default case, x = None</code>。</p>
-<p>當 <code>match</code> 完成時，其作用域就會結束，所以作用域內的內部 <code>y</code> 也會結束。最後一個 <code>println!</code> 會顯示 <code>at the end: x = Some(5), y = 10</code>。</p>
-<p>要建立個能對外部 <code>x</code> 與 <code>y</code> 數值做比較的 <code>match</code> 表達式而非遮蔽變數的話，我們需要改用條件配對守護。我們會在之後的<a href="#extra-conditionals-with-match-guards">「提供額外條件的配對守護」</a><!-- ignore -->段落討論配對守護。</p>
+<p>第二個配對分支宣告了一個新的變數叫做 <code>y</code> 來配對 <code>Some</code> 內的任何數值。因為我們位於 <code>match</code> 表達式內的新作用域，此新的 <code>y</code> 變數並不是我們一開始宣告有數值 10 的 <code>y</code>。這個新的 <code>y</code> 會配對 <code>Some</code> 內的任何數值，也就是 <code>x</code> 擁有的數值。因此，這個新的 <code>y</code> 會綁定 <code>x</code> 中 <code>Some</code> 的內部數值。該數值是 <code>5</code>，所以該分支的表達式就會執行並印出 <code>配對成功，y = 5</code>。</p>
+<p>如果 <code>x</code> 是 <code>None</code> 數值而非 <code>Some(5)</code> 的話，前兩個分支的模式都不會配對到，所以數值會配對到底線的分支。我們沒有在底線分支的模式中宣告 <code>x</code> 變數，所以表達式中的 <code>x</code> 仍然是外部沒有被遮蔽的 <code>x</code> 。在這樣的假設狀況下，<code>match</code> 會印出 <code>預設情形，x = None</code>。</p>
+<p>當 <code>match</code> 完成時，其作用域就會結束，所以作用域內的內部 <code>y</code> 也會結束。最後一個 <code>println!</code> 會顯示 <code>最後結果：x = Some(5), y = 10</code>。</p>
+<p>要建立個能對外部 <code>x</code> 與 <code>y</code> 數值做比較的 <code>match</code> 表達式而非遮蔽變數的話，我們需要改用條件配對守護。我們會在之後的<a href="#%E6%8F%90%E4%BE%9B%E9%A1%8D%E5%A4%96%E6%A2%9D%E4%BB%B6%E7%9A%84%E9%85%8D%E5%B0%8D%E5%AE%88%E8%AD%B7">「提供額外條件的配對守護」</a><!-- ignore -->段落討論配對守護。</p>
 <h3><a class="header" href="#多重模式" id="多重模式">多重模式</a></h3>
-<p>在 <code>match</code> 表達式中，你可以使用 <code>|</code> 語法來配對數個模式，其代表 *OR（或）*的意思。舉例來說，以下程式碼會配對 <code>x</code> 的數值到配對分支，第一個分支有個 <em>OR</em> 的選項，代表如果 <code>x</code> 的數值配對的到分支中任一數值的話，該分支的程式碼就會執行：</p>
+<p>在 <code>match</code> 表達式中，你可以使用 <code>|</code> 語法來配對數個模式，其代表 <em>OR（或）</em> 的意思。舉例來說，以下程式碼會配對 <code>x</code> 的數值到配對分支，第一個分支有個 <em>OR</em> 的選項，代表如果 <code>x</code> 的數值配對的到分支中任一數值的話，該分支的程式碼就會執行：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 1;
 
     match x {
-        1 | 2 =&gt; println!(&quot;one or two&quot;),
+        1 | 2 =&gt; println!(&quot;一或二&quot;),
         3 =&gt; println!(&quot;三&quot;),
-        _ =&gt; println!(&quot;anything&quot;),
+        _ =&gt; println!(&quot;任意數字&quot;),
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>此程式碼會印出 <code>one or two</code>。</p>
+<p>此程式碼會印出 <code>一或二</code>。</p>
 <h3><a class="header" href="#透過--配對數值範圍" id="透過--配對數值範圍">透過 <code>..=</code> 配對數值範圍</a></h3>
 <p><code>..=</code> 語法讓我們可以配對一個範圍內包含的數值。在以下程式碼中，當模式配對的到範圍內的任何數值時，該分支就會執行：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 5;
 
     match x {
-        1..=5 =&gt; println!(&quot;one through five&quot;),
-        _ =&gt; println!(&quot;something else&quot;),
+        1..=5 =&gt; println!(&quot;一到五&quot;),
+        _ =&gt; println!(&quot;其他&quot;),
     }
 <span class="boring">}
 </span></code></pre></pre>
@@ -236,13 +236,13 @@
 </span>    let x = 'c';
 
     match x {
-        'a'..='j' =&gt; println!(&quot;early ASCII letter&quot;),
-        'k'..='z' =&gt; println!(&quot;late ASCII letter&quot;),
-        _ =&gt; println!(&quot;something else&quot;),
+        'a'..='j' =&gt; println!(&quot;前半部 ASCII 字母&quot;),
+        'k'..='z' =&gt; println!(&quot;後半部 ASCII 字母&quot;),
+        _ =&gt; println!(&quot;其他&quot;),
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Rust 可以知道 <code>c</code> 有包含在第一個模式的範圍內，所以印出 <code>early ASCII letter</code>。</p>
+<p>Rust 可以知道 <code>c</code> 有包含在第一個模式的範圍內，所以印出 <code>前半部 ASCII 字母</code>。</p>
 <h3><a class="header" href="#解構拆開數值" id="解構拆開數值">解構拆開數值</a></h3>
 <p>我們可以使用模式來解構結構體、枚舉、元組與引用，以便使用這些數值的不同部分。讓我們依序來看看。</p>
 <h4><a class="header" href="#解構結構體" id="解構結構體">解構結構體</a></h4>
@@ -292,16 +292,16 @@ fn main() {
     let p = Point { x: 0, y: 7 };
 
     match p {
-        Point { x, y: 0 } =&gt; println!(&quot;On the x axis at {}&quot;, x),
-        Point { x: 0, y } =&gt; println!(&quot;On the y axis at {}&quot;, y),
-        Point { x, y } =&gt; println!(&quot;On neither axis: ({}, {})&quot;, x, y),
+        Point { x, y: 0 } =&gt; println!(&quot;位於 x 軸的 {}&quot;, x),
+        Point { x: 0, y } =&gt; println!(&quot;位於 y 軸的 {}&quot;, y),
+        Point { x, y } =&gt; println!(&quot;不在任一軸：({}, {})&quot;, x, y),
     }
 }
 </code></pre></pre>
 <p><span class="caption">範例 18-14：解構並配對模式中的字面值數值</span></p>
 <p>第一個分支透過指定 <code>y</code> 欄位配對字面值為 <code>0</code> 來配對任何在 <code>x</code> 軸上的點。此模式仍然會建立變數 <code>x</code> 能讓我們在此分支的程式碼中使用。</p>
 <p>同樣地，第二個分支透過指定 <code>x</code> 欄位配對字面值為 <code>0</code> 來配對任何在 <code>y</code> 軸上的點，並建立擁有 <code>y</code> 欄位數值的變數 <code>y</code>。 第三個分支沒有指定任何字面值，所以它能配對任何其他 <code>Point</code> 並建立 <code>x</code> 與 <code>y</code> 欄位對應的變數。</p>
-<p>在此例中，數值 <code>p</code> 會配對到第二個分支，因為其 <code>x</code> 為 0，所以此程式碼會印出 <code>On the y axis at 7</code>。</p>
+<p>在此例中，數值 <code>p</code> 會配對到第二個分支，因為其 <code>x</code> 為 0，所以此程式碼會印出 <code>位於 y 軸的 7</code>。</p>
 <h4><a class="header" href="#解構枚舉" id="解構枚舉">解構枚舉</a></h4>
 <p>我們已經在本書中之前的章節就解構過枚舉。舉例來說，第六章的範例 6-5 我們就解構了 <code>Option&lt;i32&gt;</code>。其中一個我們還沒談到的細節是解構枚舉的模式必須與枚舉定義中其所儲存的資料相符。作為示範，我們在範例 18-15 中使用範例 6-2 的 <code>Message</code> 枚舉並寫一個 <code>match</code> 來提供會解構每個內部數值的模式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -317,24 +317,24 @@ fn main() {
 
     match msg {
         Message::Quit =&gt; {
-            println!(&quot;The Quit variant has no data to destructure.&quot;)
+            println!(&quot;Quit 變體沒有資料能解構。&quot;)
         }
         Message::Move { x, y } =&gt; {
             println!(
-                &quot;Move in the x direction {} and in the y direction {}&quot;,
+                &quot;Move 往 x 的方向爲 {} 且往 y 的方向爲 {}&quot;,
                 x, y
             );
         }
-        Message::Write(text) =&gt; println!(&quot;Text message: {}&quot;, text),
+        Message::Write(text) =&gt; println!(&quot;文字訊息：{}&quot;, text),
         Message::ChangeColor(r, g, b) =&gt; println!(
-            &quot;Change the color to red {}, green {}, and blue {}&quot;,
+            &quot;變更顏色爲紅色 {}、綠色 {} 與藍色 {}&quot;,
             r, g, b
         ),
     }
 }
 </code></pre></pre>
 <p><span class="caption">範例 18-15：解構持有不同種數值的枚舉變體</span></p>
-<p>此程式碼會印出 <code>Change the color to red 0, green 160, and blue 255</code>。請嘗試變更 <code>msg</code> 的數值來看看其他分支的程式碼會執行出什麼。</p>
+<p>此程式碼會印出 <code>變更顏色爲紅色 0、綠色 160 與藍色 255</code>。請嘗試變更 <code>msg</code> 的數值來看看其他分支的程式碼會執行出什麼。</p>
 <p>對於像是 <code>Message::Quit</code> 這種沒有任何資料的枚舉，我們無法進一步解構出任何資料。我們只能配對其本身的數值 <code>Message::Quit</code>，所以在該模式中沒有任何變數。</p>
 <p>對於像是 <code>Message::Move</code> 這種類結構體枚舉變體，我們可以使用類似於指定配對結構體的模式。在變體名稱之後，我們加上大括號以及列出欄位名稱作為變數，讓我們能拆成不同部分並在此分支的程式碼中使用。我們在此使用範例 18-13 一樣的簡寫形式。</p>
 <p>對於像是 <code>Message::Write</code> 這種持有一個元素，以及 <code>Message::ChangeColor</code> 這種持有三個元素的類元組枚舉變體，我們可以使用類似於配對元組的模式。模式中的變數數量必須與我們要配對的變體中元素數量相符。</p>
@@ -358,11 +358,11 @@ fn main() {
 
     match msg {
         Message::ChangeColor(Color::Rgb(r, g, b)) =&gt; println!(
-            &quot;Change the color to red {}, green {}, and blue {}&quot;,
+            &quot;變更顏色爲紅色 {}、綠色 {} 與藍色 {}&quot;,
             r, g, b
         ),
         Message::ChangeColor(Color::Hsv(h, s, v)) =&gt; println!(
-            &quot;Change the color to hue {}, saturation {}, and value {}&quot;,
+            &quot;變更顏色爲色相 {}、飽和度 {} 與明度 {}&quot;,
             h, s, v
         ),
         _ =&gt; (),
@@ -390,7 +390,7 @@ fn main() {
 <p>我們使用底線在（<code>_</code>）來作爲通配符（wildcard）模式，這會配對任何數值，但不會綁定其值。雖然底線 <code>_</code> 模式特別適合作爲 <code>match</code> 表達式最後一個分支，但我們可以將它用在任何模式中，包含函式參數，如範例 18-17 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn foo(_: i32, y: i32) {
-    println!(&quot;This code only uses the y parameter: {}&quot;, y);
+    println!(&quot;此程式碼只使用了參數 y：{}&quot;, y);
 }
 
 fn main() {
@@ -398,7 +398,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 18-17：在函式簽名中使用 <code>_</code></span></p>
-<p>此程式碼會完全忽略第一個引數傳入的數值 <code>3</code>，並會印出 <code>This code only uses the y parameter: 4</code>。</p>
+<p>此程式碼會完全忽略第一個引數傳入的數值 <code>3</code>，並會印出 <code>此程式碼只使用了參數 y：4</code>。</p>
 <p>在大多數情況中如果當你不再需要特定函式參數的話，你會直接變更簽名讓它不會包含沒有使用到的參數。但忽略函式參數在某些場合會很有用。舉例來說，當你實作的特徵有個特定的型別簽名，但是你實作的函式本體不需要其中某個參數。這樣編譯器就不會警告沒有使用到的函式參數，會當做你有使用參數名稱一樣。</p>
 <h4><a class="header" href="#透過巢狀-_-忽略部分數值" id="透過巢狀-_-忽略部分數值">透過巢狀 <code>_</code> 忽略部分數值</a></h4>
 <p>我們也可以在其他模式中使用 <code>_</code> 來忽略部分數值。舉例來說，當我們只想測試部分數值，但不會用到執行的程式碼中其他部分數值的情況。範例 18-18 的程式碼負責管理設定值的數值。業務要求使用者不能覆寫已經存在的自訂數訂值，但可以取消設定值，也可以在目前未設定時提供數值。</p>
@@ -408,18 +408,18 @@ fn main() {
 
     match (setting_value, new_setting_value) {
         (Some(_), Some(_)) =&gt; {
-            println!(&quot;Can't overwrite an existing customized value&quot;);
+            println!(&quot;無法覆寫已經存在的自訂數值&quot;);
         }
         _ =&gt; {
             setting_value = new_setting_value;
         }
     }
 
-    println!(&quot;setting is {:?}&quot;, setting_value);
+    println!(&quot;設定爲 {:?}&quot;, setting_value);
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 18-18：當我們不需要使用 <code>Some</code> 內部數值時，在模式中使用底線來配對 <code>Some</code> 變體</span></p>
-<p>此程式碼會印出 <code>Can't overwrite an existing customized value</code> 接著印出 <code>setting is Some(5)</code>。在第一個配對分支中，我們不需要去配對或使用任一 <code>Some</code> 變體內的數值，但我們的確需要檢測  <code>setting_value</code> 與 <code>new_setting_value</code> 是否都爲 <code>Some</code> 變體的情況。在此情況下，我們印出爲何不能變更 <code>setting_value</code>，且不讓它被改變。</p>
+<p>此程式碼會印出 <code>無法覆寫已經存在的自訂數值</code> 接著印出 <code>設定爲 Some(5)</code>。在第一個配對分支中，我們不需要去配對或使用任一 <code>Some</code> 變體內的數值，但我們的確需要檢測  <code>setting_value</code> 與 <code>new_setting_value</code> 是否都爲 <code>Some</code> 變體的情況。在此情況下，我們印出爲何不能變更 <code>setting_value</code>，且不讓它被改變。</p>
 <p>在其他所有情況下（無論是 <code>setting_value</code> 還是 <code>new_setting_value</code> 爲 <code>None</code>），我們用第二個分支的 <code>_</code> 模式來配對，我們讓 <code>new_setting_value</code> 變成 <code>setting_value</code>。</p>
 <p>我們也可以在同個模式中的多重位置使用底線來忽略特定數值。範例 18-19 忽略了有五個元素的元組中第二個與第四個數值。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -427,13 +427,13 @@ fn main() {
 
     match numbers {
         (first, _, third, _, fifth) =&gt; {
-            println!(&quot;Some numbers: {}, {}, {}&quot;, first, third, fifth)
+            println!(&quot;一些數字{}、{}、{}&quot;, first, third, fifth)
         }
     }
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 18-19：忽略元組中數個位置</span></p>
-<p>此程式碼會印出 <code>Some numbers: 2, 8, 32</code>，然後數值 4 與 16 會被忽略。</p>
+<p>此程式碼會印出 <code>一些數字2、8、32</code>，然後數值 4 與 16 會被忽略。</p>
 <h4><a class="header" href="#在名稱前加上-_-來忽略未使用的變數" id="在名稱前加上-_-來忽略未使用的變數">在名稱前加上 <code>_</code> 來忽略未使用的變數</a></h4>
 <p>如果你建立了一個變數但沒有在任何地方使用到它，Rust 通常會提出警告，因爲這可能是個錯誤。但有時候先建立個你還沒有使用的變數是很有用的，像是你還在寫原型或是才剛開個專案而已。在這種場合，你可以在尚未使用的變數名稱前加上底線，來告訴 Rust 不用提出警告。在範例 18-20 中，我們建立了兩個未使用的變數，但當我們執行此程式碼時，我們應該會只收到其中一個的警告而已。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -449,7 +449,7 @@ fn main() {
 </span>    let s = Some(String::from(&quot;哈囉！&quot;));
 
     if let Some(_s) = s {
-        println!(&quot;found a string&quot;);
+        println!(&quot;發現字串&quot;);
     }
 
     println!(&quot;{:?}&quot;, s);
@@ -461,7 +461,7 @@ fn main() {
 </span>    let s = Some(String::from(&quot;哈囉！&quot;));
 
     if let Some(_) = s {
-        println!(&quot;found a string&quot;);
+        println!(&quot;發現字串&quot;);
     }
 
     println!(&quot;{:?}&quot;, s);
@@ -481,7 +481,7 @@ fn main() {
     let origin = Point { x: 0, y: 0, z: 0 };
 
     match origin {
-        Point { x, .. } =&gt; println!(&quot;x is {}&quot;, x),
+        Point { x, .. } =&gt; println!(&quot;x 爲 {}&quot;, x),
     }
 <span class="boring">}
 </span></code></pre></pre>
@@ -494,7 +494,7 @@ fn main() {
 
     match numbers {
         (first, .., last) =&gt; {
-            println!(&quot;Some numbers: {}, {}&quot;, first, last);
+            println!(&quot;一些數字：{}、{}&quot;, first, last);
         }
     }
 }
@@ -508,7 +508,7 @@ fn main() {
 
     match numbers {
         (.., second, ..) =&gt; {
-            println!(&quot;Some numbers: {}&quot;, second)
+            println!(&quot;一些數字：{}&quot;, second)
         },
     }
 }
@@ -539,14 +539,14 @@ To learn more, run the command again with --verbose.
 </span>    let num = Some(4);
 
     match num {
-        Some(x) if x &lt; 5 =&gt; println!(&quot;less than five: {}&quot;, x),
+        Some(x) if x &lt; 5 =&gt; println!(&quot;比五還小：{}&quot;, x),
         Some(x) =&gt; println!(&quot;{}&quot;, x),
         None =&gt; (),
     }
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 18-26：對模式加上配對守護</span></p>
-<p>此範例會印出 <code>less than five: 4</code>。當 <code>num</code> 與第一個分支做比較時，它會配對到，因爲 <code>Some(4)</code> 能與 <code>Some(x)</code> 做配對。然後配對守護會檢查數值 <code>x</code> 是否小於 <code>5</code>，然後因爲的確如此，所以就選擇了第一個分支。</p>
+<p>此範例會印出 <code>比五還小：4</code>。當 <code>num</code> 與第一個分支做比較時，它會配對到，因爲 <code>Some(4)</code> 能與 <code>Some(x)</code> 做配對。然後配對守護會檢查數值 <code>x</code> 是否小於 <code>5</code>，然後因爲的確如此，所以就選擇了第一個分支。</p>
 <p>如果 <code>num</code> 爲 <code>Some(10)</code> 的話，第一個分支的配對守護則會是否，因爲 10 並不小於 5。Rust 就會接著檢查第二條分支，然後因爲第二條分支沒有任何配對守護所以能配對到任何 <code>Some</code> 變體。</p>
 <p>在模式中沒有任何方式能夠表達 <code>if x &lt; 5</code>，所以配對守護讓我們能夠有能力表達此邏輯。</p>
 <p>在範例 18-11 中，我們提到我們可以使用模式配對來解決我們的模式遮蔽問題。回想一下 <code>match</code> 表達式中使用的是模式內建立的新變數，而不是使用 <code>match</code> 外部的變數。該新變數會讓我們無法測試外部變數的數值。範例 18-27 展示我們如何使用配對守護來修正此問題。</p>
@@ -556,16 +556,16 @@ To learn more, run the command again with --verbose.
     let y = 10;
 
     match x {
-        Some(50) =&gt; println!(&quot;Got 50&quot;),
-        Some(n) if n == y =&gt; println!(&quot;Matched, n = {}&quot;, n),
-        _ =&gt; println!(&quot;Default case, x = {:?}&quot;, x),
+        Some(50) =&gt; println!(&quot;取得 50&quot;),
+        Some(n) if n == y =&gt; println!(&quot;配對成功，n = {}&quot;, n),
+        _ =&gt; println!(&quot;預設情形，x = {:?}&quot;, x),
     }
 
-    println!(&quot;at the end: x = {:?}, y = {}&quot;, x, y);
+    println!(&quot;最後結果：x = {:?}, y = {}&quot;, x, y);
 }
 </code></pre></pre>
 <p><span class="caption">範例 18-27：使用配對守護來測試與外部變數是否相等</span></p>
-<p>此程式碼現在會印出 <code>Default case, x = Some(5)</code>。第二個模式中沒有宣告新的變數 <code>y</code> 來遮蔽外部的 <code>y</code>，意味著我們可以在配對守護中使用外部的 <code>y</code>。我們不再指定模式爲 <code>Some(y)</code>，因爲這樣會遮蔽外部的 <code>y</code>，我們改指定成 <code>Some(n)</code>。這樣建立了一個新的變數 <code>n</code> 且不會遮蔽任何事物，因爲 <code>match</code> 外部沒有任何變數 <code>n</code>。</p>
+<p>此程式碼現在會印出 <code>預設情形，x = Some(5)</code>。第二個模式中沒有宣告新的變數 <code>y</code> 來遮蔽外部的 <code>y</code>，意味著我們可以在配對守護中使用外部的 <code>y</code>。我們不再指定模式爲 <code>Some(y)</code>，因爲這樣會遮蔽外部的 <code>y</code>，我們改指定成 <code>Some(n)</code>。這樣建立了一個新的變數 <code>n</code> 且不會遮蔽任何事物，因爲 <code>match</code> 外部沒有任何變數 <code>n</code>。</p>
 <p>配對守護 <code>if n == y</code> 不屬於模式，因此不會宣告任何新變數。此 <code>y</code> <em>就是</em>外部的 <code>y</code> 而非新遮蔽的 <code>y</code>，而且我們可以透過將 <code>n</code> 與 <code>y</code> 做比較來檢查數值是否與外部 <code>y</code> 的數值相等。</p>
 <p>你也可以在配對守護中使用 <em>OR</em> 運算子 <code>|</code> 來指定多重模式，配對守護的條件會套用在所有的模式中。範例 18-28 顯示了結合配對守護與使用 <code>|</code> 模式之間的優先層級（precedence）。此例中的重點部分在於 <code>if y</code> 配對守護能套用在 <code>4</code>、<code>5</code> <em>與</em> <code>6</code>，而不是只有 <code>6</code> 會用到 <code>if y</code>。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -573,8 +573,8 @@ To learn more, run the command again with --verbose.
     let y = false;
 
     match x {
-        4 | 5 | 6 if y =&gt; println!(&quot;yes&quot;),
-        _ =&gt; println!(&quot;no&quot;),
+        4 | 5 | 6 if y =&gt; println!(&quot;是&quot;),
+        _ =&gt; println!(&quot;否&quot;),
     }
 <span class="boring">}
 </span></code></pre></pre>
@@ -585,7 +585,7 @@ To learn more, run the command again with --verbose.
 <p>而不是這樣：</p>
 <pre><code class="language-text">4 | 5 | (6 if y) =&gt; ...
 </code></pre>
-<p>在執行此程式碼之後，優先層級的行爲就很明顯了，如果配對守護只會用在由 <code>|</code> 運算子指定數值列表中最後一個數值的話，該分支應該要能配對到並讓程式印出 <code>yes</code>。</p>
+<p>在執行此程式碼之後，優先層級的行爲就很明顯了，如果配對守護只會用在由 <code>|</code> 運算子指定數值列表中最後一個數值的話，該分支應該要能配對到並讓程式印出 <code>是</code>。</p>
 <h3><a class="header" href="#-綁定" id="-綁定"><code>@</code> 綁定</a></h3>
 <p><em>At</em> 運算子（<code>@</code>）能讓我們在測試某個數值是否配對的到一個模式的同時，建立出一個變數來持有該數值。範例 18-29 展示我們想要測試 <code>Message::Hello</code> 的 <code>id</code> 欄位是否位於 <code>3..=7</code> 的範圍中。但我們也想要將該數值綁定到變數 <code>id_variable</code> 之中，讓我們可以在該分支對應的程式碼中使用它。我們可以將此變數命名爲與欄位同名的 <code>id</code>，但在此例中我們會使用不同名稱。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -598,16 +598,16 @@ To learn more, run the command again with --verbose.
     match msg {
         Message::Hello {
             id: id_variable @ 3..=7,
-        } =&gt; println!(&quot;Found an id in range: {}&quot;, id_variable),
+        } =&gt; println!(&quot;id 在此範圍中：{}&quot;, id_variable),
         Message::Hello { id: 10..=12 } =&gt; {
-            println!(&quot;Found an id in another range&quot;)
+            println!(&quot;id 在其他範圍中&quot;)
         }
-        Message::Hello { id } =&gt; println!(&quot;Found some other id: {}&quot;, id),
+        Message::Hello { id } =&gt; println!(&quot;找到其他 id：{}&quot;, id),
     }
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 18-29：使用 <code>@</code> 來在測試時綁定模式中的數值</span></p>
-<p>此範例會印出 <code>Found an id in range: 5</code>。透過在範圍 <code>3..=7</code> 之前指定 <code>id_variable @</code>，我們能獲取要配對到範圍的數值，並同時測試該數值是否有配對到範圍模式。</p>
+<p>此範例會印出 <code>id 在此範圍中：5</code>。透過在範圍 <code>3..=7</code> 之前指定 <code>id_variable @</code>，我們能獲取要配對到範圍的數值，並同時測試該數值是否有配對到範圍模式。</p>
 <p>在第二個分支中，我們只有在模式中指定範圍，該分支對應的程式碼就沒有變數能包含 <code>id</code> 欄位的實際數值。<code>id</code> 欄位數值可能是 10、11 或 12，但此模式的程式碼不會知道其值爲何。該模式程式碼無法使用 <code>id</code> 欄位的數值，因爲我們沒有將 <code>id</code> 數值存爲變數。</p>
 <p>在最後一個分支中，我們指定沒有限制範圍的變數，我們有能在分支程式碼中使用的有效變數 <code>id</code>。原因是因爲我們使用了結構體欄位簡寫語法。不過我們在此分支沒有向前兩個條分支進行任何對 <code>id</code> 欄位的測試，任何數值都會配對到此模式。</p>
 <p>使用 <code>@</code> 讓我們能在一個模式中測試數值並將其儲存至變數。</p>
