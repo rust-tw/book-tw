@@ -3,9 +3,9 @@ fn main() {
     let x = 1;
 
     match x {
-        1 | 2 => println!("one or two"),
+        1 | 2 => println!("一或二"),
         3 => println!("三"),
-        _ => println!("anything"),
+        _ => println!("任意數字"),
     }
     // ANCHOR_END: here
 }

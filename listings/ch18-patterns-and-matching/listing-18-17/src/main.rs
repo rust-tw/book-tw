@@ -1,5 +1,5 @@
 fn foo(_: i32, y: i32) {
-    println!("This code only uses the y parameter: {}", y);
+    println!("此程式碼只使用了參數 y：{}", y);
 }
 
 fn main() {

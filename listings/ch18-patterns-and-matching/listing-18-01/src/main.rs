@@ -4,16 +4,16 @@ fn main() {
     let age: Result<u8, _> = "34".parse();
 
     if let Some(color) = favorite_color {
-        println!("Using your favorite color, {}, as the background", color);
+        println!("使用你最喜歡的顏色{}作爲背景", color);
     } else if is_tuesday {
-        println!("Tuesday is green day!");
+        println!("星期二就用綠色！");
     } else if let Ok(age) = age {
         if age > 30 {
-            println!("Using purple as the background color");
+            println!("使用紫色作爲背景顏色");
         } else {
-            println!("Using orange as the background color");
+            println!("使用橘色作爲背景顏色");
         }
     } else {
-        println!("Using blue as the background color");
+        println!("使用藍色作爲背景顏色");
     }
 }

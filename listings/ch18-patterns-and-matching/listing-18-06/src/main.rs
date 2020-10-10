@@ -1,6 +1,6 @@
 // ANCHOR: here
 fn foo(x: i32) {
-    // code goes here
+    // 內部的程式碼
 }
 // ANCHOR_END: here
 

@@ -5,13 +5,13 @@ fn main() {
 
     match (setting_value, new_setting_value) {
         (Some(_), Some(_)) => {
-            println!("Can't overwrite an existing customized value");
+            println!("無法覆寫已經存在的自訂數值");
         }
         _ => {
             setting_value = new_setting_value;
         }
     }
 
-    println!("setting is {:?}", setting_value);
+    println!("設定爲 {:?}", setting_value);
     // ANCHOR_END: here
 }

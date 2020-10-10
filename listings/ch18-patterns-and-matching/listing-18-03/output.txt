@@ -2,6 +2,6 @@ $ cargo run
    Compiling patterns v0.1.0 (file:///projects/patterns)
     Finished dev [unoptimized + debuginfo] target(s) in 0.52s
      Running `target/debug/patterns`
-a is at index 0
-b is at index 1
-c is at index 2
+a 位於索引 0
+b 位於索引 1
+c 位於索引 2

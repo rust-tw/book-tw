@@ -9,11 +9,11 @@ fn main() {
     match msg {
         Message::Hello {
             id: id_variable @ 3..=7,
-        } => println!("Found an id in range: {}", id_variable),
+        } => println!("id 在此範圍中：{}", id_variable),
         Message::Hello { id: 10..=12 } => {
-            println!("Found an id in another range")
+            println!("id 在其他範圍中")
         }
-        Message::Hello { id } => println!("Found some other id: {}", id),
+        Message::Hello { id } => println!("找到其他 id：{}", id),
     }
     // ANCHOR_END: here
 }

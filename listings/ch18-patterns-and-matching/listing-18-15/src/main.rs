@@ -10,17 +10,17 @@ fn main() {
 
     match msg {
         Message::Quit => {
-            println!("The Quit variant has no data to destructure.")
+            println!("Quit 變體沒有資料能解構。")
         }
         Message::Move { x, y } => {
             println!(
-                "Move in the x direction {} and in the y direction {}",
+                "Move 往 x 的方向爲 {} 且往 y 的方向爲 {}",
                 x, y
             );
         }
-        Message::Write(text) => println!("Text message: {}", text),
+        Message::Write(text) => println!("文字訊息：{}", text),
         Message::ChangeColor(r, g, b) => println!(
-            "Change the color to red {}, green {}, and blue {}",
+            "變更顏色爲紅色 {}、綠色 {} 與藍色 {}",
             r, g, b
         ),
     }

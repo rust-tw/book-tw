@@ -4,11 +4,11 @@ fn main() {
     let y = 10;
 
     match x {
-        Some(50) => println!("Got 50"),
-        Some(y) => println!("Matched, y = {:?}", y),
-        _ => println!("Default case, x = {:?}", x),
+        Some(50) => println!("取得 50"),
+        Some(y) => println!("配對成功，y = {:?}", y),
+        _ => println!("預設情形，x = {:?}", x),
     }
 
-    println!("at the end: x = {:?}, y = {:?}", x, y);
+    println!("最後結果：x = {:?}, y = {:?}", x, y);
     // ANCHOR_END: here
 }

@@ -3,7 +3,7 @@ fn main() {
     let s = Some(String::from("哈囉！"));
 
     if let Some(_s) = s {
-        println!("found a string");
+        println!("發現字串");
     }
 
     println!("{:?}", s);
