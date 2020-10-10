@@ -179,7 +179,7 @@
 <p>智慧指標 <code>Rc&lt;T&gt;</code> 沒有 <code>Sync</code> 的原因和沒有 <code>Send</code> 的原因一樣。<code>RefCell&lt;T&gt;</code> 型別（我們在第十五章提過）與其 <code>Cell&lt;T&gt;</code> 也都沒有 <code>Sync</code>。 <code>RefCell&lt;T&gt;</code> 在執行時的借用檢查實作沒有執行緒安全。智慧指標 <code>Mutex&lt;T&gt;</code> 才有 <code>Sync</code> 並能像你在<a href="ch16-03-shared-state.html#%E5%9C%A8%E6%95%B8%E5%80%8B%E5%9F%B7%E8%A1%8C%E7%B7%92%E9%96%93%E5%85%B1%E4%BA%AB-mutext">「在數個執行緒間共享 <code>Mutex&lt;T&gt;</code>」</a><!-- ignore -->段落看到的那樣用來在多個執行緒間分享存取。</p>
 <h3><a class="header" href="#手動實作-send-與-sync-是不安全的" id="手動實作-send-與-sync-是不安全的">手動實作 <code>Send</code> 與 <code>Sync</code> 是不安全的</a></h3>
 <p>因爲由具有 <code>Send</code> 與 <code>Sync</code> 的型別組成的型別自動就會有 <code>Send</code> 與 <code>Sync</code>，我們不需要親自實作這些特徵。至於標記特徵，它們甚至沒有任何方法需要實作。它們只是用於強制確保並行相關的不變性。</p>
-<p>要手動實作這些特徵會需要實作不安全（unsafe）的 Rust 程式碼。我們會在第十九章討論如何使用不安全的 Rust 程式碼，現在最重要的資訊是要從不具有 <code>Send</code> 與 <code>Sync</code> 的元件來組成新的並行型別需要格外小心才能確保其安全保障。<a href="../nomicon/index.html">「The Rustonomicon」</a> 有更多關於這些保障與如何維持它們的資訊。</p>
+<p>要手動實作這些特徵會需要實作不安全（unsafe）的 Rust 程式碼。我們會在第十九章討論如何使用不安全的 Rust 程式碼，現在最重要的資訊是要從不具有 <code>Send</code> 與 <code>Sync</code> 的元件來組成新的並行型別需要格外小心才能確保其安全保障。<a href="https://doc.rust-lang.org/nomicon/index.html">「The Rustonomicon」</a> 有更多關於這些保障與如何維持它們的資訊。</p>
 <h2><a class="header" href="#總結" id="總結">總結</a></h2>
 <p>這不會是你在本書中最後一次看到並行程式碼，第二十章的專案將會在更實際的場合中使用本章節的概念，而非這裡討論的簡單範例。</p>
 <p>如之前提過的，因爲 Rust 語言本身很少處理並行的部分，許多並行解決方案都實作成 crate。這些 crate 通常發展的比標準函式庫還快，所以別忘了到線上尋找目前最先進的 crate 來在多執行緒場合中使用喔。</p>

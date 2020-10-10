@@ -172,7 +172,7 @@
 <p>透過共享記憶體來溝通會是什麼樣子呢？除此之外，爲何訊息傳遞愛好者不喜歡這種方式並反其道而行呢？</p>
 <p>任何程式語言的通道某方面來說類似於單一所有權，因爲一旦你轉移數值給通道，你就不該使用該數值。共享記憶體並行則像多重所有權，數個執行緒可以同時存取同個記憶體位置。如同你在第十五章所見到的，智慧指標讓多重所有權成爲可能，但多重所有權會增加複雜度，因爲我們會需要管理這些不同的擁有者。Rust 的型別系統與所有權規則大幅地協助了正確管理這些所有權。作爲範例就讓我們看看互斥鎖（mutexes），這是共享記憶體中常見的並行原始元件之一。</p>
 <h3><a class="header" href="#使用互斥鎖在同時間只允許一條執行緒存取資料" id="使用互斥鎖在同時間只允許一條執行緒存取資料">使用互斥鎖在同時間只允許一條執行緒存取資料</a></h3>
-<p>*互斥鎖（Mutex）<em>是 <em>mutual exclusion</em> 的縮寫，顧名思義互斥鎖在任意時刻只允許一條執行緒可以存取一些資料。要取得互斥鎖中的資料，執行緒必須先透過獲取互斥鎖的</em>鎖（lock）<em>來表示它想要進行存取。鎖是互斥鎖其中一部分的資料結構，用來追蹤當前誰擁有資料的獨佔存取權。因此互斥鎖被描述爲會透過鎖定系統</em>守護（guarding）*其所持有的資料。</p>
+<p><em>互斥鎖（Mutex）</em> 是 <em>mutual exclusion</em> 的縮寫，顧名思義互斥鎖在任意時刻只允許一條執行緒可以存取一些資料。要取得互斥鎖中的資料，執行緒必須先透過獲取互斥鎖的<em>鎖（lock）<em>來表示它想要進行存取。鎖是互斥鎖其中一部分的資料結構，用來追蹤當前誰擁有資料的獨佔存取權。因此互斥鎖被描述爲會透過鎖定系統</em>守護（guarding）</em> 其所持有的資料。</p>
 <p>互斥鎖以難以使用著名，因爲你必須記住兩個規則：</p>
 <ul>
 <li>你必須在使用資料前獲取鎖。</li>
@@ -225,7 +225,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!(&quot;Result: {}&quot;, *counter.lock().unwrap());
+    println!(&quot;結果：{}&quot;, *counter.lock().unwrap());
 }
 </code></pre>
 <p><span class="caption">範例 16-13：十個執行緒都會對 <code>Mutex&lt;T&gt;</code> 守護的計數增加 1</span></p>
@@ -278,7 +278,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!(&quot;Result: {}&quot;, *counter.lock().unwrap());
+    println!(&quot;結果：{}&quot;, *counter.lock().unwrap());
 }
 </code></pre>
 <p><span class="caption">範例 16-14：嘗試使用 <code>Rc&lt;T&gt;</code> 來允許數個執行緒擁有 <code>Mutex&lt;T&gt;</code></span></p>
@@ -329,7 +329,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!(&quot;Result: {}&quot;, *counter.lock().unwrap());
+    println!(&quot;結果：{}&quot;, *counter.lock().unwrap());
 }
 </code></pre></pre>
 <p><span class="caption">範例 16-15：使用 <code>Arc&lt;T&gt;</code> 封裝 <code>Mutex&lt;T&gt;</code> 來在數個執行緒間分享所有權</span></p>
@@ -337,12 +337,12 @@ fn main() {
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">Result: 10
+<pre><code class="language-text">結果：10
 </code></pre>
 <p>我們辦到了！我們從 0 數到了 10，雖然看起來不是很令人印象深刻，但這的確教會了我們很多有關 <code>Mutex&lt;T&gt;</code> 與執行緒安全的知識。你也可以使用此程式結構來做更多複雜的運算，而不只是數數而已。使用此策略，你可以將運算拆成數個獨立部分，將它們分配給執行緒，然後使用 <code>Mutex&lt;T&gt;</code> 來讓每個執行緒更新該部分的結果。</p>
 <h3><a class="header" href="#refcelltrct-與-mutextarct-之間的相似度" id="refcelltrct-與-mutextarct-之間的相似度"><code>RefCell&lt;T&gt;</code>/<code>Rc&lt;T&gt;</code> 與 <code>Mutex&lt;T&gt;</code>/<code>Arc&lt;T&gt;</code> 之間的相似度</a></h3>
 <p>你可能已經注意到 <code>counter</code> 是不可變的，但我們卻可以取得數值其內部的可變引用，這代表 <code>Mutex&lt;T&gt;</code> 有提供內部可變性，就像 <code>Cell</code> 家族一樣。我們在第十五章也以相同的方式使用 <code>RefCell&lt;T&gt;</code> 來讓我們能改變 <code>Rc&lt;T&gt;</code> 內部的數值，而在此我們使用 <code>Mutex&lt;T&gt;</code> 改變 <code>Arc&lt;T&gt;</code> 內部的內容。</p>
-<p>另一個值得注意的細節是當你使用 <code>Mutex&lt;T&gt;</code> 時，Rust 無法避免所有種類的邏輯錯誤。 回憶一下第十五章使用 <code>Rc&lt;T&gt;</code> 時會有可能產生引用循環的風險，兩個 <code>Rc&lt;T&gt;</code> 數值可能會彼此引用，造成記憶體泄漏。同樣地，<code>Mutex&lt;T&gt;</code> 有產生*死結（deadlocks）*的風險。這會發生在當有個動作需要鎖定兩個資源，而有兩個執行緒分別擁有其中一個鎖，導致它們永遠都在等待彼此。如果你對此有興趣的話，歡迎嘗試建立一個有死結的 Rust 程式，然後研究看看任何語言中避免的互斥鎖死結的策略，並嘗試實作它們在 Rust 中。標準函式庫中 <code>Mutex&lt;T&gt;</code> 與 <code>MutexGuard</code> 的 API 技術文件可以提供些實用資訊。</p>
+<p>另一個值得注意的細節是當你使用 <code>Mutex&lt;T&gt;</code> 時，Rust 無法避免所有種類的邏輯錯誤。 回憶一下第十五章使用 <code>Rc&lt;T&gt;</code> 時會有可能產生引用循環的風險，兩個 <code>Rc&lt;T&gt;</code> 數值可能會彼此引用，造成記憶體泄漏。同樣地，<code>Mutex&lt;T&gt;</code> 有產生<em>死結（deadlocks）</em> 的風險。這會發生在當有個動作需要鎖定兩個資源，而有兩個執行緒分別擁有其中一個鎖，導致它們永遠都在等待彼此。如果你對此有興趣的話，歡迎嘗試建立一個有死結的 Rust 程式，然後研究看看任何語言中避免的互斥鎖死結的策略，並嘗試實作它們在 Rust 中。標準函式庫中 <code>Mutex&lt;T&gt;</code> 與 <code>MutexGuard</code> 的 API 技術文件可以提供些實用資訊。</p>
 <p>接下來在本章結尾我們會來討論 <code>Send</code> 與 <code>Sync</code> 特徵以及我們如何在自訂型別中使用它們。</p>
 <blockquote>
 <ul>

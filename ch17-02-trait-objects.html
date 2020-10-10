@@ -357,7 +357,7 @@ fn main() {
 
 fn main() {
     let screen = Screen {
-        components: vec![Box::new(String::from(&quot;Hi&quot;))],
+        components: vec![Box::new(String::from(&quot;嗨&quot;))],
     };
 
     screen.run();
@@ -370,7 +370,7 @@ fn main() {
 error[E0277]: the trait bound `std::string::String: gui::Draw` is not satisfied
  --&gt; src/main.rs:5:26
   |
-5 |         components: vec![Box::new(String::from(&quot;Hi&quot;))],
+5 |         components: vec![Box::new(String::from(&quot;嗨&quot;))],
   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `gui::Draw` is not implemented for `std::string::String`
   |
   = note: required for the cast to the object type `dyn gui::Draw`

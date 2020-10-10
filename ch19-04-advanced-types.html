@@ -203,7 +203,7 @@
 </code></pre>
 <p>到處在函式簽名與型別註解寫這個型別既累人又容易失誤。想像你有一個專案的程式碼都長得像範例 19-24。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
-</span>    let f: Box&lt;dyn Fn() + Send + 'static&gt; = Box::new(|| println!(&quot;hi&quot;));
+</span>    let f: Box&lt;dyn Fn() + Send + 'static&gt; = Box::new(|| println!(&quot;嗨&quot;));
 
     fn takes_long_type(f: Box&lt;dyn Fn() + Send + 'static&gt;) {
         // --省略--
@@ -220,7 +220,7 @@
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    type Thunk = Box&lt;dyn Fn() + Send + 'static&gt;;
 
-    let f: Thunk = Box::new(|| println!(&quot;hi&quot;));
+    let f: Thunk = Box::new(|| println!(&quot;嗨&quot;));
 
     fn takes_long_type(f: Thunk) {
         // --省略--

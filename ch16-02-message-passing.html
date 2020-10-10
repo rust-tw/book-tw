@@ -168,7 +168,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#使用訊息傳遞在執行緒間傳送資料" id="使用訊息傳遞在執行緒間傳送資料">使用訊息傳遞在執行緒間傳送資料</a></h2>
-<p>其中一種確保安全並行且漸漸流行起來的方式是<em>訊息傳遞（message passing）</em>，執行緒或 actors 透過傳遞包含資料的訊息給彼此來溝通。此理念源自於 <a href="https://golang.org/doc/effective_go.html#concurrency">Go 語言技術文件</a>中的口號：「別透過共享記憶體來溝通，而是透過溝通來共享記憶體。」 </p>
+<p>有一種確保安全並行且漸漸流行起來的方式是<em>訊息傳遞（message passing）</em>，執行緒或 actors 透過傳遞包含資料的訊息給彼此來溝通。此理念源自於 <a href="https://golang.org/doc/effective_go.html#concurrency">Go 語言技術文件</a>中的口號：「別透過共享記憶體來溝通，而是透過溝通來共享記憶體。」 </p>
 <p>Rust 其中一個達成訊息傳遞並行的主要工具是<em>通道（channel）</em>，這是 Rust 標準函式庫有提供的程式設計概念。你可以把程式設計的通道想像成水流的通道，像是河流或小溪。如果你將橡皮小鴨或船隻放入河流中，它會順流而下到下游。</p>
 <p>程式設計中的通道有兩個部分：發送者（transmitter）與接收者（receiver）。發送者正是你會放置橡皮小鴨到河流中的上游，而接收者則是橡皮小鴨最後漂流到的下游。你程式碼中的一部分會呼叫發送者的方法來傳送你想要傳遞的資料，然後另一部分的程式碼會檢查接收者收到的訊息。當發送者或接收者有一方被釋放掉時，該通道就會被<em>關閉</em>。</p>
 <p>我們在此將寫一支程式，它會在一個執行緒中產生數值，傳送給通道，然後另一個執行緒會接收到數值並印出來。我們會使用通道在執行緒間傳送簡單的數值來作爲這個功能的解說。一旦你熟悉此技巧後，你可以使用通道來實作個聊天系統，或是一個利用數個執行緒進行運算，然後將結果傳入一個執行緒統整結果的分散式系統。</p>
@@ -182,7 +182,7 @@ fn main() {
 </code></pre>
 <p><span class="caption">範例 16-6：建立通道並賦值分別兩個部分給 <code>tx</code> 與 <code>rx</code></span></p>
 <p>我們使用 <code>mpsc::channel</code> 函式來建立新的通道，<code>mpsc</code> 指的是<em>多重生產者、唯一消費者（multiple producer, single consumer）</em>。簡單來說，Rust 標準函式庫實作通道的方式讓通道可以有多個<em>發送端</em>來產生數值，不過只有一個<em>接收端</em>能消耗這些數值。想像有數個溪流匯聚成一條大河流，任何溪流傳送的任何東西最終都會流向河流的下游。我們會先從單一生產者開始，等這個範例能夠執行後我們再來增加數個生產者。</p>
-<p><code>mpsc::channel</code> 函式會回傳一個元組，第一個元素是發送端然後第二個元素是接收端。<code>tx</code> 與 <code>rx</code> 通常分別作爲*發送者（transmitter）<em>與</em>接收者（receiver）*的縮寫，所以我們以此作爲我們的變數名稱。我們的 <code>let</code> 陳述式使用到了能解構元組的模式我們會在第時八章討論 <code>let</code> 陳述式的模式與解構方式。用這樣的方式使用 <code>let</code> 能輕鬆取出 <code>mpsc::channel</code> 回傳的元組每個部分。</p>
+<p><code>mpsc::channel</code> 函式會回傳一個元組，第一個元素是發送端然後第二個元素是接收端。<code>tx</code> 與 <code>rx</code> 通常分別作爲<em>發送者（transmitter）</em> 與<em>接收者（receiver）</em> 的縮寫，所以我們以此作爲我們的變數名稱。我們的 <code>let</code> 陳述式使用到了能解構元組的模式我們會在第時八章討論 <code>let</code> 陳述式的模式與解構方式。用這樣的方式使用 <code>let</code> 能輕鬆取出 <code>mpsc::channel</code> 回傳的元組每個部分。</p>
 <p>讓我們將發送端移進一個新產生的執行緒並讓它傳送一條字串，這樣產生的執行緒就可以與主執行緒溝通了，如範例 16-7 所示。這就像是在河流上游放了一隻橡皮小鴨，或是從一條執行緒傳送一條聊天訊息給別條執行緒一樣。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::mpsc;
@@ -192,7 +192,7 @@ fn main() {
     let (tx, rx) = mpsc::channel();
 
     thread::spawn(move || {
-        let val = String::from(&quot;hi&quot;);
+        let val = String::from(&quot;嗨&quot;);
         tx.send(val).unwrap();
     });
 }
@@ -209,7 +209,7 @@ fn main() {
     let (tx, rx) = mpsc::channel();
 
     thread::spawn(move || {
-        let val = String::from(&quot;hi&quot;);
+        let val = String::from(&quot;嗨&quot;);
         tx.send(val).unwrap();
     });
 
@@ -218,14 +218,14 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 16-8：在主執行緒取得數值「hi」並顯示出來</span></p>
-<p>通道的接收端有兩個實用的方法：<code>recv</code> 與 <code>try_recv</code>。我們使用 <code>recv</code> 作爲*接收（receive）*的縮寫，這位阻擋主執行緒的運行並等待直到通道有訊息傳入。一旦有數值傳遞，<code>recv</code> 會就以此回傳 <code>Result&lt;T, E&gt;</code>。當通道的發送端關閉時，<code>recv</code> 會回傳錯誤來通知不會再有任何數值出現了。</p>
+<p>通道的接收端有兩個實用的方法：<code>recv</code> 與 <code>try_recv</code>。我們使用 <code>recv</code> 作爲<em>接收（receive）</em> 的縮寫，這位阻擋主執行緒的運行並等待直到通道有訊息傳入。一旦有數值傳遞，<code>recv</code> 會就以此回傳 <code>Result&lt;T, E&gt;</code>。當通道的發送端關閉時，<code>recv</code> 會回傳錯誤來通知不會再有任何數值出現了。</p>
 <p><code>try_recv</code> 方法則不會阻擋，而是會立即回傳 <code>Result&lt;T, E&gt;</code>。如果有數值的話，就會是存有訊息的 <code>Ok</code> 數值，如果尚未有任何數值的話，就會是 <code>Err</code> 數值。<code>try_recv</code> 適用於如果此執行緒在等待訊息的同時有其他事要做的情形。我們可以寫個迴圈來時不時呼叫 <code>try_recv</code>，當有數值時處理訊息，不然的話就先做點其他事直到再次檢查爲止。</p>
 <p>我們出於方便考量在此例使用 <code>recv</code>，我們的主執行緒除了等待訊息以外沒有其他事好做，所以阻擋主執行緒是合理的。</p>
 <p>當我們執行範例 16-8 的程式碼，我們會看到主執行緒印出的數值：</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">取得：hi
+<pre><code class="language-text">取得：嗨
 </code></pre>
 <p>太棒了！</p>
 <h3><a class="header" href="#通道與所有權轉移" id="通道與所有權轉移">通道與所有權轉移</a></h3>
@@ -238,9 +238,9 @@ fn main() {
     let (tx, rx) = mpsc::channel();
 
     thread::spawn(move || {
-        let val = String::from(&quot;hi&quot;);
+        let val = String::from(&quot;嗨&quot;);
         tx.send(val).unwrap();
-        println!(&quot;val is {}&quot;, val);
+        println!(&quot;val 爲 {}&quot;, val);
     });
 
     let received = rx.recv().unwrap();
@@ -254,11 +254,11 @@ fn main() {
 error[E0382]: borrow of moved value: `val`
   --&gt; src/main.rs:10:31
    |
-8  |         let val = String::from(&quot;hi&quot;);
+8  |         let val = String::from(&quot;嗨&quot;);
    |             --- move occurs because `val` has type `std::string::String`, which does not implement the `Copy` trait
 9  |         tx.send(val).unwrap();
    |                 --- value moved here
-10 |         println!(&quot;val is {}&quot;, val);
+10 |         println!(&quot;val 爲 {}&quot;, val);
    |                               ^^^ value borrowed here after move
 
 error: aborting due to previous error
@@ -281,10 +281,10 @@ fn main() {
 
     thread::spawn(move || {
         let vals = vec![
-            String::from(&quot;hi&quot;),
-            String::from(&quot;from&quot;),
-            String::from(&quot;the&quot;),
-            String::from(&quot;thread&quot;),
+            String::from(&quot;執行緒&quot;),
+            String::from(&quot;傳來&quot;),
+            String::from(&quot;的&quot;),
+            String::from(&quot;嗨&quot;),
         ];
 
         for val in vals {
@@ -305,14 +305,14 @@ fn main() {
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">取得：hi
-取得：from
-取得：the
-取得：thread
+<pre><code class="language-text">取得：執行緒
+取得：傳來
+取得：的
+取得：嗨
 </code></pre>
 <p>因爲我們在主執行緒中的 <code>for</code> 迴圈內沒有任何會暫停或延遲的程式碼，所以我們可以看出主執行緒是在等待產生的執行緒傳送的數值。</p>
-<h3><a class="header" href="#透過克隆發送者來建立多重生產者creating-multiple-producers-by-cloning-the-transmitter" id="透過克隆發送者來建立多重生產者creating-multiple-producers-by-cloning-the-transmitter">透過克隆發送者來建立多重生產者Creating Multiple Producers by Cloning the Transmitter</a></h3>
-<p>稍早之前我們提過 <code>mpsc</code> 是*多重生產者、唯一消費者（multiple producer, single consumer）*的縮寫。讓我們來使用 <code>mpsc</code> 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。爲此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
+<h3><a class="header" href="#透過克隆發送者來建立多重生產者" id="透過克隆發送者來建立多重生產者">透過克隆發送者來建立多重生產者</a></h3>
+<p>稍早之前我們提過 <code>mpsc</code> 是<em>多重生產者、唯一消費者（multiple producer, single consumer）</em> 的縮寫。讓我們來使用 <code>mpsc</code> 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。爲此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::thread;
@@ -326,10 +326,10 @@ changes in the compiler -->
     let tx1 = mpsc::Sender::clone(&amp;tx);
     thread::spawn(move || {
         let vals = vec![
-            String::from(&quot;hi&quot;),
-            String::from(&quot;from&quot;),
-            String::from(&quot;the&quot;),
-            String::from(&quot;thread&quot;),
+            String::from(&quot;執行緒&quot;),
+            String::from(&quot;傳來&quot;),
+            String::from(&quot;的&quot;),
+            String::from(&quot;嗨&quot;),
         ];
 
         for val in vals {
@@ -340,10 +340,10 @@ changes in the compiler -->
 
     thread::spawn(move || {
         let vals = vec![
-            String::from(&quot;more&quot;),
-            String::from(&quot;messages&quot;),
-            String::from(&quot;for&quot;),
-            String::from(&quot;you&quot;),
+            String::from(&quot;更多&quot;),
+            String::from(&quot;給你&quot;),
+            String::from(&quot;的&quot;),
+            String::from(&quot;訊息&quot;),
         ];
 
         for val in vals {
@@ -365,16 +365,16 @@ changes in the compiler -->
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">取得：hi
-取得：more
-取得：from
-取得：messages
-取得：for
-取得：the
-取得：thread
-取得：you
+<pre><code class="language-text">取得：執行緒
+取得：更多
+取得：傳來
+取得：給你
+取得：的
+取得：的
+取得：嗨
+取得：訊息
 </code></pre>
-<p>你可能會看到數值以不同順序排序，這完全依據你的系統來決定。這正是並行程式設計既有趣卻又困難。如果你加上 <code>thread::sleep</code> 來實驗，並在不同執行緒給予不同數值的話，就會發現每一輪都會更不確定，每次都會產生不同的輸出結果。</p>
+<p>你可能會看到數值以不同順序排序，這完全依據你的系統來決定。這正是並行程式設計既有趣卻又困難的地方。如果你加上 <code>thread::sleep</code> 來實驗，並在不同執行緒給予不同數值的話，就會發現每一輪都會更不確定，每次都會產生不同的輸出結果。</p>
 <p>現在我們已經看完通道如何運作，接著讓我們來看看並行的不同方法吧。</p>
 <blockquote>
 <ul>

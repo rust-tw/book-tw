@@ -14100,17 +14100,17 @@ children: RefCell { value: [] } }] } })
 </ul>
 </blockquote>
 <h1><a class="header" href="#無懼並行" id="無懼並行">無懼並行</a></h1>
-<p>能夠安全高效處理並行程式設計是 Rust 的另一像主要目標。*並行程式設計（Concurrent programming）<em>會讓程式的不同部分獨立執行，而</em>平行程式設計（parallel programming）*則是程式的不同部分同時執行。這些隨著電腦越能善用多處理器時也越顯得重要。歷史上，這種程式設計是很困難且容易出錯的，Rust 希望能改善這點。</p>
+<p>能夠安全高效處理並行程式設計是 Rust 的另一像主要目標。<em>並行程式設計（Concurrent programming）</em> 會讓程式的不同部分獨立執行，而<em>平行程式設計（parallel programming）</em> 則是程式的不同部分同時執行。這些隨著電腦越能善用多處理器時也越顯得重要。歷史上，這種程式設計是很困難且容易出錯的，Rust 希望能改善這點。</p>
 <p>起初 Rust 團隊認爲確保記憶體安全與預防並行問題是兩個分別的問題，要用不同的解決方案。隨著時間過去，團隊發現所有權與型別系統同時是管理記憶體安全<em>以及</em>並行問題的強大工具！透過藉助所有權與型別檢查，許多並行錯誤在 Rust 中都是編譯時錯誤而非執行時錯誤。因此，你不用花大量時間嘗試重現編譯時並行錯誤出現時的特定情況，不正確的程式碼會在編譯時就被拒絕，並顯示錯誤解釋問題原因。這樣一來，你就可以在開發時就修正問題，而不用等到可能都部署到生產環境了才發現問題。我們稱呼這個 Rust 的特色爲<em>無懼並行（fearless concurrency）</em>。無懼並行可以避免你寫出有微妙錯誤的程式碼，並能輕鬆重構，不用擔心產生新的程式錯誤。</p>
 <blockquote>
-<p>注意：出於簡潔考量，我們將把許多問題歸類爲<em>並行</em>，而不是精確地區分是<em>並行與/或平行</em>。如果本書是本專注在並行與/或平行的書，我們才會更在意用詞。至於本章節，當我們使用<em>並行</em>的詞彙時，請記得這代表 <em>並行與/或平行</em>。</p>
+<p>注意：出於簡潔考量，我們將把許多問題歸類爲<em>並行</em>，而不是精確地區分是<em>並行與／或平行</em>。如果本書是本專注在並行與/或平行的書，我們才會更在意用詞。至於本章節，當我們使用<em>並行</em>的詞彙時，請記得這代表 <em>並行與／或平行</em>。</p>
 </blockquote>
 <p>許多語言對於處理並行問題所提供的解決方案都很有特色。舉例來說，Erlang 有非常優雅的訊息傳遞並行功能，但跨執行緒共享狀態就只有比較隱晦的方法。只提供支援可能解決方案的子集對於高階語言來說是合理的策略，因爲高階語言所承諾的效益來自於犧牲一些掌控以換取大量的抽象層面。然而，低階語言則預期會提供在任何給定場合中能有最佳效能的解決方案，而且對硬體的抽象較少。因此 Rust 提供了多種工具來針對適合你的場合與需求將問題定義出來。</p>
 <p>本章節中我們會涵蓋這些主題：</p>
 <ul>
 <li>如何建立執行緒（threads）來同時執行多段程式碼</li>
-<li>*訊息傳遞（Message-passing）*並行提供通道（channels）在執行緒間傳遞訊息</li>
-<li>*共享狀態（Shared-state）*並行提供多執行緒可以存取同一位置的資料</li>
+<li><em>訊息傳遞（Message-passing）</em> 並行提供通道（channels）在執行緒間傳遞訊息</li>
+<li><em>共享狀態（Shared-state）</em> 並行提供多執行緒可以存取同一位置的資料</li>
 <li><code>Sync</code> 與 <code>Send</code> 特徵擴展 Rust 的並行保障至使用者定義的型別與標準函式庫的型別中</li>
 </ul>
 <blockquote>
@@ -14124,14 +14124,14 @@ children: RefCell { value: [] } }] } })
 <p>在大部分的現代作業系統中，被執行的程式碼會在<em>程序（process）<em>中執行，作業系統會負責同時處理數個程序。在你的程式中，你也可以將各自獨立的部分同時執行。執行這些獨立部分的功能就叫做</em>執行緒（threads）</em>。</p>
 <p>將程式中的運算拆成數個執行緒可以提升效能，因爲程式能同時執行多項任務，不過這也同時增加了複雜度。因爲執行緒可以同時執行，所以無法保證不同執行緒的程式碼執行的順序。這會導致以下問題：</p>
 <ul>
-<li>競爭條件（Race conditions）：數個執行緒已不一致的順序取得資料或資源</li>
+<li>競爭條件（Race conditions）：數個執行緒以不一致的順序取得資料或資源</li>
 <li>死結（Deadlocks）：兩個執行緒彼此都在等待對方停止使用它們所需的資源，因而讓執行緒無法繼續執行</li>
 <li>只在特定情形會發生的程式錯誤，並難以重現與穩定修復</li>
 </ul>
 <p>Rust 嘗試降低使用執行緒所帶來的負面效果，不過對於多執行緒程式設計還是得格外小心，其所要求的程式結構也與單一執行緒的程式有所不同。</p>
 <p>不同程式語言會以不同的方式實作執行緒。許多作業系統都有提供 API 來建立新的執行緒。這樣讓一個語言呼叫作業系統 APIs 來建立執行緒的方式有時會稱爲 <em>1:1</em>，代表每一個語言產生的執行緒就是一個作業系統的執行緒。</p>
-<p>而有許多程式語言會提供它們自己的特殊執行緒實作。程式語言提供的執行緒被稱爲*綠色（green）*執行緒，而使用綠色執行緒的語言底層會執行數個作業系統執行緒。因此綠色執行緒的模型會被稱爲 <em>M:N</em>：每 <code>M</code> 個綠色執行緒會有 <code>N</code> 作業系統執行緒，<code>M</code> 和 <code>N</code> 的數量可能會不相同。</p>
-<p>每種模型都有它的優勢與取捨，而對 Rust 來說最重要的取捨就是執行時支援。*執行時（Runtime）*是個令人困惑的術語且在不同場合會帶有不同意義。</p>
+<p>而有許多程式語言會提供它們自己的特殊執行緒實作。程式語言提供的執行緒被稱爲<em>綠色執行緒（green thread）</em> ，而使用綠色執行緒的語言底層會執行數個作業系統執行緒。因此綠色執行緒的模型會被稱爲 <em>M:N</em>：每 <code>M</code> 個綠色執行緒會有 <code>N</code> 作業系統執行緒，<code>M</code> 和 <code>N</code> 的數量可能會不相同。</p>
+<p>每種模型都有它的優勢與取捨，而對 Rust 來說最重要的取捨就是執行時支援。<em>執行時（Runtime）</em> 是個令人困惑的術語且在不同場合會帶有不同意義。</p>
 <p>在這裡我們指的<em>執行時</em>是每個二進制檔案中語言所提供的程式碼。此程式碼根據不同語言可大可小，但每個非組合語言的語言都一定會有一些執行時程式碼。所以說當人們常說一個語言「沒有執行時」的話，他們常常指的是「小執行時」。較小的執行時提供的功能就較少，但優勢在於可以產生較小的二進制檔案，這能使得與其他語言結合更加容易。雖然許多語言都能接受增加執行時的大小來換取更多功能，但 Rust 需要做到幾乎沒有執行時，且必須能夠呼叫 C 來維持效能，這也是不能妥協的。</p>
 <p>綠色執行緒 M:N 模組需要更大的語言執行時來管理執行緒。因此 Rust 標準函式庫只提供了 1:1 執行緒的實作。因爲 Rust 屬於低階語言。如果你寧願花費一些開銷以換取像是更容易地控制執行緒於何時執行，或者能降低環境切換成本等功能的話，你可以尋找有實作 M:N 執行緒的 crate。</p>
 <p>現在我們已經定義了 Rust 中的執行緒，讓我們來探討如何使用標準函式庫提供的執行緒 API 吧。</p>
@@ -14144,13 +14144,13 @@ use std::time::Duration;
 fn main() {
     thread::spawn(|| {
         for i in 1..10 {
-            println!(&quot;hi number {} from the spawned thread!&quot;, i);
+            println!(&quot;數字 {} 出現在產生的執行緒中！&quot;, i);
             thread::sleep(Duration::from_millis(1));
         }
     });
 
     for i in 1..5 {
-        println!(&quot;hi number {} from the main thread!&quot;, i);
+        println!(&quot;數字 {} 出現在主執行緒中！&quot;, i);
         thread::sleep(Duration::from_millis(1));
     }
 }
@@ -14160,15 +14160,15 @@ fn main() {
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">hi number 1 from the main thread!
-hi number 1 from the spawned thread!
-hi number 2 from the main thread!
-hi number 2 from the spawned thread!
-hi number 3 from the main thread!
-hi number 3 from the spawned thread!
-hi number 4 from the main thread!
-hi number 4 from the spawned thread!
-hi number 5 from the spawned thread!
+<pre><code class="language-text">數字 1 出現在主執行緒中！
+數字 1 出現在產生的執行緒中！
+數字 2 出現在主執行緒中！
+數字 2 出現在產生的執行緒中！
+數字 3 出現在主執行緒中！
+數字 3 出現在產生的執行緒中！
+數字 4 出現在主執行緒中！
+數字 4 出現在產生的執行緒中！
+數字 5 出現在產生的執行緒中！
 </code></pre>
 <p><code>thread::sleep</code> 的呼叫強制執行緒短時間內停止運作，讓不同的執行緒可以執行。執行緒可能會輪流執行，但並不保證絕對如此，這會依據你的作業系統如何安排執行緒而有所不同。在這一輪中，主執行緒會先顯示，就算程式中是先寫新執行緒的 <code>println!</code> 陳述式。而且雖然我們是寫說新執行緒印出 <code>i</code> 一直到 9，但它在主執行緒結束前只印到 5。</p>
 <p>如果當你執行此程式時只看到主執行緒的結果，或者沒有看到任何交錯的話，你可以嘗試增加數字範圍來增加作業系統切換執行緒的機會。</p>
@@ -14182,13 +14182,13 @@ use std::time::Duration;
 fn main() {
     let handle = thread::spawn(|| {
         for i in 1..10 {
-            println!(&quot;hi number {} from the spawned thread!&quot;, i);
+            println!(&quot;數字 {} 出現在產生的執行緒中！&quot;, i);
             thread::sleep(Duration::from_millis(1));
         }
     });
 
     for i in 1..5 {
-        println!(&quot;hi number {} from the main thread!&quot;, i);
+        println!(&quot;數字 {} 出現在主執行緒中！&quot;, i);
         thread::sleep(Duration::from_millis(1));
     }
 
@@ -14196,23 +14196,23 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 16-2：從 <code>thread::spawn</code> 儲存 <code>JoinHandle</code> 以保障執行緒能執行完成</span></p>
-<p>對其呼叫 <code>join</code> 會阻擋當前正在執行的執行緒中直到 <code>JoinHandle</code> 的執行緒結束爲止。*阻擋（Blocking）*一條執行緒代表該執行緒不會繼續運作或離開。因爲我們在主執行緒的 <code>for</code> 迴圈之後加上了 <code>join</code> 的呼叫，範例 16-2 應該會產生類似以下的輸出：</p>
+<p>對其呼叫 <code>join</code> 會阻擋當前正在執行的執行緒中直到 <code>JoinHandle</code> 的執行緒結束爲止。<em>阻擋（Blocking）</em> 一條執行緒代表該執行緒不會繼續運作或離開。因爲我們在主執行緒的 <code>for</code> 迴圈之後加上了 <code>join</code> 的呼叫，範例 16-2 應該會產生類似以下的輸出：</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">hi number 1 from the main thread!
-hi number 2 from the main thread!
-hi number 1 from the spawned thread!
-hi number 3 from the main thread!
-hi number 2 from the spawned thread!
-hi number 4 from the main thread!
-hi number 3 from the spawned thread!
-hi number 4 from the spawned thread!
-hi number 5 from the spawned thread!
-hi number 6 from the spawned thread!
-hi number 7 from the spawned thread!
-hi number 8 from the spawned thread!
-hi number 9 from the spawned thread!
+<pre><code class="language-text">數字 1 出現在主執行緒中！
+數字 2 出現在主執行緒中！
+數字 1 出現在產生的執行緒中！
+數字 3 出現在主執行緒中！
+數字 2 出現在產生的執行緒中！
+數字 4 出現在主執行緒中！
+數字 3 出現在產生的執行緒中！
+數字 4 出現在產生的執行緒中！
+數字 5 出現在產生的執行緒中！
+數字 6 出現在產生的執行緒中！
+數字 7 出現在產生的執行緒中！
+數字 8 出現在產生的執行緒中！
+數字 9 出現在產生的執行緒中！
 </code></pre>
 <p>兩條執行緒會互相交錯，但是主執行緒這次會因爲 <code>handle.join()</code> 而等待，直到產生的執行緒完成前都不會結束。</p>
 <p>那如果我們如以下這樣將 <code>handle.join()</code> 移到 <code>main</code> 中的 <code>for</code> 迴圈前會發生什麼事呢：</p>
@@ -14223,7 +14223,7 @@ use std::time::Duration;
 fn main() {
     let handle = thread::spawn(|| {
         for i in 1..10 {
-            println!(&quot;hi number {} from the spawned thread!&quot;, i);
+            println!(&quot;數字 {} 出現在產生的執行緒中！&quot;, i);
             thread::sleep(Duration::from_millis(1));
         }
     });
@@ -14231,7 +14231,7 @@ fn main() {
     handle.join().unwrap();
 
     for i in 1..5 {
-        println!(&quot;hi number {} from the main thread!&quot;, i);
+        println!(&quot;數字 {} 出現在主執行緒中！&quot;, i);
         thread::sleep(Duration::from_millis(1));
     }
 }
@@ -14240,19 +14240,19 @@ fn main() {
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">hi number 1 from the spawned thread!
-hi number 2 from the spawned thread!
-hi number 3 from the spawned thread!
-hi number 4 from the spawned thread!
-hi number 5 from the spawned thread!
-hi number 6 from the spawned thread!
-hi number 7 from the spawned thread!
-hi number 8 from the spawned thread!
-hi number 9 from the spawned thread!
-hi number 1 from the main thread!
-hi number 2 from the main thread!
-hi number 3 from the main thread!
-hi number 4 from the main thread!
+<pre><code class="language-text">數字 1 出現在產生的執行緒中！
+數字 2 出現在產生的執行緒中！
+數字 3 出現在產生的執行緒中！
+數字 4 出現在產生的執行緒中！
+數字 5 出現在產生的執行緒中！
+數字 6 出現在產生的執行緒中！
+數字 7 出現在產生的執行緒中！
+數字 8 出現在產生的執行緒中！
+數字 9 出現在產生的執行緒中！
+數字 1 出現在主執行緒中！
+數字 2 出現在主執行緒中！
+數字 3 出現在主執行緒中！
+數字 4 出現在主執行緒中！
 </code></pre>
 <p>像這樣將 <code>join</code> 呼叫置於何處的小細節，會影響你的執行緒會不會同時運行。</p>
 <h3><a class="header" href="#透過執行緒使用-move-閉包" id="透過執行緒使用-move-閉包">透過執行緒使用 <code>move</code> 閉包</a></h3>
@@ -14266,7 +14266,7 @@ fn main() {
     let v = vec![1, 2, 3];
 
     let handle = thread::spawn(|| {
-        println!(&quot;Here's a向量: {:?}&quot;, v);
+        println!(&quot;這是個向量：{:?}&quot;, v);
     });
 
     handle.join().unwrap();
@@ -14281,7 +14281,7 @@ error[E0373]: closure may outlive the current function, but it borrows `v`, whic
   |
 6 |     let handle = thread::spawn(|| {
   |                                ^^ may outlive borrowed value `v`
-7 |         println!(&quot;Here's a向量: {:?}&quot;, v);
+7 |         println!(&quot;這是個向量：{:?}&quot;, v);
   |                                           - `v` is borrowed here
   |
 note: function requires argument type to outlive `'static`
@@ -14289,7 +14289,7 @@ note: function requires argument type to outlive `'static`
   |
 6 |       let handle = thread::spawn(|| {
   |  __________________^
-7 | |         println!(&quot;Here's a向量: {:?}&quot;, v);
+7 | |         println!(&quot;這是個向量：{:?}&quot;, v);
 8 | |     });
   | |______^
 help: to force the closure to take ownership of `v` (and any other referenced variables), use the `move` keyword
@@ -14313,10 +14313,10 @@ fn main() {
     let v = vec![1, 2, 3];
 
     let handle = thread::spawn(|| {
-        println!(&quot;Here's a向量: {:?}&quot;, v);
+        println!(&quot;這是個向量：{:?}&quot;, v);
     });
 
-    drop(v); // oh no!
+    drop(v); // 喔不！
 
     handle.join().unwrap();
 }
@@ -14340,7 +14340,7 @@ fn main() {
     let v = vec![1, 2, 3];
 
     let handle = thread::spawn(move || {
-        println!(&quot;Here's a向量: {:?}&quot;, v);
+        println!(&quot;這是個向量：{:?}&quot;, v);
     });
 
     handle.join().unwrap();
@@ -14358,10 +14358,10 @@ error[E0382]: use of moved value: `v`
 5  | 
 6  |     let handle = thread::spawn(move || {
    |                                ------- value moved into closure here
-7  |         println!(&quot;Here's a向量: {:?}&quot;, v);
+7  |         println!(&quot;這是個向量：{:?}&quot;, v);
    |                                           - variable moved due to use in closure
 ...
-10 |     drop(v); // oh no!
+10 |     drop(v); // 喔不！
    |          ^ value used here after move
 
 error: aborting due to previous error
@@ -14371,7 +14371,7 @@ error: could not compile `threads`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>Rust 的所有權規則再次整救了我們！我們在範例 16-3 會得到錯誤是因爲 Rust 是保守的所以只會爲執行緒借用 <code>v</code>，這代表主執行緒理論上可能會使產生的執行緒的引用無效化。透過告訴 Rust 將 <code>v</code> 的所有權移入產生的執行緒中，我們向 Rust 保證不會在主執行緒用到 <code>v</code>。如果我們用相同方式修改範例 16-4 的話，當我們嘗試在主執行緒使用 <code>v</code> 的話，我們就違反了所有權規則。<code>move</code> 關鍵字會覆蓋 Rust 保守的預設借用行爲，且也不允許我們違反所有權規則。</p>
+<p>Rust 的所有權規則再次拯救了我們！我們在範例 16-3 會得到錯誤是因爲 Rust 是保守的，所以只會爲執行緒借用 <code>v</code>，這代表主執行緒理論上可能會使產生的執行緒的引用無效化。透過告訴 Rust 將 <code>v</code> 的所有權移入產生的執行緒中，我們向 Rust 保證不會在主執行緒用到 <code>v</code>。如果我們用相同方式修改範例 16-4 的話，當我們嘗試在主執行緒使用 <code>v</code> 的話，我們就違反了所有權規則。<code>move</code> 關鍵字會覆蓋 Rust 保守的預設借用行爲，且也不允許我們違反所有權規則。</p>
 <p>有了對執行緒與執行緒 API 的基本瞭解，讓我們看看我們可以透過執行緒<em>做些</em>什麼。</p>
 <blockquote>
 <ul>
@@ -14381,7 +14381,7 @@ To learn more, run the command again with --verbose.
 </ul>
 </blockquote>
 <h2><a class="header" href="#使用訊息傳遞在執行緒間傳送資料" id="使用訊息傳遞在執行緒間傳送資料">使用訊息傳遞在執行緒間傳送資料</a></h2>
-<p>其中一種確保安全並行且漸漸流行起來的方式是<em>訊息傳遞（message passing）</em>，執行緒或 actors 透過傳遞包含資料的訊息給彼此來溝通。此理念源自於 <a href="https://golang.org/doc/effective_go.html#concurrency">Go 語言技術文件</a>中的口號：「別透過共享記憶體來溝通，而是透過溝通來共享記憶體。」 </p>
+<p>有一種確保安全並行且漸漸流行起來的方式是<em>訊息傳遞（message passing）</em>，執行緒或 actors 透過傳遞包含資料的訊息給彼此來溝通。此理念源自於 <a href="https://golang.org/doc/effective_go.html#concurrency">Go 語言技術文件</a>中的口號：「別透過共享記憶體來溝通，而是透過溝通來共享記憶體。」 </p>
 <p>Rust 其中一個達成訊息傳遞並行的主要工具是<em>通道（channel）</em>，這是 Rust 標準函式庫有提供的程式設計概念。你可以把程式設計的通道想像成水流的通道，像是河流或小溪。如果你將橡皮小鴨或船隻放入河流中，它會順流而下到下游。</p>
 <p>程式設計中的通道有兩個部分：發送者（transmitter）與接收者（receiver）。發送者正是你會放置橡皮小鴨到河流中的上游，而接收者則是橡皮小鴨最後漂流到的下游。你程式碼中的一部分會呼叫發送者的方法來傳送你想要傳遞的資料，然後另一部分的程式碼會檢查接收者收到的訊息。當發送者或接收者有一方被釋放掉時，該通道就會被<em>關閉</em>。</p>
 <p>我們在此將寫一支程式，它會在一個執行緒中產生數值，傳送給通道，然後另一個執行緒會接收到數值並印出來。我們會使用通道在執行緒間傳送簡單的數值來作爲這個功能的解說。一旦你熟悉此技巧後，你可以使用通道來實作個聊天系統，或是一個利用數個執行緒進行運算，然後將結果傳入一個執行緒統整結果的分散式系統。</p>
@@ -14395,7 +14395,7 @@ fn main() {
 </code></pre>
 <p><span class="caption">範例 16-6：建立通道並賦值分別兩個部分給 <code>tx</code> 與 <code>rx</code></span></p>
 <p>我們使用 <code>mpsc::channel</code> 函式來建立新的通道，<code>mpsc</code> 指的是<em>多重生產者、唯一消費者（multiple producer, single consumer）</em>。簡單來說，Rust 標準函式庫實作通道的方式讓通道可以有多個<em>發送端</em>來產生數值，不過只有一個<em>接收端</em>能消耗這些數值。想像有數個溪流匯聚成一條大河流，任何溪流傳送的任何東西最終都會流向河流的下游。我們會先從單一生產者開始，等這個範例能夠執行後我們再來增加數個生產者。</p>
-<p><code>mpsc::channel</code> 函式會回傳一個元組，第一個元素是發送端然後第二個元素是接收端。<code>tx</code> 與 <code>rx</code> 通常分別作爲*發送者（transmitter）<em>與</em>接收者（receiver）*的縮寫，所以我們以此作爲我們的變數名稱。我們的 <code>let</code> 陳述式使用到了能解構元組的模式我們會在第時八章討論 <code>let</code> 陳述式的模式與解構方式。用這樣的方式使用 <code>let</code> 能輕鬆取出 <code>mpsc::channel</code> 回傳的元組每個部分。</p>
+<p><code>mpsc::channel</code> 函式會回傳一個元組，第一個元素是發送端然後第二個元素是接收端。<code>tx</code> 與 <code>rx</code> 通常分別作爲<em>發送者（transmitter）</em> 與<em>接收者（receiver）</em> 的縮寫，所以我們以此作爲我們的變數名稱。我們的 <code>let</code> 陳述式使用到了能解構元組的模式我們會在第時八章討論 <code>let</code> 陳述式的模式與解構方式。用這樣的方式使用 <code>let</code> 能輕鬆取出 <code>mpsc::channel</code> 回傳的元組每個部分。</p>
 <p>讓我們將發送端移進一個新產生的執行緒並讓它傳送一條字串，這樣產生的執行緒就可以與主執行緒溝通了，如範例 16-7 所示。這就像是在河流上游放了一隻橡皮小鴨，或是從一條執行緒傳送一條聊天訊息給別條執行緒一樣。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::mpsc;
@@ -14405,7 +14405,7 @@ fn main() {
     let (tx, rx) = mpsc::channel();
 
     thread::spawn(move || {
-        let val = String::from(&quot;hi&quot;);
+        let val = String::from(&quot;嗨&quot;);
         tx.send(val).unwrap();
     });
 }
@@ -14422,7 +14422,7 @@ fn main() {
     let (tx, rx) = mpsc::channel();
 
     thread::spawn(move || {
-        let val = String::from(&quot;hi&quot;);
+        let val = String::from(&quot;嗨&quot;);
         tx.send(val).unwrap();
     });
 
@@ -14431,14 +14431,14 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 16-8：在主執行緒取得數值「hi」並顯示出來</span></p>
-<p>通道的接收端有兩個實用的方法：<code>recv</code> 與 <code>try_recv</code>。我們使用 <code>recv</code> 作爲*接收（receive）*的縮寫，這位阻擋主執行緒的運行並等待直到通道有訊息傳入。一旦有數值傳遞，<code>recv</code> 會就以此回傳 <code>Result&lt;T, E&gt;</code>。當通道的發送端關閉時，<code>recv</code> 會回傳錯誤來通知不會再有任何數值出現了。</p>
+<p>通道的接收端有兩個實用的方法：<code>recv</code> 與 <code>try_recv</code>。我們使用 <code>recv</code> 作爲<em>接收（receive）</em> 的縮寫，這位阻擋主執行緒的運行並等待直到通道有訊息傳入。一旦有數值傳遞，<code>recv</code> 會就以此回傳 <code>Result&lt;T, E&gt;</code>。當通道的發送端關閉時，<code>recv</code> 會回傳錯誤來通知不會再有任何數值出現了。</p>
 <p><code>try_recv</code> 方法則不會阻擋，而是會立即回傳 <code>Result&lt;T, E&gt;</code>。如果有數值的話，就會是存有訊息的 <code>Ok</code> 數值，如果尚未有任何數值的話，就會是 <code>Err</code> 數值。<code>try_recv</code> 適用於如果此執行緒在等待訊息的同時有其他事要做的情形。我們可以寫個迴圈來時不時呼叫 <code>try_recv</code>，當有數值時處理訊息，不然的話就先做點其他事直到再次檢查爲止。</p>
 <p>我們出於方便考量在此例使用 <code>recv</code>，我們的主執行緒除了等待訊息以外沒有其他事好做，所以阻擋主執行緒是合理的。</p>
 <p>當我們執行範例 16-8 的程式碼，我們會看到主執行緒印出的數值：</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">取得：hi
+<pre><code class="language-text">取得：嗨
 </code></pre>
 <p>太棒了！</p>
 <h3><a class="header" href="#通道與所有權轉移" id="通道與所有權轉移">通道與所有權轉移</a></h3>
@@ -14451,9 +14451,9 @@ fn main() {
     let (tx, rx) = mpsc::channel();
 
     thread::spawn(move || {
-        let val = String::from(&quot;hi&quot;);
+        let val = String::from(&quot;嗨&quot;);
         tx.send(val).unwrap();
-        println!(&quot;val is {}&quot;, val);
+        println!(&quot;val 爲 {}&quot;, val);
     });
 
     let received = rx.recv().unwrap();
@@ -14467,11 +14467,11 @@ fn main() {
 error[E0382]: borrow of moved value: `val`
   --&gt; src/main.rs:10:31
    |
-8  |         let val = String::from(&quot;hi&quot;);
+8  |         let val = String::from(&quot;嗨&quot;);
    |             --- move occurs because `val` has type `std::string::String`, which does not implement the `Copy` trait
 9  |         tx.send(val).unwrap();
    |                 --- value moved here
-10 |         println!(&quot;val is {}&quot;, val);
+10 |         println!(&quot;val 爲 {}&quot;, val);
    |                               ^^^ value borrowed here after move
 
 error: aborting due to previous error
@@ -14494,10 +14494,10 @@ fn main() {
 
     thread::spawn(move || {
         let vals = vec![
-            String::from(&quot;hi&quot;),
-            String::from(&quot;from&quot;),
-            String::from(&quot;the&quot;),
-            String::from(&quot;thread&quot;),
+            String::from(&quot;執行緒&quot;),
+            String::from(&quot;傳來&quot;),
+            String::from(&quot;的&quot;),
+            String::from(&quot;嗨&quot;),
         ];
 
         for val in vals {
@@ -14518,14 +14518,14 @@ fn main() {
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">取得：hi
-取得：from
-取得：the
-取得：thread
+<pre><code class="language-text">取得：執行緒
+取得：傳來
+取得：的
+取得：嗨
 </code></pre>
 <p>因爲我們在主執行緒中的 <code>for</code> 迴圈內沒有任何會暫停或延遲的程式碼，所以我們可以看出主執行緒是在等待產生的執行緒傳送的數值。</p>
-<h3><a class="header" href="#透過克隆發送者來建立多重生產者creating-multiple-producers-by-cloning-the-transmitter" id="透過克隆發送者來建立多重生產者creating-multiple-producers-by-cloning-the-transmitter">透過克隆發送者來建立多重生產者Creating Multiple Producers by Cloning the Transmitter</a></h3>
-<p>稍早之前我們提過 <code>mpsc</code> 是*多重生產者、唯一消費者（multiple producer, single consumer）*的縮寫。讓我們來使用 <code>mpsc</code> 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。爲此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
+<h3><a class="header" href="#透過克隆發送者來建立多重生產者" id="透過克隆發送者來建立多重生產者">透過克隆發送者來建立多重生產者</a></h3>
+<p>稍早之前我們提過 <code>mpsc</code> 是<em>多重生產者、唯一消費者（multiple producer, single consumer）</em> 的縮寫。讓我們來使用 <code>mpsc</code> 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。爲此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::thread;
@@ -14539,10 +14539,10 @@ changes in the compiler -->
     let tx1 = mpsc::Sender::clone(&amp;tx);
     thread::spawn(move || {
         let vals = vec![
-            String::from(&quot;hi&quot;),
-            String::from(&quot;from&quot;),
-            String::from(&quot;the&quot;),
-            String::from(&quot;thread&quot;),
+            String::from(&quot;執行緒&quot;),
+            String::from(&quot;傳來&quot;),
+            String::from(&quot;的&quot;),
+            String::from(&quot;嗨&quot;),
         ];
 
         for val in vals {
@@ -14553,10 +14553,10 @@ changes in the compiler -->
 
     thread::spawn(move || {
         let vals = vec![
-            String::from(&quot;more&quot;),
-            String::from(&quot;messages&quot;),
-            String::from(&quot;for&quot;),
-            String::from(&quot;you&quot;),
+            String::from(&quot;更多&quot;),
+            String::from(&quot;給你&quot;),
+            String::from(&quot;的&quot;),
+            String::from(&quot;訊息&quot;),
         ];
 
         for val in vals {
@@ -14578,16 +14578,16 @@ changes in the compiler -->
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">取得：hi
-取得：more
-取得：from
-取得：messages
-取得：for
-取得：the
-取得：thread
-取得：you
+<pre><code class="language-text">取得：執行緒
+取得：更多
+取得：傳來
+取得：給你
+取得：的
+取得：的
+取得：嗨
+取得：訊息
 </code></pre>
-<p>你可能會看到數值以不同順序排序，這完全依據你的系統來決定。這正是並行程式設計既有趣卻又困難。如果你加上 <code>thread::sleep</code> 來實驗，並在不同執行緒給予不同數值的話，就會發現每一輪都會更不確定，每次都會產生不同的輸出結果。</p>
+<p>你可能會看到數值以不同順序排序，這完全依據你的系統來決定。這正是並行程式設計既有趣卻又困難的地方。如果你加上 <code>thread::sleep</code> 來實驗，並在不同執行緒給予不同數值的話，就會發現每一輪都會更不確定，每次都會產生不同的輸出結果。</p>
 <p>現在我們已經看完通道如何運作，接著讓我們來看看並行的不同方法吧。</p>
 <blockquote>
 <ul>
@@ -14601,7 +14601,7 @@ changes in the compiler -->
 <p>透過共享記憶體來溝通會是什麼樣子呢？除此之外，爲何訊息傳遞愛好者不喜歡這種方式並反其道而行呢？</p>
 <p>任何程式語言的通道某方面來說類似於單一所有權，因爲一旦你轉移數值給通道，你就不該使用該數值。共享記憶體並行則像多重所有權，數個執行緒可以同時存取同個記憶體位置。如同你在第十五章所見到的，智慧指標讓多重所有權成爲可能，但多重所有權會增加複雜度，因爲我們會需要管理這些不同的擁有者。Rust 的型別系統與所有權規則大幅地協助了正確管理這些所有權。作爲範例就讓我們看看互斥鎖（mutexes），這是共享記憶體中常見的並行原始元件之一。</p>
 <h3><a class="header" href="#使用互斥鎖在同時間只允許一條執行緒存取資料" id="使用互斥鎖在同時間只允許一條執行緒存取資料">使用互斥鎖在同時間只允許一條執行緒存取資料</a></h3>
-<p>*互斥鎖（Mutex）<em>是 <em>mutual exclusion</em> 的縮寫，顧名思義互斥鎖在任意時刻只允許一條執行緒可以存取一些資料。要取得互斥鎖中的資料，執行緒必須先透過獲取互斥鎖的</em>鎖（lock）<em>來表示它想要進行存取。鎖是互斥鎖其中一部分的資料結構，用來追蹤當前誰擁有資料的獨佔存取權。因此互斥鎖被描述爲會透過鎖定系統</em>守護（guarding）*其所持有的資料。</p>
+<p><em>互斥鎖（Mutex）</em> 是 <em>mutual exclusion</em> 的縮寫，顧名思義互斥鎖在任意時刻只允許一條執行緒可以存取一些資料。要取得互斥鎖中的資料，執行緒必須先透過獲取互斥鎖的<em>鎖（lock）<em>來表示它想要進行存取。鎖是互斥鎖其中一部分的資料結構，用來追蹤當前誰擁有資料的獨佔存取權。因此互斥鎖被描述爲會透過鎖定系統</em>守護（guarding）</em> 其所持有的資料。</p>
 <p>互斥鎖以難以使用著名，因爲你必須記住兩個規則：</p>
 <ul>
 <li>你必須在使用資料前獲取鎖。</li>
@@ -14654,7 +14654,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!(&quot;Result: {}&quot;, *counter.lock().unwrap());
+    println!(&quot;結果：{}&quot;, *counter.lock().unwrap());
 }
 </code></pre>
 <p><span class="caption">範例 16-13：十個執行緒都會對 <code>Mutex&lt;T&gt;</code> 守護的計數增加 1</span></p>
@@ -14707,7 +14707,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!(&quot;Result: {}&quot;, *counter.lock().unwrap());
+    println!(&quot;結果：{}&quot;, *counter.lock().unwrap());
 }
 </code></pre>
 <p><span class="caption">範例 16-14：嘗試使用 <code>Rc&lt;T&gt;</code> 來允許數個執行緒擁有 <code>Mutex&lt;T&gt;</code></span></p>
@@ -14758,7 +14758,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!(&quot;Result: {}&quot;, *counter.lock().unwrap());
+    println!(&quot;結果：{}&quot;, *counter.lock().unwrap());
 }
 </code></pre></pre>
 <p><span class="caption">範例 16-15：使用 <code>Arc&lt;T&gt;</code> 封裝 <code>Mutex&lt;T&gt;</code> 來在數個執行緒間分享所有權</span></p>
@@ -14766,12 +14766,12 @@ fn main() {
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
-<pre><code class="language-text">Result: 10
+<pre><code class="language-text">結果：10
 </code></pre>
 <p>我們辦到了！我們從 0 數到了 10，雖然看起來不是很令人印象深刻，但這的確教會了我們很多有關 <code>Mutex&lt;T&gt;</code> 與執行緒安全的知識。你也可以使用此程式結構來做更多複雜的運算，而不只是數數而已。使用此策略，你可以將運算拆成數個獨立部分，將它們分配給執行緒，然後使用 <code>Mutex&lt;T&gt;</code> 來讓每個執行緒更新該部分的結果。</p>
 <h3><a class="header" href="#refcelltrct-與-mutextarct-之間的相似度" id="refcelltrct-與-mutextarct-之間的相似度"><code>RefCell&lt;T&gt;</code>/<code>Rc&lt;T&gt;</code> 與 <code>Mutex&lt;T&gt;</code>/<code>Arc&lt;T&gt;</code> 之間的相似度</a></h3>
 <p>你可能已經注意到 <code>counter</code> 是不可變的，但我們卻可以取得數值其內部的可變引用，這代表 <code>Mutex&lt;T&gt;</code> 有提供內部可變性，就像 <code>Cell</code> 家族一樣。我們在第十五章也以相同的方式使用 <code>RefCell&lt;T&gt;</code> 來讓我們能改變 <code>Rc&lt;T&gt;</code> 內部的數值，而在此我們使用 <code>Mutex&lt;T&gt;</code> 改變 <code>Arc&lt;T&gt;</code> 內部的內容。</p>
-<p>另一個值得注意的細節是當你使用 <code>Mutex&lt;T&gt;</code> 時，Rust 無法避免所有種類的邏輯錯誤。 回憶一下第十五章使用 <code>Rc&lt;T&gt;</code> 時會有可能產生引用循環的風險，兩個 <code>Rc&lt;T&gt;</code> 數值可能會彼此引用，造成記憶體泄漏。同樣地，<code>Mutex&lt;T&gt;</code> 有產生*死結（deadlocks）*的風險。這會發生在當有個動作需要鎖定兩個資源，而有兩個執行緒分別擁有其中一個鎖，導致它們永遠都在等待彼此。如果你對此有興趣的話，歡迎嘗試建立一個有死結的 Rust 程式，然後研究看看任何語言中避免的互斥鎖死結的策略，並嘗試實作它們在 Rust 中。標準函式庫中 <code>Mutex&lt;T&gt;</code> 與 <code>MutexGuard</code> 的 API 技術文件可以提供些實用資訊。</p>
+<p>另一個值得注意的細節是當你使用 <code>Mutex&lt;T&gt;</code> 時，Rust 無法避免所有種類的邏輯錯誤。 回憶一下第十五章使用 <code>Rc&lt;T&gt;</code> 時會有可能產生引用循環的風險，兩個 <code>Rc&lt;T&gt;</code> 數值可能會彼此引用，造成記憶體泄漏。同樣地，<code>Mutex&lt;T&gt;</code> 有產生<em>死結（deadlocks）</em> 的風險。這會發生在當有個動作需要鎖定兩個資源，而有兩個執行緒分別擁有其中一個鎖，導致它們永遠都在等待彼此。如果你對此有興趣的話，歡迎嘗試建立一個有死結的 Rust 程式，然後研究看看任何語言中避免的互斥鎖死結的策略，並嘗試實作它們在 Rust 中。標準函式庫中 <code>Mutex&lt;T&gt;</code> 與 <code>MutexGuard</code> 的 API 技術文件可以提供些實用資訊。</p>
 <p>接下來在本章結尾我們會來討論 <code>Send</code> 與 <code>Sync</code> 特徵以及我們如何在自訂型別中使用它們。</p>
 <blockquote>
 <ul>
@@ -14792,7 +14792,7 @@ changes in the compiler -->
 <p>智慧指標 <code>Rc&lt;T&gt;</code> 沒有 <code>Sync</code> 的原因和沒有 <code>Send</code> 的原因一樣。<code>RefCell&lt;T&gt;</code> 型別（我們在第十五章提過）與其 <code>Cell&lt;T&gt;</code> 也都沒有 <code>Sync</code>。 <code>RefCell&lt;T&gt;</code> 在執行時的借用檢查實作沒有執行緒安全。智慧指標 <code>Mutex&lt;T&gt;</code> 才有 <code>Sync</code> 並能像你在<a href="ch16-03-shared-state.html#%E5%9C%A8%E6%95%B8%E5%80%8B%E5%9F%B7%E8%A1%8C%E7%B7%92%E9%96%93%E5%85%B1%E4%BA%AB-mutext">「在數個執行緒間共享 <code>Mutex&lt;T&gt;</code>」</a><!-- ignore -->段落看到的那樣用來在多個執行緒間分享存取。</p>
 <h3><a class="header" href="#手動實作-send-與-sync-是不安全的" id="手動實作-send-與-sync-是不安全的">手動實作 <code>Send</code> 與 <code>Sync</code> 是不安全的</a></h3>
 <p>因爲由具有 <code>Send</code> 與 <code>Sync</code> 的型別組成的型別自動就會有 <code>Send</code> 與 <code>Sync</code>，我們不需要親自實作這些特徵。至於標記特徵，它們甚至沒有任何方法需要實作。它們只是用於強制確保並行相關的不變性。</p>
-<p>要手動實作這些特徵會需要實作不安全（unsafe）的 Rust 程式碼。我們會在第十九章討論如何使用不安全的 Rust 程式碼，現在最重要的資訊是要從不具有 <code>Send</code> 與 <code>Sync</code> 的元件來組成新的並行型別需要格外小心才能確保其安全保障。<a href="../nomicon/index.html">「The Rustonomicon」</a> 有更多關於這些保障與如何維持它們的資訊。</p>
+<p>要手動實作這些特徵會需要實作不安全（unsafe）的 Rust 程式碼。我們會在第十九章討論如何使用不安全的 Rust 程式碼，現在最重要的資訊是要從不具有 <code>Send</code> 與 <code>Sync</code> 的元件來組成新的並行型別需要格外小心才能確保其安全保障。<a href="https://doc.rust-lang.org/nomicon/index.html">「The Rustonomicon」</a> 有更多關於這些保障與如何維持它們的資訊。</p>
 <h2><a class="header" href="#總結-14" id="總結-14">總結</a></h2>
 <p>這不會是你在本書中最後一次看到並行程式碼，第二十章的專案將會在更實際的場合中使用本章節的概念，而非這裡討論的簡單範例。</p>
 <p>如之前提過的，因爲 Rust 語言本身很少處理並行的部分，許多並行解決方案都實作成 crate。這些 crate 通常發展的比標準函式庫還快，所以別忘了到線上尋找目前最先進的 crate 來在多執行緒場合中使用喔。</p>
@@ -15089,7 +15089,7 @@ fn main() {
 
 fn main() {
     let screen = Screen {
-        components: vec![Box::new(String::from(&quot;Hi&quot;))],
+        components: vec![Box::new(String::from(&quot;嗨&quot;))],
     };
 
     screen.run();
@@ -15102,7 +15102,7 @@ fn main() {
 error[E0277]: the trait bound `std::string::String: gui::Draw` is not satisfied
  --&gt; src/main.rs:5:26
   |
-5 |         components: vec![Box::new(String::from(&quot;Hi&quot;))],
+5 |         components: vec![Box::new(String::from(&quot;嗨&quot;))],
   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `gui::Draw` is not implemented for `std::string::String`
   |
   = note: required for the cast to the object type `dyn gui::Draw`
@@ -17331,7 +17331,7 @@ fn main() {
 </code></pre>
 <p>到處在函式簽名與型別註解寫這個型別既累人又容易失誤。想像你有一個專案的程式碼都長得像範例 19-24。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
-</span>    let f: Box&lt;dyn Fn() + Send + 'static&gt; = Box::new(|| println!(&quot;hi&quot;));
+</span>    let f: Box&lt;dyn Fn() + Send + 'static&gt; = Box::new(|| println!(&quot;嗨&quot;));
 
     fn takes_long_type(f: Box&lt;dyn Fn() + Send + 'static&gt;) {
         // --省略--
@@ -17348,7 +17348,7 @@ fn main() {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    type Thunk = Box&lt;dyn Fn() + Send + 'static&gt;;
 
-    let f: Thunk = Box::new(|| println!(&quot;hi&quot;));
+    let f: Thunk = Box::new(|| println!(&quot;嗨&quot;));
 
     fn takes_long_type(f: Thunk) {
         // --省略--
