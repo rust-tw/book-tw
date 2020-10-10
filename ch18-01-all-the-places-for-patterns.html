@@ -266,12 +266,12 @@ c 位於索引 2
 </span></code></pre></pre>
 <p><span class="caption">範例 18-4：使用模式來解構元組，並同時建立三個變數</span></p>
 <p>我們在此用一個元組來配對一個模式。Rust 會將數值 <code>(1, 2, 3)</code> 與模式 <code>(x, y, z)</code> 做比較，並看出數值能配對到模式中，所以 Rust 將 <code>1</code> 綁定給 <code>x</code>、<code>2</code> 給 <code>y</code> 然後 <code>3</code> 給 <code>z</code>。你可以把此元組模式想成是三個獨立的變數模式組合在一起。</p>
-<p>如果模式中的元素數量與元組中的元素數量不符合的話，整體型別就無法配對，所以我們會得到編譯錯誤。舉例來說，範例 18-5 嘗試將有三個元素的元組解構到兩個變數中，這樣就無法成功。</p>
+<p>如果模式中的元素個數與元組中的元素個數不符合的話，整體型別就無法配對，所以我們會得到編譯錯誤。舉例來說，範例 18-5 嘗試將有三個元素的元組解構到兩個變數中，這樣就無法成功。</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let (x, y) = (1, 2, 3);
 <span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 18-5：錯誤的模式結構，因爲變數數量與元組元素數量不符</span></p>
+<p><span class="caption">範例 18-5：錯誤的模式結構，因爲變數數量與元組元素個數不符</span></p>
 <p>嘗試編譯此程式碼的話，會得到此型別錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling patterns v0.1.0 (file:///projects/patterns)
@@ -291,7 +291,7 @@ error: could not compile `patterns`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>如果我們在元組中想要忽略一或數個數值的話，我們可以使用 <code>_</code> 或 <code>..</code>，你會在<a href="ch18-03-pattern-syntax.html#%E5%BF%BD%E7%95%A5%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84%E6%95%B8%E5%80%BC">「忽略模式中的數值」</a><!-- ignore -->段落中瞭解更多詳情。如果問題出在於我們模式中有太多變數的話，解決辦法就是移除些變數使變數數量等同於元組元素數量，讓型別可以配對。</p>
+<p>如果我們在元組中想要忽略一或數個數值的話，我們可以使用 <code>_</code> 或 <code>..</code>，你會在<a href="ch18-03-pattern-syntax.html#%E5%BF%BD%E7%95%A5%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84%E6%95%B8%E5%80%BC">「忽略模式中的數值」</a><!-- ignore -->段落中瞭解更多詳情。如果問題出在於我們模式中有太多變數的話，解決辦法就是移除些變數使變數數量等同於元組元素個數，讓型別可以配對。</p>
 <h3><a class="header" href="#函式參數" id="函式參數">函式參數</a></h3>
 <p>函式參數也可以是模式。範例 18-6 的程式碼宣告了一個函式叫做 <code>foo</code> 來接收一個參數叫做 <code>x</code> 其型別爲 <code>i32</code>，現在這看起來你應該都還很熟悉。</p>
 <pre><pre class="playground"><code class="language-rust">fn foo(x: i32) {

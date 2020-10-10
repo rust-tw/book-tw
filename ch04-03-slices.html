@@ -338,7 +338,7 @@ let slice = &amp;s[..];
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p>我們如同範例 4-7 一樣用判斷第一個空格取得了單字結尾的索引。當我們找到第一個空格，我們用字串的初始索引與當前空格的索引作爲初始與結束索引來回傳字串切片。</p>
-<p>現在當我們呼叫 <code>first_word</code>，我們就會取得一個與原本資料有直接相關的數值。此數值是由切片的起始位置即切片中的元素數量組成。</p>
+<p>現在當我們呼叫 <code>first_word</code>，我們就會取得一個與原本資料有直接相關的數值。此數值是由切片的起始位置即切片中的元素個數組成。</p>
 <p>這樣函式 <code>second_word</code>  一樣也可以回傳切片：</p>
 <pre><code class="language-rust ignore">fn second_word(s: &amp;String) -&gt; &amp;str {
 </code></pre>
