@@ -168,7 +168,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#實作物件導向設計模式" id="實作物件導向設計模式">實作物件導向設計模式</a></h2>
-<p>*狀態模式（state pattern）<em>是種物件導向設計模式。此模式的關鍵在於一個數值會有些內部狀態，會以</em>狀態物件（state objects）*呈現，然後數值的行爲會依據內部狀態而有所改變。狀態物件會分享功能，當然在 Rust 中我們使用結構體與特徵，而不是使用物件與繼承。每個狀態物件負責本身的行爲並監測何時要改變成其他狀態。持有狀態物件的數值不會知道狀態中不同的行爲，或是何時要轉換狀態。</p>
+<p><em>狀態模式（state pattern）</em> 是種物件導向設計模式。此模式的關鍵在於一個數值會有些內部狀態，會以<em>狀態物件（state objects）</em> 呈現，然後數值的行爲會依據內部狀態而有所改變。狀態物件會分享功能，當然在 Rust 中我們使用結構體與特徵，而不是使用物件與繼承。每個狀態物件負責本身的行爲並監測何時要改變成其他狀態。持有狀態物件的數值不會知道狀態中不同的行爲，或是何時要轉換狀態。</p>
 <p>使用狀態模式表示當我們程式的業務需求改變時，我們不需要改變持有狀態的數值或使用其數值的程式碼。我們只需要變更其中一個狀態物件的程式碼來改變其規則，或者新增更多狀態物件。讓我們看看狀態設計模式的範例，以及如何在 Rust 中使用。</p>
 <p>我們會漸進式地實作一個網誌文章工作流程。網誌最終的功能會長得像這樣：</p>
 <ol>
@@ -185,14 +185,14 @@
 fn main() {
     let mut post = Post::new();
 
-    post.add_text(&quot;I ate a salad for lunch today&quot;);
+    post.add_text(&quot;我今天午餐吃了沙拉&quot;);
     assert_eq!(&quot;&quot;, post.content());
 
     post.request_review();
     assert_eq!(&quot;&quot;, post.content());
 
     post.approve();
-    assert_eq!(&quot;I ate a salad for lunch today&quot;, post.content());
+    assert_eq!(&quot;我今天午餐吃了沙拉&quot;, post.content());
 }
 </code></pre>
 <p><span class="caption">範例 17-11：展示我們所希望的 <code>blog</code> crate 預期行爲的程式碼</span></p>
@@ -651,14 +651,14 @@ impl State for Published {
 </span>fn main() {
     let mut post = Post::new();
 
-    post.add_text(&quot;I ate a salad for lunch today&quot;);
+    post.add_text(&quot;我今天午餐吃了沙拉&quot;);
     assert_eq!(&quot;&quot;, post.content());
 <span class="boring">
 </span><span class="boring">    post.request_review();
 </span><span class="boring">    assert_eq!(&quot;&quot;, post.content());
 </span><span class="boring">
 </span><span class="boring">    post.approve();
-</span><span class="boring">    assert_eq!(&quot;I ate a salad for lunch today&quot;, post.content());
+</span><span class="boring">    assert_eq!(&quot;我今天午餐吃了沙拉&quot;, post.content());
 </span>}
 </code></pre>
 <p>我們仍使用 <code>Post::new</code> 來建立新文章的草稿狀態以及能對文章內容新增文字的能力。但不同於在文章草稿的 <code>content</code> 方法中回傳空字串，我們這次選擇文章草稿不會實作 <code>content</code> 方法。這樣如果我們嘗試取得文章草稿內容時，我們會得到編譯錯誤告訴我們該方法不存在。如此一來，我們就不可能在生產環境意外顯示出文章草稿內容了，因爲程式碼根本不會編譯過。範例 17-19 顯示了 <code>Post</code> 結構體與 <code>DraftPost</code> 結構體的定義，以及它們個別的方法：</p>
@@ -758,13 +758,13 @@ impl PendingReviewPost {
 fn main() {
     let mut post = Post::new();
 
-    post.add_text(&quot;I ate a salad for lunch today&quot;);
+    post.add_text(&quot;我今天午餐吃了沙拉&quot;);
 
     let post = post.request_review();
 
     let post = post.approve();
 
-    assert_eq!(&quot;I ate a salad for lunch today&quot;, post.content());
+    assert_eq!(&quot;我今天午餐吃了沙拉&quot;, post.content());
 }
 </code></pre>
 <p><span class="caption">範例 17-21：修改 <code>main</code> 來使用新的網誌文章工作流程實作</span></p>
@@ -772,7 +772,7 @@ fn main() {
 <p>你可以試試看在範例 17-20 之後，對 <code>blog</code> crate 實作我們在此段落稍早提及的額外需求任務建議，來看看你覺得此版本的程式碼設計如何。注意有些任務很可能在此設計就已經實作完成了。</p>
 <p>我們看到儘管 Rust 能夠實作物件導向設計模式、其他像是將狀態寫入型別系統中的模式在 Rust 中也是可行的。這些模式有不同的取捨。雖然你可能非常熟悉物件導向模式，但重新思考問題，並善用 Rust 的特色可以帶來不少優勢，像是在執行時就避免錯誤發生。物件導向模式在 Rust 中不會永遠是最好的解決方案，因爲 Rust 有像是所有權這樣物件導向語言所沒有的特定功能。</p>
 <h2><a class="header" href="#總結" id="總結">總結</a></h2>
-<p>無論你讀完此章後，認爲 Rust 是否屬於物件導向語言，你知道在 Rust 中你可以使用特徵物件來取得一些物件導向的特色。動態分配能給予你的程式碼更多的彈性，但會犧牲一點執行時效能。你可以使用此彈性來實作物件導向模式，幫助提升程式碼可維護性。Rust 還有其他像是所有權等物件導向語言所沒有的功能。物件導向模式不會永遠是善用 Rust 潛能的最佳方案，不過仍是個不錯的選項。</p>
+<p>無論你讀完此章後，認爲 Rust 是否屬於物件導向語言，你都知道在 Rust 中你可以使用特徵物件來取得一些物件導向的特色。動態分配能給予你的程式碼更多的彈性，但會犧牲一點執行時效能。你可以使用此彈性來實作物件導向模式，幫助提升程式碼可維護性。Rust 還有其他像是所有權等物件導向語言所沒有的功能。物件導向模式不會永遠是善用 Rust 潛能的最佳方案，不過仍是個不錯的選項。</p>
 <p>接下來，我們要看看模式（patterns），這是 Rust 另一個可以提供大量彈性的功能。我們在書中一路下來簡單看過它們好幾次了，不過我們還沒見識到它們全部的本事。讓我們來探索吧！</p>
 <blockquote>
 <ul>
