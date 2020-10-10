@@ -1,9 +1,9 @@
 unsafe trait Foo {
-    // methods go here
+    // 內部的方法
 }
 
 unsafe impl Foo for i32 {
-    // method implementations go here
+    // 內部實作的方法
 }
 
 fn main() {}

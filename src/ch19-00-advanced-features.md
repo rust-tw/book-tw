@@ -4,7 +4,7 @@
 
 本章涵蓋：
 
-* Unsafe Rust：如何選擇捨棄部分 Rust 提供的保證，並自行負責遵守這些保證
+* 不安全的 Rust：如何選擇捨棄部分 Rust 提供的保證，並自行負責遵守這些保證
 * 進階特徵：關聯型別（associated type）、預設型別參數（default type parameter），完全限定語法（fully qualified syntax），超特徵（supertrait），以及跟特徵相關的新型別模式（newtype pattern）
 * 進階型別：更多有關新型別模式、型別別名（type alias），永不型別（never type），以及動態大小型別（dynamically sized type）
 * 進階函式與閉包：函式指標與回傳閉包
