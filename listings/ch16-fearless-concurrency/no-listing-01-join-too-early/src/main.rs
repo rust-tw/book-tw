@@ -4,7 +4,7 @@ use std::time::Duration;
 fn main() {
     let handle = thread::spawn(|| {
         for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
+            println!("數字 {} 出現在產生的執行緒中！", i);
             thread::sleep(Duration::from_millis(1));
         }
     });
@@ -12,7 +12,7 @@ fn main() {
     handle.join().unwrap();
 
     for i in 1..5 {
-        println!("hi number {} from the main thread!", i);
+        println!("數字 {} 出現在主執行緒中！", i);
         thread::sleep(Duration::from_millis(1));
     }
 }

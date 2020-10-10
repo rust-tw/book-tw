@@ -11,10 +11,10 @@ fn main() {
     let tx1 = mpsc::Sender::clone(&tx);
     thread::spawn(move || {
         let vals = vec![
-            String::from("hi"),
-            String::from("from"),
-            String::from("the"),
-            String::from("thread"),
+            String::from("執行緒"),
+            String::from("傳來"),
+            String::from("的"),
+            String::from("嗨"),
         ];
 
         for val in vals {
@@ -25,10 +25,10 @@ fn main() {
 
     thread::spawn(move || {
         let vals = vec![
-            String::from("more"),
-            String::from("messages"),
-            String::from("for"),
-            String::from("you"),
+            String::from("更多"),
+            String::from("給你"),
+            String::from("的"),
+            String::from("訊息"),
         ];
 
         for val in vals {

@@ -4,7 +4,7 @@
 
 將程式中的運算拆成數個執行緒可以提升效能，因爲程式能同時執行多項任務，不過這也同時增加了複雜度。因爲執行緒可以同時執行，所以無法保證不同執行緒的程式碼執行的順序。這會導致以下問題：
 
-* 競爭條件（Race conditions）：數個執行緒已不一致的順序取得資料或資源
+* 競爭條件（Race conditions）：數個執行緒以不一致的順序取得資料或資源
 * 死結（Deadlocks）：兩個執行緒彼此都在等待對方停止使用它們所需的資源，因而讓執行緒無法繼續執行
 * 只在特定情形會發生的程式錯誤，並難以重現與穩定修復
 
@@ -12,9 +12,9 @@ Rust 嘗試降低使用執行緒所帶來的負面效果，不過對於多執行
 
 不同程式語言會以不同的方式實作執行緒。許多作業系統都有提供 API 來建立新的執行緒。這樣讓一個語言呼叫作業系統 APIs 來建立執行緒的方式有時會稱爲 *1:1*，代表每一個語言產生的執行緒就是一個作業系統的執行緒。
 
-而有許多程式語言會提供它們自己的特殊執行緒實作。程式語言提供的執行緒被稱爲*綠色（green）*執行緒，而使用綠色執行緒的語言底層會執行數個作業系統執行緒。因此綠色執行緒的模型會被稱爲 *M:N*：每 `M` 個綠色執行緒會有 `N` 作業系統執行緒，`M` 和 `N` 的數量可能會不相同。
+而有許多程式語言會提供它們自己的特殊執行緒實作。程式語言提供的執行緒被稱爲*綠色執行緒（green thread）* ，而使用綠色執行緒的語言底層會執行數個作業系統執行緒。因此綠色執行緒的模型會被稱爲 *M:N*：每 `M` 個綠色執行緒會有 `N` 作業系統執行緒，`M` 和 `N` 的數量可能會不相同。
 
-每種模型都有它的優勢與取捨，而對 Rust 來說最重要的取捨就是執行時支援。*執行時（Runtime）*是個令人困惑的術語且在不同場合會帶有不同意義。
+每種模型都有它的優勢與取捨，而對 Rust 來說最重要的取捨就是執行時支援。*執行時（Runtime）* 是個令人困惑的術語且在不同場合會帶有不同意義。
 
 在這裡我們指的*執行時*是每個二進制檔案中語言所提供的程式碼。此程式碼根據不同語言可大可小，但每個非組合語言的語言都一定會有一些執行時程式碼。所以說當人們常說一個語言「沒有執行時」的話，他們常常指的是「小執行時」。較小的執行時提供的功能就較少，但優勢在於可以產生較小的二進制檔案，這能使得與其他語言結合更加容易。雖然許多語言都能接受增加執行時的大小來換取更多功能，但 Rust 需要做到幾乎沒有執行時，且必須能夠呼叫 C 來維持效能，這也是不能妥協的。
 
@@ -41,15 +41,15 @@ the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-hi number 1 from the main thread!
-hi number 1 from the spawned thread!
-hi number 2 from the main thread!
-hi number 2 from the spawned thread!
-hi number 3 from the main thread!
-hi number 3 from the spawned thread!
-hi number 4 from the main thread!
-hi number 4 from the spawned thread!
-hi number 5 from the spawned thread!
+數字 1 出現在主執行緒中！
+數字 1 出現在產生的執行緒中！
+數字 2 出現在主執行緒中！
+數字 2 出現在產生的執行緒中！
+數字 3 出現在主執行緒中！
+數字 3 出現在產生的執行緒中！
+數字 4 出現在主執行緒中！
+數字 4 出現在產生的執行緒中！
+數字 5 出現在產生的執行緒中！
 ```
 
 `thread::sleep` 的呼叫強制執行緒短時間內停止運作，讓不同的執行緒可以執行。執行緒可能會輪流執行，但並不保證絕對如此，這會依據你的作業系統如何安排執行緒而有所不同。在這一輪中，主執行緒會先顯示，就算程式中是先寫新執行緒的 `println!` 陳述式。而且雖然我們是寫說新執行緒印出 `i` 一直到 9，但它在主執行緒結束前只印到 5。
@@ -70,26 +70,26 @@ hi number 5 from the spawned thread!
 
 <span class="caption">範例 16-2：從 `thread::spawn` 儲存 `JoinHandle` 以保障執行緒能執行完成</span>
 
-對其呼叫 `join` 會阻擋當前正在執行的執行緒中直到 `JoinHandle` 的執行緒結束爲止。*阻擋（Blocking）*一條執行緒代表該執行緒不會繼續運作或離開。因爲我們在主執行緒的 `for` 迴圈之後加上了 `join` 的呼叫，範例 16-2 應該會產生類似以下的輸出：
+對其呼叫 `join` 會阻擋當前正在執行的執行緒中直到 `JoinHandle` 的執行緒結束爲止。*阻擋（Blocking）* 一條執行緒代表該執行緒不會繼續運作或離開。因爲我們在主執行緒的 `for` 迴圈之後加上了 `join` 的呼叫，範例 16-2 應該會產生類似以下的輸出：
 
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-hi number 1 from the main thread!
-hi number 2 from the main thread!
-hi number 1 from the spawned thread!
-hi number 3 from the main thread!
-hi number 2 from the spawned thread!
-hi number 4 from the main thread!
-hi number 3 from the spawned thread!
-hi number 4 from the spawned thread!
-hi number 5 from the spawned thread!
-hi number 6 from the spawned thread!
-hi number 7 from the spawned thread!
-hi number 8 from the spawned thread!
-hi number 9 from the spawned thread!
+數字 1 出現在主執行緒中！
+數字 2 出現在主執行緒中！
+數字 1 出現在產生的執行緒中！
+數字 3 出現在主執行緒中！
+數字 2 出現在產生的執行緒中！
+數字 4 出現在主執行緒中！
+數字 3 出現在產生的執行緒中！
+數字 4 出現在產生的執行緒中！
+數字 5 出現在產生的執行緒中！
+數字 6 出現在產生的執行緒中！
+數字 7 出現在產生的執行緒中！
+數字 8 出現在產生的執行緒中！
+數字 9 出現在產生的執行緒中！
 ```
 
 兩條執行緒會互相交錯，但是主執行緒這次會因爲 `handle.join()` 而等待，直到產生的執行緒完成前都不會結束。
@@ -109,19 +109,19 @@ the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-hi number 1 from the spawned thread!
-hi number 2 from the spawned thread!
-hi number 3 from the spawned thread!
-hi number 4 from the spawned thread!
-hi number 5 from the spawned thread!
-hi number 6 from the spawned thread!
-hi number 7 from the spawned thread!
-hi number 8 from the spawned thread!
-hi number 9 from the spawned thread!
-hi number 1 from the main thread!
-hi number 2 from the main thread!
-hi number 3 from the main thread!
-hi number 4 from the main thread!
+數字 1 出現在產生的執行緒中！
+數字 2 出現在產生的執行緒中！
+數字 3 出現在產生的執行緒中！
+數字 4 出現在產生的執行緒中！
+數字 5 出現在產生的執行緒中！
+數字 6 出現在產生的執行緒中！
+數字 7 出現在產生的執行緒中！
+數字 8 出現在產生的執行緒中！
+數字 9 出現在產生的執行緒中！
+數字 1 出現在主執行緒中！
+數字 2 出現在主執行緒中！
+數字 3 出現在主執行緒中！
+數字 4 出現在主執行緒中！
 ```
 
 像這樣將 `join` 呼叫置於何處的小細節，會影響你的執行緒會不會同時運行。
@@ -191,7 +191,7 @@ help: to force the closure to take ownership of `v` (and any other referenced va
 {{#include ../listings/ch16-fearless-concurrency/output-only-01-move-drop/output.txt}}
 ```
 
-Rust 的所有權規則再次整救了我們！我們在範例 16-3 會得到錯誤是因爲 Rust 是保守的所以只會爲執行緒借用 `v`，這代表主執行緒理論上可能會使產生的執行緒的引用無效化。透過告訴 Rust 將 `v` 的所有權移入產生的執行緒中，我們向 Rust 保證不會在主執行緒用到 `v`。如果我們用相同方式修改範例 16-4 的話，當我們嘗試在主執行緒使用 `v` 的話，我們就違反了所有權規則。`move` 關鍵字會覆蓋 Rust 保守的預設借用行爲，且也不允許我們違反所有權規則。
+Rust 的所有權規則再次拯救了我們！我們在範例 16-3 會得到錯誤是因爲 Rust 是保守的，所以只會爲執行緒借用 `v`，這代表主執行緒理論上可能會使產生的執行緒的引用無效化。透過告訴 Rust 將 `v` 的所有權移入產生的執行緒中，我們向 Rust 保證不會在主執行緒用到 `v`。如果我們用相同方式修改範例 16-4 的話，當我們嘗試在主執行緒使用 `v` 的話，我們就違反了所有權規則。`move` 關鍵字會覆蓋 Rust 保守的預設借用行爲，且也不允許我們違反所有權規則。
 
 有了對執行緒與執行緒 API 的基本瞭解，讓我們看看我們可以透過執行緒*做些*什麼。
 

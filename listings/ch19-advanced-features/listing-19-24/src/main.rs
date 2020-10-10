@@ -1,6 +1,6 @@
 fn main() {
     // ANCHOR: here
-    let f: Box<dyn Fn() + Send + 'static> = Box::new(|| println!("hi"));
+    let f: Box<dyn Fn() + Send + 'static> = Box::new(|| println!("嗨"));
 
     fn takes_long_type(f: Box<dyn Fn() + Send + 'static>) {
         // --省略--

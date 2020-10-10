@@ -7,10 +7,10 @@ fn main() {
 
     thread::spawn(move || {
         let vals = vec![
-            String::from("hi"),
-            String::from("from"),
-            String::from("the"),
-            String::from("thread"),
+            String::from("執行緒"),
+            String::from("傳來"),
+            String::from("的"),
+            String::from("嗨"),
         ];
 
         for val in vals {

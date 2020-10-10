@@ -4,10 +4,10 @@ fn main() {
     let v = vec![1, 2, 3];
 
     let handle = thread::spawn(|| {
-        println!("Here's a向量: {:?}", v);
+        println!("這是個向量：{:?}", v);
     });
 
-    drop(v); // oh no!
+    drop(v); // 喔不！
 
     handle.join().unwrap();
 }

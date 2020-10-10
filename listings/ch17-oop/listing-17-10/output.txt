@@ -3,7 +3,7 @@ $ cargo run
 error[E0277]: the trait bound `std::string::String: gui::Draw` is not satisfied
  --> src/main.rs:5:26
   |
-5 |         components: vec![Box::new(String::from("Hi"))],
+5 |         components: vec![Box::new(String::from("嗨"))],
   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `gui::Draw` is not implemented for `std::string::String`
   |
   = note: required for the cast to the object type `dyn gui::Draw`

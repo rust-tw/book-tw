@@ -1,6 +1,6 @@
 ## 使用訊息傳遞在執行緒間傳送資料
 
-其中一種確保安全並行且漸漸流行起來的方式是*訊息傳遞（message passing）*，執行緒或 actors 透過傳遞包含資料的訊息給彼此來溝通。此理念源自於 [Go 語言技術文件](https://golang.org/doc/effective_go.html#concurrency)中的口號：「別透過共享記憶體來溝通，而是透過溝通來共享記憶體。」 
+有一種確保安全並行且漸漸流行起來的方式是*訊息傳遞（message passing）*，執行緒或 actors 透過傳遞包含資料的訊息給彼此來溝通。此理念源自於 [Go 語言技術文件](https://golang.org/doc/effective_go.html#concurrency)中的口號：「別透過共享記憶體來溝通，而是透過溝通來共享記憶體。」 
 
 Rust 其中一個達成訊息傳遞並行的主要工具是*通道（channel）*，這是 Rust 標準函式庫有提供的程式設計概念。你可以把程式設計的通道想像成水流的通道，像是河流或小溪。如果你將橡皮小鴨或船隻放入河流中，它會順流而下到下游。
 
@@ -20,7 +20,7 @@ Rust 其中一個達成訊息傳遞並行的主要工具是*通道（channel）*
 
 我們使用 `mpsc::channel` 函式來建立新的通道，`mpsc` 指的是*多重生產者、唯一消費者（multiple producer, single consumer）*。簡單來說，Rust 標準函式庫實作通道的方式讓通道可以有多個*發送端*來產生數值，不過只有一個*接收端*能消耗這些數值。想像有數個溪流匯聚成一條大河流，任何溪流傳送的任何東西最終都會流向河流的下游。我們會先從單一生產者開始，等這個範例能夠執行後我們再來增加數個生產者。
 
-`mpsc::channel` 函式會回傳一個元組，第一個元素是發送端然後第二個元素是接收端。`tx` 與 `rx` 通常分別作爲*發送者（transmitter）*與*接收者（receiver）*的縮寫，所以我們以此作爲我們的變數名稱。我們的 `let` 陳述式使用到了能解構元組的模式我們會在第時八章討論 `let` 陳述式的模式與解構方式。用這樣的方式使用 `let` 能輕鬆取出 `mpsc::channel` 回傳的元組每個部分。
+`mpsc::channel` 函式會回傳一個元組，第一個元素是發送端然後第二個元素是接收端。`tx` 與 `rx` 通常分別作爲*發送者（transmitter）* 與*接收者（receiver）* 的縮寫，所以我們以此作爲我們的變數名稱。我們的 `let` 陳述式使用到了能解構元組的模式我們會在第時八章討論 `let` 陳述式的模式與解構方式。用這樣的方式使用 `let` 能輕鬆取出 `mpsc::channel` 回傳的元組每個部分。
 
 讓我們將發送端移進一個新產生的執行緒並讓它傳送一條字串，這樣產生的執行緒就可以與主執行緒溝通了，如範例 16-7 所示。這就像是在河流上游放了一隻橡皮小鴨，或是從一條執行緒傳送一條聊天訊息給別條執行緒一樣。
 
@@ -46,7 +46,7 @@ Rust 其中一個達成訊息傳遞並行的主要工具是*通道（channel）*
 
 <span class="caption">範例 16-8：在主執行緒取得數值「hi」並顯示出來</span>
 
-通道的接收端有兩個實用的方法：`recv` 與 `try_recv`。我們使用 `recv` 作爲*接收（receive）*的縮寫，這位阻擋主執行緒的運行並等待直到通道有訊息傳入。一旦有數值傳遞，`recv` 會就以此回傳 `Result<T, E>`。當通道的發送端關閉時，`recv` 會回傳錯誤來通知不會再有任何數值出現了。
+通道的接收端有兩個實用的方法：`recv` 與 `try_recv`。我們使用 `recv` 作爲*接收（receive）* 的縮寫，這位阻擋主執行緒的運行並等待直到通道有訊息傳入。一旦有數值傳遞，`recv` 會就以此回傳 `Result<T, E>`。當通道的發送端關閉時，`recv` 會回傳錯誤來通知不會再有任何數值出現了。
 
 `try_recv` 方法則不會阻擋，而是會立即回傳 `Result<T, E>`。如果有數值的話，就會是存有訊息的 `Ok` 數值，如果尚未有任何數值的話，就會是 `Err` 數值。`try_recv` 適用於如果此執行緒在等待訊息的同時有其他事要做的情形。我們可以寫個迴圈來時不時呼叫 `try_recv`，當有數值時處理訊息，不然的話就先做點其他事直到再次檢查爲止。
 
@@ -59,7 +59,7 @@ the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-取得：hi
+取得：嗨
 ```
 
 太棒了！
@@ -107,17 +107,17 @@ the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-取得：hi
-取得：from
-取得：the
-取得：thread
+取得：執行緒
+取得：傳來
+取得：的
+取得：嗨
 ```
 
 因爲我們在主執行緒中的 `for` 迴圈內沒有任何會暫停或延遲的程式碼，所以我們可以看出主執行緒是在等待產生的執行緒傳送的數值。
 
-### 透過克隆發送者來建立多重生產者Creating Multiple Producers by Cloning the Transmitter
+### 透過克隆發送者來建立多重生產者
 
-稍早之前我們提過 `mpsc` 是*多重生產者、唯一消費者（multiple producer, single consumer）*的縮寫。讓我們來使用 `mpsc` 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。爲此我們可以克隆通道的發送部分，如範例 16-11 所示：
+稍早之前我們提過 `mpsc` 是*多重生產者、唯一消費者（multiple producer, single consumer）* 的縮寫。讓我們來使用 `mpsc` 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。爲此我們可以克隆通道的發送部分，如範例 16-11 所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -136,17 +136,17 @@ the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-取得：hi
-取得：more
-取得：from
-取得：messages
-取得：for
-取得：the
-取得：thread
-取得：you
+取得：執行緒
+取得：更多
+取得：傳來
+取得：給你
+取得：的
+取得：的
+取得：嗨
+取得：訊息
 ```
 
-你可能會看到數值以不同順序排序，這完全依據你的系統來決定。這正是並行程式設計既有趣卻又困難。如果你加上 `thread::sleep` 來實驗，並在不同執行緒給予不同數值的話，就會發現每一輪都會更不確定，每次都會產生不同的輸出結果。
+你可能會看到數值以不同順序排序，這完全依據你的系統來決定。這正是並行程式設計既有趣卻又困難的地方。如果你加上 `thread::sleep` 來實驗，並在不同執行緒給予不同數值的話，就會發現每一輪都會更不確定，每次都會產生不同的輸出結果。
 
 現在我們已經看完通道如何運作，接著讓我們來看看並行的不同方法吧。
 

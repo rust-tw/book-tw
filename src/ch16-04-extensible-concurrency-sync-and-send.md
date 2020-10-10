@@ -36,7 +36,7 @@ Rust 標準函式庫提供訊息傳遞的通道與智慧指標，像是 `Mutex<T
 
 [sharing-a-mutext-between-multiple-threads]:
 ch16-03-shared-state.html#在數個執行緒間共享-mutext
-[nomicon]: ../nomicon/index.html
+[nomicon]: https://doc.rust-lang.org/nomicon/index.html
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch16-04-extensible-concurrency-sync-and-send.md)

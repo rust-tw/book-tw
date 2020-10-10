@@ -20,5 +20,5 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Result: {}", *counter.lock().unwrap());
+    println!("結果：{}", *counter.lock().unwrap());
 }
