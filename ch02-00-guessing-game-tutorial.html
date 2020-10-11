@@ -169,7 +169,7 @@
                     <main>
                         <h1><a class="header" href="#設計猜謎遊戲程式" id="設計猜謎遊戲程式">設計猜謎遊戲程式</a></h1>
 <p>讓我們親自動手一同完成一項專案來開始上手 Rust 吧！本章節會介紹一些常見 Rust 概念，展示如何在實際程式中使用它們。你會學到 <code>let</code>、<code>match</code>、方法、關聯函式、使用外部 crate 以及更多等等！之後的章節會更詳細地探討這些概念。在本章中，你會先練習基礎概念。</p>
-<p>我們會實作個經典新手程式問題：猜謎遊戲。它的運作方式如下：程式會產生 1 到 100 之間的隨機整數。接著它會通知玩家猜一個數字。在輸入猜測數字之後，程式會回應猜測的數字太低或太高。如果猜對的話，遊戲就會顯示祝賀訊息並離開。</p>
+<p>我們會實作個經典新手程式問題：猜謎遊戲。它的運作方式如下：程式會產生 1 到 100 之間的隨機整數。接著它會通知玩家猜一個數字。在輸入猜測數字之後，程式會回應猜測的數字太低或太高。如果猜對的話，遊戲就會顯示祝賀訊息並關閉。</p>
 <h2><a class="header" href="#設置新專案" id="設置新專案">設置新專案</a></h2>
 <p>要設置新專案的話，前往你在第一章建立的 <em>projects</em> 目錄並使用 Cargo 建立一個新的專案，如下所示：</p>
 <pre><code class="language-console">$ cargo new guessing_game
@@ -203,7 +203,7 @@ edition = &quot;2018&quot;
 Hello, world!
 </code></pre>
 <p><code>run</code> 命令在你需要對專案快速疊代時會很有用，我們要寫的遊戲也是如此，在繼續下一步之前可以快速測試每一步。</p>
-<p>請重新開啟 <em>src/main.rs</em> 檔案。你要寫的程式碼全會位於此檔案中。</p>
+<p>請重新開啟 <em>src/main.rs</em> 檔案。你要寫的程式碼全都會位於此檔案中。</p>
 <h2><a class="header" href="#處理猜測" id="處理猜測">處理猜測</a></h2>
 <p>猜謎遊戲的第一個部分會要求使用者輸入數字、處理該輸入，並檢查該輸入是否符合格式。所以我們要先讓玩家能夠輸入猜測數字，請輸入範例 2-1 的程式碼至 <em>src/main.rs</em>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -218,13 +218,13 @@ fn main() {
 
     io::stdin()
         .read_line(&amp;mut guess)
-        .expect(&quot;讀取行數失敗&quot;);
+        .expect(&quot;讀取該行失敗&quot;);
 
     println!(&quot;你的猜測數字：{}&quot;, guess);
 }
 </code></pre>
 <p><span class="caption">範例 2-1：取得使用者的猜測數字並顯示出來的程式</span></p>
-<p>此程式碼包含大量的資訊，所以讓我們一行一行來慢慢看吧。要取得使用者輸入並印出為輸出結果，我們需要將 <code>io</code> 輸入／輸出（input/output）函式庫引入作用域中。 <code>io</code> 函式庫來自標準函式庫（常稱為 <code>std</code>）：</p>
+<p>這段程式碼包含大量的資訊，所以讓我們一行一行來慢慢看吧。要取得使用者輸入並印出為輸出結果，我們需要將 <code>io</code> 輸入／輸出（input/output）函式庫引入作用域中。 <code>io</code> 函式庫來自標準函式庫（常稱為 <code>std</code>）：</p>
 <pre><code class="language-rust ignore">use std::io;
 <span class="boring">
 </span><span class="boring">fn main() {
@@ -236,7 +236,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
@@ -254,7 +254,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
@@ -272,7 +272,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
@@ -291,12 +291,12 @@ fn main() {
 <span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
 </span></code></pre>
-<p>現在程式變得越來越有趣了！在短短的這行當中有許多事情發生。先注意到這是個 <code>let</code> 陳述式，這用來建立一個<em>變數（variable）</em>。以下是另一個例子：</p>
+<p>現在程式變得越來越有趣了！在短短的這行當中有許多事情發生。先注意到這是個 <code>let</code> 陳述式，這用來建立一個<em>變數</em>（variable）。以下是另一個例子：</p>
 <pre><code class="language-rust ignore">let foo = bar;
 </code></pre>
 <p>這行建立了一個新的變數叫做 <code>foo</code> 並將變數 <code>bar</code> 的數值綁定給它。在 Rust 中，變數預設是不可變的（immutable）。我們會在第三章的<a href="ch03-01-variables-and-mutability.html#variables-and-mutability">「變數與可變性」</a><!-- ignore -->段落討論此概念。以下範例展示如何在變數名稱前面使用 <code>mut</code> 來讓變數成為可變的：</p>
@@ -322,7 +322,7 @@ let mut bar = 5; // 可變的
 </span><span class="boring">
 </span>    io::stdin()
         .read_line(&amp;mut guess)
-<span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+<span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
@@ -344,7 +344,7 @@ let mut bar = 5; // 可變的
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span>        .expect(&quot;讀取行數失敗&quot;);
+</span>        .expect(&quot;讀取該行失敗&quot;);
 <span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
@@ -356,7 +356,7 @@ let mut bar = 5; // 可變的
 <p>如稍早提過的，<code>read_line</code> 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 <a href="https://doc.rust-lang.org/std/io/type.Result.html"><code>io::Result</code></a><!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 <code>Result</code>，這包含泛型（generic）<a href="https://doc.rust-lang.org/std/result/enum.Result.html"><code>Result</code></a><!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 <code>io::Result</code>。</p>
 <p><code>Result</code> 型別是種<a href="ch06-00-enums.html"><em>枚舉（enumerations）</em></a><!-- ignore -->，常稱為 <em>enums</em>。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之為枚舉的<em>變體（variants）</em>。第六章會更詳細地介紹枚舉。</p>
 <p>對於 <code>Result</code> 來說，其變體會是 <code>Ok</code> 或 <code>Err</code>。<code>Ok</code> 變體指的是該動作成功完成，且 <code>Ok</code> 內部會包含成功產生的數值。而 <code>Err</code> 變體代表動作失敗，且 <code>Err</code> 會包含該動作如何與為何會失敗的資訊。</p>
-<p>這些 <code>Result</code> 型別的目的是要編碼錯誤處理資訊。<code>Result</code> 型別的數值與任何型別的數值一樣，它們都有定義些方法。<code>io::Result</code> 的實例有 <a href="https://doc.rust-lang.org/std/result/enum.Result.html#method.expect"><code>expect</code> 方法</a><!-- ignore --> 讓你能呼叫。如果此 <code>io::Result</code> 實例數值為 <code>Err</code> 的話，<code>expect</code> 會讓程式崩潰並顯示作為引數傳給 <code>expect</code> 的訊息。如果 <code>read_line</code> 回傳 <code>Err</code> 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 <code>io::Result</code> 實例數值為 <code>Ok</code> 的話，<code>expect</code> 會接收 <code>Ok</code> 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值為使用者輸入到標準輸出的位元組數字。</p>
+<p>這些 <code>Result</code> 型別的目的是要編碼錯誤處理資訊。<code>Result</code> 型別的數值與任何型別的數值一樣，它們都有定義些方法。<code>io::Result</code> 的實例有 <a href="https://doc.rust-lang.org/std/result/enum.Result.html#method.expect"><code>expect</code> 方法</a><!-- ignore --> 讓你能呼叫。如果此 <code>io::Result</code> 實例數值為 <code>Err</code> 的話，<code>expect</code> 會讓程式當機並顯示作為引數傳給 <code>expect</code> 的訊息。如果 <code>read_line</code> 回傳 <code>Err</code> 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 <code>io::Result</code> 實例數值為 <code>Ok</code> 的話，<code>expect</code> 會接收 <code>Ok</code> 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值將為使用者輸入進標準輸入介面的位元組數字。</p>
 <p>如果你沒有呼叫 <code>expect</code>，程式仍能編譯，但你會收到一個警告：</p>
 <pre><code class="language-console">$ cargo build
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
@@ -372,7 +372,7 @@ warning: unused `std::result::Result` that must be used
     Finished dev [unoptimized + debuginfo] target(s) in 0.59s
 </code></pre>
 <p>Rust 警告你沒有使用 <code>read_line</code> 回傳的 <code>Result</code> 數值，這意味著程式沒有處理可能發生的錯誤。</p>
-<p>要解決此警告的正確方式是實際進行錯誤處理，但因為我們只想要當問題發生時直接讓程式崩潰，所以你可以先使用 <code>expect</code> 就好。你會在第九章學到如何從錯誤中恢復。</p>
+<p>要解決此警告的正確方式是實際進行錯誤處理，但因為我們只想要當問題發生時直接讓程式當掉，所以你可以先使用 <code>expect</code> 就好。你會在第九章學到如何從錯誤中恢復。</p>
 <h3><a class="header" href="#透過-println-佔位符印出數值" id="透過-println-佔位符印出數值">透過 <code>println!</code> 佔位符印出數值</a></h3>
 <p>在結束大括號之前，目前程式碼中還有一行要來討論，也就是以下這行：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
@@ -386,7 +386,7 @@ warning: unused `std::result::Result` that must be used
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span>    println!(&quot;你的猜測數字：{}&quot;, guess);
 <span class="boring">}
@@ -423,7 +423,7 @@ input 6 -->
 <p>接下來，我們要產生一個能讓使用者猜看看的祕密數字。祕密數字每次都要不同，這樣遊戲才值得多玩幾次。讓我們使用 1 到 100 之間的隨機數字，這樣遊戲才不會太困難。Rust 的標準函式庫並不包含產生隨機數字的功能。然而，Rust 團隊有提供個 <a href="https://crates.io/crates/rand"><code>rand</code> crate</a>。</p>
 <h3><a class="header" href="#使用-crate-來取得更多功能" id="使用-crate-來取得更多功能">使用 Crate 來取得更多功能</a></h3>
 <p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<em>二進制（binary） crate</em>，也就會是個執行檔。而 <code>rand</code> crate 屬於<em>函式庫（library） crate</em>，這會包含讓其他程式能夠使用的程式碼。</p>
-<p>Cargo 使用外部 crate 的功能正是它的亮點。在我們可以使用 <code>rand</code> 來寫程式碼前，我們需要修改 <em>Cargo.toml</em> 檔案來包含 <code>rand</code> crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 <code>[dependencies]</code> 標頭（header）段落中最後一行下面：</p>
+<p>Cargo 可以使用外部 crate 的功能正是它的亮點。在我們可以使用 <code>rand</code> 來寫程式碼前，我們需要修改 <em>Cargo.toml</em> 檔案來包含 <code>rand</code> crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 <code>[dependencies]</code> 標頭（header）段落中最後一行下面：</p>
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
 * ch07-04-bringing-paths-into-scope-with-the-use-keyword.md
@@ -510,7 +510,7 @@ fn main() {
 
     io::stdin()
         .read_line(&amp;mut guess)
-        .expect(&quot;讀取行數失敗&quot;);
+        .expect(&quot;讀取該行失敗&quot;);
 
     println!(&quot;你的猜測數字：{}&quot;, guess);
 }
@@ -571,7 +571,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span>
     println!(&quot;你的猜測數字：{}&quot;, guess);
 
@@ -632,7 +632,7 @@ To learn more, run the command again with --verbose.
 
     io::stdin()
         .read_line(&amp;mut guess)
-        .expect(&quot;讀取行數失敗&quot;);
+        .expect(&quot;讀取該行失敗&quot;);
 
     let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 
@@ -651,7 +651,7 @@ To learn more, run the command again with --verbose.
 <p>我們建立了一個變數叫做 <code>guess</code>。小等一下，程式不是已經有個變數叫做 <code>guess</code>了嗎？的確是的，但 Rust 允許我們<em>遮蔽（shadow）</em> 之前的 <code>guess</code> 數值成新的數值。此功能常用於當你想將一個數值從一個型別轉換成另一個型別的場合中。遮蔽讓我們可以重複使用 <code>guess</code> 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 <code>guess_str</code> 和 <code>guess</code>。（第三章會詳細解釋遮蔽。）</p>
 <p>我們將 <code>guess</code> 綁定給 <code>guess.trim().parse()</code> 表達式。表達式中的 <code>guess</code> 指的是原本擁有 <code>String</code> 來儲存輸入的 <code>guess</code>。<code>String</code> 中的 <code>trim</code> 方法會去除開頭與結尾的任何空白字元。雖然 <code>u32</code> 只會包含數字字元，但使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 <code>read_line</code>。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，<code>guess</code> 看起來會像這樣：<code>5\n</code>。<code>\n</code> 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果。<code>trim</code> 方法能去除 <code>\n</code>，讓結果只會是 <code>5</code>。</p>
 <p>而<a href="https://doc.rust-lang.org/std/primitive.str.html#method.parse">字串中的 <code>parse</code> 方法</a><!-- ignore -->會解析字串成某種數字。因為此方法可以解析成各種數字型別，我們需要使用 <code>let guess: u32</code> 來告訴 Rust 我們想使用的確切數字型別。<code>guess</code> 後面的分號（<code>:</code>）告訴 Rust 我們會詮釋此變數的型別。Rust 有些內建的數字型別，這裡的 <code>u32</code> 是個非帶號（unsigned）的 32 位元整數。對於不大的正整數來說，這是不錯的預設選擇。你會在第三章學到其他數字型別。除此之外，在此範例程式中的 <code>u32</code> 詮釋與 <code>secret_number</code> 的比較意味著 Rust 也會將 <code>secret_number</code> 推斷成 <code>u32</code>。所以現在會有兩個相同型別的數值能做比較了！</p>
-<p><code>parse</code> 的呼叫很容易造成錯誤。舉例來說，如果字串包含 <code>A👍%</code> 的話，就不可能轉換成數字。因為它可能會失敗，<code>parse</code> 方法回傳的是 <code>Result</code> 型別，就和 <code>read_line</code> 方法一樣（在之前的<a href="#%E4%BD%BF%E7%94%A8-result-%E5%9E%8B%E5%88%A5%E8%99%95%E7%90%86%E5%8F%AF%E8%83%BD%E7%9A%84%E9%8C%AF%E8%AA%A4">「使用 <code>Result</code> 型別處理可能的錯誤」</a><!-- ignore -->段落提及）。我們也會用相同的方式來處理此 <code>Result</code>，也就是呼叫 <code>expect</code> 方法。如果 <code>parse</code> 回傳 <code>Result</code> 的 <code>Err</code> 變體的話，由於它無法從字串建立數字，<code>expect</code> 的呼叫會讓遊戲崩潰並顯示我們給予的訊息。如果 <code>parse</code> 能成功將字串轉成數字，它將會回傳 <code>Result</code> 的 <code>Ok</code> 變體，而 <code>expect</code> 將會回傳 <code>Ok</code> 的內部數值。</p>
+<p><code>parse</code> 的呼叫很容易造成錯誤。舉例來說，如果字串包含 <code>A👍%</code> 的話，就不可能轉換成數字。因為它可能會失敗，<code>parse</code> 方法回傳的是 <code>Result</code> 型別，就和 <code>read_line</code> 方法一樣（在之前的<a href="#%E4%BD%BF%E7%94%A8-result-%E5%9E%8B%E5%88%A5%E8%99%95%E7%90%86%E5%8F%AF%E8%83%BD%E7%9A%84%E9%8C%AF%E8%AA%A4">「使用 <code>Result</code> 型別處理可能的錯誤」</a><!-- ignore -->段落提及）。我們也會用相同的方式來處理此 <code>Result</code>，也就是呼叫 <code>expect</code> 方法。如果 <code>parse</code> 回傳 <code>Result</code> 的 <code>Err</code> 變體的話，由於它無法從字串建立數字，<code>expect</code> 的呼叫會讓遊戲當掉並顯示我們給予的訊息。如果 <code>parse</code> 能成功將字串轉成數字，它將會回傳 <code>Result</code> 的 <code>Ok</code> 變體，而 <code>expect</code> 將會回傳 <code>Ok</code> 的內部數值。</p>
 <p>現在讓我們執行程式！</p>
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/no-listing-03-convert-string-to-number/
@@ -697,7 +697,7 @@ cargo run
 </span><span class="boring">
 </span><span class="boring">        io::stdin()
 </span><span class="boring">            .read_line(&amp;mut guess)
-</span><span class="boring">            .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">            .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">        let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 </span><span class="boring">
@@ -712,7 +712,7 @@ cargo run
 }
 </code></pre>
 <p>如同你所見，我們將輸入猜測提示以下的程式碼都移入迴圈中。請確保迴圈中的每一行有用四個空格來做縮排，然後再次執行程式。注意到這裡有個新問題，程式的確照我們所說的去做，但這代表它會不停地尋問要猜測的數字！看起來使用者無法離開遊戲！</p>
-<p>使用者的確永遠可以使用快捷鍵 <span class="keystroke">ctrl-c</span> 來中斷程式。但還有其他辦法能逃離這個無限循環，如同在<a href="#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->中討論 <code>parse</code> 時提到的，如果使用者輸入非數字答案的話，程式就會崩潰。使用者可以利用此特性來離開，如以下所示：</p>
+<p>使用者的確永遠可以使用快捷鍵 <span class="keystroke">ctrl-c</span> 來中斷程式。但還有其他辦法能逃離這個無限循環，如同在<a href="#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->中討論 <code>parse</code> 時提到的，如果使用者輸入非數字答案的話，程式就會當掉。使用者可以利用此特性來離開，如以下所示：</p>
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/no-listing-04-looping/
 cargo run
@@ -766,7 +766,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">
 </span><span class="boring">        io::stdin()
 </span><span class="boring">            .read_line(&amp;mut guess)
-</span><span class="boring">            .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">            .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">        let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 </span><span class="boring">
@@ -787,7 +787,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p>在 <code>獲勝！</code> 之後加上 <code>break</code> 這行讓程式在使用者猜對祕密數字時可以離開迴圈。離開迴圈也意味著離開程式，因為此迴圈是 <code>main</code> 中的最後一個部分。</p>
 <h3><a class="header" href="#處理無效輸入" id="處理無效輸入">處理無效輸入</a></h3>
-<p>為了進一步改善遊戲體驗，當使用者的輸入不是數字時，我們不該讓程式直接崩潰。遊戲程式可以忽略非數字來讓使用者繼續猜測。我們可以修改 <code>guess</code> 這段將 <code>String</code> 轉換成 <code>u32</code> 的程式碼，如範例 2-5 所示。</p>
+<p>為了進一步改善遊戲體驗，當使用者的輸入不是數字時，我們不該讓程式直接當掉。遊戲程式可以忽略非數字來讓使用者繼續猜測。我們可以修改 <code>guess</code> 這段將 <code>String</code> 轉換成 <code>u32</code> 的程式碼，如範例 2-5 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span><span class="boring">use std::cmp::Ordering;
@@ -809,7 +809,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
         io::stdin()
             .read_line(&amp;mut guess)
-            .expect(&quot;讀取行數失敗&quot;);
+            .expect(&quot;讀取該行失敗&quot;);
 
         let guess: u32 = match guess.trim().parse() {
             Ok(num) =&gt; num,
@@ -831,8 +831,8 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 2-5：忽略非數字的猜測並要求下一個猜測數字，而不是讓程式崩潰</span></p>
-<p>將 <code>expect</code> 的呼叫換成 <code>match</code> 表達式，通常就是從錯誤中崩潰改成處理錯誤的方式。你應該還記得 <code>parse</code> 回傳的是 <code>Result</code> 型別，且 <code>Result</code> 是個枚舉，其變體為 <code>Ok</code> 或 <code>Err</code>。我們在此使用 <code>match</code> 表達式，如同我們對 <code>cmp</code> 方法回傳的 <code>Ordering</code> 處理方式一樣。</p>
+<p><span class="caption">範例 2-5：忽略非數字的猜測並要求下一個猜測數字，而不是讓程式當掉</span></p>
+<p>將 <code>expect</code> 的呼叫換成 <code>match</code> 表達式，通常就是從錯誤中當掉改成處理錯誤的方式。你應該還記得 <code>parse</code> 回傳的是 <code>Result</code> 型別，且 <code>Result</code> 是個枚舉，其變體為 <code>Ok</code> 或 <code>Err</code>。我們在此使用 <code>match</code> 表達式，如同我們對 <code>cmp</code> 方法回傳的 <code>Ordering</code> 處理方式一樣。</p>
 <p>如果 <code>parse</code> 能成功將字串轉換成數字，它會回傳 <code>Ok</code> 數值內包含的結果數字。該 <code>Ok</code> 數值就會配對到第一個分支的模式，然後 <code>match</code> 表達式就會回傳 <code>parse</code> 產生並填入 <code>Ok</code> 內的 <code>num</code> 數值。該數字最後就會如我們所願變成我們建立的 <code>guess</code> 變數。</p>
 <p>如果 <code>parse</code> <em>無法</em>將字串轉換成數值的話，它會回傳包含與錯誤相關資訊的 <code>Err</code> 數值。該 <code>Err</code> 數值並不符合 <code>match</code> 的第一個分支模式 <code>Ok(num)</code>，但它能配對到第二個分支。底線 <code>_</code> 是個捕獲數值，在此例中，我們說我們想要配對到所有的 <code>Err</code> 數值，無論其中有什麼資訊在裡面。所以程式會執行第二條分支 <code>continue</code>，這告訴程式繼續 <code>loop</code> 下一個疊代並要求其他猜測數字。如此一來程式就能忽略所有 <code>parse</code> 可能會遇到的所有錯誤！</p>
 <p>現在程式的每個部分都如我們所預期的了，讓我們試試看：</p>
@@ -882,7 +882,7 @@ fn main() {
 
         io::stdin()
             .read_line(&amp;mut guess)
-            .expect(&quot;讀取行數失敗&quot;);
+            .expect(&quot;讀取該行失敗&quot;);
 
         let guess: u32 = match guess.trim().parse() {
             Ok(num) =&gt; num,

@@ -168,20 +168,20 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#rust-程式設計語言" id="rust-程式設計語言">Rust 程式設計語言</a></h1>
-<p><em>Steve Klabnik 與 Carol Nichols，以及 Rust 社群的貢獻</em></p>
-<p>此版本預設你使用 Rust 1.41.0 或更高的版本，並在所有專案中的 <em>Cargo.toml</em> 都有 <code>edition=&quot;2018&quot;</code> 來使用 Rust 2018 版號。請查看<a href="ch01-01-installation.html">第一章的「安裝」段落</a><!-- ignore -->來安裝或更新 Rust，並查看<a href="appendix-05-editions.html">附錄 E</a><!-- ignore --> 來瞭解版號的資訊。</p>
-<p>Rust 語言的 2018 版號包含一系列的改進使 Rust 更加易讀易用且更容易學習。本書這次的疊代包含一些更新來反映這些改進：</p>
+<p><em>由 Steve Klabnik 與 Carol Nichols，以及 Rust 社群的貢獻撰寫而成</em></p>
+<p>此版本假設你使用的是 Rust 1.41.0 或更高的版本，並在所有專案中的 <em>Cargo.toml</em> 都有 <code>edition=&quot;2018&quot;</code> 來使用 Rust 2018 版號。請查看<a href="ch01-01-installation.html">第一章的「安裝」段落</a><!-- ignore -->來安裝或更新 Rust，並查看<a href="appendix-05-editions.html">附錄 E</a><!-- ignore --> 來瞭解版號的資訊。</p>
+<p>Rust 語言的 2018 版號包含一系列的改進使得 Rust 更加易讀易用且更容易學習。本書這次的疊代版本中包含一些更新內容來反映這些改進：</p>
 <ul>
-<li>第七章的「透過套件、Crate 與模組管理成長中的專案」幾乎重寫了一遍。模組系統以及其在 2018 版號中的路徑處理變得更一致。</li>
+<li>第七章的「透過套件、Crate 與模組管理成長中的專案」幾乎完全重寫。模組系統以及其在 2018 版號中的路徑處理變得更一致。</li>
 <li>第十章新增了「特徵作為參數」與「返回有實作特徵的型別」的段落來解釋新的 <code>impl Trait</code> 語法。</li>
 <li>第十一章有個新段落「在測試中使用 <code>Result&lt;T, E&gt;</code>」來展示如何在測試中使用 <code>?</code> 運算子。</li>
 <li>第十九章的「進階生命週期」已被移除，因為編譯器的改善讓使用該段落的時機變得更加稀少了。</li>
-<li>之前的附錄 D 「巨集」增加了過程式巨集的內容，且被移至第十九章的「巨集」段落中。</li>
+<li>之前的附錄 D 「巨集」被進一步擴展，將額外涵蓋程序性巨集的內容，且被移至第十九章的「巨集」段落中。</li>
 <li>附錄 A 「關鍵字」新增了原始標識符的功能介紹，來讓 2015 版號的程式碼可以用在 2018 版號也不會出現問題。</li>
-<li>附錄 D 現在的標題為「實用開發工具」並涵蓋最近發佈的工具，這些能在你寫 Rust 程式碼時幫助到你。</li>
+<li>附錄 D 現在的標題為「實用開發工具」，其中涵蓋有近期推出的工具，這些能在你撰寫 Rust 程式碼時幫助到你。</li>
 <li>我們修正了整本書中一些小錯誤與不精確的措辭。感謝各位讀者的回報！</li>
 </ul>
-<p>值得注意的是 <em>Rust 程式設計語言</em>的早期疊代版本中的程式碼在專案中 <em>Cargo.toml</em> 移除 <code>edition=&quot;2018&quot;</code> 的話就能繼續編譯，儘管你升級了 Rust 編譯器也是如此。Rust 的向下相容保證一切可以正常運行！</p>
+<p>值得注意的是 <em>Rust 程式設計語言</em>早期疊代版本中的程式碼在專案中 <em>Cargo.toml</em> 移除 <code>edition=&quot;2018&quot;</code> 的話就能繼續編譯，儘管你升級了 Rust 編譯器也是如此。Rust 的向下相容保證一切可以正常運行！</p>
 <p>本書的 HTML 格式可以在線上閱讀：<a href="https://doc.rust-lang.org/stable/book/">https://doc.rust-lang.org/stable/book/</a>（<a href="https://rust-lang.tw/book-tw/">正體中文版</a>）。而離線版則包含在 <code>rustup</code> 安裝的 Rust 中，輸入 <code>rustup docs --book</code> 就能開啟。</p>
 <p>本書也有由 <a href="https://nostarch.com/rust">No Starch Press 出版平裝與電子版格式</a>。</p>
 <blockquote>

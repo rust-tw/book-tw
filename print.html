@@ -170,20 +170,20 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#rust-程式設計語言" id="rust-程式設計語言">Rust 程式設計語言</a></h1>
-<p><em>Steve Klabnik 與 Carol Nichols，以及 Rust 社群的貢獻</em></p>
-<p>此版本預設你使用 Rust 1.41.0 或更高的版本，並在所有專案中的 <em>Cargo.toml</em> 都有 <code>edition=&quot;2018&quot;</code> 來使用 Rust 2018 版號。請查看<a href="ch01-01-installation.html">第一章的「安裝」段落</a><!-- ignore -->來安裝或更新 Rust，並查看<a href="appendix-05-editions.html">附錄 E</a><!-- ignore --> 來瞭解版號的資訊。</p>
-<p>Rust 語言的 2018 版號包含一系列的改進使 Rust 更加易讀易用且更容易學習。本書這次的疊代包含一些更新來反映這些改進：</p>
+<p><em>由 Steve Klabnik 與 Carol Nichols，以及 Rust 社群的貢獻撰寫而成</em></p>
+<p>此版本假設你使用的是 Rust 1.41.0 或更高的版本，並在所有專案中的 <em>Cargo.toml</em> 都有 <code>edition=&quot;2018&quot;</code> 來使用 Rust 2018 版號。請查看<a href="ch01-01-installation.html">第一章的「安裝」段落</a><!-- ignore -->來安裝或更新 Rust，並查看<a href="appendix-05-editions.html">附錄 E</a><!-- ignore --> 來瞭解版號的資訊。</p>
+<p>Rust 語言的 2018 版號包含一系列的改進使得 Rust 更加易讀易用且更容易學習。本書這次的疊代版本中包含一些更新內容來反映這些改進：</p>
 <ul>
-<li>第七章的「透過套件、Crate 與模組管理成長中的專案」幾乎重寫了一遍。模組系統以及其在 2018 版號中的路徑處理變得更一致。</li>
+<li>第七章的「透過套件、Crate 與模組管理成長中的專案」幾乎完全重寫。模組系統以及其在 2018 版號中的路徑處理變得更一致。</li>
 <li>第十章新增了「特徵作為參數」與「返回有實作特徵的型別」的段落來解釋新的 <code>impl Trait</code> 語法。</li>
 <li>第十一章有個新段落「在測試中使用 <code>Result&lt;T, E&gt;</code>」來展示如何在測試中使用 <code>?</code> 運算子。</li>
 <li>第十九章的「進階生命週期」已被移除，因為編譯器的改善讓使用該段落的時機變得更加稀少了。</li>
-<li>之前的附錄 D 「巨集」增加了過程式巨集的內容，且被移至第十九章的「巨集」段落中。</li>
+<li>之前的附錄 D 「巨集」被進一步擴展，將額外涵蓋程序性巨集的內容，且被移至第十九章的「巨集」段落中。</li>
 <li>附錄 A 「關鍵字」新增了原始標識符的功能介紹，來讓 2015 版號的程式碼可以用在 2018 版號也不會出現問題。</li>
-<li>附錄 D 現在的標題為「實用開發工具」並涵蓋最近發佈的工具，這些能在你寫 Rust 程式碼時幫助到你。</li>
+<li>附錄 D 現在的標題為「實用開發工具」，其中涵蓋有近期推出的工具，這些能在你撰寫 Rust 程式碼時幫助到你。</li>
 <li>我們修正了整本書中一些小錯誤與不精確的措辭。感謝各位讀者的回報！</li>
 </ul>
-<p>值得注意的是 <em>Rust 程式設計語言</em>的早期疊代版本中的程式碼在專案中 <em>Cargo.toml</em> 移除 <code>edition=&quot;2018&quot;</code> 的話就能繼續編譯，儘管你升級了 Rust 編譯器也是如此。Rust 的向下相容保證一切可以正常運行！</p>
+<p>值得注意的是 <em>Rust 程式設計語言</em>早期疊代版本中的程式碼在專案中 <em>Cargo.toml</em> 移除 <code>edition=&quot;2018&quot;</code> 的話就能繼續編譯，儘管你升級了 Rust 編譯器也是如此。Rust 的向下相容保證一切可以正常運行！</p>
 <p>本書的 HTML 格式可以在線上閱讀：<a href="https://doc.rust-lang.org/stable/book/">https://doc.rust-lang.org/stable/book/</a>（<a href="https://rust-lang.tw/book-tw/">正體中文版</a>）。而離線版則包含在 <code>rustup</code> 安裝的 Rust 中，輸入 <code>rustup docs --book</code> 就能開啟。</p>
 <p>本書也有由 <a href="https://nostarch.com/rust">No Starch Press 出版平裝與電子版格式</a>。</p>
 <blockquote>
@@ -194,10 +194,10 @@
 </ul>
 </blockquote>
 <h1><a class="header" href="#前言" id="前言">前言</a></h1>
-<p>雖然不是那麼明確，但 Rust 程式設計語言旨在<em>賦予能力（empowerment）</em>：無論你現在寫的是何種程式碼，Rust 能賦予你更多能力，在廣泛的各種領域中走的更遠且更有自信。</p>
-<p>比方說，「系統層級」的工作會需要處理低階的記憶體管理、資料呈現與並行細節。傳統以往來說，這是片神祕的程式設計領域，只有那些投入好幾年時間學習的人才有辦法駕馭，並懂得避開其惡名昭彰的陷阱。而且就算是十分謹慎的實作者，也生怕他們的程式碼會出現漏洞、崩潰或損壞。</p>
-<p>Rust 破除了這些障礙，消除了以往的陷阱並提供友善全面的工具來協助你。想要「深入」底層控制的程式設計師可以使用 Rust，無需冒著常見的崩潰或安全漏洞風險，也無需學習得經常改變的工具鏈其中的細節。更好地是，語言本身就是設計成能引導你自然而然地寫出可靠且在速度與記憶體使用都十分高效的程式碼。</p>
-<p>已經在處理底層程式碼的程式設計師可以使用 Rust 來擴展他們的野心。舉例來說，在 Rust 中進行平行化是相對低風險的動作，編譯器會幫你抓到典型的錯誤。而且你也能更有自信且更積極地進行優化，不必擔心會意外造成崩潰或漏洞。</p>
+<p>雖然不是那麼明確，但 Rust 程式設計語言旨在<em>賦權（empowerment）</em>：無論你現在寫的是何種程式碼，Rust 都能賦予你更多能力，在更廣泛的領域中帶有自信地向前邁進。</p>
+<p>比方說，「系統層級」的工作會需要處理低階的記憶體管理、資料呈現與程序並行的細節。對以往來說，這塊程式領域被視為巫術般的存在，只有投入好幾年時間學習的選中之人才有辦法駕馭，也才能懂得如何避開其惡名昭彰的陷阱。而且就算是這個領域的實作者也謹慎行事，也生怕他們的程式碼會出現漏洞、當機或損壞。</p>
+<p>Rust 破除了這些障礙，消除了以往的陷阱並提供友善全面的工具來協助你。想要「深入」底層控制的程式設計師可以使用 Rust，無需冒著常見的當機或安全漏洞風險，也無需學習得經常改變的工具鏈其中的細節。更好地是，這個語言本身就是設計成能引導你自然而然地寫出可靠且在速度與記憶體使用都十分高效的程式碼。</p>
+<p>已經在處理底層程式碼的程式設計師可以使用 Rust 來擴展他們的野心。舉例來說，在 Rust 中進行平行化是相對低風險的動作，編譯器會幫你抓到典型的錯誤。而且你也能更有自信且更積極地進行最佳化，不必擔心會意外造成當機或漏洞。</p>
 <p>但 Rust 並不只限於底層的系統程式設計。其表現力與易用易讀的程度能令人愉快地寫出 CLI 應用程式、網頁伺服器與許多其他種程式碼。你會在本書中看到這兩種簡單的範例。使用 Rust 能這讓你將一個領域所學到的技能延伸到另一個領域，你可以透過寫網頁應用程式來學習 Rust，然後應用同樣的技能到你的樹莓派（Raspberry Pi）上。</p>
 <p>本書充分體現了 Rust 賦予其使用者更多能力的潛力。其內容平易近人，不止致力於協助你提升 Rust 的知識，還能提升讓你身為程式設計師的整體信心。所以讓我們準備開始學習吧，歡迎加入 Rust 的社群！</p>
 <p>— Nicholas Matsakis 與 Aaron Turon</p>
@@ -214,9 +214,9 @@
 </blockquote>
 <p>歡迎閱讀 <em>Rust 程式設計語言</em>，這是本 Rust 的入門書籍。Rust 程式設計語言能幫助你寫出更快更可靠的軟體。高層的易讀易用性與底層的掌控性常常是程式設計語言之間的取捨，Rust 試圖挑戰這項矛盾。透過平衡強大的技術能力以及優秀的開發體驗，Rust 讓你能控制底層的實作細節（比如記憶體使用）的同時，免於以往這樣的控制所帶來的相關麻煩。</p>
 <h2><a class="header" href="#rust-適用於誰" id="rust-適用於誰">Rust 適用於誰</a></h2>
-<p>Rust 有非常多種誘因使其適用於各式各樣人。讓我們討論一些比較重要的目標客群。</p>
+<p>Rust 有非常多種誘因使其適用於各式各樣的人。讓我們討論一些比較重要的目標客群。</p>
 <h3><a class="header" href="#開發團隊" id="開發團隊">開發團隊</a></h3>
-<p>Rust 已被證明是個能在各種系統程式設計領域的大型開發團隊中協作的高效開發工具。底層程式碼容易產生微妙的程式錯誤，這在多數其他語言只能靠密集的測試並由經驗豐富的開發者小心翼翼地審核程式碼才能找出它們。在 Rust 中，編譯器會扮演著守門員的角色來阻擋這些難以捉摸的程式錯誤，這包含並行錯誤。透過與編譯器一同合作，開發團隊可以將他們的時間專注在程式邏輯而不必成天追蹤錯誤。</p>
+<p>Rust 已被證明是個能在各種系統程式設計領域的大型開發團隊中協作的高效開發工具。底層程式碼容易產生微妙的程式錯誤，這在多數其他語言只能靠密集的測試並由經驗豐富的開發者小心翼翼地審核程式碼才能找出它們。在 Rust 中，編譯器會扮演著守門員的角色來阻擋這些難以捉摸的程式錯誤，這包含了並行錯誤。透過與編譯器一同合作，開發團隊可以將他們的時間專注在程式邏輯而不必成天追蹤錯誤。</p>
 <p>Rust 也將一些現代化的開發工具帶入系統程式設計的世界中：</p>
 <ul>
 <li>Cargo 是個管理依賴函式庫暨建構的工具，讓新增、編譯與管理依賴變得十分輕鬆，並在 Rust 生態系統維持一致性。</li>
@@ -227,18 +227,18 @@
 <h3><a class="header" href="#學生" id="學生">學生</a></h3>
 <p>Rust 適用於學生以及對學習系統概念有興趣的人。許多人都透過 Rust 來學習作業系統開發的議題。社群的人都非常友善，且樂於解答學生們的問題。除了本書以外，Rust 團隊也希望系統概念可以被更多人理解，尤其是剛開始學習程式設計的人。</p>
 <h3><a class="header" href="#公司" id="公司">公司</a></h3>
-<p>數以百計的公司，無論大或小，都有將 Rust 用於生產環境來處理各種任務。這些任務包含命令列工具、網路服務、DevOps 工具、嵌入式裝置、影音分析與轉碼、加密貨幣、生物資訊、搜尋引擎、物聯網裝置、機器學習，甚至還有 Firefox 瀏覽器的主要部分。</p>
+<p>已有大大小小數以百計的公司，在生產環境使用 Rust 來處理各種任務。這些任務包含命令列工具、網路服務、DevOps 工具、嵌入式裝置、影音分析與轉碼、加密貨幣、生物資訊、搜尋引擎、物聯網裝置、機器學習，甚至還有 Firefox 瀏覽器的主要部分。</p>
 <h3><a class="header" href="#開源開發者" id="開源開發者">開源開發者</a></h3>
-<p>Rust 適用於想要建構 Rust 程式設計語言、社群、開發工具與函式庫的開發者。我們很樂於看到你願意貢獻 Rust 語言。</p>
+<p>Rust 適用於想要建構 Rust 程式設計語言、社群、開發工具與函式庫的開發者。我們很樂於看到你願意對 Rust 語言貢獻。</p>
 <h3><a class="header" href="#重視速度與穩定性的開發者" id="重視速度與穩定性的開發者">重視速度與穩定性的開發者</a></h3>
 <p>Rust 適用於追求語言速度與穩定性的開發者。所謂的速度，我們指的是你用 Rust 所開發出程式的執行速度以及 Rust 所提供程式的開發速度。Rust 編譯器的檢查能確保新增功能與重構時的穩定性。這與沒有這些檢查的語言形成對比，開發者通常會害怕修改這些脆弱的遺留程式碼。Rust 還力求零開銷抽象（zero-cost abstractions），高階的特性編譯成底層程式碼的執行速度能與自己手寫一樣快，Rust 致力於讓安全的程式碼同時也能是執行迅速的程式碼。</p>
 <p>Rust 語言也希望能支援其他許多使用者，這裡提及的只是一部分的最大受益者。總體來說，Rust 最重要的目標是消除數十年來開發者不得不作出的取捨，像是同時提供安全<em>與</em>生產力、同時具有速度<em>又</em>易讀易用。歡迎嘗試看看 Rust，並體驗看看這門語言適不適合你。</p>
 <h2><a class="header" href="#本書寫給誰看" id="本書寫給誰看">本書寫給誰看</a></h2>
-<p>本書假設你已經在其他程式語言寫過程式碼，不過並不假設你使用的是何種語言。我們試著讓這些資源能廣泛適用於不同程式背景的開發者。我們不會花費很多時間討論<em>什麼是</em>程式設計或如何理解它。如果你剛開始學習程式語言，你最好先閱讀專門介紹程式設計的書籍。</p>
+<p>本書假設你已經使用其他程式語言寫過程式碼，不過並不假設你使用的是何種語言。我們試著讓這些資源能廣泛適用於不同程式背景的開發者。我們不會花費很多時間討論<em>什麼是</em>程式設計或如何理解它。如果你剛開始學習程式語言，你最好先閱讀專門介紹程式設計的書籍。</p>
 <h2><a class="header" href="#如何閱讀本書" id="如何閱讀本書">如何閱讀本書</a></h2>
 <p>一般來說，本書預設你會從頭到尾依序閱讀完。後面的章節都建立在前面章節的概念基礎上，然後前面的章節可能不會深入探討某些主題，我們會在後面的章節再重新討論該主題。</p>
 <p>你會在本書中看到兩種章節：概念章節與專案章節。在概念章節中，你會學到 Rust 的其中某些概念。在專案章節中，我們會應用你當前所學的一同建構些小小的專案。第二、十二和二十章是專案章節，其餘都是概念章節。</p>
-<p>第一章會解釋如何安裝 Rust、如何寫支「Hello, world!」程式以及如何使用 Cargo，這是 Rust 的套件與建構工具。第二章是透過實作介紹 Rust 語言的章節。我們在此會以較高階的方式解釋些概念，並在之後的章節提供更詳細的介紹。如果你想馬上動手實作看看的話，第二章會很適合你。如果你是這種人的話，你很可能甚至想跳過第三章，這涵蓋 Rust 與其他程式設計語言類似的功能。這樣你可以直接前往第四章來學習 Rust 的所有權系統。然而，如果你是那種鉅細靡遺的讀者，傾向於在進行下一步前學習到所有細節的話，你可能會想跳過第二章直接前往第三章，當你想要套用你所學到的細節在專案上時，再回頭到第二章練習。</p>
+<p>第一章會解釋如何安裝 Rust、如何寫支「Hello, world!」程式以及如何使用 Cargo－－Rust 的套件與建構工具。第二章是透過實作介紹 Rust 語言的章節。我們在此會以較高階的方式解釋些概念，並在之後的章節提供更詳細的介紹。如果你想馬上動手實作看看的話，第二章會很適合你。如果你是這種人的話，你很可能甚至想跳過第三章，這涵蓋 Rust 與其他程式設計語言類似的功能。這樣你可以直接前往第四章來學習 Rust 的所有權系統。然而，如果你是那種鉅細靡遺的讀者，傾向於在進行下一步前學習到所有細節的話，你可能會想跳過第二章直接前往第三章，當你想要套用你所學到的細節在專案上時，再回頭到第二章練習。</p>
 <p>第五章討論結構體與方法，而第六章涵蓋枚舉、<code>match</code> 表達式與 <code>if let</code> 控制流結構。你會在 Rust 中用結構體與枚舉來自訂型別。</p>
 <p>在第七章中，你會學到 Rust 的模組系統與組織程式碼的隱私規則，以及其公開應用程式介面（Application Programming Interface, API）。第八章會討論標準函式庫提供的一些常見集合資料結構，像是向量、字串與雜湊映射。第九章會探討 Rust 的錯誤處理哲學與技巧。</p>
 <p>第十章將深入探討泛型、特徵與生命週期，讓你能定義出多種型別的程式碼。第十一章全部都關於測試，這與 Rust 的安全保障一樣重要，以確保程式邏輯正確。在第十二章中，我們會親自實作個 <code>grep</code> 命令列工具的子集功能，來搜尋檔案中的文字。我們會利用到前幾章討論過的許多概念。</p>
@@ -249,7 +249,7 @@
 <p>最後的附錄以參考風格格式來包含語言中的實用資訊。附錄 A 涵蓋 Rust 的關鍵字、附錄 B 涵蓋 Rust 的運算子與符號、附錄 C 涵蓋標準函式庫提供的可推導的特徵、附錄 D 涵蓋一些實用開發工具，然後附錄 E 會解釋 Rust 的版號。</p>
 <p>本書沒有錯誤的閱讀方式：如果你想要忽略一些章節，儘管跳過吧！如果你遇到任何疑惑的話，隨時可以再跳回之前的章節閱讀。請隨意閱讀。</p>
 <p><span id="ferris"></span></p>
-<p>學習 Rust 的過程中有個重要的部分就是要學習如何閱讀編譯器顯示的錯誤訊息，這些能引導你寫出正確的程式碼。所以我們會提供很多無法編譯的範例，以及各種編譯器會顯示訊息的狀況。如果你執行任何範例的話，它很可能不會編譯通過！別忘了看看文字周圍來瞭解該執行範例是不是意圖出錯。Ferris 也會來幫助你分辨程式碼是否能運作：</p>
+<p>學習 Rust 的過程中有個重要的部分就是要學習如何閱讀編譯器顯示的錯誤訊息，這些能引導你寫出正確的程式碼。所以我們會提供很多無法編譯的範例，以及各種編譯器會顯示訊息的狀況。如果你執行任何範例的話，它很可能不會編譯通過！別忘了看看周遭的文字來瞭解該執行範例是不是故意出錯。Ferris 也會來幫助你分辨哪些程式碼本來就無法使用：</p>
 <table><thead><tr><th>Ferris</th><th>意義</th></tr></thead><tbody>
 <tr><td><img src="img/ferris/does_not_compile.svg" class="ferris-explain"/></td><td>此程式碼無法編譯！</td></tr>
 <tr><td><img src="img/ferris/panics.svg" class="ferris-explain"/></td><td>此程式碼會恐慌！</td></tr>
@@ -294,12 +294,12 @@
 <p>如果你使用的是 Linux 或 macOS，請開啟終端機然後輸入以下命令：</p>
 <pre><code class="language-console">$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 </code></pre>
-<p>這道命令會下載一支腳本然後開始安裝 <code>rusup</code> 工具，接著安裝最新的穩定版 Rust。下載過程中可能會要求你輸入你的密碼。如果下載成功的話，將會出現以下內容：</p>
+<p>這道命令會下載一支腳本然後開始安裝 <code>rustup</code> 工具，接著安裝最新的穩定版 Rust。下載過程中可能會要求你輸入你的密碼。如果下載成功的話，將會出現以下內容：</p>
 <pre><code class="language-text">Rust is installed now. Great!
 </code></pre>
 <p>除此之外，你還會需要某種類型的連結器（linker）。這通常在你的系統上都已經安裝了，但如果你嘗試編譯 Rust 程式卻遇到連結器無法執行的錯誤時，這代表你的系統並未安裝，而你需要自行安裝一個。C 編譯器通常都會帶有一個正確的連結器，你可以檢查你的平台文件，查看如何下載 C 編譯器。此外，一些常見的 Rust 套件也會依賴 C 的程式，所以也需要 C 編譯器。因此現在最好還是有安裝一個比較好。</p>
 <h3><a class="header" href="#在-windows-上安裝-rustup" id="在-windows-上安裝-rustup">在 Windows 上安裝 <code>rustup</code></a></h3>
-<p>在 Windows 上請前往<a href="https://www.rust-lang.org/zh-TW/tools/install">下載頁面</a>並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Build Tools for Visual Studio</a>。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，而且有包含 Windows 10 SDK 和英文語言包套件。</p>
+<p>在 Windows 上請前往<a href="https://www.rust-lang.org/zh-TW/tools/install">下載頁面</a>並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求說你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Build Tools for Visual Studio</a>。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，而且有包含 Windows 10 SDK 和英文語言包套件。</p>
 <p>本書接下來使用的命令都相容於 <em>cmd.exe</em> 和 PowerShell。如果有特別不同的地方，我們會解釋該怎麼使用。</p>
 <h3><a class="header" href="#更新與解除安裝" id="更新與解除安裝">更新與解除安裝</a></h3>
 <p>當你透過 <code>rustup</code> 安裝完 Rust 後，要更新到最新版本的方法非常簡單。在你的 shell 中執行以下更新腳本即可：</p>
@@ -329,7 +329,7 @@
 <h2><a class="header" href="#hello-world" id="hello-world">Hello, World!</a></h2>
 <p>現在你已經安裝好 Rust，讓我們開始來寫你的第一支 Rust 程式吧。當我們學習一門新的語言時，有一個習慣是寫一支印出「Hello, world!」到螢幕上的小程式，此章節將教你做一樣的事！</p>
 <blockquote>
-<p>注意：本書將預設你已經知道命令列最基本的使用方法。Rust 對於你的編輯器、工具以及程式碼位於何處沒有特殊的要求，所以如果你更傾向於使用整合開發環境（IDE）的話，請儘管使用你最愛的 IDE。許多 IDE 都已經針對 Rust 提供某種程度的支援，請查看你所使用的 IDE 技術文件以瞭解詳情。最近，Rust 團隊正在積極專注在提升 IDE 的支援，而且進展十分迅速且出色！</p>
+<p>注意：本書將假設你已經知道命令列最基本的使用方法。Rust 對於你的編輯器、工具以及程式碼位於何處沒有特殊的要求，所以如果你更傾向於使用整合開發環境（IDE）的話，請儘管使用你最愛的 IDE。許多 IDE 都已經針對 Rust 提供某種程度的支援，請查看你所使用的 IDE 技術文件以瞭解詳情。最近，Rust 團隊正在積極專注在提升 IDE 的支援，而且進展十分迅速出色！</p>
 </blockquote>
 <h3><a class="header" href="#建立專案目錄" id="建立專案目錄">建立專案目錄</a></h3>
 <p>你將先建立一個目錄來儲存你的 Rust 程式碼。程式碼位於何處並不重要，但為了能好好練習書中的範例和專案，我們建議你可以在你的 home 目錄建立一個 <em>projects</em> 目錄然後將你所有的專案保存在此。</p>
@@ -347,7 +347,7 @@ $ cd hello_world
 &gt; cd hello_world
 </code></pre>
 <h3><a class="header" href="#編寫並執行-rust-程式" id="編寫並執行-rust-程式">編寫並執行 Rust 程式</a></h3>
-<p>接著，請產生一個原始檔案並叫做 <em>main.rs</em>。Rust 的文件檔案都會以 <em>.rs</em> 副檔名稱作為結尾。如果你用到不止一個單字的話，請用底線區隔開來。比方說，請使用 <em>hello_world.rs</em> 而不是 <em>helloworld.rs</em>。</p>
+<p>接著，請產生一個全新原始碼檔案並命名為 <em>main.rs</em>。Rust 的文件檔案都會以 <em>.rs</em> 副檔名稱作為結尾。如果你用到不只一個單字的話，請用底線區隔開來。比方說，請使用 <em>hello_world.rs</em> 而不是 <em>helloworld.rs</em>。</p>
 <p>現在請開啟 <em>main.rs</em> 檔案然而後輸入範例 1-1 中的程式碼。</p>
 <p><span class="filename">檔案名稱：main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -385,7 +385,7 @@ Hello, world!
 </span></code></pre></pre>
 <p>此行負責了整支程式要做的事：它將文字顯示在螢幕上。這邊有四個細節要注意。</p>
 <p>首先，Rust 的排版風格是 4 個空格而非一個 tab。</p>
-<p>第二，<code>println!</code> 會呼叫一支 Rust 巨集（macro）。如果是呼叫函式的話，那則會是 <code>println</code>（去掉 <code>!</code>）。我們會在第 19 章討論更多巨集的細節。現在你只需要知道使用 <code>!</code> 代表呼叫一支巨集而非一個正常的函式。</p>
+<p>第二，<code>println!</code> 會呼叫一支 Rust 巨集（macro）。如果是呼叫函式的話，那則會是 <code>println</code>（去掉 <code>!</code>）。我們會在第十九章討論更多巨集的細節。現在你只需要知道使用 <code>!</code> 代表呼叫一支巨集而非一個正常的函式。</p>
 <p>第三，<code>&quot;Hello, world!&quot;</code> 是一個字串，我們將此字串作為引數傳遞給 <code>println!</code>，然後該字串就會被顯示到螢幕上。</p>
 <p>第四，我們用分號（<code>;</code>）作為該行結尾，代表此表達式的結束和下一個表達式的開始。多數的 Rust 程式碼都以分號做結尾。</p>
 <h3><a class="header" href="#編譯和執行是不同的步驟" id="編譯和執行是不同的步驟">編譯和執行是不同的步驟</a></h3>
@@ -399,12 +399,12 @@ Hello, world!
 main  main.rs
 </code></pre>
 <p>在 Windows 上的 CMD，你需要輸入：</p>
-<pre><code class="language-cmd">&gt; dir /B %= the /B option says to only show the file names =%
+<pre><code class="language-cmd">&gt; dir /B %= /B 選項代表只顯示檔案名稱 =%
 main.exe
 main.pdb
 main.rs
 </code></pre>
-<p>這顯示了副檔名為 <em>.rs</em>  的原始碼檔案、執行檔（在 Winddows 上為 <em>main.exe</em>；其他則為 <em>main</em>），然後在 Windows 上會再出現一個副檔名為 <em>.pdb</em> 的除錯資訊文件。在這裡，你就可以像這樣執行 <em>main</em> 或 <em>main.exe</em> 檔案：</p>
+<p>這顯示了副檔名為 <em>.rs</em>  的原始碼檔案、執行檔（在 Windows 上為 <em>main.exe</em>；其他則為 <em>main</em>），然後在 Windows 上會再出現一個副檔名為 <em>.pdb</em> 的除錯資訊文件。在這裡，你就可以像這樣執行 <em>main</em> 或 <em>main.exe</em> 檔案：</p>
 <pre><code class="language-console">$ ./main # 在 Windows 上則是 .\main.exe
 </code></pre>
 <p>如果 <em>main.rs</em> 正是你的「Hello, world!」程式，這命令就會顯示 <code>Hello, world!</code> 到你的終端機。</p>
@@ -420,10 +420,10 @@ main.rs
 <h2><a class="header" href="#hello-cargo" id="hello-cargo">Hello, Cargo!</a></h2>
 <p>Cargo 是 Rust 的建構系統與套件管理工具。大部分的 Rustaceans 都會用此工具來管理他們的專案，因為 Cargo 能幫你處理很多任務，像是建構你的程式碼、下載你程式碼所需要的依賴函式庫並建構它們。我們常簡稱程式碼所需要用到的函式庫為<em>依賴（dependencies）</em>。</p>
 <p>簡單的 Rust 程式像是我們目前所寫的不會有任何依賴。所以當我們用 Cargo 建構「Hello, world!」專案時，Cargo 只會用到建構程式碼的那部分。隨著你寫的 Rust 程式越來越複雜，你將會加入一些依賴函式庫來幫助你。而如果你使用 Cargo 的話，加入這些依賴就會簡單很多。</p>
-<p>既然大多數的 Rust 專案都是用 Cargo，所以接下來本書也將預設你也使用 Cargo。Cargo 在你使用<a href="ch01-01-installation.html#installation">「安裝教學」</a><!-- ignore --> 的官方安裝連結來安裝 Rust 時就已經連同安裝好了。如果你是用其他方式下載 Rust 的話，想要檢查 Cargo 有沒有下載好可以透過你的終端機輸入：</p>
+<p>既然大多數的 Rust 專案都是用 Cargo，所以接下來本書也將假設你也使用 Cargo。Cargo 在你使用<a href="ch01-01-installation.html#installation">「安裝教學」</a><!-- ignore --> 的官方安裝連結來安裝 Rust 時就已經連同安裝好了。如果你是用其他方式下載 Rust 的話，想要檢查 Cargo 有沒有下載好可以透過你的終端機輸入：</p>
 <pre><code class="language-console">$ cargo --version
 </code></pre>
-<p>如果你有看到版本號，那就代表你有安裝了！如果你看到錯誤訊息，像是 <code>command not found</code>，請查看你的安裝辦法的技術文件，尋找如何分別下載 Cargo。</p>
+<p>如果你有看到版本號，那就代表你有安裝了！如果你看到錯誤訊息，像是 <code>command not found</code>，請查看你的安裝辦法的技術文件，尋找如何額外下載 Cargo。</p>
 <h3><a class="header" href="#使用-cargo-建立專案" id="使用-cargo-建立專案">使用 Cargo 建立專案</a></h3>
 <p>讓我們來用 Cargo 建立一個專案，並來比較它和我們原本的「Hello, world!」專案有什麼差別。請回到你的 <em>projects</em>  目錄（或者任何你決定存放程式碼的地方），然後在任何作業系統上輸入：</p>
 <pre><code class="language-console">$ cargo new hello_cargo
@@ -456,7 +456,7 @@ edition = &quot;2018&quot;
     println!(&quot;Hello, world!&quot;);
 }
 </code></pre></pre>
-<p>Cargo 預設會為你產生一個「Hello, world!」程式，就像我們範例 1-1 寫得一樣！目前我們之前寫的專案與 Cargo 產生的程式碼不同的地方在於 Cargo 將程式碼放在 <em>src</em> 目錄底下，而且我們還有一個 <em>Cargo.toml</em> 配置文件在根目錄。</p>
+<p>Cargo 預設會為你產生一個「Hello, world!」程式，就像我們範例 1-1 寫的一樣！目前我們之前寫的專案與 Cargo 產生的程式碼不同的地方在於 Cargo 將程式碼放在 <em>src</em> 目錄底下，而且我們還有一個 <em>Cargo.toml</em> 配置文件在根目錄。</p>
 <p>Cargo 預期你的原始檔案都會放在 <em>src</em> 目錄底下。專案的根目錄是用來放 README 檔案、授權條款、配置檔案以及其他與你的程式碼不相關的檔案。使用 Cargo 能夠幫助你組織你的專案，讓一切井然有序。</p>
 <p>如果你的專案還沒開始使用 Cargo 的話，像是我們剛剛寫的「Hello, world!」專案，你只要將程式碼移入 <em>src</em> 然後產生正確的 <em>Cargo.toml</em> 檔案，就可以將它轉換成能夠使用 Cargo 的專案。</p>
 <h3><a class="header" href="#建構並執行-cargo-專案" id="建構並執行-cargo-專案">建構並執行 Cargo 專案</a></h3>
@@ -469,7 +469,7 @@ edition = &quot;2018&quot;
 <pre><code class="language-console">$ ./target/debug/hello_cargo # or .\target\debug\hello_cargo.exe on Windows
 Hello, world!
 </code></pre>
-<p>如果一切順利，<code>Hello, world!</code> 就會顯示在終端機上。第一次執行 <code>cargo build</code> 的話，還會在根目錄產生另一個新檔案：<em>Cargo.lock</em>。此檔案用來追蹤依賴函式庫的確切版本。不過此專案沒有任何依賴，所以目前這個檔案看起來內容會有點少。你不會需要去手動更改此檔案，Cargo 會幫你管理這個檔案的內容。</p>
+<p>如果一切順利，<code>Hello, world!</code> 就會顯示在終端機上。第一次執行 <code>cargo build</code> 的話，還會在根目錄產生另一個新檔案：<em>Cargo.lock</em>。此檔案是用來追蹤依賴函式庫的確切版本。不過此專案沒有任何依賴，所以目前這個檔案看起來內容會有點少。你不會需要去手動更改此檔案，Cargo 會幫你管理這個檔案的內容。</p>
 <p>我們剛用 <code>cargo build</code> 建構完專案並用 <code>./target/debug/hello_cargo</code> 執行它。不過我們其實也可以只用一道命令 <code>cargo run</code> 來編譯程式碼並接著運行產生的執行檔：</p>
 <pre><code class="language-console">$ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
@@ -500,7 +500,7 @@ Hello, world!
 <h3><a class="header" href="#建構發佈版本release" id="建構發佈版本release">建構發佈版本（Release）</a></h3>
 <p>當你的專案正式準備好要發佈的話，你可以使用 <code>cargo build --release</code> 來優化編譯結果。此命令會產生執行檔到 <em>target/release</em> 而不是 <em>target/debug</em>。優化可以讓你的 Rust 程式碼跑得更快，不過也會讓編譯的時間變得更久。這也是為何 Cargo 提供兩種不同的設定檔（profile）：一個用來作為開發使用，讓你可以快速並經常重新建構；另一個用來最終產生你要給使用者運行的程式用，它通常不會需要重新建構且能盡所能地跑得越快越好。如果你要做基準化分析（benchmarking）來檢測程式運行時間的話，請確認執行的是 <code>cargo build --release</code> 並使用 <em>target/release</em> 底下的執行檔做檢測。</p>
 <h3><a class="header" href="#將-cargo-視為常規" id="將-cargo-視為常規">將 Cargo 視為常規</a></h3>
-<p>雖然在簡單的專案下，與 <code>rustc</code> 相比 Cargo 的確沒辦法突顯出什麼價值。但是當你的程式變得越來越複雜時，它將證明它的用途。在擁有一堆 crate 的龐大專案下，讓 Cargo 來協調你的專案會來的簡單許多。</p>
+<p>雖然在簡單的專案下，Cargo 比起只使用 <code>rustc</code> 的確沒辦法突顯出什麼價值。但是當你的程式變得越來越複雜時，它將證明它的用途。在擁有一堆 crate 的龐大專案下，讓 Cargo 來協調你的專案會來的簡單許多。</p>
 <p>儘管 <code>hello_cargo</code> 是個小專案，但它使用了你未來的 Rust 生涯中真實情況下會用到的工具。事實上，所有存在的專案，你幾乎都可以用以下命令完成：使用 Git 下載專案、移至專案目錄然後建構完成。</p>
 <pre><code class="language-console">$ git clone someurl.com/someproject
 $ cd someproject
@@ -526,7 +526,7 @@ $ cargo build
 </blockquote>
 <h1><a class="header" href="#設計猜謎遊戲程式" id="設計猜謎遊戲程式">設計猜謎遊戲程式</a></h1>
 <p>讓我們親自動手一同完成一項專案來開始上手 Rust 吧！本章節會介紹一些常見 Rust 概念，展示如何在實際程式中使用它們。你會學到 <code>let</code>、<code>match</code>、方法、關聯函式、使用外部 crate 以及更多等等！之後的章節會更詳細地探討這些概念。在本章中，你會先練習基礎概念。</p>
-<p>我們會實作個經典新手程式問題：猜謎遊戲。它的運作方式如下：程式會產生 1 到 100 之間的隨機整數。接著它會通知玩家猜一個數字。在輸入猜測數字之後，程式會回應猜測的數字太低或太高。如果猜對的話，遊戲就會顯示祝賀訊息並離開。</p>
+<p>我們會實作個經典新手程式問題：猜謎遊戲。它的運作方式如下：程式會產生 1 到 100 之間的隨機整數。接著它會通知玩家猜一個數字。在輸入猜測數字之後，程式會回應猜測的數字太低或太高。如果猜對的話，遊戲就會顯示祝賀訊息並關閉。</p>
 <h2><a class="header" href="#設置新專案" id="設置新專案">設置新專案</a></h2>
 <p>要設置新專案的話，前往你在第一章建立的 <em>projects</em> 目錄並使用 Cargo 建立一個新的專案，如下所示：</p>
 <pre><code class="language-console">$ cargo new guessing_game
@@ -560,7 +560,7 @@ edition = &quot;2018&quot;
 Hello, world!
 </code></pre>
 <p><code>run</code> 命令在你需要對專案快速疊代時會很有用，我們要寫的遊戲也是如此，在繼續下一步之前可以快速測試每一步。</p>
-<p>請重新開啟 <em>src/main.rs</em> 檔案。你要寫的程式碼全會位於此檔案中。</p>
+<p>請重新開啟 <em>src/main.rs</em> 檔案。你要寫的程式碼全都會位於此檔案中。</p>
 <h2><a class="header" href="#處理猜測" id="處理猜測">處理猜測</a></h2>
 <p>猜謎遊戲的第一個部分會要求使用者輸入數字、處理該輸入，並檢查該輸入是否符合格式。所以我們要先讓玩家能夠輸入猜測數字，請輸入範例 2-1 的程式碼至 <em>src/main.rs</em>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -575,13 +575,13 @@ fn main() {
 
     io::stdin()
         .read_line(&amp;mut guess)
-        .expect(&quot;讀取行數失敗&quot;);
+        .expect(&quot;讀取該行失敗&quot;);
 
     println!(&quot;你的猜測數字：{}&quot;, guess);
 }
 </code></pre>
 <p><span class="caption">範例 2-1：取得使用者的猜測數字並顯示出來的程式</span></p>
-<p>此程式碼包含大量的資訊，所以讓我們一行一行來慢慢看吧。要取得使用者輸入並印出為輸出結果，我們需要將 <code>io</code> 輸入／輸出（input/output）函式庫引入作用域中。 <code>io</code> 函式庫來自標準函式庫（常稱為 <code>std</code>）：</p>
+<p>這段程式碼包含大量的資訊，所以讓我們一行一行來慢慢看吧。要取得使用者輸入並印出為輸出結果，我們需要將 <code>io</code> 輸入／輸出（input/output）函式庫引入作用域中。 <code>io</code> 函式庫來自標準函式庫（常稱為 <code>std</code>）：</p>
 <pre><code class="language-rust ignore">use std::io;
 <span class="boring">
 </span><span class="boring">fn main() {
@@ -593,7 +593,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
@@ -611,7 +611,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
@@ -629,7 +629,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
@@ -648,12 +648,12 @@ fn main() {
 <span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
 </span></code></pre>
-<p>現在程式變得越來越有趣了！在短短的這行當中有許多事情發生。先注意到這是個 <code>let</code> 陳述式，這用來建立一個<em>變數（variable）</em>。以下是另一個例子：</p>
+<p>現在程式變得越來越有趣了！在短短的這行當中有許多事情發生。先注意到這是個 <code>let</code> 陳述式，這用來建立一個<em>變數</em>（variable）。以下是另一個例子：</p>
 <pre><code class="language-rust ignore">let foo = bar;
 </code></pre>
 <p>這行建立了一個新的變數叫做 <code>foo</code> 並將變數 <code>bar</code> 的數值綁定給它。在 Rust 中，變數預設是不可變的（immutable）。我們會在第三章的<a href="ch03-01-variables-and-mutability.html#variables-and-mutability">「變數與可變性」</a><!-- ignore -->段落討論此概念。以下範例展示如何在變數名稱前面使用 <code>mut</code> 來讓變數成為可變的：</p>
@@ -679,7 +679,7 @@ let mut bar = 5; // 可變的
 </span><span class="boring">
 </span>    io::stdin()
         .read_line(&amp;mut guess)
-<span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+<span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
@@ -701,7 +701,7 @@ let mut bar = 5; // 可變的
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span>        .expect(&quot;讀取行數失敗&quot;);
+</span>        .expect(&quot;讀取該行失敗&quot;);
 <span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
@@ -713,7 +713,7 @@ let mut bar = 5; // 可變的
 <p>如稍早提過的，<code>read_line</code> 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 <a href="https://doc.rust-lang.org/std/io/type.Result.html"><code>io::Result</code></a><!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 <code>Result</code>，這包含泛型（generic）<a href="https://doc.rust-lang.org/std/result/enum.Result.html"><code>Result</code></a><!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 <code>io::Result</code>。</p>
 <p><code>Result</code> 型別是種<a href="ch06-00-enums.html"><em>枚舉（enumerations）</em></a><!-- ignore -->，常稱為 <em>enums</em>。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之為枚舉的<em>變體（variants）</em>。第六章會更詳細地介紹枚舉。</p>
 <p>對於 <code>Result</code> 來說，其變體會是 <code>Ok</code> 或 <code>Err</code>。<code>Ok</code> 變體指的是該動作成功完成，且 <code>Ok</code> 內部會包含成功產生的數值。而 <code>Err</code> 變體代表動作失敗，且 <code>Err</code> 會包含該動作如何與為何會失敗的資訊。</p>
-<p>這些 <code>Result</code> 型別的目的是要編碼錯誤處理資訊。<code>Result</code> 型別的數值與任何型別的數值一樣，它們都有定義些方法。<code>io::Result</code> 的實例有 <a href="https://doc.rust-lang.org/std/result/enum.Result.html#method.expect"><code>expect</code> 方法</a><!-- ignore --> 讓你能呼叫。如果此 <code>io::Result</code> 實例數值為 <code>Err</code> 的話，<code>expect</code> 會讓程式崩潰並顯示作為引數傳給 <code>expect</code> 的訊息。如果 <code>read_line</code> 回傳 <code>Err</code> 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 <code>io::Result</code> 實例數值為 <code>Ok</code> 的話，<code>expect</code> 會接收 <code>Ok</code> 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值為使用者輸入到標準輸出的位元組數字。</p>
+<p>這些 <code>Result</code> 型別的目的是要編碼錯誤處理資訊。<code>Result</code> 型別的數值與任何型別的數值一樣，它們都有定義些方法。<code>io::Result</code> 的實例有 <a href="https://doc.rust-lang.org/std/result/enum.Result.html#method.expect"><code>expect</code> 方法</a><!-- ignore --> 讓你能呼叫。如果此 <code>io::Result</code> 實例數值為 <code>Err</code> 的話，<code>expect</code> 會讓程式當機並顯示作為引數傳給 <code>expect</code> 的訊息。如果 <code>read_line</code> 回傳 <code>Err</code> 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 <code>io::Result</code> 實例數值為 <code>Ok</code> 的話，<code>expect</code> 會接收 <code>Ok</code> 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值將為使用者輸入進標準輸入介面的位元組數字。</p>
 <p>如果你沒有呼叫 <code>expect</code>，程式仍能編譯，但你會收到一個警告：</p>
 <pre><code class="language-console">$ cargo build
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
@@ -729,7 +729,7 @@ warning: unused `std::result::Result` that must be used
     Finished dev [unoptimized + debuginfo] target(s) in 0.59s
 </code></pre>
 <p>Rust 警告你沒有使用 <code>read_line</code> 回傳的 <code>Result</code> 數值，這意味著程式沒有處理可能發生的錯誤。</p>
-<p>要解決此警告的正確方式是實際進行錯誤處理，但因為我們只想要當問題發生時直接讓程式崩潰，所以你可以先使用 <code>expect</code> 就好。你會在第九章學到如何從錯誤中恢復。</p>
+<p>要解決此警告的正確方式是實際進行錯誤處理，但因為我們只想要當問題發生時直接讓程式當掉，所以你可以先使用 <code>expect</code> 就好。你會在第九章學到如何從錯誤中恢復。</p>
 <h3><a class="header" href="#透過-println-佔位符印出數值" id="透過-println-佔位符印出數值">透過 <code>println!</code> 佔位符印出數值</a></h3>
 <p>在結束大括號之前，目前程式碼中還有一行要來討論，也就是以下這行：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
@@ -743,7 +743,7 @@ warning: unused `std::result::Result` that must be used
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span>    println!(&quot;你的猜測數字：{}&quot;, guess);
 <span class="boring">}
@@ -780,7 +780,7 @@ input 6 -->
 <p>接下來，我們要產生一個能讓使用者猜看看的祕密數字。祕密數字每次都要不同，這樣遊戲才值得多玩幾次。讓我們使用 1 到 100 之間的隨機數字，這樣遊戲才不會太困難。Rust 的標準函式庫並不包含產生隨機數字的功能。然而，Rust 團隊有提供個 <a href="https://crates.io/crates/rand"><code>rand</code> crate</a>。</p>
 <h3><a class="header" href="#使用-crate-來取得更多功能" id="使用-crate-來取得更多功能">使用 Crate 來取得更多功能</a></h3>
 <p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<em>二進制（binary） crate</em>，也就會是個執行檔。而 <code>rand</code> crate 屬於<em>函式庫（library） crate</em>，這會包含讓其他程式能夠使用的程式碼。</p>
-<p>Cargo 使用外部 crate 的功能正是它的亮點。在我們可以使用 <code>rand</code> 來寫程式碼前，我們需要修改 <em>Cargo.toml</em> 檔案來包含 <code>rand</code> crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 <code>[dependencies]</code> 標頭（header）段落中最後一行下面：</p>
+<p>Cargo 可以使用外部 crate 的功能正是它的亮點。在我們可以使用 <code>rand</code> 來寫程式碼前，我們需要修改 <em>Cargo.toml</em> 檔案來包含 <code>rand</code> crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 <code>[dependencies]</code> 標頭（header）段落中最後一行下面：</p>
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
 * ch07-04-bringing-paths-into-scope-with-the-use-keyword.md
@@ -867,7 +867,7 @@ fn main() {
 
     io::stdin()
         .read_line(&amp;mut guess)
-        .expect(&quot;讀取行數失敗&quot;);
+        .expect(&quot;讀取該行失敗&quot;);
 
     println!(&quot;你的猜測數字：{}&quot;, guess);
 }
@@ -928,7 +928,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span>
     println!(&quot;你的猜測數字：{}&quot;, guess);
 
@@ -989,7 +989,7 @@ To learn more, run the command again with --verbose.
 
     io::stdin()
         .read_line(&amp;mut guess)
-        .expect(&quot;讀取行數失敗&quot;);
+        .expect(&quot;讀取該行失敗&quot;);
 
     let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 
@@ -1008,7 +1008,7 @@ To learn more, run the command again with --verbose.
 <p>我們建立了一個變數叫做 <code>guess</code>。小等一下，程式不是已經有個變數叫做 <code>guess</code>了嗎？的確是的，但 Rust 允許我們<em>遮蔽（shadow）</em> 之前的 <code>guess</code> 數值成新的數值。此功能常用於當你想將一個數值從一個型別轉換成另一個型別的場合中。遮蔽讓我們可以重複使用 <code>guess</code> 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 <code>guess_str</code> 和 <code>guess</code>。（第三章會詳細解釋遮蔽。）</p>
 <p>我們將 <code>guess</code> 綁定給 <code>guess.trim().parse()</code> 表達式。表達式中的 <code>guess</code> 指的是原本擁有 <code>String</code> 來儲存輸入的 <code>guess</code>。<code>String</code> 中的 <code>trim</code> 方法會去除開頭與結尾的任何空白字元。雖然 <code>u32</code> 只會包含數字字元，但使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 <code>read_line</code>。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，<code>guess</code> 看起來會像這樣：<code>5\n</code>。<code>\n</code> 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果。<code>trim</code> 方法能去除 <code>\n</code>，讓結果只會是 <code>5</code>。</p>
 <p>而<a href="https://doc.rust-lang.org/std/primitive.str.html#method.parse">字串中的 <code>parse</code> 方法</a><!-- ignore -->會解析字串成某種數字。因為此方法可以解析成各種數字型別，我們需要使用 <code>let guess: u32</code> 來告訴 Rust 我們想使用的確切數字型別。<code>guess</code> 後面的分號（<code>:</code>）告訴 Rust 我們會詮釋此變數的型別。Rust 有些內建的數字型別，這裡的 <code>u32</code> 是個非帶號（unsigned）的 32 位元整數。對於不大的正整數來說，這是不錯的預設選擇。你會在第三章學到其他數字型別。除此之外，在此範例程式中的 <code>u32</code> 詮釋與 <code>secret_number</code> 的比較意味著 Rust 也會將 <code>secret_number</code> 推斷成 <code>u32</code>。所以現在會有兩個相同型別的數值能做比較了！</p>
-<p><code>parse</code> 的呼叫很容易造成錯誤。舉例來說，如果字串包含 <code>A👍%</code> 的話，就不可能轉換成數字。因為它可能會失敗，<code>parse</code> 方法回傳的是 <code>Result</code> 型別，就和 <code>read_line</code> 方法一樣（在之前的<a href="ch02-00-guessing-game-tutorial.html#%E4%BD%BF%E7%94%A8-result-%E5%9E%8B%E5%88%A5%E8%99%95%E7%90%86%E5%8F%AF%E8%83%BD%E7%9A%84%E9%8C%AF%E8%AA%A4">「使用 <code>Result</code> 型別處理可能的錯誤」</a><!-- ignore -->段落提及）。我們也會用相同的方式來處理此 <code>Result</code>，也就是呼叫 <code>expect</code> 方法。如果 <code>parse</code> 回傳 <code>Result</code> 的 <code>Err</code> 變體的話，由於它無法從字串建立數字，<code>expect</code> 的呼叫會讓遊戲崩潰並顯示我們給予的訊息。如果 <code>parse</code> 能成功將字串轉成數字，它將會回傳 <code>Result</code> 的 <code>Ok</code> 變體，而 <code>expect</code> 將會回傳 <code>Ok</code> 的內部數值。</p>
+<p><code>parse</code> 的呼叫很容易造成錯誤。舉例來說，如果字串包含 <code>A👍%</code> 的話，就不可能轉換成數字。因為它可能會失敗，<code>parse</code> 方法回傳的是 <code>Result</code> 型別，就和 <code>read_line</code> 方法一樣（在之前的<a href="ch02-00-guessing-game-tutorial.html#%E4%BD%BF%E7%94%A8-result-%E5%9E%8B%E5%88%A5%E8%99%95%E7%90%86%E5%8F%AF%E8%83%BD%E7%9A%84%E9%8C%AF%E8%AA%A4">「使用 <code>Result</code> 型別處理可能的錯誤」</a><!-- ignore -->段落提及）。我們也會用相同的方式來處理此 <code>Result</code>，也就是呼叫 <code>expect</code> 方法。如果 <code>parse</code> 回傳 <code>Result</code> 的 <code>Err</code> 變體的話，由於它無法從字串建立數字，<code>expect</code> 的呼叫會讓遊戲當掉並顯示我們給予的訊息。如果 <code>parse</code> 能成功將字串轉成數字，它將會回傳 <code>Result</code> 的 <code>Ok</code> 變體，而 <code>expect</code> 將會回傳 <code>Ok</code> 的內部數值。</p>
 <p>現在讓我們執行程式！</p>
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/no-listing-03-convert-string-to-number/
@@ -1054,7 +1054,7 @@ cargo run
 </span><span class="boring">
 </span><span class="boring">        io::stdin()
 </span><span class="boring">            .read_line(&amp;mut guess)
-</span><span class="boring">            .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">            .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">        let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 </span><span class="boring">
@@ -1069,7 +1069,7 @@ cargo run
 }
 </code></pre>
 <p>如同你所見，我們將輸入猜測提示以下的程式碼都移入迴圈中。請確保迴圈中的每一行有用四個空格來做縮排，然後再次執行程式。注意到這裡有個新問題，程式的確照我們所說的去做，但這代表它會不停地尋問要猜測的數字！看起來使用者無法離開遊戲！</p>
-<p>使用者的確永遠可以使用快捷鍵 <span class="keystroke">ctrl-c</span> 來中斷程式。但還有其他辦法能逃離這個無限循環，如同在<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->中討論 <code>parse</code> 時提到的，如果使用者輸入非數字答案的話，程式就會崩潰。使用者可以利用此特性來離開，如以下所示：</p>
+<p>使用者的確永遠可以使用快捷鍵 <span class="keystroke">ctrl-c</span> 來中斷程式。但還有其他辦法能逃離這個無限循環，如同在<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->中討論 <code>parse</code> 時提到的，如果使用者輸入非數字答案的話，程式就會當掉。使用者可以利用此特性來離開，如以下所示：</p>
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/no-listing-04-looping/
 cargo run
@@ -1123,7 +1123,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">
 </span><span class="boring">        io::stdin()
 </span><span class="boring">            .read_line(&amp;mut guess)
-</span><span class="boring">            .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">            .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">        let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 </span><span class="boring">
@@ -1144,7 +1144,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p>在 <code>獲勝！</code> 之後加上 <code>break</code> 這行讓程式在使用者猜對祕密數字時可以離開迴圈。離開迴圈也意味著離開程式，因為此迴圈是 <code>main</code> 中的最後一個部分。</p>
 <h3><a class="header" href="#處理無效輸入" id="處理無效輸入">處理無效輸入</a></h3>
-<p>為了進一步改善遊戲體驗，當使用者的輸入不是數字時，我們不該讓程式直接崩潰。遊戲程式可以忽略非數字來讓使用者繼續猜測。我們可以修改 <code>guess</code> 這段將 <code>String</code> 轉換成 <code>u32</code> 的程式碼，如範例 2-5 所示。</p>
+<p>為了進一步改善遊戲體驗，當使用者的輸入不是數字時，我們不該讓程式直接當掉。遊戲程式可以忽略非數字來讓使用者繼續猜測。我們可以修改 <code>guess</code> 這段將 <code>String</code> 轉換成 <code>u32</code> 的程式碼，如範例 2-5 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span><span class="boring">use std::cmp::Ordering;
@@ -1166,7 +1166,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
         io::stdin()
             .read_line(&amp;mut guess)
-            .expect(&quot;讀取行數失敗&quot;);
+            .expect(&quot;讀取該行失敗&quot;);
 
         let guess: u32 = match guess.trim().parse() {
             Ok(num) =&gt; num,
@@ -1188,8 +1188,8 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p><span class="caption">範例 2-5：忽略非數字的猜測並要求下一個猜測數字，而不是讓程式崩潰</span></p>
-<p>將 <code>expect</code> 的呼叫換成 <code>match</code> 表達式，通常就是從錯誤中崩潰改成處理錯誤的方式。你應該還記得 <code>parse</code> 回傳的是 <code>Result</code> 型別，且 <code>Result</code> 是個枚舉，其變體為 <code>Ok</code> 或 <code>Err</code>。我們在此使用 <code>match</code> 表達式，如同我們對 <code>cmp</code> 方法回傳的 <code>Ordering</code> 處理方式一樣。</p>
+<p><span class="caption">範例 2-5：忽略非數字的猜測並要求下一個猜測數字，而不是讓程式當掉</span></p>
+<p>將 <code>expect</code> 的呼叫換成 <code>match</code> 表達式，通常就是從錯誤中當掉改成處理錯誤的方式。你應該還記得 <code>parse</code> 回傳的是 <code>Result</code> 型別，且 <code>Result</code> 是個枚舉，其變體為 <code>Ok</code> 或 <code>Err</code>。我們在此使用 <code>match</code> 表達式，如同我們對 <code>cmp</code> 方法回傳的 <code>Ordering</code> 處理方式一樣。</p>
 <p>如果 <code>parse</code> 能成功將字串轉換成數字，它會回傳 <code>Ok</code> 數值內包含的結果數字。該 <code>Ok</code> 數值就會配對到第一個分支的模式，然後 <code>match</code> 表達式就會回傳 <code>parse</code> 產生並填入 <code>Ok</code> 內的 <code>num</code> 數值。該數字最後就會如我們所願變成我們建立的 <code>guess</code> 變數。</p>
 <p>如果 <code>parse</code> <em>無法</em>將字串轉換成數值的話，它會回傳包含與錯誤相關資訊的 <code>Err</code> 數值。該 <code>Err</code> 數值並不符合 <code>match</code> 的第一個分支模式 <code>Ok(num)</code>，但它能配對到第二個分支。底線 <code>_</code> 是個捕獲數值，在此例中，我們說我們想要配對到所有的 <code>Err</code> 數值，無論其中有什麼資訊在裡面。所以程式會執行第二條分支 <code>continue</code>，這告訴程式繼續 <code>loop</code> 下一個疊代並要求其他猜測數字。如此一來程式就能忽略所有 <code>parse</code> 可能會遇到的所有錯誤！</p>
 <p>現在程式的每個部分都如我們所預期的了，讓我們試試看：</p>
@@ -1239,7 +1239,7 @@ fn main() {
 
         io::stdin()
             .read_line(&amp;mut guess)
-            .expect(&quot;讀取行數失敗&quot;);
+            .expect(&quot;讀取該行失敗&quot;);
 
         let guess: u32 = match guess.trim().parse() {
             Ok(num) =&gt; num,
@@ -4685,7 +4685,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    io::stdin()
 </span><span class="boring">        .read_line(&amp;mut guess)
-</span><span class="boring">        .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">        .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span>}
@@ -17323,7 +17323,7 @@ pub trait Write {
 </span><span class="boring">
 </span><span class="boring">        io::stdin()
 </span><span class="boring">            .read_line(&amp;mut guess)
-</span><span class="boring">            .expect(&quot;讀取行數失敗&quot;);
+</span><span class="boring">            .expect(&quot;讀取該行失敗&quot;);
 </span><span class="boring">
 </span>        let guess: u32 = match guess.trim().parse() {
             Ok(num) =&gt; num,
