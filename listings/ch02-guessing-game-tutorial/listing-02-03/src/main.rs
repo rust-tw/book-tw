@@ -19,7 +19,7 @@ fn main() {
 
     io::stdin()
         .read_line(&mut guess)
-        .expect("讀取行數失敗");
+        .expect("讀取該行失敗");
 
     println!("你的猜測數字：{}", guess);
     // ANCHOR: ch07-04
