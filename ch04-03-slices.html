@@ -168,7 +168,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#切片型別" id="切片型別">切片型別</a></h2>
-<p>另一種沒有所有權的資料型別是<em>切片（slice）</em>。切片讓你可以引用一串集合中的元素序列，而並非引用整個集合。</p>
+<p>另一種沒有所有權的資料型別是<em>切片</em>（<em>slice</em>）。切片讓你可以引用一串集合中的元素序列，而並非引用整個集合。</p>
 <p>以下是個小小的程式問題：寫一支接收字串的函式並回傳第一個找到的單字，如果函式沒有在字串找到空格的話，就代表整個字串就是一個單字，所以就回傳整個字串。</p>
 <p>先來想想看函式簽名該長怎樣：</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; ?
@@ -268,7 +268,7 @@
 <pre><code class="language-rust ignore">fn second_word(s: &amp;String) -&gt; (usize, usize) {
 </code></pre>
 <p>現在我們得同時紀錄起始<em>與</em>結束的索引，而且我們還產生了更多與原本數值沒辦法直接相關的計算結果。我們現在有三個非直接相關的變數需要保持同步。</p>
-<p>幸運的是 Rust 為此提供了一個解決辦法：字串切片（String切片）。</p>
+<p>幸運的是 Rust 為此提供了一個解決辦法：字串切片（String slice）。</p>
 <h3><a class="header" href="#字串切片" id="字串切片">字串切片</a></h3>
 <p><em>字串切片</em>是 <code>String</code> 其中一部分的引用，它長得像這樣：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -390,7 +390,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>回憶一下借用規則，要是我們有不可變引用的話，我們就不能取得可變引用。因為 <code>clear</code> 會縮減 <code>String</code>，它必須是可變引用。這樣一來 Rust 就不允許，並讓編譯失敗。Rust 不僅讓我們的 API 更容易使用，還想辦法讓所有錯誤在編譯期就消除！</p>
 <h4><a class="header" href="#字串字面值就是切片" id="字串字面值就是切片">字串字面值就是切片</a></h4>
-<p>回想一下我們講說字串字面值是怎麼存在二進制檔案的。現在既然我們已經知道切片，我們就能知道更清楚字串字面值：</p>
+<p>回想一下我們講說字串字面值是怎麼存在二進制檔案的。現在既然我們已經知道切片，我們就能知道更清楚理解字串字面值：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -399,7 +399,7 @@ To learn more, run the command again with --verbose.
 </span></code></pre></pre>
 <p>此處 <code>s</code> 的型別是 <code>&amp;str</code>：它是指向二進制檔案某部份的切片。這也是為何字串字面值是不可變的，<code>&amp;str</code> 是個不可變引用。</p>
 <h4><a class="header" href="#字串切片作為參數" id="字串切片作為參數">字串切片作為參數</a></h4>
-<p>知道你可以取得字面值的切片與 <code>String</code> 數值後，我們可以再改善一次 <code>first_word</code>。那就是它的簽名：</p>
+<p>知道你可以取得字面值的切片與 <code>String</code> 數值後，我們可以再改善一次 <code>first_word</code>。也就是它的簽名表現：</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; &amp;str {
 </code></pre>
 <p>較富有經驗的 Rustacean 會用範例 4-9 的方式編寫函式簽名，因為這讓該函式可以同時接受 <code>&amp;String</code> 和 <code>&amp;str</code> 的數值。</p>

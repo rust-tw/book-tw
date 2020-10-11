@@ -183,7 +183,7 @@
     }
 }
 </code></pre></pre>
-<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始再加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱為<em>分支（arms）</em>，就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
+<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始再加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱為<em>分支</em>（<em>arms</em>），就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
 <p>另外，我們還可以選擇性地加上 <code>else</code> 表達式（就像範例寫的），讓條件不符時可以去執行另外一段程式碼。如果你沒有提供 <code>else</code> 表達式且條件為否的話，程式會直接略過 <code>if</code> 的程式碼區塊，接著執行後續的程式碼。</p>
 <p>請嘗試執行此程式碼，你應該會看到以下輸出結果：</p>
 <pre><code class="language-console">$ cargo run
@@ -321,7 +321,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p><code>if</code> 段落的表達式運算出整數，但 <code>else</code> 的區塊卻運算出字串。這樣行不通的原因是變數只能有一個型別。Rust 必須在編譯期間確切知道變數 <code>number</code> 的型別，這樣才能驗證它的型別在任何有使用到 <code>number</code> 的地方都是有效的。要是 <code>number</code> 只能在執行時知道的話，Rust 就沒辦法這樣做了。如果編譯器必須追蹤所有變數多種可能存在的型別，那就會變得非常複雜並無法為程式碼提供足夠的保障。</p>
 <h3><a class="header" href="#使用迴圈重複執行" id="使用迴圈重複執行">使用迴圈重複執行</a></h3>
-<p>重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 <em>迴圈（loops）</em> 的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。為了繼續探討迴圈，讓我們再開一個新專案 <em>loops</em>。</p>
+<p>重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 <em>迴圈</em>（<em>loops</em>）的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。為了繼續探討迴圈，讓我們再開一個新專案 <em>loops</em>。</p>
 <p>Rust 提供三種迴圈：<code>loop</code>、<code>while</code> 和 <code>for</code>。讓我們每個都嘗試看看吧。</p>
 <h4><a class="header" href="#使用-loop-重複執行程式碼" id="使用-loop-重複執行程式碼">使用 <code>loop</code> 重複執行程式碼</a></h4>
 <p><code>loop</code> 關鍵字告訴 Rust 去反覆不停地執行一段程式碼直到你親自告訴它要停下來。</p>
@@ -367,7 +367,7 @@ CTRL-C
     println!(&quot;結果為：{}&quot;, result);
 }
 </code></pre></pre>
-<p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化為 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取得迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果為 20。</p>
+<p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化為 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取得迴圈回傳的值。在迴圈每一次的疊代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果為 20。</p>
 <h4><a class="header" href="#使用-while-做條件迴圈" id="使用-while-做條件迴圈">使用 <code>while</code> 做條件迴圈</a></h4>
 <p>在程式中用條件判斷迴圈的執行通常是很有用的。當條件為真時，迴圈就繼續執行。當條件不再符合時，程式就用 <code>break</code> 停止迴圈。這樣的循環方法可以用 <code>loop</code>、<code>if</code>、<code>else</code> 和 <code>break</code> 組合出來。如果你想嘗試的話，你現在就可以自己寫寫看看。</p>
 <p>但是這種模式非常常見，所以 Rust 有提供內建的結構稱為 <code>while</code> 迴圈。範例 3-3 就是使用 <code>while</code> 的例子：該程式會循環三次，每次計數都減一，然後在迴圈之後印出訊息並離開。</p>
@@ -413,7 +413,7 @@ CTRL-C
 數值為：50
 </code></pre>
 <p>所有五個元素都如預期顯示在終端機上。儘管 <code>index</code> 會在某一刻達到 <code>5</code>，但是迴圈會在嘗試取得陣列第六個元素前就停止執行。</p>
-<p>但這樣的方式是容易出錯的，我們可能取得錯誤的索引長度造成程式恐慌。這同時也使程式變慢，因為編譯器得在執行時的程式碼對迴圈中每次迭代的每個元素加上條件檢查。</p>
+<p>但這樣的方式是容易出錯的，我們可能取得錯誤的索引長度造成程式恐慌。這同時也使程式變慢，因為編譯器得在執行時的程式碼對迴圈中每次疊代的每個元素加上條件檢查。</p>
 <p>所以更簡潔的替代方案是，你可以使用 <code>for</code> 迴圈來對集合的每個元素執行一些程式碼。<code>for</code> 迴圈的樣子就像範例 3-5 寫的這一樣。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -428,7 +428,7 @@ CTRL-C
 <p>當我們執行此程式時，我們會看到和範例 3-4 一樣的結果。最重要的是，我們增加了程式的安全性，去除了造成程式錯誤的可能性。不會出現超出陣列大小或是讀取長度不足的風險。</p>
 <p>比方說在範例 3-4 的程式碼，如果你變更陣列 <code>a</code> 的元素為只有 4 個，但忘記更新條件判斷為 <code>while index &lt; 4</code> 的話，程式就會恐慌。使用 <code>for</code> 迴圈的話，我們變更陣列長度時，就不需要去記得更新其他程式碼。</p>
 <p><code>for</code> 迴圈的安全性與簡潔程度讓它成為 Rust 最常被使用的迴圈結構。就算你想執行的是依照次數循環的程式碼，像是範例 3-3 的 <code>while</code> 迴圈範例，多數 Rustaceans 還是會選擇 <code>for</code> 迴圈。要這麼做的方法是使用 <code>Range</code>，這是標準函式庫提供的型別，用來產生一連串的數字序列，從指定一個數字開始一直到另一個數字之前結束。</p>
-<p>以下是我們用 <code>for</code> 迴圈來計數的另一種方式，它用了一個我們還沒講過的方法 <code>rev</code>，這可以用來反轉：</p>
+<p>以下是我們用 <code>for</code> 迴圈來計數的另一種方式，它用了一個我們還沒講過的方法 <code>rev</code>，這可以用來反轉這個範圍：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     for number in (1..4).rev() {
@@ -437,7 +437,7 @@ CTRL-C
     println!(&quot;升空！！！&quot;);
 }
 </code></pre></pre>
-<p>這樣是不是看起來更好讀許多？</p>
+<p>這樣是不是看起來好讀許多？</p>
 <h2><a class="header" href="#總結" id="總結">總結</a></h2>
 <p>你做到了！這的確是篇大章節：你學到了變數、純量與複合資料型別、函式、註解、<code>if</code> 表達式以及迴圈！如果你想練習此章的概念，你可以試著打造以下程式：</p>
 <ul>

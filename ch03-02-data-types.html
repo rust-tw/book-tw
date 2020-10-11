@@ -221,7 +221,7 @@ To learn more, run the command again with --verbose.
 <p>所以你該用哪些整數型別呢？如果你不確定的話，Rust 預設的型別通常就很好了，整數型別預設是 <code>i32</code>：此型別通常是最快的，甚至在 64 位元系統上也是。而你會用到 <code>isize</code> 或 <code>usize</code> 的主要時機是作為某些集合的索引。</p>
 <blockquote>
 <h5><a class="header" href="#整數溢位" id="整數溢位">整數溢位</a></h5>
-<p>假設你有個變數型別是 <code>u8</code> 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生<em>整數溢位</em>。Rust 有一些有趣的規則來處理這項行為。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在運行時<em>恐慌（panic）</em>。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的<a href="ch09-01-unrecoverable-errors-with-panic.html">「對無法復原的錯誤使用 <code>panic!</code>」</a><!-- ignore -->段落討論更多造成恐慌的細節。</p>
+<p>假設你有個變數型別是 <code>u8</code> 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生<em>整數溢位</em>。Rust 有一些有趣的規則來處理這項行為。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在運行時<em>恐慌</em>（<em>panic</em>）。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的<a href="ch09-01-unrecoverable-errors-with-panic.html">「對無法復原的錯誤使用 <code>panic!</code>」</a><!-- ignore -->段落討論更多造成恐慌的細節。</p>
 <p>當你是在發佈模式下用 <code>--release</code> 來編譯的話，Rust 則<em>不會</em>加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出<em>二補數包裝</em>的動作。簡單來說，超出最大值的數值可以被<em>包裝</em>成該型別的最低數值。以 <code>u8</code> 為例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行為仍然會被視為邏輯錯誤，如果你想要安全顯式表達這種行為的話，你可以使用標準函式庫的型別 <a href="https://doc.rust-lang.org/std/num/struct.Wrapping.html"><code>Wrapping</code></a>。</p>
 </blockquote>
 <h4><a class="header" href="#浮點數型別" id="浮點數型別">浮點數型別</a></h4>
@@ -280,7 +280,7 @@ To learn more, run the command again with --verbose.
 <p><em>複合型別</em>可以組合數個數值為一個型別，Rust 有兩個基本複合型別：元組（tuples）和陣列（arrays）。</p>
 <h4><a class="header" href="#元組型別" id="元組型別">元組型別</a></h4>
 <p>元組是個將許多不同型別的數值合成一個複合型別的常見方法。元組擁有固定長度：一旦宣告好後，它們就無法增長或縮減。</p>
-<p>我們建立一個元組的方法是寫一個用括號囊刮起來的數值列表，每個值再用逗號分隔開來。元組的每一格都是一個獨立型別，不同數值不必是相同型別。以下範例我們也加上了型別詮釋，平時不一定要加上：</p>
+<p>我們建立一個元組的方法是寫一個用括號囊括起來的數值列表，每個值再用逗號分隔開來。元組的每一格都是一個獨立型別，不同數值不必是相同型別。以下範例我們也加上了型別詮釋，平時不一定要加上：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let tup: (i32, f64, u8) = (500, 6.4, 1);
@@ -318,7 +318,7 @@ To learn more, run the command again with --verbose.
     let a = [1, 2, 3, 4, 5];
 }
 </code></pre></pre>
-<p>當你想要你的資料被分配在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在第四章討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素也是。所以陣列不像向量（vector）型別那麼有彈性，向量是標準函式庫提供的集合型別，類似於陣列但<em>允許</em>變更長度大小。如果你不確定該用陣列或向量的話，通常你應該用向量就好。第八章將會討論更多向量的細節。</p>
+<p>當你想要你的資料被分配在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在第四章討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素時也是。所以陣列不像向量（vector）型別那麼有彈性，向量是標準函式庫提供的集合型別，類似於陣列但<em>允許</em>變更長度大小。如果你不確定該用陣列或向量的話，通常你應該用向量就好。第八章將會討論更多向量的細節。</p>
 <p>你會想用到陣列而非向量的時機，可能會像是以下要取得一年之中的每個月份的例子這樣。這樣的列表很可能永遠不需要新增或刪除月份，所以你可以選擇用陣列宣告，因為永遠只會有 12 個月份：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -374,7 +374,7 @@ To learn more, run the command again with --verbose.
 thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 10', src/main.rs:5:19
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>編譯期間沒有產生任何錯誤，但程式會產生<em>執行時（runtime）</em> 錯誤並無法正確離開。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。</p>
+<p>編譯期間沒有產生任何錯誤，但程式會產生<em>執行時</em>（<em>runtime</em>）錯誤並無法正確離開。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。</p>
 <p>這是你第一個在實例中看到 Rust 安全原則給予的保障。在許多低階語言並不會提供這樣的檢查，所以當你提供不正確的索引時，無效的記憶體可能會被存取。Rust 會保護你免於這樣的錯誤風險，並立即離開程式，而不是允許記憶體存取並繼續。第九章將會討論更多有關 Rust 的錯誤處理方式。</p>
 <blockquote>
 <ul>

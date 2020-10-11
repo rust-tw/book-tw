@@ -1272,7 +1272,7 @@ fn main() {
 </blockquote>
 <h1><a class="header" href="#常見程式設計概念" id="常見程式設計概念">常見程式設計概念</a></h1>
 <p>此章節涵蓋了幾乎所有程式語言都會出現的概念，以及如何在 Rust 使用。許多程式語言的核心概念都是相同的，所以此章節所介紹的概念也不是 Rust 所特有的。不過我們會用 Rust 的程式碼來討論它們，並解釋使用這些概念的慣例。</p>
-<p>更明確來說，你將會學習到變數、基本型別、註釋以及控制流程。這些基本概念會出現在每個 Rust 程式中，所以提早學習這些概念可以為你打下穩健的基礎。</p>
+<p>更明確來說，你將會學習到變數、基本型別、註解以及控制流程。這些基本概念會出現在每個 Rust 程式中，所以提早學習這些概念可以為你打下穩健的基礎。</p>
 <blockquote>
 <h4><a class="header" href="#關鍵字keywords" id="關鍵字keywords">關鍵字（Keywords）</a></h4>
 <p>Rust 程式語言和其他語言一樣會保留一系列的<em>關鍵字（keywords）</em>。請注意你將無法用這些字作為變數或函式名稱。大多數關鍵字都有特別意義，而你將會在你的 Rust 程式使用它們來處理不同的任務；而有一些目前則還沒有任何用途，但是在未來可能會被 Rust 加入所以作為保留。你可以在<a href="appendix-01-keywords.html">附錄 A</a> 查看關鍵字列表。</p>
@@ -1285,7 +1285,7 @@ fn main() {
 </ul>
 </blockquote>
 <h2><a class="header" href="#變數與可變性" id="變數與可變性">變數與可變性</a></h2>
-<p>如同第二章提到的，變數預設是不可變的。這是 Rust 推動你能充分利用 Rust 提供的安全性和簡單地並行性來寫程式的許多方法之一。不過，你還是有辦法能讓你的變數成為可變的。讓我們來探討為何 Rust 鼓勵你多多使用不可變，以及何時你會想要改為可變的。</p>
+<p>如同第二章提到的，變數預設是不可變的。這是 Rust 推動你能充分利用 Rust 提供的安全性和簡易並行性來寫程式的許多方法之一。不過，你還是有辦法能讓你的變數成為可變的。讓我們來探討為何 Rust 鼓勵你多多使用不可變，以及何時你會想要改為可變的。</p>
 <p>當一個變數是不可變的，只要有數值綁定在一個名字上，你就無法改變其值。為了方便說明，讓我們使用 <code>cargo new variables</code> 在 <em>projects</em> 目錄下產生一個新專案叫做 <em>variables</em>。</p>
 <p>再來在你的 <em>variables</em> 目錄下開啟 <em>src/main.rs</em> 然後覆蓋程式碼為以下內容，這是段還無法編譯的程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -1343,7 +1343,7 @@ x 的數值為：6
 <p>當使用 <code>mut</code> 時，我們可以將 <code>x</code> 的數值從 <code>5</code> 改變為 <code>6</code>。有時候比起只有不可變變數，你會想要將某些變數改為可變的，讓它更容易編寫。</p>
 <p>當然除了防止程式錯誤以外，這還有很多權衡取捨。舉例來說，當你擁有一個大型資料結構時，變更其值通常會比複製然後返回重新分配的實例還來的快。不過在比較小的資料結構，用函式程式語言的風格產生新的實例會比較容易思考，所以損失一些效能會比損失閱讀性來得好。</p>
 <h3><a class="header" href="#變數與常數的差異" id="變數與常數的差異">變數與常數的差異</a></h3>
-<p>不能夠變更數值的情況可能會讓你聯想到其他程式語言都有的概念：<em>常數（constants）</em>。和不可變變數一樣，常數會讓數值與名稱綁定且不允許被改變，但是不可變變數與常數還是有些差異。</p>
+<p>不能夠變更數值的情況可能會讓你聯想到其他程式語言都有的概念：<em>常數</em>（<em>constants</em>）。和不可變變數一樣，常數會讓數值與名稱綁定且不允許被改變，但是不可變變數與常數還是有些差異。</p>
 <p>首先，你無法在使用常數使用 <code>mut</code>，常數不是預設不可變，它們永遠都不可變。</p>
 <p>如果你使用 <code>const</code> 宣告而非 <code>let</code> 的話，你<em>必須</em>指明型別。我們會在下一章<a href="ch03-02-data-types.html#%E8%B3%87%E6%96%99%E5%9E%8B%E5%88%A5">「資料型別」</a><!-- ignore -->詳細解釋型別與型別詮釋，所以現在先別擔心細節。你只需要先知道你永遠必須先詮釋常數的型別。</p>
 <p>常數可以被定義在任一有效範圍，包含全域有效範圍。這讓它們非常有用，讓許多部分的程式碼都能夠知道它們。</p>
@@ -1468,7 +1468,7 @@ To learn more, run the command again with --verbose.
 <p>所以你該用哪些整數型別呢？如果你不確定的話，Rust 預設的型別通常就很好了，整數型別預設是 <code>i32</code>：此型別通常是最快的，甚至在 64 位元系統上也是。而你會用到 <code>isize</code> 或 <code>usize</code> 的主要時機是作為某些集合的索引。</p>
 <blockquote>
 <h5><a class="header" href="#整數溢位" id="整數溢位">整數溢位</a></h5>
-<p>假設你有個變數型別是 <code>u8</code> 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生<em>整數溢位</em>。Rust 有一些有趣的規則來處理這項行為。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在運行時<em>恐慌（panic）</em>。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的<a href="ch09-01-unrecoverable-errors-with-panic.html">「對無法復原的錯誤使用 <code>panic!</code>」</a><!-- ignore -->段落討論更多造成恐慌的細節。</p>
+<p>假設你有個變數型別是 <code>u8</code> 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生<em>整數溢位</em>。Rust 有一些有趣的規則來處理這項行為。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在運行時<em>恐慌</em>（<em>panic</em>）。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的<a href="ch09-01-unrecoverable-errors-with-panic.html">「對無法復原的錯誤使用 <code>panic!</code>」</a><!-- ignore -->段落討論更多造成恐慌的細節。</p>
 <p>當你是在發佈模式下用 <code>--release</code> 來編譯的話，Rust 則<em>不會</em>加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出<em>二補數包裝</em>的動作。簡單來說，超出最大值的數值可以被<em>包裝</em>成該型別的最低數值。以 <code>u8</code> 為例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行為仍然會被視為邏輯錯誤，如果你想要安全顯式表達這種行為的話，你可以使用標準函式庫的型別 <a href="https://doc.rust-lang.org/std/num/struct.Wrapping.html"><code>Wrapping</code></a>。</p>
 </blockquote>
 <h4><a class="header" href="#浮點數型別" id="浮點數型別">浮點數型別</a></h4>
@@ -1527,7 +1527,7 @@ To learn more, run the command again with --verbose.
 <p><em>複合型別</em>可以組合數個數值為一個型別，Rust 有兩個基本複合型別：元組（tuples）和陣列（arrays）。</p>
 <h4><a class="header" href="#元組型別" id="元組型別">元組型別</a></h4>
 <p>元組是個將許多不同型別的數值合成一個複合型別的常見方法。元組擁有固定長度：一旦宣告好後，它們就無法增長或縮減。</p>
-<p>我們建立一個元組的方法是寫一個用括號囊刮起來的數值列表，每個值再用逗號分隔開來。元組的每一格都是一個獨立型別，不同數值不必是相同型別。以下範例我們也加上了型別詮釋，平時不一定要加上：</p>
+<p>我們建立一個元組的方法是寫一個用括號囊括起來的數值列表，每個值再用逗號分隔開來。元組的每一格都是一個獨立型別，不同數值不必是相同型別。以下範例我們也加上了型別詮釋，平時不一定要加上：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let tup: (i32, f64, u8) = (500, 6.4, 1);
@@ -1565,7 +1565,7 @@ To learn more, run the command again with --verbose.
     let a = [1, 2, 3, 4, 5];
 }
 </code></pre></pre>
-<p>當你想要你的資料被分配在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在第四章討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素也是。所以陣列不像向量（vector）型別那麼有彈性，向量是標準函式庫提供的集合型別，類似於陣列但<em>允許</em>變更長度大小。如果你不確定該用陣列或向量的話，通常你應該用向量就好。第八章將會討論更多向量的細節。</p>
+<p>當你想要你的資料被分配在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在第四章討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素時也是。所以陣列不像向量（vector）型別那麼有彈性，向量是標準函式庫提供的集合型別，類似於陣列但<em>允許</em>變更長度大小。如果你不確定該用陣列或向量的話，通常你應該用向量就好。第八章將會討論更多向量的細節。</p>
 <p>你會想用到陣列而非向量的時機，可能會像是以下要取得一年之中的每個月份的例子這樣。這樣的列表很可能永遠不需要新增或刪除月份，所以你可以選擇用陣列宣告，因為永遠只會有 12 個月份：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -1621,7 +1621,7 @@ To learn more, run the command again with --verbose.
 thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 10', src/main.rs:5:19
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
-<p>編譯期間沒有產生任何錯誤，但程式會產生<em>執行時（runtime）</em> 錯誤並無法正確離開。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。</p>
+<p>編譯期間沒有產生任何錯誤，但程式會產生<em>執行時</em>（<em>runtime</em>）錯誤並無法正確離開。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。</p>
 <p>這是你第一個在實例中看到 Rust 安全原則給予的保障。在許多低階語言並不會提供這樣的檢查，所以當你提供不正確的索引時，無效的記憶體可能會被存取。Rust 會保護你免於這樣的錯誤風險，並立即離開程式，而不是允許記憶體存取並繼續。第九章將會討論更多有關 Rust 的錯誤處理方式。</p>
 <blockquote>
 <ul>
@@ -1632,7 +1632,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </blockquote>
 <h2><a class="header" href="#函式" id="函式">函式</a></h2>
 <p>函式在 Rust 程式碼中無所不在。你已經見過一個語言最重要的函式了：<code>main</code> 函式是許多程式的入口點。此外你也看到了 <code>fn</code> 關鍵字能讓你宣告新的函式。</p>
-<p>Rust 程式碼使用 <em>snake case</em> 作為函式與變數名稱的慣例風格。在 snake case 中，所有的字母都是小寫，並用底線區隔單字。以下是一支包含函式定義範例的程式：</p>
+<p>Rust 程式碼使用 <em>snake case</em> 式作為函式與變數名稱的慣例風格。在 snake case 中，所有的字母都是小寫，並用底線區隔單字。以下是一支包含函式定義範例的程式：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
@@ -1656,7 +1656,7 @@ Hello, world!
 </code></pre>
 <p>程式碼會按照 <code>main</code> 函式中的順序執行。首先，「Hello, world!」的訊息會先顯示出來，再來才會呼叫 <code>another_function</code> 並印出它的訊息。</p>
 <h3><a class="header" href="#函式參數" id="函式參數">函式參數</a></h3>
-<p>函式也可以被定義成擁有<em>參數（parameters）<em>的，這是函式簽名（signatures）中特殊的變數。當函式有參數時，你可以提供那些參數的確切數值。嚴格上來說，我們傳遞的數值會叫做</em>引數（arguments）</em>。但為了方便起見，通常大家不太會去在意兩者的區別。雖然函式定義時才叫<em>參數</em>，傳遞數值時叫做<em>引數</em>，但很多時候會被人們拿來交互使用。</p>
+<p>函式也可以被定義成擁有<em>參數（parameters）<em>的，這是函式簽名（signatures）中特殊的變數。當函式有參數時，你可以提供那些參數的確切數值。嚴格上來說，我們傳遞的數值會叫做</em>引數（arguments）</em>。但為了方便起見，通常大家不太會去在意兩者的區別。雖然函式定義時才叫<em>參數</em>，傳遞數值時叫做<em>引數</em>，但很多情況下都能被交換使用。</p>
 <p>以下是加上參數後重新寫過的 <code>another_function</code> 範例：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -1675,7 +1675,7 @@ fn another_function(x: i32) {
 x 的數值為：5
 </code></pre>
 <p>宣告 <code>another_function</code> 時有一個參數叫做 <code>x</code>，而 <code>x</code> 的型別被指定為 <code>i32</code>。當我們傳遞 <code>5</code> 給 <code>another_function</code> 時，<code>println!</code> 巨集會將 <code>5</code> 置於格式化字串中的大括號的位置。</p>
-<p>在函式簽名中，你<em>必須</em>宣告每個參數的型別，這是 Rust 謹慎考慮後的設計決定：在函式定義中要求型別詮釋，代表編譯器幾乎不需要你在其他地方再提供資訊才能知道你要做什麼。</p>
+<p>在函式簽名中，你<em>必須</em>宣告每個參數的型別，這是 Rust 刻意做下的設計決定：在函式定義中要求型別詮釋，代表編譯器幾乎不需要你在其他地方再提供資訊才能知道你要使用什麼型別。</p>
 <p>如果你希望函式擁有數個參數，你可以用逗號區隔開來，像這樣：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -1726,7 +1726,7 @@ error: expected expression, found statement (`let`)
   = note: variable declaration using `let` is a statement
 </code></pre>
 <p><code>let y = 6</code> 陳述式不回傳數值，所以 <code>x</code> 得不到任何數值。這就和其他語言有所不同，像是 C 或 Ruby，通常它們的賦值仍能回傳所得到的值。在那些語言，你可以寫 <code>x = y = 6</code> 同時讓 <code>x</code> 與 <code>y</code> 都取得 <code>6</code>，但在 Rust 就不行。</p>
-<p>表達式則會運算出些東西，並組合成你大部分所寫的 Rust 程式。先想想看一個簡單的數學運算比如 <code>5 + 6</code>，這就是個會算出 <code>11</code> 的表達式。表達式可以是陳述式的一部分：在範例 3-1 中 <code>let y = 6;</code> 的 <code>6</code> 其是就是個算出 <code>6</code> 的表達式。呼叫函式也可以是表達式、呼叫巨集也是表達式、我們用 <code>{}</code> 產生的作用域也是表達式。舉例來說：</p>
+<p>表達式則會運算出些東西，並組合成你大部分所寫的 Rust 程式。先想想看一個簡單的數學運算比如 <code>5 + 6</code>，這就是個會算出 <code>11</code> 的表達式。表達式可以是陳述式的一部分：在範例 3-1 中 <code>let y = 6;</code> 的 <code>6</code> 其實就是個算出 <code>6</code> 的表達式。呼叫函式也可以是表達式、呼叫巨集也是表達式、我們用 <code>{}</code> 產生的作用域也是表達式。舉例來說：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;
@@ -1828,7 +1828,7 @@ To learn more, run the command again with --verbose.
 </blockquote>
 <h2><a class="header" href="#註解" id="註解">註解</a></h2>
 <p>所有程式設計師均致力於讓他們的程式碼易於閱讀，不過有時候額外的解釋還是需要的。這種情況下，開發者會在他們的程式碼留下一些筆記或是<em>註解（comments）</em>，編譯器會忽略這些字，但其他人在閱讀程式碼時可能就會覺得很有幫助。</p>
-<p>這是一個簡單地註釋：</p>
+<p>這是一個簡單地註解：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1881,7 +1881,7 @@ To learn more, run the command again with --verbose.
     }
 }
 </code></pre></pre>
-<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始再加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱為<em>分支（arms）</em>，就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
+<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始再加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱為<em>分支</em>（<em>arms</em>），就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
 <p>另外，我們還可以選擇性地加上 <code>else</code> 表達式（就像範例寫的），讓條件不符時可以去執行另外一段程式碼。如果你沒有提供 <code>else</code> 表達式且條件為否的話，程式會直接略過 <code>if</code> 的程式碼區塊，接著執行後續的程式碼。</p>
 <p>請嘗試執行此程式碼，你應該會看到以下輸出結果：</p>
 <pre><code class="language-console">$ cargo run
@@ -2019,7 +2019,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p><code>if</code> 段落的表達式運算出整數，但 <code>else</code> 的區塊卻運算出字串。這樣行不通的原因是變數只能有一個型別。Rust 必須在編譯期間確切知道變數 <code>number</code> 的型別，這樣才能驗證它的型別在任何有使用到 <code>number</code> 的地方都是有效的。要是 <code>number</code> 只能在執行時知道的話，Rust 就沒辦法這樣做了。如果編譯器必須追蹤所有變數多種可能存在的型別，那就會變得非常複雜並無法為程式碼提供足夠的保障。</p>
 <h3><a class="header" href="#使用迴圈重複執行" id="使用迴圈重複執行">使用迴圈重複執行</a></h3>
-<p>重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 <em>迴圈（loops）</em> 的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。為了繼續探討迴圈，讓我們再開一個新專案 <em>loops</em>。</p>
+<p>重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 <em>迴圈</em>（<em>loops</em>）的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。為了繼續探討迴圈，讓我們再開一個新專案 <em>loops</em>。</p>
 <p>Rust 提供三種迴圈：<code>loop</code>、<code>while</code> 和 <code>for</code>。讓我們每個都嘗試看看吧。</p>
 <h4><a class="header" href="#使用-loop-重複執行程式碼" id="使用-loop-重複執行程式碼">使用 <code>loop</code> 重複執行程式碼</a></h4>
 <p><code>loop</code> 關鍵字告訴 Rust 去反覆不停地執行一段程式碼直到你親自告訴它要停下來。</p>
@@ -2065,7 +2065,7 @@ CTRL-C
     println!(&quot;結果為：{}&quot;, result);
 }
 </code></pre></pre>
-<p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化為 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取得迴圈回傳的值。在迴圈每一次的迭代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果為 20。</p>
+<p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化為 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取得迴圈回傳的值。在迴圈每一次的疊代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果為 20。</p>
 <h4><a class="header" href="#使用-while-做條件迴圈" id="使用-while-做條件迴圈">使用 <code>while</code> 做條件迴圈</a></h4>
 <p>在程式中用條件判斷迴圈的執行通常是很有用的。當條件為真時，迴圈就繼續執行。當條件不再符合時，程式就用 <code>break</code> 停止迴圈。這樣的循環方法可以用 <code>loop</code>、<code>if</code>、<code>else</code> 和 <code>break</code> 組合出來。如果你想嘗試的話，你現在就可以自己寫寫看看。</p>
 <p>但是這種模式非常常見，所以 Rust 有提供內建的結構稱為 <code>while</code> 迴圈。範例 3-3 就是使用 <code>while</code> 的例子：該程式會循環三次，每次計數都減一，然後在迴圈之後印出訊息並離開。</p>
@@ -2111,7 +2111,7 @@ CTRL-C
 數值為：50
 </code></pre>
 <p>所有五個元素都如預期顯示在終端機上。儘管 <code>index</code> 會在某一刻達到 <code>5</code>，但是迴圈會在嘗試取得陣列第六個元素前就停止執行。</p>
-<p>但這樣的方式是容易出錯的，我們可能取得錯誤的索引長度造成程式恐慌。這同時也使程式變慢，因為編譯器得在執行時的程式碼對迴圈中每次迭代的每個元素加上條件檢查。</p>
+<p>但這樣的方式是容易出錯的，我們可能取得錯誤的索引長度造成程式恐慌。這同時也使程式變慢，因為編譯器得在執行時的程式碼對迴圈中每次疊代的每個元素加上條件檢查。</p>
 <p>所以更簡潔的替代方案是，你可以使用 <code>for</code> 迴圈來對集合的每個元素執行一些程式碼。<code>for</code> 迴圈的樣子就像範例 3-5 寫的這一樣。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -2126,7 +2126,7 @@ CTRL-C
 <p>當我們執行此程式時，我們會看到和範例 3-4 一樣的結果。最重要的是，我們增加了程式的安全性，去除了造成程式錯誤的可能性。不會出現超出陣列大小或是讀取長度不足的風險。</p>
 <p>比方說在範例 3-4 的程式碼，如果你變更陣列 <code>a</code> 的元素為只有 4 個，但忘記更新條件判斷為 <code>while index &lt; 4</code> 的話，程式就會恐慌。使用 <code>for</code> 迴圈的話，我們變更陣列長度時，就不需要去記得更新其他程式碼。</p>
 <p><code>for</code> 迴圈的安全性與簡潔程度讓它成為 Rust 最常被使用的迴圈結構。就算你想執行的是依照次數循環的程式碼，像是範例 3-3 的 <code>while</code> 迴圈範例，多數 Rustaceans 還是會選擇 <code>for</code> 迴圈。要這麼做的方法是使用 <code>Range</code>，這是標準函式庫提供的型別，用來產生一連串的數字序列，從指定一個數字開始一直到另一個數字之前結束。</p>
-<p>以下是我們用 <code>for</code> 迴圈來計數的另一種方式，它用了一個我們還沒講過的方法 <code>rev</code>，這可以用來反轉：</p>
+<p>以下是我們用 <code>for</code> 迴圈來計數的另一種方式，它用了一個我們還沒講過的方法 <code>rev</code>，這可以用來反轉這個範圍：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     for number in (1..4).rev() {
@@ -2135,7 +2135,7 @@ CTRL-C
     println!(&quot;升空！！！&quot;);
 }
 </code></pre></pre>
-<p>這樣是不是看起來更好讀許多？</p>
+<p>這樣是不是看起來好讀許多？</p>
 <h2><a class="header" href="#總結-2" id="總結-2">總結</a></h2>
 <p>你做到了！這的確是篇大章節：你學到了變數、純量與複合資料型別、函式、註解、<code>if</code> 表達式以及迴圈！如果你想練習此章的概念，你可以試著打造以下程式：</p>
 <ul>
@@ -2152,7 +2152,7 @@ CTRL-C
 </ul>
 </blockquote>
 <h1><a class="header" href="#理解所有權" id="理解所有權">理解所有權</a></h1>
-<p>所有權可以說是 Rust 最與衆不同的特色，這讓 Rust 不需要垃圾回收（garbage collector）就可以保障記憶體安全。因此理解 Rust 中的所有權如何運作是非常重要的。在本章節，我們將討論所有權以及一些相關的功能：借用、切片與 Rust 如何在記憶體分配資料。</p>
+<p>所有權可以說是 Rust 最與眾不同的特色，這讓 Rust 不需要垃圾回收（garbage collector）就可以保障記憶體安全。因此理解 Rust 中的所有權如何運作是非常重要的。在本章節，我們將討論所有權以及一些相關的功能：借用、切片與 Rust 如何在記憶體分配資料。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -2167,25 +2167,25 @@ CTRL-C
 <p>當你理解所有權時，你就有一個穩健的基礎能夠理解那些使 Rust 獨特的功能。在本章節中，你將透過一些範例來學習所有權，我們會專注在一個非常常見的資料結構：字串。</p>
 <blockquote>
 <h3><a class="header" href="#堆疊stack與堆積heap" id="堆疊stack與堆積heap">堆疊（Stack）與堆積（Heap）</a></h3>
-<p>在許多程式語言，你通常不需要去想到堆疊與堆積。但在像是 Rust 這樣的系統程式語言，資料是位於堆疊還是堆積就會有差，這會影響語言的行為以及為何你得作出某些特定決策。在本章稍後討論所有權時，都會談到堆疊與堆積的關聯，所以這裡預先稍作解釋。</p>
-<p>堆疊與堆積都是提供程式碼在執行時能夠使用的記憶體部分，但他們組成的方式卻不一樣。堆疊會按照它取得數值的順序依序存放它們，並以相反的順序移除數值。這通常稱為<em>後進先出（last in, first out)</em>。你可以把堆疊想成是盤子，當你要加入更多盤子，你會將它們疊在最上面。如果你要取走盤子的話，你也是從最上方拿走。想要從底部或中間，插入或拿走盤子都是不可行的！當我們要新增資料時，我們會稱呼為<em>推入堆疊（pushing onto the stack）</em>，而移除資料則是叫做<em>彈出堆疊（popping off the stack）</em>。</p>
+<p>在許多程式語言中，你通常不需要去想到堆疊與堆積。但在像是 Rust 這樣的系統程式語言，資料是位於堆疊還是堆積就會有差，這會影響語言的行為也是你得作出某些特定決策的理由。在本章稍後討論所有權時，都會談到堆疊與堆積的關聯，所以這裡預先稍作解釋。</p>
+<p>堆疊與堆積都是提供程式碼在執行時能夠使用的記憶體部分，但他們組成的方式卻不一樣。堆疊會按照它取得數值的順序依序存放它們，並以相反的順序移除數值。這通常稱為<em>後進先出</em>（<em>last in, first out</em>）。你可以把堆疊想成是盤子，當你要加入更多盤子，你會將它們疊在最上面。如果你要取走盤子的話，你也是從最上方拿走。想要從底部或中間，插入或拿走盤子都是不可行的！當我們要新增資料時，我們會稱呼為<em>推入堆疊</em>（<em>pushing onto the stack</em>），而移除資料則是叫做<em>彈出堆疊</em>（<em>popping off the stack</em>）。</p>
 <p>所有在堆疊上的資料都必須是已知固定大小。在編譯時屬於未知或可能變更大小的資料必須儲存在堆積。堆積就比較沒有組織，當你要將資料放入堆積，你得要求一定大小的空間。記憶體分配器（memory allocator）會找到一塊夠大的空位，標記為已佔用，然後回傳一個<em>指標（pointer）</em>，指著該位置的位址。這樣的過程稱為<em>在堆積上分配（allocating on the heap）</em>，或者有時直接簡稱為<em>分配（allocating）</em> 就好。將數值放入堆疊不會被視為是在分配。因為指標是固定已知的大小，所以你可以存在堆疊上。但當你要存取實際資料時，你就得去透過指標取得資料。</p>
 <p>你可以想像成是一個餐廳。當你進入餐廳時，你會告訴服務員你的團體有多少人，他就會將你們帶到足夠人數的餐桌。如果你的團體有人晚到的話，他們可以直接尋問你坐在哪而找到你。</p>
 <p>將資料推入堆疊會比在堆積上分配還來的快，因為分配器不需要去搜尋哪邊才能存入新資料，其位置永遠在堆疊最上方。相對的，堆積就需要比較多步驟，分配器必須先找到一個夠大的空位來儲存資料，然後作下紀錄為下次分配做準備。</p>
 <p>在堆積上取得資料也比在堆疊上取得來得慢，因為你需要用追蹤指標才找的到。現代的處理器如果在記憶體間跳轉越少的話速度就越快。讓我們繼續用餐廳做比喻，想像伺服器就是在餐廳為數個餐桌點餐。最有效率的點餐方式就是依照餐桌順序輪流點餐。如果幫餐桌 A 點了餐之後跑到餐桌 B 點，又跑回到 A 然後又跑到 B 的話，可以想像這是個浪費時間的過程。同樣的道理，處理器在處理任務時，如果處理的資料相鄰很近（就如同存在堆疊）的話，當然比相鄰很遠（如同存在堆積）來得快。要在堆積分配大量的空間同樣也很花時間。</p>
 <p>當你的程式碼呼叫函式時，傳遞給函式的數值（可能包含指向堆積上資料的指標）與函式區域變數會被推入堆疊。當函式結束時，這些數值就會被彈出。</p>
-<p>追蹤哪部分的程式碼用到了堆積上的哪些資料、最小化堆積上的重複資料、以及清除堆積上沒再使用的資料確保你不會耗盡空間，這些問題都是所有權系統要處理的。一旦你理解所有權後，你通常就不再需要常常想到堆疊與堆積，不過能理解所有權就是為了管理堆積有助於解釋為何它要這樣運作。</p>
+<p>追蹤哪部分的程式碼用到了堆積上的哪些資料、最小化堆積上的重複資料、以及清除堆積上沒再使用的資料確保你不會耗盡空間，這些問題都是所有權系統要處理的。一旦你理解所有權後，你通常就不再需要經常考慮堆疊與堆積的問題，不過能理解所有權就是為了管理堆積有助於解釋為何它要這樣運作。</p>
 </blockquote>
 <h3><a class="header" href="#所有權規則" id="所有權規則">所有權規則</a></h3>
 <p>首先，讓我們先看看所有權規則。當我們在解釋說明時，請記得這些規則：</p>
 <ul>
-<li>Rust 中每個數值都會有一個變數作為它的<em>擁有者（owner）</em>。</li>
+<li>Rust 中每個數值都會有一個變數作為它的<em>擁有者</em>（<em>owner</em>）。</li>
 <li>同時間只能有一個擁有者。</li>
 <li>當擁有者離開作用域時，數值就會被丟棄。</li>
 </ul>
 <h3><a class="header" href="#變數作用域" id="變數作用域">變數作用域</a></h3>
 <p>我們已經在第二章示範了一支 Rust 的程式。現在既然我們已經知道了基本語法，我們接下來就不再將 <code>fn main() {</code> 寫進程式碼範例範例中。所以你在參考時，請記得親自寫在 <code>main</code> 函式內。這樣一來，我們的範例可以更加簡潔，讓我們更加專注在細節而非樣板程式。</p>
-<p>作為所有權的第一個範例，我們先來看變數的<em>作用域（scope）</em>。作用域是一些項目在程式內的有效範圍。假設我們有個像這樣的變數：</p>
+<p>作為所有權的第一個範例，我們先來看變數的<em>作用域</em>（<em>scope</em>）。作用域是一些項目在程式內的有效範圍。假設我們有個像這樣的變數：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2210,8 +2210,8 @@ CTRL-C
 <p>目前為止，變數何時有效與作用域的關係都還跟其他程式語言相似。現在我們要以此基礎來介紹 <code>String</code> 型別</p>
 <h3><a class="header" href="#string-型別" id="string-型別"><code>String</code> 型別</a></h3>
 <p>要能夠解釋所有權規則，我們需要使用比第三章的<a href="ch03-02-data-types.html#data-types">「資料型別」</a><!-- ignore -->介紹過的還複雜的型別才行。之前我們提到的型別都是儲存在堆疊上的，在作用域結束時就會從堆疊中彈出。但是我們想要觀察的是儲存在堆積上的資料，並研究 Rust 是如何知道要清理資料的。</p>
-<p>我們會使用 <code>String</code> 最為範例並專注在 <code>String</code> 與所有權有關的部分。這些部分也適用於其他基本函式庫或你自己定義的複雜資料型別。我們會在第八章更深入探討 <code>String</code>。</p>
-<p>我們已經看過字串字面值（string literals），字串的數值是寫死在我們的程式內的。字串字面值的確很方便，但它不可能完全適用於我們使用文字時的所有狀況。其中一個原因是因為它是不可變的，另一個原因是並非所有字串值在我們編寫程式時就會知道。舉裡來說，要是我們想要收集使用者的輸入並儲存它呢？對於這些情形，Rust 提供第二種字串型別 <code>String</code>。此型別是分配在堆積上的，所以可以儲存我們在編譯期間未知的一些文字。你可以從字串字面值使用 <code>from</code> 函式來建立一個 <code>String</code>，如以下所示：</p>
+<p>我們會使用 <code>String</code> 作為範例並專注在 <code>String</code> 與所有權有關的部分。這些部分也適用於其他基本函式庫或你自己定義的複雜資料型別。我們會在第八章更深入探討 <code>String</code>。</p>
+<p>我們已經看過字串字面值（string literals），字串的數值是寫死在我們的程式內的。字串字面值的確很方便，但它不可能完全適用於我們使用文字時的所有狀況。其中一個原因是因為它是不可變的，另一個原因是並非所有字串值在我們編寫程式時就會知道。舉例來說，要是我們想要收集使用者的輸入並儲存它呢？對於這些情形，Rust 提供第二種字串型別 <code>String</code>。此型別是分配在堆積上的，所以可以儲存我們在編譯期間未知的一些文字。你可以從字串字面值使用 <code>from</code> 函式來建立一個 <code>String</code>，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2237,7 +2237,7 @@ CTRL-C
 <li>我們不再需要這個 <code>String</code> 時，我們需要以某種方法將此記憶體還給分配器。</li>
 </ul>
 <p>當我們呼叫 <code>String::from</code> 時就等於完成第一個部分，它的實作會請求分配一塊它需要的記憶體。這邊大概和其他程式語言都一樣。</p>
-<p>不過第二部分就不同了。在擁有<em>垃圾回收機制（garbage collector, GC）</em> 的語言中，GC 會追蹤並清理不再使用的記憶體，所以我們不用去擔心這件事。沒有 GC 的話，識別哪些記憶體不再使用並顯式呼叫程式碼釋放它們就是我們的責任了，就像我們請求取得它一樣。在以往的歷史我們可以看到要完成這件事是一項艱鉅的任務，如果我們忘了，那麼就等於在浪費記憶體。如果我們釋放的太早的話，我們則有可能會拿到無效的變數。要是我們釋放了兩次，那也會造成程式錯誤。我們必須準確無誤地配對一個 <code>allocate</code> 給剛好一個 <code>free</code>。</p>
+<p>不過第二部分就不同了。在擁有<em>垃圾回收機制</em>（<em>garbage collector, GC</em>）的語言中，GC 會追蹤並清理不再使用的記憶體，所以我們不用去擔心這件事。沒有 GC 的話，識別哪些記憶體不再使用並顯式呼叫程式碼釋放它們就是我們的責任了，就像我們請求取得它一樣。在以往的歷史我們可以看到要完成這件事是一項艱鉅的任務，如果我們忘了，那麼就等於在浪費記憶體。如果我們釋放的太早的話，我們則有可能會拿到無效的變數。要是我們釋放了兩次，那也會造成程式錯誤。我們必須準確無誤地配對一個 <code>allocate</code> 給剛好一個 <code>free</code>。</p>
 <p>Rust 選擇了一條不同的道路：當記憶體在擁有它的變數離開作用域時就會自動釋放。以下是我們解釋作用域的範例 4-1，但使用的是 <code>String</code> 而不是原本的字串字面值：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    {
@@ -2250,7 +2250,7 @@ CTRL-C
 </span></code></pre></pre>
 <p>當 <code>s</code> 離開作用域時，我們就可以很自然地將 <code>String</code> 所需要的記憶體釋放回分配器。 當變數離開作用域時，Rust 會幫我們呼叫一個特殊函式。此函式叫做 <code>drop</code>，在這裡當時 <code>String</code> 的作者就可以寫入釋放記憶體的程式碼。Rust 會在大括號結束時自動呼叫 <code>drop</code>。</p>
 <blockquote>
-<p>注意：在 C++，這樣在項目生命週期結束時釋放資源的模式，有時被稱為<em>資源取得即初始化（Resource Acquisition Is Initialization, RAII）</em>。如果你已經用過 RAII 的模式，那麼你應該就會很熟悉 Rust 的 <code>drop</code> 函式。</p>
+<p>注意：在 C++，這樣在項目生命週期結束時釋放資源的模式，有時被稱為<em>資源取得即初始化</em>（<em>Resource Acquisition Is Initialization, RAII</em>）。如果你已經用過 RAII 的模式，那麼你應該就會很熟悉 Rust 的 <code>drop</code> 函式。</p>
 </blockquote>
 <p>這樣的模式對於 Rust 程式碼的編寫有很深遠的影響。雖然現在這樣看起來很簡單，但在更多複雜的情況下程式碼的行為可能會變得很難預測。像是當我們需要許多變數，所以得在堆積上分配它們的情況。現在就讓我們開始來探討這些情形。</p>
 <h4><a class="header" href="#變數與資料互動的方式移動move" id="變數與資料互動的方式移動move">變數與資料互動的方式：移動（Move）</a></h4>
@@ -2309,7 +2309,7 @@ error: could not compile `ownership`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>如果你在其他語言聽過<em>淺拷貝（shallow copy）</em> 和 <em>深拷貝（deep copy）</em> 這樣的詞，拷貝指標、長度和容量而沒有拷貝實際內容這樣的概念應該就相近於淺拷貝。但因為 Rust 同時又無效化第一個變數，我們不會叫此為淺拷貝，而是稱此動作為<em>移動（move）</em>。在此範例我們會稱 <code>s1</code> <em>被移動</em> 到 <code>s2</code>，所以實際上發生的事長得像圖示 4-4 這樣。</p>
+<p>如果你在其他語言聽過<em>淺拷貝</em>（<em>shallow copy</em>） 和 <em>深拷貝</em>（<em>deep copy</em>） 這樣的詞，拷貝指標、長度和容量而沒有拷貝實際內容這樣的概念應該就相近於淺拷貝。但因為 Rust 同時又無效化第一個變數，我們不會叫此為淺拷貝，而是稱此動作為<em>移動</em>（<em>move</em>）。在此範例我們會稱 <code>s1</code> <em>被移動</em> 到 <code>s2</code>，所以實際上發生的事長得像圖示 4-4 這樣。</p>
 <img alt="s1 moved to s2" src="img/trpl04-04.svg" class="center" style="width: 50%;" />
 <p><span class="caption">圖示 4-4：<code>s1</code> 無效後的記憶體結構</span></p>
 <p>這樣就解決了問題！只有 <code>s2</code> 有效的話，當它離開作用域，就只有它會釋放記憶體，我們就完成所有動作了。</p>
@@ -2327,7 +2327,7 @@ To learn more, run the command again with --verbose.
 <p>此程式碼能執行無誤，並明確作出了像圖示 4-3 這樣的行為，也就是堆積資料<em>的確</em>被複製了一份。</p>
 <p>當你看到 <code>clone</code> 的呼叫，你就會知道有一些特定的程式碼被執行且消費可能是相對昂貴的。你可以很清楚地知道有些不同的行為正在發生。</p>
 <h4><a class="header" href="#只在堆疊上的資料拷貝copy" id="只在堆疊上的資料拷貝copy">只在堆疊上的資料：拷貝（Copy）</a></h4>
-<p>還有一個小細節我們還沒提到，也就是我們在使用整數時的程式碼。回想一下範例 4-2 是這樣寫的，它能執行且有效：</p>
+<p>還有一個小細節我們還沒提到，也就是我們在使用整數時的程式碼。回想一下範例 4-2 是這樣寫的，它能執行而且是有效的：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 5;
     let y = x;
@@ -2336,7 +2336,7 @@ To learn more, run the command again with --verbose.
 <span class="boring">}
 </span></code></pre></pre>
 <p>但這段程式碼似乎和我們剛學的互相矛盾：我們沒有呼叫 <code>clone</code>，但 <code>x</code> 卻仍是有效的，沒有移動到 <code>y</code>。</p>
-<p>原因是因為像整數這樣的型別在編譯時是已知大小，所以只會存在在堆疊上。所以要拷貝一份實際數值的話是很快的。這也讓我們沒有任何理由要讓 <code>x</code> 在 <code>y</code> 建立後被無效化。換句話說，這邊沒有所謂淺拷貝與深拷貝的差別。所以這邊呼叫 <code>clone</code> 的會不會與平常的淺拷貝有啥不一樣，我們可以保持這樣就好。</p>
+<p>原因是因為像整數這樣的型別在編譯時是已知大小，所以只會存在在堆疊上。所以要拷貝一份實際數值的話是很快的。這也讓我們沒有任何理由要讓 <code>x</code> 在 <code>y</code> 建立後被無效化。換句話說，這邊沒有所謂淺拷貝與深拷貝的差別。所以這邊呼叫 <code>clone</code> 的話不會與平常的淺拷貝有啥不一樣，我們可以保持這樣就好。</p>
 <p>Rust 有個特別的標記叫做 <code>Copy</code> 特徵（trait）可以用在標記像整數這樣存在堆疊上的型別（我們會在第十章討論什麼是特徵）。如果一個型別有 <code>Copy</code> 特徵的話，舊的變數在賦值後仍然會是有效的。如果一個型別有實作（implement）<code>Drop</code> 特徵的話，Rust 不會允許我們讓此型別擁有 <code>Copy</code> 特徵。如果我們對某個型別在數值離開作用域時，需要在做特別處理的話，我們對此型別標註 <code>Copy</code> 特徵會在編譯時期產生錯誤。想要瞭解如何為你的型別加上 <code>Copy</code> 的話，請參考附錄 C <a href="appendix-03-derivable-traits.html">「可推導的特徵」</a><!-- ignore --> </p>
 <p>所以哪些型別有 <code>Copy</code> 呢？你可以閱讀技術文件來知道哪些型別有，但基本原則是任何簡單地純量數值都可以有 <code>Copy</code>，且不需要分配記憶體或任何形式資源的型別也是有 <code>Copy</code>。以下是一些擁有 <code>Copy</code> 的型別：</p>
 <ul>
@@ -2447,7 +2447,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
     s.len()
 }
 </code></pre></pre>
-<p>首先你會注意到原先變數宣告與函式回傳值會用到元組的地方都被更改了。再來注意到我們傳遞的是 <code>&amp;s1</code> 給 <code>calculate_length</code>，然後在定義時我們是取 <code>&amp;String</code> 而非 <code>String</code>。這些「&amp;」符號就是<em>引用（references）</em>，它們允許你不必獲取所有權來引用它。以下用圖示 4-5 示意。 </p>
+<p>首先你會注意到原先變數宣告與函式回傳值會用到元組的地方都被更改了。再來注意到我們傳遞的是 <code>&amp;s1</code> 給 <code>calculate_length</code>，然後在定義時我們是取 <code>&amp;String</code> 而非 <code>String</code>。這些「&amp;」符號就是<em>引用</em>（<em>references</em>），它們允許你不必獲取所有權來引用它。以下用圖示 4-5 示意。 </p>
 <img alt="&String s pointing at String s1" src="img/trpl04-05.svg" class="center" />
 <p><span class="caption">圖示 4-5：顯示 <code>&amp;String s</code> 指向 <code>String s1</code> 的示意圖</span></p>
 <blockquote>
@@ -2482,7 +2482,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
   // 沒有任何動作發生
 </code></pre></pre>
 <p>變數 <code>s</code> 有效的作用域和任何函式參數的作用域一樣，但當引用離開作用域時，我們不會丟棄任何它指向的資料，因為我們沒有所有權。當函式使用引用作為參數而非實際數值時，我們不需要回傳數值來還所有權，因為我們不曾擁有過。</p>
-<p>我們會稱呼函式用引用作為參數叫做<em>借用（borrowing）</em>。就像現實世界一樣，如果有人擁有每項東西，他可以借用給你。當你使用完後，你就還給他。</p>
+<p>我們會稱呼函式用引用作為參數叫做<em>借用</em>（<em>borrowing</em>）。就像現實世界一樣，如果有人擁有每項東西，他可以借用給你。當你使用完後，你就還給他。</p>
 <p>所以要是我們嘗試修改我們借用的東西會如何呢？請試試範例 4-6 的程式碼。直接劇透你：它執行不了的！</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
@@ -2562,7 +2562,7 @@ error: could not compile `ownership`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>這項限制允許了可變行為，但是同時也受到一定程度的約束。這通常是新 Rustaceans 遭受挫折的地方，因為多數語言都會任你去改變其值。</p>
-<p>這項限制的好處是 Rust 可以在編譯時期就防止資料競爭（data races）。<em>資料競爭</em>和競爭條件（race condition）類似，它會由以下三種行為發生：</p>
+<p>這項限制的好處是 Rust 可以在編譯時期就防止資料競爭（data races）。<em>資料競爭</em>和競爭條件（race condition）類似，它會由以下三種行為引發：</p>
 <ul>
 <li>同時有兩個以上的指標存取同個資料。</li>
 <li>至少有一個指標在寫入資料。</li>
@@ -2628,9 +2628,9 @@ To learn more, run the command again with --verbose.
 <span class="boring">}
 </span></code></pre></pre>
 <p>不可變引用 <code>r1</code> 和 <code>r2</code> 的作用域在 <code>println!</code> 之後結束。這是它們最後一次使用到的地方，也就是在宣告可變引用 <code>r3</code> 之前。它們的作用域沒有重疊，所以程式碼是允許的。</p>
-<p>雖然借用錯誤有時是令人沮喪的，但請記得這是 Rust 編譯器希望提前（在編譯時而非執行時）指出潛在程式錯誤並告訴你問題的源頭在哪。這樣你就不必親自追蹤到你為何你的資料不是你所想的那樣。</p>
+<p>雖然借用錯誤有時是令人沮喪的，但請記得這是 Rust 編譯器希望提前（在編譯時而非執行時）指出潛在程式錯誤並告訴你問題的源頭在哪。這樣你就不必親自追蹤為何你的資料跟你預期的不一樣。</p>
 <h3><a class="header" href="#迷途引用" id="迷途引用">迷途引用</a></h3>
-<p>在有指標的語言中，通常都很容易不小心產生<em>迷途指標（dangling pointer）</em>。當資源已經被釋放但指標卻還留著，這樣的指標指向的地方很可能就已經被別人所有了。相反地，在 Rust 中編譯器會保證引用絕不會是迷途引用：如果你有某些資料的引用，編譯器會確保資料不會在引用結束前離開作用域。</p>
+<p>在有指標的語言中，通常都很容易不小心產生<em>迷途指標</em>（<em>dangling pointer</em>）。當資源已經被釋放但指標卻還留著，這樣的指標指向的地方很可能就已經被別人所有了。相反地，在 Rust 中編譯器會保證引用絕不會是迷途引用：如果你有某些資料的引用，編譯器會確保資料不會在引用結束前離開作用域。</p>
 <p>讓我們來嘗試產生迷途指標，看看 Rust 怎麼產生編譯期錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
@@ -2695,7 +2695,7 @@ for it to be borrowed from.
 <h3><a class="header" href="#引用規則" id="引用規則">引用規則</a></h3>
 <p>讓我們來回顧我們討論到的引用規則：</p>
 <ul>
-<li>在任何時候，我們要麼<em>只能有</em>一個可變引用，要麼可以有<em>任意數量</em>的不可變引用。</li>
+<li>在任何時候，我們要嘛<em>只能有</em>一個可變引用，要嘛可以有<em>任意數量</em>的不可變引用。</li>
 <li>引用必須永遠有效。</li>
 </ul>
 <p>接下來我們要來看看一個不太一樣的引用型別：切片（slices）。</p>
@@ -2707,7 +2707,7 @@ for it to be borrowed from.
 </ul>
 </blockquote>
 <h2><a class="header" href="#切片型別" id="切片型別">切片型別</a></h2>
-<p>另一種沒有所有權的資料型別是<em>切片（slice）</em>。切片讓你可以引用一串集合中的元素序列，而並非引用整個集合。</p>
+<p>另一種沒有所有權的資料型別是<em>切片</em>（<em>slice</em>）。切片讓你可以引用一串集合中的元素序列，而並非引用整個集合。</p>
 <p>以下是個小小的程式問題：寫一支接收字串的函式並回傳第一個找到的單字，如果函式沒有在字串找到空格的話，就代表整個字串就是一個單字，所以就回傳整個字串。</p>
 <p>先來想想看函式簽名該長怎樣：</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; ?
@@ -2807,7 +2807,7 @@ for it to be borrowed from.
 <pre><code class="language-rust ignore">fn second_word(s: &amp;String) -&gt; (usize, usize) {
 </code></pre>
 <p>現在我們得同時紀錄起始<em>與</em>結束的索引，而且我們還產生了更多與原本數值沒辦法直接相關的計算結果。我們現在有三個非直接相關的變數需要保持同步。</p>
-<p>幸運的是 Rust 為此提供了一個解決辦法：字串切片（String切片）。</p>
+<p>幸運的是 Rust 為此提供了一個解決辦法：字串切片（String slice）。</p>
 <h3><a class="header" href="#字串切片" id="字串切片">字串切片</a></h3>
 <p><em>字串切片</em>是 <code>String</code> 其中一部分的引用，它長得像這樣：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -2929,7 +2929,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>回憶一下借用規則，要是我們有不可變引用的話，我們就不能取得可變引用。因為 <code>clear</code> 會縮減 <code>String</code>，它必須是可變引用。這樣一來 Rust 就不允許，並讓編譯失敗。Rust 不僅讓我們的 API 更容易使用，還想辦法讓所有錯誤在編譯期就消除！</p>
 <h4><a class="header" href="#字串字面值就是切片" id="字串字面值就是切片">字串字面值就是切片</a></h4>
-<p>回想一下我們講說字串字面值是怎麼存在二進制檔案的。現在既然我們已經知道切片，我們就能知道更清楚字串字面值：</p>
+<p>回想一下我們講說字串字面值是怎麼存在二進制檔案的。現在既然我們已經知道切片，我們就能知道更清楚理解字串字面值：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2938,7 +2938,7 @@ To learn more, run the command again with --verbose.
 </span></code></pre></pre>
 <p>此處 <code>s</code> 的型別是 <code>&amp;str</code>：它是指向二進制檔案某部份的切片。這也是為何字串字面值是不可變的，<code>&amp;str</code> 是個不可變引用。</p>
 <h4><a class="header" href="#字串切片作為參數" id="字串切片作為參數">字串切片作為參數</a></h4>
-<p>知道你可以取得字面值的切片與 <code>String</code> 數值後，我們可以再改善一次 <code>first_word</code>。那就是它的簽名：</p>
+<p>知道你可以取得字面值的切片與 <code>String</code> 數值後，我們可以再改善一次 <code>first_word</code>。也就是它的簽名表現：</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; &amp;str {
 </code></pre>
 <p>較富有經驗的 Rustacean 會用範例 4-9 的方式編寫函式簽名，因為這讓該函式可以同時接受 <code>&amp;String</code> 和 <code>&amp;str</code> 的數值。</p>
