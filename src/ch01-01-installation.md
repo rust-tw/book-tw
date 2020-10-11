@@ -18,7 +18,7 @@
 $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 ```
 
-這道命令會下載一支腳本然後開始安裝 `rusup` 工具，接著安裝最新的穩定版 Rust。下載過程中可能會要求你輸入你的密碼。如果下載成功的話，將會出現以下內容：
+這道命令會下載一支腳本然後開始安裝 `rustup` 工具，接著安裝最新的穩定版 Rust。下載過程中可能會要求你輸入你的密碼。如果下載成功的話，將會出現以下內容：
 
 ```text
 Rust is installed now. Great!
@@ -28,7 +28,7 @@ Rust is installed now. Great!
 
 ### 在 Windows 上安裝 `rustup`
 
-在 Windows 上請前往[下載頁面][install]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 [Build Tools for Visual Studio][visualstudio]。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，而且有包含 Windows 10 SDK 和英文語言包套件。
+在 Windows 上請前往[下載頁面][install]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求說你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 [Build Tools for Visual Studio][visualstudio]。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，而且有包含 Windows 10 SDK 和英文語言包套件。
 
 [install]: https://www.rust-lang.org/zh-TW/tools/install
 [visualstudio]: https://visualstudio.microsoft.com/visual-cpp-build-tools/
