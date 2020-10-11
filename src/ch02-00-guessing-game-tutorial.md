@@ -2,7 +2,7 @@
 
 讓我們親自動手一同完成一項專案來開始上手 Rust 吧！本章節會介紹一些常見 Rust 概念，展示如何在實際程式中使用它們。你會學到 `let`、`match`、方法、關聯函式、使用外部 crate 以及更多等等！之後的章節會更詳細地探討這些概念。在本章中，你會先練習基礎概念。
 
-我們會實作個經典新手程式問題：猜謎遊戲。它的運作方式如下：程式會產生 1 到 100 之間的隨機整數。接著它會通知玩家猜一個數字。在輸入猜測數字之後，程式會回應猜測的數字太低或太高。如果猜對的話，遊戲就會顯示祝賀訊息並離開。
+我們會實作個經典新手程式問題：猜謎遊戲。它的運作方式如下：程式會產生 1 到 100 之間的隨機整數。接著它會通知玩家猜一個數字。在輸入猜測數字之後，程式會回應猜測的數字太低或太高。如果猜對的話，遊戲就會顯示祝賀訊息並關閉。
 
 ## 設置新專案
 
@@ -41,7 +41,7 @@ $ cd guessing_game
 
 `run` 命令在你需要對專案快速疊代時會很有用，我們要寫的遊戲也是如此，在繼續下一步之前可以快速測試每一步。
 
-請重新開啟 *src/main.rs* 檔案。你要寫的程式碼全會位於此檔案中。
+請重新開啟 *src/main.rs* 檔案。你要寫的程式碼全都會位於此檔案中。
 
 ## 處理猜測
 
@@ -55,7 +55,7 @@ $ cd guessing_game
 
 <span class="caption">範例 2-1：取得使用者的猜測數字並顯示出來的程式</span>
 
-此程式碼包含大量的資訊，所以讓我們一行一行來慢慢看吧。要取得使用者輸入並印出為輸出結果，我們需要將 `io` 輸入／輸出（input/output）函式庫引入作用域中。 `io` 函式庫來自標準函式庫（常稱為 `std`）：
+這段程式碼包含大量的資訊，所以讓我們一行一行來慢慢看吧。要取得使用者輸入並印出為輸出結果，我們需要將 `io` 輸入／輸出（input/output）函式庫引入作用域中。 `io` 函式庫來自標準函式庫（常稱為 `std`）：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:io}}
@@ -89,7 +89,7 @@ Rust 在預設情況下只會透過 [*prelude*][prelude]<!-- ignore --> 來將�
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:string}}
 ```
 
-現在程式變得越來越有趣了！在短短的這行當中有許多事情發生。先注意到這是個 `let` 陳述式，這用來建立一個*變數（variable）*。以下是另一個例子：
+現在程式變得越來越有趣了！在短短的這行當中有許多事情發生。先注意到這是個 `let` 陳述式，這用來建立一個*變數*（variable）。以下是另一個例子：
 
 ```rust,ignore
 let foo = bar;
@@ -160,7 +160,7 @@ io::stdin().read_line(&mut guess).expect("讀取行數失敗");
 
 對於 `Result` 來說，其變體會是 `Ok` 或 `Err`。`Ok` 變體指的是該動作成功完成，且 `Ok` 內部會包含成功產生的數值。而 `Err` 變體代表動作失敗，且 `Err` 會包含該動作如何與為何會失敗的資訊。
 
-這些 `Result` 型別的目的是要編碼錯誤處理資訊。`Result` 型別的數值與任何型別的數值一樣，它們都有定義些方法。`io::Result` 的實例有 [`expect` 方法][expect]<!-- ignore --> 讓你能呼叫。如果此 `io::Result` 實例數值為 `Err` 的話，`expect` 會讓程式崩潰並顯示作為引數傳給 `expect` 的訊息。如果 `read_line` 回傳 `Err` 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 `io::Result` 實例數值為 `Ok` 的話，`expect` 會接收 `Ok` 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值為使用者輸入到標準輸出的位元組數字。
+這些 `Result` 型別的目的是要編碼錯誤處理資訊。`Result` 型別的數值與任何型別的數值一樣，它們都有定義些方法。`io::Result` 的實例有 [`expect` 方法][expect]<!-- ignore --> 讓你能呼叫。如果此 `io::Result` 實例數值為 `Err` 的話，`expect` 會讓程式當機並顯示作為引數傳給 `expect` 的訊息。如果 `read_line` 回傳 `Err` 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 `io::Result` 實例數值為 `Ok` 的話，`expect` 會接收 `Ok` 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值將為使用者輸入進標準輸入介面的位元組數字。
 
 [expect]: https://doc.rust-lang.org/std/result/enum.Result.html#method.expect
 
@@ -172,7 +172,7 @@ io::stdin().read_line(&mut guess).expect("讀取行數失敗");
 
 Rust 警告你沒有使用 `read_line` 回傳的 `Result` 數值，這意味著程式沒有處理可能發生的錯誤。
 
-要解決此警告的正確方式是實際進行錯誤處理，但因為我們只想要當問題發生時直接讓程式崩潰，所以你可以先使用 `expect` 就好。你會在第九章學到如何從錯誤中恢復。
+要解決此警告的正確方式是實際進行錯誤處理，但因為我們只想要當問題發生時直接讓程式當掉，所以你可以先使用 `expect` 就好。你會在第九章學到如何從錯誤中恢復。
 
 ### 透過 `println!` 佔位符印出數值
 
@@ -226,7 +226,7 @@ $ cargo run
 
 所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於*二進制（binary） crate*，也就會是個執行檔。而 `rand` crate 屬於*函式庫（library） crate*，這會包含讓其他程式能夠使用的程式碼。
 
-Cargo 使用外部 crate 的功能正是它的亮點。在我們可以使用 `rand` 來寫程式碼前，我們需要修改 *Cargo.toml* 檔案來包含 `rand` crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 `[dependencies]` 標頭（header）段落中最後一行下面：
+Cargo 可以使用外部 crate 的功能正是它的亮點。在我們可以使用 `rand` 來寫程式碼前，我們需要修改 *Cargo.toml* 檔案來包含 `rand` crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 `[dependencies]` 標頭（header）段落中最後一行下面：
 
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -441,7 +441,7 @@ let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
 
 [parse]: https://doc.rust-lang.org/std/primitive.str.html#method.parse
 
-`parse` 的呼叫很容易造成錯誤。舉例來說，如果字串包含 `A👍%` 的話，就不可能轉換成數字。因為它可能會失敗，`parse` 方法回傳的是 `Result` 型別，就和 `read_line` 方法一樣（在之前的[「使用 `Result` 型別處理可能的錯誤」](#使用-result-型別處理可能的錯誤)<!-- ignore -->段落提及）。我們也會用相同的方式來處理此 `Result`，也就是呼叫 `expect` 方法。如果 `parse` 回傳 `Result` 的 `Err` 變體的話，由於它無法從字串建立數字，`expect` 的呼叫會讓遊戲崩潰並顯示我們給予的訊息。如果 `parse` 能成功將字串轉成數字，它將會回傳 `Result` 的 `Ok` 變體，而 `expect` 將會回傳 `Ok` 的內部數值。
+`parse` 的呼叫很容易造成錯誤。舉例來說，如果字串包含 `A👍%` 的話，就不可能轉換成數字。因為它可能會失敗，`parse` 方法回傳的是 `Result` 型別，就和 `read_line` 方法一樣（在之前的[「使用 `Result` 型別處理可能的錯誤」](#使用-result-型別處理可能的錯誤)<!-- ignore -->段落提及）。我們也會用相同的方式來處理此 `Result`，也就是呼叫 `expect` 方法。如果 `parse` 回傳 `Result` 的 `Err` 變體的話，由於它無法從字串建立數字，`expect` 的呼叫會讓遊戲當掉並顯示我們給予的訊息。如果 `parse` 能成功將字串轉成數字，它將會回傳 `Result` 的 `Ok` 變體，而 `expect` 將會回傳 `Ok` 的內部數值。
 
 現在讓我們執行程式！
 
@@ -480,7 +480,7 @@ $ cargo run
 
 如同你所見，我們將輸入猜測提示以下的程式碼都移入迴圈中。請確保迴圈中的每一行有用四個空格來做縮排，然後再次執行程式。注意到這裡有個新問題，程式的確照我們所說的去做，但這代表它會不停地尋問要猜測的數字！看起來使用者無法離開遊戲！
 
-使用者的確永遠可以使用快捷鍵 <span class="keystroke">ctrl-c</span> 來中斷程式。但還有其他辦法能逃離這個無限循環，如同在[「將猜測的數字與祕密數字做比較」](#將猜測的數字與祕密數字做比較)<!-- ignore -->中討論 `parse` 時提到的，如果使用者輸入非數字答案的話，程式就會崩潰。使用者可以利用此特性來離開，如以下所示：
+使用者的確永遠可以使用快捷鍵 <span class="keystroke">ctrl-c</span> 來中斷程式。但還有其他辦法能逃離這個無限循環，如同在[「將猜測的數字與祕密數字做比較」](#將猜測的數字與祕密數字做比較)<!-- ignore -->中討論 `parse` 時提到的，如果使用者輸入非數字答案的話，程式就會當掉。使用者可以利用此特性來離開，如以下所示：
 
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/no-listing-04-looping/
@@ -532,7 +532,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
 ### 處理無效輸入
 
-為了進一步改善遊戲體驗，當使用者的輸入不是數字時，我們不該讓程式直接崩潰。遊戲程式可以忽略非數字來讓使用者繼續猜測。我們可以修改 `guess` 這段將 `String` 轉換成 `u32` 的程式碼，如範例 2-5 所示。
+為了進一步改善遊戲體驗，當使用者的輸入不是數字時，我們不該讓程式直接當掉。遊戲程式可以忽略非數字來讓使用者繼續猜測。我們可以修改 `guess` 這段將 `String` 轉換成 `u32` 的程式碼，如範例 2-5 所示。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -540,9 +540,9 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-05/src/main.rs:here}}
 ```
 
-<span class="caption">範例 2-5：忽略非數字的猜測並要求下一個猜測數字，而不是讓程式崩潰</span>
+<span class="caption">範例 2-5：忽略非數字的猜測並要求下一個猜測數字，而不是讓程式當掉</span>
 
-將 `expect` 的呼叫換成 `match` 表達式，通常就是從錯誤中崩潰改成處理錯誤的方式。你應該還記得 `parse` 回傳的是 `Result` 型別，且 `Result` 是個枚舉，其變體為 `Ok` 或 `Err`。我們在此使用 `match` 表達式，如同我們對 `cmp` 方法回傳的 `Ordering` 處理方式一樣。
+將 `expect` 的呼叫換成 `match` 表達式，通常就是從錯誤中當掉改成處理錯誤的方式。你應該還記得 `parse` 回傳的是 `Result` 型別，且 `Result` 是個枚舉，其變體為 `Ok` 或 `Err`。我們在此使用 `match` 表達式，如同我們對 `cmp` 方法回傳的 `Ordering` 處理方式一樣。
 
 如果 `parse` 能成功將字串轉換成數字，它會回傳 `Ok` 數值內包含的結果數字。該 `Ok` 數值就會配對到第一個分支的模式，然後 `match` 表達式就會回傳 `parse` 產生並填入 `Ok` 內的 `num` 數值。該數字最後就會如我們所願變成我們建立的 `guess` 變數。
 

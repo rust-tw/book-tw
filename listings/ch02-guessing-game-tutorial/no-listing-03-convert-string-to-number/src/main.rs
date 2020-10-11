@@ -18,7 +18,7 @@ fn main() {
 
     io::stdin()
         .read_line(&mut guess)
-        .expect("讀取行數失敗");
+        .expect("讀取該行失敗");
 
     let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
 

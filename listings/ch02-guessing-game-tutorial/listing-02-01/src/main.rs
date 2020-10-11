@@ -21,7 +21,7 @@ fn main() {
         .read_line(&mut guess)
         // ANCHOR_END: read
         // ANCHOR: expect
-        .expect("讀取行數失敗");
+        .expect("讀取該行失敗");
     // ANCHOR_END: expect
 
     // ANCHOR: print_guess
