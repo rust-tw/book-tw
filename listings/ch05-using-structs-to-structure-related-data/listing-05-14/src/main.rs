@@ -12,6 +12,6 @@ fn main() {
         height: 45,
     };
 
-    println!("rect1 能容納rect2？{}", rect1.can_hold(&rect2));
-    println!("rect1 能容納rect3？{}", rect1.can_hold(&rect3));
+    println!("rect1 能容納 rect2 嗎？{}", rect1.can_hold(&rect2));
+    println!("rect1 能容納 rect3 嗎？{}", rect1.can_hold(&rect3));
 }
