@@ -201,7 +201,7 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 
 你可以寫一個一個與失敗訊息一同顯示的自訂訊息，作為 `assert!`、`assert_eq!` 與 `assert_ne!` 巨集的選擇性引數。任何指定在 `assert!` 一個必要引數或 `assert_eq!` 和 `assert_ne!` 兩個必要引數後方的任何引數都會傳給 `format!` 巨集（我們在第八章[「使用 `+` 運算子或 `format!` 巨集串接字串」][concatenation-with-the--operator-or-the-format-macro]<!-- ignore -->的段落討論過），所以你可以傳入一個包含 `{}` 佔位符（placeholder）的格式化字串以及其對應的數值。自訂訊息可以用來紀錄判定的意義，當測試失敗時，你可以更清楚知道程式碼的問題。
 
-舉例來說，假設我們有個函式會以收到的名字像人們打招呼，而且我們希望測試我們傳入的名字有出現在輸出：
+舉例來說，假設我們有個函式會以收到的名字向人們打招呼，而且我們希望測試我們傳入的名字有出現在輸出：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
