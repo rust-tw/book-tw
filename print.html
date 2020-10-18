@@ -7845,7 +7845,7 @@ error: test failed, to rerun pass '--lib'
 <p><code>assert_eq!</code> 和 <code>assert_ne!</code> 巨集底下分別使用了 <code>==</code> 和 <code>!=</code> 運算子。當判定失敗時，巨集會透過除錯格式化資訊來顯示它們的引數，代表要比較的數值必須要實作 <code>PartialEq</code> 和 <code>Debug</code> 特徵。所有的基本型別與大多數標準函式庫中提供的型別都有實作這些特徵。對於你自己定義的結構體與枚舉，你需要實作 <code>PartialEq</code>，這樣該型別的數值才能判定相等或不相等。你需要實作 <code>Debug</code> 來顯示判定失敗時的數值。因為這兩個特徵都是可推導的特徵，就像第五章的範例 5-12 所寫的那樣，我們通常只要在你定義的結構體或枚舉前加上 <code>#[derive(PartialEq, Debug)]</code> 的詮釋就好。你可以查閱附錄 C <a href="appendix-03-derivable-traits.html">「可推導的特徵」</a><!-- ignore --> 來發現更多可推導的特徵。</p>
 <h3><a class="header" href="#加入自訂失敗訊息" id="加入自訂失敗訊息">加入自訂失敗訊息</a></h3>
 <p>你可以寫一個一個與失敗訊息一同顯示的自訂訊息，作為 <code>assert!</code>、<code>assert_eq!</code> 與 <code>assert_ne!</code> 巨集的選擇性引數。任何指定在 <code>assert!</code> 一個必要引數或 <code>assert_eq!</code> 和 <code>assert_ne!</code> 兩個必要引數後方的任何引數都會傳給 <code>format!</code> 巨集（我們在第八章<a href="ch08-02-strings.html#%E4%BD%BF%E7%94%A8--%E9%81%8B%E7%AE%97%E5%AD%90%E6%88%96-format-%E5%B7%A8%E9%9B%86%E4%B8%B2%E6%8E%A5%E5%AD%97%E4%B8%B2">「使用 <code>+</code> 運算子或 <code>format!</code> 巨集串接字串」</a><!-- ignore -->的段落討論過），所以你可以傳入一個包含 <code>{}</code> 佔位符（placeholder）的格式化字串以及其對應的數值。自訂訊息可以用來紀錄判定的意義，當測試失敗時，你可以更清楚知道程式碼的問題。</p>
-<p>舉例來說，假設我們有個函式會以收到的名字像人們打招呼，而且我們希望測試我們傳入的名字有出現在輸出：</p>
+<p>舉例來說，假設我們有個函式會以收到的名字向人們打招呼，而且我們希望測試我們傳入的名字有出現在輸出：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">pub fn greeting(name: &amp;str) -&gt; String {
     format!(&quot;哈囉{}!&quot;, name)
