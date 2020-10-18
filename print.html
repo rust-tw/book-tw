@@ -3030,7 +3030,7 @@ let slice = &amp;a[1..3];
 </ul>
 </blockquote>
 <h1><a class="header" href="#透過結構體組織相關資料" id="透過結構體組織相關資料">透過結構體組織相關資料</a></h1>
-<p><em>struct</em> 或<em>結構體（structure）</em> 是個讓你命名並封裝數個相關數值為單一組合的自定型別。如果你熟悉物件導向語言的話，<em>struct</em> 就像是物件的資料屬性。在本章節，我們會比較元組與結構體的差別，介紹如何使用結構體，並討論如何定義結構體資料的方法與相關函式行為。結構體與將會在第六章提到的枚舉（enum）是 Rust 產生新型別的基本元件，它們能充分利用 Rust 的編譯時型別檢查。</p>
+<p><em>struct</em> 或<em>結構體</em>（<em>structure</em>）是個讓你命名並封裝數個相關數值為單一組合的自定型別。如果你熟悉物件導向語言的話，<em>struct</em> 就像是物件的資料屬性。在本章節，我們會比較元組與結構體的差別，介紹如何使用結構體，並討論如何定義結構體資料的方法與相關函式行為。結構體與將會在第六章提到的枚舉（enum）是 Rust 產生新型別的基本元件，它們能充分利用 Rust 的編譯時型別檢查。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -3040,7 +3040,7 @@ let slice = &amp;a[1..3];
 </blockquote>
 <h2><a class="header" href="#定義與實例化結構體" id="定義與實例化結構體">定義與實例化結構體</a></h2>
 <p>結構體（Structs）和我們在第三章討論過的元組類似。和元組一樣，結構體的每個部分可以是不同的型別。但與元組不同的地方是，你必須為每個資料部分命名以便表達每個數值的意義。因為有了這些名稱，結構體通常比元組還來的有彈性：你不需要依賴資料的順序來指定或存取實例中的值。</p>
-<p>欲定義結構體，我們輸入關鍵字 <code>struct</code> 並為整個結構體命名。結構體的名稱需要能夠描述其所組合出的資料意義。然後在大括號內，我們對每個資料部分定義名稱與型別，我們會稱為<em>欄位（fields）</em>。舉例來說，範例 5-1 定義了一個儲存使用者帳號的結構體。</p>
+<p>欲定義結構體，我們輸入關鍵字 <code>struct</code> 並為整個結構體命名。結構體的名稱需要能夠描述其所組合出的資料意義。然後在大括號內，我們對每個資料部分定義名稱與型別，我們會稱為<em>欄位</em>（<em>fields</em>）。舉例來說，範例 5-1 定義了一個儲存使用者帳號的結構體。</p>
 <pre><pre class="playground"><code class="language-rust">struct User {
     username: String,
     email: String,
@@ -3051,7 +3051,7 @@ let slice = &amp;a[1..3];
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 5-1：<code>User</code> 結構體定義</span></p>
-<p>要在我們定義後使用該結構體，我們可以指定每個欄位的實際數值來建立結構體的<em>實例（instance）</em> 。要建立實例的話，我們先寫出結構體的名稱再加上大括號，裡面會包含數個 <code>key: value</code> 的配對。<code>key</code> 是每個欄位的名稱，而 <code>value</code> 就是你想給予欄位的數值。欄位的順序可以不用和定義結構體時的順序一樣。換句話說，結構體的定義比較像是型別的通用樣板，然後實例會依據此樣板插入特定資料來將產生型別的數值。比如說，我們可以像範例 5-2 這樣宣告一個特定使用者。</p>
+<p>要在我們定義後使用該結構體，我們可以指定每個欄位的實際數值來建立結構體的<em>實例</em>（<em>instance</em>）。要建立實例的話，我們先寫出結構體的名稱再加上大括號，裡面會包含數個 <code>key: value</code> 的配對。<code>key</code> 是每個欄位的名稱，而 <code>value</code> 就是你想給予欄位的數值。欄位的順序可以不用和定義結構體時的順序一樣。換句話說，結構體的定義比較像是型別的通用樣板，然後實例會依據此樣板插入特定資料來將產生型別的數值。比如說，我們可以像範例 5-2 這樣宣告一個特定使用者。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    username: String,
 </span><span class="boring">    email: String,
@@ -3117,7 +3117,7 @@ let slice = &amp;a[1..3];
 <p><span class="caption">範例 5-4：<code>build_user</code> 函式取得電子郵件與使用者名稱並回傳 <code>User</code> 實例</span></p>
 <p>函式參數名稱與結構體欄位名稱相同是非常合理的，但是要重複寫 <code>email</code> 和 <code>username</code> 的欄位名稱與變數就有點冗長了。如果結構體有更多欄位的話，重複寫這些名稱就顯得有些煩人了。幸運的是，我們的確有更方便的語法！</p>
 <h3><a class="header" href="#當變數與欄位名稱相同時使用欄位初始化簡寫語法" id="當變數與欄位名稱相同時使用欄位初始化簡寫語法">當變數與欄位名稱相同時使用欄位初始化簡寫語法</a></h3>
-<p>由於範例 5-4 的參數名稱與結構體欄位名稱相同，我們可以使用<em>欄位初始化簡寫（field init shorthand）</em> 語法來重寫 <code>build_user</code>，讓它的結果相同但不必重複寫出 <code>email</code> 和 <code>username</code>，如範例 5-5 所示。</p>
+<p>由於範例 5-4 的參數名稱與結構體欄位名稱相同，我們可以使用<em>欄位初始化簡寫</em>（<em>field init shorthand</em>）語法來重寫 <code>build_user</code>，讓它的結果相同但不必重複寫出 <code>email</code> 和 <code>username</code>，如範例 5-5 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    username: String,
 </span><span class="boring">    email: String,
@@ -3144,7 +3144,7 @@ let slice = &amp;a[1..3];
 <p><span class="caption">範例 5-5：<code>build_user</code> 函式使用欄位初始化簡寫，因為參數 <code>email</code> 與 <code>username</code> 結構體欄位相同</span></p>
 <p>在此我們建立了 <code>User</code> 結構體的實例，它有一個欄位叫做 <code>email</code>。我們希望用 <code>build_user</code> 函式中的參數 <code>email</code> 賦值給 <code>email</code> 欄位。然後因為 <code>email</code> 欄位與 <code>email</code> 參數有相同的名稱，我們只要寫 <code>email</code> 就好，不必寫 <code>email: email</code>。</p>
 <h3><a class="header" href="#使用結構體更新語法從其他結構體建立實例" id="使用結構體更新語法從其他結構體建立實例">使用結構體更新語法從其他結構體建立實例</a></h3>
-<p>通常我們也會從舊的實例來產生新的實例，不過修改一些欄位數值，這時你可以使用<em>結構體更新語法（struct update syntax）</em>。</p>
+<p>通常我們也會從舊的實例來產生新的實例，不過修改一些欄位數值，這時你可以使用<em>結構體更新語法</em>（<em>struct update syntax</em>）。</p>
 <p>首先範例 5-6 顯示了我們沒有使用更新語法來建立新的 <code>User</code> 實例 <code>user2</code>。我們設置了新的數值給 <code>email</code> 和 <code>username</code>，但其他欄位就使用我們在範例 5-2 建立的 <code>user1</code> 相同的值。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    username: String,
@@ -3196,7 +3196,7 @@ let slice = &amp;a[1..3];
 <p><span class="caption">範例 5-7：對新的 <code>User</code> 實例設置新的 <code>email</code> 和 <code>username</code> 數值，但其他欄位使用與 <code>user1</code> 變數實例中欄位相同的值</span></p>
 <p>範例 5-7 的程式碼一樣產生了有不同 <code>email</code> 和 <code>username</code> 的 <code>user2</code> 實例，但是有與 <code>user1</code> 相同的 <code>active</code> 和 <code>sign_in_count</code>。</p>
 <h3><a class="header" href="#使用無名稱欄位的元組結構體來建立不同型別" id="使用無名稱欄位的元組結構體來建立不同型別">使用無名稱欄位的元組結構體來建立不同型別</a></h3>
-<p>你還可以定義結構體讓它長得像是元組那樣，我們稱作<em>元組結構體（tuple structs）</em>。元組結構體仍然有定義整個結構的名稱，但是它們的欄位不會有名稱，它們只會有欄位型別而已。元組結構體的用途在於當你想要為元組命名，好讓它跟其他不同型別的元組作出區別，以及對常規結構體每個欄位命名是冗長且不必要的時候。</p>
+<p>你還可以定義結構體讓它長得像是元組那樣，我們稱作<em>元組結構體</em>（<em>tuple structs</em>）。元組結構體仍然有定義整個結構的名稱，但是它們的欄位不會有名稱，它們只會有欄位型別而已。元組結構體的用途在於當你想要為元組命名，好讓它跟其他不同型別的元組作出區別，以及對常規結構體每個欄位命名是冗長且不必要的時候。</p>
 <p>要定義一個元組結構體，一樣先從 <code>struct</code> 關鍵字開始，其後再接著要定義的元組。舉例來說，以下是兩個使用元組結構體定義的 <code>Color</code> 和 <code>Point</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    struct Color(i32, i32, i32);
@@ -3208,11 +3208,11 @@ let slice = &amp;a[1..3];
 </span></code></pre></pre>
 <p>注意 <code>black</code> 與 <code>origin</code> 屬於不同型別，因為它們是不同的元組結構體實例。每個你定義的結構體都是專屬於自己的型別，就算它們的欄位型別一摸一樣。舉例來說，一個參數為 <code>Color</code> 的函式就無法接受 <code>Point</code> 引數，就算它們的型別都是三個 <code>i32</code> 的組合。除此之外，元組結構體實例的行為和元組類似：你可以將它們解構為獨立部分，你也可以使用 <code>.</code> 加上索引來取得每個數值等等。</p>
 <h3><a class="header" href="#無任何欄位的類單元結構體" id="無任何欄位的類單元結構體">無任何欄位的類單元結構體</a></h3>
-<p>你也可以定義沒有任何欄位的結構體！這些叫做<em>類單元結構體（unit-like structs）</em>，因為它們的行為就很像 <code>()</code> 單元型別（unit type）。類單元結構體很適合用在當你要實作一個特徵（trait）或某種型別，但你沒有任何需要儲存在型別中的資料。我們會在第十章討論特徵。</p>
+<p>你也可以定義沒有任何欄位的結構體！這些叫做<em>類單元結構體</em>（<em>unit-like structs</em>），因為它們的行為就很像 <code>()</code> 單元型別（unit type）。類單元結構體很適合用在當你要實作一個特徵（trait）或某種型別，但你沒有任何需要儲存在型別中的資料。我們會在第十章討論特徵。</p>
 <blockquote>
 <h3><a class="header" href="#結構體資料的所有權" id="結構體資料的所有權">結構體資料的所有權</a></h3>
 <p>在範例 5-1 的 <code>User</code> 結構體定義中，我們使用了擁有所有權的 <code>String</code> 型別，而不是 <code>&amp;str</code> 字串切片型別。這邊是故意這樣選擇的，因為我們希望解構體的實例可以擁有它所有的資料，並在整個結構體都有效時資料也是有效的。</p>
-<p>要在結構體中儲存別人擁有的資料引用是可行的，但這會用到<em>生命週期（lifetimes）</em>，我們在第十章才會談到。生命週期能確保資料引用在結構體存在期間都是有效的。要是你沒有使用生命週期來用結構體儲存引用的話，會如以下出錯：</p>
+<p>要在結構體中儲存別人擁有的資料引用是可行的，但這會用到<em>生命週期</em>（<em>lifetimes</em>），我們在第十章才會談到。生命週期能確保資料引用在結構體存在期間都是有效的。要是你沒有使用生命週期來用結構體儲存引用的話，會如以下出錯：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- CAN'T EXTRACT SEE https://github.com/rust-lang/mdBook/issues/1127 -->
 <pre><code class="language-rust ignore does_not_compile">struct User {
@@ -3331,7 +3331,7 @@ fn area(dimensions: (u32, u32)) -&gt; u32 {
 <p>一方面來說，此程式的確比較好。元組讓我們增加了一些結構，而我們現在只需要傳遞一個引數。但另一方面來說，此版本的閱讀性反而更差。元組無法命名它的元素，所以我們在計算時反而更難讀懂，我們傳得只是元組的索引。</p>
 <p>我們在計算面積時，哪個值是寬度還是長度的確不重要。但如果我們要顯示出來的話，這就很重要了！我們會需要記住元組索引 <code>0</code> 是 <code>width</code> 然後元組索引 <code>1</code> 是 <code>height</code>。如果有其他人要維護這段程式碼的話，他就也得知道並記住這件事才行。但事實上是我們很常忘記這樣數值的意義並導致錯誤發生，因為我們無法從程式碼推導出資料的意義。</p>
 <h3><a class="header" href="#使用結構體重構賦予更多意義" id="使用結構體重構賦予更多意義">使用結構體重構：賦予更多意義</a></h3>
-<p>我們可以用結構體來為資料命名以賦予其意義。我們可以將元組轉換成一個有整體名稱且內部資料也都有名稱的資料型別。，如範例 5-10 所示。</p>
+<p>我們可以用結構體來為資料命名以賦予其意義。我們可以將元組轉換成一個有整體名稱且內部資料也都有名稱的資料型別，如範例 5-10 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Rectangle {
     width: u32,
@@ -3392,7 +3392,7 @@ fn main() {
 <pre><code class="language-text">   = help: the trait `std::fmt::Debug` is not implemented for `Rectangle`
    = note: add `#[derive(Debug)]` or manually implement `std::fmt::Debug`
 </code></pre>
-<p>Rust <em>的確</em> 有印出除錯資訊的功能，但是我們要針對我們的結構體顯式實作出來才會有對應的功能。為此我們可以在結構體前加上 <code>#[derive(Debug)]</code>，如範例 5-12 所示。</p>
+<p>Rust <em>的確</em>有印出除錯資訊的功能，但是我們要針對我們的結構體顯式實作出來才會有對應的功能。為此我們可以在結構體前加上 <code>#[derive(Debug)]</code>，如範例 5-12 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
 struct Rectangle {
@@ -3428,7 +3428,7 @@ rect1 is Rectangle {
 }
 </code></pre>
 <p>Rust 提供了一些特徵並讓我們可以用 <code>derive</code> 標記來為自定型別加入些實用的功能。這類的特徵與其行為都列在附錄 C。我們會在第十章介紹如何定義自定特徵，且如何實作這些特徵的自訂行為。</p>
-<p>我們的函式 <code>area</code> 最後就非常清楚明白了，它只會計算長方形的面積。這樣的行為要是能夠緊貼著我們的 <code>Rectangle</code> 結構體，因為這樣一來它就不會相容於其他型別。讓我們看看我們如何繼續重構我們的程式碼，接下來我們可以將函式 <code>area</code> 轉換為 <code>Rectangle</code> 型別的<em>方法（method）</em> 。</p>
+<p>我們的函式 <code>area</code> 最後就非常清楚明白了，它只會計算長方形的面積。這樣的行為要是能夠緊貼著我們的 <code>Rectangle</code> 結構體，因為這樣一來它就不會相容於其他型別。讓我們看看我們如何繼續重構我們的程式碼，接下來我們可以將函式 <code>area</code> 轉換為 <code>Rectangle</code> 型別的<em>方法</em>（<em>method</em>） 。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -3437,7 +3437,7 @@ rect1 is Rectangle {
 </ul>
 </blockquote>
 <h2><a class="header" href="#方法語法" id="方法語法">方法語法</a></h2>
-<p><em>方法（Methods）</em> 和函式類似，它們都用 <code>fn</code> 關鍵字並加上它們名稱來宣告，它們都有參數與回傳值，然後它們包含一些程式碼能夠在其他地方呼叫它們。不過，方法與函式不同的地方在於它們是針對結構體定義的（或是枚舉和特徵物件，我們會在第六章與第十七章分別介紹它們），且它們第一個參數永遠是 <code>self</code>，這代表的是呼叫該方法的結構體實例。</p>
+<p><em>方法</em>（<em>Methods</em>）和函式類似，它們都用 <code>fn</code> 關鍵字並加上它們名稱來宣告，它們都有參數與回傳值，然後它們包含一些程式碼能夠在其他地方呼叫它們。不過，方法與函式不同的地方在於它們是針對結構體定義的（或是枚舉和特徵物件，我們會在第六章與第十七章分別介紹它們），且它們第一個參數永遠是 <code>self</code>，這代表的是呼叫該方法的結構體實例。</p>
 <h3><a class="header" href="#定義方法" id="定義方法">定義方法</a></h3>
 <p>讓我們把 <code>Rectangle</code> 作為參數的 <code>area</code> 函式轉換成定義在 <code>Rectangle</code> 內的 <code>area</code> 方法，如範例 5-13 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -3466,14 +3466,14 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 5-13：在 <code>Rectangle</code> 中定義 <code>area</code> 方法</span></p>
-<p>要定義 <code>Rectangle</code> 中的方法，我們先從 <code>impl</code>（implementation） 區塊開始。再來將 <code>area</code> 移入 <code>impl</code> 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 <code>self</code>。在 <code>main</code> 中我們原先使用 <code>rect1</code> 作為引數呼叫的 <code>area</code>，可以改成使用<em>方法語法（method syntax）</em> 來呼叫 <code>Rectangle</code> 的 <code>area</code> 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。</p>
+<p>要定義 <code>Rectangle</code> 中的方法，我們先從 <code>impl</code>（implementation） 區塊開始。再來將 <code>area</code> 移入 <code>impl</code> 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 <code>self</code>。在 <code>main</code> 中我們原先使用 <code>rect1</code> 作為引數呼叫的 <code>area</code>，可以改成使用<em>方法語法</em>（<em>method syntax</em>）來呼叫 <code>Rectangle</code> 的 <code>area</code> 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。</p>
 <p>在 <code>area</code> 的簽名中，我們使用 <code>&amp;self</code> 而非 <code>rectangle: &amp;Rectangle</code>，這是因為此方法位於 <code>impl Rectangle</code> 底下，Rust 知道 <code>self</code> 的型別為 <code>Rectangle</code>。請注意我們仍然在 <code>self</code> 使用 <code>&amp;</code>，如同我們之前用的 <code>&amp;Rectangle</code>。方法可以取走 <code>self</code> 的所有權、像這裡一樣借用不可變的 <code>self</code> 或借用可變的 <code>self</code>，如同其他參數一樣。</p>
 <p>我們之所以選擇 <code>&amp;self</code> 的原因和我們在之前函式版本的 <code>&amp;Rectangle</code> 一樣，我們不想取得所有權，只想讀取結構體的資料，而非寫入它。如果我們想要透過方法改變實例的數值的話，我們會使用 <code>&amp;mut self</code> 作為第一個參數。而只使用 <code>self</code> 取得所有權的方法更是非常少見，這種使用技巧通常是為了想改變 <code>self</code> 成你想要的樣子，並且希望能避免原本被改變的實例繼續被呼叫。</p>
 <p>使用方法而非函式最大的好處是，除了可以使用方法語法而不必在方法簽名重複 <code>self</code> 的型別之外，其更具組織性。我們將所有一個型別所能做的事都放入 <code>impl</code> 區塊中了，而不必讓未來的使用者在茫茫函式庫中尋找 <code>Rectangle</code> 的功能。</p>
 <blockquote>
 <h3><a class="header" href="#--運算子跑去哪了" id="--運算子跑去哪了"><code>-&gt;</code> 運算子跑去哪了？</a></h3>
 <p>在 C 與 C++ 中，我們有兩種呼叫方式的運算元：我們會用 <code>.</code> 來直接呼叫物件的方法；用 <code>-&gt;</code> 來呼叫需要先解引用的物件。換句話說，如果 <code>object</code> 是指標的話，<code>object-&gt;something()</code> 就會像是<code>(*object).something()</code>。</p>
-<p>Rust 沒有提供 <code>-&gt;</code> 這樣的運算子。相反地 Rust 有個功能叫做 <em>自動引用與解引用（automatic referencing and dereferencing）</em>。呼叫方法是 Rust 少數會有這樣行為的地方。</p>
+<p>Rust 沒有提供 <code>-&gt;</code> 這樣的運算子。相反地 Rust 有個功能叫做 <em>自動引用與解引用</em>（<em>automatic referencing and dereferencing</em>）。呼叫方法是 Rust 少數會有這樣行為的地方。</p>
 <p>運作方式如下：當你呼叫方法像是 <code>object.something()</code> 時，Rust 會自動加上<code>&amp;</code>、<code>&amp;mut</code> 或 <code>*</code>，以便符合方法簽名。換句話說，以下範例是相同的：</p>
 </blockquote>
 <!-- CAN'T EXTRACT SEE BUG TODO -->
@@ -3520,14 +3520,14 @@ fn main() {
         height: 45,
     };
 
-    println!(&quot;rect1 能容納rect2？{}&quot;, rect1.can_hold(&amp;rect2));
-    println!(&quot;rect1 能容納rect3？{}&quot;, rect1.can_hold(&amp;rect3));
+    println!(&quot;rect1 能容納 rect2 嗎？{}&quot;, rect1.can_hold(&amp;rect2));
+    println!(&quot;rect1 能容納 rect3 嗎？{}&quot;, rect1.can_hold(&amp;rect3));
 }
 </code></pre>
 <p><span class="caption">範例 5-14：使用一個還沒定義完的方法 <code>can_hold</code></span></p>
-<p>然後我們預期的輸出結果會如以下所示，因為 <code>rect2</code> 的兩個維度都比 <code>rect1</code> 小，但 <code>rect3</code> 會比 <code>rect1</code> 大：</p>
-<pre><code class="language-text">rect1 能容納rect2？true
-rect1 能容納rect3？false
+<p>然後我們預期的輸出結果會如以下所示，因為 <code>rect2</code> 的兩個維度都比 <code>rect1</code> 小，但 <code>rect3</code> 比 <code>rect1</code> 寬：</p>
+<pre><code class="language-text">rect1 能容納 rect2 嗎？true
+rect1 能容納 rect3 嗎？false
 </code></pre>
 <p>我們知道我們要定義方法的話，它一定得在 <code>impl Rectangle</code> 區塊底下。方法的名稱會叫做 <code>can_hold</code>。它會取得另一個 <code>Rectangle</code> 的不可變引用作為參數。我們可以從程式碼呼叫方法的地方來知道參數的可能的型別：<code>rect1.can_hold(&amp;rect2)</code> 傳遞了 <code>&amp;rect2</code>，這是一個 <code>rect2</code> 的不可變引用，同時也是 <code>Rectangle</code> 的實例。這是合理的，因為我們只需要讀取 <code>rect2</code>（而不是寫入，寫入代表我們需要可變引用），且我們希望 <code>main</code> 能夠保持 <code>rect2</code> 的所有權，好讓我們之後能在繼續使用它來呼叫 <code>can_hold</code> 方法。<code>can_hold</code> 的回傳值會是布林值，然後實作細節會是檢查 <code>self</code> 的寬度與長度是否都大於其他 <code>Rectangle</code> 的寬度與長度。讓我們加入範例 5-13 的 <code>can_hold</code> 方法到 <code>impl</code> 區塊中，如範例 5-15 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -3561,14 +3561,14 @@ rect1 能容納rect3？false
 </span><span class="boring">        height: 45,
 </span><span class="boring">    };
 </span><span class="boring">
-</span><span class="boring">    println!(&quot;rect1 能容納rect2？{}&quot;, rect1.can_hold(&amp;rect2));
-</span><span class="boring">    println!(&quot;rect1 能容納rect3？{}&quot;, rect1.can_hold(&amp;rect3));
+</span><span class="boring">    println!(&quot;rect1 能容納 rect2 嗎？{}&quot;, rect1.can_hold(&amp;rect2));
+</span><span class="boring">    println!(&quot;rect1 能容納 rect3 嗎？{}&quot;, rect1.can_hold(&amp;rect3));
 </span><span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 5-15：在 <code>Rectangle</code> 中實作了取得其他 <code>Rectangle</code> 作為參數的 <code>can_hold</code> 方法</span></p>
 <p>當我們用範例 5-14 的 <code>main</code> 函式執行此程式碼的話，我們會得到預期的輸出結果。方法可以在參數 <code>self</code> 之後接收更多參數，而那些參數就和函式中的參數用法一樣。</p>
 <h3><a class="header" href="#關聯函式" id="關聯函式">關聯函式</a></h3>
-<p><code>impl</code> 區塊另一個實用的功能是，我們允許在 <code>impl</code> 內定義函式且無需以 <code>self</code> 作為參數。這叫叫做<em>關聯函式（associated functions）</em>，因為它們與結構體是相關的。它們仍然是函式而非方法，因為它們沒有用到結構體的實例。你已經用到了 <code>String::from</code> 此關聯函式。</p>
+<p><code>impl</code> 區塊另一個實用的功能是，我們允許在 <code>impl</code> 內定義函式且無需以 <code>self</code> 作為參數。這叫叫做<em>關聯函式</em>（<em>associated functions</em>），因為它們與結構體是相關的。它們仍然是函式而非方法，因為它們沒有用到結構體的實例。你已經用到了 <code>String::from</code> 此關聯函式。</p>
 <p>關聯函式很常用作建構子，來產生新的結構體實例。舉例來說，我們可以提供一個只接收一個維度作為參數的關聯函式，讓它賦值給寬度與長度，讓我們可以用 <code>Rectangle</code> 來產生正方形，而不必提供兩次相同的值：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
@@ -3633,7 +3633,7 @@ impl Rectangle {
 <p>這邊我們的確沒有將方法拆為 <code>impl</code> 區塊的理由，不過這樣的語法是合理的。我們會在第十章介紹泛型型別與特徵，看到多重 <code>impl</code> 區塊是非常實用的案例。</p>
 <h2><a class="header" href="#總結-4" id="總結-4">總結</a></h2>
 <p>結構體讓你可以自訂對你的領域有意義的型別。使用結構體的話，你可以讓每個資料部分與其他部分具有相關性，並為每個部分讓程式更好讀懂。方法讓你可以為你的結構體實例指定特定行為，然後關聯函式讓你可以在沒有實例的情況下，將特定功能置入結構體的命名空間。</p>
-<p>但是結構體並不是自訂型別的唯一方法：讓我看看 Rust 的枚舉功能，讓你的工具箱可以再多一項工具使用。</p>
+<p>但是結構體並不是自訂型別的唯一方法：讓我們看下去 Rust 的枚舉功能，讓你的工具箱可以再多一項可以使用的工具。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
