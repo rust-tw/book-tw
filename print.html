@@ -28,7 +28,9 @@
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
+        
         <link rel="stylesheet" href="css/print.css" media="print">
+        
 
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
@@ -134,9 +136,11 @@
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
+                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        
                         
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
@@ -212,7 +216,7 @@
 <blockquote>
 <p>注意：本書的（英文）版本與出版的 <a href="https://nostarch.com/rust">The Rust Programming Language</a> 以及電子書版本的 <a href="https://nostarch.com/">No Starch Press</a> 一致。</p>
 </blockquote>
-<p>歡迎閱讀 <em>Rust 程式設計語言</em>，這是本 Rust 的入門書籍。Rust 程式設計語言能幫助你寫出更快更可靠的軟體。高層的易讀易用性與底層的掌控性常常是程式設計語言之間的取捨，Rust 試圖挑戰這項矛盾。透過平衡強大的技術能力以及優秀的開發體驗，Rust 讓你能控制底層的實作細節（比如記憶體使用）的同時，免於以往這樣的控制所帶來的相關麻煩。</p>
+<p>歡迎閱讀 <strong>Rust 程式設計語言</strong>，這是本 Rust 的入門書籍。Rust 程式設計語言能幫助你寫出更快更可靠的軟體。高層的易讀易用性與底層的掌控性常常是程式設計語言之間的取捨，Rust 試圖挑戰這項矛盾。透過平衡強大的技術能力以及優秀的開發體驗，Rust 讓你能控制底層的實作細節（比如記憶體使用）的同時，免於以往這樣的控制所帶來的相關麻煩。</p>
 <h2><a class="header" href="#rust-適用於誰" id="rust-適用於誰">Rust 適用於誰</a></h2>
 <p>Rust 有非常多種誘因使其適用於各式各樣的人。讓我們討論一些比較重要的目標客群。</p>
 <h3><a class="header" href="#開發團隊" id="開發團隊">開發團隊</a></h3>
@@ -232,9 +236,9 @@
 <p>Rust 適用於想要建構 Rust 程式設計語言、社群、開發工具與函式庫的開發者。我們很樂於看到你願意對 Rust 語言貢獻。</p>
 <h3><a class="header" href="#重視速度與穩定性的開發者" id="重視速度與穩定性的開發者">重視速度與穩定性的開發者</a></h3>
 <p>Rust 適用於追求語言速度與穩定性的開發者。所謂的速度，我們指的是你用 Rust 所開發出程式的執行速度以及 Rust 所提供程式的開發速度。Rust 編譯器的檢查能確保新增功能與重構時的穩定性。這與沒有這些檢查的語言形成對比，開發者通常會害怕修改這些脆弱的遺留程式碼。Rust 還力求零開銷抽象（zero-cost abstractions），高階的特性編譯成底層程式碼的執行速度能與自己手寫一樣快，Rust 致力於讓安全的程式碼同時也能是執行迅速的程式碼。</p>
-<p>Rust 語言也希望能支援其他許多使用者，這裡提及的只是一部分的最大受益者。總體來說，Rust 最重要的目標是消除數十年來開發者不得不作出的取捨，像是同時提供安全<em>與</em>生產力、同時具有速度<em>又</em>易讀易用。歡迎嘗試看看 Rust，並體驗看看這門語言適不適合你。</p>
+<p>Rust 語言也希望能支援其他許多使用者，這裡提及的只是一部分的最大受益者。總體來說，Rust 最重要的目標是消除數十年來開發者不得不作出的取捨，像是同時提供安全<strong>與</strong>生產力、同時具有速度<strong>又</strong>易讀易用。歡迎嘗試看看 Rust，並體驗看看這門語言適不適合你。</p>
 <h2><a class="header" href="#本書寫給誰看" id="本書寫給誰看">本書寫給誰看</a></h2>
-<p>本書假設你已經使用其他程式語言寫過程式碼，不過並不假設你使用的是何種語言。我們試著讓這些資源能廣泛適用於不同程式背景的開發者。我們不會花費很多時間討論<em>什麼是</em>程式設計或如何理解它。如果你剛開始學習程式語言，你最好先閱讀專門介紹程式設計的書籍。</p>
+<p>本書假設你已經使用其他程式語言寫過程式碼，不過並不假設你使用的是何種語言。我們試著讓這些資源能廣泛適用於不同程式背景的開發者。我們不會花費很多時間討論<strong>什麼是</strong>程式設計或如何理解它。如果你剛開始學習程式語言，你最好先閱讀專門介紹程式設計的書籍。</p>
 <h2><a class="header" href="#如何閱讀本書" id="如何閱讀本書">如何閱讀本書</a></h2>
 <p>一般來說，本書預設你會從頭到尾依序閱讀完。後面的章節都建立在前面章節的概念基礎上，然後前面的章節可能不會深入探討某些主題，我們會在後面的章節再重新討論該主題。</p>
 <p>你會在本書中看到兩種章節：概念章節與專案章節。在概念章節中，你會學到 Rust 的其中某些概念。在專案章節中，我們會應用你當前所學的一同建構些小小的專案。第二、十二和二十章是專案章節，其餘都是概念章節。</p>
