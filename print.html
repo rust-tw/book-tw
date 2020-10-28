@@ -8704,7 +8704,7 @@ fn main() {
 </ul>
 </blockquote>
 <h2><a class="header" href="#讀取檔案" id="讀取檔案">讀取檔案</a></h2>
-<p>現在我們要加上能夠讀取 <code>filename</code> 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能嚷我們測試，要確保 <code>minigrep</code> 執行無誤的最佳檔案範本就是文字文件，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 <em>poem.txt</em>，然後輸入此詩 「I’m Nobody! Who are you?」</p>
+<p>現在我們要加上能夠讀取 <code>filename</code> 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能讓我們測試，要確保 <code>minigrep</code> 執行無誤的最佳檔案範本就是文字文件，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 <em>poem.txt</em>，然後輸入此詩 「I’m Nobody! Who are you?」</p>
 <p><span class="filename">檔案名稱：poem.txt</span></p>
 <pre><code class="language-text">I’m nobody! Who are you?
 Are you nobody, too?
@@ -8771,8 +8771,8 @@ To an admiring bog!
 </blockquote>
 <h2><a class="header" href="#透過重構來改善模組性與錯誤處理" id="透過重構來改善模組性與錯誤處理">透過重構來改善模組性與錯誤處理</a></h2>
 <p>為了改善我們的程式，我們需要修正四個問題，這與程式架構與如何處理潛在錯誤有關。</p>
-<p>首先，我們的 <code>main</code> 函式會處理兩件任務：它得解析引數並讀取檔案。對於這麼小的函式來說，這不是大問題。然而，要是我們持續在 <code>main</code> 增加我們的程式，<code>main</code> 函式中要處理的任務就會增加。要是一個函式有這麼多責任，它就會越來越難理解，、越難測試且卻難在不破壞其他部分的情況下做改變。我們最好能將不同功能拆開，讓每個函式只負責一項任務。</p>
-<p>而這也和第二個問題有關：雖然 <code>query</code> 與 <code>filename</code> 是我們程式的設置變數，而變數 <code>contents</code> 則用於程式邏輯。隨著 <code>main</code> 增長，我們會需要引入越多變數至作用域中。而作用域中有越多變數，我們就用難追蹤每個變數的用途。我們最好是將設置變數集結成一個結構體，讓它們的用途清楚明白。</p>
+<p>首先，我們的 <code>main</code> 函式會處理兩件任務：它得解析引數並讀取檔案。對於這麼小的函式來說，這不是大問題。然而，要是我們持續在 <code>main</code> 增加我們的程式，<code>main</code> 函式中要處理的任務就會增加。要是一個函式有這麼多責任，它就會越來越難理解、越難測試並且難在不破壞其他部分的情況下做改變。我們最好能將不同功能拆開，讓每個函式只負責一項任務。</p>
+<p>而這也和第二個問題有關：雖然 <code>query</code> 與 <code>filename</code> 是我們程式的設置變數，而變數 <code>contents</code> 則用於程式邏輯。隨著 <code>main</code> 增長，我們會需要引入越多變數至作用域中。而作用域中有越多變數，我們就越難追蹤每個變數的用途。我們最好是將設置變數集結成一個結構體，讓它們的用途清楚明白。</p>
 <p>第三個問題是當讀取檔案失敗時，我們使用 <code>expect</code> 來印出錯誤訊息，但是錯誤訊息只印出 <code>讀取檔案時發生了錯誤</code>。讀取檔案可以有好幾種失敗的方式：舉例來說，檔案可能不存在，或是我們可能沒有權限能開啟它。目前不管原因為何，我們都只印出錯誤訊息 <code>讀取檔案時發生了錯誤</code>，這並沒有給使用者足夠的資訊！</p>
 <p>第四，我們重複使用 <code>expect</code> 來處理不同錯誤，而如果有使用者沒有指定足夠的引數來執行程式的話，他們會從 Rust 獲得 <code>index out of bounds</code> 的錯誤，這並沒有清楚解釋問題。最好是所有的錯誤處理程式碼都可以位於同個地方，讓未來的維護者只需要在此處來修改錯誤處理的程式碼。將所有錯誤處理的程式碼置於同處也能確保我們能提供對終端使用者有意義的訊息。</p>
 <p>讓我們來重構專案以解決這四個問題吧。</p>
@@ -9176,7 +9176,7 @@ fn run(config: Config) {
 </span></code></pre>
 <p><span class="caption">範例 12-12：變更 <code>run</code> 函式來回傳 <code>Result</code></span></p>
 <p>我們在此做了三項明顯的修改。首先，我們改變了 <code>run</code> 函式的回傳型別為 <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code>，此函式之前回傳的是單元型別 <code>()</code>，而它現在仍作為 <code>Ok</code> 條件內的數值。</p>
-<p>對於錯誤型別，我們使用<em>特徵物件（trait object）</em> <code>Box&lt;dyn Error&gt;</code>（然後我們在最上方透過 <code>use</code> 陳述式來將 <code>std::error::Error</code> 引入作用域）。我們會在<a href="ch17-00-oop.html">第十七章</a><!-- ignore -->討論特徵物件。現在你只需要知道 <code>Box&lt;dyn Error&gt;</code> 代表函式會回傳有實作 <code>Error</code> 特徵的型別，但我們不必指定回傳值的明確型別。這這增加了回傳錯誤數值的彈性，其在不同錯誤情形中可能有不同的型別。<code>dyn</code> 關鍵字是「動態（dynamic）」的縮寫。</p>
+<p>對於錯誤型別，我們使用<em>特徵物件（trait object）</em> <code>Box&lt;dyn Error&gt;</code>（然後我們在最上方透過 <code>use</code> 陳述式來將 <code>std::error::Error</code> 引入作用域）。我們會在<a href="ch17-00-oop.html">第十七章</a><!-- ignore -->討論特徵物件。現在你只需要知道 <code>Box&lt;dyn Error&gt;</code> 代表函式會回傳有實作 <code>Error</code> 特徵的型別，但我們不必指定回傳值的明確型別。這增加了回傳錯誤數值的彈性，其在不同錯誤情形中可能有不同的型別。<code>dyn</code> 關鍵字是「動態（dynamic）」的縮寫。</p>
 <p>再來，我們移出了 <code>expect</code> 的呼叫並改為<a href="ch09-02-recoverable-errors-with-result.html#%E5%82%B3%E6%92%AD%E9%8C%AF%E8%AA%A4%E7%9A%84%E6%8D%B7%E5%BE%91-%E9%81%8B%E7%AE%97%E5%AD%90">第九章</a><!-- ignore -->所介紹的 <code>?</code> 運算子。所以與其對錯誤 <code>panic!</code>，<code>?</code> 會回傳當前函式的錯誤數值，並交由呼叫者處理。</p>
 <p>第三，<code>run</code> 函式現在成功時會回傳 <code>Ok</code> 數值。我們在 <code>run</code> 函式簽名中的成功型別為 <code>()</code>，這意味著我們需要將單元型別封裝進 <code>Ok</code> 數值。<code>Ok(())</code> 這樣的語法一開始看可能會覺得有點奇怪，但這樣子使用 <code>()</code> 的確符合慣例，說明我們呼叫 <code>run</code> 只是會了它的副作用，它不會回傳我們需要的數值。</p>
 <p>當你執行此程式時，它雖然能編譯但會顯示一個警告：</p>
