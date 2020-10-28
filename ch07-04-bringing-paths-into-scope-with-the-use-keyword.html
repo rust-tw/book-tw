@@ -310,7 +310,7 @@ pub fn eat_at_restaurant() {
 </span></code></pre></pre>
 <p><span class="caption">範例 7-17：使用 <code>pub use</code> 使名稱公開給任何程式的作用域中引用</span></p>
 <p>使用 <code>pub use</code> 可以讓外部程式碼以 <code>hosting::add_to_waitlist</code> 的方式來呼叫函式 <code>add_to_waitlist</code>。如果我們沒有指明 <code>pub use</code>，函式 <code>eat_at_restaurant</code> 仍可以在它的作用域呼叫 <code>hosting::add_to_waitlist</code>，但外部程式碼就無法利用這個新的路徑。</p>
-<p>當程式碼的內部結構與使用程式的開發者對於該領域所想像的結構不同時，重新匯出會很有用。我們再次用餐廳做比喻的話就像是，經營餐廳的人可能會想像餐廳是由「前端」與「後端」所組成，但光顧的顧客可能不會用這些術語來描繪餐廳的每個部分。使用 <code>pub use</code> 的話，我們可以用某種架構寫出程式碼，再以不同的架構對外公開。這樣讓我們的的函式庫可以完整的組織起來，且對開發函式庫的開發者與使用函式庫的開發者都提供友善的架構。</p>
+<p>當程式碼的內部結構與使用程式的開發者對於該領域所想像的結構不同時，重新匯出會很有用。我們再次用餐廳做比喻的話就像是，經營餐廳的人可能會想像餐廳是由「前台」與「後台」所組成，但光顧的顧客可能不會用這些術語來描繪餐廳的每個部分。使用 <code>pub use</code> 的話，我們可以用某種架構寫出程式碼，再以不同的架構對外公開。這樣讓我們的的函式庫可以完整的組織起來，且對開發函式庫的開發者與使用函式庫的開發者都提供友善的架構。</p>
 <h3><a class="header" href="#使用外部套件" id="使用外部套件">使用外部套件</a></h3>
 <p>在第二章我們寫了一支猜謎遊戲專案時，有用到一個外部套件叫做 <code>rand</code> 來取得隨機數字。要在專案內使用 <code>rand</code> 的話，我們會在 <em>Cargo.toml</em> 加上此行：</p>
 <!-- When updating the version of `rand` used, also update the version of
