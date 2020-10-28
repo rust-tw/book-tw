@@ -1,6 +1,6 @@
 ## 讀取檔案
 
-現在我們要加上能夠讀取 `filename` 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能嚷我們測試，要確保 `minigrep` 執行無誤的最佳檔案範本就是文字文件，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 *poem.txt*，然後輸入此詩 「I’m Nobody! Who are you?」
+現在我們要加上能夠讀取 `filename` 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能讓我們測試，要確保 `minigrep` 執行無誤的最佳檔案範本就是文字文件，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 *poem.txt*，然後輸入此詩 「I’m Nobody! Who are you?」
 
 <span class="filename">檔案名稱：poem.txt</span>
 
