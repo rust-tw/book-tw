@@ -20,7 +20,7 @@
 
 使用 `if let` 可以少打些字、減少縮排以及不用寫多餘的樣板程式碼。不過你就少了 `match` 強制的徹底窮舉檢查。要何時選擇 `match` 還是 `if let` 得依據你在的場合是要做什麼事情，以及在精簡度與徹底檢查之間做取捨。
 
-換句話說，你可以想像 `if let` 是 `match` 的語法糖，它只會配對一種模式來執行程式碼並忽略其他數值。
+換句話說，你可以想像 `if let` 是 `match` 的語法糖（syntax sugar），它只會配對一種模式來執行程式碼並忽略其他數值。
 
 我們也可以在 `if let` 之後加上 `else`，`else` 之後的程式碼區塊等同於 `match` 表達式中 `_` 情形的程式碼區塊。這樣一來的 `if let` 和 `else` 組合就等同於 `match` 了。回想一下範例 6-4 的 `Coin` 枚舉定義， `Quarter` 變體擁有數值 `UsState`。如果我們希望統計所有不是 25 美分的硬幣的同時，也能繼續回報 25 美分所屬的州的話，我們可以用 `match` 像這樣寫：
 
@@ -34,7 +34,7 @@
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-14-count-and-announce-if-let-else/src/main.rs:here}}
 ```
 
-如果你的程式碼邏輯遇到使用 `match` 表達會太囉唆的話，記得 `if let` 也在你的 Rust 工具箱中可以使用。
+如果你的程式碼邏輯遇到使用 `match` 表達會太囉唆的話，記得 `if let` 也在你的 Rust 工具箱中供你使用。
 
 ## 總結
 
