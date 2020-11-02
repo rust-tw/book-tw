@@ -193,7 +193,7 @@
 </span></code></pre></pre>
 <p><code>if let</code> 接收一個模式與一個表達式，然後用等號區隔開來。它與 <code>match</code> 的運作方式相同，表達式的意義與 <code>match</code> 相同，然後前面的模式就是第一個分支。</p>
 <p>使用 <code>if let</code> 可以少打些字、減少縮排以及不用寫多餘的樣板程式碼。不過你就少了 <code>match</code> 強制的徹底窮舉檢查。要何時選擇 <code>match</code> 還是 <code>if let</code> 得依據你在的場合是要做什麼事情，以及在精簡度與徹底檢查之間做取捨。</p>
-<p>換句話說，你可以想像 <code>if let</code> 是 <code>match</code> 的語法糖，它只會配對一種模式來執行程式碼並忽略其他數值。</p>
+<p>換句話說，你可以想像 <code>if let</code> 是 <code>match</code> 的語法糖（syntax sugar），它只會配對一種模式來執行程式碼並忽略其他數值。</p>
 <p>我們也可以在 <code>if let</code> 之後加上 <code>else</code>，<code>else</code> 之後的程式碼區塊等同於 <code>match</code> 表達式中 <code>_</code> 情形的程式碼區塊。這樣一來的 <code>if let</code> 和 <code>else</code> 組合就等同於 <code>match</code> 了。回想一下範例 6-4 的 <code>Coin</code> 枚舉定義， <code>Quarter</code> 變體擁有數值 <code>UsState</code>。如果我們希望統計所有不是 25 美分的硬幣的同時，也能繼續回報 25 美分所屬的州的話，我們可以用 <code>match</code> 像這樣寫：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
@@ -243,7 +243,7 @@
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>如果你的程式碼邏輯遇到使用 <code>match</code> 表達會太囉唆的話，記得 <code>if let</code> 也在你的 Rust 工具箱中可以使用。</p>
+<p>如果你的程式碼邏輯遇到使用 <code>match</code> 表達會太囉唆的話，記得 <code>if let</code> 也在你的 Rust 工具箱中供你使用。</p>
 <h2><a class="header" href="#總結" id="總結">總結</a></h2>
 <p>我們現在涵蓋了如何使用枚舉來建立一系列枚舉數值的自訂型別。我們展示了標準函式庫的 <code>Option&lt;T&gt;</code> 型別如何用型別系統來預防錯誤。當枚舉數值其內有資料時，你可以依照你想處理的情況數量，使用 <code>match</code> 或 <code>if let</code> 來取出並使用那些數值。</p>
 <p>你的 Rust 程式碼現在能夠使用結構體與枚舉來表達你所相關研究領域的概念了。在你的 API 建立自訂型別可以確保型別安全，編譯器會保證你的函式只會取得該函式預期的型別數值。</p>

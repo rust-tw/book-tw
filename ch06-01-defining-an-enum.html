@@ -172,7 +172,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#定義枚舉" id="定義枚舉">定義枚舉</a></h2>
-<p>讓我們看一個程式碼表達的例子，來看看為何此時用枚舉會比結構體更恰當且實用。假設我們要使用 IP 位址，而且現在有兩個主要的標準能使用 IP 位址：IPv4 與 IPv6。這些是我們的程式碼可能會遇到的 IP 位址，我們可以<em>枚舉（enumerate）</em> 出所有可能的變體，這正是枚舉的由來。</p>
+<p>讓我們看一個程式碼表達的例子，來看看為何此時用枚舉會比結構體更恰當且實用。假設我們要使用 IP 位址，而且現在有兩個主要的標準能使用 IP 位址：IPv4 與 IPv6。這些是我們的程式碼可能會遇到的 IP 位址，我們可以<strong>枚舉</strong>（<strong>enumerate</strong>）出所有可能的變體，這正是枚舉的由來。</p>
 <p>任何 IP 位址可以是第四版或第六版，但不是同時存在。IP 位址這樣的特性非常適合使用枚舉資料結構，因為枚舉的值只能是其中一個變體。第四版與第六版同時都屬於 IP 位址，所以當有程式碼要處理任何類型的 IP 位址時，它們都應該被視為相同型別。</p>
 <p>要表達這樣的概念，我們可以定義 <code>IpAddrKind</code> 枚舉和列出 IP 位址可能的類型 <code>V4</code> 和 <code>V6</code>。這些稱為枚舉的變體（variants）：</p>
 <pre><pre class="playground"><code class="language-rust">enum IpAddrKind {
@@ -240,7 +240,7 @@
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}
 </span></code></pre></pre>
-<p>使用枚舉還有更多好處。我們再進一步想一下我們的 IP 位址型別還沒有辦法儲存實際的 IP 位址<em>資料</em>，我們現在只知道它是哪種<em>類型</em>。考慮到你已經學會第五章的結構體，你應該會像範例 6-1 這樣解決問題。</p>
+<p>使用枚舉還有更多好處。我們再進一步想一下我們的 IP 位址型別還沒有辦法儲存實際的 IP 位址<strong>資料</strong>，我們現在只知道它是哪種<strong>類型</strong>。考慮到你已經學會第五章的結構體，你應該會像範例 6-1 這樣解決問題。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum IpAddrKind {
         V4,
@@ -359,14 +359,14 @@ struct ChangeColorMessage(i32, i32, i32); // 元組結構體
     m.call();
 <span class="boring">}
 </span></code></pre></pre>
-<p>方法本體使用 <code>self</code> 來取得我們呼叫方法的值。在此例中M，我們建立了一個變數 <code>m</code> 並取得 <code>Message::Write(String::from(&quot;hello&quot;))</code>，而這就會是當我們執行 <code>m.call()</code> 時 <code>call</code> 方法內會用到的 <code>self</code>。</p>
+<p>方法本體使用 <code>self</code> 來取得我們呼叫方法的值。在此例中，我們建立了一個變數 <code>m</code> 並取得 <code>Message::Write(String::from(&quot;hello&quot;))</code>，而這就會是當我們執行 <code>m.call()</code> 時 <code>call</code> 方法內會用到的 <code>self</code>。</p>
 <p>讓我們再看看另一個標準函式庫內非常常見且實用的枚舉：<code>Option</code>。</p>
 <h3><a class="header" href="#option-枚舉相對於空值的優勢" id="option-枚舉相對於空值的優勢"><code>Option</code> 枚舉相對於空值的優勢</a></h3>
-<p>在之前的段落，我們看到了如何使用 <code>IpAddr</code> 枚舉，來讓我們利用 Rust 的型別系統來為我們程式中的資料附加更多資訊。在此段落我們將來研究 <code>Option</code>，這是在標準函式庫中定義的另一種枚舉。<code>Option</code> 廣泛運用在許多場合，它能表示一個數值可能有某個東西，或者什麼都沒有。在型別系統中表達這樣的概念可以讓編譯器檢查我們是否都處理完我們該處理的情況了。這樣的功能可以防止其他程式語言中非常常見的程式錯誤。</p>
-<p>程式語言設計通常要考慮哪些功能是你要的，但同時哪些功能是你不要的也很重要。Rust 沒有像其他許多語言都有空值。<em>空值（Null）</em> 代表的是沒有任何數值。在有空值的語言，所有變數都有兩種可能：空值或非空值。</p>
+<p>在之前的段落，我們看到了如何使用 <code>IpAddr</code> 枚舉，來讓我們利用 Rust 的型別系統來為我們程式中的資料附加更多資訊。在此段落我們將來研究 <code>Option</code>，這是在標準函式庫中定義的另一種枚舉。<code>Option</code> 廣泛運用在許多場合，它能表示一個數值可能有某個東西，或者什麼都沒有。在型別系統中表達這樣的概念可以讓編譯器檢查我們是否都處理完我們該處理的情況了。這樣的功能可以防止其他程式語言中極度常見的程式錯誤。</p>
+<p>程式語言設計通常要考慮哪些功能是你要的，但同時哪些功能是你不要的也很重要。Rust 沒有像其他許多語言都有空值。<strong>空值</strong>（<strong>Null</strong>）代表的是沒有任何數值。在有空值的語言，所有變數都有兩種可能：空值或非空值。</p>
 <p>而其發明者 Tony Hoare 在他 2009 的演講「空引用：造成數十億損失的錯誤」（“Null References: The Billion Dollar Mistake”）中提到：</p>
 <blockquote>
-<p>我稱它為我數十億美元的錯誤。當時我正在為一門物件導向語言設計第一個全方位的引用型別系統。我當時的目標是透過編譯器自動檢查來確保所有的引用都是安全的。但我無法抗拒去加入空引用的誘惑，因為實作的方式實在太簡單了。這導致了無數的錯誤、漏洞與系統崩潰，在接下來的四十年中造成了大概十億美金的痛苦與傷害。</p>
+<p>我稱它為我十億美元級的錯誤。當時我正在為一門物件導向語言設計第一個全方位的引用型別系統。我當時的目標是透過編譯器自動檢查來確保所有的引用都是安全的。但我無法抗拒去加入空引用的誘惑，因為實作的方式實在太簡單了。這導致了無數的錯誤、漏洞與系統當機，在接下來的四十年中造成了大概數十億美金的痛苦與傷害。</p>
 </blockquote>
 <p>空值的問題在於，如果你想在非空值使用空值的話，你會得到某種錯誤。由於空值與非空值的特性無所不在，你會很容易犯下這類型的錯誤。</p>
 <p>但有時候能夠表達「空（null）」的概念還是很有用的：空值代表目前的數值因為某些原因而無效或缺少。</p>
@@ -420,9 +420,9 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>這樣其實很好！此錯誤訊息事實上指的是 Rust 不知道如何將 <code>i8</code> 與 <code>Option&lt;i8&gt;</code> 相加，因為它們是不同的型別。當我們在 Rust 中有個型別像是 <code>i8</code>，編譯器將會確保我們永遠會擁有有效數值。我們可以很放心地使用該值，而不必檢查是不是空的。我們只有在使用 <code>Option&lt;i8&gt;</code> （或者任何其他要使用的型別）時才需要去擔心會不會沒有值。然後編譯器會確保我們在使用該值前，有處理過該有的條件。</p>
 <p>換句話說，你必須將 <code>Option&lt;T&gt;</code> 轉換為 <code>T</code> 你才能對 <code>T</code> 做運算。 這通常就能幫助我們抓到空值最常見的問題：認為某值不為空，但它其實就是空值。</p>
-<p>不用再擔心一個非空值是不是不正確的，可以讓你對你寫的程式碼更有信心。要讓一個值變成可能為空的話，你必須顯式建立成對應型別的 <code>Option&lt;T&gt;</code>。然後當你要使用該值時，你就得顯式處理數值是否為空的條件。只要一個數值的型別不是 <code>Option&lt;T&gt;</code>，你就<em>可以</em>安全地認定該值不為空。這是 Rust 刻意考慮的設計決定，限制無所不在的空值，並增強 Rust 程式碼的安全性。</p>
+<p>不用再擔心一個非空值是不是不正確的，可以讓你對你寫的程式碼更有信心。要讓一個值變成可能為空的話，你必須顯式建立成對應型別的 <code>Option&lt;T&gt;</code>。然後當你要使用該值時，你就得顯式處理數值是否為空的條件。只要一個數值的型別不是 <code>Option&lt;T&gt;</code>，你就<strong>可以</strong>安全地認定該值不為空。這是 Rust 刻意考慮的設計決定，限制無所不在的空值，並增強 Rust 程式碼的安全性。</p>
 <p>所以當我們有一個數值型別 <code>Option&lt;T&gt;</code>，我們要怎麼從 <code>Some</code> 變體取出 <code>T</code>，好讓我們可以使用該值呢？<code>Option&lt;T&gt;</code> 枚舉有大量實用的方法可以在不同的場合下使用。你可以在<a href="https://doc.rust-lang.org/std/option/enum.Option.html">它的技術文件</a><!-- ignore -->查閱。更加熟悉 <code>Option&lt;T&gt;</code> 的方法十分益於你接下來的 Rust 旅程。</p>
-<p>總之來說，要使用 <code>Option&lt;T&gt;</code> 數值的話，你要讓程式碼可以處理每個變體。你會希望有一些程式碼只會在當我們有 <code>Some(T)</code> 時執行，然後這些程式碼允許使用內部的 <code>T</code>。你會希望有另一部分的程式碼能在只有 <code>None</code> 時執行，且這些程式碼不會拿到有效的 <code>T</code> 數值。<code>match</code> 表達式正是處理此枚舉行為的控制流結構：它會針對不同的枚舉變體執行不同的程式碼，而且程式碼可以使用配對到的數值資料。</p>
+<p>整體來說，要使用 <code>Option&lt;T&gt;</code> 數值的話，你要讓程式碼可以處理每個變體。你會希望有一些程式碼只會在當我們有 <code>Some(T)</code> 時執行，然後這些程式碼允許使用內部的 <code>T</code>。你會希望有另一部分的程式碼能在只有 <code>None</code> 時執行，且這些程式碼不會拿到有效的 <code>T</code> 數值。<code>match</code> 表達式正是處理此枚舉行為的控制流結構：它會針對不同的枚舉變體執行不同的程式碼，而且程式碼可以使用配對到的數值資料。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>

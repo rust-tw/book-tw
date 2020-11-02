@@ -334,7 +334,7 @@ enum Coin {
 </span><span class="boring">    let none = plus_one(None);
 </span><span class="boring">}
 </span></code></pre>
-<p>配對成功！因為沒有任何數值可以相加，程式就停止並在 <code>=&gt;</code> 之後馬上回傳 <code>None</code>。因為第一個分支就配對成功了，沒有其他的分支需要在做比較。</p>
+<p>配對成功！因為沒有任何數值可以相加，程式就停止並在 <code>=&gt;</code> 之後馬上回傳 <code>None</code>。因為第一個分支就配對成功了，沒有其他的分支需要再做比較。</p>
 <p>用 <code>match</code> 與枚舉組合起來在很多地方都很實用。你將會在許多 Rust 程式碼看到這樣的模式，使用 <code>match</code> 配對枚舉，綁定內部的資料，然後執行對應的程式碼。一開始使用的確會有點陌生，但當你熟悉以後，你會希望所有語言都能提供這樣的功能。這一直是使用者最愛的功能之一。</p>
 <h3><a class="header" href="#配對必須是徹底的" id="配對必須是徹底的">配對必須是徹底的</a></h3>
 <p>我們還有一個 <code>match</code> 的細節要討論，今天要是我們像這樣寫了一個有錯誤的 <code>plus_one</code> 函式版本，它會無法編譯：</p>
@@ -368,7 +368,7 @@ error: could not compile `enums`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是<em>徹底（exhaustive）</em> 的：我們必須列舉出所有可能的情形，程式碼才能夠被視為有效。尤其是在 <code>Option&lt;T&gt;</code> 的情況下，當 Rust 防止我們忘記處理 <code>None</code> 的情形時，它也使我們免於以為擁有一個有效實際上卻是空的值。因此要造成之前提過的數十億元錯誤在這邊基本上是不可能的。</p>
+<p>Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是<strong>徹底</strong>（<em>exhaustive</em>）的：我們必須列舉出所有可能的情形，程式碼才能夠被視為有效。尤其是在 <code>Option&lt;T&gt;</code> 的情況下，當 Rust 防止我們忘記處理 <code>None</code> 的情形時，它也使我們免於以為擁有一個有效實際上卻是空的值。因此要造成之前提過的十億美元級錯誤在這邊基本上是不可能的。</p>
 <h3><a class="header" href="#_-佔位符" id="_-佔位符"><code>_</code> 佔位符</a></h3>
 <p>Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需要使用此模式就好。舉例來說 <code>u8</code> 可能的數值為 0 到 255，如果我們只在意數值 1、3、5 和 7，我們就不會想要列出 0、2、4、6、8、9 以及剩下一直到 255 的每個值。幸運的是，我們不需要這樣做，我們可以使用特殊模式 <code>_</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -383,7 +383,7 @@ To learn more, run the command again with --verbose.
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code>就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值，所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。</p>
-<p>不過有時候我們只在意其中<em>一種</em>情形的話， <code>match</code> 表達式的確會有點囉唆。針對此情形，Rust 提供 <code>if let</code>。</p>
+<p>不過有時候我們只在意其中<strong>一種</strong>情形的話， <code>match</code> 表達式的確會有點囉唆。針對此情形，Rust 提供 <code>if let</code>。</p>
 <p>而更多有關配對模式的內容可以在<a href="ch18-00-patterns.html">第十八章</a>查閱。</p>
 <blockquote>
 <ul>
