@@ -225,7 +225,7 @@ Rust 告訴我們程式碼忽略了 `Result` 數值且 `Result` 數值可能代�
 
 ### 將程式碼拆到函式庫 Crate
 
-我們的 `minigrep` 專案目前看起來不錯！接下來我們要將 *src/main.rs* 檔案該開來，將一些程式碼放入 *src/lib.rs* 檔案中，讓我們可以進行測試，並讓 *src/main.rs* 檔案的負擔變得少一點。
+我們的 `minigrep` 專案目前看起來不錯！接下來我們要將 *src/main.rs* 檔案分開來，將一些程式碼放入 *src/lib.rs* 檔案中，讓我們可以進行測試，並讓 *src/main.rs* 檔案的負擔變得少一點。
 
 讓我們將 `main` 以外的所有程式碼從 *src/main.rs* 移到 *src/lib.rs*：
 
@@ -234,7 +234,7 @@ Rust 告訴我們程式碼忽略了 `Result` 數值且 `Result` 數值可能代�
 * `Config` 的定義
 * `Config::new` 的函式定義
 
-*src/lib.rs* 的內容應該要如範例 12-13 所示（為了簡潔我們省略的函式本體）。注意到這還無法編譯，直到我們也修改 *src/main.rs* 成範例 12-14 為止。
+*src/lib.rs* 的內容應該要如範例 12-13 所示（為了簡潔，我們省略了函式本體）。注意到這還無法編譯，直到我們也修改 *src/main.rs* 成範例 12-14 為止。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
