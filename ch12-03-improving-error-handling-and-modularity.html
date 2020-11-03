@@ -667,7 +667,7 @@ To an admiring bog!
 <p>我們使用 <code>if let</code> 而非 <code>unwrap_or_else</code> 來檢查 <code>run</code> 是否有回傳 <code>Err</code> 數值，並以此呼叫 <code>process::exit(1)</code>。<code>run</code> 函式沒有回傳數值，所以我們不必像處理 <code>Config::new</code> 得用 <code>unwrap</code> 取得 <code>Config</code> 實例。因為 <code>run</code> 在成功時會回傳 <code>()</code>，而我們只在乎偵測錯誤，所以我們不需要 <code>unwrap_or_else</code> 來回傳解封裝後的數值，因為它只會是 <code>()</code>。</p>
 <p><code>if let</code> 的本體與 <code>unwrap_or_else</code> 函式則都做一樣的事情：印出錯誤並離開。</p>
 <h3><a class="header" href="#將程式碼拆到函式庫-crate" id="將程式碼拆到函式庫-crate">將程式碼拆到函式庫 Crate</a></h3>
-<p>我們的 <code>minigrep</code> 專案目前看起來不錯！接下來我們要將 <em>src/main.rs</em> 檔案該開來，將一些程式碼放入 <em>src/lib.rs</em> 檔案中，讓我們可以進行測試，並讓 <em>src/main.rs</em> 檔案的負擔變得少一點。</p>
+<p>我們的 <code>minigrep</code> 專案目前看起來不錯！接下來我們要將 <em>src/main.rs</em> 檔案分開來，將一些程式碼放入 <em>src/lib.rs</em> 檔案中，讓我們可以進行測試，並讓 <em>src/main.rs</em> 檔案的負擔變得少一點。</p>
 <p>讓我們將 <code>main</code> 以外的所有程式碼從 <em>src/main.rs</em> 移到 <em>src/lib.rs</em>：</p>
 <ul>
 <li><code>run</code> 函式定義</li>
@@ -675,7 +675,7 @@ To an admiring bog!
 <li><code>Config</code> 的定義</li>
 <li><code>Config::new</code> 的函式定義</li>
 </ul>
-<p><em>src/lib.rs</em> 的內容應該要如範例 12-13 所示（為了簡潔我們省略的函式本體）。注意到這還無法編譯，直到我們也修改 <em>src/main.rs</em> 成範例 12-14 為止。</p>
+<p><em>src/lib.rs</em> 的內容應該要如範例 12-13 所示（為了簡潔，我們省略了函式本體）。注意到這還無法編譯，直到我們也修改 <em>src/main.rs</em> 成範例 12-14 為止。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">use std::error::Error;
 use std::fs;

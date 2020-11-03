@@ -8608,7 +8608,7 @@ fn it_adds_two() {
 </ul>
 </blockquote>
 <h1><a class="header" href="#io-專案建立一個命令列程式" id="io-專案建立一個命令列程式">I/O 專案：建立一個命令列程式</a></h1>
-<p>本章節用來回顧你目前學過的許多計技能，並探索些標準函式庫中的更多功能。我們會來建立個命令列工作來處理檔案與命令列輸入／輸出，以此練習些已經在你的工具箱內的 Rust 概念。</p>
+<p>本章節用來回顧你目前學過的許多技能，並探索些標準函式庫中的更多功能。我們會來建立個命令列工作來處理檔案與命令列輸入／輸出，以此練習些你已經掌握的 Rust 概念。</p>
 <p>Rust 的速度、安全、單一二進制輸出與跨平台支援使其成為建立命令列工具的絕佳語言。所以在我們的專案中，我們要寫出我們自己的經典命令列工具 <code>grep</code>（<strong>g</strong>lobally search a <strong>r</strong>egular <strong>e</strong>xpression and <strong>p</strong>rint）。在最簡單的使用場合中，<code>grep</code> 會搜尋指定檔案中的指定字串。為此 <code>grep</code> 會接收一個檔案名稱與一個字串作為其引數。然後它會讀取檔案、在該檔案中找到包含字串引數的行數，並印出這些行數。</p>
 <p>在過程中，我們會展示如何讓我們的命令列工具和其他許多命令列工具一樣使用終端機的功能。我們會讀取一個環境變數的數值來讓使用者可以配置此工具的行為。我們還會將錯誤訊息在控制台中的標準錯誤（<code>stderr</code>）顯示而非標準輸出（<code>stdout</code>）。所以舉例來說，使用者可以將成功的標準輸出重新導向至一個檔案，並仍能在螢幕上看到錯誤訊息。</p>
 <p>其中一位 Rust 社群成員 Andrew Gallant 已經有建立個功能完善且十分迅速的 <code>grep</code> 版本，叫做 <code>ripgrep</code>。相比之下，我們的 <code>grep</code> 版本會相對簡單許多，但此章節能給你些背景知識，來幫你理解像是 <code>ripgrep</code> 等真實專案。</p>
@@ -9265,7 +9265,7 @@ To an admiring bog!
 <p>我們使用 <code>if let</code> 而非 <code>unwrap_or_else</code> 來檢查 <code>run</code> 是否有回傳 <code>Err</code> 數值，並以此呼叫 <code>process::exit(1)</code>。<code>run</code> 函式沒有回傳數值，所以我們不必像處理 <code>Config::new</code> 得用 <code>unwrap</code> 取得 <code>Config</code> 實例。因為 <code>run</code> 在成功時會回傳 <code>()</code>，而我們只在乎偵測錯誤，所以我們不需要 <code>unwrap_or_else</code> 來回傳解封裝後的數值，因為它只會是 <code>()</code>。</p>
 <p><code>if let</code> 的本體與 <code>unwrap_or_else</code> 函式則都做一樣的事情：印出錯誤並離開。</p>
 <h3><a class="header" href="#將程式碼拆到函式庫-crate" id="將程式碼拆到函式庫-crate">將程式碼拆到函式庫 Crate</a></h3>
-<p>我們的 <code>minigrep</code> 專案目前看起來不錯！接下來我們要將 <em>src/main.rs</em> 檔案該開來，將一些程式碼放入 <em>src/lib.rs</em> 檔案中，讓我們可以進行測試，並讓 <em>src/main.rs</em> 檔案的負擔變得少一點。</p>
+<p>我們的 <code>minigrep</code> 專案目前看起來不錯！接下來我們要將 <em>src/main.rs</em> 檔案分開來，將一些程式碼放入 <em>src/lib.rs</em> 檔案中，讓我們可以進行測試，並讓 <em>src/main.rs</em> 檔案的負擔變得少一點。</p>
 <p>讓我們將 <code>main</code> 以外的所有程式碼從 <em>src/main.rs</em> 移到 <em>src/lib.rs</em>：</p>
 <ul>
 <li><code>run</code> 函式定義</li>
@@ -9273,7 +9273,7 @@ To an admiring bog!
 <li><code>Config</code> 的定義</li>
 <li><code>Config::new</code> 的函式定義</li>
 </ul>
-<p><em>src/lib.rs</em> 的內容應該要如範例 12-13 所示（為了簡潔我們省略的函式本體）。注意到這還無法編譯，直到我們也修改 <em>src/main.rs</em> 成範例 12-14 為止。</p>
+<p><em>src/lib.rs</em> 的內容應該要如範例 12-13 所示（為了簡潔，我們省略了函式本體）。注意到這還無法編譯，直到我們也修改 <em>src/main.rs</em> 成範例 12-14 為止。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">use std::error::Error;
 use std::fs;
@@ -9407,7 +9407,7 @@ Pick three.&quot;;
 </span></code></pre>
 <p><span class="caption">範例 12-15：建立一個我們預期 <code>search</code> 函式該有的行為的失敗測試</span></p>
 <p>此測試搜尋字串 <code>&quot;duct&quot;</code>。而要被搜尋的文字有三行，只有一行包含 <code>&quot;duct&quot;</code>。我們判定 <code>search</code> 函式回傳的數值只會包含我們預期的那一行。</p>
-<p>我們還無法執行此程式並觀察其失敗，因為測試還無法編譯，<code>search</code> 函式根本還不存在！所以現在我們要加上足夠的程式碼讓測試可以編譯並執行，而我們要加上的事 <code>search</code> 函式的定義並永遠回傳一個空的向量，如範例 12-16 所示。然後測試應該就能編譯並失敗，因為空向量並不符合包含 <code>&quot;safe, fast, productive.&quot;</code> 此行的向量。</p>
+<p>我們還無法執行此程式並觀察其失敗，因為測試還無法編譯，<code>search</code> 函式根本還不存在！所以現在我們要加上足夠的程式碼讓測試可以編譯並執行，而我們要加上的是 <code>search</code> 函式的定義並永遠回傳一個空的向量，如範例 12-16 所示。然後測試應該就能編譯並失敗，因為空向量並不符合包含 <code>&quot;safe, fast, productive.&quot;</code> 此行的向量。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
