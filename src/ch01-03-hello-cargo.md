@@ -45,7 +45,7 @@ edition = "2018"
 
 <span class="caption">範例 1-2：用 `cargo new` 產生的 *Cargo.toml*</span>
 
-此檔案用的是 [*TOML*](https://toml.io)<!-- ignore --> （*Tom’s Obvious, Minimal Language*）格式，這是 Cargo 配置文件的格式。
+此檔案用的是 [*TOML*](https://toml.io)<!-- ignore -->（*Tom’s Obvious, Minimal Language*）格式，這是 Cargo 配置文件的格式。
 
 第一行的 `[package]` 是一個段落（section）標題，說明以下的陳述式（statement）會配置這個套件。隨著我們加入更多資訊到此文件，我們也會加上更多段落。
 
@@ -128,7 +128,7 @@ $ cargo check
 
 ### 建構發佈版本（Release）
 
-當你的專案正式準備好要發佈的話，你可以使用 `cargo build --release` 來優化編譯結果。此命令會產生執行檔到 *target/release* 而不是 *target/debug*。優化可以讓你的 Rust 程式碼跑得更快，不過也會讓編譯的時間變得更久。這也是為何 Cargo 提供兩種不同的設定檔（profile）：一個用來作為開發使用，讓你可以快速並經常重新建構；另一個用來最終產生你要給使用者運行的程式用，它通常不會需要重新建構且能盡所能地跑得越快越好。如果你要做基準化分析（benchmarking）來檢測程式運行時間的話，請確認執行的是 `cargo build --release` 並使用 *target/release* 底下的執行檔做檢測。
+當你的專案正式準備好要發佈的話，你可以使用 `cargo build --release` 來最佳化編譯結果。此命令會產生執行檔到 *target/release* 而不是 *target/debug*。最佳化可以讓你的 Rust 程式碼跑得更快，不過也會讓編譯的時間變得更久。這也是為何 Cargo 提供兩種不同的設定檔（profile）：一個用來作為開發使用，讓你可以快速並經常重新建構；另一個用來最終產生你要給使用者運行的程式用，它通常不會需要重新建構且能盡所能地跑得越快越好。如果你要做基準化分析（benchmarking）來檢測程式運行時間的話，請確認執行的是 `cargo build --release` 並使用 *target/release* 底下的執行檔做檢測。
 
 ### 將 Cargo 視為常規
 
