@@ -450,7 +450,7 @@ edition = &quot;2018&quot;
 [dependencies]
 </code></pre>
 <p><span class="caption">範例 1-2：用 <code>cargo new</code> 產生的 <em>Cargo.toml</em></span></p>
-<p>此檔案用的是 <a href="https://toml.io"><em>TOML</em></a><!-- ignore --> （<em>Tom’s Obvious, Minimal Language</em>）格式，這是 Cargo 配置文件的格式。</p>
+<p>此檔案用的是 <a href="https://toml.io"><em>TOML</em></a><!-- ignore -->（<em>Tom’s Obvious, Minimal Language</em>）格式，這是 Cargo 配置文件的格式。</p>
 <p>第一行的 <code>[package]</code> 是一個段落（section）標題，說明以下的陳述式（statement）會配置這個套件。隨著我們加入更多資訊到此文件，我們也會加上更多段落。</p>
 <p>接下來四行就是 Cargo 編譯你的程式所需的配置資訊：名稱、版本、誰寫的以及哪個 Rust <code>edition</code> 會用到。Cargo 會透過環境取得你的名字和電子郵件資訊，所以要是資訊不對的話，請現在編輯然後儲存檔案。我們會在附錄 E 介紹什麼是 <code>edition</code>。</p>
 <p>最後一行 <code>[dependencies]</code> 是用來列出你的專案會用到哪些依賴的段落。在 Rust 中，程式碼套件會被稱為 <em>crates</em>。我們在此專案還不需要任何其他 crate。但是我們會在第二章開始用到，屆時我們會再來介紹。</p>
@@ -502,7 +502,7 @@ Hello, world!
 </ul>
 <p>使用 Cargo 還有一項好處是在任何作業系統所使用的命令都是相同的，所以到這邊開始我們不再需要特別提供 Linux 和 macOS 相對於 Windows 不同的特殊命令。</p>
 <h3><a class="header" href="#建構發佈版本release" id="建構發佈版本release">建構發佈版本（Release）</a></h3>
-<p>當你的專案正式準備好要發佈的話，你可以使用 <code>cargo build --release</code> 來優化編譯結果。此命令會產生執行檔到 <em>target/release</em> 而不是 <em>target/debug</em>。優化可以讓你的 Rust 程式碼跑得更快，不過也會讓編譯的時間變得更久。這也是為何 Cargo 提供兩種不同的設定檔（profile）：一個用來作為開發使用，讓你可以快速並經常重新建構；另一個用來最終產生你要給使用者運行的程式用，它通常不會需要重新建構且能盡所能地跑得越快越好。如果你要做基準化分析（benchmarking）來檢測程式運行時間的話，請確認執行的是 <code>cargo build --release</code> 並使用 <em>target/release</em> 底下的執行檔做檢測。</p>
+<p>當你的專案正式準備好要發佈的話，你可以使用 <code>cargo build --release</code> 來最佳化編譯結果。此命令會產生執行檔到 <em>target/release</em> 而不是 <em>target/debug</em>。最佳化可以讓你的 Rust 程式碼跑得更快，不過也會讓編譯的時間變得更久。這也是為何 Cargo 提供兩種不同的設定檔（profile）：一個用來作為開發使用，讓你可以快速並經常重新建構；另一個用來最終產生你要給使用者運行的程式用，它通常不會需要重新建構且能盡所能地跑得越快越好。如果你要做基準化分析（benchmarking）來檢測程式運行時間的話，請確認執行的是 <code>cargo build --release</code> 並使用 <em>target/release</em> 底下的執行檔做檢測。</p>
 <h3><a class="header" href="#將-cargo-視為常規" id="將-cargo-視為常規">將 Cargo 視為常規</a></h3>
 <p>雖然在簡單的專案下，Cargo 比起只使用 <code>rustc</code> 的確沒辦法突顯出什麼價值。但是當你的程式變得越來越複雜時，它將證明它的用途。在擁有一堆 crate 的龐大專案下，讓 Cargo 來協調你的專案會來的簡單許多。</p>
 <p>儘管 <code>hello_cargo</code> 是個小專案，但它使用了你未來的 Rust 生涯中真實情況下會用到的工具。事實上，所有存在的專案，你幾乎都可以用以下命令完成：使用 Git 下載專案、移至專案目錄然後建構完成。</p>
