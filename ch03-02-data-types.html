@@ -173,7 +173,7 @@
                     <main>
                         <h2><a class="header" href="#資料型別" id="資料型別">資料型別</a></h2>
 <p>每個數值在 Rust 中都屬於某種<em>資料型別</em>，這告訴 Rust 何種資料被指定，好讓它能妥善處理資料。我們將討論兩種資料型別子集：純量（scalar）與複合（compound）。</p>
-<p>請記住 Rust 是一門<em>靜態型別</em>語言，這代表它必須在編譯時知道所有變數的型別。編譯器通常能依據數值與我們使用的方式推導出我們想使用的型別。但有時候如果多種型別都有可能時，像是第二章的<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->用到的 <code>parse</code> 將 <code>String</code> 轉換成數字時，我們就需要像這樣加上型別詮釋： </p>
+<p>請記住 Rust 是一門<em>靜態型別</em>語言，這代表它必須在編譯時知道所有變數的型別。編譯器通常能依據數值與我們使用的方式推導出我們想使用的型別。但有時候如果多種型別都有可能時，像是第二章的<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->用到的 <code>parse</code> 將 <code>String</code> 轉換成數字時，我們就需要像這樣加上型別詮釋：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -225,7 +225,7 @@ To learn more, run the command again with --verbose.
 <p>所以你該用哪些整數型別呢？如果你不確定的話，Rust 預設的型別通常就很好了，整數型別預設是 <code>i32</code>：此型別通常是最快的，甚至在 64 位元系統上也是。而你會用到 <code>isize</code> 或 <code>usize</code> 的主要時機是作為某些集合的索引。</p>
 <blockquote>
 <h5><a class="header" href="#整數溢位" id="整數溢位">整數溢位</a></h5>
-<p>假設你有個變數型別是 <code>u8</code> 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生<em>整數溢位</em>。Rust 有一些有趣的規則來處理這項行為。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在運行時<em>恐慌</em>（<em>panic</em>）。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的<a href="ch09-01-unrecoverable-errors-with-panic.html">「對無法復原的錯誤使用 <code>panic!</code>」</a><!-- ignore -->段落討論更多造成恐慌的細節。</p>
+<p>假設你有個變數型別是 <code>u8</code> 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生<em>整數溢位</em>。Rust 有一些有趣的規則來處理這項行為。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在執行時<em>恐慌</em>（<em>panic</em>）。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的<a href="ch09-01-unrecoverable-errors-with-panic.html">「對無法復原的錯誤使用 <code>panic!</code>」</a><!-- ignore -->段落討論更多造成恐慌的細節。</p>
 <p>當你是在發佈模式下用 <code>--release</code> 來編譯的話，Rust 則<em>不會</em>加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出<em>二補數包裝</em>的動作。簡單來說，超出最大值的數值可以被<em>包裝</em>成該型別的最低數值。以 <code>u8</code> 為例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行為仍然會被視為邏輯錯誤，如果你想要安全顯式表達這種行為的話，你可以使用標準函式庫的型別 <a href="https://doc.rust-lang.org/std/num/struct.Wrapping.html"><code>Wrapping</code></a>。</p>
 </blockquote>
 <h4><a class="header" href="#浮點數型別" id="浮點數型別">浮點數型別</a></h4>
@@ -271,7 +271,7 @@ To learn more, run the command again with --verbose.
 </code></pre></pre>
 <p>布林值最常使用的方式之一是作為條件判斷，像是在 <code>if</code> 表達式中使用。我們將會在<a href="ch03-05-control-flow.html#control-flow">「控制流程」</a><!-- ignore -->段落介紹如何在 Rust 使用 <code>if</code> 表達式。</p>
 <h4><a class="header" href="#字元型別" id="字元型別">字元型別</a></h4>
-<p>目前我們只討論了數字，但是 Rust 一樣也有支援字母。Rust 的 <code>char</code> 型別是最基本的字母型別，以下程式碼顯示了使用它的方法。（請注意到 <code>char</code> 字面值是用單撇號賦值，宣告字串字面值時才是用雙撇號）</p>
+<p>目前我們只討論了數字，但是 Rust 一樣也有支援字母。Rust 的 <code>char</code> 型別是最基本的字母型別，以下程式碼顯示了使用它的方法。（請注意到 <code>char</code> 字面值是用單引號賦值，宣告字串字面值時才是用雙引號）</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let c = 'z';
