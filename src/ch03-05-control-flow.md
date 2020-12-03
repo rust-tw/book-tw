@@ -152,7 +152,7 @@ $ cargo run
 ^C再一次！
 ```
 
-`^C` 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 `again!` 出現在 `^C` 之後。
+`^C` 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 `再一次！` 出現在 `^C` 之後。
 
 幸運的是 Rust 有提供另一個打破迴圈更可靠的方法。你可以在迴圈內加上 `break` 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章[「猜對後離開」][quitting-after-a-correct-guess]<!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。
 
