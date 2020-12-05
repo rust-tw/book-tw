@@ -353,7 +353,7 @@ CTRL-C
 再一次！
 ^C再一次！
 </code></pre>
-<p><code>^C</code> 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 <code>again!</code> 出現在 <code>^C</code> 之後。</p>
+<p><code>^C</code> 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 <code>再一次！</code> 出現在 <code>^C</code> 之後。</p>
 <p>幸運的是 Rust 有提供另一個打破迴圈更可靠的方法。你可以在迴圈內加上 <code>break</code> 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E7%8C%9C%E5%B0%8D%E5%BE%8C%E9%9B%A2%E9%96%8B">「猜對後離開」</a><!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。</p>
 <h4><a class="header" href="#從迴圈回傳數值" id="從迴圈回傳數值">從迴圈回傳數值</a></h4>
 <p>其中一種使用 <code>loop</code> 的用途是重試某些你覺得會失敗的動作，像是檢查一個執行緒是否已經完成其任務。不過這樣你可能就會想傳遞任務結果給之後的程式碼。要做到這樣的事，你可以在你要用來停下迴圈的 <code>break</code> 表達式內加上一個你想回傳數值，該值就會被停止的迴圈回傳，如以下所示：</p>
