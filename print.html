@@ -5284,7 +5284,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </blockquote>
 <h2><a class="header" href="#透過雜湊映射儲存鍵值配對" id="透過雜湊映射儲存鍵值配對">透過雜湊映射儲存鍵值配對</a></h2>
 <p>我們最後一個常見的集合是<em>雜湊映射（hash map）</em>，<code>HashMap&lt;K, V&gt;</code> 型別會儲存一個鍵（key）型別 <code>K</code> 對應到一個數值（value）型別 <code>V</code>。它透過<em>雜湊函式（hashing function）</em> 來決定要將這些鍵與值放在記憶體何處。許多程式語言都有支援這種類型的資料結構，不過通常它們會提供不同的名稱，像是 hash、map、object、hash table、dictionary 或 associative array 等等。</p>
-<p>雜湊映射適合用於當你不想像向量那樣用索引搜尋資料，而是透過一個可以為任意型別的鍵來搜尋的情況。舉例來說，在比賽中我們可以使用雜湊映射來儲存每隊的分數，每個鍵代表對與名稱，而每個值代表隊伍分數。給予一個隊伍名稱，你就能取得該隊伍分數。</p>
+<p>雜湊映射適合用於當你不想像向量那樣用索引搜尋資料，而是透過一個可以為任意型別的鍵來搜尋的情況。舉例來說，在比賽中我們可以使用雜湊映射來儲存每隊的分數，每個鍵代表隊伍名稱，而每個值代表隊伍分數。給予一個隊伍名稱，你就能取得該隊伍分數。</p>
 <p>我們會在此段落介紹雜湊映射的基本 API，但還有很多實用的函式定義在標準函式庫的 <code>HashMap&lt;K, V&gt;</code> 中，所以別忘了查閱標準函式庫的技術文件來瞭解更多資訊。</p>
 <h3><a class="header" href="#建立新的雜湊映射" id="建立新的雜湊映射">建立新的雜湊映射</a></h3>
 <p>你可以用 <code>new</code> 建立一個空的雜湊映射並用 <code>insert</code> 加入新元素。在範例 8-20 我們追蹤兩支隊伍的分數，分別為藍隊與黃隊。藍隊初始分數有 10 分，黃隊則有 50 分。</p>
@@ -5324,8 +5324,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
     let mut map = HashMap::new();
     map.insert(field_name, field_value);
-    // field_name and field_value are invalid at this point, try using them and
-    // see what compiler error you get!
+    // field_name 和 field_value 在這之後就不能使用了，你可以試著使用它們並看看編譯器回傳什麼錯誤
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-22：展示當鍵值插入雜湊映射後就會擁有它們</span></p>
