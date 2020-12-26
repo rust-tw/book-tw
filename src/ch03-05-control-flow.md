@@ -132,7 +132,7 @@ Rust 提供三種迴圈：`loop`、`while` 和 `for`。讓我們每個都嘗試�
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-32-loop/src/main.rs}}
 ```
 
-當我們執行此程式時，我們會看到 `again!` 一直不停地重複顯示出來，直到我們手動停下程式為止。大多數的終端機都支援 <span class="keystroke">ctrl-c</span> 這個快捷鍵來中斷一支卡在無限迴圈的程式，你可以自己試試看：
+當我們執行此程式時，我們會看到 `再一次！` 一直不停地重複顯示出來，直到我們手動停下程式為止。大多數的終端機都支援 <span class="keystroke">ctrl-c</span> 這個快捷鍵來中斷一支卡在無限迴圈的程式，你可以自己試試看：
 
 <!-- manual-regeneration
 cd listings/ch03-common-programming-concepts/no-listing-32-loop
