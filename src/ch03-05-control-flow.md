@@ -14,7 +14,7 @@
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-26-if-true/src/main.rs}}
 ```
 
-所有的 `if` 表達式都由 `if` 關鍵字開始再加上一個條件。在此例中的條件是判斷變數 `number` 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 `if` 表達式條件相關的程式碼段落有時也被稱為*分支*（*arms*），就像我們在第二章[「將猜測的數字與祕密數字做比較」][comparing-the-guess-to-the-secret-number]<!-- ignore -->段落提到的 `match` 表達式的分支一樣。
+所有的 `if` 表達式都由 `if` 關鍵字開始再加上一個條件。在此例中的條件是判斷變數 `number` 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 `if` 表達式條件相關的程式碼段落有時也被稱為**分支（arms）**，就像我們在第二章[「將猜測的數字與祕密數字做比較」][comparing-the-guess-to-the-secret-number]<!-- ignore -->段落提到的 `match` 表達式的分支一樣。
 
 另外，我們還可以選擇性地加上 `else` 表達式（就像範例寫的），讓條件不符時可以去執行另外一段程式碼。如果你沒有提供 `else` 表達式且條件為否的話，程式會直接略過 `if` 的程式碼區塊，接著執行後續的程式碼。
 
@@ -36,7 +36,7 @@
 {{#include ../listings/ch03-common-programming-concepts/no-listing-27-if-false/output.txt}}
 ```
 
-還有一件值得注意的是程式碼的條件判斷*必須*是 `bool`。如果條件不是 `bool` 的話，我們就會遇到錯誤。比方說，試試以下程式碼：
+還有一件值得注意的是程式碼的條件判斷**必須**是 `bool`。如果條件不是 `bool` 的話，我們就會遇到錯誤。比方說，試試以下程式碼：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -116,7 +116,7 @@
 
 ### 使用迴圈重複執行
 
-重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 *迴圈*（*loops*）的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。為了繼續探討迴圈，讓我們再開一個新專案 *loops*。
+重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生**迴圈**（loops）的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。為了繼續探討迴圈，讓我們再開一個新專案 *loops*。
 
 Rust 提供三種迴圈：`loop`、`while` 和 `for`。讓我們每個都嘗試看看吧。
 
@@ -238,7 +238,7 @@ $ cargo run
 * 產生第 n 個斐波那契數字。
 * 試著用重複的歌詞印出 Christmas carol 的 The Twelve Days of Christmas。
 
-當你準備好後，我們就來探討一個其他語言*不常見*的概念：所有權。
+當你準備好後，我們就來探討一個其他語言**不常見**的概念：所有權。
 
 [comparing-the-guess-to-the-secret-number]:
 ch02-00-guessing-game-tutorial.html#將猜測的數字與祕密數字做比較

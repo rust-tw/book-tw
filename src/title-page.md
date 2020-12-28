@@ -15,7 +15,7 @@ Rust 語言的 2018 版號包含一系列的改進使得 Rust 更加易讀易用
 - 附錄 D 現在的標題為「實用開發工具」，其中涵蓋有近期推出的工具，這些能在你撰寫 Rust 程式碼時幫助到你。
 - 我們修正了整本書中一些小錯誤與不精確的措辭。感謝各位讀者的回報！
 
-值得注意的是 *Rust 程式設計語言*早期疊代版本中的程式碼在專案中 *Cargo.toml* 移除 `edition="2018"` 的話就能繼續編譯，儘管你升級了 Rust 編譯器也是如此。Rust 的向下相容保證一切可以正常運行！
+值得注意的是 **Rust 程式設計語言**早期疊代版本中的程式碼在專案中 *Cargo.toml* 移除 `edition="2018"` 的話就能繼續編譯，儘管你升級了 Rust 編譯器也是如此。Rust 的向下相容保證一切可以正常運行！
 
 本書的 HTML 格式可以在線上閱讀：[https://doc.rust-lang.org/stable/book/](https://doc.rust-lang.org/stable/book/)（[正體中文版](https://rust-lang.tw/book-tw/)）。而離線版則包含在 `rustup` 安裝的 Rust 中，輸入 `rustup docs --book` 就能開啟。
 

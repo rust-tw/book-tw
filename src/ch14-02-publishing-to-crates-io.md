@@ -6,7 +6,7 @@ Rust 與 Cargo 有許多功能可以幫助其他人更容易找到並使用你�
 
 ### 寫上有幫助的技術文件註解
 
-準確地加上套件的技術文件有助於其他使用者知道如何及何時使用它們，所以投資時間在寫技術文件上是值得的。在第三章我們提過如何使用兩條斜線 `//` 來加上 Rust 程式碼註解。Rust 還有個特別的註解用來作為技術文件，俗稱為*技術文件註解（documentation comment）*，這能用來產生 HTML 技術文件。這些 HTML 顯示公開 API 項目中技術文件註解的內容，讓對此函式庫有興趣的開發者知道如何*使用*你的 crate，而不需知道 crate 是如何*實作*的。
+準確地加上套件的技術文件有助於其他使用者知道如何及何時使用它們，所以投資時間在寫技術文件上是值得的。在第三章我們提過如何使用兩條斜線 `//` 來加上 Rust 程式碼註解。Rust 還有個特別的註解用來作為技術文件，俗稱為**技術文件註解（documentation comment）**，這能用來產生 HTML 技術文件。這些 HTML 顯示公開 API 項目中技術文件註解的內容，讓對此函式庫有興趣的開發者知道如何**使用**你的 crate，而不需知道 crate 是如何**實作**的。
 
 技術文件註解使用三條斜線 `///` 而不是兩條，並支援 Markdown 符號來格式化文字。技術文件註解位於它們對應項目的上方。範例 14-1 顯示了 `my_crate` crate 中 `add_one` 的技術文件註解：
 
@@ -87,7 +87,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 公開 API 的架構是發佈 crate 時要考量到的一大重點。使用 crate 的人可能並沒有你那麼熟悉其中的架構，而且如果你的 crate 模組分層越深的話，他們可能就難以找到他們想使用的部分。
 
-好消息是如果你的架構*不便於*其他函式庫所使用的話，你不必重新組織你的內部架構：你可以透過使用 `pub use`選擇重新匯出（re-export）項目來建立一個不同於內部私有架構的公開架構。重新匯出會先取得某處的公開項目，再從其他地方使其公開，讓它像是被定義在其他地方一樣。
+好消息是如果你的架構**不便於**其他函式庫所使用的話，你不必重新組織你的內部架構：你可以透過使用 `pub use`選擇重新匯出（re-export）項目來建立一個不同於內部私有架構的公開架構。重新匯出會先取得某處的公開項目，再從其他地方使其公開，讓它像是被定義在其他地方一樣。
 
 舉例來說，我們建立了一個函式庫叫做 `art` 來模擬藝術概念。在函式庫中有兩個模組：`kinds` 模組包含兩個枚舉 `PrimaryColor` 和 `SecondaryColor`；而 `utils` 模組包含一個函式 `mix`，如範例 14-3 所示：
 
@@ -157,7 +157,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 $ cargo login abcdefghijklmnopqrstuvwxyz012345
 ```
 
-此命令會傳遞你的 API token 給 Cargo 並儲存在本地的 *~/.cargo/credentials*。注意此 token 是個*祕密（secret）*，千萬不要分享給其他人。如果你因為任何原因分享給任何人的話，你最好撤銷掉並回到 [crates.io](https://crates.io/)<!-- ignore --> 產生新的 token。
+此命令會傳遞你的 API token 給 Cargo 並儲存在本地的 *~/.cargo/credentials*。注意此 token 是個**祕密（secret）**，千萬不要分享給其他人。如果你因為任何原因分享給任何人的話，你最好撤銷掉並回到 [crates.io](https://crates.io/)<!-- ignore --> 產生新的 token。
 
 ### 新增詮釋資料到新的 Crate
 
@@ -230,7 +230,7 @@ license = "MIT OR Apache-2.0"
 
 現在你已經建立了帳號、儲存了 API token、選擇了 crate 的獨特名稱並指定了所需的詮釋資料，你現在已經準備好發佈了！發佈 crate 會上傳一個指定版本到 [crates.io](https://crates.io/)<!-- ignore --> 供其他人使用。
 
-發佈 crate 時請格外小心，因為發佈是會*永遠*存在的。該版本無法被覆寫，而且程式碼無法被刪除。[crates.io](https://crates.io/)<!-- ignore --> 其中一個主要目標就是要作為儲存程式碼的永久伺服器，讓所有依賴 [crates.io](https://crates.io/)<!-- ignore --> 的 crate 的專案可以持續正常運作。允許刪除版本會讓此目標幾乎無法達成。不過你能發佈的 crate 版本不會有數量限制。
+發佈 crate 時請格外小心，因為發佈是會**永遠**存在的。該版本無法被覆寫，而且程式碼無法被刪除。[crates.io](https://crates.io/)<!-- ignore --> 其中一個主要目標就是要作為儲存程式碼的永久伺服器，讓所有依賴 [crates.io](https://crates.io/)<!-- ignore --> 的 crate 的專案可以持續正常運作。允許刪除版本會讓此目標幾乎無法達成。不過你能發佈的 crate 版本不會有數量限制。
 
 再次執行 `cargo publish` 命令，這次就應該會成功了：
 
@@ -261,7 +261,7 @@ $ cargo publish
 
 ### 透過 `cargo yank` 移除 Crates.io 的版本
 
-雖然你無法刪除 crate 之前的版本，你還是可以防止任何未來的專案加入它們作為依賴。這在 crate 版本因某些原因而被破壞時會很有用。在這樣的情況下，Cargo 支援*撤回（yanking）* crate 版本。
+雖然你無法刪除 crate 之前的版本，你還是可以防止任何未來的專案加入它們作為依賴。這在 crate 版本因某些原因而被破壞時會很有用。在這樣的情況下，Cargo 支援**撤回（yanking）** crate 版本。
 
 撤回一個版本能防止新專案用該版本作為依賴，同時允許現存依賴它的專案能夠繼續下載並依賴該版本。實際上，撤回代表所有專案的 *Cargo.lock* 都不會被破壞，且任何未來產生的 *Cargo.lock* 檔案不會使用被撤回的版本。
 
@@ -277,7 +277,7 @@ $ cargo yank --vers 1.0.1
 $ cargo yank --vers 1.0.1 --undo
 ```
 
-撤回*並不會*刪除任何程式碼。舉例來說，撤回此功能並不會刪除任何不小心上傳的祕密訊息。如果真的出現這種情形，你必須立即重設那些資訊。
+撤回**並不會**刪除任何程式碼。舉例來說，撤回此功能並不會刪除任何不小心上傳的祕密訊息。如果真的出現這種情形，你必須立即重設那些資訊。
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-02-publishing-to-crates-io.md)

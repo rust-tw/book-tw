@@ -1,6 +1,6 @@
 ## 透過 `cargo install` 從 Crates.io 安裝二進制執行檔
 
-`cargo install` 命令讓你能本地安裝並使用二進制執行檔 crates。這並不是打算要取代系統套件，這是為了方便讓 Rust 開發者可以安裝 [crates.io](https://crates.io/)<!-- ignore --> 上分享的工具。注意你只能安裝有二進制目標的套件。*二進制目標（binary target）* 是在 crate 有 *src/main.rs* 檔案或其他指定的二進制檔案時，所建立的可執行程式。而相反地，函式庫目標就無法單獨執行，因為它提供給其他程式使用的函式庫。通常 crate 都會提供 *README* 檔案說明此 crate 是函式庫還是二進制目標，或者兩者都是。
+`cargo install` 命令讓你能本地安裝並使用二進制執行檔 crates。這並不是打算要取代系統套件，這是為了方便讓 Rust 開發者可以安裝 [crates.io](https://crates.io/)<!-- ignore --> 上分享的工具。注意你只能安裝有二進制目標的套件。**二進制目標**（binary target）是在 crate 有 *src/main.rs* 檔案或其他指定的二進制檔案時，所建立的可執行程式。而相反地，函式庫目標就無法單獨執行，因為它提供給其他程式使用的函式庫。通常 crate 都會提供 *README* 檔案說明此 crate 是函式庫還是二進制目標，或者兩者都是。
 
 所有透過 `cargo install` 安裝的二進制檔案都儲存在安裝根目錄的 *bin* 資料夾中。如果你是用 *rustup.rs*  安裝 Rust 且沒有任何自訂設置的話，此目錄會是 *$HOME/.cargo/bin*。請確定該目錄有在你的 `$PATH` 中，這樣才能夠執行 `cargo install` 安裝的程式。
 

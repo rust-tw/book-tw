@@ -140,7 +140,7 @@ fn main() {
 
 ### 使用 Rust Language Server 整合 IDE
 
-為了協助 IDE 的整合，Rust 專案有發佈 *Rust Language Server*（`rls`）。此工具會與 [Language Server Protocol][lsp] 溝通，這是 IDE 與程式語言彼此溝通的協定規格。`rls` 可用於各種不同的客戶端，像是 [Visual Studio Code 的 Rust 插件][vscode]。
+為了協助 IDE 的整合，Rust 專案有發佈 **Rust Language Server**（`rls`）。此工具會與 [Language Server Protocol][lsp] 溝通，這是 IDE 與程式語言彼此溝通的協定規格。`rls` 可用於各種不同的客戶端，像是 [Visual Studio Code 的 Rust 插件][vscode]。
 
 [lsp]: http://langserver.org/
 [vscode]: https://marketplace.visualstudio.com/items?itemName=rust-lang.rust

@@ -24,7 +24,7 @@ fn main() {
     // first_word 適用於字串字面值
     let word = first_word(&my_string_literal[..]);
 
-    // 因為字串字面值*本來*就是切片
+    // 因為字串字面值本來就是切片
     // 沒有切片語法也是可行的！
     let word = first_word(my_string_literal);
 }

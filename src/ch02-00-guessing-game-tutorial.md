@@ -89,7 +89,7 @@ Rust 在預設情況下只會透過 [*prelude*][prelude]<!-- ignore --> 來將�
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:string}}
 ```
 
-現在程式變得越來越有趣了！在短短的這行當中有許多事情發生。先注意到這是個 `let` 陳述式，這用來建立一個*變數*（variable）。以下是另一個例子：
+現在程式變得越來越有趣了！在短短的這行當中有許多事情發生。先注意到這是個 `let` 陳述式，這用來建立一個**變數**（variable）。以下是另一個例子：
 
 ```rust,ignore
 let foo = bar;
@@ -108,7 +108,7 @@ let mut bar = 5; // 可變的
 
 [string]: https://doc.rust-lang.org/std/string/struct.String.html
 
-`::new` 中的 `::` 語法代表 `new` 是 `String` 型別的*關聯函式（associated function）*。關聯函式是針對型別的實作，在此例中就是 `String`，而不是針對 `String` 特定實例的實作。有些語言會稱之為*靜態方法（static method）*。
+`::new` 中的 `::` 語法代表 `new` 是 `String` 型別的**關聯函式（associated function）**。關聯函式是針對型別的實作，在此例中就是 `String`，而不是針對 `String` 特定實例的實作。有些語言會稱之為**靜態方法（static method）**。
 
 此 `new` 函式建立一個新的空字串。你會在許多型別中找到 `new` 函式，因為這是函式建立某種新數值的常見名稱。
 
@@ -131,7 +131,7 @@ guess`。
 
 `read_line` 的任務是取得使用者在標準輸入寫入的任何內容，並放置到字串中，所以它才接收字串作為引數。字串引數需要是可變的，這樣該方法才能變更字串的內容成使用者的輸入。
 
-`&` 說明此引數是個*引用（reference）*，這讓程式中的多個部分可以取得此資料內容，但不需要每次都得複製資料到記憶體中。引用是個複雜的概念，而 Rust 其中一項主要優勢就是能夠輕鬆又安全地使用引用。你現在還不用知道一堆細節才能完成程式。現在你只需要知道引用和變數一樣，預設都是不可變的。因此你必須寫 `&mut guess` 而不是 `&guess` 才能讓它成為可變的。（第四章會再全面詳細解釋引用。）
+`&` 說明此引數是個**引用（reference）**，這讓程式中的多個部分可以取得此資料內容，但不需要每次都得複製資料到記憶體中。引用是個複雜的概念，而 Rust 其中一項主要優勢就是能夠輕鬆又安全地使用引用。你現在還不用知道一堆細節才能完成程式。現在你只需要知道引用和變數一樣，預設都是不可變的。因此你必須寫 `&mut guess` 而不是 `&guess` 才能讓它成為可變的。（第四章會再全面詳細解釋引用。）
 
 ### 使用 `Result` 型別處理可能的錯誤
 
@@ -154,7 +154,7 @@ io::stdin().read_line(&mut guess).expect("讀取行數失敗");
 [ioresult]: https://doc.rust-lang.org/std/io/type.Result.html
 [result]: https://doc.rust-lang.org/std/result/enum.Result.html
 
-`Result` 型別是種[*枚舉（enumerations）*][enums]<!-- ignore -->，常稱為 *enums*。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之為枚舉的*變體（variants）*。第六章會更詳細地介紹枚舉。
+`Result` 型別是種[**枚舉（enumerations）**][enums]<!-- ignore -->，常稱為 *enums*。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之為枚舉的**變體（variants）**。第六章會更詳細地介紹枚舉。
 
 [enums]: ch06-00-enums.html
 
@@ -224,7 +224,7 @@ $ cargo run
 
 ### 使用 Crate 來取得更多功能
 
-所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於*二進制（binary） crate*，也就會是個執行檔。而 `rand` crate 屬於*函式庫（library） crate*，這會包含讓其他程式能夠使用的程式碼。
+所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於**二進制（binary） crate**，也就會是個執行檔。而 `rand` crate 屬於**函式庫（library） crate**，這會包含讓其他程式能夠使用的程式碼。
 
 Cargo 可以使用外部 crate 的功能正是它的亮點。在我們可以使用 `rand` 來寫程式碼前，我們需要修改 *Cargo.toml* 檔案來包含 `rand` crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 `[dependencies]` 標頭（header）段落中最後一行下面：
 
@@ -303,7 +303,7 @@ Cargo 有個機制能確保任何人或你在任何時候重新建構程式碼�
 
 #### 升級 Crate 來取得新版本
 
-當你*真的*想升級 crate 時，Cargo 有提供另一個命令 `update`，這會忽略 *Cargo.lock* 檔案並依據 *Cargo.toml* 指定的規格決定所有合適的最新版本。如果成功的話，Cargo 會將這些版本寫入 *Cargo.lock* 檔案中。
+當你**真的**想升級 crate 時，Cargo 有提供另一個命令 `update`，這會忽略 *Cargo.lock* 檔案並依據 *Cargo.toml* 指定的規格決定所有合適的最新版本。如果成功的話，Cargo 會將這些版本寫入 *Cargo.lock* 檔案中。
 
 Cargo 預設只會尋找大於 `0.5.5` 且小於 `0.6.0` 的版本。如果 `rand` 有發佈兩個新版本 `0.5.6` 和 `0.6.0`，當你輸入 `cargo update` 時，你會看到以下結果：
 
@@ -407,7 +407,7 @@ $ cargo run
 
 [match]: ch06-02-match.html
 
-`match` 表達式由*分支（arms）* 所組成。分支包含一個*模式（pattern）* 以及對應的程式碼，這在當 `match` 表達式開頭的數值能與該分支的模式配對時就能執行。Rust 會用 `match` 得到的數值依序遍歷每個分支中的模式。`match` 結構與模式是 Rust 中非常強大的特色，能讓你表達各種程式碼可能會遇上的情形，並確保你有將它們全部處理完。這些特色功能會在第六章與第十八章分別討論其細節。
+`match` 表達式由**分支**（arms）所組成。分支包含一個**模式**（pattern）以及對應的程式碼，這在當 `match` 表達式開頭的數值能與該分支的模式配對時就能執行。Rust 會用 `match` 得到的數值依序遍歷每個分支中的模式。`match` 結構與模式是 Rust 中非常強大的特色，能讓你表達各種程式碼可能會遇上的情形，並確保你有將它們全部處理完。這些特色功能會在第六章與第十八章分別討論其細節。
 
 讓我們看看在此例中使用 `match` 表達式時會發生什麼事。假設使用者猜測的數字是 50 而這次隨機產生的祕密數字是 38。當程式碼比較 50 與 38 時，`cmp` 方法會回傳 `Ordering::Greater`，因為 50 大於 38。`match` 表達式會取得 `Ordering::Greater` 數值並開始檢查每個分支的模式。它會先查看第一個分支的模式 `Ordering::Less` 並看出數值 `Ordering::Greater` 無法與 `Ordering::Less` 配對，所以它忽略該分支的程式碼，並移到下一個分支。而下個分支的模式 `Ordering::Greater` 能配對到 `Ordering::Greater`！所以該分支對應的程式碼就會執行並印出 `太大了！` 到螢幕上。最後 `match` 表達式就會結束，因為在此情境中它已經不需要再查看最後一個分支。
 
@@ -417,7 +417,7 @@ $ cargo run
 {{#include ../listings/ch02-guessing-game-tutorial/listing-02-04/output.txt}}
 ```
 
-錯誤的關鍵表示*型別無法配對（mismatched types）*。Rust 有個強力的靜態型別系統，但它也提供了型別推斷。當我們寫 `let mut guess = String::new()` 時，Rust 能夠推斷出 `guess` 應該要是 `String` 讓我們不必親自寫出型別。另一方面，`secret_number` 則是個數字型別。以下是一些可以包含數字 1 到 100 的數字型別：32 位元數字 `i32`、非帶號（unsigned） 32 位元數字 `u32`、64 位元數字 `i64`，以及更多等等。Rust 預設的數字型別為 `i32`，這就是 `secret_number` 的型別，除非你特地加上型別詮釋，Rust 才會推斷成不同的數字型別。此錯誤原因是因為 Rust 無法比較將字串與數字型別做比較。
+錯誤的關鍵表示**型別無法配對（mismatched types）**。Rust 有個強力的靜態型別系統，但它也提供了型別推斷。當我們寫 `let mut guess = String::new()` 時，Rust 能夠推斷出 `guess` 應該要是 `String` 讓我們不必親自寫出型別。另一方面，`secret_number` 則是個數字型別。以下是一些可以包含數字 1 到 100 的數字型別：32 位元數字 `i32`、非帶號（unsigned） 32 位元數字 `u32`、64 位元數字 `i64`，以及更多等等。Rust 預設的數字型別為 `i32`，這就是 `secret_number` 的型別，除非你特地加上型別詮釋，Rust 才會推斷成不同的數字型別。此錯誤原因是因為 Rust 無法比較將字串與數字型別做比較。
 
 所以我們要將程式從輸入讀取的 `String` 轉換成真正的數字型別，讓我們可以將其與祕密數字做比較。我們可以在 `main` 函式本體加上另一行程式碼：
 
@@ -433,7 +433,7 @@ $ cargo run
 let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
 ```
 
-我們建立了一個變數叫做 `guess`。小等一下，程式不是已經有個變數叫做 `guess`了嗎？的確是的，但 Rust 允許我們*遮蔽（shadow）* 之前的 `guess` 數值成新的數值。此功能常用於當你想將一個數值從一個型別轉換成另一個型別的場合中。遮蔽讓我們可以重複使用 `guess` 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 `guess_str` 和 `guess`。（第三章會詳細解釋遮蔽。）
+我們建立了一個變數叫做 `guess`。小等一下，程式不是已經有個變數叫做 `guess`了嗎？的確是的，但 Rust 允許我們**遮蔽**（shadow）之前的 `guess` 數值成新的數值。此功能常用於當你想將一個數值從一個型別轉換成另一個型別的場合中。遮蔽讓我們可以重複使用 `guess` 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 `guess_str` 和 `guess`。（第三章會詳細解釋遮蔽。）
 
 我們將 `guess` 綁定給 `guess.trim().parse()` 表達式。表達式中的 `guess` 指的是原本擁有 `String` 來儲存輸入的 `guess`。`String` 中的 `trim` 方法會去除開頭與結尾的任何空白字元。雖然 `u32` 只會包含數字字元，但使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 `read_line`。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，`guess` 看起來會像這樣：`5\n`。`\n` 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果。`trim` 方法能去除 `\n`，讓結果只會是 `5`。
 
@@ -546,7 +546,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
 如果 `parse` 能成功將字串轉換成數字，它會回傳 `Ok` 數值內包含的結果數字。該 `Ok` 數值就會配對到第一個分支的模式，然後 `match` 表達式就會回傳 `parse` 產生並填入 `Ok` 內的 `num` 數值。該數字最後就會如我們所願變成我們建立的 `guess` 變數。
 
-如果 `parse` *無法*將字串轉換成數值的話，它會回傳包含與錯誤相關資訊的 `Err` 數值。該 `Err` 數值並不符合 `match` 的第一個分支模式 `Ok(num)`，但它能配對到第二個分支。底線 `_` 是個捕獲數值，在此例中，我們說我們想要配對到所有的 `Err` 數值，無論其中有什麼資訊在裡面。所以程式會執行第二條分支 `continue`，這告訴程式繼續 `loop` 下一個疊代並要求其他猜測數字。如此一來程式就能忽略所有 `parse` 可能會遇到的所有錯誤！
+如果 `parse` **無法**將字串轉換成數值的話，它會回傳包含與錯誤相關資訊的 `Err` 數值。該 `Err` 數值並不符合 `match` 的第一個分支模式 `Ok(num)`，但它能配對到第二個分支。底線 `_` 是個捕獲數值，在此例中，我們說我們想要配對到所有的 `Err` 數值，無論其中有什麼資訊在裡面。所以程式會執行第二條分支 `continue`，這告訴程式繼續 `loop` 下一個疊代並要求其他猜測數字。如此一來程式就能忽略所有 `parse` 可能會遇到的所有錯誤！
 
 現在程式的每個部分都如我們所預期的了，讓我們試試看：
 
