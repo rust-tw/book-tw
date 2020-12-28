@@ -173,7 +173,7 @@
                     <main>
                         <h2><a class="header" href="#建立單一執行緒的網頁伺服器" id="建立單一執行緒的網頁伺服器">建立單一執行緒的網頁伺服器</a></h2>
 <p>我們會先從建立一個可運作的單一執行緒網頁伺服器作為起始。在我們開始之前，讓我們快速瞭解一下建構網頁伺服器會涉及到的協定。這些協定的細節超出本書的範疇，不過以下簡短的概覽可以提供你所需要知道的訊息。</p>
-<p>網頁伺服器會涉及到的兩大協定為<em>超文本傳輸協定（Hypertext Transfer Protocol, HTTP）<em>與</em>傳輸控制協定（Transmission Control Protocol, TCP）</em>。這兩種協定都是<em>請求-回應（request-response）<em>協定，這意味著</em>客戶端</em>會初始一個請求，然後<em>伺服器</em>接聽請求並提供回應給客戶端。協定會定義這些請求與回應的內容。</p>
+<p>網頁伺服器會涉及到的兩大協定為<strong>超文本傳輸協定（Hypertext Transfer Protocol, HTTP）<strong>與</strong>傳輸控制協定（Transmission Control Protocol, TCP）</strong>。這兩種協定都是<strong>請求-回應（request-response）<strong>協定，這意味著</strong>客戶端</strong>會初始一個請求，然後<strong>伺服器</strong>接聽請求並提供回應給客戶端。協定會定義這些請求與回應的內容。</p>
 <p>TCP 是個較底層的協定並描述資訊如何從一個伺服器傳送到另一個伺服器的細節，但是它並不指定資訊內容為何。HTTP 建立在 TCP 之上並定義請求與回應的內容。技術上來說，HTTP 是可以與其他協定組合的，但是對大多數場合中，HTTP 主要還是透過 TCP 來傳送資訊。我們會處理 TCP 與 HTTP 中請求與回應的原始位元組（raw bytes）。</p>
 <h3><a class="header" href="#監聽-tcp-連線" id="監聽-tcp-連線">監聽 TCP 連線</a></h3>
 <p>我們的網頁伺服器需要監聽一個 TCP 連線，所以這就是我們要處理的第一個步驟。標準函式庫有提供 <code>std::net</code> 模組能讓我們使用。讓我們如往常一樣建立一個新的專案：</p>
@@ -199,8 +199,8 @@ fn main() {
 <p>透過 <code>TcpListener</code>，我們可以監聽 <code>127.0.0.1:7878</code> 位址上的 TCP 連線。在位址中，分號之前指的是代表你電腦自己的 IP 位址（每部電腦都一樣，這並不只是用於本書作者電腦的例子），然後 <code>7878</code> 是通訊埠（port）。我們選擇此通訊埠的原因有兩個：HTTP 通常會接受此通訊埠，而且在傳統電話的九宮格上輸入 7878 的話就是「rust」。</p>
 <p>在此情境中的 <code>bind</code> 函式與常見的 <code>new</code> 函式行為類似，這會回傳一個新的 <code>TcpListener</code> 實例。此函式會叫做 <code>bind</code> 的原因是因為在網際網路中，連接一個通訊埠並監聽就稱為「綁定（bind）通訊埠」。</p>
 <p><code>bind</code> 函式會回傳 <code>Result&lt;T, E&gt;</code>，也就是說綁定可能會失敗。舉例來說，連接通訊埠 80 需要管理員權限（非管理員使用者可以連接 1024 以上的通訊埠），所以如果我們不是管理員卻嘗試連接通訊埠 80 的話，綁定就不會成功。另一個例子是，如果執行同個程式碼兩次產生兩個實例，造成這兩個程式同時監聽同個通訊埠的話，綁定也不會成功。由於我們只會寫個用於學習目的的基本伺服器，我們不太需要擔心如何處理這些種類的錯誤。所以我如果遇到錯誤的話，我們採用 <code>unwrap</code> 來停止程式。</p>
-<p><code>TcpListener</code> 的 <code>incoming</code> 方法會回傳一個疊代器，給予我們一連串的流（更準確的來說是 <code>TcpStream</code> 型別的流）。一個<em>流</em>代表的是客戶端與伺服器之間的開啟的連線。而<em>連線（connection）</em> 指的是整個請求與回應的過程，這之中客戶端會連線至伺服器、伺服器會產生回應，然後伺服器會關閉連線。這樣一來，<code>TcpStream</code> 就能讀取自己的內容來看看客戶端傳送了什麼，然後讓我們能將我們的回應寫入流之中。整體來說，此 <code>for</code> 迴圈會依序遍歷每個連線，然後產生一系列的流讓我們能夠加以處理。</p>
-<p>目前我們處理流的方式包含呼叫 <code>unwrap</code>，這當流有任何錯誤時，就會結束我們的程式。如果沒有任何錯誤的話，程式就會顯示訊息。我們會在下個範例在成功的情況下加入更多功能。當客戶端連接伺服器時，我們可能會從 <code>incoming</code> 方法取得錯誤的原因是因為我們實際上不是在遍歷每個連線。反之，我們是在遍歷<em>連線嘗試</em>。連線不成功可能有很多原因，而其中許多都與作業系統有關。舉例來說，許多作業系統都會限制它們能支援的同時連線開啟次數，當新的連線超出此範圍時就會產生錯誤，直到有些連線被關閉為止。</p>
+<p><code>TcpListener</code> 的 <code>incoming</code> 方法會回傳一個疊代器，給予我們一連串的流（更準確的來說是 <code>TcpStream</code> 型別的流）。一個<strong>流</strong>代表的是客戶端與伺服器之間的開啟的連線。而<strong>連線</strong>（connection）指的是整個請求與回應的過程，這之中客戶端會連線至伺服器、伺服器會產生回應，然後伺服器會關閉連線。這樣一來，<code>TcpStream</code> 就能讀取自己的內容來看看客戶端傳送了什麼，然後讓我們能將我們的回應寫入流之中。整體來說，此 <code>for</code> 迴圈會依序遍歷每個連線，然後產生一系列的流讓我們能夠加以處理。</p>
+<p>目前我們處理流的方式包含呼叫 <code>unwrap</code>，這當流有任何錯誤時，就會結束我們的程式。如果沒有任何錯誤的話，程式就會顯示訊息。我們會在下個範例在成功的情況下加入更多功能。當客戶端連接伺服器時，我們可能會從 <code>incoming</code> 方法取得錯誤的原因是因為我們實際上不是在遍歷每個連線。反之，我們是在遍歷<strong>連線嘗試</strong>。連線不成功可能有很多原因，而其中許多都與作業系統有關。舉例來說，許多作業系統都會限制它們能支援的同時連線開啟次數，當新的連線超出此範圍時就會產生錯誤，直到有些連線被關閉為止。</p>
 <p>讓我們跑跑看此程式碼吧！在終端機呼叫 <code>cargo run</code> 然後在網頁瀏覽器載入 <em>127.0.0.1:7878</em>。瀏覽器應該會顯示一個像是「Connection reset」之類的錯誤訊息，因為伺服器目前還不會回傳任何資料。但是當你觀察終端機，在瀏覽器連接伺服器時，你應該會看到一些訊息顯示出來！</p>
 <pre><code class="language-text">     Running `target/debug/hello`
 連線建立！
@@ -264,9 +264,9 @@ Upgrade-Insecure-Requests: 1
 headers CRLF
 message-body
 </code></pre>
-<p>第一行是<em>請求行（request line）<em>並持有客戶端想請求什麼的資訊。請求行的第一個部分代表著想使用的</em>方法（method）</em>，像是 <code>GET</code> 或 <code>POST</code>，這描述了客戶端如何產生此請求。在此例中，我們的客戶端使用的是 <code>GET</code> 請求</p>
-<p>請求行的下一個部分是 <code>/</code>，這代表客戶端請求的<em>統一資源標誌符（Uniform Resource Identifier, URI）</em>，URI 絕大多數（但不是絕對）就等於<em>統一資源定位符（Uniform Resource Locator, URL）</em>。URI 與 URL 的差別對於本章節的學習目的來說並不重要，但是 HTTP 規格使用的術語是 URI，所以我們這裡將 URL 替換為 URI。</p>
-<p>最後一個部分是客戶端使用的 HTTP 版本，然後請求行最後以 <em>CRLF 序列</em>做結尾，CRLF 指的是<em>回車（carriage return）與換行（line feed）</em>，這是打字機時代的術語！CRLF 序列也可以寫成 <code>\r\n</code>，<code>\r</code> 指的是回車，而 <code>\n</code> 指的是換行。CRLF 序列將請求行與剩餘的請求資料區隔開來。注意到當 CRLF 印出時，我們會看到的是新的一行而不是 <code>\r\n</code>。</p>
+<p>第一行是<strong>請求行（request line）<strong>並持有客戶端想請求什麼的資訊。請求行的第一個部分代表著想使用的</strong>方法（method）</strong>，像是 <code>GET</code> 或 <code>POST</code>，這描述了客戶端如何產生此請求。在此例中，我們的客戶端使用的是 <code>GET</code> 請求</p>
+<p>請求行的下一個部分是 <code>/</code>，這代表客戶端請求的<strong>統一資源標誌符（Uniform Resource Identifier, URI）</strong>，URI 絕大多數（但不是絕對）就等於<strong>統一資源定位符（Uniform Resource Locator, URL）</strong>。URI 與 URL 的差別對於本章節的學習目的來說並不重要，但是 HTTP 規格使用的術語是 URI，所以我們這裡將 URL 替換為 URI。</p>
+<p>最後一個部分是客戶端使用的 HTTP 版本，然後請求行最後以 <strong>CRLF 序列</strong>做結尾，CRLF 指的是<strong>回車（carriage return）與換行（line feed）</strong>，這是打字機時代的術語！CRLF 序列也可以寫成 <code>\r\n</code>，<code>\r</code> 指的是回車，而 <code>\n</code> 指的是換行。CRLF 序列將請求行與剩餘的請求資料區隔開來。注意到當 CRLF 印出時，我們會看到的是新的一行而不是 <code>\r\n</code>。</p>
 <p>觀察我們目前從程式中取得的請求行資料，我們看到它使用 <code>GET</code> 方法，<code>/</code>  為請求 URI，然後版本為 <code>HTTP/1.1</code>。</p>
 <p>在請求行之後，剩餘從 <code>Host:</code> 開始的行數都是標頭（header）。<code>GET</code> 請求不會有本體（body）。</p>
 <p>你可以嘗試看看從不同的瀏覽器或尋問不同的位址，像是 <em>127.0.0.1:7878/test</em>，來看看請求資料有什麼改變。</p>
@@ -277,7 +277,7 @@ message-body
 headers CRLF
 message-body
 </code></pre>
-<p>第一行為<em>狀態行（status line）</em>，這包含回應使用的 HTTP 版本、用來總結請求結果的狀態碼，以及狀態碼的文字來描述原因。在 CRLF 序列後，會接著任何標頭、另一個 CRLF 序列，然後是回應的本體。</p>
+<p>第一行為<strong>狀態行（status line）</strong>，這包含回應使用的 HTTP 版本、用來總結請求結果的狀態碼，以及狀態碼的文字來描述原因。在 CRLF 序列後，會接著任何標頭、另一個 CRLF 序列，然後是回應的本體。</p>
 <p>以下是個使用 HTTP 版本 1.1 的回應範例，其狀態碼為 200、文字描述為 OK，沒有標頭與本體：</p>
 <pre><code class="language-text">HTTP/1.1 200 OK\r\n\r\n
 </code></pre>
@@ -412,7 +412,7 @@ fn handle_connection(mut stream: TcpStream) {
 </code></pre></pre>
 <p><span class="caption">範例 20-6：配對請求並分開處理 <code>/</code> 與其他請求</span></p>
 <p>首先，我們先寫死 <code>/</code> 請求的對應資料到變數 <code>get</code>。因為我們要讀取原始位元組至緩衝區，我們透過在內容資料前面加上 <code>b&quot;&quot;</code> 位元組字串（byte string）語法來將 <code>get</code> 轉換成位元組字串。然後我們檢查 <code>buffer</code> 是否以 <code>get</code> 作為起始。如果是的話，這代表我們收到的是格式良好的 <code>/</code> 請求，這正是我們要在 <code>if</code> 區塊內處理的成功情形，並回傳 HTML 檔案內容。</p>
-<p>如果 <code>buffer</code> <em>並沒有</em>以 <code>get</code> 的位元組作為起始，這代表我們收到其他請求。我們會在稍後對 <code>else</code> 區塊加上程式碼來回應所有其他請求。</p>
+<p>如果 <code>buffer</code> <strong>並沒有</strong>以 <code>get</code> 的位元組作為起始，這代表我們收到其他請求。我們會在稍後對 <code>else</code> 區塊加上程式碼來回應所有其他請求。</p>
 <p>執行此程式碼並請求 <em>127.0.0.1:7878</em> 的話，你應該會收到 <em>hello.html</em> 的 HTML。如果你下達其他任何請求，像是 <em>127.0.0.1:7878/something-else</em> 的話，你會和執行範例 20-1 與 20-2 的程式碼時獲得一樣的錯誤。</p>
 <p>現在讓我們將範例 20-7 的程式碼加入 <code>else</code> 區塊來回傳狀態碼為 404 的回應，這代表請求的內容無法找到。我們也會回傳一個 HTML 頁面讓瀏覽器能顯示並作為終端使用者的回應。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

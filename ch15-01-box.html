@@ -179,7 +179,7 @@
 <li>當你有個龐大的資料，而你想要轉移所有權並確保資料不會被拷貝。</li>
 <li>當你想要擁有某個值，但你只在意該型別有實作特定的特徵，而不再是何種特定型別</li>
 </ul>
-<p>我們會在<a href="#%E9%80%8F%E9%81%8E-box-%E5%BB%BA%E7%AB%8B%E9%81%9E%E8%BF%B4%E5%9E%8B%E5%88%A5">「透過 Box 建立遞迴型別」</a><!-- ignore -->段落解說第一種情形。而在第二種情形，轉移龐大的資料的所有權可能會很花費時間，因為在堆疊上的話會拷貝所有資料。要改善此情形，我們可以用 box 將龐大的資料儲存在堆積上。這樣就只有少量的指標資料在堆疊上被拷貝，而其引用的資料仍然保留在堆積上的同個位置。第三種情況被稱之為<em>特徵物件（trait object）</em>，第十七章會花整個<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->段落來討論此議題。所以你在此學到的到第十七章會再次用上！</p>
+<p>我們會在<a href="#%E9%80%8F%E9%81%8E-box-%E5%BB%BA%E7%AB%8B%E9%81%9E%E8%BF%B4%E5%9E%8B%E5%88%A5">「透過 Box 建立遞迴型別」</a><!-- ignore -->段落解說第一種情形。而在第二種情形，轉移龐大的資料的所有權可能會很花費時間，因為在堆疊上的話會拷貝所有資料。要改善此情形，我們可以用 box 將龐大的資料儲存在堆積上。這樣就只有少量的指標資料在堆疊上被拷貝，而其引用的資料仍然保留在堆積上的同個位置。第三種情況被稱之為<strong>特徵物件（trait object）</strong>，第十七章會花整個<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->段落來討論此議題。所以你在此學到的到第十七章會再次用上！</p>
 <h3><a class="header" href="#使用-boxt-儲存資料到堆積上" id="使用-boxt-儲存資料到堆積上">使用 <code>Box&lt;T&gt;</code> 儲存資料到堆積上</a></h3>
 <p>在我們討論 <code>Box&lt;T&gt;</code> 的使用場合前，我們會先介紹語法以及如何對 <code>Box&lt;T&gt;</code> 內儲存的數值進行互動。</p>
 <p>範例 15-1 顯示如何使用 box 在堆積上儲存一個 <code>i32</code> 數值：</p>
@@ -193,13 +193,13 @@
 <p>我們定義了變數 <code>b</code> 其數值為 <code>Box</code> 分配在堆積上指向的數值 <code>5</code>。程式在此例會印出 <code>b = 5</code>，在此例中我們可以用在堆疊上相同的方式取得 box 的資料。就像任何有所有權的數值一樣，當 box 離開作用域時會釋放記憶體，在此例就是當 <code>b</code> 抵達 <code>main</code> 結尾的時候。釋放記憶體作用於 box（儲存在堆疊上）以及其所指向的資料（儲存在堆積上）。</p>
 <p>將單一數值放在堆積上的確沒什麼用處，所以你不會對這種類型經常使用 box。在大多數情況下將像 <code>i32</code> 這種單一數值預設儲存在堆疊的確比較適合。</p>
 <h3><a class="header" href="#透過-box-建立遞迴型別" id="透過-box-建立遞迴型別">透過 Box 建立遞迴型別</a></h3>
-<p>在編譯時期，Rust 需要知道一個型別佔用的空間有多少。其中一種無法在編譯期間知道大小的型別就是<em>遞迴型別（recursive type）</em>，其值的一部分可以是相同型別的另一個值。由於這種巢狀數值理論上可以無限循環下去，Rust 無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。</p>
+<p>在編譯時期，Rust 需要知道一個型別佔用的空間有多少。其中一種無法在編譯期間知道大小的型別就是<strong>遞迴型別（recursive type）</strong>，其值的一部分可以是相同型別的另一個值。由於這種巢狀數值理論上可以無限循環下去，Rust 無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。</p>
 <p>讓我們來探索 <em>cons list</em>，這是個在函式程式語言中常見的資料型別，很適合作為遞迴型別的範例。我們要定義的 cons list 型別除了遞迴的部分以外都很直白，因此這個例子的概念在往後你遇到更複雜的遞迴型別時會很實用。</p>
 <h4><a class="header" href="#更多關於-cons-list-的資訊" id="更多關於-cons-list-的資訊">更多關於 Cons List 的資訊</a></h4>
 <p><em>cons list</em> 是個起源於 Lisp 程式設計語言與其方言的資料結構。在 Lisp 中，<code>cons</code> 函式（「construct function」的縮寫）會從兩個引數建構一個新的配對，而這通常是一個數值與另一個配對，而這些配對就包含了列表中的配對。</p>
 <p>cons 函式的概念在往後成了常見的函式語言術語：「將 <em>x</em> cons 到 <em>y</em>」通常代表的是建立一個新的容器實例，將元素 <em>x</em> 置於此容器的開頭，而後方則是連接到容器 <em>y</em>。</p>
 <p>每個 cons list 的項目都包含兩個元素：目前項目的數值與下一個項目。列表中的最後一個項目只會包含一個數值叫做 <code>Nil</code>，並不會再連接下一個項目。cons list 透過遞迴呼叫 <code>cons</code> 函式來產生。表示遞迴終止條件的名稱為 <code>Nil</code>。注意這和第六章提到的「null」或「nil」的概念不全然相同，這些代表的是無效或空缺的數值。</p>
-<p>雖然函式程式設計語言很常使用 cons lists，但在 Rust 中 cons lists 卻不是常見的資料結構。大多數當你在 Rust 需要項目列表時，<code>Vec&lt;T&gt;</code> 會是比較好的選擇。而其他時候夠複雜的遞迴資料型別<em>確實</em>在各種特殊情形會很實用，不過先從 cons list 開始的話，我們可以專注探討 box 如何讓我們定義遞迴資料型別。</p>
+<p>雖然函式程式設計語言很常使用 cons lists，但在 Rust 中 cons lists 卻不是常見的資料結構。大多數當你在 Rust 需要項目列表時，<code>Vec&lt;T&gt;</code> 會是比較好的選擇。而其他時候夠複雜的遞迴資料型別<strong>確實</strong>在各種特殊情形會很實用，不過先從 cons list 開始的話，我們可以專注探討 box 如何讓我們定義遞迴資料型別。</p>
 <p>範例 15-2 包含了 cons list 的枚舉定義。注意到此程式碼還不能編譯過，因為 <code>List</code> 型別並沒有以已知大小，我們接下來會繼續說明。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">enum List {
@@ -283,7 +283,7 @@ after doing automatic regeneration, look at listings/ch15-smart-pointers/listing
 <pre><code class="language-text">  = help: insert indirection (e.g., a `Box`, `Rc`, or `&amp;`) at some point to make `List` representable
 </code></pre>
 <p>在此建議中，「indirection」代表與其直接儲存數值，我們可以變更資料結構，間接儲存指向數值的指標。</p>
-<p>因為 <code>Box&lt;T&gt;</code> 是個指標，Rust 永遠知道 <code>Box&lt;T&gt;</code> 需要多少空間：指標的大小不會隨著指向的資料數量而改變。這代表我們可以將 <code>Box&lt;T&gt;</code> 存入 <code>Cons</code> 變體而非直接儲存另一個 <code>List</code> 數值。<code>Box&lt;T&gt;</code> 會指向另一個存在於堆積上的 <code>List</code> 數值而不是存在 <code>Cons</code> 變體中。概念上我們仍然有建立一個<em>持有</em>其他列表的列表，但此實作更像是將項目接著另一個項目排列，而非包含另一個在內。</p>
+<p>因為 <code>Box&lt;T&gt;</code> 是個指標，Rust 永遠知道 <code>Box&lt;T&gt;</code> 需要多少空間：指標的大小不會隨著指向的資料數量而改變。這代表我們可以將 <code>Box&lt;T&gt;</code> 存入 <code>Cons</code> 變體而非直接儲存另一個 <code>List</code> 數值。<code>Box&lt;T&gt;</code> 會指向另一個存在於堆積上的 <code>List</code> 數值而不是存在 <code>Cons</code> 變體中。概念上我們仍然有建立一個<strong>持有</strong>其他列表的列表，但此實作更像是將項目接著另一個項目排列，而非包含另一個在內。</p>
 <p>我們可以改變範例 15-2 的 <code>List</code> 枚舉定義以及範例 15-3 <code>List</code> 的使用方式，將其寫入範例 15-5，這次就能夠編譯過了：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum List {

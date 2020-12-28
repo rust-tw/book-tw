@@ -172,15 +172,15 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#refcellt-與內部可變性模式" id="refcellt-與內部可變性模式"><code>RefCell&lt;T&gt;</code> 與內部可變性模式</a></h2>
-<p><em>內部可變性（Interior mutability）</em> 是 Rust 中的一種設計模式，能讓你能對即使是不可變引用的資料也能改變。正常狀況下，借用規則是不允許這種動作的。為了改變資料，這樣的模式會在資料結構內使用 <code>unsafe</code> 程式碼來繞過 Rust 的常見可變性與借用規則。我們尚未介紹什麼是不安全（unsafe）的程式碼，我們會在第十九章談到。當編譯器無法保障，但我們可以確保借用規則在執行時能夠遵循的話，我們就可以使用擁有內部可變性模式的型別。其內的 <code>unsafe</code> 程式碼會透過安全的 API 封裝起來，讓外部型別仍然是不可變的。</p>
+<p><strong>內部可變性</strong>（Interior mutability）是 Rust 中的一種設計模式，能讓你能對即使是不可變引用的資料也能改變。正常狀況下，借用規則是不允許這種動作的。為了改變資料，這樣的模式會在資料結構內使用 <code>unsafe</code> 程式碼來繞過 Rust 的常見可變性與借用規則。我們尚未介紹什麼是不安全（unsafe）的程式碼，我們會在第十九章談到。當編譯器無法保障，但我們可以確保借用規則在執行時能夠遵循的話，我們就可以使用擁有內部可變性模式的型別。其內的 <code>unsafe</code> 程式碼會透過安全的 API 封裝起來，讓外部型別仍然是不可變的。</p>
 <p>讓我們觀察擁有內部可變性模式的 <code>RefCell&lt;T&gt;</code> 型別來探討此概念。</p>
 <h3><a class="header" href="#透過-refcellt-在執行時強制檢測借用規則" id="透過-refcellt-在執行時強制檢測借用規則">透過 <code>RefCell&lt;T&gt;</code> 在執行時強制檢測借用規則</a></h3>
 <p>不像 <code>Rc&lt;T&gt;</code>，<code>RefCell&lt;T&gt;</code> 型別的資料只會有一個所有權。所以 <code>RefCell&lt;T&gt;</code> 與 <code>Box&lt;T&gt;</code> 這種型別有何差別呢？回憶一下你在第四章學到的借用規則：</p>
 <ul>
-<li>在任何時候，我們要麼<em>只能有</em>一個可變引用，要麼可以有<em>任意數量</em>的不可變引用。</li>
+<li>在任何時候，我們要麼<strong>只能有</strong>一個可變引用，要麼可以有<strong>任意數量</strong>的不可變引用。</li>
 <li>引用必須永遠有效。</li>
 </ul>
-<p>對於引用與 <code>Box&lt;T&gt;</code>，借用規則會在編譯期強制檢測。對於 <code>RefCell&lt;T&gt;</code>，這些規則會在<em>執行時</em>才強制執行。對於引用來說，如果你打破這些規則，你會得到編譯錯誤。而對 <code>RefCell&lt;T&gt;</code> 來說，如果你打破這些規則，你的程式會恐慌並離開。</p>
+<p>對於引用與 <code>Box&lt;T&gt;</code>，借用規則會在編譯期強制檢測。對於 <code>RefCell&lt;T&gt;</code>，這些規則會在<strong>執行時</strong>才強制執行。對於引用來說，如果你打破這些規則，你會得到編譯錯誤。而對 <code>RefCell&lt;T&gt;</code> 來說，如果你打破這些規則，你的程式會恐慌並離開。</p>
 <p>在編譯時期檢查借用規則的優勢在於錯誤能在開發過程及早獲取，而且這對執行時的效能沒有任何影響，因為所有的分析都預先完成了。基於這些原因，在編譯時檢查借用規則在大多數情形都是最佳選擇，這也是為何這是 Rust 預設設置的原因。</p>
 <p>在執行時檢查借用規則的優勢則在於能允許一些特定記憶體安全的場合，而這些原本是不被編譯時檢查所允許的。像 Rust 編譯器這種靜態分析本質上是保守的。有些程式碼特性是無法透過分析程式碼檢測出的，最註明的範例就是停機問題（Halting Problem），這超出本書的範疇，但是是個有趣的研究議題。</p>
 <p>因為有些分析是不可能的，如果 Rust 編譯器無法確定程式碼是否符合所有權規則，它可能會拒絕一支正確的程式，所以由此觀點來看能知道 Rust 編譯器是保守的。如果 Rust 接受不正確的程式，使用者就無法信任 Rust 帶來的保障。然而如果 Rust 拒絕正確的程式，對程式設計師就會很不方便，但沒有任何嚴重的災難會發生。<code>RefCell&lt;T&gt;</code> 型別就適用於當你確定你的程式碼有遵循借用規則，但是編譯器無法理解並保證的時候。</p>
@@ -191,7 +191,7 @@
 <li><code>Box&lt;T&gt;</code> 能有不可變或可變的借用並在編譯時檢查；<code>Rc&lt;T&gt;</code> 則只能有不可變借用並在編譯時檢查：<code>RefCell&lt;T&gt;</code> 能有不可變或可變借用但是在執行時檢查。</li>
 <li>由於 <code>RefCell&lt;T&gt;</code> 允許在執行時檢查可變引用，你可以改變 <code>RefCell&lt;T&gt;</code> 內部的數值，就算 <code>RefCell&lt;T&gt;</code> 是不可變的。</li>
 </ul>
-<p>改變不可變數值內部的值就<em>內部可變性</em>模式。讓我們看看內部可變性何時會有用，且觀察為何是可行的。</p>
+<p>改變不可變數值內部的值就<strong>內部可變性</strong>模式。讓我們看看內部可變性何時會有用，且觀察為何是可行的。</p>
 <h3><a class="header" href="#內部可變性不可變數值的可變借用" id="內部可變性不可變數值的可變借用">內部可變性：不可變數值的可變借用</a></h3>
 <p>借用規則的影響是當你有個不可變數值，你就無法取得可變引用。舉例來說，以下程式碼會無法編譯：</p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
@@ -220,7 +220,7 @@ To learn more, run the command again with --verbose.
 <p>然而在某些特定情況，我們會想要能夠有個方法可以改變一個數值，但該數值對其他程式碼而言仍然是不可變的。數值提供的方法以外的程式碼都無法改變其值。使用 <code>RefCell&lt;T&gt;</code> 是取得內部可變性的方式之一。但 <code>RefCell&lt;T&gt;</code> 仍然要完全遵守借用規則：編譯器的借用檢查器會允許這些內部可變性，然後在執行時才檢查借用規則。如果你違反規則，你就會得到 <code>panic!</code> 而非編譯錯誤。</p>
 <p>讓我們用一個實際例子來探討如何使用 <code>RefCell&lt;T&gt;</code> 來改變不可變數值，並瞭解為何這是很實用的。</p>
 <h4><a class="header" href="#內部可變性的使用案例模擬物件" id="內部可變性的使用案例模擬物件">內部可變性的使用案例：模擬物件</a></h4>
-<p><em>測試替身（test double）</em> 是一個通用程式設計概念，表示一個在測試中替代某種型別的型別。<em>模擬物件（Mock objects）</em> 是測試替身其中一種特定型別，這能紀錄測試過程中發生什麼事並讓你能判斷動作是否正確。</p>
+<p><strong>測試替身</strong>（test double）是一個通用程式設計概念，表示一個在測試中替代某種型別的型別。<strong>模擬物件</strong>（Mock objects）是測試替身其中一種特定型別，這能紀錄測試過程中發生什麼事並讓你能判斷動作是否正確。</p>
 <p>Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 的標準函式庫內也沒有如其他語言會內建的模擬物件功能。不過你還是可以有方法來建立結構體來作為模擬物件。</p>
 <p>以下是我們要測試的情境：我們建立一個函式庫來追蹤一個數值與最大值的差距，並依據該差距傳送訊息。舉例來說，此函式庫就能用來追蹤使用者允許呼叫 API 次數的上限。</p>
 <p>我們的函式庫提供的功能這只有追蹤與最大值的距離以及何時該傳送什麼訊息。使用函式庫的應用程式要提供傳送訊息的機制，應用程式可以將訊息存在應用程式內、傳送電子郵件、傳送文字訊息或其他等等。函式庫不需要知道細節，它只需要在意會有項目實作我們提供的 <code>Messenger</code> 特徵。範例 15-20 顯示了函式庫的程式碼：</p>
@@ -558,7 +558,7 @@ error: test failed, to rerun pass '--lib'
 <p>注意到程式碼恐慌時的訊息 <code>already borrowed: BorrowMutError</code>。這就是 <code>RefCell&lt;T&gt;</code> 如何在執行時處理違反借用規則的情況。</p>
 <p>在執行時獲取借用錯誤而不是在編譯時代表你會在開發過程之後才找到程式碼錯誤，並有可能一直到程式碼部署到生產環境後才查覺。而且你的程式碼也會多了一寫小小的執行時效能開銷，作為在執行時而非編譯時檢查的代價。不過使用 <code>RefCell&lt;T&gt;</code>  讓你能在只允許有不可變數值的環境中寫出能夠變更內部追蹤訊息的模擬物件。這是想獲得 <code>RefCell&lt;T&gt;</code> 帶來的功能時，要與一般引用之間作出的取捨。</p>
 <h3><a class="header" href="#組合-rct-與-refcellt-來擁有多個可變資料的擁有者" id="組合-rct-與-refcellt-來擁有多個可變資料的擁有者">組合 <code>Rc&lt;T&gt;</code> 與 <code>RefCell&lt;T&gt;</code> 來擁有多個可變資料的擁有者</a></h3>
-<p><code>RefCell&lt;T&gt;</code> 的常見使用方法是搭配 <code>Rc&lt;T&gt;</code>。回想一下 <code>Rc&lt;T&gt;</code> 讓你可以對數個擁有者共享相同資料，但是它只能用於不可變資料。如果你有一個 <code>Rc&lt;T&gt;</code> 並存有 <code>RefCell&lt;T&gt;</code> 的話，你就可以取得一個有數個擁有者<em>而且</em>可變的數值！</p>
+<p><code>RefCell&lt;T&gt;</code> 的常見使用方法是搭配 <code>Rc&lt;T&gt;</code>。回想一下 <code>Rc&lt;T&gt;</code> 讓你可以對數個擁有者共享相同資料，但是它只能用於不可變資料。如果你有一個 <code>Rc&lt;T&gt;</code> 並存有 <code>RefCell&lt;T&gt;</code> 的話，你就可以取得一個有數個擁有者<strong>而且</strong>可變的數值！</p>
 <p>舉例來說，回憶一下範例 15-18 cons list 的範例我們使用了 <code>Rc&lt;T&gt;</code> 來讓數個列表可以共享另一個列表的所有權。因為 <code>Rc&lt;T&gt;</code> 只能有不可變數值，我們一旦建立它們後就無法變更列表中的任何數值。讓我們加上 <code>RefCell&lt;T&gt;</code> 來獲得能改變列表數值的能力吧。範例 15-24 顯示了在 <code>Cons</code> 定義中使用 <code>RefCell&lt;T&gt;</code>，這樣一來我們就可以變更儲存在列表中的所有數值：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)]

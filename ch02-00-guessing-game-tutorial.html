@@ -300,7 +300,7 @@ fn main() {
 </span><span class="boring">    println!(&quot;你的猜測數字：{}&quot;, guess);
 </span><span class="boring">}
 </span></code></pre>
-<p>現在程式變得越來越有趣了！在短短的這行當中有許多事情發生。先注意到這是個 <code>let</code> 陳述式，這用來建立一個<em>變數</em>（variable）。以下是另一個例子：</p>
+<p>現在程式變得越來越有趣了！在短短的這行當中有許多事情發生。先注意到這是個 <code>let</code> 陳述式，這用來建立一個<strong>變數</strong>（variable）。以下是另一個例子：</p>
 <pre><code class="language-rust ignore">let foo = bar;
 </code></pre>
 <p>這行建立了一個新的變數叫做 <code>foo</code> 並將變數 <code>bar</code> 的數值綁定給它。在 Rust 中，變數預設是不可變的（immutable）。我們會在第三章的<a href="ch03-01-variables-and-mutability.html#variables-and-mutability">「變數與可變性」</a><!-- ignore -->段落討論此概念。以下範例展示如何在變數名稱前面使用 <code>mut</code> 來讓變數成為可變的：</p>
@@ -311,7 +311,7 @@ let mut bar = 5; // 可變的
 <p>注意：<code>//</code> 語法用來產生註解（comment）直到該行結束。Rust 會忽略註解中所有內容，這會在第三章進一步討論到。</p>
 </blockquote>
 <p>讓我們回到猜謎遊戲程式。你現在就知道 <code>let mut guess</code> 會產生一個可變變數叫做 <code>guess</code>。在等號（<code>=</code>）的另一邊是要綁定給 <code>guess</code> 的數值，也就是呼叫 <code>String::new</code> 的結果，這是一個回傳新的 <code>String</code> 實例（instance）的函式。<a href="https://doc.rust-lang.org/std/string/struct.String.html"><code>String</code></a><!-- ignore --> 是個標準函式庫提供的字串型別，這是可增長的 UTF-8 編碼文字。</p>
-<p><code>::new</code> 中的 <code>::</code> 語法代表 <code>new</code> 是 <code>String</code> 型別的<em>關聯函式（associated function）</em>。關聯函式是針對型別的實作，在此例中就是 <code>String</code>，而不是針對 <code>String</code> 特定實例的實作。有些語言會稱之為<em>靜態方法（static method）</em>。</p>
+<p><code>::new</code> 中的 <code>::</code> 語法代表 <code>new</code> 是 <code>String</code> 型別的<strong>關聯函式（associated function）</strong>。關聯函式是針對型別的實作，在此例中就是 <code>String</code>，而不是針對 <code>String</code> 特定實例的實作。有些語言會稱之為<strong>靜態方法（static method）</strong>。</p>
 <p>此 <code>new</code> 函式建立一個新的空字串。你會在許多型別中找到 <code>new</code> 函式，因為這是函式建立某種新數值的常見名稱。</p>
 <p>總結來說， <code>let mut guess = String::new();</code> 這行會建立一個可變變數，且目前會得到一個新的空 <code>String</code> 實例。</p>
 <p>回想一下我們在程式第一行透過 <code>use std::io;</code> 來包含標準函式庫中的輸入／輸出功能。現在我們要從 <code>io</code> 模組（module）呼叫 <code>stdin</code> 函式：</p>
@@ -334,7 +334,7 @@ let mut bar = 5; // 可變的
 <p>如果我們沒有將 <code>use std::io</code> 這行置於程式最一開始的位置，我們就得寫出 <code>std::io::stdin</code> 來呼叫函式。<code>stdin</code> 函式會回傳一個 <a href="https://doc.rust-lang.org/std/io/struct.Stdin.html"><code>std::io::Stdin</code></a><!-- ignore --> 實例，這是代表終端機標準輸入控制代碼（handle）的型別。</p>
 <p>而程式碼的下個部分 <code>.read_line(&amp;mut guess)</code> 會對標準輸入控制代碼呼叫 <a href="https://doc.rust-lang.org/std/io/struct.Stdin.html#method.read_line"><code>read_line</code></a><!-- ignore --> 方法（method）來取得使用者的輸入。我們還傳遞了一個引數（argument）給 <code>read_line</code>：<code>&amp;mut guess</code>。</p>
 <p><code>read_line</code> 的任務是取得使用者在標準輸入寫入的任何內容，並放置到字串中，所以它才接收字串作為引數。字串引數需要是可變的，這樣該方法才能變更字串的內容成使用者的輸入。</p>
-<p><code>&amp;</code> 說明此引數是個<em>引用（reference）</em>，這讓程式中的多個部分可以取得此資料內容，但不需要每次都得複製資料到記憶體中。引用是個複雜的概念，而 Rust 其中一項主要優勢就是能夠輕鬆又安全地使用引用。你現在還不用知道一堆細節才能完成程式。現在你只需要知道引用和變數一樣，預設都是不可變的。因此你必須寫 <code>&amp;mut guess</code> 而不是 <code>&amp;guess</code> 才能讓它成為可變的。（第四章會再全面詳細解釋引用。）</p>
+<p><code>&amp;</code> 說明此引數是個<strong>引用（reference）</strong>，這讓程式中的多個部分可以取得此資料內容，但不需要每次都得複製資料到記憶體中。引用是個複雜的概念，而 Rust 其中一項主要優勢就是能夠輕鬆又安全地使用引用。你現在還不用知道一堆細節才能完成程式。現在你只需要知道引用和變數一樣，預設都是不可變的。因此你必須寫 <code>&amp;mut guess</code> 而不是 <code>&amp;guess</code> 才能讓它成為可變的。（第四章會再全面詳細解釋引用。）</p>
 <h3><a class="header" href="#使用-result-型別處理可能的錯誤" id="使用-result-型別處理可能的錯誤">使用 <code>Result</code> 型別處理可能的錯誤</a></h3>
 <p>我們要繼續處理這段程式碼。雖然我們已經討論到第三行了，這仍然是這段單一邏輯程式碼中的一部分。接下來的部分是此方法：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
@@ -358,7 +358,7 @@ let mut bar = 5; // 可變的
 </code></pre>
 <p>但是這麼長會很難閱讀，所以最好是能夠分段。現在讓我們來討論這行在做什麼。</p>
 <p>如稍早提過的，<code>read_line</code> 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 <a href="https://doc.rust-lang.org/std/io/type.Result.html"><code>io::Result</code></a><!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 <code>Result</code>，這包含泛型（generic）<a href="https://doc.rust-lang.org/std/result/enum.Result.html"><code>Result</code></a><!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 <code>io::Result</code>。</p>
-<p><code>Result</code> 型別是種<a href="ch06-00-enums.html"><em>枚舉（enumerations）</em></a><!-- ignore -->，常稱為 <em>enums</em>。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之為枚舉的<em>變體（variants）</em>。第六章會更詳細地介紹枚舉。</p>
+<p><code>Result</code> 型別是種<a href="ch06-00-enums.html"><strong>枚舉（enumerations）</strong></a><!-- ignore -->，常稱為 <em>enums</em>。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之為枚舉的<strong>變體（variants）</strong>。第六章會更詳細地介紹枚舉。</p>
 <p>對於 <code>Result</code> 來說，其變體會是 <code>Ok</code> 或 <code>Err</code>。<code>Ok</code> 變體指的是該動作成功完成，且 <code>Ok</code> 內部會包含成功產生的數值。而 <code>Err</code> 變體代表動作失敗，且 <code>Err</code> 會包含該動作如何與為何會失敗的資訊。</p>
 <p>這些 <code>Result</code> 型別的目的是要編碼錯誤處理資訊。<code>Result</code> 型別的數值與任何型別的數值一樣，它們都有定義些方法。<code>io::Result</code> 的實例有 <a href="https://doc.rust-lang.org/std/result/enum.Result.html#method.expect"><code>expect</code> 方法</a><!-- ignore --> 讓你能呼叫。如果此 <code>io::Result</code> 實例數值為 <code>Err</code> 的話，<code>expect</code> 會讓程式當機並顯示作為引數傳給 <code>expect</code> 的訊息。如果 <code>read_line</code> 回傳 <code>Err</code> 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 <code>io::Result</code> 實例數值為 <code>Ok</code> 的話，<code>expect</code> 會接收 <code>Ok</code> 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值將為使用者輸入進標準輸入介面的位元組數字。</p>
 <p>如果你沒有呼叫 <code>expect</code>，程式仍能編譯，但你會收到一個警告：</p>
@@ -426,7 +426,7 @@ input 6 -->
 <h2><a class="header" href="#產生祕密數字" id="產生祕密數字">產生祕密數字</a></h2>
 <p>接下來，我們要產生一個能讓使用者猜看看的祕密數字。祕密數字每次都要不同，這樣遊戲才值得多玩幾次。讓我們使用 1 到 100 之間的隨機數字，這樣遊戲才不會太困難。Rust 的標準函式庫並不包含產生隨機數字的功能。然而，Rust 團隊有提供個 <a href="https://crates.io/crates/rand"><code>rand</code> crate</a>。</p>
 <h3><a class="header" href="#使用-crate-來取得更多功能" id="使用-crate-來取得更多功能">使用 Crate 來取得更多功能</a></h3>
-<p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<em>二進制（binary） crate</em>，也就會是個執行檔。而 <code>rand</code> crate 屬於<em>函式庫（library） crate</em>，這會包含讓其他程式能夠使用的程式碼。</p>
+<p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<strong>二進制（binary） crate</strong>，也就會是個執行檔。而 <code>rand</code> crate 屬於<strong>函式庫（library） crate</strong>，這會包含讓其他程式能夠使用的程式碼。</p>
 <p>Cargo 可以使用外部 crate 的功能正是它的亮點。在我們可以使用 <code>rand</code> 來寫程式碼前，我們需要修改 <em>Cargo.toml</em> 檔案來包含 <code>rand</code> crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 <code>[dependencies]</code> 標頭（header）段落中最後一行下面：</p>
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -477,7 +477,7 @@ cargo build -->
 <p>Cargo 有個機制能確保任何人或你在任何時候重新建構程式碼時，都能產生相同結果。舉例來說，要是下一週 <code>rand</code> crate 發佈了版本 0.5.6，其包含重大程式錯誤更新，卻也有個會破壞你的程式碼的回歸（regression）問題，這時會發生什麼事呢？</p>
 <p>此問題的答案位於 <em>Cargo.lock</em> 檔案中，這會在你第一次執行 <code>cargo build</code> 時建立，並位於 <em>guessing_game</em> 目錄中。當你第一次建構專案時，Cargo 會決定出符合情境的依賴函式庫版本，然後將它們寫入 <em>Cargo.lock</em> 檔案中。當你在未來建構專案時，Cargo 會看到 <em>Cargo.lock</em> 的存在並使用其指定的版本，而非重新再次決定該用哪些版本。這讓你有個能自動重現的建構方案。換句話說，你的專案仍會繼續使用 <code>0.5.5</code> 直到你顯式升級為止，這都多虧了 <em>Cargo.lock</em> 檔案。</p>
 <h4><a class="header" href="#升級-crate-來取得新版本" id="升級-crate-來取得新版本">升級 Crate 來取得新版本</a></h4>
-<p>當你<em>真的</em>想升級 crate 時，Cargo 有提供另一個命令 <code>update</code>，這會忽略 <em>Cargo.lock</em> 檔案並依據 <em>Cargo.toml</em> 指定的規格決定所有合適的最新版本。如果成功的話，Cargo 會將這些版本寫入 <em>Cargo.lock</em> 檔案中。</p>
+<p>當你<strong>真的</strong>想升級 crate 時，Cargo 有提供另一個命令 <code>update</code>，這會忽略 <em>Cargo.lock</em> 檔案並依據 <em>Cargo.toml</em> 指定的規格決定所有合適的最新版本。如果成功的話，Cargo 會將這些版本寫入 <em>Cargo.lock</em> 檔案中。</p>
 <p>Cargo 預設只會尋找大於 <code>0.5.5</code> 且小於 <code>0.6.0</code> 的版本。如果 <code>rand</code> 有發佈兩個新版本 <code>0.5.6</code> 和 <code>0.6.0</code>，當你輸入 <code>cargo update</code> 時，你會看到以下結果：</p>
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/listing-02-02/
@@ -589,7 +589,7 @@ fn main() {
 <p><span class="caption">範例 2-4：處理比較兩個數字後的可能數值</span></p>
 <p>首先新加入的第一個部分是另一個 <code>use</code> 陳述式，這將 <code>std::cmp::Ordering</code> 型別從標準函式庫引入作用域中。就像 <code>Result</code> 一樣，<code>Ordering</code> 是另一個枚舉，但是 <code>Ordering</code> 的變體為 <code>Less</code>、<code>Greater</code> 與 <code>Equal</code>。當你比較兩個數值時會有三種結果。</p>
 <p>然後我們在底下加上五行程式碼來使用 <code>Ordering</code> 型別。<code>cmp</code> 方法會比較兩個數值，並能在任何可以比較的數值中進行呼叫。其取一個引用至任何你想做比較的數值，在此例中就是將 <code>guess</code> 與 <code>secret_number</code> 做比較。然後它會回傳我們透過 <code>use</code> 陳述式引入作用域的 <code>Ordering</code> 枚舉其中一個變體。我們使用 <a href="ch06-02-match.html"><code>match</code></a><!-- ignore --> 表達式來依據透過 <code>guess</code> 與 <code>secret_number</code> 呼叫 <code>cmp</code> 回傳的 <code>Ordering</code> 變體來決定下一步要做什麼。</p>
-<p><code>match</code> 表達式由<em>分支（arms）</em> 所組成。分支包含一個<em>模式（pattern）</em> 以及對應的程式碼，這在當 <code>match</code> 表達式開頭的數值能與該分支的模式配對時就能執行。Rust 會用 <code>match</code> 得到的數值依序遍歷每個分支中的模式。<code>match</code> 結構與模式是 Rust 中非常強大的特色，能讓你表達各種程式碼可能會遇上的情形，並確保你有將它們全部處理完。這些特色功能會在第六章與第十八章分別討論其細節。</p>
+<p><code>match</code> 表達式由<strong>分支</strong>（arms）所組成。分支包含一個<strong>模式</strong>（pattern）以及對應的程式碼，這在當 <code>match</code> 表達式開頭的數值能與該分支的模式配對時就能執行。Rust 會用 <code>match</code> 得到的數值依序遍歷每個分支中的模式。<code>match</code> 結構與模式是 Rust 中非常強大的特色，能讓你表達各種程式碼可能會遇上的情形，並確保你有將它們全部處理完。這些特色功能會在第六章與第十八章分別討論其細節。</p>
 <p>讓我們看看在此例中使用 <code>match</code> 表達式時會發生什麼事。假設使用者猜測的數字是 50 而這次隨機產生的祕密數字是 38。當程式碼比較 50 與 38 時，<code>cmp</code> 方法會回傳 <code>Ordering::Greater</code>，因為 50 大於 38。<code>match</code> 表達式會取得 <code>Ordering::Greater</code> 數值並開始檢查每個分支的模式。它會先查看第一個分支的模式 <code>Ordering::Less</code> 並看出數值 <code>Ordering::Greater</code> 無法與 <code>Ordering::Less</code> 配對，所以它忽略該分支的程式碼，並移到下一個分支。而下個分支的模式 <code>Ordering::Greater</code> 能配對到 <code>Ordering::Greater</code>！所以該分支對應的程式碼就會執行並印出 <code>太大了！</code> 到螢幕上。最後 <code>match</code> 表達式就會結束，因為在此情境中它已經不需要再查看最後一個分支。</p>
 <p>然而範例 2-4 的程式碼還無法編譯，讓我們嘗試看看：</p>
 <pre><code class="language-console">$ cargo build
@@ -614,7 +614,7 @@ error: could not compile `guessing_game`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>錯誤的關鍵表示<em>型別無法配對（mismatched types）</em>。Rust 有個強力的靜態型別系統，但它也提供了型別推斷。當我們寫 <code>let mut guess = String::new()</code> 時，Rust 能夠推斷出 <code>guess</code> 應該要是 <code>String</code> 讓我們不必親自寫出型別。另一方面，<code>secret_number</code> 則是個數字型別。以下是一些可以包含數字 1 到 100 的數字型別：32 位元數字 <code>i32</code>、非帶號（unsigned） 32 位元數字 <code>u32</code>、64 位元數字 <code>i64</code>，以及更多等等。Rust 預設的數字型別為 <code>i32</code>，這就是 <code>secret_number</code> 的型別，除非你特地加上型別詮釋，Rust 才會推斷成不同的數字型別。此錯誤原因是因為 Rust 無法比較將字串與數字型別做比較。</p>
+<p>錯誤的關鍵表示<strong>型別無法配對（mismatched types）</strong>。Rust 有個強力的靜態型別系統，但它也提供了型別推斷。當我們寫 <code>let mut guess = String::new()</code> 時，Rust 能夠推斷出 <code>guess</code> 應該要是 <code>String</code> 讓我們不必親自寫出型別。另一方面，<code>secret_number</code> 則是個數字型別。以下是一些可以包含數字 1 到 100 的數字型別：32 位元數字 <code>i32</code>、非帶號（unsigned） 32 位元數字 <code>u32</code>、64 位元數字 <code>i64</code>，以及更多等等。Rust 預設的數字型別為 <code>i32</code>，這就是 <code>secret_number</code> 的型別，除非你特地加上型別詮釋，Rust 才會推斷成不同的數字型別。此錯誤原因是因為 Rust 無法比較將字串與數字型別做比較。</p>
 <p>所以我們要將程式從輸入讀取的 <code>String</code> 轉換成真正的數字型別，讓我們可以將其與祕密數字做比較。我們可以在 <code>main</code> 函式本體加上另一行程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
@@ -652,7 +652,7 @@ To learn more, run the command again with --verbose.
 <p>這行程式碼就是：</p>
 <pre><code class="language-rust ignore">let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 </code></pre>
-<p>我們建立了一個變數叫做 <code>guess</code>。小等一下，程式不是已經有個變數叫做 <code>guess</code>了嗎？的確是的，但 Rust 允許我們<em>遮蔽（shadow）</em> 之前的 <code>guess</code> 數值成新的數值。此功能常用於當你想將一個數值從一個型別轉換成另一個型別的場合中。遮蔽讓我們可以重複使用 <code>guess</code> 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 <code>guess_str</code> 和 <code>guess</code>。（第三章會詳細解釋遮蔽。）</p>
+<p>我們建立了一個變數叫做 <code>guess</code>。小等一下，程式不是已經有個變數叫做 <code>guess</code>了嗎？的確是的，但 Rust 允許我們<strong>遮蔽</strong>（shadow）之前的 <code>guess</code> 數值成新的數值。此功能常用於當你想將一個數值從一個型別轉換成另一個型別的場合中。遮蔽讓我們可以重複使用 <code>guess</code> 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 <code>guess_str</code> 和 <code>guess</code>。（第三章會詳細解釋遮蔽。）</p>
 <p>我們將 <code>guess</code> 綁定給 <code>guess.trim().parse()</code> 表達式。表達式中的 <code>guess</code> 指的是原本擁有 <code>String</code> 來儲存輸入的 <code>guess</code>。<code>String</code> 中的 <code>trim</code> 方法會去除開頭與結尾的任何空白字元。雖然 <code>u32</code> 只會包含數字字元，但使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 <code>read_line</code>。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，<code>guess</code> 看起來會像這樣：<code>5\n</code>。<code>\n</code> 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果。<code>trim</code> 方法能去除 <code>\n</code>，讓結果只會是 <code>5</code>。</p>
 <p>而<a href="https://doc.rust-lang.org/std/primitive.str.html#method.parse">字串中的 <code>parse</code> 方法</a><!-- ignore -->會解析字串成某種數字。因為此方法可以解析成各種數字型別，我們需要使用 <code>let guess: u32</code> 來告訴 Rust 我們想使用的確切數字型別。<code>guess</code> 後面的分號（<code>:</code>）告訴 Rust 我們會詮釋此變數的型別。Rust 有些內建的數字型別，這裡的 <code>u32</code> 是個非帶號（unsigned）的 32 位元整數。對於不大的正整數來說，這是不錯的預設選擇。你會在第三章學到其他數字型別。除此之外，在此範例程式中的 <code>u32</code> 詮釋與 <code>secret_number</code> 的比較意味著 Rust 也會將 <code>secret_number</code> 推斷成 <code>u32</code>。所以現在會有兩個相同型別的數值能做比較了！</p>
 <p><code>parse</code> 的呼叫很容易造成錯誤。舉例來說，如果字串包含 <code>A👍%</code> 的話，就不可能轉換成數字。因為它可能會失敗，<code>parse</code> 方法回傳的是 <code>Result</code> 型別，就和 <code>read_line</code> 方法一樣（在之前的<a href="#%E4%BD%BF%E7%94%A8-result-%E5%9E%8B%E5%88%A5%E8%99%95%E7%90%86%E5%8F%AF%E8%83%BD%E7%9A%84%E9%8C%AF%E8%AA%A4">「使用 <code>Result</code> 型別處理可能的錯誤」</a><!-- ignore -->段落提及）。我們也會用相同的方式來處理此 <code>Result</code>，也就是呼叫 <code>expect</code> 方法。如果 <code>parse</code> 回傳 <code>Result</code> 的 <code>Err</code> 變體的話，由於它無法從字串建立數字，<code>expect</code> 的呼叫會讓遊戲當掉並顯示我們給予的訊息。如果 <code>parse</code> 能成功將字串轉成數字，它將會回傳 <code>Result</code> 的 <code>Ok</code> 變體，而 <code>expect</code> 將會回傳 <code>Ok</code> 的內部數值。</p>
@@ -838,7 +838,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 <p><span class="caption">範例 2-5：忽略非數字的猜測並要求下一個猜測數字，而不是讓程式當掉</span></p>
 <p>將 <code>expect</code> 的呼叫換成 <code>match</code> 表達式，通常就是從錯誤中當掉改成處理錯誤的方式。你應該還記得 <code>parse</code> 回傳的是 <code>Result</code> 型別，且 <code>Result</code> 是個枚舉，其變體為 <code>Ok</code> 或 <code>Err</code>。我們在此使用 <code>match</code> 表達式，如同我們對 <code>cmp</code> 方法回傳的 <code>Ordering</code> 處理方式一樣。</p>
 <p>如果 <code>parse</code> 能成功將字串轉換成數字，它會回傳 <code>Ok</code> 數值內包含的結果數字。該 <code>Ok</code> 數值就會配對到第一個分支的模式，然後 <code>match</code> 表達式就會回傳 <code>parse</code> 產生並填入 <code>Ok</code> 內的 <code>num</code> 數值。該數字最後就會如我們所願變成我們建立的 <code>guess</code> 變數。</p>
-<p>如果 <code>parse</code> <em>無法</em>將字串轉換成數值的話，它會回傳包含與錯誤相關資訊的 <code>Err</code> 數值。該 <code>Err</code> 數值並不符合 <code>match</code> 的第一個分支模式 <code>Ok(num)</code>，但它能配對到第二個分支。底線 <code>_</code> 是個捕獲數值，在此例中，我們說我們想要配對到所有的 <code>Err</code> 數值，無論其中有什麼資訊在裡面。所以程式會執行第二條分支 <code>continue</code>，這告訴程式繼續 <code>loop</code> 下一個疊代並要求其他猜測數字。如此一來程式就能忽略所有 <code>parse</code> 可能會遇到的所有錯誤！</p>
+<p>如果 <code>parse</code> <strong>無法</strong>將字串轉換成數值的話，它會回傳包含與錯誤相關資訊的 <code>Err</code> 數值。該 <code>Err</code> 數值並不符合 <code>match</code> 的第一個分支模式 <code>Ok(num)</code>，但它能配對到第二個分支。底線 <code>_</code> 是個捕獲數值，在此例中，我們說我們想要配對到所有的 <code>Err</code> 數值，無論其中有什麼資訊在裡面。所以程式會執行第二條分支 <code>continue</code>，這告訴程式繼續 <code>loop</code> 下一個疊代並要求其他猜測數字。如此一來程式就能忽略所有 <code>parse</code> 可能會遇到的所有錯誤！</p>
 <p>現在程式的每個部分都如我們所預期的了，讓我們試試看：</p>
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/listing-02-05/

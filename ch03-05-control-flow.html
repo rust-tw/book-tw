@@ -187,7 +187,7 @@
     }
 }
 </code></pre></pre>
-<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始再加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱為<em>分支</em>（<em>arms</em>），就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
+<p>所有的 <code>if</code> 表達式都由 <code>if</code> 關鍵字開始再加上一個條件。在此例中的條件是判斷變數 <code>number</code> 是否小於 5。條件符合時所要執行的程式碼區塊被放在條件之後的大括號裡。與 <code>if</code> 表達式條件相關的程式碼段落有時也被稱為<strong>分支（arms）</strong>，就像我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->段落提到的 <code>match</code> 表達式的分支一樣。</p>
 <p>另外，我們還可以選擇性地加上 <code>else</code> 表達式（就像範例寫的），讓條件不符時可以去執行另外一段程式碼。如果你沒有提供 <code>else</code> 表達式且條件為否的話，程式會直接略過 <code>if</code> 的程式碼區塊，接著執行後續的程式碼。</p>
 <p>請嘗試執行此程式碼，你應該會看到以下輸出結果：</p>
 <pre><code class="language-console">$ cargo run
@@ -214,7 +214,7 @@
      Running `target/debug/branches`
 條件為否
 </code></pre>
-<p>還有一件值得注意的是程式碼的條件判斷<em>必須</em>是 <code>bool</code>。如果條件不是 <code>bool</code> 的話，我們就會遇到錯誤。比方說，試試以下程式碼：</p>
+<p>還有一件值得注意的是程式碼的條件判斷<strong>必須</strong>是 <code>bool</code>。如果條件不是 <code>bool</code> 的話，我們就會遇到錯誤。比方說，試試以下程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let number = 3;
@@ -325,7 +325,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p><code>if</code> 段落的表達式運算出整數，但 <code>else</code> 的區塊卻運算出字串。這樣行不通的原因是變數只能有一個型別。Rust 必須在編譯期間確切知道變數 <code>number</code> 的型別，這樣才能驗證它的型別在任何有使用到 <code>number</code> 的地方都是有效的。要是 <code>number</code> 只能在執行時知道的話，Rust 就沒辦法這樣做了。如果編譯器必須追蹤所有變數多種可能存在的型別，那就會變得非常複雜並無法為程式碼提供足夠的保障。</p>
 <h3><a class="header" href="#使用迴圈重複執行" id="使用迴圈重複執行">使用迴圈重複執行</a></h3>
-<p>重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生 <em>迴圈</em>（<em>loops</em>）的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。為了繼續探討迴圈，讓我們再開一個新專案 <em>loops</em>。</p>
+<p>重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生<strong>迴圈</strong>（loops）的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。為了繼續探討迴圈，讓我們再開一個新專案 <em>loops</em>。</p>
 <p>Rust 提供三種迴圈：<code>loop</code>、<code>while</code> 和 <code>for</code>。讓我們每個都嘗試看看吧。</p>
 <h4><a class="header" href="#使用-loop-重複執行程式碼" id="使用-loop-重複執行程式碼">使用 <code>loop</code> 重複執行程式碼</a></h4>
 <p><code>loop</code> 關鍵字告訴 Rust 去反覆不停地執行一段程式碼直到你親自告訴它要停下來。</p>
@@ -449,7 +449,7 @@ CTRL-C
 <li>產生第 n 個斐波那契數字。</li>
 <li>試著用重複的歌詞印出 Christmas carol 的 The Twelve Days of Christmas。</li>
 </ul>
-<p>當你準備好後，我們就來探討一個其他語言<em>不常見</em>的概念：所有權。</p>
+<p>當你準備好後，我們就來探討一個其他語言<strong>不常見</strong>的概念：所有權。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>

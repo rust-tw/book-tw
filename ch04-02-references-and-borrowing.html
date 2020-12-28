@@ -187,11 +187,11 @@ fn calculate_length(s: &amp;String) -&gt; usize {
     s.len()
 }
 </code></pre></pre>
-<p>首先你會注意到原先變數宣告與函式回傳值會用到元組的地方都被更改了。再來注意到我們傳遞的是 <code>&amp;s1</code> 給 <code>calculate_length</code>，然後在定義時我們是取 <code>&amp;String</code> 而非 <code>String</code>。這些「&amp;」符號就是<em>引用</em>（<em>references</em>），它們允許你不必獲取所有權來引用它。以下用圖示 4-5 示意。 </p>
+<p>首先你會注意到原先變數宣告與函式回傳值會用到元組的地方都被更改了。再來注意到我們傳遞的是 <code>&amp;s1</code> 給 <code>calculate_length</code>，然後在定義時我們是取 <code>&amp;String</code> 而非 <code>String</code>。這些「&amp;」符號就是<strong>引用（references）</strong>，它們允許你不必獲取所有權來引用它。以下用圖示 4-5 示意。 </p>
 <img alt="&String s pointing at String s1" src="img/trpl04-05.svg" class="center" />
 <p><span class="caption">圖示 4-5：顯示 <code>&amp;String s</code> 指向 <code>String s1</code> 的示意圖</span></p>
 <blockquote>
-<p>注意：使用 <code>&amp;</code> 引用的反向動作是 <em>解引用（dereferencing）</em>，使用的是解引用運算符號 <code>*</code>。我們會在第八章看到一些解引用的範例並在第 15 章詳細解釋解引用。</p>
+<p>注意：使用 <code>&amp;</code> 引用的反向動作是<strong>解引用（dereferencing）</strong>，使用的是解引用運算符號 <code>*</code>。我們會在第八章看到一些解引用的範例並在第 15 章詳細解釋解引用。</p>
 </blockquote>
 <p>讓我們進一步看看函式的呼叫：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -222,7 +222,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
   // 沒有任何動作發生
 </code></pre></pre>
 <p>變數 <code>s</code> 有效的作用域和任何函式參數的作用域一樣，但當引用離開作用域時，我們不會丟棄任何它指向的資料，因為我們沒有所有權。當函式使用引用作為參數而非實際數值時，我們不需要回傳數值來還所有權，因為我們不曾擁有過。</p>
-<p>我們會稱呼函式用引用作為參數叫做<em>借用</em>（<em>borrowing</em>）。就像現實世界一樣，如果有人擁有每項東西，他可以借用給你。當你使用完後，你就還給他。</p>
+<p>我們會稱呼函式用引用作為參數叫做<strong>借用（borrowing）</strong>。就像現實世界一樣，如果有人擁有每項東西，他可以借用給你。當你使用完後，你就還給他。</p>
 <p>所以要是我們嘗試修改我們借用的東西會如何呢？請試試範例 4-6 的程式碼。直接劇透你：它執行不了的！</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
@@ -302,7 +302,7 @@ error: could not compile `ownership`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>這項限制允許了可變行為，但是同時也受到一定程度的約束。這通常是新 Rustaceans 遭受挫折的地方，因為多數語言都會任你去改變其值。</p>
-<p>這項限制的好處是 Rust 可以在編譯時期就防止資料競爭（data races）。<em>資料競爭</em>和競爭條件（race condition）類似，它會由以下三種行為引發：</p>
+<p>這項限制的好處是 Rust 可以在編譯時期就防止資料競爭（data races）。<strong>資料競爭</strong>和競爭條件（race condition）類似，它會由以下三種行為引發：</p>
 <ul>
 <li>同時有兩個以上的指標存取同個資料。</li>
 <li>至少有一個指標在寫入資料。</li>
@@ -353,7 +353,7 @@ error: could not compile `ownership`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>哇！看來我們<em>也不可以</em>在擁有不可變引用的同時擁有可變引用。擁有不可變引用的使用者可不希望有人暗地裡突然改變了值！不過數個不可變引用是沒問題的，因為所有在讀取資料的人都無法影響其他人閱讀資料。</p>
+<p>哇！看來我們<strong>也不可以</strong>在擁有不可變引用的同時擁有可變引用。擁有不可變引用的使用者可不希望有人暗地裡突然改變了值！不過數個不可變引用是沒問題的，因為所有在讀取資料的人都無法影響其他人閱讀資料。</p>
 <p>請注意引用的作用域始於它被宣告的地方，一直到它最後一次引用被使用為止。舉例來說以下程式就可以編譯，因為不可變引用最後一次的使用在可變引用宣告之前：</p>
 <pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">fn main() {
 </span>    let mut s = String::from(&quot;hello&quot;);
@@ -370,7 +370,7 @@ To learn more, run the command again with --verbose.
 <p>不可變引用 <code>r1</code> 和 <code>r2</code> 的作用域在 <code>println!</code> 之後結束。這是它們最後一次使用到的地方，也就是在宣告可變引用 <code>r3</code> 之前。它們的作用域沒有重疊，所以程式碼是允許的。</p>
 <p>雖然借用錯誤有時是令人沮喪的，但請記得這是 Rust 編譯器希望提前（在編譯時而非執行時）指出潛在程式錯誤並告訴你問題的源頭在哪。這樣你就不必親自追蹤為何你的資料跟你預期的不一樣。</p>
 <h3><a class="header" href="#迷途引用" id="迷途引用">迷途引用</a></h3>
-<p>在有指標的語言中，通常都很容易不小心產生<em>迷途指標</em>（<em>dangling pointer</em>）。當資源已經被釋放但指標卻還留著，這樣的指標指向的地方很可能就已經被別人所有了。相反地，在 Rust 中編譯器會保證引用絕不會是迷途引用：如果你有某些資料的引用，編譯器會確保資料不會在引用結束前離開作用域。</p>
+<p>在有指標的語言中，通常都很容易不小心產生<strong>迷途指標（dangling pointer）</strong>。當資源已經被釋放但指標卻還留著，這樣的指標指向的地方很可能就已經被別人所有了。相反地，在 Rust 中編譯器會保證引用絕不會是迷途引用：如果你有某些資料的引用，編譯器會確保資料不會在引用結束前離開作用域。</p>
 <p>讓我們來嘗試產生迷途指標，看看 Rust 怎麼產生編譯期錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
@@ -435,7 +435,7 @@ for it to be borrowed from.
 <h3><a class="header" href="#引用規則" id="引用規則">引用規則</a></h3>
 <p>讓我們來回顧我們討論到的引用規則：</p>
 <ul>
-<li>在任何時候，我們要嘛<em>只能有</em>一個可變引用，要嘛可以有<em>任意數量</em>的不可變引用。</li>
+<li>在任何時候，我們要嘛<strong>只能有</strong>一個可變引用，要嘛可以有<strong>任意數量</strong>的不可變引用。</li>
 <li>引用必須永遠有效。</li>
 </ul>
 <p>接下來我們要來看看一個不太一樣的引用型別：切片（slices）。</p>

@@ -175,7 +175,7 @@
 <p>有時候壞事就是會發生在你的程式中，這本來就是你沒辦法全部避免的。在這種情況，Rust 有提供 <code>panic!</code> 巨集。當 <code>panic!</code> 巨集執行時，你的程式就會印出程式出錯的訊息，展開並清理堆疊，然後離開程式。這常用來處理當程式遇到某種錯誤時，開發者不清楚如何處理該錯誤的狀況。</p>
 <blockquote>
 <h3><a class="header" href="#恐慌時該解開堆疊還是直接終止" id="恐慌時該解開堆疊還是直接終止">恐慌時該解開堆疊還是直接終止</a></h3>
-<p>當恐慌（panic）發生時，程式預設會開始做<em>解開（unwind）</em> 堆疊的動作，這代表 Rust 會回溯整個堆疊，並清理每個它遇到的函式資料。但是這樣回溯並清理的動作很花力氣。另一種方式是直接<em>終止（abort）</em> 程式而不清理，程式使用的記憶體會需要由作業系統來清理。如果你需要你的專案產生的二進制檔案越小越好，你可以從解開切換成終止，只要在 <em>Cargo.toml</em> 檔案中的 <code>[profile]</code> 段落加上 <code>panic = 'abort'</code> 就好。舉例來說，如果你希望在發佈模式（release mode）恐慌時直接終止，那就加上：</p>
+<p>當恐慌（panic）發生時，程式預設會開始做<strong>解開</strong>（unwind）堆疊的動作，這代表 Rust 會回溯整個堆疊，並清理每個它遇到的函式資料。但是這樣回溯並清理的動作很花力氣。另一種方式是直接<strong>終止</strong>（abort）程式而不清理，程式使用的記憶體會需要由作業系統來清理。如果你需要你的專案產生的二進制檔案越小越好，你可以從解開切換成終止，只要在 <em>Cargo.toml</em> 檔案中的 <code>[profile]</code> 段落加上 <code>panic = 'abort'</code> 就好。舉例來說，如果你希望在發佈模式（release mode）恐慌時直接終止，那就加上：</p>
 <pre><code class="language-toml">[profile.release]
 panic = 'abort'
 </code></pre>
@@ -207,7 +207,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre></pre>
 <p><span class="caption">範例 9-1：嘗試取得超出向量長度的元素，進而導致 <code>panic!</code> 被呼叫</span></p>
 <p>我們在這邊嘗試取得向量中第 100 個元素（不過因為索引從零開始，所以是索引 99），但是它只有 3 個元素。在此情況下，Rust 就會恐慌。使用 <code>[]</code> 會回傳元素，但是如果你傳遞了無效的索引，Rust 就回傳不了正確的元素。</p>
-<p>在 C 中，嘗試讀取資料結構結束之後的元素屬於未定義行為。你可能會得到該記憶體位置對應其資料結構的元素，即使該記憶體完全不屬於該資料結構。這就稱做<em>緩衝區過讀（buffer overread）</em> 而且會導致安全漏洞。攻擊者可能故意操縱該索引來取得在資料結構後面他們原本不應該讀寫的值。</p>
+<p>在 C 中，嘗試讀取資料結構結束之後的元素屬於未定義行為。你可能會得到該記憶體位置對應其資料結構的元素，即使該記憶體完全不屬於該資料結構。這就稱做<strong>緩衝區過讀</strong>（buffer overread）而且會導致安全漏洞。攻擊者可能故意操縱該索引來取得在資料結構後面他們原本不應該讀寫的值。</p>
 <p>為了保護你的程式免於這樣的漏洞，如果你嘗試用一個不存在的索引讀取元素的話，Rust 會停止執行並拒絕繼續運作下去。讓我們嘗試執行並看看會如何：</p>
 <pre><code class="language-console">$ cargo run
    Compiling panic v0.1.0 (file:///projects/panic)

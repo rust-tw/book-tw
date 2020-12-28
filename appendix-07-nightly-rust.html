@@ -174,10 +174,10 @@
                         <h2><a class="header" href="#附錄-g---rust-的開發流程與夜版-rust" id="附錄-g---rust-的開發流程與夜版-rust">附錄 G - Rust 的開發流程與「夜版 Rust」</a></h2>
 <p>本附錄會介紹 Rust 是如何開發的，以及這對身為 Rust 開發者的你會有何影響。</p>
 <h3><a class="header" href="#無停滯穩定" id="無停滯穩定">無停滯穩定</a></h3>
-<p>身為一門語言，Rust <em>十分</em>注重程式碼穩定性。我們希望 Rust 成為你在開發中的穩固基石，如果經常在更新的話，這樣的願望就很難達成了。同時，如果我們不能實驗新功能的話，直到它們發佈之前，我們可能就無法找出重大瑕疵，而且發佈後我們就很難再加以更改了。</p>
+<p>身為一門語言，Rust <strong>十分</strong>注重程式碼穩定性。我們希望 Rust 成為你在開發中的穩固基石，如果經常在更新的話，這樣的願望就很難達成了。同時，如果我們不能實驗新功能的話，直到它們發佈之前，我們可能就無法找出重大瑕疵，而且發佈後我們就很難再加以更改了。</p>
 <p>我們對此問題的解決方案為「無停滯穩定（stability without stagnation）」，而我們的指導原則為：你永遠不該害怕升級最新的 Rust 穩定版。每次都該是無痛升級，但同時也該提供新功能、修正錯誤並加快編譯時間。</p>
 <h3><a class="header" href="#嘟嘟火車出發發佈通道與時刻表" id="嘟嘟火車出發發佈通道與時刻表">嘟嘟火車出發！發佈通道與時刻表</a></h3>
-<p>Rust 開發團隊有個<em>發佈時刻表（train schedule）</em>。而所有的開發工作都在 Rust repository 的 <code>master</code> 分支上。發佈採用軟體發佈火車模型（software release train model），這也被用於 Cisco IOS 與其他的軟體專案。Rust 有三個<em>發佈通道（release channels）</em>：</p>
+<p>Rust 開發團隊有個<strong>發佈時刻表（train schedule）</strong>。而所有的開發工作都在 Rust repository 的 <code>master</code> 分支上。發佈採用軟體發佈火車模型（software release train model），這也被用於 Cisco IOS 與其他的軟體專案。Rust 有三個<strong>發佈通道（release channels）</strong>：</p>
 <ul>
 <li>夜版（Nightly）</li>
 <li>測試版（Beta）</li>
@@ -209,7 +209,7 @@ beta:                * - - - - - - - - *
                                        |
 stable:                                *
 </code></pre>
-<p>太好了！Rust 1.5 終於釋出了！不過我們不能忘記一件事，由於六週過去了，我們也必須為<em>下一個</em> Rust 1.6 版本準備新的測試版。所以在 <code>stable</code> 從 <code>beta</code> 產生後，下個版本的 <code>beta</code> 分支會再次從 <code>nightly</code> 產生：</p>
+<p>太好了！Rust 1.5 終於釋出了！不過我們不能忘記一件事，由於六週過去了，我們也必須為<strong>下一個</strong> Rust 1.6 版本準備新的測試版。所以在 <code>stable</code> 從 <code>beta</code> 產生後，下個版本的 <code>beta</code> 分支會再次從 <code>nightly</code> 產生：</p>
 <pre><code class="language-text">nightly: * - - * - - * - - * - - * - - * - * - *
                      |                         |
 beta:                * - - - - - - - - *       *
@@ -220,14 +220,14 @@ stable:                                *
 <p>Rust 會像發條裝置一樣每個六週定時發佈。如果你已經知道一個 Rust 發佈的日期，你就能知道下一個的發佈日期，也就是六週之後。這樣每隔六週發佈的時程表有個好處是下一輛火車很快也會接著抵達。如果某個特定版本遺漏某項功能的話，不用擔心，因為下一版很快就會來臨了！這能降低發佈截止日期前，不得不偷偷釋出尚未完善的功能的壓力。</p>
 <p>幸虧有此流程，你永遠都可以看到 Rust 的下一個版本並驗證你是否能輕鬆升級。如果測試版不如你所預期，你可以回報給團隊並在穩定版發佈前修正完成！在測試版出現重大缺陷是很少見的，但 <code>rustc</code> 本身仍是個軟體，總避免不了些錯誤發生。</p>
 <h3><a class="header" href="#不穩定功能" id="不穩定功能">不穩定功能</a></h3>
-<p>此發佈模型還有一項重點，那就是不穩定（unstable）功能。Rust 使用一個叫做「功能標記（feature flags）」的技術來決定一個發佈能啟用哪些功能。如果有個新功能正在積極開發中，它可以加進 <code>master</code> 因而出現在夜版中，但是會有個<em>功能標記</em>。如果身為使用者的你想要嘗試看看仍在開發中的功能的話，你是可以使用的。但是你必須透過 Rust 夜版並在你的程式碼指明對應的功能標記才行。</p>
+<p>此發佈模型還有一項重點，那就是不穩定（unstable）功能。Rust 使用一個叫做「功能標記（feature flags）」的技術來決定一個發佈能啟用哪些功能。如果有個新功能正在積極開發中，它可以加進 <code>master</code> 因而出現在夜版中，但是會有個<strong>功能標記</strong>。如果身為使用者的你想要嘗試看看仍在開發中的功能的話，你是可以使用的。但是你必須透過 Rust 夜版並在你的程式碼指明對應的功能標記才行。</p>
 <p>如果你使用的是測試版或穩定版 Rust，你就無法使用任何功能標記。這是讓我們在宣佈新功能已經永遠穩定前，能夠確實測試它們的關鍵。這滿足了想使用前沿技術的人，同時也確保維持在穩定版的人有穩固的基石，不會讓他們的程式碼被破壞。這就是所謂的無停滯穩定。</p>
 <p>本書只涵蓋了穩定版的功能資訊，因為開發中的功能可能隨時會改變。當其納入穩定版時肯定會與此書撰寫的時候而有所不同。你可以在線上找到夜版功能的技術文件。</p>
 <h3><a class="header" href="#rustup-與-rust-夜版的職責" id="rustup-與-rust-夜版的職責">Rustup 與 Rust 夜版的職責</a></h3>
 <p>Rustup 能夠輕鬆切換不同的 Rust 發佈通道，在全域或是每個專案的範圍都行。而預設情況下，你會安裝穩定版 Rust。要安裝夜版的話，請輸入以下命令：</p>
 <pre><code class="language-console">$ rustup toolchain install nightly
 </code></pre>
-<p>你還可以看到你透過 <code>rustup</code> 安裝的所有<em>工具鏈（toolchains）</em>（Rust 的發佈與相關元件）。以下是本書其中一位作者 Windows 電腦中的範例：</p>
+<p>你還可以看到你透過 <code>rustup</code> 安裝的所有<strong>工具鏈（toolchains）</strong>（Rust 的發佈與相關元件）。以下是本書其中一位作者 Windows 電腦中的範例：</p>
 <pre><code class="language-powershell">&gt; rustup toolchain list
 stable-x86_64-pc-windows-msvc (default)
 beta-x86_64-pc-windows-msvc
@@ -239,7 +239,7 @@ $ rustup override set nightly
 </code></pre>
 <p>現在你每次在 <em>~/projects/needs-nightly</em> 底下呼叫 <code>rustc</code> 或 <code>cargo</code> 的話，<code>rustup</code> 會確保你使用的是夜版 Rust，而不是預設的穩定版 Rust。這在當你有一堆 Rust 專案時會非常好用！</p>
 <h3><a class="header" href="#rfc-流程與團隊" id="rfc-流程與團隊">RFC 流程與團隊</a></h3>
-<p>所以你該怎麼學習這些新功能呢？Rust 的開發模型遵循的是<em>請求意見稿（Request For Comments, RFC）流程</em>。如果你想要改善 Rust，你可以寫篇 RFC 提案。</p>
+<p>所以你該怎麼學習這些新功能呢？Rust 的開發模型遵循的是<strong>請求意見稿（Request For Comments, RFC）流程</strong>。如果你想要改善 Rust，你可以寫篇 RFC 提案。</p>
 <p>任何人都可以寫篇 RFC 來改善 Rust，然後該提案會經由 Rust 團隊審核並討論，而團隊有許多子主題團隊所組成。<a href="https://www.rust-lang.org/governance">在 Rust 官網上</a>有完整的團隊列表，包含每個專案領域的團隊，像是語言設計、編譯器實作、基礎設施、技術文件以及更多等等。相對應的團隊會閱讀提案並留言、寫些他們的想法，並在最後達成共識，決定要接受或拒絕該功能。</p>
 <p>如果功能被接受了，Rust repository 便會開啟對應 issue，然後每個人就都能嘗試實作它。實作該功能的人很可能與當初提案的人不相同！當實作準備好後，它便會加入 <code>master</code> 分支並有個功能標記，如同我們在<a href="#unstable-features">「不穩定功能」</a><!-- ignore -->段落所提及的。</p>
 <p>經過一段時間後，一旦使用夜版發佈的 Rust 開發者嘗試過新功能後，團隊成員會討論此功能，其在夜版運行的如何，並決定它是否該加到穩定版。如果決定進一步加入的話，功能標記就會被移除，然後該功能就會是穩定功能了！它就像搭乘火車班抵達最新的 Rust 穩定版發佈。</p>

@@ -295,7 +295,7 @@ fn main() {
 <pre><code class="language-text">   = help: the trait `std::fmt::Debug` is not implemented for `Rectangle`
    = note: add `#[derive(Debug)]` or manually implement `std::fmt::Debug`
 </code></pre>
-<p>Rust <em>的確</em>有印出除錯資訊的功能，但是我們要針對我們的結構體顯式實作出來才會有對應的功能。為此我們可以在結構體前加上 <code>#[derive(Debug)]</code>，如範例 5-12 所示。</p>
+<p>Rust <strong>的確</strong>有印出除錯資訊的功能，但是我們要針對我們的結構體顯式實作出來才會有對應的功能。為此我們可以在結構體前加上 <code>#[derive(Debug)]</code>，如範例 5-12 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
 struct Rectangle {
@@ -331,7 +331,7 @@ rect1 is Rectangle {
 }
 </code></pre>
 <p>Rust 提供了一些特徵並讓我們可以用 <code>derive</code> 標記來為自定型別加入些實用的功能。這類的特徵與其行為都列在附錄 C。我們會在第十章介紹如何定義自定特徵，且如何實作這些特徵的自訂行為。</p>
-<p>我們的函式 <code>area</code> 最後就非常清楚明白了，它只會計算長方形的面積。這樣的行為要是能夠緊貼著我們的 <code>Rectangle</code> 結構體，因為這樣一來它就不會相容於其他型別。讓我們看看我們如何繼續重構我們的程式碼，接下來我們可以將函式 <code>area</code> 轉換為 <code>Rectangle</code> 型別的<em>方法</em>（<em>method</em>） 。</p>
+<p>我們的函式 <code>area</code> 最後就非常清楚明白了，它只會計算長方形的面積。這樣的行為要是能夠緊貼著我們的 <code>Rectangle</code> 結構體，因為這樣一來它就不會相容於其他型別。讓我們看看我們如何繼續重構我們的程式碼，接下來我們可以將函式 <code>area</code> 轉換為 <code>Rectangle</code> 型別的<strong>方法（method）</strong> 。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>

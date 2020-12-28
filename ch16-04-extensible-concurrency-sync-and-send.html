@@ -172,7 +172,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#可延展的並行與-sync-及-send-特徵" id="可延展的並行與-sync-及-send-特徵">可延展的並行與 <code>Sync</code> 及 <code>Send</code> 特徵</a></h2>
-<p>有一個有趣的點是 Rust 語言提供的並行功能並<em>沒有很多</em>。本章節討論到的並行功能幾乎都來自於標準函式庫，並不是語言本身。你能處理並行的選項並不限於語言或標準函式庫，你可以寫出你自己的並行功能或使用其他人提供的。</p>
+<p>有一個有趣的點是 Rust 語言提供的並行功能並<strong>沒有很多</strong>。本章節討論到的並行功能幾乎都來自於標準函式庫，並不是語言本身。你能處理並行的選項並不限於語言或標準函式庫，你可以寫出你自己的並行功能或使用其他人提供的。</p>
 <p>然而，還有有兩個並行概念深植於語言中，那就是 <code>std::marker</code> 中的 <code>Sync</code> 與 <code>Send</code> 特徵。</p>
 <h3><a class="header" href="#透過-send-來允許所有權能在執行緒間轉移" id="透過-send-來允許所有權能在執行緒間轉移">透過 <code>Send</code> 來允許所有權能在執行緒間轉移</a></h3>
 <p><code>Send</code> 標記特徵（marker traits）指定有實作 <code>Send</code> 特徵的型別才能將其所有權在執行緒間轉移。幾乎所有的 Rust 型別都有 <code>Send</code>，但有些例外。這包含 <code>Rc&lt;T&gt;</code>，此型別沒有 <code>Send</code> 是因為如果你克隆了 <code>Rc&lt;T&gt;</code> 數值並嘗試轉移克隆的所有權到其他執行緒，會有兩條執行緒可能同時更新引用引用計數。基於此原因，<code>Rc&lt;T&gt;</code> 是用於當你不想要付出執行緒安全效能開銷時而在單一執行緒使用的情況。</p>

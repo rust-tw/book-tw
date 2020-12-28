@@ -175,7 +175,7 @@
 <p>我們已經在第四章提到字串（String），但現在我們要更加深入探討。Rustaceans 初學者常常會卡在三個環節：Rust 傾向於回報可能的錯誤、字串的資料結構比開發者所熟悉的還要複雜，以及 UTF-8。這些要素讓來自其他程式語言背景的開發者會遇到一些困難。</p>
 <p>我們會在集合章節討論字串的原因是，字串本身就是位元組的集合，且位元組作為文字呈現時，它會提供一些實用的方法。在此段落我們將和其他集合型別一樣討論 <code>String</code> 的操作，像是建立、更新與讀取。我們還會討論到 <code>String</code> 與其他集合不一樣的地方，像是 <code>String</code> 的索引就比其他集合還複雜，因為它會依據人們對於 <code>String</code> 資料型別的理解而有所不同。</p>
 <h3><a class="header" href="#什麼是字串" id="什麼是字串">什麼是字串？</a></h3>
-<p>首先我們要好好定義<em>字串（String）<em>這個術語。Rust 在核心語言中只有一個字串型別，那就是字串切片 <code>str</code>，它通常是以借用的形式存在 <code>&amp;str</code>。在第四章中我們提到</em>字串切片</em>是一個針對存在某處的  UTF-8 編碼資料的引用。舉例來說，字串字面值（String literals）就儲存在程式的二進制檔案中，因此就是字串切片。</p>
+<p>首先我們要好好定義<strong>字串（String）<strong>這個術語。Rust 在核心語言中只有一個字串型別，那就是字串切片 <code>str</code>，它通常是以借用的形式存在 <code>&amp;str</code>。在第四章中我們提到</strong>字串切片</strong>是一個針對存在某處的  UTF-8 編碼資料的引用。舉例來說，字串字面值（String literals）就儲存在程式的二進制檔案中，因此就是字串切片。</p>
 <p><code>String</code> 型別是 Rust 標準函式庫所提供的型別，並不是核心語言內建的型別，它是可增長的、可變的、可擁有所有權的 UTF-8 編碼字串型別。當 Rustaceans 提及 Rust 中的「字串」時，他們通常指的是 <code>String</code> 以及字串切片 <code>&amp;str</code> 型別，而不只是其中一種型別。雖然此段落大部分都在討論 <code>String</code>，這兩個型別都時常用在 Rust 的標準函式庫中，且 <code>String</code> 與字串切片都是 UTF-8 編碼的。</p>
 <p>Rust 的標準函式庫還包含了其他種類的字串型別，像是 <code>OsString</code>、<code>OsStr</code>、<code>CString</code> 以及 <code>CStr</code>。函式庫 crates 更可以提供儲存字串資料的更多選項。你應該會注意到這些型別的結尾都是 <code>String</code> 和 <code>Str</code>，它們分別代表擁有所有權與借用的變體。就像你之前看到的 <code>String</code> 和 <code>str</code> 型別一樣。這些字串型別可以儲存不同編碼的文字或者以不同的記憶體形式呈現。我們不會在本章節討論這些字串型別，要是你想知道如何或何時使用它們的話，你可以查閱它們的 API 技術文件。</p>
 <h3><a class="header" href="#建立新的字串" id="建立新的字串">建立新的字串</a></h3>
@@ -262,9 +262,9 @@
 <pre><code class="language-rust ignore">fn add(self, s: &amp;str) -&gt; String {
 </code></pre>
 <p>這不全是標準函式庫中實際的簽名，在標準函式庫中 <code>add</code> 是用泛型（generics）定義。我們在此看到的是使用實際型別指明泛型的 <code>add</code> 簽名。我們會在第十章討論到泛型。此簽名給了一些我們需要瞭解 <code>+</code> 運算子的一些線索。</p>
-<p>首先 <code>s2</code> 有 <code>&amp;</code> 代表我們是將第二個字串的<em>引用</em>與第一個字串相加，因為函式 <code>add</code> 中的參數 <code>s</code> 說明我們只能將 <code>&amp;str</code> 與 <code>String</code> 相加，我們無法將兩個 <code>String</code> 數值相加。但等等 <code>&amp;s2</code> 是 <code>&amp;String</code> 才對，並非 <code>add</code> 第二個參數所指定的 <code>&amp;str</code>。為何範例 8-18 可以編譯呢？</p>
-<p>我們可以在 <code>add</code> 的呼叫中使用 <code>&amp;s2</code> 的原因是因為編譯器可以<em>強制（coerce）</em> <code>&amp;String</code> 引數轉換成 <code>&amp;str</code>。當我們我們呼叫 <code>add</code> 方法時，Rust <em>強制解引用（deref coercion）</em> 讓 <code>&amp;s2</code> 變成 <code>&amp;s2[..]</code>。我們會在第十五章深入探討強制解引用。因為 <code>add</code> 不會取得 <code>s</code> 參數的所有權，<code>s2</code> 在此運算後仍然是個有效的 <code>String</code>。</p>
-<p>再來，我們可以看到 <code>add</code> 的簽名會取得 <code>self</code> 的所有權，因為 <code>self</code> <em>沒有</em> <code>&amp;</code>。這代表範例 8-18 的 <code>s1</code> 會移動到 <code>add</code> 的呼叫內，在之後就不再有效。所以雖然 <code>let s3 = s1 + &amp;s2;</code> 看起來像是它拷貝了兩個字串的值並產生了一個新的，但此陳述式實際上是取得 <code>s1</code> 的所有權、追加一份 <code>s2</code> 的複製內容、然後回傳最終結果的所有權。換句話說，雖然它看起來像是產生了很多拷貝，但實際上並不是。此實作反而比較有效率。</p>
+<p>首先 <code>s2</code> 有 <code>&amp;</code> 代表我們是將第二個字串的<strong>引用</strong>與第一個字串相加，因為函式 <code>add</code> 中的參數 <code>s</code> 說明我們只能將 <code>&amp;str</code> 與 <code>String</code> 相加，我們無法將兩個 <code>String</code> 數值相加。但等等 <code>&amp;s2</code> 是 <code>&amp;String</code> 才對，並非 <code>add</code> 第二個參數所指定的 <code>&amp;str</code>。為何範例 8-18 可以編譯呢？</p>
+<p>我們可以在 <code>add</code> 的呼叫中使用 <code>&amp;s2</code> 的原因是因為編譯器可以<strong>強制（coerce）</strong> <code>&amp;String</code> 引數轉換成 <code>&amp;str</code>。當我們我們呼叫 <code>add</code> 方法時，Rust <strong>強制解引用</strong>（deref coercion）讓 <code>&amp;s2</code> 變成 <code>&amp;s2[..]</code>。我們會在第十五章深入探討強制解引用。因為 <code>add</code> 不會取得 <code>s</code> 參數的所有權，<code>s2</code> 在此運算後仍然是個有效的 <code>String</code>。</p>
+<p>再來，我們可以看到 <code>add</code> 的簽名會取得 <code>self</code> 的所有權，因為 <code>self</code> <strong>沒有</strong> <code>&amp;</code>。這代表範例 8-18 的 <code>s1</code> 會移動到 <code>add</code> 的呼叫內，在之後就不再有效。所以雖然 <code>let s3 = s1 + &amp;s2;</code> 看起來像是它拷貝了兩個字串的值並產生了一個新的，但此陳述式實際上是取得 <code>s1</code> 的所有權、追加一份 <code>s2</code> 的複製內容、然後回傳最終結果的所有權。換句話說，雖然它看起來像是產生了很多拷貝，但實際上並不是。此實作反而比較有效率。</p>
 <p>如果我們需要串接數個字串的話，<code>+</code> 運算子的行為看起來就顯得有點笨重了：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;tic&quot;);
@@ -348,7 +348,7 @@ let answer = &amp;hello[0];
 </code></pre>
 <p><code>answer</code> 的數值會是多少呢？會是第一個字母 <code>З</code> 嗎？當經過 UTF-8 編碼時，<code>З</code> 的第一個位元組會是 <code>208</code> 然後第二個是 <code>151</code>。所以 <code>answer</code> 實際上會拿到 <code>208</code>，但 <code>208</code> 本身又不是個有效字元。回傳 <code>208</code> 可能不會是使用者想要的，他們希望的應該是此字串的第一個字母，但這是 Rust 在位元組索引 0 唯一能回傳的資料。就算字串都只包含拉丁字母，使用者通常也不會希望看到位元組數值作為回傳值。如果 <code>&amp;&quot;hello&quot;[0]</code> 是有效程式碼且會回傳位元組數值的話，它會回傳的是 <code>104</code> 並非 <code>h</code>。為了預防回傳意外數值進而導致無法立刻察覺的錯誤，Rust 不會成功編譯這段程式碼，並在開發過程前期就杜絕誤會發生。</p>
 <h4><a class="header" href="#位元組純量數值與形素群集我的天啊" id="位元組純量數值與形素群集我的天啊">位元組、純量數值與形素群集！我的天啊！</a></h4>
-<p>UTF-8 還有一個重點是在 Rust 中我們實際上可以有三種觀點來理解字串：位元組、純量數值（scalar values）以及形素群集（grapheme clusters，最接近人們常說的「<em>字母</em>」）。</p>
+<p>UTF-8 還有一個重點是在 Rust 中我們實際上可以有三種觀點來理解字串：位元組、純量數值（scalar values）以及形素群集（grapheme clusters，最接近人們常說的「<strong>字母</strong>」）。</p>
 <p>如果我們觀察用天成體寫的印度語「नमस्ते」，它存在向量中的 <code>u8</code> 數值就會長這樣：</p>
 <pre><code class="language-text">[224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
 224, 165, 135]

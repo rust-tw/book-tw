@@ -172,12 +172,12 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#切片型別" id="切片型別">切片型別</a></h2>
-<p>另一種沒有所有權的資料型別是<em>切片</em>（<em>slice</em>）。切片讓你可以引用一串集合中的元素序列，而並非引用整個集合。</p>
+<p>另一種沒有所有權的資料型別是<strong>切片（slice）</strong>。切片讓你可以引用一串集合中的元素序列，而並非引用整個集合。</p>
 <p>以下是個小小的程式問題：寫一支接收字串的函式並回傳第一個找到的單字，如果函式沒有在字串找到空格的話，就代表整個字串就是一個單字，所以就回傳整個字串。</p>
 <p>先來想想看函式簽名該長怎樣：</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; ?
 </code></pre>
-<p>此函式 <code>first_word</code> 有一個參數 <code>&amp;String</code>。我們不需要取得所有權，所以這是合理的。但我們該回傳啥呢？我們目前還沒有方法能夠描述一個字串的<em>其中一部分</em>。不過我們可以回傳該單字的最後一個索引。讓我們像範例 4-7 這樣試試看。</p>
+<p>此函式 <code>first_word</code> 有一個參數 <code>&amp;String</code>。我們不需要取得所有權，所以這是合理的。但我們該回傳啥呢？我們目前還沒有方法能夠描述一個字串的<strong>其中一部分</strong>。不過我們可以回傳該單字的最後一個索引。讓我們像範例 4-7 這樣試試看。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;String) -&gt; usize {
     let bytes = s.as_bytes();
@@ -271,10 +271,10 @@
 <p>要隨時留意 <code>word</code> 會不會與 <code>s</code> 的資料脫鉤是很煩瑣的且容易出錯！要是我們又寫了個函式 <code>second_word</code>，管理這些索引會變得非常難以管控！我們會不得不將函式簽名改成這樣：</p>
 <pre><code class="language-rust ignore">fn second_word(s: &amp;String) -&gt; (usize, usize) {
 </code></pre>
-<p>現在我們得同時紀錄起始<em>與</em>結束的索引，而且我們還產生了更多與原本數值沒辦法直接相關的計算結果。我們現在有三個非直接相關的變數需要保持同步。</p>
+<p>現在我們得同時紀錄起始<strong>與</strong>結束的索引，而且我們還產生了更多與原本數值沒辦法直接相關的計算結果。我們現在有三個非直接相關的變數需要保持同步。</p>
 <p>幸運的是 Rust 為此提供了一個解決辦法：字串切片（String slice）。</p>
 <h3><a class="header" href="#字串切片" id="字串切片">字串切片</a></h3>
-<p><em>字串切片</em>是 <code>String</code> 其中一部分的引用，它長得像這樣：</p>
+<p><strong>字串切片</strong>是 <code>String</code> 其中一部分的引用，它長得像這樣：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s = String::from(&quot;hello world&quot;);
 
@@ -430,7 +430,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    // first_word 適用於字串字面值
 </span><span class="boring">    let word = first_word(&amp;my_string_literal[..]);
 </span><span class="boring">
-</span><span class="boring">    // 因為字串字面值*本來*就是切片
+</span><span class="boring">    // 因為字串字面值本來就是切片
 </span><span class="boring">    // 沒有切片語法也是可行的！
 </span><span class="boring">    let word = first_word(my_string_literal);
 </span><span class="boring">}
@@ -461,7 +461,7 @@ To learn more, run the command again with --verbose.
     // first_word 適用於字串字面值
     let word = first_word(&amp;my_string_literal[..]);
 
-    // 因為字串字面值*本來*就是切片
+    // 因為字串字面值本來就是切片
     // 沒有切片語法也是可行的！
     let word = first_word(my_string_literal);
 }

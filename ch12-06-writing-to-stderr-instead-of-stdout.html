@@ -172,7 +172,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#將錯誤訊息寫入標準錯誤而非標準輸出" id="將錯誤訊息寫入標準錯誤而非標準輸出">將錯誤訊息寫入標準錯誤而非標準輸出</a></h2>
-<p>目前我們使用 <code>println!</code> 巨集來將所有的輸出顯示到終端機。大多數的終端機都提供兩種輸出方式：用於通用資訊的<em>標準輸出（standard output, <code>stdout</code>）<em>以及用於錯誤訊息的</em>標準錯誤（standard error, <code>stderr</code>）</em>。這樣的區別讓使用者可以選擇將程式的成功輸出導向到一個檔案中，並仍能在螢幕上顯示錯誤訊息。</p>
+<p>目前我們使用 <code>println!</code> 巨集來將所有的輸出顯示到終端機。大多數的終端機都提供兩種輸出方式：用於通用資訊的<strong>標準輸出（standard output, <code>stdout</code>）<strong>以及用於錯誤訊息的</strong>標準錯誤（standard error, <code>stderr</code>）</strong>。這樣的區別讓使用者可以選擇將程式的成功輸出導向到一個檔案中，並仍能在螢幕上顯示錯誤訊息。</p>
 <p><code>println!</code> 巨集只能夠印出標準輸出，所以我們得用其他方式來印出標準錯誤。</p>
 <h3><a class="header" href="#檢查該在哪裡寫錯誤" id="檢查該在哪裡寫錯誤">檢查該在哪裡寫錯誤</a></h3>
 <p>首先，我們先來觀察 <code>minigrep</code> 目前寫到標準輸出的顯示內容，其中包含任何我們想改寫成標準錯誤的錯誤訊息。我們會將標準輸出重新導向至一個檔案並故意產生一個錯誤。因為我們不會重新導向標準錯誤，所以任何傳送至標準錯誤的內容會繼續顯示在螢幕上。</p>

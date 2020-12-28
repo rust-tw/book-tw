@@ -173,7 +173,7 @@
                     <main>
                         <h2><a class="header" href="#使用疊代器來處理一系列的項目" id="使用疊代器來處理一系列的項目">使用疊代器來處理一系列的項目</a></h2>
 <p>疊代器（Iterator）模式讓你可以對 一個項目序列依序進行某些任務。一個疊代器負責遍歷序每個項目以及序列何時結束的邏輯。當你使用疊代器，你不需要自己實作這些邏輯。</p>
-<p>在 Rust 中疊代器是<em>惰性（lazy）</em> 的，代表除非你呼叫方法來使用疊代器，不然它們不會有任何效果。舉例來說，範例 13-13 的程式碼會透過 <code>Vec&lt;T&gt;</code> 定義的方法 <code>iter</code> 從向量<code>v1</code> 建立一個疊代器來遍歷它的項目。此程式碼本身沒有啥實用之處。</p>
+<p>在 Rust 中疊代器是<strong>惰性</strong>（lazy）的，代表除非你呼叫方法來使用疊代器，不然它們不會有任何效果。舉例來說，範例 13-13 的程式碼會透過 <code>Vec&lt;T&gt;</code> 定義的方法 <code>iter</code> 從向量<code>v1</code> 建立一個疊代器來遍歷它的項目。此程式碼本身沒有啥實用之處。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v1 = vec![1, 2, 3];
 
@@ -210,7 +210,7 @@
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>注意到此定義使用了一些新的語法：<code>type Item</code> 與 <code>Self::Item</code>，這是此特徵定義的<em>關聯型別（associated type）</em>。我們會在第十九章進一步探討關聯型別。現在你只需要知道此程式碼表示要實作 <code>Iterator</code> 特徵的話，你還需要定義 <code>Item</code> 型別，而此 <code>Item</code> 型別會用在方法 <code>next</code> 的回傳型別中。換句話說，<code>Item</code> 型別會是從疊代器回傳的型別。</p>
+<p>注意到此定義使用了一些新的語法：<code>type Item</code> 與 <code>Self::Item</code>，這是此特徵定義的<strong>關聯型別（associated type）</strong>。我們會在第十九章進一步探討關聯型別。現在你只需要知道此程式碼表示要實作 <code>Iterator</code> 特徵的話，你還需要定義 <code>Item</code> 型別，而此 <code>Item</code> 型別會用在方法 <code>next</code> 的回傳型別中。換句話說，<code>Item</code> 型別會是從疊代器回傳的型別。</p>
 <p><code>Iterator</code> 型別只要求實作者定義一個方法：<code>next</code> 方法會用 <code>Some</code> 依序回傳疊代器中的每個項目，並在疊代器結束時回傳 <code>None</code>。</p>
 <p>我們可以直接在疊代器呼叫 <code>next</code> 方法。範例 13-15 展示從向量建立的疊代器重複呼叫 <code>next</code> 每次會得到什麼數值。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -232,11 +232,11 @@
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 13-15：對疊代器呼叫 <code>next</code> 方法</span></p>
-<p>注意到 <code>v1_iter</code> 需要是可變的：在疊代器上呼叫 <code>next</code> 方法會改變疊代器內部用來紀錄序列位置的狀態。換句話說，此程式碼<em>消耗</em>或者說使用了疊代器。每次 <code>next</code> 的呼叫會從疊代器消耗一個項目。而我們不必在 <code>for</code> 迴圈指定 <code>v1_iter</code> 為可變是因為迴圈會取得 <code>v1_iter</code> 的所有權並在內部將其改為可變。</p>
+<p>注意到 <code>v1_iter</code> 需要是可變的：在疊代器上呼叫 <code>next</code> 方法會改變疊代器內部用來紀錄序列位置的狀態。換句話說，此程式碼<strong>消耗</strong>或者說使用了疊代器。每次 <code>next</code> 的呼叫會從疊代器消耗一個項目。而我們不必在 <code>for</code> 迴圈指定 <code>v1_iter</code> 為可變是因為迴圈會取得 <code>v1_iter</code> 的所有權並在內部將其改為可變。</p>
 <p>另外還要注意的是我們從 <code>next</code> 呼叫取得的是向量中數值的不可變引用。<code>iter</code> 方法會從疊代器中產生不可變引用。如果我們想要一個取得 <code>v1</code> 所有權的疊代器，我們可以呼叫 <code>into_iter</code> 而非 <code>iter</code>。同樣地，如果我們想要遍歷可變引用，我們可以呼叫 <code>iter_mut</code> 而非 <code>iter</code>。</p>
 <h3><a class="header" href="#消耗疊代器的方法" id="消耗疊代器的方法">消耗疊代器的方法</a></h3>
 <p>標準函式庫提供的 <code>Iterator</code> 特徵有一些不同的預設實作方法，你可以查閱標準函式庫的 <code>Iterator</code> 特徵 API 技術文件來找到這些方法。其中有些方法就是在它們的定義呼叫 <code>next</code> 方法，這就是為何當你實作 <code>Iterator</code> 特徵時需要提供 <code>next</code> 方法的實作。</p>
-<p>會呼叫 <code>next</code> 的方法被稱之為<em>消耗配接器（consuming adaptors）</em>，因為呼叫它們會使用掉疊代器。其中一個例子就是方法 <code>sum</code>，這會取得疊代器的所有權並重複呼叫 <code>next</code> 來遍歷所有項目，因而消耗掉疊代器。隨著遍歷的過程中，他會將每個項目加到總計中，並在疊代完成時回傳總計數值。範例 13-16 展示了一個使用 <code>sum</code> 方法的測試：</p>
+<p>會呼叫 <code>next</code> 的方法被稱之為<strong>消耗配接器（consuming adaptors）</strong>，因為呼叫它們會使用掉疊代器。其中一個例子就是方法 <code>sum</code>，這會取得疊代器的所有權並重複呼叫 <code>next</code> 來遍歷所有項目，因而消耗掉疊代器。隨著遍歷的過程中，他會將每個項目加到總計中，並在疊代完成時回傳總計數值。範例 13-16 展示了一個使用 <code>sum</code> 方法的測試：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[cfg(test)]
 </span><span class="boring">mod tests {
@@ -257,7 +257,7 @@
 <p><span class="caption">範例 13-16：呼叫 <code>sum</code> 方法來取得疊代器中所有項目的總計數值</span></p>
 <p>我們在呼叫 <code>sum</code> 之後就不允許使用 <code>v1_iter</code> 因為 <code>sum</code> 取得了疊代器的所有權。</p>
 <h3><a class="header" href="#產生其他疊代器的方法" id="產生其他疊代器的方法">產生其他疊代器的方法</a></h3>
-<p>而其他定義在 <code>Iterator</code> 特徵的方法則叫做<em>疊代配接器（iterator adaptors）</em>，它們能讓你變更疊代器成其他種類的疊代器。你可以串接數個疊代配接器的呼叫來組織一系列複雜的動作並仍能保持閱讀性。不過因為所有的疊代器都是惰性的，你需要呼叫一個消耗配接器方法來取得疊代配接器呼叫的結果。</p>
+<p>而其他定義在 <code>Iterator</code> 特徵的方法則叫做<strong>疊代配接器（iterator adaptors）</strong>，它們能讓你變更疊代器成其他種類的疊代器。你可以串接數個疊代配接器的呼叫來組織一系列複雜的動作並仍能保持閱讀性。不過因為所有的疊代器都是惰性的，你需要呼叫一個消耗配接器方法來取得疊代配接器呼叫的結果。</p>
 <p>範例 13-17 呼叫了疊代器的疊代配接器方法 <code>map</code>，這可以取得一個閉包來對每個項目進行處理以產生一個新的疊代器。閉包會將向量中的每個項目加 1 來產生新的疊代器。不過此程式碼會產生一個警告：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust not_desired_behavior"><span class="boring">fn main() {

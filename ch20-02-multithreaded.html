@@ -228,7 +228,7 @@ fn handle_connection(mut stream: TcpStream) {
 <p>使用 <code>cargo run</code> 來啟動伺服器，然後開啟兩個瀏覽器視窗：一個請求 <em>http://127.0.0.1:7878/</em> 然後另一個請求 <em>http://127.0.0.1:7878/sleep</em>。如果你輸入好幾次 <code>/</code> URI 的話，你會如之前一樣迅速地收到回應。但如果你先輸入 <code>/sleep</code> 在讀取 <code>/</code> 的話，你會看到 <code>/</code> 得等待 <code>sleep</code> 沉睡整整 5 秒鐘後才能讀取。</p>
 <p>我們有好幾種方式能改變網頁伺服器的運作方式，來避免緩慢請求造成的請求堆積。其中一種就是我們要實作的執行緒池（thread pool）。</p>
 <h3><a class="header" href="#透過執行緒池改善吞吐量" id="透過執行緒池改善吞吐量">透過執行緒池改善吞吐量</a></h3>
-<p><em>執行緒池（thread pool）</em> 會產生一群執行緒來等待並隨時準備好處理任務。當程式收到新任務時，它會將此任務分配給執行緒池其中一條執行緒，然後該執行緒就會處理該任務。池中剩餘的執行緒在第一條執行緒處理任務時，仍能隨時處理任何其他來臨的任務。當第一條執行緒處理完成時，他會回到閒置執行緒池之中，等待處理新的任務。執行緒池讓你能並行處理連線，增加伺服器的吞吐量。</p>
+<p><strong>執行緒池</strong>（thread pool）會產生一群執行緒來等待並隨時準備好處理任務。當程式收到新任務時，它會將此任務分配給執行緒池其中一條執行緒，然後該執行緒就會處理該任務。池中剩餘的執行緒在第一條執行緒處理任務時，仍能隨時處理任何其他來臨的任務。當第一條執行緒處理完成時，他會回到閒置執行緒池之中，等待處理新的任務。執行緒池讓你能並行處理連線，增加伺服器的吞吐量。</p>
 <p>我們會限制執行緒池的數量為少量的數量就好，以避免我們造成阻斷服務（Denial of Service,  DOS）攻擊。如果我們的程式每次遇到新的請求時就產生新的執行緒，某個人就可以產生一千萬個請求至我們的伺服器，來破壞並用光我們伺服器的資源，並導致所有請求的處理都被擱置。</p>
 <p>所以與其產生無限制的執行緒，我們會有個固定數量的執行緒在池中等待。當有請求來臨時，它們會被送至池中處理。此池會維護一個接收請求的佇列（queue）。每個執行緒會從此佇列彈出一個請求、處理該請求然後再繼續向佇列索取下一個請求。有了此設計，我們就可以同時處理 <code>N</code> 個請求，其中 <code>N</code> 就是執行緒的數量。如果每個執行緒都負責到需要長時間處理的請求，隨後的請求還是會阻塞佇列，但是我們至少增加了能夠同時處理長時間請求的數量。</p>
 <p>此技巧只是其中一種改善網頁伺服器吞吐量的方式而已。其他你可能會探索到的選項還有 fork/join 模型或是單執行緒非同步模型。如果你對此議題有興趣，你可以閱讀其他解決方案，並嘗試實作到 Rust 中。像 Rust 這種低階語言，這些所有選項都是可能的。</p>
@@ -484,7 +484,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>編譯通過了！但值得注意的是如果你嘗試 <code>cargo run</code> 並在瀏覽器下請求的話，你會像本章開頭一樣在瀏覽器看到錯誤。我們的函式庫還沒有實際呼叫傳至 <code>execute</code> 的閉包！</p>
 <blockquote>
-<p>注意：你可能聽過對於像是 Haskell 和 Rust 這種嚴格編譯器的語言，會號稱「如果程式碼能編譯，它就能正確執行。」但這全然是正確的。我們的專案能編譯，但是它沒有做任何事！如果我們在寫的是實際的完整專案，這是個寫單元測試的好時機，這能檢查程式碼能編譯<em>而且</em>有我們的預期行為。</p>
+<p>注意：你可能聽過對於像是 Haskell 和 Rust 這種嚴格編譯器的語言，會號稱「如果程式碼能編譯，它就能正確執行。」但這全然是正確的。我們的專案能編譯，但是它沒有做任何事！如果我們在寫的是實際的完整專案，這是個寫單元測試的好時機，這能檢查程式碼能編譯<strong>而且</strong>有我們的預期行為。</p>
 </blockquote>
 <h4><a class="header" href="#在-new-驗證執行緒數量" id="在-new-驗證執行緒數量">在 <code>new</code> 驗證執行緒數量</a></h4>
 <p>我們對 <code>new</code> 與 <code>execute</code> 的參數沒有做任何事情。讓我們對這些函式本體實作出我們所預期的行為吧。我們先從 <code>new</code> 開始。稍早我們選擇非帶號型別作為 <code>size</code> 的參數，因為負數對於執行緒數量並沒有任何意義。然而，零條執行緒的池一樣也沒有任何意義，但零卻可以是完全合理的 <code>usize</code>。我們要在回傳 <code>ThreadPool</code> 前，加上程式碼來檢查 <code>size</code> 有大於零，並透過 <code>assert!</code> 來判定。如果為零的話就會恐慌，如範例 20-13 所示。</p>
@@ -572,7 +572,7 @@ impl ThreadPool {
 <p>一旦有收到有效大小，<code>ThreadPool</code> 就會建立一個可以儲存 <code>size</code> 個項目的新向量。我們還沒有在本書中使用過 <code>with_capacity</code> 函式，這會與 <code>Vec::new</code> 做同樣的事，但是有一個關鍵差別：它會預先分配空間給向量。由於我們知道要儲存 <code>size</code> 個元素至向量中，這樣的分配方式會比 <code>Vec::new</code> 還要些微有效一點，因為後者只會在元素插入時才重新分配自身大小。</p>
 <p>當你再次執行 <code>cargo check</code>，你會收到一些警告，但應該仍能成功編譯。</p>
 <h4><a class="header" href="#結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒" id="結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒">結構體 <code>Worker</code> 負責從 <code>ThreadPool</code> 傳遞程式碼給一條執行緒</a></h4>
-<p>我們在範例 20-14 的 <code>for</code> 迴圈中留下一個關於建立執行緒的註解。我們在此將看看我們該如何實際建立執行緒。標準函式庫提供 <code>thread::spawn</code> 作為建立執行緒的方式，然後 <code>thread::spawn</code> 預期在執行緒建立時就會獲得一些程式碼讓執行緒能夠執行。但在我們的場合中，我們希望建立執行緒，並讓它們<em>等待</em>我們之後會傳送的程式碼。標準函式庫的執行緒實作並不包含這種方式，我們得自己實作。</p>
+<p>我們在範例 20-14 的 <code>for</code> 迴圈中留下一個關於建立執行緒的註解。我們在此將看看我們該如何實際建立執行緒。標準函式庫提供 <code>thread::spawn</code> 作為建立執行緒的方式，然後 <code>thread::spawn</code> 預期在執行緒建立時就會獲得一些程式碼讓執行緒能夠執行。但在我們的場合中，我們希望建立執行緒，並讓它們<strong>等待</strong>我們之後會傳送的程式碼。標準函式庫的執行緒實作並不包含這種方式，我們得自己實作。</p>
 <p>我們實作此行為的方法是在 <code>ThreadPool</code> 與執行緒間建立一個新的資料結構，這用來管理此新的行為。我們將此資料結構稱為 <code>Worker</code>，這在池實作中是很常見的術語。想像一下這是有一群人在餐廳廚房內工作：工作者（worker）會等待顧客的訂帶，然後他們負責接受這些訂單並完成它們。</p>
 <p>所以與其在執行緒池中儲存 <code>JoinHandle&lt;()&gt;</code> 實例的向量，我們可以儲存 <code>Worker</code> 結構體的實例。每個 <code>Worker</code> 會儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例。然後對 <code>Worker</code> 實作一個方法來取得閉包要執行的程式碼，並傳入已經在執行的執行緒來處理。我們也會給每個 <code>Worker</code> 一個 <code>id</code>，好讓我們在紀錄日誌或除錯時，分辨池中不同的工作者。</p>
 <p>讓我們改變 <code>ThreadPool</code> 建立時會發生的事情吧。我們會用以下方式在設置完 <code>Worker</code> 後，實作將閉包傳遞給執行緒的程式碼：</p>
@@ -638,11 +638,11 @@ impl Worker {
 <p><span class="caption">範例 20-15：變更 <code>ThreadPool</code> 來儲存 <code>Worker</code> 實例，而非直接儲存執行緒</span></p>
 <p>我們將 <code>ThreadPool</code> 中欄位的名稱從 <code>threads</code> 改為 <code>workers</code>，因為它現在啊儲存的是 <code>Worker</code> 實例而非 <code>JoinHandle&lt;()&gt;</code> 實例。我們使用 <code>for</code> 迴圈的計數作為 <code>Worker::new</code> 的引數，然後我們將每個新的  <code>Worker</code> 儲存到名稱為 <code>workers</code> 的向量中。</p>
 <p>外部的程式碼（像是我們在 <em>src/bin/main.rs</em> 的伺服器）不需要知道 <code>ThreadPool</code> 內部實作細節已經改為使用 <code>Worker</code> 結構體，所以我們讓 <code>Worker</code> 結構體與其 <code>new</code> 函式維持私有。<code>Worker::new</code> 函式會使用我們給予的 <code>id</code> 並儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例，這是用空閉包產生的新執行緒所建立的。</p>
-<p>此程式碼會編譯通過並透過 <code>ThreadPool::new</code> 的指定引數儲存一定數量的 <code>Worker</code> 實例。但我們<em>仍然</em>沒有處理 <code>execute</code>中取得的閉包。讓我們看看接下來怎麼做。</p>
+<p>此程式碼會編譯通過並透過 <code>ThreadPool::new</code> 的指定引數儲存一定數量的 <code>Worker</code> 實例。但我們<strong>仍然</strong>沒有處理 <code>execute</code>中取得的閉包。讓我們看看接下來怎麼做。</p>
 <h4><a class="header" href="#透過通道傳遞請求給執行緒" id="透過通道傳遞請求給執行緒">透過通道傳遞請求給執行緒</a></h4>
 <p>現在我們要來處理的問題是 <code>thread::spawn</code> 中的閉包不會做任何事情。目前我們透過 <code>execute</code> 取得我們想執行的閉包。但是我們當在 <code>ThreadPool</code> 的生成中建立每個 <code>Worker</code> 時，我會需要給 <code>thread::spawn</code> 一個閉包來執行。</p>
 <p>我們想要我們建立的 <code>Worker</code> 結構體能夠從 <code>ThreadPool</code> 中的佇列提取程式碼來執行，並將該程式碼傳至自身的執行緒來執行。</p>
-<p>在第十六章中，你有學過<em>通道（channels）</em>，這是個能在兩個執行緒間溝通的好辦法，這對我們的專案來說可說是絕佳解法。我們會用通道來作為任務佇列，然後 <code>execute</code> 來傳送從 <code>ThreadPool</code> 一份任務至 <code>Worker</code> 實例，其就會傳遞該任務給自身的執行緒。以下是我們的計劃：</p>
+<p>在第十六章中，你有學過<strong>通道（channels）</strong>，這是個能在兩個執行緒間溝通的好辦法，這對我們的專案來說可說是絕佳解法。我們會用通道來作為任務佇列，然後 <code>execute</code> 來傳送從 <code>ThreadPool</code> 一份任務至 <code>Worker</code> 實例，其就會傳遞該任務給自身的執行緒。以下是我們的計劃：</p>
 <ol>
 <li><code>ThreadPool</code> 會建立通道並儲存通道的發送端。</li>
 <li>每個 <code>Worker</code> 會持有通道的接收端。</li>
@@ -793,7 +793,7 @@ error: could not compile `hello`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>程式碼嘗試將 <code>receiver</code> 傳給數個 <code>Worker</code> 實例。回憶第十六章的話，你就知道這不會成功：Rust 提供的通道實作是多重<em>生產者</em>、單一<em>消費者</em>。這意味著我們不能只是克隆通道的接收端來修正此程式碼。就算我們真的可以，這也不會是我們想用的技巧。我們實際像做的是分享單一 <code>receiver</code> 給所有工作者，來分配任務給數個執行緒。</p>
+<p>程式碼嘗試將 <code>receiver</code> 傳給數個 <code>Worker</code> 實例。回憶第十六章的話，你就知道這不會成功：Rust 提供的通道實作是多重<strong>生產者</strong>、單一<strong>消費者</strong>。這意味著我們不能只是克隆通道的接收端來修正此程式碼。就算我們真的可以，這也不會是我們想用的技巧。我們實際像做的是分享單一 <code>receiver</code> 給所有工作者，來分配任務給數個執行緒。</p>
 <p>除此之外，從通道佇列取得任務會需要可變的 <code>receiver</code>，所以執行緒需要有個安全的方式來共享並修改 <code>receiver</code>。不然的話，我們可能會遇到競爭條件（如第十六章所提及的）。</p>
 <p>回想一下第十六章討論到的執行緒安全智慧指標：要在多重執行緒共享所有權並允許執行緒改變數值的話，我們需要使用 <code>Arc&lt;Mutex&lt;T&gt;&gt;</code>。<code>Arc</code> 型別能讓數個工作者能擁有接收端，而 <code>Mutex</code> 能確保同時間只有一個工作者能獲取任務。範例 20-18 顯示了我們需要作出的改變：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -940,7 +940,7 @@ impl ThreadPool {
 </span></code></pre></pre>
 <p><span class="caption">範例 20-19：建立一個對 <code>Box</code> 的型別別名 <code>Job</code>，其存有每個閉包並傳送至通道</span></p>
 <p>在使用 <code>execute</code> 收到的閉包來建立新的 <code>Job</code> 實例之後，我們將該任務傳送至通道的發送端。我們對 <code>send</code> 呼叫 <code>unwrap</code> 來處理發送失敗的情況。舉例來說，這可能會發生在當我們停止所有執行緒時，這意味著接收端不再接收新的訊息。不過目前我們還無法讓我們的執行緒停止執行，只要執行緒池還在我們的執行緒就會繼續執行。我們使用 <code>unwrap</code> 的原因是因為我們知道失敗不可能發生，但編譯器並不知情。</p>
-<p>不過我們還沒結束呢！在工作者中，傳給 <code>thread::spawn</code> 的閉包仍然只有<em>引用</em>通道接收端。我們需要讓閉包一直循環，向通道接收端請求任務，並在取得任務時執行它。讓我們對 <code>Worker::new</code> 加上範例 20-20 的程式碼。</p>
+<p>不過我們還沒結束呢！在工作者中，傳給 <code>thread::spawn</code> 的閉包仍然只有<strong>引用</strong>通道接收端。我們需要讓閉包一直循環，向通道接收端請求任務，並在取得任務時執行它。讓我們對 <code>Worker::new</code> 加上範例 20-20 的程式碼。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -1014,7 +1014,7 @@ impl Worker {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 20-20：在工作者的執行緒中接收並執行任務</span></p>
-<p>我們在此首先對 <code>receiver</code> 呼叫 <code>lock</code> 以取得互斥鎖，然後我們呼叫 <code>unwrap</code> 讓任何錯誤都會恐慌。如果互斥鎖處於<em>污染（poisoned）</em> 狀態的話，該鎖可能就會失敗，這在其他執行緒持有鎖時，卻發生恐慌而沒有釋放鎖的話就可能發生。在這種情形，呼叫 <code>unwrap</code> 來讓此執行緒恐慌是正確的選擇。你也可以將 <code>unwrap</code> 改成 <code>expect</code> 來加上一些對你更有幫助的錯誤訊息。</p>
+<p>我們在此首先對 <code>receiver</code> 呼叫 <code>lock</code> 以取得互斥鎖，然後我們呼叫 <code>unwrap</code> 讓任何錯誤都會恐慌。如果互斥鎖處於<strong>污染</strong>（poisoned）狀態的話，該鎖可能就會失敗，這在其他執行緒持有鎖時，卻發生恐慌而沒有釋放鎖的話就可能發生。在這種情形，呼叫 <code>unwrap</code> 來讓此執行緒恐慌是正確的選擇。你也可以將 <code>unwrap</code> 改成 <code>expect</code> 來加上一些對你更有幫助的錯誤訊息。</p>
 <p>如果我們得到互斥鎖的話，我們呼叫 <code>recv</code> 來從通道中取得 <code>Job</code>。最後的 <code>unwrap</code> 也繞過了任何錯誤，這在持有通道發送端的執行緒被關閉時就可能發生；就和如果接收端關閉時 <code>send</code> 方法就會回傳 <code>Err</code> 的情況類似。</p>
 <p><code>recv</code> 的呼叫會阻擋執行緒，所以如果沒有任何任務的話，當前執行緒對等待直到下一個任務出現為止。<code>Mutex&lt;T&gt;</code> 確保同時間只會有一個 <code>Worker</code> 執行緒嘗試取得任務。</p>
 <p>透過實作此技巧，我們的執行緒池終於可以運作了！賞它個 <code>cargo run</code> 然後下達一些請求吧：</p>

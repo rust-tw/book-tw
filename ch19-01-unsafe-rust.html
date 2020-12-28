@@ -190,7 +190,7 @@
 <p>為了盡可能隔離不安全程式碼，最佳作法是將之封裝在安全的抽象並提供安全的 API，本章在後面的探討不安全函式和方法一併討論之。部分的標準函式庫同樣是在審核過的不安全程式碼上提供安全抽象。透過安全抽象封裝不安全程式碼，可防止你或你的使用者使用以 <code>unsafe</code> 實作的功能，不會將實際的 <code>unsafe</code> 使用洩漏到四散各地，因為安全抽象就是安全的 Rust。</p>
 <p>接下來將依序探討這五個不安全的超能力。也會看看一些替不安全程式碼提供安全介面的抽象。</p>
 <h3><a class="header" href="#對裸指標解引用" id="對裸指標解引用">對裸指標解引用</a></h3>
-<p>在第四章<a href="ch04-02-references-and-borrowing.html#%E8%BF%B7%E9%80%94%E5%BC%95%E7%94%A8">「迷途引用」</a>一節，我們提及編譯器確保引用一定是合法的。不安全的 Rust 有兩種新型別叫<em>裸指標</em>，和引用非常相似。和引用一樣，裸指標能是不可變或可變，分別寫做 <code>*const T</code> 和 <code>*mut T</code>。星號不是引用運算子，它就是型別名稱的一部分。在裸指標的脈絡下，<em>不可變</em>代表指標不能在被解引用之後直接賦值。</p>
+<p>在第四章<a href="ch04-02-references-and-borrowing.html#%E8%BF%B7%E9%80%94%E5%BC%95%E7%94%A8">「迷途引用」</a>一節，我們提及編譯器確保引用一定是合法的。不安全的 Rust 有兩種新型別叫<strong>裸指標</strong>，和引用非常相似。和引用一樣，裸指標能是不可變或可變，分別寫做 <code>*const T</code> 和 <code>*mut T</code>。星號不是引用運算子，它就是型別名稱的一部分。在裸指標的脈絡下，<strong>不可變</strong>代表指標不能在被解引用之後直接賦值。</p>
 <p>和引用與智慧指標（smart pointer）不同，裸指標是：</p>
 <ul>
 <li>允許忽略借用規則，同時可存在指向相同位置的可變和不可變的指標，或是多個可變指標</li>
@@ -218,7 +218,7 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 19-2：從任意記憶體位址建立裸指標</span></p>
-<p>回想一下，我們可以在安全的程式碼下建立裸指標，但我們不能對裸指標<em>解引用</em>並讀取它指向的資料。範例 19-3 我們對裸指標使用引用運算子 <code>*</code> 需要封裝在 <code>unsafe</code> 區塊內。</p>
+<p>回想一下，我們可以在安全的程式碼下建立裸指標，但我們不能對裸指標<strong>解引用</strong>並讀取它指向的資料。範例 19-3 我們對裸指標使用引用運算子 <code>*</code> 需要封裝在 <code>unsafe</code> 區塊內。</p>
 <pre><pre class="playground"><code class="language-rust unsafe"><span class="boring">fn main() {
 </span>    let mut num = 5;
 
@@ -361,7 +361,7 @@ fn split_at_mut(slice: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;m
 <p><span class="caption">範例 19-7：從任意記憶體位址建立切片</span></p>
 <p>我們不擁有此位址之下的記憶體，且並不保證這段程式碼建立的切片一定包含合法的 <code>i32</code> 值。嘗試將 <code>slice</code> 當作合法的切片來使用，會導致為未定義行為（undefined behavior）。</p>
 <h4><a class="header" href="#使用-extern-函式呼叫外部程式碼" id="使用-extern-函式呼叫外部程式碼">使用 <code>extern</code> 函式呼叫外部程式碼</a></h4>
-<p>有些時候，你的 Rust 程式碼可能需要與其他語言撰寫的程式碼互動。這種情況 Rust 提供 <code>extern</code> 關鍵字，予以協助建立與使用<em>外部函式介面（Foreign Function Interface，FFI）</em> 。FFI 的功能是給在一門程式語言定義函式，使得另一門（外部）程式語言可以呼叫這些函式。</p>
+<p>有些時候，你的 Rust 程式碼可能需要與其他語言撰寫的程式碼互動。這種情況 Rust 提供 <code>extern</code> 關鍵字，予以協助建立與使用<strong>外部函式介面（Foreign Function Interface，FFI）</strong> 。FFI 的功能是給在一門程式語言定義函式，使得另一門（外部）程式語言可以呼叫這些函式。</p>
 <p>範例 19-8 展示了如何建立整合一個 C 標準函式庫的 <code>abc</code> 函式。由於其他語言並無強制遵守 Rust 的規則和保證，而且 Rust 也無法檢查之，因此在 Rust 程式碼中呼叫在 <code>extern</code> 區塊內宣告的函式一定是不安全的操作，所以確保安全的重責大任就會落在程式設計師身上。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust unsafe">extern &quot;C&quot; {
@@ -378,7 +378,7 @@ fn main() {
 <p>在 <code>extern &quot;C&quot;</code> 區塊內，我們列出我們想要呼叫的，從其他語言而來的外部函式名稱與簽名。<code>&quot;C&quot;</code> 的部分定義了外部函式使用了哪個應用程式二進位制介面（ABI）：ABI 定義了在組合語言層級該如何呼叫此函式。<code>&quot;C&quot;</code> ABI 最為通用且遵循 C 程式語言的 ABI 規範。</p>
 <blockquote>
 <h4><a class="header" href="#從其他語言呼叫-rust-函式" id="從其他語言呼叫-rust-函式">從其他語言呼叫 Rust 函式</a></h4>
-<p>我們也可透過 <code>extern</code> 定義一個介面，允許其他語言呼叫 Rust 的函式。有別於使用 <code>extern</code> 區塊，我們會在 <code>fn</code> 關鍵字前加上 <code>extern</code> 關鍵字並指明應用程式二進位制介面（ABI）。我們甚至可加上 <code>#[no_mangle]</code> 註記來告訴編譯器不要重整（mangle）該函式名稱。<em>重整</em>是一個編譯器透過改變我們賦予函式的名稱，成為帶有更多資訊的名稱進而提供給編譯過程使用，但人類就相對難以閱讀。每個程式語言編譯器重整名稱的作法有些許不同，因此必須關閉 Rust 編譯器的名稱重整功能。</p>
+<p>我們也可透過 <code>extern</code> 定義一個介面，允許其他語言呼叫 Rust 的函式。有別於使用 <code>extern</code> 區塊，我們會在 <code>fn</code> 關鍵字前加上 <code>extern</code> 關鍵字並指明應用程式二進位制介面（ABI）。我們甚至可加上 <code>#[no_mangle]</code> 註記來告訴編譯器不要重整（mangle）該函式名稱。<strong>重整</strong>是一個編譯器透過改變我們賦予函式的名稱，成為帶有更多資訊的名稱進而提供給編譯過程使用，但人類就相對難以閱讀。每個程式語言編譯器重整名稱的作法有些許不同，因此必須關閉 Rust 編譯器的名稱重整功能。</p>
 <p>接下來的範例，我們寫了 <code>call_from_c</code> 函式，可以在編譯成共享函式庫（shared library）且連結至 C 後，由 C 程式碼存取：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -392,7 +392,7 @@ pub extern &quot;C&quot; fn call_from_c() {
 <p>這類的 <code>extern</code> 用途不需要 <code>unsafe</code>。</p>
 </blockquote>
 <h3><a class="header" href="#存取或修改可變的靜態變數" id="存取或修改可變的靜態變數">存取或修改可變的靜態變數</a></h3>
-<p>到此，我們還沒聊到<em>全域變數（global variable）</em> ，這個 Rust 支援但會被 Rust 的所有權規則搞得七葷八素的功能。試想有兩個執行緒同時存取同一個可變全域變數，豈不導致資料競爭。</p>
+<p>到此，我們還沒聊到<strong>全域變數</strong>（global variable），這個 Rust 支援但會被 Rust 的所有權規則搞得七葷八素的功能。試想有兩個執行緒同時存取同一個可變全域變數，豈不導致資料競爭。</p>
 <p>Rust 的全域變數稱做<strong>靜態</strong>變數。範例 19-9 展示了宣告並使用一個儲存字串切片的靜態變數。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">static HELLO_WORLD: &amp;str = &quot;Hello, world!&quot;;
@@ -402,9 +402,9 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 19-9：定義並使用一個不可變的靜態變數</span></p>
-<p>靜態變數（static variable）與我們在第三章「<a href="ch03-01-variables-and-mutability.html#%E8%AE%8A%E6%95%B8%E8%88%87%E5%B8%B8%E6%95%B8%E7%9A%84%E5%B7%AE%E7%95%B0">變數與常數的差異</a>」一節討論的常數相似。慣例上靜態變數會用尖叫蛇式命名（<code>SCREAMING_SNAKE_CASE</code>），且<em>必須</em>標註變數型別，例如範例中的 <code>*'static str</code>。由於靜態變數只能儲存 <code>static</code> 生命週期的引用，代表 Rust 編譯器可推導出它的生命週期，不需要我們手動標註。存取一個不可變的靜態變數是安全的。</p>
+<p>靜態變數（static variable）與我們在第三章「<a href="ch03-01-variables-and-mutability.html#%E8%AE%8A%E6%95%B8%E8%88%87%E5%B8%B8%E6%95%B8%E7%9A%84%E5%B7%AE%E7%95%B0">變數與常數的差異</a>」一節討論的常數相似。慣例上靜態變數會用尖叫蛇式命名（<code>SCREAMING_SNAKE_CASE</code>），且<strong>必須</strong>標註變數型別，例如範例中的 <code>*'static str</code>。由於靜態變數只能儲存 <code>static</code> 生命週期的引用，代表 Rust 編譯器可推導出它的生命週期，不需要我們手動標註。存取一個不可變的靜態變數是安全的。</p>
 <p>常數和不可變靜態變數看似相同，實則有些許隱晦差異：靜態變數之值有固定的記憶體位址，使用該值永遠會存取相同的資料。反之，常數在使用上則可複製它們儲存的資料。</p>
-<p>另一個常數與靜態變數的差異是，靜態變數能是可變的。存取並修改可變的靜態變數並「<em>不安全</em>」。範例 19-10 展示了如何宣告、存取、修改一個可變的靜態變數 <code>COUNTER</code>。</p>
+<p>另一個常數與靜態變數的差異是，靜態變數能是可變的。存取並修改可變的靜態變數並「<strong>不安全</strong>」。範例 19-10 展示了如何宣告、存取、修改一個可變的靜態變數 <code>COUNTER</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust unsafe">static mut COUNTER: u32 = 0;
 

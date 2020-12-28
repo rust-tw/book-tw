@@ -174,7 +174,7 @@
                         <h2><a class="header" href="#進階特徵" id="進階特徵">進階特徵</a></h2>
 <p>我們在第十章<a href="ch10-02-traits.html#%E7%89%B9%E5%BE%B5-%E5%AE%9A%E7%BE%A9%E5%85%B1%E4%BA%AB%E8%A1%8C%E7%82%BA">「特徵：定義共享行為」</a>一節首次提及特徵（trait），但和生命週期（lifetime）一樣，對其進階細節並無著墨。現在你已熟稔 Rust ，了解箇中真諦的時機已至。</p>
 <h3><a class="header" href="#利用關聯型別在特徵定義中指定佔位符型別" id="利用關聯型別在特徵定義中指定佔位符型別">利用關聯型別在特徵定義中指定佔位符型別</a></h3>
-<p><em>關聯型別（associated types）</em> 連結了一個型別佔位符（placeholder）與一個特徵，可以將這些佔位符型別使用在這些特徵所定義的方法簽名上。對特定實作來說，特徵的實作者必須指明在這個型別位置上會用到的具體型別。如此一來，我們可以定義一個特色，使用了某個型別，但直到特徵被實作之前，都不需知道實際上的型別。</p>
+<p><strong>關聯型別</strong>（associated types）連結了一個型別佔位符（placeholder）與一個特徵，可以將這些佔位符型別使用在這些特徵所定義的方法簽名上。對特定實作來說，特徵的實作者必須指明在這個型別位置上會用到的具體型別。如此一來，我們可以定義一個特色，使用了某個型別，但直到特徵被實作之前，都不需知道實際上的型別。</p>
 <p>多數在本章提及的進階特色都較少使用，而關聯型別則是介於其中：他們比書中其他內容來得少用，但比本章介紹的其他特色來得更常見。</p>
 <p>一個具有關聯型別的特徵之範例是標準函式庫提供的 <code>Iterator</code> 特徵。這例子中的關聯型別叫做 <code>Item</code>，表示一型別實作 <code>Iterator</code> 特徵時，會被迭代的那些值的型別。範例 19-12 展示了在第十三章<a href="ch13-02-iterators.html#iterator-%E7%89%B9%E5%BE%B5%E8%88%87-next-%E6%96%B9%E6%B3%95">「<code>Iterator</code> 特徵與 <code>next</code> 方法」</a>一節提及的 <code>Iterator</code> 特徵定義：</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -232,7 +232,7 @@
 <p>有了關聯型別，同個型別就不能實作同個特徵多次，所以我們不需要標註型別。範例 19-12 中的定義用上了關聯型別，因為只能擁有一個 <code>impl Iterator for Counter</code>，於是只能替 <code>Item</code> 選擇唯一一個型別。在任何地方呼叫 <code>Counter</code> 的 <code>next</code> 方法就不必再明確指定我們想要 <code>u32</code> 疊代器了。</p>
 <h3><a class="header" href="#預設泛型型別參數與運算子重載" id="預設泛型型別參數與運算子重載">預設泛型型別參數與運算子重載</a></h3>
 <p>我們可以透過泛型型別參數（generic type parameter）指定該泛型型別預設的具體型別。在預設型別可運作的情形下，這可省去實作者需要指定具體型別的勞動。替泛型型別指定預設型別的語法是在宣告泛型型別是寫稱 <code>&lt;PlaceholderType=ConcreteType&gt;</code>。</p>
-<p>運算子重載（operator overloading）就是一個使用這個技術的好例子。<em>運算子重載</em>是指特定情況下自訂運算子（如 <code>+</code>）的行為。</p>
+<p>運算子重載（operator overloading）就是一個使用這個技術的好例子。<strong>運算子重載</strong>是指特定情況下自訂運算子（如 <code>+</code>）的行為。</p>
 <p>Rust 不允許建立你自己的運算子或重載任意的運算子，但你可以透過實作 <code>std::ops</code> 表列出的特徵與相關的運算子，來重載特定運算與相應特徵。在範例 19-14 我們重載了 <code>+</code> 運算子，讓兩個 <code>Point</code> 實例可相加。這個功能是透過對 <code>Point</code> 結構體實作 <code>Add</code> 特徵來達成：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::ops::Add;
@@ -274,7 +274,7 @@ fn main() {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>這段程式碼大體上看起來很眼熟：具有一個方法與一個關聯型別的特徵。新朋友是 <code>Rhs=Self</code>，這部分叫做<em>預設型別參數（default type parameter）</em>。<code>Rhs</code> 泛型參數（「右運算元 right hand side」的縮寫）定義了 <code>add</code> 方法中 <code>rhs</code> 參數的型別。若我們未在實作 <code>Add</code> 特徵時指定 <code>Rhs</code> 的具體型別，這個 <code>Rhs</code> 的型別預設會是 <code>Self</code>，也就是我們正在實作 <code>Add</code> 的型別。</p>
+<p>這段程式碼大體上看起來很眼熟：具有一個方法與一個關聯型別的特徵。新朋友是 <code>Rhs=Self</code>，這部分叫做<strong>預設型別參數（default type parameter）</strong>。<code>Rhs</code> 泛型參數（「右運算元 right hand side」的縮寫）定義了 <code>add</code> 方法中 <code>rhs</code> 參數的型別。若我們未在實作 <code>Add</code> 特徵時指定 <code>Rhs</code> 的具體型別，這個 <code>Rhs</code> 的型別預設會是 <code>Self</code>，也就是我們正在實作 <code>Add</code> 的型別。</p>
 <p>當我們對 <code>Point</code> 實作 <code>Add</code>，因為我們想要將兩個 <code>Point</code> 實例相加，所以用到預設的 <code>Rhs</code>。讓我們看一個實作 <code>Add</code> 的範例，如何不用預設值，轉而自訂 <code>Rhs</code>。</p>
 <p>有兩個結構體，<code>Millimeters</code> 與 <code>Meters</code>，分別儲存不同單位的值。我們想將毫米透過 <code>Add</code> 做好正確單位轉換來加至公尺，這可透過對 <code>Millimeters</code> 實作 <code>Add</code> 並將 <code>Rhs</code> 設為 <code>Meters</code> 達成，如範例 19-15。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -424,7 +424,7 @@ impl Human {
 起！
 *狂揮雙臂*
 </code></pre>
-<p>因為 <code>fly</code> 方法有個 <code>self</code> 參數，所以我們若有兩個<em>型別</em>都實作了同個特徵，Rust 可以透過 <code>self</code> 的型別理出該用哪個特徵的實作。</p>
+<p>因為 <code>fly</code> 方法有個 <code>self</code> 參數，所以我們若有兩個<strong>型別</strong>都實作了同個特徵，Rust 可以透過 <code>self</code> 的型別理出該用哪個特徵的實作。</p>
 <p>然而，當特徵上的關聯函式（associated function）沒有 <code>self</code> 參數時，當同個作用域下的兩個型別都實作同個特徵，除非使用「完全限定語法（fully qualified syntax）」，否則 Rust 無法推斷你指涉哪個型別。舉例來說，範例 19-19 的 <code>Animal</code> 特徵有個對 <code>Dog</code> 實作 <code>Animal</code> 所得的關聯函式 <code>baby_name</code>，同時也有直接在 <code>Dog</code> 上實作的關聯函式 <code>baby_name</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">trait Animal {
@@ -652,7 +652,7 @@ impl fmt::Display for Point {
 </span></code></pre></pre>
 <p>於是對 <code>Point</code> 實作 <code>OutlinePrint</code> 特徵就成功編譯，我們即可以對 <code>Point</code> 實例呼叫 <code>outline_print</code> 來顯示一個星號外框框住它。</p>
 <h3><a class="header" href="#使用新型別模式替外部型別實作外部特徵" id="使用新型別模式替外部型別實作外部特徵">使用新型別模式替外部型別實作外部特徵</a></h3>
-<p>在第十章<a href="ch10-02-traits.html#%E7%82%BA%E5%9E%8B%E5%88%A5%E5%AF%A6%E4%BD%9C%E7%89%B9%E5%BE%B5">「為型別實作特徵」</a>一節中，我們提及孤兒規則（orphah rule），這個規則指出只要型別或特徵其一是在本地的 crate 中定義，就允許我們對該型別實作該特徵。使用<em>新型別模式（newtype pattern）</em>，即可繞過這項規則，此模式涉及建立一個元組結構體（tuple struct）型別（我們在<a href="ch05-01-defining-structs.html#%E4%BD%BF%E7%94%A8%E7%84%A1%E5%90%8D%E7%A8%B1%E6%AC%84%E4%BD%8D%E7%9A%84%E5%85%83%E7%B5%84%E7%B5%90%E6%A7%8B%E9%AB%94%E4%BE%86%E5%BB%BA%E7%AB%8B%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%88%A5">「使用無名稱欄位的元組結構體來建立不同型別」</a>說明了元組結構體）。元組結構體包含一個欄位，在我們想要實作該特徵的型別外作一層薄薄的封裝。這封裝型別對 crate 來說算作在本地定義，因此可以對該封裝實作該特徵。<em>新型別</em>是一個源自 Haskell 程式語言的術語。使用此模式不會有任何執行時效能的耗損，這個封裝型別會在編譯期刪略。</p>
+<p>在第十章<a href="ch10-02-traits.html#%E7%82%BA%E5%9E%8B%E5%88%A5%E5%AF%A6%E4%BD%9C%E7%89%B9%E5%BE%B5">「為型別實作特徵」</a>一節中，我們提及孤兒規則（orphah rule），這個規則指出只要型別或特徵其一是在本地的 crate 中定義，就允許我們對該型別實作該特徵。使用<strong>新型別模式（newtype pattern）</strong>，即可繞過這項規則，此模式涉及建立一個元組結構體（tuple struct）型別（我們在<a href="ch05-01-defining-structs.html#%E4%BD%BF%E7%94%A8%E7%84%A1%E5%90%8D%E7%A8%B1%E6%AC%84%E4%BD%8D%E7%9A%84%E5%85%83%E7%B5%84%E7%B5%90%E6%A7%8B%E9%AB%94%E4%BE%86%E5%BB%BA%E7%AB%8B%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%88%A5">「使用無名稱欄位的元組結構體來建立不同型別」</a>說明了元組結構體）。元組結構體包含一個欄位，在我們想要實作該特徵的型別外作一層薄薄的封裝。這封裝型別對 crate 來說算作在本地定義，因此可以對該封裝實作該特徵。<strong>新型別</strong>是一個源自 Haskell 程式語言的術語。使用此模式不會有任何執行時效能的耗損，這個封裝型別會在編譯期刪略。</p>
 <p>舉個例子，我們想要對 <code>Vec&lt;T&gt;</code> 實作 <code>Display</code>，但孤兒規則限制我們不能這樣做，因為 <code>Display</code> 特徵與 <code>Vec&lt;T&gt;</code> 都是在我們的 crate 之外定義。我們可以建立一個 <code>Wrapper</code> 結構體，帶有一個 <code>Vec&lt;T&gt;</code> 實例，接下來再對 <code>Wrapper</code> 實作 <code>Display</code> 並使用 <code>Vec&lt;T&gt;</code> 之值，如範例 19-23 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::fmt;

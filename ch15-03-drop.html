@@ -250,8 +250,8 @@ error: could not compile `drop-example`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>此錯誤訊息表示我們不允許顯式呼叫 <code>drop</code>。錯誤訊息使用了一個術語<em>解構子（destructor）</em>，這是通用程式設計術語中表達會清除實例的函式。<em>解構子</em>對應的術語就是<em>建構子（constructor）</em>，這會建立實例。Rust 中的 <code>drop</code> 函式就是一種特定的解構子。</p>
-<p>Rust 不讓我們顯式呼叫 <code>drop</code>，因為 Rust 還是會在 <code>main</code> 結束時自動呼叫 <code>drop</code>。這樣可能會導致<em>重複釋放（double free）</em> 的錯誤，因為 Rust 可能會嘗試清除相同的數值兩次。</p>
+<p>此錯誤訊息表示我們不允許顯式呼叫 <code>drop</code>。錯誤訊息使用了一個術語<strong>解構子（destructor）</strong>，這是通用程式設計術語中表達會清除實例的函式。<strong>解構子</strong>對應的術語就是<strong>建構子（constructor）</strong>，這會建立實例。Rust 中的 <code>drop</code> 函式就是一種特定的解構子。</p>
+<p>Rust 不讓我們顯式呼叫 <code>drop</code>，因為 Rust 還是會在 <code>main</code> 結束時自動呼叫 <code>drop</code>。這樣可能會導致<strong>重複釋放</strong>（double free）的錯誤，因為 Rust 可能會嘗試清除相同的數值兩次。</p>
 <p>當數值離開作用域時我們無法停用自動插入的 <code>drop</code>，而且我們無法顯式呼叫 <code>drop</code> 方法，所以如果我必須強制讓一個數值提早清除的話，我們可以用 <code>std::mem::drop</code> 函式。</p>
 <p><code>std::mem::drop</code> 函式不同於 <code>Drop</code> 中的 <code>drop</code> 方法，我們將我們想要強制提早釋放的數值作為引數傳遞並呼叫它。此函式也包含在 prelude，所以我們可以修改範例 15-15 的 <code>main</code> 來呼叫 <code>drop</code> 函式，如範例 15-16 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

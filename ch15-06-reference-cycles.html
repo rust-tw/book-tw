@@ -172,7 +172,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#引用循環會導致記憶體泄漏" id="引用循環會導致記憶體泄漏">引用循環會導致記憶體泄漏</a></h2>
-<p>Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情況（通稱為<em>記憶體泄漏／memory leak</em>）難以發生，但這並不是絕對不可能。和在編譯期間不允許資料競爭的情況不同，Rust 並不保證能完全避免記憶體泄漏，代表記憶體泄漏 Rust 中被視為是記憶體安全的。我們可以透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 觀察到 Rust 仍會產生記憶體泄漏，產生引用循環是有可能的，這會導致記憶體泄漏，因為循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
+<p>Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情況（通稱為<strong>記憶體泄漏／memory leak</strong>）難以發生，但這並不是絕對不可能。和在編譯期間不允許資料競爭的情況不同，Rust 並不保證能完全避免記憶體泄漏，代表記憶體泄漏 Rust 中被視為是記憶體安全的。我們可以透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 觀察到 Rust 仍會產生記憶體泄漏，產生引用循環是有可能的，這會導致記憶體泄漏，因為循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
 <h3><a class="header" href="#產生引用循環" id="產生引用循環">產生引用循環</a></h3>
 <p>讓我們看看引用循環是怎麼發生的，以及如何避免它。我們從範例 15-25 的 <code>List</code> 枚舉定義與一個 <code>tail</code> 方法開始：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -269,10 +269,10 @@ a 在變更 a 後的引用計數 = 2
 <p>要產生循環引用並不是件容易的事，但也不是絕對不可能。如果你有包含 <code>Rc&lt;T&gt;</code> 數值的 <code>RefCell&lt;T&gt;</code> 數值，或是有類似具內部可變性與引用計數巢狀組合的話，你必須確保不會產生循環引用，你無法依靠 Rust 來檢查它們。產生循環引用是程式中的邏輯錯誤，你需要使用自動化測試、程式碼審查以及其他軟體開發技巧來最小化問題。</p>
 <p>另一個避免引用循環的解決辦法是重新組織你的資料結構，確定哪些引用要有所有權，哪些引用不用。這樣一來，循環會由一些有所有權的關係與沒有所有權的關係所組成，而只有所有權關係能影響數值是否能被釋放。在範例 15-25 中。我們永遠會希望 <code>Cons</code> 變體擁有它們的列表，讓重新組織資料結構變得有可能。讓我們看看一個由父節點與子節點的圖形結構，來看看無所有權的關係何時適合用來避免循環引用。</p>
 <h3><a class="header" href="#避免引用循環將-rct-轉換成-weakt" id="避免引用循環將-rct-轉換成-weakt">避免引用循環：將 <code>Rc&lt;T&gt;</code> 轉換成 <code>Weak&lt;T&gt;</code></a></h3>
-<p>目前，我們解釋過呼叫 <code>Rc::clone</code> 會增加 <code>Rc&lt;T&gt;</code> 實例的 <code>strong_count</code>，而 <code>Rc&lt;T&gt;</code> 只會在 <code>strong_count</code> 為 0 時被清除。你也可以對 <code>Rc&lt;T&gt;</code> 實例呼叫 <code>Rc::downgrade</code> 並傳入 <code>Rc&lt;T&gt;</code> 的引用來建立<em>弱引用（weak reference）</em>。當你呼叫 <code>Rc::downgrade</code> 時，你會得到一個型別為 <code>Weak&lt;T&gt;</code> 的智慧指標。不同於對 <code>Rc&lt;T&gt;</code> 實例的 <code>strong_count</code> 增加 1，呼叫 <code>Rc::downgrade</code> 會對 <code>weak_count</code> 增加 1。<code>Rc&lt;T&gt;</code> 型別使用 <code>weak_count</code> 來追蹤有多少 <code>Weak&lt;T&gt;</code> 的引用存在，這類似於 <code>strong_count</code>。不同的地方在於 <code>weak_count</code> 不需要歸零才能將 <code>Rc&lt;T&gt;</code> 清除。</p>
+<p>目前，我們解釋過呼叫 <code>Rc::clone</code> 會增加 <code>Rc&lt;T&gt;</code> 實例的 <code>strong_count</code>，而 <code>Rc&lt;T&gt;</code> 只會在 <code>strong_count</code> 為 0 時被清除。你也可以對 <code>Rc&lt;T&gt;</code> 實例呼叫 <code>Rc::downgrade</code> 並傳入 <code>Rc&lt;T&gt;</code> 的引用來建立<strong>弱引用（weak reference）</strong>。當你呼叫 <code>Rc::downgrade</code> 時，你會得到一個型別為 <code>Weak&lt;T&gt;</code> 的智慧指標。不同於對 <code>Rc&lt;T&gt;</code> 實例的 <code>strong_count</code> 增加 1，呼叫 <code>Rc::downgrade</code> 會對 <code>weak_count</code> 增加 1。<code>Rc&lt;T&gt;</code> 型別使用 <code>weak_count</code> 來追蹤有多少 <code>Weak&lt;T&gt;</code> 的引用存在，這類似於 <code>strong_count</code>。不同的地方在於 <code>weak_count</code> 不需要歸零才能將 <code>Rc&lt;T&gt;</code> 清除。</p>
 <p>強引用是你分享 <code>Rc&lt;T&gt;</code> 實例的方式。弱引用不會表達所有權關係。它們不會造成引用循環，因為弱引用的循環會在其強引用計數歸零時解除。</p>
 <p>由於 <code>Weak&lt;T&gt;</code> 的引用數值可能會被釋放，要對 <code>Weak&lt;T&gt;</code> 指向的數值做任何事情時，你都必須確保該數值還存在。你可以透過對 <code>Weak&lt;T&gt;</code> 實例呼叫 <code>upgrade</code> 方法，這會回傳 <code>Option&lt;Rc&lt;T&gt;&gt;</code>。如果 <code>Rc&lt;T&gt;</code> 數值還沒被釋放的話，你就會得到 <code>Some</code>；而如果 <code>Rc&lt;T&gt;</code> 數值已經被釋放的話，就會得到 <code>None</code>。因為 <code>upgrade</code> 回傳 <code>Option&lt;Rc&lt;T&gt;&gt;</code>，Rust 會確保 <code>Some</code> 與 <code>None</code> 的分支都有處理好，所以不會取得無效指標。</p>
-<p>為了做示範，與其使用知道下一項的列表的例子，我們會建立一個樹狀結構，每一個項目會知道它們的子項目<em>以及</em>它們的父項目。</p>
+<p>為了做示範，與其使用知道下一項的列表的例子，我們會建立一個樹狀結構，每一個項目會知道它們的子項目<strong>以及</strong>它們的父項目。</p>
 <h4><a class="header" href="#建立樹狀資料結構帶有子節點的-node" id="建立樹狀資料結構帶有子節點的-node">建立樹狀資料結構：帶有子節點的 <code>Node</code></a></h4>
 <p>首先我們建立一個帶有節點的樹，每個節點知道它們的子節點。我們會定義一個結構體 <code>Node</code> 來存有它自己的 <code>i32</code> 數值以及其子數值 <code>Node</code> 的引用：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

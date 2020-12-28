@@ -181,7 +181,7 @@
     PATTERN =&gt; EXPRESSION,
 }
 </code></pre>
-<p><code>match</code> 表達式有個要求就是它們必須是<em>徹底的（exhaustive）</em>，所有 <code>match</code> 表達式數值可能的結果都必須涵蓋到。其中一個確保你有考慮到所有可能性的方式是在最後一個分支使用捕獲模式，命名一個能配對任何數值的變數就覺不會失敗，因此可以涵蓋剩餘的情況。</p>
+<p><code>match</code> 表達式有個要求就是它們必須是<strong>徹底的（exhaustive）</strong>，所有 <code>match</code> 表達式數值可能的結果都必須涵蓋到。其中一個確保你有考慮到所有可能性的方式是在最後一個分支使用捕獲模式，命名一個能配對任何數值的變數就覺不會失敗，因此可以涵蓋剩餘的情況。</p>
 <p>還有一個特定模式 <code>_</code> 可以獲取任意可能情況，但它不會綁定到變數中，所以它也很常用在最後的配對分支。舉例來說，<code>_</code> 模式就很適合用來忽略任何沒指明的數值。我們會在本章之後的 <a href="ch18-03-pattern-syntax.html#%E5%BF%BD%E7%95%A5%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84%E6%95%B8%E5%80%BC">「忽略模式中的數值」</a><!-- ignore -->段落談到更多 <code>_</code> 的細節。</p>
 <h3><a class="header" href="#if-let-條件表達式" id="if-let-條件表達式"><code>if let</code> 條件表達式</a></h3>
 <p>在第六章中我們介紹了如何使用 <code>if let</code> 表達式，它等同於只配對一種情況的 <code>match</code> 表達式，主要作為更簡潔的語法。此外，<code>if let</code> 可以再加上 <code>else</code> 來包含如果 <code>if let</code> 模式不符的話能執行的程式碼。</p>

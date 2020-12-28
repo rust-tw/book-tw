@@ -172,8 +172,8 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#透過-deref-特徵將智慧指標視為一般引用" id="透過-deref-特徵將智慧指標視為一般引用">透過 <code>Deref</code> 特徵將智慧指標視為一般引用</a></h2>
-<p>實作 <code>Deref</code> 特徵讓你可以自訂<em>解引用運算子（dereference operator）</em> <code>*</code> 的行為（這不是相乘或全域運算子）。透過這種方式實作 <code>Deref</code> 的智慧指標可以被視為正常引用來對待，這樣操作引用的程式碼也能用在智慧指標中。</p>
-<p>讓我們先看解引用運算子如何在正常引用中使用。然後我們會嘗試定義一個行為類似 <code>Box&lt;T&gt;</code> 的自定型別，並看看為何解引用運算子無法像引用那樣用在我們新定義的型別。我們將會探討如何實作 <code>Deref</code> 特徵使智慧指標能像類似引用的方式運作。接著我們會看看 Rust 的<em>強制解引用（deref coercion）</em> 功能並瞭解它如何處理引用與智慧指標。</p>
+<p>實作 <code>Deref</code> 特徵讓你可以自訂<strong>解引用運算子（dereference operator）</strong> <code>*</code> 的行為（這不是相乘或全域運算子）。透過這種方式實作 <code>Deref</code> 的智慧指標可以被視為正常引用來對待，這樣操作引用的程式碼也能用在智慧指標中。</p>
+<p>讓我們先看解引用運算子如何在正常引用中使用。然後我們會嘗試定義一個行為類似 <code>Box&lt;T&gt;</code> 的自定型別，並看看為何解引用運算子無法像引用那樣用在我們新定義的型別。我們將會探討如何實作 <code>Deref</code> 特徵使智慧指標能像類似引用的方式運作。接著我們會看看 Rust 的<strong>強制解引用</strong>（deref coercion）功能並瞭解它如何處理引用與智慧指標。</p>
 <blockquote>
 <p>注意：我們即將定義的 <code>MyBox&lt;T&gt;</code> 型別與真正的 <code>Box&lt;T&gt;</code> 有一項很大的差別，就是我們的版本不會將其資料儲存在堆積上。我們在此例會專注在 <code>Deref</code> 上，所以資料實際上儲存在何處，並沒有比指標相關行為來得重要。</p>
 </blockquote>
@@ -189,7 +189,7 @@
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-6：使用解引用運算子來追蹤數值 <code>i32</code> 的引用</span></p>
-<p>變數 <code>x</code> 存有 <code>i32</code> 數值 <code>5</code>。我們將 <code>y</code> 設置為 <code>x</code> 的引用。我們可以判定 <code>x</code> 等於 <code>5</code>。不過要是我們想要判定 <code>y</code> 數值的話，我們需要使用 <code>*y</code> 來追蹤引用指向的數值（也就是<em>解引用</em>）。一旦我們解引用 <code>y</code>，我們就能取得 <code>y</code> 指向的整數數值並拿來與 <code>5</code> 做比較。</p>
+<p>變數 <code>x</code> 存有 <code>i32</code> 數值 <code>5</code>。我們將 <code>y</code> 設置為 <code>x</code> 的引用。我們可以判定 <code>x</code> 等於 <code>5</code>。不過要是我們想要判定 <code>y</code> 數值的話，我們需要使用 <code>*y</code> 來追蹤引用指向的數值（也就是<strong>解引用</strong>）。一旦我們解引用 <code>y</code>，我們就能取得 <code>y</code> 指向的整數數值並拿來與 <code>5</code> 做比較。</p>
 <p>如果我們嘗試寫說 <code>assert_eq!(5, y);</code> 的話，我們會得到此編譯錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling deref-example v0.1.0 (file:///projects/deref-example)
@@ -315,7 +315,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p><code>deref</code> 方法會回傳一個數值引用，以及括號外要再加上普通解引用的原因，都是因為所有權系統。如果 <code>deref</code> 方法直接回傳數值而非引用數值的話，該數值就會移出 <code>self</code>。我們不希望在此例或是大多數使用解引用運算子的場合下，取走 <code>MyBox&lt;T&gt;</code> 內部數值的所有權。</p>
 <p>注意到每次我們在程式碼中使用 <code>*</code> 時，<code>*</code> 運算子被替換成 <code>deref</code> 方法呼叫，然後再呼叫 <code>*</code> 剛好一次。因為 <code>*</code> 運算子不會被無限遞迴替換，我們能剛好取得型別 <code>i32</code> 並符合範例 15-9 <code>assert_eq!</code> 中與 <code>5</code> 的判定。</p>
 <h3><a class="header" href="#函式與方法的隱式強制解引用" id="函式與方法的隱式強制解引用">函式與方法的隱式強制解引用</a></h3>
-<p><em>強制解引用（Deref coercion）</em> 是一個 Rust 針對函式或方法的引數的便利設計。強制解引用只適用於有實作 <code>Deref</code> 特徵的型別。強制解引用會將一個型別轉換成另一個型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>str</code>。當我們將某個特定型別數值的引用作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
+<p>*<em>強制解引用</em>（Deref coercion）是一個 Rust 針對函式或方法的引數的便利設計。強制解引用只適用於有實作 <code>Deref</code> 特徵的型別。強制解引用會將一個型別轉換成另一個型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>str</code>。當我們將某個特定型別數值的引用作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
 <p>Rust 會加入強制解引用的原因是因為程式設計師在寫函式與方法呼叫時，就不必加上許多顯式引用 <code>&amp;</code> 與解引用 <code>*</code>。強制解引用還讓我們可以寫出能同時用於引用或智慧指標的程式碼。</p>
 <p>為了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 有個函式定義且有個字串切片作為參數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -398,7 +398,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <li>從 <code>&amp;mut T</code> 到 <code>&amp;U</code> 且 <code>T: Deref&lt;Target=U&gt;</code></li>
 </ul>
 <p>前兩個除了可變性之外是相同的。第一個情況表示如果你有個 <code>&amp;T</code> 且 <code>T</code> 有實作 <code>Deref</code> 到某個型別 <code>U</code>，你就可以直接得到 <code>&amp;U</code>。第二種情況指的的則是對可變引用的強制解引用。</p>
-<p>第三種情況比較棘手：Rust 也能強制將可變引用轉為一個不可變引用。但反過來是<em>不可行</em>的：不可變引用永遠不可能強制解引用成可變引用。由於借用規則，如果你有個可變引用，該可變引用必須是該資料的唯一引用（不然程式無法編譯）。轉換可變引用成不可變引用不會破壞借用規則。轉換不可變引用成可變引用的話，就需要此不可變引用是該資料的唯一引用，但借用規則無法做擔保。因此 Rust 無法將不可變引用轉換成可變引用。</p>
+<p>第三種情況比較棘手：Rust 也能強制將可變引用轉為一個不可變引用。但反過來是<strong>不可行</strong>的：不可變引用永遠不可能強制解引用成可變引用。由於借用規則，如果你有個可變引用，該可變引用必須是該資料的唯一引用（不然程式無法編譯）。轉換可變引用成不可變引用不會破壞借用規則。轉換不可變引用成可變引用的話，就需要此不可變引用是該資料的唯一引用，但借用規則無法做擔保。因此 Rust 無法將不可變引用轉換成可變引用。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>

@@ -172,7 +172,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#透過生命週期驗證引用" id="透過生命週期驗證引用">透過生命週期驗證引用</a></h2>
-<p>我們在第四章的<a href="ch04-02-references-and-borrowing.html#%E5%BC%95%E7%94%A8%E8%88%87%E5%80%9F%E7%94%A8">「引用與借用」</a><!-- ignore -->段落沒談到的是，Rust 中的每個引用都有個<em>生命週期（lifetime）</em>，這是決定該引用是否有效的作用域。大多情況下生命週期是隱式且可推導出來得，就像大多情況下型別是可推導出來的。當多種型別都有可能時，我們就得詮釋型別。同樣地，當生命週期的引用能以不同方式關聯的話，我們就得詮釋生命週期。Rust 要求我們用泛型生命週期參數來詮釋引用之間的關係，以確保實際在執行時的引用絕對是有效的。</p>
+<p>我們在第四章的<a href="ch04-02-references-and-borrowing.html#%E5%BC%95%E7%94%A8%E8%88%87%E5%80%9F%E7%94%A8">「引用與借用」</a><!-- ignore -->段落沒談到的是，Rust 中的每個引用都有個<strong>生命週期（lifetime）</strong>，這是決定該引用是否有效的作用域。大多情況下生命週期是隱式且可推導出來得，就像大多情況下型別是可推導出來的。當多種型別都有可能時，我們就得詮釋型別。同樣地，當生命週期的引用能以不同方式關聯的話，我們就得詮釋生命週期。Rust 要求我們用泛型生命週期參數來詮釋引用之間的關係，以確保實際在執行時的引用絕對是有效的。</p>
 <p>生命週期的概念與其他程式語言有的工具都大相徑庭，這讓生命週期成為 Rust 最獨特的特色。雖然我們不會在此章涵蓋所有生命週期的內容，但是我們講些你可能遇到生命週期的常見場景，來讓你更加熟悉這個概念。</p>
 <h3><a class="header" href="#透過生命週期預防迷途引用" id="透過生命週期預防迷途引用">透過生命週期預防迷途引用</a></h3>
 <p>生命週期最主要的目的就是要預防迷途引用（dangling references），其會導致程式引用到其他資料，而非它原本想要的引用。請看一下範例 10-17 的程式，它有一個外部作用域與內部作用域。</p>
@@ -216,7 +216,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>變數 <code>x</code> 「存在的不夠久」。原因是因為當內部作用域在第 7 行結束時，<code>x</code> 會離開作用域。但是 <code>r</code> 卻還在外部作用域中有效，我們會說的「活得比較久」。如果 Rust 允許此程式碼可以執行的話，<code>r</code> 就會引用到 <code>x</code> 離開作用域後被釋放的記憶體位置，然後我們嘗試對 <code>r</code> 做的事情都不會是正確的了。所以 Rust 如何決定此程式碼無效呢？它使用了借用檢查器。</p>
 <h3><a class="header" href="#借用檢查器" id="借用檢查器">借用檢查器</a></h3>
-<p>Rust 編譯器有個<em>借用檢查器（borrow checker）</em> 會比較作用域來檢測所有的借用是否有效。範例 10-18 顯示了範例 10-17 的程式碼，但加上了變數生命週期的詮釋。</p>
+<p>Rust 編譯器有個<strong>借用檢查器</strong>（borrow checker）會比較作用域來檢測所有的借用是否有效。範例 10-18 顯示了範例 10-17 的程式碼，但加上了變數生命週期的詮釋。</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    {
         let r;                // ---------+-- 'a
@@ -414,7 +414,7 @@ To learn more, run the command again with --verbose.
 }
 </code></pre></pre>
 <p>在此例中，我們指定生命週期參數 <code>'a</code> 給參數 <code>x</code> 與回傳型別，但參數 <code>y</code> 則沒有，因為 <code>y</code> 的生命週期與 <code>x</code> 和回傳型別的生命週期之間沒有任何關係。</p>
-<p>當函式回傳引用時，回傳型別的生命週期參數必須符合其中一個參數的生命週期參數。如果回傳引用<em>沒有</em>和任何參數有關聯的話，代表它引用的是函式本體中的數值。但這會是迷途引用，因為該數值會在函式結尾離開作用域。請看看以下嘗試在函式 <code>longest</code> 的實作做法，它並不會編譯成功：</p>
+<p>當函式回傳引用時，回傳型別的生命週期參數必須符合其中一個參數的生命週期參數。如果回傳引用<strong>沒有</strong>和任何參數有關聯的話，代表它引用的是函式本體中的數值。但這會是迷途引用，因為該數值會在函式結尾離開作用域。請看看以下嘗試在函式 <code>longest</code> 的實作做法，它並不會編譯成功：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span><span class="boring">    let string1 = String::from(&quot;abcd&quot;);
@@ -505,9 +505,9 @@ fn main() {
 </code></pre>
 <p>在寫了大量的 Rust 程式碼後，Rust 團隊發現 Rust 開發者會在特定情況反覆輸入同樣的生命週期詮釋。這些情形都是可預期的，而且可以遵循一些明確的模式。開發者將這些模式加入編譯器的程式碼中，所以借用檢查器可以依據這些情況自行推導生命週期，而讓我們不必顯式詮釋。</p>
 <p>這樣的歷史值得提起的原因是因為很可能會有更多明確的模式被找出來並加到編譯器中，意味著未來對於生命週期詮釋的要求會更少。</p>
-<p>被寫進 Rust 引用分析的模式被稱作<em>生命週期省略規則（lifetime elision rules）</em>。這些不是程式設計師要遵守的規則，而是一系列編譯器能去考慮的情形。而如果你的程式碼符合這些情形時，你就不必顯式寫出生命週期。</p>
+<p>被寫進 Rust 引用分析的模式被稱作<strong>生命週期省略規則（lifetime elision rules）</strong>。這些不是程式設計師要遵守的規則，而是一系列編譯器能去考慮的情形。而如果你的程式碼符合這些情形時，你就不必顯式寫出生命週期。</p>
 <p>省略規則無法提供完整的推導。如果 Rust 能明確套用規則，但在這之後還是有引用存在模棱兩可的生命週期，編譯器就無法猜出剩餘引用的生命週期。在此情況，編譯器不會亂猜，它會回傳錯誤給你，你可以指定生命週期詮釋來指明引用之間的關係。</p>
-<p>在函式或方法參數上的生命週期稱為<em>輸入生命週期（input lifetimes）</em>，而在回傳值的生命週期則稱為<em>輸出生命週期（output lifetimes）</em>。</p>
+<p>在函式或方法參數上的生命週期稱為<strong>輸入生命週期（input lifetimes）</strong>，而在回傳值的生命週期則稱為<strong>輸出生命週期（output lifetimes）</strong>。</p>
 <p>當引用沒有顯式詮釋生命週期時，編譯器會用三項規則來推導它們。第一個規則適用於輸入生命週期，而第二與第三個規則適用於輸出生命週期。如果編譯器處理完這三個規則，卻仍有引用無法推斷出生命週期時，編譯器就會停止並回傳錯誤。適用於 <code>fn</code> 定義的規則一樣適用於 <code>impl</code> 區塊。</p>
 <p>第一個規則是每個引用都會有自己的生命週期參數。換句話說，一個函式只有一個參數的話，就只會有一個生命週期：<code>fn foo&lt;'a&gt;(x: &amp;'a i32)</code>；一個函式有兩個參數的話，就會有分別兩個生命週期參數：<code>fn foo&lt;'a, 'b&gt;(x: &amp;'a i32, y: &amp;'b i32)</code>，以此類推。</p>
 <p>第二個規則是如果剛好只有一個輸入生命週期參數，該參數就會賦值給所有輸出生命週期參數：<code>fn foo&lt;'a&gt;(x: &amp;'a i32) -&gt; &amp;'a i32</code>。</p>
@@ -589,7 +589,7 @@ fn main() {
 </span></code></pre></pre>
 <p>這裡有兩個輸入生命週期，所以 Rust 用第一個生命週期省略規則給予 <code>&amp;self</code> 和 <code>announcement</code> 它們自己的生命週期。然後因為其中一個參數是 <code>&amp;self</code>，回傳型別會取得 <code>&amp;self</code> 的生命週期，如此一來所有的生命週期都推導出來了。</p>
 <h3><a class="header" href="#靜態生命週期" id="靜態生命週期">靜態生命週期</a></h3>
-<p>其中有個特殊的生命週期 <code>'static</code> 我們需要進一步討論，這是指該引用<em>可以</em>存活在整個程式期間。所有的字串字面值都有 <code>'static</code> 生命週期，我們可以這樣詮釋：</p>
+<p>其中有個特殊的生命週期 <code>'static</code> 我們需要進一步討論，這是指該引用<strong>可以</strong>存活在整個程式期間。所有的字串字面值都有 <code>'static</code> 生命週期，我們可以這樣詮釋：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {

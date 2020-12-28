@@ -699,7 +699,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </span></code></pre></pre>
 <p><span class="caption">範例 12-23：檢查環境變數 <code>CASE_INSENSITIVE</code></span></p>
 <p>我們在此建立了一個新的變數 <code>case_sensitive</code>。要設置其數值，我們可以呼叫 <code>env::var</code> 函式並傳入環境變數 <code>CASE_INSENSITIVE</code> 的名稱。<code>env::var</code> 函式會回傳 <code>Result</code>，如果有設置環境變數的話，這就會是包含環境變數數值的成功 <code>Ok</code>變體；如果環境變數沒有設置的話，這就會回傳 <code>Err</code> 變體。</p>
-<p>我們在 <code>Result</code> 使用 <code>is_err</code> 方法來檢查是否為錯誤，如果是的話就代表沒有設置，也意味著它<em>該</em>使用區分大小寫的搜尋。如果 <code>CASE_INSENSITIVE</code> 環境變數有設置成任何數值的話，<code>is_err</code> 會回傳否，所以程式就會進行不區分大小寫的搜尋。我們不在乎環境變數的<em>數值</em>，只在意它有沒有被設置而已，所以我們使用 <code>is_err</code> 來檢查而非使用 <code>unwrap</code>、<code>expect</code> 或其他任何我們看過的 <code>Result</code> 方法。</p>
+<p>我們在 <code>Result</code> 使用 <code>is_err</code> 方法來檢查是否為錯誤，如果是的話就代表沒有設置，也意味著它<strong>該</strong>使用區分大小寫的搜尋。如果 <code>CASE_INSENSITIVE</code> 環境變數有設置成任何數值的話，<code>is_err</code> 會回傳否，所以程式就會進行不區分大小寫的搜尋。我們不在乎環境變數的<strong>數值</strong>，只在意它有沒有被設置而已，所以我們使用 <code>is_err</code> 來檢查而非使用 <code>unwrap</code>、<code>expect</code> 或其他任何我們看過的 <code>Result</code> 方法。</p>
 <p>我們將變數  <code>case_sensitive</code> 的數值傳給 <code>Config</code> 實例，讓 <code>run</code> 函式可以讀取該數值並決定該呼叫 <code>search</code> 還是 <code>search_case_insensitive</code>，如範例 12-22 所實作的一樣。</p>
 <p>讓我們試看看吧！首先，我們先不設置環境變數並執行程式來搜尋 <code>to</code>，任何包含小寫單字「to」的行數都應要符合：</p>
 <pre><code class="language-console">$ cargo run to poem.txt
@@ -731,7 +731,7 @@ To tell your name the livelong day
 To an admiring bog!
 </code></pre>
 <p>太好了，我們也取得了包含「To」的行數！我們的 <code>minigrep</code> 程式現在可以進行不區分大小寫的搜尋並以環境變數配置。現在你知道如何使用命令列引數或環境變數來管理設置選項了。</p>
-<p>有些程式允許同時使用引數<em>與</em>環境變數來配置。在這種情況下，程式會決定各種選項的優先層級。你想要練習的話，嘗試使用命令列引數與環境變數來控制不區分大小寫的選項。並在程式執行時，其中一個設置為區分大小寫，而另一個為不區分大小寫時，自行決定該優先使用命令列引數還是環境變數。</p>
+<p>有些程式允許同時使用引數<strong>與</strong>環境變數來配置。在這種情況下，程式會決定各種選項的優先層級。你想要練習的話，嘗試使用命令列引數與環境變數來控制不區分大小寫的選項。並在程式執行時，其中一個設置為區分大小寫，而另一個為不區分大小寫時，自行決定該優先使用命令列引數還是環境變數。</p>
 <p><code>std::env</code> 模組還包含很多處理環境變數的實用功能，歡迎查閱其官方文件來瞭解有哪些可用。</p>
 <blockquote>
 <ul>

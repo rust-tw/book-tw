@@ -172,9 +172,9 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#使用訊息傳遞在執行緒間傳送資料" id="使用訊息傳遞在執行緒間傳送資料">使用訊息傳遞在執行緒間傳送資料</a></h2>
-<p>有一種確保安全並行且漸漸流行起來的方式是<em>訊息傳遞（message passing）</em>，執行緒或 actors 透過傳遞包含資料的訊息給彼此來溝通。此理念源自於 <a href="https://golang.org/doc/effective_go.html#concurrency">Go 語言技術文件</a>中的口號：「別透過共享記憶體來溝通，而是透過溝通來共享記憶體。」 </p>
-<p>Rust 其中一個達成訊息傳遞並行的主要工具是<em>通道（channel）</em>，這是 Rust 標準函式庫有提供的程式設計概念。你可以把程式設計的通道想像成水流的通道，像是河流或小溪。如果你將橡皮小鴨或船隻放入河流中，它會順流而下到下游。</p>
-<p>程式設計中的通道有兩個部分：發送者（transmitter）與接收者（receiver）。發送者正是你會放置橡皮小鴨到河流中的上游，而接收者則是橡皮小鴨最後漂流到的下游。你程式碼中的一部分會呼叫發送者的方法來傳送你想要傳遞的資料，然後另一部分的程式碼會檢查接收者收到的訊息。當發送者或接收者有一方被釋放掉時，該通道就會被<em>關閉</em>。</p>
+<p>有一種確保安全並行且漸漸流行起來的方式是<strong>訊息傳遞（message passing）</strong>，執行緒或 actors 透過傳遞包含資料的訊息給彼此來溝通。此理念源自於 <a href="https://golang.org/doc/effective_go.html#concurrency">Go 語言技術文件</a>中的口號：「別透過共享記憶體來溝通，而是透過溝通來共享記憶體。」 </p>
+<p>Rust 其中一個達成訊息傳遞並行的主要工具是<strong>通道（channel）</strong>，這是 Rust 標準函式庫有提供的程式設計概念。你可以把程式設計的通道想像成水流的通道，像是河流或小溪。如果你將橡皮小鴨或船隻放入河流中，它會順流而下到下游。</p>
+<p>程式設計中的通道有兩個部分：發送者（transmitter）與接收者（receiver）。發送者正是你會放置橡皮小鴨到河流中的上游，而接收者則是橡皮小鴨最後漂流到的下游。你程式碼中的一部分會呼叫發送者的方法來傳送你想要傳遞的資料，然後另一部分的程式碼會檢查接收者收到的訊息。當發送者或接收者有一方被釋放掉時，該通道就會被<strong>關閉</strong>。</p>
 <p>我們在此將寫一支程式，它會在一個執行緒中產生數值，傳送給通道，然後另一個執行緒會接收到數值並印出來。我們會使用通道在執行緒間傳送簡單的數值來作為這個功能的解說。一旦你熟悉此技巧後，你可以使用通道來實作個聊天系統，或是一個利用數個執行緒進行運算，然後將結果傳入一個執行緒統整結果的分散式系統。</p>
 <p>首先在範例 16 -6，我們會建立個通道但還不會做任何事。注意這樣不會編譯通過因為 Rust 無法知道我們想對通道傳入的數值型別為何。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -185,8 +185,8 @@ fn main() {
 }
 </code></pre>
 <p><span class="caption">範例 16-6：建立通道並賦值分別兩個部分給 <code>tx</code> 與 <code>rx</code></span></p>
-<p>我們使用 <code>mpsc::channel</code> 函式來建立新的通道，<code>mpsc</code> 指的是<em>多重生產者、唯一消費者（multiple producer, single consumer）</em>。簡單來說，Rust 標準函式庫實作通道的方式讓通道可以有多個<em>發送端</em>來產生數值，不過只有一個<em>接收端</em>能消耗這些數值。想像有數個溪流匯聚成一條大河流，任何溪流傳送的任何東西最終都會流向河流的下游。我們會先從單一生產者開始，等這個範例能夠執行後我們再來增加數個生產者。</p>
-<p><code>mpsc::channel</code> 函式會回傳一個元組，第一個元素是發送端然後第二個元素是接收端。<code>tx</code> 與 <code>rx</code> 通常分別作為<em>發送者（transmitter）</em> 與<em>接收者（receiver）</em> 的縮寫，所以我們以此作為我們的變數名稱。我們的 <code>let</code> 陳述式使用到了能解構元組的模式我們會在第時八章討論 <code>let</code> 陳述式的模式與解構方式。用這樣的方式使用 <code>let</code> 能輕鬆取出 <code>mpsc::channel</code> 回傳的元組每個部分。</p>
+<p>我們使用 <code>mpsc::channel</code> 函式來建立新的通道，<code>mpsc</code> 指的是<strong>多重生產者、唯一消費者（multiple producer, single consumer）</strong>。簡單來說，Rust 標準函式庫實作通道的方式讓通道可以有多個<strong>發送端</strong>來產生數值，不過只有一個<strong>接收端</strong>能消耗這些數值。想像有數個溪流匯聚成一條大河流，任何溪流傳送的任何東西最終都會流向河流的下游。我們會先從單一生產者開始，等這個範例能夠執行後我們再來增加數個生產者。</p>
+<p><code>mpsc::channel</code> 函式會回傳一個元組，第一個元素是發送端然後第二個元素是接收端。<code>tx</code> 與 <code>rx</code> 通常分別作為<strong>發送者</strong>（transmitter）與<strong>接收者</strong>（receiver）的縮寫，所以我們以此作為我們的變數名稱。我們的 <code>let</code> 陳述式使用到了能解構元組的模式我們會在第時八章討論 <code>let</code> 陳述式的模式與解構方式。用這樣的方式使用 <code>let</code> 能輕鬆取出 <code>mpsc::channel</code> 回傳的元組每個部分。</p>
 <p>讓我們將發送端移進一個新產生的執行緒並讓它傳送一條字串，這樣產生的執行緒就可以與主執行緒溝通了，如範例 16-7 所示。這就像是在河流上游放了一隻橡皮小鴨，或是從一條執行緒傳送一條聊天訊息給別條執行緒一樣。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::mpsc;
@@ -222,7 +222,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 16-8：在主執行緒取得數值「hi」並顯示出來</span></p>
-<p>通道的接收端有兩個實用的方法：<code>recv</code> 與 <code>try_recv</code>。我們使用 <code>recv</code> 作為<em>接收（receive）</em> 的縮寫，這位阻擋主執行緒的運行並等待直到通道有訊息傳入。一旦有數值傳遞，<code>recv</code> 會就以此回傳 <code>Result&lt;T, E&gt;</code>。當通道的發送端關閉時，<code>recv</code> 會回傳錯誤來通知不會再有任何數值出現了。</p>
+<p>通道的接收端有兩個實用的方法：<code>recv</code> 與 <code>try_recv</code>。我們使用 <code>recv</code> 作為<strong>接收</strong>（receive）的縮寫，這位阻擋主執行緒的運行並等待直到通道有訊息傳入。一旦有數值傳遞，<code>recv</code> 會就以此回傳 <code>Result&lt;T, E&gt;</code>。當通道的發送端關閉時，<code>recv</code> 會回傳錯誤來通知不會再有任何數值出現了。</p>
 <p><code>try_recv</code> 方法則不會阻擋，而是會立即回傳 <code>Result&lt;T, E&gt;</code>。如果有數值的話，就會是存有訊息的 <code>Ok</code> 數值，如果尚未有任何數值的話，就會是 <code>Err</code> 數值。<code>try_recv</code> 適用於如果此執行緒在等待訊息的同時有其他事要做的情形。我們可以寫個迴圈來時不時呼叫 <code>try_recv</code>，當有數值時處理訊息，不然的話就先做點其他事直到再次檢查為止。</p>
 <p>我們出於方便考量在此例使用 <code>recv</code>，我們的主執行緒除了等待訊息以外沒有其他事好做，所以阻擋主執行緒是合理的。</p>
 <p>當我們執行範例 16-8 的程式碼，我們會看到主執行緒印出的數值：</p>
@@ -233,7 +233,7 @@ changes in the compiler -->
 </code></pre>
 <p>太棒了！</p>
 <h3><a class="header" href="#通道與所有權轉移" id="通道與所有權轉移">通道與所有權轉移</a></h3>
-<p>所有權規則在訊息傳遞中扮演了重要的角色，因為它們可以幫助你寫出安全的並行程式碼。在 Rust 程式中考慮所有權的其中一項好處就是你能在並行程式設計避免錯誤發生。讓我們做個實驗來看通道與所有權如何一起合作來避免問題發生，我們會在 <code>val</code> 數值傳送給通道<em>之後</em>嘗試使用其值。請嘗試編譯範例 16-9 的程式碼並看看為何此程式碼不被允許：</p>
+<p>所有權規則在訊息傳遞中扮演了重要的角色，因為它們可以幫助你寫出安全的並行程式碼。在 Rust 程式中考慮所有權的其中一項好處就是你能在並行程式設計避免錯誤發生。讓我們做個實驗來看通道與所有權如何一起合作來避免問題發生，我們會在 <code>val</code> 數值傳送給通道<strong>之後</strong>嘗試使用其值。請嘗試編譯範例 16-9 的程式碼並看看為何此程式碼不被允許：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use std::sync::mpsc;
 use std::thread;
@@ -316,7 +316,7 @@ changes in the compiler -->
 </code></pre>
 <p>因為我們在主執行緒中的 <code>for</code> 迴圈內沒有任何會暫停或延遲的程式碼，所以我們可以看出主執行緒是在等待產生的執行緒傳送的數值。</p>
 <h3><a class="header" href="#透過克隆發送者來建立多重生產者" id="透過克隆發送者來建立多重生產者">透過克隆發送者來建立多重生產者</a></h3>
-<p>稍早之前我們提過 <code>mpsc</code> 是<em>多重生產者、唯一消費者（multiple producer, single consumer）</em> 的縮寫。讓我們來使用 <code>mpsc</code> 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。為此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
+<p>稍早之前我們提過 <code>mpsc</code> 是<strong>多重生產者、唯一消費者</strong>（multiple producer, single consumer）的縮寫。讓我們來使用 <code>mpsc</code> 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。為此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::thread;

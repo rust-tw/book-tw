@@ -191,7 +191,7 @@
 <p>舉例來說，要使用 <code>assert_eq!</code> 巨集的話就必須要有 <code>Debug</code> 特徵。如果相等判定失敗的話，此巨集會印出作為引數的實例數值，讓程式設計師可以看到為何兩個實例不相等。</p>
 <h3><a class="header" href="#用於比較相等的-partialeq-與-eq" id="用於比較相等的-partialeq-與-eq">用於比較相等的 <code>PartialEq</code> 與 <code>Eq</code></a></h3>
 <p><code>PartialEq</code> 特徵讓你可以比較型別實例來檢查是否相等，並可因此使用 <code>==</code> 與 <code>!=</code> 運算子。</p>
-<p>推導 <code>PartialEq</code> 會實作 <code>eq</code> 方法。當推導結構體的 <code>PartialEq</code> 時，兩個實例之間必須<em>所有</em>欄位都相等才算相等，所以要是有任意欄位不相等實例就不算相等。而在枚舉推導時，每個變體會與自己相等，且與其他變體不相等。</p>
+<p>推導 <code>PartialEq</code> 會實作 <code>eq</code> 方法。當推導結構體的 <code>PartialEq</code> 時，兩個實例之間必須<strong>所有</strong>欄位都相等才算相等，所以要是有任意欄位不相等實例就不算相等。而在枚舉推導時，每個變體會與自己相等，且與其他變體不相等。</p>
 <p>舉例來說，使用 <code>assert_eq!</code> 巨集的話就必須要有 <code>PartialEq</code> 特徵，因為這要用來比較兩個型別實例是否相等。</p>
 <p><code>Eq</code> 特徵沒有任何方法，它用來表示指定型別的每個數值都與自己本身相等。<code>Eq</code> 只能用於也有實作 <code>PartialEq</code> 的型別，然而並非所有實作 <code>PartialEq</code> 的型別都能實作 <code>Eq</code>。其中一個例子就是浮點數型別，浮點數的實作就指明兩個非數（not-a-number, <code>NaN</code>）實例數值彼此並不相等。</p>
 <p>而 <code>Eq</code> 會用到的地方則有像是 <code>HashMap&lt;K, V&gt;</code> 中的鍵，這樣 <code>HashMap&lt;K, V&gt;</code> 才能知道兩個鍵之間是否相等。</p>

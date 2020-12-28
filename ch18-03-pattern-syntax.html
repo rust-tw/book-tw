@@ -210,7 +210,7 @@
 <p>當 <code>match</code> 完成時，其作用域就會結束，所以作用域內的內部 <code>y</code> 也會結束。最後一個 <code>println!</code> 會顯示 <code>最後結果：x = Some(5), y = 10</code>。</p>
 <p>要建立個能對外部 <code>x</code> 與 <code>y</code> 數值做比較的 <code>match</code> 表達式而非遮蔽變數的話，我們需要改用條件配對守護。我們會在之後的<a href="#%E6%8F%90%E4%BE%9B%E9%A1%8D%E5%A4%96%E6%A2%9D%E4%BB%B6%E7%9A%84%E9%85%8D%E5%B0%8D%E5%AE%88%E8%AD%B7">「提供額外條件的配對守護」</a><!-- ignore -->段落討論配對守護。</p>
 <h3><a class="header" href="#多重模式" id="多重模式">多重模式</a></h3>
-<p>在 <code>match</code> 表達式中，你可以使用 <code>|</code> 語法來配對數個模式，其代表 <em>OR（或）</em> 的意思。舉例來說，以下程式碼會配對 <code>x</code> 的數值到配對分支，第一個分支有個 <em>OR</em> 的選項，代表如果 <code>x</code> 的數值配對的到分支中任一數值的話，該分支的程式碼就會執行：</p>
+<p>在 <code>match</code> 表達式中，你可以使用 <code>|</code> 語法來配對數個模式，其代表 <strong>OR（或）</strong> 的意思。舉例來說，以下程式碼會配對 <code>x</code> 的數值到配對分支，第一個分支有個 <em>OR</em> 的選項，代表如果 <code>x</code> 的數值配對的到分支中任一數值的話，該分支的程式碼就會執行：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 1;
 
@@ -537,7 +537,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>Rust 不可能會知道在配對 <code>second</code> 之前要忽略多少元組中的數值，以及在之後得再忽略多少數值此程式碼可以代表我們想要忽略 <code>2</code>、綁定 <code>second</code> 到 <code>4</code> 然後忽略 <code>8</code>、<code>16</code> 和 <code>32</code>；或者我們想要忽略 <code>2</code> 和 <code>4</code>、綁定 <code>second</code> 到 <code>8</code> 然後忽略 <code>16</code> 和 <code>32</code>，以及更多可能。變數名稱 <code>second</code> 對 Rust 沒有任何特別意義，所以我們得到編譯錯誤，因為像這樣在兩個地方使用 <code>..</code> 是含糊不清的。</p>
 <h3><a class="header" href="#提供額外條件的配對守護" id="提供額外條件的配對守護">提供額外條件的配對守護</a></h3>
-<p><em>配對守護（match guard）</em> 是個在 <code>match</code> 分支之後額外指定的 <code>if</code> 條件，除了原本的模式配對，此條件也必須配對才能選擇該分支。配對守護適用於比單獨模式所能表達的還複雜的情況。</p>
+<p><strong>配對守護</strong>（match guard）是個在 <code>match</code> 分支之後額外指定的 <code>if</code> 條件，除了原本的模式配對，此條件也必須配對才能選擇該分支。配對守護適用於比單獨模式所能表達的還複雜的情況。</p>
 <p>該條件能使用配對建立的變數。範例 18-26 展示 <code>match</code> 的第一個分支有個模式 <code>Some(x)</code> 並使用配對守護 <code>if x &lt; 5</code>。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let num = Some(4);
@@ -570,8 +570,8 @@ To learn more, run the command again with --verbose.
 </code></pre></pre>
 <p><span class="caption">範例 18-27：使用配對守護來測試與外部變數是否相等</span></p>
 <p>此程式碼現在會印出 <code>預設情形，x = Some(5)</code>。第二個模式中沒有宣告新的變數 <code>y</code> 來遮蔽外部的 <code>y</code>，意味著我們可以在配對守護中使用外部的 <code>y</code>。我們不再指定模式為 <code>Some(y)</code>，因為這樣會遮蔽外部的 <code>y</code>，我們改指定成 <code>Some(n)</code>。這樣建立了一個新的變數 <code>n</code> 且不會遮蔽任何事物，因為 <code>match</code> 外部沒有任何變數 <code>n</code>。</p>
-<p>配對守護 <code>if n == y</code> 不屬於模式，因此不會宣告任何新變數。此 <code>y</code> <em>就是</em>外部的 <code>y</code> 而非新遮蔽的 <code>y</code>，而且我們可以透過將 <code>n</code> 與 <code>y</code> 做比較來檢查數值是否與外部 <code>y</code> 的數值相等。</p>
-<p>你也可以在配對守護中使用 <em>OR</em> 運算子 <code>|</code> 來指定多重模式，配對守護的條件會套用在所有的模式中。範例 18-28 顯示了結合配對守護與使用 <code>|</code> 模式之間的優先層級（precedence）。此例中的重點部分在於 <code>if y</code> 配對守護能套用在 <code>4</code>、<code>5</code> <em>與</em> <code>6</code>，而不是只有 <code>6</code> 會用到 <code>if y</code>。</p>
+<p>配對守護 <code>if n == y</code> 不屬於模式，因此不會宣告任何新變數。此 <code>y</code> <strong>就是</strong>外部的 <code>y</code> 而非新遮蔽的 <code>y</code>，而且我們可以透過將 <code>n</code> 與 <code>y</code> 做比較來檢查數值是否與外部 <code>y</code> 的數值相等。</p>
+<p>你也可以在配對守護中使用 <em>OR</em> 運算子 <code>|</code> 來指定多重模式，配對守護的條件會套用在所有的模式中。範例 18-28 顯示了結合配對守護與使用 <code>|</code> 模式之間的優先層級（precedence）。此例中的重點部分在於 <code>if y</code> 配對守護能套用在 <code>4</code>、<code>5</code> <strong>與</strong> <code>6</code>，而不是只有 <code>6</code> 會用到 <code>if y</code>。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 4;
     let y = false;
@@ -583,7 +583,7 @@ To learn more, run the command again with --verbose.
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 18-28：結合數個模式與配對守護</span></p>
-<p>此配對條件表示該分支只有在數值 <code>x</code> 等於 <code>4</code>、<code>5</code> 或 <code>6</code>，<em>以及</em>如果 <code>y</code> 為 <code>true</code> 時才算配對到。當此程式碼執行時，第一個分支的模式有配對到，因為 <code>x</code> 為 <code>4</code>，但是配對守護 <code>if y</code> 為否，所以不會選擇第一個分支。程式碼會移動到第二個分支，然後程式會配對到並印出 <code>no</code>。原因在於 <code>if</code> 條件會套用到整個模式 <code>4 | 5 | 6</code>，而不是只有最後一個數值 <code>6</code>。換句話說，配對守護與模式之間的優先層級會像是這樣：</p>
+<p>此配對條件表示該分支只有在數值 <code>x</code> 等於 <code>4</code>、<code>5</code> 或 <code>6</code>，<strong>以及</strong>如果 <code>y</code> 為 <code>true</code> 時才算配對到。當此程式碼執行時，第一個分支的模式有配對到，因為 <code>x</code> 為 <code>4</code>，但是配對守護 <code>if y</code> 為否，所以不會選擇第一個分支。程式碼會移動到第二個分支，然後程式會配對到並印出 <code>no</code>。原因在於 <code>if</code> 條件會套用到整個模式 <code>4 | 5 | 6</code>，而不是只有最後一個數值 <code>6</code>。換句話說，配對守護與模式之間的優先層級會像是這樣：</p>
 <pre><code class="language-text">(4 | 5 | 6) if y =&gt; ...
 </code></pre>
 <p>而不是這樣：</p>

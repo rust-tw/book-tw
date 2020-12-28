@@ -193,7 +193,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 9-3：嘗試開啟一個檔案</span></p>
-<p>我們怎麼知道 <code>File::open</code> 會回傳 <code>Result</code>呢？我們可以查閱<a href="https://doc.rust-lang.org/std/index.html">標準函式庫的 API 技術文件</a><!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 <code>f</code> 一個型別詮釋，但是我們知道它和函式回傳值<em>並不</em>相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不符。錯誤訊息會告訴我們 <code>f</code> <em>該有</em>何種型別。讓我們試試看！我們知道 <code>File::open</code> 的回傳型別不是 <code>u32</code>，所以讓我們改變 <code>let f</code> 成這樣：</p>
+<p>我們怎麼知道 <code>File::open</code> 會回傳 <code>Result</code>呢？我們可以查閱<a href="https://doc.rust-lang.org/std/index.html">標準函式庫的 API 技術文件</a><!-- ignore -->，或者我們也可以親自去問編譯器！如果我們給予 <code>f</code> 一個型別詮釋，但是我們知道它和函式回傳值<strong>並不</strong>相同，接著嘗試編譯程式碼的話，編譯器會告訴我們型別不符。錯誤訊息會告訴我們 <code>f</code> <strong>該有</strong>何種型別。讓我們試試看！我們知道 <code>File::open</code> 的回傳型別不是 <code>u32</code>，所以讓我們改變 <code>let f</code> 成這樣：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::fs::File;
 </span><span class="boring">
 </span><span class="boring">fn main() {
@@ -322,7 +322,7 @@ fn main() {
 </code></pre>
 <p>由於此錯誤訊息指明了我們想表達的訊息「開啟 hello.txt 失敗」，我們比較能知道此錯誤訊息是從哪裡發生的。如果我們在多處使用 <code>unwrap</code>，我們會需要一些時間才能理解 <code>unwrap</code> 是從哪裡引發恐慌的，因為 <code>unwrap</code> 很可能會顯示相同的訊息。</p>
 <h3><a class="header" href="#傳播錯誤" id="傳播錯誤">傳播錯誤</a></h3>
-<p>當你在寫某函式實作時，要是它的呼叫的程式碼可能會失敗，與其直接在此函式處理錯誤，你可以回傳錯誤給呼叫此程式的程式碼，由它們決定如何處理。這稱之為<em>傳播（propagating）</em> 錯誤並讓呼叫者可以有更多的控制權，因為比起你程式碼當下的內容，回傳的錯誤可能提供更多資訊與邏輯以利處理。</p>
+<p>當你在寫某函式實作時，要是它的呼叫的程式碼可能會失敗，與其直接在此函式處理錯誤，你可以回傳錯誤給呼叫此程式的程式碼，由它們決定如何處理。這稱之為<strong>傳播</strong>（propagating）錯誤並讓呼叫者可以有更多的控制權，因為比起你程式碼當下的內容，回傳的錯誤可能提供更多資訊與邏輯以利處理。</p>
 <p>舉例來說，範例 9-6 展示了一個從檔案讀取使用者名稱的函式。如果檔案不存在或無法讀取的話，此函式會回傳該錯誤給呼叫此函式的程式碼。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- Deliberately not using rustdoc_include here; the `main` function in the

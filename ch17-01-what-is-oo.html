@@ -176,11 +176,11 @@
 <h3><a class="header" href="#物件包含資料與行為" id="物件包含資料與行為">物件包含資料與行為</a></h3>
 <p>由 Erich Gamma、Richard Helm、Ralph Johnson 與 John Vlissides（Addison-Wesley Professional, 1994) 所寫的書 <em>Design Patterns: Elements of Reusable Object-Oriented Software</em> 俗稱為 <em>The Gang of Four</em>，這是本物件導向設計模式的目錄。它是這樣定義 OOP 的：</p>
 <blockquote>
-<p>物件導向程式由物件所組成。<em>物件</em>會包裝資料以及運作在資料上的行為。此行為常稱為<em>方法（methods）<em>或</em>操作（operations）</em>。</p>
+<p>物件導向程式由物件所組成。<strong>物件</strong>會包裝資料以及運作在資料上的行為。此行為常稱為<strong>方法（methods）<strong>或</strong>操作（operations）</strong>。</p>
 </blockquote>
-<p>在此定義下，Rust 是物件導向的，結構體與枚舉擁有資料，而 <code>impl</code> 區塊對結構體與枚舉提供方法。就算有方法的結構體與枚舉不會被稱為<em>物件</em>，依據 Gang of Four 對物件的定義，它們還是有提供相同的功能。</p>
+<p>在此定義下，Rust 是物件導向的，結構體與枚舉擁有資料，而 <code>impl</code> 區塊對結構體與枚舉提供方法。就算有方法的結構體與枚舉不會被稱為<strong>物件</strong>，依據 Gang of Four 對物件的定義，它們還是有提供相同的功能。</p>
 <h3><a class="header" href="#隱藏實作細節的封裝" id="隱藏實作細節的封裝">隱藏實作細節的封裝</a></h3>
-<p>另外一個常和 OOP 相關的概念就是<em>封裝（encapsulation）</em>，這指的是物件的實作細節不會讓使用物件的程式碼取得。因此要與該物件互動的方式是透過它的公開 API，使用物件的程式碼不該有辦法觸及物件內部並直接變更資料的行為。這讓程式設計師能變更並重構物件內部，無需擔心要變更使用物件的程式碼。</p>
+<p>另外一個常和 OOP 相關的概念就是<strong>封裝（encapsulation）</strong>，這指的是物件的實作細節不會讓使用物件的程式碼取得。因此要與該物件互動的方式是透過它的公開 API，使用物件的程式碼不該有辦法觸及物件內部並直接變更資料的行為。這讓程式設計師能變更並重構物件內部，無需擔心要變更使用物件的程式碼。</p>
 <p>我們在第七章討論過如何控制封裝，我們可以使用 <code>pub</code> 關鍵字來決定程式中的哪些模組、型別、函式與方法要公開出來，且預設一切都是私有的。舉例來說，我們可以定義個結構體 <code>AveragedCollection</code> 並有個欄位包含一個 <code>i32</code> 數值的向量。此結構體還有個欄位包含向量數值的平均值，讓我們不必在每次呼叫時都得重新計算平均值。換句話說，<code>AveragedCollection</code> 會為我們快取計算出的平均值。範例 17-1 展示了結構體 <code>AveragedCollection</code> 的定義：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
@@ -238,14 +238,14 @@ collection</span></p>
 <p>由於我們封裝了 <code>AveragedCollection</code> 結構體的實作細節，我們可以在未來輕鬆變更像是資料結構等內部細節。舉例來說，我們可以用 <code>HashSet&lt;i32&gt;</code> 來替換 <code>list</code> 欄位的 <code>Vec&lt;i32&gt;</code>。只要 <code>add</code>、<code>remove</code> 與 <code>average</code> 的公開方法簽名維持一樣，使用到 <code>AveragedCollection</code> 的程式碼就不需要改變。如果我們讓 <code>list</code> 公開的話，情況可能就不相同了，<code>HashSet&lt;i32&gt;</code> 與 <code>Vec&lt;i32&gt;</code> 有不同的方法來新增和移除項目，所以外部的程式碼如果會直接修改 <code>list</code> 的話，可能會需要做些改變。</p>
 <p>如果封裝是物件導向的必備條件的話，Rust 也符合此條件。對程式碼中不同部分使用 <code>pub</code> 可以封裝實作細節。</p>
 <h3><a class="header" href="#作為型別系統與程式碼共享來繼承" id="作為型別系統與程式碼共享來繼承">作為型別系統與程式碼共享來繼承</a></h3>
-<p><em>繼承（Inheritance）</em> 是指一個物件可以繼承其他物件定義的機制，使其可以獲取繼承物件的資料與行為，不必再定義一次。</p>
+<p><strong>繼承</strong>（Inheritance）是指一個物件可以繼承其他物件定義的機制，使其可以獲取繼承物件的資料與行為，不必再定義一次。</p>
 <p>如果一個語言一定要有繼承才算物件導向語言的話，那麼 Rust 就不是。在定義結構體時我們無法繼承父結構體欄位的方法實作。然而如果你在程式設計時常常用到繼承的話，依據你想使用繼承的原因，Rust 還是有提供其他方案。</p>
 <p>你選擇繼承通常會有兩個主要原因。第一個是想能重複使用程式碼，你可以定義一個型別的特定行為，然後繼承讓你可以在不同的型別重複使用該實作。為此你可以使用預設的特徵方法實作來分享 Rust 程式碼，你在範例 10-14 就有看到我們在 <code>Summary</code> 特徵加上的預設 <code>summarize</code> 方法實作。任何有實作 <code>Summary</code> 特徵的型別都不必加上更多程式碼就能有 <code>summarize</code> 可以呼叫。這就類似於父類型（class）實作的方法可以在繼承的子類型擁有該方法實作。我們也可以在實作 <code>Summary</code> 特徵時，覆寫 <code>summarize</code> 方法的預設實作，這就類似於子類型覆寫父類型的方法實作。</p>
-<p>另一個想使用繼承的原因與型別系統有關，讓子類型可以視為父類型來使用。這也稱為<em>多型（polymorphism）</em>，代表要是數個物件有共享特定特性的話，你可以在執行時彼此替換使用。</p>
+<p>另一個想使用繼承的原因與型別系統有關，讓子類型可以視為父類型來使用。這也稱為<strong>多型（polymorphism）</strong>，代表要是數個物件有共享特定特性的話，你可以在執行時彼此替換使用。</p>
 <blockquote>
 <h3><a class="header" href="#多型" id="多型">多型</a></h3>
 <p>對許多人來說，多型就是繼承的代名詞。不過這其實是個更通用的概念，用來指程式碼可適用於多種型別資料。而對繼承來說，這些型別通常都是子類型。</p>
-<p>Rust 則是使用泛型來抽象化不同可能的型別，並以特徵界限來加強約束這些型別必須提供的內容。這有時會稱為<em>限定的參數多型（bounded parametric polymorphism）</em>。</p>
+<p>Rust 則是使用泛型來抽象化不同可能的型別，並以特徵界限來加強約束這些型別必須提供的內容。這有時會稱為<strong>限定的參數多型（bounded parametric polymorphism）</strong>。</p>
 </blockquote>
 <p>近年來像繼承這種程式設計的解決方案在許多程式設計語言中都漸漸失寵了，因為這經常有分享不必要程式碼的風險。子類型不應該永遠分享其父類型的所有特性，但繼承會這樣做。這會讓程式的設計較不具有彈性。這還可能產生不具意義或導致錯誤的子類型方法呼叫，因為該方法不適用於子類型。除此之外，有些語言只會允許子類型繼承一個類型，進一步限制了程式設計的彈性。</p>
 <p>基於這些原因，Rust 採取了不同的方案，使用特徵物件（trait objects）而非繼承。讓我們看看 Rust 的特徵物件如何達成多型。</p>

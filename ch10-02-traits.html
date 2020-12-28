@@ -172,9 +172,9 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#特徵定義共同行為" id="特徵定義共同行為">特徵：定義共同行為</a></h2>
-<p><em>特徵（trait）</em> 會告訴 Rust 編譯器特定型別與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行為。我們可以使用特徵界限（trait bounds）來指定泛型為擁有特定行為的任意型別。</p>
+<p><strong>特徵</strong>（trait）會告訴 Rust 編譯器特定型別與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行為。我們可以使用特徵界限（trait bounds）來指定泛型為擁有特定行為的任意型別。</p>
 <blockquote>
-<p>注意：特徵類似於其他語言常稱作*介面（interfaces）*的功能，但還是有些差異。</p>
+<p>注意：特徵類似於其他語言常稱作<strong>介面</strong>（interfaces）的功能，但還是有些差異。</p>
 </blockquote>
 <h3><a class="header" href="#定義特徵" id="定義特徵">定義特徵</a></h3>
 <p>一個型別的行為包含我們對該型別可以呼叫的方法。如果我們可以對不同型別呼叫相同的方法，這些型別就能定義共同行為了。特徵定義是一個將方法簽名統整起來，來達成一些目的而定義一系列行為的方法。</p>
@@ -629,7 +629,7 @@ error: could not compile `chapter10`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>此錯誤的關鍵在 <code>cannot move out of type [T], a non-copy slice</code>。在我們非泛型版本的函式 <code>largest</code> 中，我們只有嘗試尋找 <code>i32</code> 或 <code>char</code> 的最大值。如同第四章<a href="ch04-01-what-is-ownership.html#%E5%8F%AA%E5%9C%A8%E5%A0%86%E7%96%8A%E4%B8%8A%E7%9A%84%E8%B3%87%E6%96%99%E6%8B%B7%E8%B2%9Dcopy">「只在堆疊上的資料：拷貝（Copy）」</a><!-- ignore -->段落所提到的，像 <code>i32</code> 和 <code>char</code> 這樣的型別是已知大小可以存在堆疊上，所以它們有實作 <code>Copy</code> 特徵。但當我們建立泛型函式 <code>largest</code> 時，<code>list</code> 參數就有可能拿到沒有實作 <code>Copy</code> 特徵的型別。隨後導致我們無法將 <code>list[0]</code> 移出給變數 <code>largest</code>，最後產生錯誤。</p>
-<p>要限制此程式碼只允許有實作 <code>Copy</code> 特徵的型別，我們可以再 <code>T</code> 的特徵界限中加上 <code>Copy</code>！範例 10-15 展示了泛型函式 <code>largest</code> 完整的程式碼，只要我們傳遞給函式的切片數值型別有實作 <code>PartialOrd</code><em>和</em> <code>Copy</code> 特徵的話（像是 <code>i32</code> 和 <code>char</code>），就能編譯成功。</p>
+<p>要限制此程式碼只允許有實作 <code>Copy</code> 特徵的型別，我們可以再 <code>T</code> 的特徵界限中加上 <code>Copy</code>！範例 10-15 展示了泛型函式 <code>largest</code> 完整的程式碼，只要我們傳遞給函式的切片數值型別有實作 <code>PartialOrd</code> <strong>和</strong> <code>Copy</code> 特徵的話（像是 <code>i32</code> 和 <code>char</code>），就能編譯成功。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn largest&lt;T: PartialOrd + Copy&gt;(list: &amp;[T]) -&gt; T {
     let mut largest = list[0];
@@ -689,7 +689,7 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 10-16：依據特徵界限來選擇性地在泛型型別實作方法</span></p>
-<p>我們還可以對有實作其他特徵的型別選擇性地來實作特徵。對滿足特徵界限的型別實作特徵會稱之為<em>毯子實作（blanket implementations）</em>，這被廣泛地用在 Rust 標準函式庫中。舉例來說，標準函式庫會對任何有實作 <code>Display</code> 特徵的型別實作 <code>ToString</code>。標準函式庫中的 <code>impl</code> 區塊會有類似這樣的程式碼：</p>
+<p>我們還可以對有實作其他特徵的型別選擇性地來實作特徵。對滿足特徵界限的型別實作特徵會稱之為<strong>毯子實作（blanket implementations）</strong>，這被廣泛地用在 Rust 標準函式庫中。舉例來說，標準函式庫會對任何有實作 <code>Display</code> 特徵的型別實作 <code>ToString</code>。標準函式庫中的 <code>impl</code> 區塊會有類似這樣的程式碼：</p>
 <pre><code class="language-rust ignore">impl&lt;T: Display&gt; ToString for T {
     // --省略--
 }
@@ -703,7 +703,7 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 </span></code></pre></pre>
 <p>毯子實作在特徵技術文件的「Implementors」段落有做說明。</p>
 <p>特徵與特徵界限讓我們能使用泛型型別參數來減少重複的程式碼的同時，告訴編譯器該泛型型別該擁有何種行為。編譯器可以利用特徵界限資訊來檢查程式碼提供的實際型別有沒有符合特定行為。在動態語言中，我們要是呼叫一個該型別沒有的方法的話，我們會在執行時才發生錯誤。但是 Rust 將此錯誤移到執行期間，讓我們必須在程式能夠執行之前確保有修正此問題。除此之外，我們還不用寫在執行時檢查此行為的程式碼，因為我們已經在編譯時就檢查了。這麼做我們可以在不失去泛型彈性的情況下，提升效能。</p>
-<p>另一種我們已經看過的泛型為<em>生命週期（lifetimes）</em>。不同於確保一個型別有沒有我們要的行為，生命週期確保我們在需要引用的時候，它們都是有效的。讓我們來看看生命週期是怎麼做到的。</p>
+<p>另一種我們已經看過的泛型為<strong>生命週期（lifetimes）</strong>。不同於確保一個型別有沒有我們要的行為，生命週期確保我們在需要引用的時候，它們都是有效的。讓我們來看看生命週期是怎麼做到的。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
