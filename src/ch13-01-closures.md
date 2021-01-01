@@ -69,7 +69,7 @@ Rust 的閉包（closures）是個你能賦值給變數或作為其他函式引�
 
 <span class="caption">範例 13-4：提取 `simulated_expensive_calculation` 的呼叫到同個位置並用變數 `expensive_result` 儲存結果</span>
 
-此變更統一了所有 `simulated_expensive_calculation` 的呼叫並解決第一個 `if` 區塊重複呼叫函式兩次的問題。不幸的是，現在我們一定得呼叫此函式並在所有行情形下都得等待，這包含沒有使用到此結果的 `if` 區塊。
+此變更統一了所有 `simulated_expensive_calculation` 的呼叫並解決第一個 `if` 區塊重複呼叫函式兩次的問題。不幸的是，現在我們一定得呼叫此函式並在所有情形下都得等待，這包含沒有使用到此結果的 `if` 區塊。
 
 我們想在程式某處定義程式碼，並在我們確實需要它時**執行**程式碼就好。這就是閉包能使用的場合！
 
