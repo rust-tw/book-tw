@@ -172,7 +172,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2><a class="header" href="#使用疊代器來處理一系列的項目" id="使用疊代器來處理一系列的項目">使用疊代器來處理一系列的項目</a></h2>
-<p>疊代器（Iterator）模式讓你可以對 一個項目序列依序進行某些任務。一個疊代器負責遍歷序每個項目以及序列何時結束的邏輯。當你使用疊代器，你不需要自己實作這些邏輯。</p>
+<p>疊代器（Iterator）模式讓你可以對一個項目序列依序進行某些任務。一個疊代器負責遍歷序每個項目以及序列何時結束的邏輯。當你使用疊代器，你不需要自己實作這些邏輯。</p>
 <p>在 Rust 中疊代器是<strong>惰性</strong>（lazy）的，代表除非你呼叫方法來使用疊代器，不然它們不會有任何效果。舉例來說，範例 13-13 的程式碼會透過 <code>Vec&lt;T&gt;</code> 定義的方法 <code>iter</code> 從向量<code>v1</code> 建立一個疊代器來遍歷它的項目。此程式碼本身沒有啥實用之處。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v1 = vec![1, 2, 3];

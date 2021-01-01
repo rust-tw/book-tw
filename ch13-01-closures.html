@@ -299,7 +299,7 @@ fn simulated_expensive_calculation(intensity: u32) -&gt; u32 {
 </span><span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 13-4：提取 <code>simulated_expensive_calculation</code> 的呼叫到同個位置並用變數 <code>expensive_result</code> 儲存結果</span></p>
-<p>此變更統一了所有 <code>simulated_expensive_calculation</code> 的呼叫並解決第一個 <code>if</code> 區塊重複呼叫函式兩次的問題。不幸的是，現在我們一定得呼叫此函式並在所有行情形下都得等待，這包含沒有使用到此結果的 <code>if</code> 區塊。</p>
+<p>此變更統一了所有 <code>simulated_expensive_calculation</code> 的呼叫並解決第一個 <code>if</code> 區塊重複呼叫函式兩次的問題。不幸的是，現在我們一定得呼叫此函式並在所有情形下都得等待，這包含沒有使用到此結果的 <code>if</code> 區塊。</p>
 <p>我們想在程式某處定義程式碼，並在我們確實需要它時<strong>執行</strong>程式碼就好。這就是閉包能使用的場合！</p>
 <h4><a class="header" href="#透過閉包重構來儲存程式碼" id="透過閉包重構來儲存程式碼">透過閉包重構來儲存程式碼</a></h4>
 <p>與其在 <code>if</code> 區塊之前就呼叫 <code>simulated_expensive_calculation</code> 函式，我們可以定義一個閉包並將<strong>閉包</strong>存入變數中，而不是儲存函式呼叫的結果，如範例 13-5 所示。我們可以將 <code>simulated_expensive_calculation</code> 的本體移入這個閉包中。</p>
