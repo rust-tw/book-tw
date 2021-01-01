@@ -7867,7 +7867,7 @@ mod tests {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p>此函式的要求還沒完全確定，而我們招呼開頭的文字 <code>Hello</code> 很可能會在之後改變。我們決定當需求改變時，我們不想要得同時更新測試。所以我們不打算檢查 <code>greeting</code> 函式回傳的整個數值，我們只需要判定輸出有沒有包含輸入參數。</p>
+<p>此函式的要求還沒完全確定，而我們招呼開頭的文字 <code>哈囉</code> 很可能會在之後改變。我們決定當需求改變時，我們不想要得同時更新測試。所以我們不打算檢查 <code>greeting</code> 函式回傳的整個數值，我們只需要判定輸出有沒有包含輸入參數。</p>
 <p>讓我們將錯誤引進程式中吧，將 <code>greeting</code> 改成不會包含 <code>name</code> 然後看看測試會怎麼失敗：</p>
 <pre><pre class="playground"><code class="language-rust not_desired_behavior">pub fn greeting(name: &amp;str) -&gt; String {
     String::from(&quot;哈囉！&quot;)
