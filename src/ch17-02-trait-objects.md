@@ -82,7 +82,7 @@
 
 <span class="caption">範例 17-8：別的 crate 使用 `gui` 來對 `SelectBox` 結構體實作 `Draw` 特徵</span>
 
-我們的函式庫使用者現在可以在他們的 `main` 建立個 `Screen` 實例。在 `Screen` 實例中，他們可以透過將 `SelectBox` 會 `Button` 放入 `Box<T>` 來成為特徵物件並加入元件中。他們接著就可以對 `Screen` 實例呼叫 `run` 方法，這會呼叫每個元件的 `draw` 方法。如範例 17-9 所示：
+我們的函式庫使用者現在可以在他們的 `main` 建立個 `Screen` 實例。在 `Screen` 實例中，他們可以透過將 `SelectBox` 和 `Button` 放入 `Box<T>` 來成為特徵物件並加入元件中。他們接著就可以對 `Screen` 實例呼叫 `run` 方法，這會呼叫每個元件的 `draw` 方法。如範例 17-9 所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
