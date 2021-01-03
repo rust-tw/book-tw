@@ -210,11 +210,11 @@
 </code></pre></pre>
 <p><span class="caption">範例 18-1：混合 <code>if let</code>、<code>else if</code>、<code>else if let</code> 與 <code>else</code></span></p>
 <p>如果使用者指定的最喜歡的顏色，該顏色就是背景顏色。如果今天是星期二，背景顏色就是綠色。如果使用者用字串指定他們的年齡且可以成功轉換成數字的話，背景顏色依據數字結果就是紫色或橘色。如果以上條件都不符合的話，背景顏色就是藍色。</p>
-<p>這樣的條件結構讓我們可以支援複雜的需求。透過我們在此寫死的數值，此例會印出 <code>Using purple as the background color</code>。</p>
-<p>你可以看到 <code>if let</code> 也能如同 <code>match</code> 的分支一樣遮蔽變數，<code>if let Ok(age) = age</code> 這行就產生了新的遮蔽變數 <code>age</code> 來包含 <code>Ok</code> 變體內的數值。這意味著我們需要將 <code>if age &gt; 30</code> 的條件方在區塊內，我們不能組合這兩個條件成 <code>if let Ok(age) = age &amp;&amp; age &gt; 30</code>。遮蔽的 <code>age</code> 在大括號開始之後的新作用域才有效，此時才能與 30 做比較。</p>
+<p>這樣的條件結構讓我們可以支援複雜的需求。透過我們在此寫死的數值，此例會印出 <code>使用紫色作為背景顏色</code>。</p>
+<p>你可以看到 <code>if let</code> 也能如同 <code>match</code> 的分支一樣遮蔽變數，<code>if let Ok(age) = age</code> 這行就產生了新的遮蔽變數 <code>age</code> 來包含 <code>Ok</code> 變體內的數值。這意味著我們需要將 <code>if age &gt; 30</code> 的條件放在區塊內，我們不能組合這兩個條件成 <code>if let Ok(age) = age &amp;&amp; age &gt; 30</code>。遮蔽的 <code>age</code> 在大括號開始之後的新作用域才有效，此時才能與 30 做比較。</p>
 <p>使用 <code>if let</code> 表達式的缺點是編譯器不會徹底檢查，而 <code>match</code> 表達式則會。如果我們省略最後一個 <code>else</code> 區塊而因此忘了處理一些情況，編譯器不會警告我們這種可能的邏輯錯誤。</p>
 <h3><a class="header" href="#while-let-條件迴圈" id="while-let-條件迴圈"><code>while let</code> 條件迴圈</a></h3>
-<p>與 <code>if let</code> 的結構類似，<code>while let</code> 條件迴圈允許 <code>while</code> 迴圈只要在模式持續配對符合的情況下一直執行。範例 18-2 的例子展示一個 <code>while let</code> 迴圈使用向量最為堆疊，並以數值被插入向量時相反的順序印出它們。</p>
+<p>與 <code>if let</code> 的結構類似，<code>while let</code> 條件迴圈允許 <code>while</code> 迴圈只要在模式持續配對符合的情況下一直執行。範例 18-2 的例子展示一個 <code>while let</code> 迴圈使用向量做為堆疊，並以數值被插入向量時相反的順序印出它們。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut stack = Vec::new();
 

@@ -310,7 +310,7 @@ impl Draw for SelectBox {
 </span><span class="boring">fn main() {}
 </span></code></pre>
 <p><span class="caption">範例 17-8：別的 crate 使用 <code>gui</code> 來對 <code>SelectBox</code> 結構體實作 <code>Draw</code> 特徵</span></p>
-<p>我們的函式庫使用者現在可以在他們的 <code>main</code> 建立個 <code>Screen</code> 實例。在 <code>Screen</code> 實例中，他們可以透過將 <code>SelectBox</code> 會 <code>Button</code> 放入 <code>Box&lt;T&gt;</code> 來成為特徵物件並加入元件中。他們接著就可以對 <code>Screen</code> 實例呼叫 <code>run</code> 方法，這會呼叫每個元件的 <code>draw</code> 方法。如範例 17-9 所示：</p>
+<p>我們的函式庫使用者現在可以在他們的 <code>main</code> 建立個 <code>Screen</code> 實例。在 <code>Screen</code> 實例中，他們可以透過將 <code>SelectBox</code> 和 <code>Button</code> 放入 <code>Box&lt;T&gt;</code> 來成為特徵物件並加入元件中。他們接著就可以對 <code>Screen</code> 實例呼叫 <code>run</code> 方法，這會呼叫每個元件的 <code>draw</code> 方法。如範例 17-9 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use gui::Draw;
 </span><span class="boring">

@@ -174,7 +174,7 @@
                         <h2><a class="header" href="#可反駁性何時模式可能會配對失敗" id="可反駁性何時模式可能會配對失敗">可反駁性：何時模式可能會配對失敗</a></h2>
 <p>模式有兩種形式：可反駁的（refutable）與不可反駁的（irrefutable）。可以配對任何可能數值的模式屬於<strong>不可反駁的（irrefutable）</strong>。其中一個例子就是陳述式 <code>let x = 5;</code> 中的 <code>x</code>，因為 <code>x</code> 可以配對任何數值，因此不可能會配對失敗。而可能會對某些數值配對失敗的模式則屬於<strong>可反駁的（refutable）</strong>。其中一個例子是表達式 <code>if let Some(x) = a_value</code> 中的 <code>Some(x)</code>，因為如果 <code>a_value</code> 變數中的數值為 <code>None</code> 而非 <code>Some</code> 的話， <code>Some(x)</code> 模式就會配對失敗。</p>
 <p>函式參數、<code>let</code> 陳述式與 <code>for</code> 迴圈只能接受不可反駁的模式，當數值無法配對時，程式無法作出任何有意義的事。<code>if let</code> 與 <code>while let</code> 表達式接受可反駁與不可反駁的模式，但是編譯器會警告不可反駁的模式，因為定義上來說它們用來處理可能會失敗的場合，條件表達式的功能就是依據成功或失敗來執行不同動作。</p>
-<p>大致上來說，你通常不需要擔心可反駁與不可反駁模式之間的區別，不過你會需要熟悉可反駁性這樣的概念，所以當你看到錯誤訊息時，能及時反應理解。在這樣的場合，你需要依據程式碼的預期行外來改變模式或是使用模式的結構。</p>
+<p>大致上來說，你通常不需要擔心可反駁與不可反駁模式之間的區別，不過你會需要熟悉可反駁性這樣的概念，所以當你看到錯誤訊息時，能及時反應理解。在這樣的場合，你需要依據程式碼的預期行為來改變模式或是使用模式的結構。</p>
 <p>讓我們看看當我們嘗試在 Rust 要求不可反駁模式的地方使用可反駁模式的範例與其反例。範例 18-8 顯示了一個 <code>let</code> 陳述式，但是我們指定的模式是 <code>Some(x)</code>，這是可反駁模式。如我們所預期的，此程式碼無法編譯。</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span><span class="boring">    let some_option_value: Option&lt;i32&gt; = None;
