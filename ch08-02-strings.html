@@ -327,7 +327,7 @@ To learn more, run the command again with --verbose.
 </span>    let hello = String::from(&quot;Hola&quot;);
 <span class="boring">}
 </span></code></pre></pre>
-<p>在此例中 <code>len</code> 會是 4，也就是向量儲存的字串「Hola」長度為 4 個位元組。每個字母在用 UFT-8 編碼時長度均為 1 個位元組。那接下來這段呢？（請注意字串的開頭是西里爾字母 Ze 的大寫，而不是阿拉伯數字 3）</p>
+<p>在此例中 <code>len</code> 會是 4，也就是向量儲存的字串「Hola」長度為 4 個位元組。每個字母在用 UTF-8 編碼時長度均為 1 個位元組。那接下來這段呢？（請注意字串的開頭是西里爾字母 Ze 的大寫，而不是阿拉伯數字 3）</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let hello = String::from(&quot;السلام عليكم&quot;);
 </span><span class="boring">    let hello = String::from(&quot;Dobrý den&quot;);
