@@ -104,7 +104,7 @@ Rust 擁有另一個不安全的自我的另一理由是電腦硬體本質上就
 
 <span class="caption">範例 19-4：使用一個安全的 `split_at_mut` 函式</span>
 
-我們不可能在 saft Rust 下實作這個函式。一個嘗試可能會像範例 19-5 無法編譯。為了簡化，我們將 `split_at_mut` 實作為一個函式而非方法，並且以 `i32` 取代泛型型別 `T`。
+我們不可能在 safe Rust 下實作這個函式。一個嘗試可能會像範例 19-5 無法編譯。為了簡化，我們將 `split_at_mut` 實作為一個函式而非方法，並且以 `i32` 取代泛型型別 `T`。
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-05/src/main.rs:here}}
@@ -226,7 +226,7 @@ Rust 的全域變數稱做**靜態**變數。範例 19-9 展示了宣告並使�
 
 透過 `unsafe impl`，我們承諾我們將會遵守這些編譯器無法驗證的不變條件（invariant）。
 
-回想第十六章[「可延展的並行與 `Sync` 及 `Send` 特徵」][可延展的並行與 `Sync` 及 `Send` 特徵] 一節的兩個記號特徵（marker trait）`Sync` 與 `Send`：若我們的型別是由 `Send` 與 `Sync` 組合而成，編譯器會自動實作這些特徵。若我們的型別包含一些非 `Send` 或 `Sync` 的型別，例如裸指標，但我們希望替型別坐上 `Send` 或 `Sync` 的記號，就必須使用 `unsafe`。Rust 無法驗證我們的型別有遵守可以在多執行緒中傳遞或存取的保證。因而，我們需要自己手動檢查，並指明這是 `unsafe`。
+回想第十六章[「可延展的並行與 `Sync` 及 `Send` 特徵」][可延展的並行與 `Sync` 及 `Send` 特徵]一節的兩個記號特徵（marker trait）`Sync` 與 `Send`：若我們的型別是由 `Send` 與 `Sync` 組合而成，編譯器會自動實作這些特徵。若我們的型別包含一些非 `Send` 或 `Sync` 的型別，例如裸指標，但我們希望替型別做上 `Send` 或 `Sync` 的記號，就必須使用 `unsafe`。Rust 無法驗證我們的型別有遵守可以在多執行緒中傳遞或存取的保證。因而，我們需要自己手動檢查，並指明這是 `unsafe`。
 
 ### 存取聯合體的欄位
 
