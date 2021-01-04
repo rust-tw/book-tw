@@ -16500,7 +16500,7 @@ To learn more, run the command again with --verbose.
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 19-4：使用一個安全的 <code>split_at_mut</code> 函式</span></p>
-<p>我們不可能在 saft Rust 下實作這個函式。一個嘗試可能會像範例 19-5 無法編譯。為了簡化，我們將 <code>split_at_mut</code> 實作為一個函式而非方法，並且以 <code>i32</code> 取代泛型型別 <code>T</code>。</p>
+<p>我們不可能在 safe Rust 下實作這個函式。一個嘗試可能會像範例 19-5 無法編譯。為了簡化，我們將 <code>split_at_mut</code> 實作為一個函式而非方法，並且以 <code>i32</code> 取代泛型型別 <code>T</code>。</p>
 <pre><code class="language-rust ignore does_not_compile">fn split_at_mut(slice: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;mut [i32]) {
     let len = slice.len();
 
@@ -16659,7 +16659,7 @@ fn main() {}
 </code></pre></pre>
 <p><span class="caption">範例 19-11：定義並實作一個不安全特徵</span></p>
 <p>透過 <code>unsafe impl</code>，我們承諾我們將會遵守這些編譯器無法驗證的不變條件（invariant）。</p>
-<p>回想第十六章<a href="ch16-04-extensible-concurrency-sync-and-send.html#%E5%8F%AF%E5%BB%B6%E5%B1%95%E7%9A%84%E4%B8%A6%E8%A1%8C%E8%88%87-sync-%E5%8F%8A-send-%E7%89%B9%E5%BE%B5">「可延展的並行與 <code>Sync</code> 及 <code>Send</code> 特徵」</a> 一節的兩個記號特徵（marker trait）<code>Sync</code> 與 <code>Send</code>：若我們的型別是由 <code>Send</code> 與 <code>Sync</code> 組合而成，編譯器會自動實作這些特徵。若我們的型別包含一些非 <code>Send</code> 或 <code>Sync</code> 的型別，例如裸指標，但我們希望替型別坐上 <code>Send</code> 或 <code>Sync</code> 的記號，就必須使用 <code>unsafe</code>。Rust 無法驗證我們的型別有遵守可以在多執行緒中傳遞或存取的保證。因而，我們需要自己手動檢查，並指明這是 <code>unsafe</code>。</p>
+<p>回想第十六章<a href="ch16-04-extensible-concurrency-sync-and-send.html#%E5%8F%AF%E5%BB%B6%E5%B1%95%E7%9A%84%E4%B8%A6%E8%A1%8C%E8%88%87-sync-%E5%8F%8A-send-%E7%89%B9%E5%BE%B5">「可延展的並行與 <code>Sync</code> 及 <code>Send</code> 特徵」</a>一節的兩個記號特徵（marker trait）<code>Sync</code> 與 <code>Send</code>：若我們的型別是由 <code>Send</code> 與 <code>Sync</code> 組合而成，編譯器會自動實作這些特徵。若我們的型別包含一些非 <code>Send</code> 或 <code>Sync</code> 的型別，例如裸指標，但我們希望替型別做上 <code>Send</code> 或 <code>Sync</code> 的記號，就必須使用 <code>unsafe</code>。Rust 無法驗證我們的型別有遵守可以在多執行緒中傳遞或存取的保證。因而，我們需要自己手動檢查，並指明這是 <code>unsafe</code>。</p>
 <h3><a class="header" href="#存取聯合體的欄位" id="存取聯合體的欄位">存取聯合體的欄位</a></h3>
 <p><code>union</code> 與 <code>struct</code> 十分相似，差異是在一個聯合體實例中僅儲存其中一個宣告的欄位。聯合體主要用在與 C 程式碼的聯合體介接。存取聯合體的欄位並不安全，由於 Rust 無法保證當前儲存在聯合體實例中的資料是什麼型別，因此存取聯合體的欄位並不安全。你可以從<a href="https://doc.rust-lang.org/reference/items/unions.html">參考手冊</a>了解更多關於聯合體的資訊。</p>
 <h3><a class="header" href="#何時該用不安全程式碼" id="何時該用不安全程式碼">何時該用不安全程式碼</a></h3>
