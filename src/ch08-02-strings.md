@@ -150,7 +150,7 @@ fn add(self, s: &str) -> String {
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-14/src/main.rs:spanish}}
 ```
 
-在此例中 `len` 會是 4，也就是向量儲存的字串「Hola」長度為 4 個位元組。每個字母在用 UFT-8 編碼時長度均為 1 個位元組。那接下來這段呢？（請注意字串的開頭是西里爾字母 Ze 的大寫，而不是阿拉伯數字 3）
+在此例中 `len` 會是 4，也就是向量儲存的字串「Hola」長度為 4 個位元組。每個字母在用 UTF-8 編碼時長度均為 1 個位元組。那接下來這段呢？（請注意字串的開頭是西里爾字母 Ze 的大寫，而不是阿拉伯數字 3）
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-14/src/main.rs:russian}}
