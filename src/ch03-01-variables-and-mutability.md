@@ -70,7 +70,7 @@ const MAX_POINTS: u32 = 100_000;
 
 ### 遮蔽（Shadowing）
 
-如同你在猜謎遊戲教學所看到的，在第二章[「將猜測的數字與祕密數字做比較」][comparing-the-guess-to-the-secret-number]<!-- ignore --> 你可以用之前的變數再次宣告新的變數，然後新的變數就會遮蔽之前的變數。Rustaceans 會說第一個變數被第二個變數所**遮蔽**了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 `let` 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：
+如同你在猜謎遊戲教學所看到的，在第二章[「將猜測的數字與祕密數字做比較」][comparing-the-guess-to-the-secret-number]<!-- ignore -->你可以用之前的變數再次宣告新的變數，然後新的變數就會遮蔽之前的變數。Rustaceans 會說第一個變數被第二個變數所**遮蔽**了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 `let` 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 

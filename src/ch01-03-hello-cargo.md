@@ -4,7 +4,7 @@ Cargo 是 Rust 的建構系統與套件管理工具。大部分的 Rustaceans �
 
 簡單的 Rust 程式像是我們目前所寫的不會有任何依賴。所以當我們用 Cargo 建構「Hello, world!」專案時，Cargo 只會用到建構程式碼的那部分。隨著你寫的 Rust 程式越來越複雜，你將會加入一些依賴函式庫來幫助你。而如果你使用 Cargo 的話，加入這些依賴就會簡單很多。
 
-既然大多數的 Rust 專案都是用 Cargo，所以接下來本書也將假設你也使用 Cargo。Cargo 在你使用[「安裝教學」][installation]<!-- ignore --> 的官方安裝連結來安裝 Rust 時就已經連同安裝好了。如果你是用其他方式下載 Rust 的話，想要檢查 Cargo 有沒有下載好可以透過你的終端機輸入：
+既然大多數的 Rust 專案都是用 Cargo，所以接下來本書也將假設你也使用 Cargo。Cargo 在你使用[「安裝教學」][installation]<!-- ignore -->的官方安裝連結來安裝 Rust 時就已經連同安裝好了。如果你是用其他方式下載 Rust 的話，想要檢查 Cargo 有沒有下載好可以透過你的終端機輸入：
 
 ```console
 $ cargo --version

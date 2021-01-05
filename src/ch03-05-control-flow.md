@@ -50,7 +50,7 @@
 {{#include ../listings/ch03-common-programming-concepts/no-listing-28-if-condition-must-be-bool/output.txt}}
 ```
 
-錯誤訊息告訴我們 Rust 預期收到 `bool` 但是卻拿到整數。這和 Ruby 和 JavaScript 就不同，Rust 不會自動將非布林值型別轉換成布林值。你永遠必須顯式提供布林值給 `if` 作為它的條件判斷。舉例來說，如果我們希望 `if` 只會在數值為 `0` 才執行，我們可以將 `if` 表達式改成以下範例：
+錯誤訊息告訴我們 Rust 預期收到 `bool` 但是卻拿到整數。這和 Ruby 和 JavaScript 就不同，Rust 不會自動將非布林值型別轉換成布林值。你永遠必須顯式提供布林值給 `if` 作為它的條件判斷。舉例來說，如果我們希望 `if` 只會在數值不為 `0` 才執行，我們可以將 `if` 表達式改成以下範例：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
