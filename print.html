@@ -424,7 +424,7 @@ main.rs
 <h2><a class="header" href="#hello-cargo" id="hello-cargo">Hello, Cargo!</a></h2>
 <p>Cargo 是 Rust 的建構系統與套件管理工具。大部分的 Rustaceans 都會用此工具來管理他們的專案，因為 Cargo 能幫你處理很多任務，像是建構你的程式碼、下載你程式碼所需要的依賴函式庫並建構它們。我們常簡稱程式碼所需要用到的函式庫為<strong>依賴（dependencies）</strong>。</p>
 <p>簡單的 Rust 程式像是我們目前所寫的不會有任何依賴。所以當我們用 Cargo 建構「Hello, world!」專案時，Cargo 只會用到建構程式碼的那部分。隨著你寫的 Rust 程式越來越複雜，你將會加入一些依賴函式庫來幫助你。而如果你使用 Cargo 的話，加入這些依賴就會簡單很多。</p>
-<p>既然大多數的 Rust 專案都是用 Cargo，所以接下來本書也將假設你也使用 Cargo。Cargo 在你使用<a href="ch01-01-installation.html#installation">「安裝教學」</a><!-- ignore --> 的官方安裝連結來安裝 Rust 時就已經連同安裝好了。如果你是用其他方式下載 Rust 的話，想要檢查 Cargo 有沒有下載好可以透過你的終端機輸入：</p>
+<p>既然大多數的 Rust 專案都是用 Cargo，所以接下來本書也將假設你也使用 Cargo。Cargo 在你使用<a href="ch01-01-installation.html#installation">「安裝教學」</a><!-- ignore -->的官方安裝連結來安裝 Rust 時就已經連同安裝好了。如果你是用其他方式下載 Rust 的話，想要檢查 Cargo 有沒有下載好可以透過你的終端機輸入：</p>
 <pre><code class="language-console">$ cargo --version
 </code></pre>
 <p>如果你有看到版本號，那就代表你有安裝了！如果你看到錯誤訊息，像是 <code>command not found</code>，請查看你的安裝辦法的技術文件，尋找如何額外下載 Cargo。</p>
@@ -1362,7 +1362,7 @@ x 的數值為：6
 <p>在整支程式運行時，常數在它們的範圍內都是有效的，這讓它們在處理應用程式中需要被許多程式碼部份所知道的數值的情況下是非常好的選擇，像是一款遊戲中玩家能夠得到的最高分數或者光速的數值。</p>
 <p>將會擴散到所有程式碼的數值定義為常數，對於幫助未來程式碼的維護者理解是非常好的選擇。這也讓未來需要更新數值的話，你知道需要修改寫死的地方就好。</p>
 <h3><a class="header" href="#遮蔽shadowing" id="遮蔽shadowing">遮蔽（Shadowing）</a></h3>
-<p>如同你在猜謎遊戲教學所看到的，在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore --> 你可以用之前的變數再次宣告新的變數，然後新的變數就會遮蔽之前的變數。Rustaceans 會說第一個變數被第二個變數所<strong>遮蔽</strong>了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 <code>let</code> 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：</p>
+<p>如同你在猜謎遊戲教學所看到的，在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->你可以用之前的變數再次宣告新的變數，然後新的變數就會遮蔽之前的變數。Rustaceans 會說第一個變數被第二個變數所<strong>遮蔽</strong>了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 <code>let</code> 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;
@@ -1938,7 +1938,7 @@ error: could not compile `branches`.
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>錯誤訊息告訴我們 Rust 預期收到 <code>bool</code> 但是卻拿到整數。這和 Ruby 和 JavaScript 就不同，Rust 不會自動將非布林值型別轉換成布林值。你永遠必須顯式提供布林值給 <code>if</code> 作為它的條件判斷。舉例來說，如果我們希望 <code>if</code> 只會在數值為 <code>0</code> 才執行，我們可以將 <code>if</code> 表達式改成以下範例：</p>
+<p>錯誤訊息告訴我們 Rust 預期收到 <code>bool</code> 但是卻拿到整數。這和 Ruby 和 JavaScript 就不同，Rust 不會自動將非布林值型別轉換成布林值。你永遠必須顯式提供布林值給 <code>if</code> 作為它的條件判斷。舉例來說，如果我們希望 <code>if</code> 只會在數值不為 <code>0</code> 才執行，我們可以將 <code>if</code> 表達式改成以下範例：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let number = 3;
@@ -2283,7 +2283,7 @@ CTRL-C
 <p>所以實際上的結構<strong>不會</strong>長的像圖示 4-3 這樣，如果 Rust 也會拷貝堆積資料的話，才會看起來像這樣。如果 Rust 這麼做的話，<code>s2 = s1</code> 的動作花費會變得非常昂貴。當堆積上的資料非常龐大時，對執行時的性能影響是非常顯著的。</p>
 <img alt="s1 and s2 to two places" src="img/trpl04-03.svg" class="center" style="width: 50%;" />
 <p><span class="caption">圖示 4-3：如果 Rust 也會拷貝堆積資料，<code>s2 = s1</code> 可能會長得樣子</span></p>
-<p>稍早我們提到當變數離開作用域時，Rust 會自動呼叫 <code>drop</code> 函式並清理該變數在堆積上的資料。但圖示 4-2 顯式兩個資料指標都指向相同位置，這會造成一個問題。當 <code>s2</code> 與 <code>s1</code> 都離開作用域時，它們都會嘗試釋放相同的記憶體。這被稱呼為<strong>雙重釋放</strong>（double free）錯誤，也是我們之前提過的錯誤之一。釋放記憶體兩次可能會導致記憶體損壞，進而造成安全漏洞。</p>
+<p>稍早我們提到當變數離開作用域時，Rust 會自動呼叫 <code>drop</code> 函式並清理該變數在堆積上的資料。但圖示 4-2 顯示兩個資料指標都指向相同位置，這會造成一個問題。當 <code>s2</code> 與 <code>s1</code> 都離開作用域時，它們都會嘗試釋放相同的記憶體。這被稱呼為<strong>雙重釋放</strong>（double free）錯誤，也是我們之前提過的錯誤之一。釋放記憶體兩次可能會導致記憶體損壞，進而造成安全漏洞。</p>
 <p>為了保障記憶體安全，在此情況中 Rust 還會在做一件重要的事。與其嘗試拷貝分配的記憶體，Rust 會將 <code>s1</code> 視為無效。因此當 <code>s1</code> 離開作用域時，Rust 不需要釋放任何東西。請看看如果在 <code>s2</code> 建立之後繼續使用 <code>s1</code> 會發生什麼事，以下程式就執行不了：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;hello&quot;);
@@ -2341,7 +2341,7 @@ To learn more, run the command again with --verbose.
 </span></code></pre></pre>
 <p>但這段程式碼似乎和我們剛學的互相矛盾：我們沒有呼叫 <code>clone</code>，但 <code>x</code> 卻仍是有效的，沒有移動到 <code>y</code>。</p>
 <p>原因是因為像整數這樣的型別在編譯時是已知大小，所以只會存在在堆疊上。所以要拷貝一份實際數值的話是很快的。這也讓我們沒有任何理由要讓 <code>x</code> 在 <code>y</code> 建立後被無效化。換句話說，這邊沒有所謂淺拷貝與深拷貝的差別。所以這邊呼叫 <code>clone</code> 的話不會與平常的淺拷貝有啥不一樣，我們可以保持這樣就好。</p>
-<p>Rust 有個特別的標記叫做 <code>Copy</code> 特徵（trait）可以用在標記像整數這樣存在堆疊上的型別（我們會在第十章討論什麼是特徵）。如果一個型別有 <code>Copy</code> 特徵的話，舊的變數在賦值後仍然會是有效的。如果一個型別有實作（implement）<code>Drop</code> 特徵的話，Rust 不會允許我們讓此型別擁有 <code>Copy</code> 特徵。如果我們對某個型別在數值離開作用域時，需要在做特別處理的話，我們對此型別標註 <code>Copy</code> 特徵會在編譯時期產生錯誤。想要瞭解如何為你的型別加上 <code>Copy</code> 的話，請參考附錄 C <a href="appendix-03-derivable-traits.html">「可推導的特徵」</a><!-- ignore --> </p>
+<p>Rust 有個特別的標記叫做 <code>Copy</code> 特徵（trait）可以用在標記像整數這樣存在堆疊上的型別（我們會在第十章討論什麼是特徵）。如果一個型別有 <code>Copy</code> 特徵的話，舊的變數在賦值後仍然會是有效的。如果一個型別有實作（implement）<code>Drop</code> 特徵的話，Rust 不會允許我們讓此型別擁有 <code>Copy</code> 特徵。如果我們對某個型別在數值離開作用域時，需要在做特別處理的話，我們對此型別標註 <code>Copy</code> 特徵會在編譯時期產生錯誤。想要瞭解如何為你的型別加上 <code>Copy</code> 的話，請參考附錄 C <a href="appendix-03-derivable-traits.html">「可推導的特徵」</a><!-- ignore -->。</p>
 <p>所以哪些型別有 <code>Copy</code> 呢？你可以閱讀技術文件來知道哪些型別有，但基本原則是任何簡單地純量數值都可以有 <code>Copy</code>，且不需要分配記憶體或任何形式資源的型別也是有 <code>Copy</code>。以下是一些擁有 <code>Copy</code> 的型別：</p>
 <ul>
 <li>所有整數型別像是 <code>u32</code>。</li>
@@ -3432,7 +3432,7 @@ rect1 is Rectangle {
 }
 </code></pre>
 <p>Rust 提供了一些特徵並讓我們可以用 <code>derive</code> 標記來為自定型別加入些實用的功能。這類的特徵與其行為都列在附錄 C。我們會在第十章介紹如何定義自定特徵，且如何實作這些特徵的自訂行為。</p>
-<p>我們的函式 <code>area</code> 最後就非常清楚明白了，它只會計算長方形的面積。這樣的行為要是能夠緊貼著我們的 <code>Rectangle</code> 結構體，因為這樣一來它就不會相容於其他型別。讓我們看看我們如何繼續重構我們的程式碼，接下來我們可以將函式 <code>area</code> 轉換為 <code>Rectangle</code> 型別的<strong>方法（method）</strong> 。</p>
+<p>我們的函式 <code>area</code> 最後就非常清楚明白了，它只會計算長方形的面積。這樣的行為要是能夠緊貼著我們的 <code>Rectangle</code> 結構體，因為這樣一來它就不會相容於其他型別。讓我們看看我們如何繼續重構我們的程式碼，接下來我們可以將函式 <code>area</code> 轉換為 <code>Rectangle</code> 型別的<strong>方法（method）</strong>。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -3646,7 +3646,7 @@ impl Rectangle {
 </ul>
 </blockquote>
 <h1><a class="header" href="#枚舉與模式配對" id="枚舉與模式配對">枚舉與模式配對</a></h1>
-<p>在本章節中，我們將討論<strong>枚舉</strong>（enumerations），有時也被簡寫為 <em>enums</em>。枚舉讓你定義一個能夠列舉其可能<strong>變體</strong>（variants） 的型別。首先，我們會定義並使用枚舉來展示枚舉如何將其數據組織起來。再來，我們會來探討一個特定的實用枚舉：<code>Option</code>，其代表該值為某些東西不然就是什麼都沒有。然後我們會看看 <code>match</code> 表達式的模式配對是怎麼運作的，讓它能夠針對枚舉中不同數值執行不同的程式碼。最後，我們會介紹 <code>if let</code> 這個結構，能讓你處理用簡潔又方便的方式處理枚舉。</p>
+<p>在本章節中，我們將討論<strong>枚舉</strong>（enumerations），有時也被簡寫為 <em>enums</em>。枚舉讓你定義一個能夠列舉其可能<strong>變體</strong>（variants）的型別。首先，我們會定義並使用枚舉來展示枚舉如何將其數據組織起來。再來，我們會來探討一個特定的實用枚舉：<code>Option</code>，其代表該值為某些東西不然就是什麼都沒有。然後我們會看看 <code>match</code> 表達式的模式配對是怎麼運作的，讓它能夠針對枚舉中不同數值執行不同的程式碼。最後，我們會介紹 <code>if let</code> 這個結構，能讓你處理用簡潔又方便的方式處理枚舉。</p>
 <p>枚舉是許多語言中都有提供的功能，不過它們能做的事在不同語言而異。Rust 的枚舉最接近於函式語言的<strong>代數型別</strong>（algebraic data types），像是 F#、OCaml 與 Haskell。</p>
 <blockquote>
 <ul>
@@ -4017,7 +4017,7 @@ enum Coin {
 </span></code></pre></pre>
 <p>如果我們呼叫 <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code> 的話，<code>coin</code> 就會是 <code>Coin::Quarter(UsState::Alaska)</code>。當我們比較每個配對分支時，我們會到 <code>Coin::Quarter(state)</code> 的分支才配對成功。此時 <code>state</code> 綁定的數值就會是 <code>UsState::Alaska</code>。我們就可以在 <code>println!</code> 表達式中使用該綁定的值，以此取得 <code>Coin</code> 枚舉中 <code>Quarter</code> 變體內的值。</p>
 <h3><a class="header" href="#配對-optiont" id="配對-optiont">配對 <code>Option&lt;T&gt;</code></a></h3>
-<p>在上一個段落，我們想要在使用 <code>Option&lt;T&gt;</code> 時取得 <code>Some</code> 內部的 <code>T</code> 值。如同枚舉 <code>Coin</code>，我們一樣可以使用 <code>match</code> 來處理 <code>Option&lt;T&gt;</code>！ 相對於比較硬幣，我們要比較的是 <code>Option&lt;T&gt;</code> 的變體，不過 <code>match</code> 表達式運作的方式一模一樣。</p>
+<p>在上一個段落，我們想要在使用 <code>Option&lt;T&gt;</code> 時取得 <code>Some</code> 內部的 <code>T</code> 值。如同枚舉 <code>Coin</code>，我們一樣可以使用 <code>match</code> 來處理 <code>Option&lt;T&gt;</code>！相對於比較硬幣，我們要比較的是 <code>Option&lt;T&gt;</code> 的變體，不過 <code>match</code> 表達式運作的方式一模一樣。</p>
 <p>假設我們要寫個接受 <code>Option&lt;i32&gt;</code> 的函式，而且如果內部有值的話就將其加上 1。如果內部沒有數值的話，該函式就回傳 <code>None</code> 且不再嘗試做任何動作。</p>
 <p>拜 <code>match</code> 所賜，這樣的函式很容易寫出來，長得就像範例 6-5。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -4034,7 +4034,7 @@ enum Coin {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 6-5：對 <code>Option&lt;i32&gt;</code> 使用 <code>match</code> 表達式的函式</span></p>
-<p>讓我們來仔細分析 <code>plus_one</code> 第一次的執行結果。當我們呼叫 <code>plus_one(five)</code>時，<code>plus_one</code> 本體中的變數 <code>x</code> 會擁有 <code>Some(5)</code>。我們接著就拿去和每個配對分支比較。</p>
+<p>讓我們來仔細分析 <code>plus_one</code> 第一次的執行結果。當我們呼叫 <code>plus_one(five)</code> 時，<code>plus_one</code> 本體中的變數 <code>x</code> 會擁有 <code>Some(5)</code>。我們接著就拿去和每個配對分支比較。</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span><span class="boring">    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
 </span><span class="boring">        match x {
@@ -4125,7 +4125,7 @@ To learn more, run the command again with --verbose.
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code>就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值，所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。</p>
+<p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code> 就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值，所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。</p>
 <p>不過有時候我們只在意其中<strong>一種</strong>情形的話， <code>match</code> 表達式的確會有點囉唆。針對此情形，Rust 提供 <code>if let</code>。</p>
 <p>而更多有關配對模式的內容可以在<a href="ch18-00-patterns.html">第十八章</a>查閱。</p>
 <blockquote>

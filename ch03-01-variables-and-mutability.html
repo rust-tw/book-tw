@@ -245,7 +245,7 @@ x 的數值為：6
 <p>在整支程式運行時，常數在它們的範圍內都是有效的，這讓它們在處理應用程式中需要被許多程式碼部份所知道的數值的情況下是非常好的選擇，像是一款遊戲中玩家能夠得到的最高分數或者光速的數值。</p>
 <p>將會擴散到所有程式碼的數值定義為常數，對於幫助未來程式碼的維護者理解是非常好的選擇。這也讓未來需要更新數值的話，你知道需要修改寫死的地方就好。</p>
 <h3><a class="header" href="#遮蔽shadowing" id="遮蔽shadowing">遮蔽（Shadowing）</a></h3>
-<p>如同你在猜謎遊戲教學所看到的，在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore --> 你可以用之前的變數再次宣告新的變數，然後新的變數就會遮蔽之前的變數。Rustaceans 會說第一個變數被第二個變數所<strong>遮蔽</strong>了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 <code>let</code> 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：</p>
+<p>如同你在猜謎遊戲教學所看到的，在第二章<a href="ch02-00-guessing-game-tutorial.html#%E5%B0%87%E7%8C%9C%E6%B8%AC%E7%9A%84%E6%95%B8%E5%AD%97%E8%88%87%E7%A5%95%E5%AF%86%E6%95%B8%E5%AD%97%E5%81%9A%E6%AF%94%E8%BC%83">「將猜測的數字與祕密數字做比較」</a><!-- ignore -->你可以用之前的變數再次宣告新的變數，然後新的變數就會遮蔽之前的變數。Rustaceans 會說第一個變數被第二個變數所<strong>遮蔽</strong>了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 <code>let</code> 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;

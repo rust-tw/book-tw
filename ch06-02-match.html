@@ -274,7 +274,7 @@ enum Coin {
 </span></code></pre></pre>
 <p>如果我們呼叫 <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code> 的話，<code>coin</code> 就會是 <code>Coin::Quarter(UsState::Alaska)</code>。當我們比較每個配對分支時，我們會到 <code>Coin::Quarter(state)</code> 的分支才配對成功。此時 <code>state</code> 綁定的數值就會是 <code>UsState::Alaska</code>。我們就可以在 <code>println!</code> 表達式中使用該綁定的值，以此取得 <code>Coin</code> 枚舉中 <code>Quarter</code> 變體內的值。</p>
 <h3><a class="header" href="#配對-optiont" id="配對-optiont">配對 <code>Option&lt;T&gt;</code></a></h3>
-<p>在上一個段落，我們想要在使用 <code>Option&lt;T&gt;</code> 時取得 <code>Some</code> 內部的 <code>T</code> 值。如同枚舉 <code>Coin</code>，我們一樣可以使用 <code>match</code> 來處理 <code>Option&lt;T&gt;</code>！ 相對於比較硬幣，我們要比較的是 <code>Option&lt;T&gt;</code> 的變體，不過 <code>match</code> 表達式運作的方式一模一樣。</p>
+<p>在上一個段落，我們想要在使用 <code>Option&lt;T&gt;</code> 時取得 <code>Some</code> 內部的 <code>T</code> 值。如同枚舉 <code>Coin</code>，我們一樣可以使用 <code>match</code> 來處理 <code>Option&lt;T&gt;</code>！相對於比較硬幣，我們要比較的是 <code>Option&lt;T&gt;</code> 的變體，不過 <code>match</code> 表達式運作的方式一模一樣。</p>
 <p>假設我們要寫個接受 <code>Option&lt;i32&gt;</code> 的函式，而且如果內部有值的話就將其加上 1。如果內部沒有數值的話，該函式就回傳 <code>None</code> 且不再嘗試做任何動作。</p>
 <p>拜 <code>match</code> 所賜，這樣的函式很容易寫出來，長得就像範例 6-5。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -291,7 +291,7 @@ enum Coin {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 6-5：對 <code>Option&lt;i32&gt;</code> 使用 <code>match</code> 表達式的函式</span></p>
-<p>讓我們來仔細分析 <code>plus_one</code> 第一次的執行結果。當我們呼叫 <code>plus_one(five)</code>時，<code>plus_one</code> 本體中的變數 <code>x</code> 會擁有 <code>Some(5)</code>。我們接著就拿去和每個配對分支比較。</p>
+<p>讓我們來仔細分析 <code>plus_one</code> 第一次的執行結果。當我們呼叫 <code>plus_one(five)</code> 時，<code>plus_one</code> 本體中的變數 <code>x</code> 會擁有 <code>Some(5)</code>。我們接著就拿去和每個配對分支比較。</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span><span class="boring">    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
 </span><span class="boring">        match x {
@@ -382,7 +382,7 @@ To learn more, run the command again with --verbose.
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code>就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值，所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。</p>
+<p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code> 就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值，所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。</p>
 <p>不過有時候我們只在意其中<strong>一種</strong>情形的話， <code>match</code> 表達式的確會有點囉唆。針對此情形，Rust 提供 <code>if let</code>。</p>
 <p>而更多有關配對模式的內容可以在<a href="ch18-00-patterns.html">第十八章</a>查閱。</p>
 <blockquote>
