@@ -50,7 +50,7 @@ Rust 有個功能非常強大的控制流運算子叫做 `match`，你可以使�
 
 ### 配對 `Option<T>`
 
-在上一個段落，我們想要在使用 `Option<T>` 時取得 `Some` 內部的 `T` 值。如同枚舉 `Coin`，我們一樣可以使用 `match` 來處理 `Option<T>`！ 相對於比較硬幣，我們要比較的是 `Option<T>` 的變體，不過 `match` 表達式運作的方式一模一樣。
+在上一個段落，我們想要在使用 `Option<T>` 時取得 `Some` 內部的 `T` 值。如同枚舉 `Coin`，我們一樣可以使用 `match` 來處理 `Option<T>`！相對於比較硬幣，我們要比較的是 `Option<T>` 的變體，不過 `match` 表達式運作的方式一模一樣。
 
 假設我們要寫個接受 `Option<i32>` 的函式，而且如果內部有值的話就將其加上 1。如果內部沒有數值的話，該函式就回傳 `None` 且不再嘗試做任何動作。
 
@@ -62,7 +62,7 @@ Rust 有個功能非常強大的控制流運算子叫做 `match`，你可以使�
 
 <span class="caption">範例 6-5：對 `Option<i32>` 使用 `match` 表達式的函式</span>
 
-讓我們來仔細分析 `plus_one` 第一次的執行結果。當我們呼叫 `plus_one(five)`時，`plus_one` 本體中的變數 `x` 會擁有 `Some(5)`。我們接著就拿去和每個配對分支比較。
+讓我們來仔細分析 `plus_one` 第一次的執行結果。當我們呼叫 `plus_one(five)` 時，`plus_one` 本體中的變數 `x` 會擁有 `Some(5)`。我們接著就拿去和每個配對分支比較。
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-05/src/main.rs:first_arm}}
@@ -110,7 +110,7 @@ Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-11-underscore-placeholder/src/main.rs:here}}
 ```
 
-`_` 模式會配對任意數值，將它置於所有分支之後，`_`就會配對剩下尚未指明的可能情形。`()` 只是一個單位數值，所以在 `_` 的分支沒有任何事情會發生。所以我們可以說我們不想針對 `_` 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。
+`_` 模式會配對任意數值，將它置於所有分支之後，`_` 就會配對剩下尚未指明的可能情形。`()` 只是一個單位數值，所以在 `_` 的分支沒有任何事情會發生。所以我們可以說我們不想針對 `_` 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。
 
 不過有時候我們只在意其中**一種**情形的話， `match` 表達式的確會有點囉唆。針對此情形，Rust 提供 `if let`。
 
