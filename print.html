@@ -2409,7 +2409,7 @@ fn takes_and_gives_back(a_string: String) -&gt; String { // a_string 進入作�
 </code></pre></pre>
 <p><span class="caption">範例 4-4：轉移回傳值的所有權</span></p>
 <p>變數的所有權每次都會遵從相同的模式：賦值給其他變數就會移動。當擁有堆積資料的變數離開作用域時，該數值就會被 <code>drop</code> 清除，除非該資料被移動到其他變數所擁有。</p>
-<p>在每個函式取得所有權在回傳所有權的確有點囉唆。要是我們可以讓函式使用一個數值卻不取得所所有權呢？要是我們想重複使用同個值，但每次都要傳入再傳出實在是很麻煩。而且我們有時也會想要讓函式回傳一些它們自己產生的值。</p>
+<p>在每個函式取得所有權在回傳所有權的確有點囉唆。要是我們可以讓函式使用一個數值卻不取得所有權呢？要是我們想重複使用同個值，但每次都要傳入再傳出實在是很麻煩。而且我們有時也會想要讓函式回傳一些它們自己產生的值。</p>
 <p>其中一個方法是可以用元組，如範例 4-5 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -3572,7 +3572,7 @@ rect1 能容納 rect3 嗎？false
 <p><span class="caption">範例 5-15：在 <code>Rectangle</code> 中實作了取得其他 <code>Rectangle</code> 作為參數的 <code>can_hold</code> 方法</span></p>
 <p>當我們用範例 5-14 的 <code>main</code> 函式執行此程式碼的話，我們會得到預期的輸出結果。方法可以在參數 <code>self</code> 之後接收更多參數，而那些參數就和函式中的參數用法一樣。</p>
 <h3><a class="header" href="#關聯函式" id="關聯函式">關聯函式</a></h3>
-<p><code>impl</code> 區塊另一個實用的功能是，我們允許在 <code>impl</code> 內定義函式且無需以 <code>self</code> 作為參數。這叫叫做<strong>關聯函式（associated functions）</strong>，因為它們與結構體是相關的。它們仍然是函式而非方法，因為它們沒有用到結構體的實例。你已經用到了 <code>String::from</code> 此關聯函式。</p>
+<p><code>impl</code> 區塊另一個實用的功能是，我們允許在 <code>impl</code> 內定義函式且無需以 <code>self</code> 作為參數。這叫做<strong>關聯函式（associated functions）</strong>，因為它們與結構體是相關的。它們仍然是函式而非方法，因為它們沒有用到結構體的實例。你已經用到了 <code>String::from</code> 此關聯函式。</p>
 <p>關聯函式很常用作建構子，來產生新的結構體實例。舉例來說，我們可以提供一個只接收一個維度作為參數的關聯函式，讓它賦值給寬度與長度，讓我們可以用 <code>Rectangle</code> 來產生正方形，而不必提供兩次相同的值：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
