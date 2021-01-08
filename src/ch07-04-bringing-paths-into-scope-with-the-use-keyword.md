@@ -184,7 +184,7 @@ use std::collections::*;
 
 此 `use` 陳述式會將 `std::collections` 定義的所有公開項目都引入作用域中。不過請小心使用全域運算子！它容易讓我們無法分辨作用域內的名稱，以及程式中使用的名稱是從哪定義來的。
 
-全域運算子很常用在 `tests` 模組下，將所有東西引入測試中。我們會在第十一章的[「如何寫測試」][writing-tests]<!-- ignore -->段落來討論。 全域運算子也常拿來用在 prelude 模式中，你可以查閱[標準函式庫的技術文件](https://doc.rust-lang.org/std/prelude/index.html#other-preludes)<!-- ignore -->來瞭解此模式的更多資訊。
+全域運算子很常用在 `tests` 模組下，將所有東西引入測試中。我們會在第十一章的[「如何寫測試」][writing-tests]<!-- ignore -->段落來討論。全域運算子也常拿來用在 prelude 模式中，你可以查閱[標準函式庫的技術文件](https://doc.rust-lang.org/std/prelude/index.html#other-preludes)<!-- ignore -->來瞭解此模式的更多資訊。
 
 [rand]: ch02-00-guessing-game-tutorial.html#產生隨機數字
 [writing-tests]: ch11-01-writing-tests.html#how-to-write-tests
