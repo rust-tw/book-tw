@@ -98,7 +98,7 @@ const MAX_POINTS: u32 = 100_000;
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-05-mut-cant-change-types/src/main.rs:here}}
 ```
 
-此錯誤訊息告訴我們我們不與許改變變數的型別：
+此錯誤訊息告訴我們我們不允許改變變數的型別：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-05-mut-cant-change-types/output.txt}}
