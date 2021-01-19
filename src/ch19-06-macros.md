@@ -98,7 +98,7 @@ pub fn some_name(input: TokenStream) -> TokenStream {
 
 <span class="caption">範例 19-29：使用程序式巨集</span>
 
-這個函式定義一個程序式巨集，接受輸入 `TokenStream`，並輸入 `TokenStream`。`TokenStream` 型別定義在 `proc_macro` crate 中，這個 crate 包含在 Rust 中，可以表示一連串的標記，這就是巨集的核心：巨集替來自輸入的 `TokenStream` 搽脂抹粉，而巨集產生的程式碼就是輸出的 `TokenStream`。上面例子中這個函式附加了一個屬性，指定我們要產生哪個程序式巨集。在同一個 crate 中我們可以使用多個不同的程序式巨集。
+這個函式定義一個程序式巨集，接受輸入 `TokenStream`，並輸出 `TokenStream`。`TokenStream` 型別定義在 `proc_macro` crate 中，這個 crate 包含在 Rust 中，可以表示一連串的標記，這就是巨集的核心：巨集替來自輸入的 `TokenStream` 搽脂抹粉，而巨集產生的程式碼就是輸出的 `TokenStream`。上面例子中這個函式附加了一個屬性，指定我們要產生哪個程序式巨集。在同一個 crate 中我們可以使用多個不同的程序式巨集。
 
 我們來看不同的程序式巨集吧。就從自訂 derive 巨集開始，逐步介紹它與其他種類巨集的細部差異。
 
