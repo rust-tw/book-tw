@@ -6878,7 +6878,7 @@ fn main() {
 <p>如果我們不想要限制函式 <code>largest</code> 只接受實作 <code>Copy</code> 特徵的型別，我們可以在 <code>T</code> 中改指定 <code>Clone</code> 而非 <code>Copy</code>。這樣當我們想要 <code>largest</code> 取得所有權，我們就可以克隆切片的數值。使用 <code>clone</code> 函式代表我們對於像是 <code>String</code> 這樣擁有堆積資料的型別，可能會產生更多堆積分配。而如果我們處理的資料很龐大的話，堆積分配的速度可能就會很慢。</p>
 <p>另一種實作 <code>largest</code> 的方法是我們可以來回傳切片中 <code>T</code> 數值的引用。如果我們將回傳型別改成 <code>&amp;T</code> 而非 <code>T</code>，也就是改變函式本體來回傳引用的話，我們就不需要 <code>Clone</code> 或 <code>Copy</code> 特徵界限，也能避免堆積分配。請試著自己實作這個解決辦法看看吧！</p>
 <h3><a class="header" href="#透過特徵界限來選擇性實作方法" id="透過特徵界限來選擇性實作方法">透過特徵界限來選擇性實作方法</a></h3>
-<p>在有使用泛型型別參數 <code>impl</code> 區塊中使用特徵界限，我們可以選擇性地對有實作特定特徵的型別來時錯方法。舉例來說，範例 10-16 的 <code>Pair&lt;T&gt;</code> 只有在其內部型別 <code>T</code> 有實作能夠做比較的 <code>PartialOrd</code> 特徵以及能夠顯示在螢幕的 <code>Display</code> 特徵的話，才會實作 <code>cmp_display</code> 方法。</p>
+<p>在有使用泛型型別參數 <code>impl</code> 區塊中使用特徵界限，我們可以選擇性地對有實作特定特徵的型別來實作方法。舉例來說，範例 10-16 的 <code>Pair&lt;T&gt;</code> 只有在其內部型別 <code>T</code> 有實作能夠做比較的 <code>PartialOrd</code> 特徵以及能夠顯示在螢幕的 <code>Display</code> 特徵的話，才會實作 <code>cmp_display</code> 方法。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
