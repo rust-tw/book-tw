@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#將模組拆成不同檔案" id="將模組拆成不同檔案">將模組拆成不同檔案</a></h2>
+                        <h2 id="將模組拆成不同檔案"><a class="header" href="#將模組拆成不同檔案">將模組拆成不同檔案</a></h2>
 <p>本章節目前所有的範例將數個模組定義在同一個檔案中。當模組增長時，你可能會想要將它們的定義拆開到別的檔案中，好讓程式碼容易瀏覽。</p>
 <p>舉例來說，讓我修將範例 7-17 中的 <code>front_of_house</code> 模組移到它自己的檔案 <em>src/front_of_house.rs</em>，然後在 crate 源頭檔案加上這個模組，如範例 7-21 所示。在此例中，源頭檔案為 <em>src/lib.rs</em> 不過這步驟在二進制執行檔 crate 的 <em>src/main.rs</em> 一樣可行。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -207,7 +207,7 @@ pub fn eat_at_restaurant() {
 </span></code></pre></pre>
 <p>雖然定義都被移到不同的檔案了，但模組樹維持不變，而且在 <code>eat_at_restaurant</code> 的函式呼叫方式也不用做任何更改。此技巧讓你可以將增長中的模組移到新的檔案。</p>
 <p>另外 <em>src/lib.rs</em> 內的 <code>pub use crate::front_of_house::hosting</code> 陳述式沒有改變，在檔案作為 crate 的一部分來編譯時，使用 <code>use</code> 的方式也沒有改變。<code>mod</code> 關鍵字能宣告模組，然後 Rust 會去同名的檔案尋找該模組的程式碼。</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>Rust 讓你能夠將套件拆成數個 crate，然後 crate 能在分成數個模組，好讓你可以從一個模組內指定其他模組的項目。而你可以使用絕對或相對路徑來達成。這些路徑可以用 <code>use</code> 陳述式來引入作用域，讓你可以在該作用域用更短的路徑來多次呼叫該項目。模組程式碼預設為私有的，但你可以使用 <code>pub</code> 關鍵字公開它的定義內容。</p>
 <p>在下個章節，我們將探討在標準函式庫中的一些資料結構集合，讓你可以利用它們寫出整潔有組織的程式碼。</p>
 <blockquote>

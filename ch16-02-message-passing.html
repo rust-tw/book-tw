@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#使用訊息傳遞在執行緒間傳送資料" id="使用訊息傳遞在執行緒間傳送資料">使用訊息傳遞在執行緒間傳送資料</a></h2>
+                        <h2 id="使用訊息傳遞在執行緒間傳送資料"><a class="header" href="#使用訊息傳遞在執行緒間傳送資料">使用訊息傳遞在執行緒間傳送資料</a></h2>
 <p>有一種確保安全並行且漸漸流行起來的方式是<strong>訊息傳遞（message passing）</strong>，執行緒或 actors 透過傳遞包含資料的訊息給彼此來溝通。此理念源自於 <a href="https://golang.org/doc/effective_go.html#concurrency">Go 語言技術文件</a>中的口號：「別透過共享記憶體來溝通，而是透過溝通來共享記憶體。」 </p>
 <p>Rust 其中一個達成訊息傳遞並行的主要工具是<strong>通道（channel）</strong>，這是 Rust 標準函式庫有提供的程式設計概念。你可以把程式設計的通道想像成水流的通道，像是河流或小溪。如果你將橡皮小鴨或船隻放入河流中，它會順流而下到下游。</p>
 <p>程式設計中的通道有兩個部分：發送者（transmitter）與接收者（receiver）。發送者正是你會放置橡皮小鴨到河流中的上游，而接收者則是橡皮小鴨最後漂流到的下游。你程式碼中的一部分會呼叫發送者的方法來傳送你想要傳遞的資料，然後另一部分的程式碼會檢查接收者收到的訊息。當發送者或接收者有一方被釋放掉時，該通道就會被<strong>關閉</strong>。</p>
@@ -232,7 +232,7 @@ changes in the compiler -->
 <pre><code class="language-text">取得：嗨
 </code></pre>
 <p>太棒了！</p>
-<h3><a class="header" href="#通道與所有權轉移" id="通道與所有權轉移">通道與所有權轉移</a></h3>
+<h3 id="通道與所有權轉移"><a class="header" href="#通道與所有權轉移">通道與所有權轉移</a></h3>
 <p>所有權規則在訊息傳遞中扮演了重要的角色，因為它們可以幫助你寫出安全的並行程式碼。在 Rust 程式中考慮所有權的其中一項好處就是你能在並行程式設計避免錯誤發生。讓我們做個實驗來看通道與所有權如何一起合作來避免問題發生，我們會在 <code>val</code> 數值傳送給通道<strong>之後</strong>嘗試使用其值。請嘗試編譯範例 16-9 的程式碼並看看為何此程式碼不被允許：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use std::sync::mpsc;
@@ -273,7 +273,7 @@ error: could not compile `message-passing`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>我們的並行錯誤產生了一個編譯時錯誤。<code>send</code> 函式會取走其參數的所有權，並當數值移動時，接收端會在取得其所有權。這能阻止我們在傳送數值過後不小心再次使用其值，所有權系統會檢查一切是否符合規則。</p>
-<h3><a class="header" href="#傳送多重數值並觀察接收者等待" id="傳送多重數值並觀察接收者等待">傳送多重數值並觀察接收者等待</a></h3>
+<h3 id="傳送多重數值並觀察接收者等待"><a class="header" href="#傳送多重數值並觀察接收者等待">傳送多重數值並觀察接收者等待</a></h3>
 <p>範例 16-8 的程式碼可以編譯通過並執行，但它並沒有清楚表達出兩個不同的執行緒正透過通道彼此溝通。在範例 16-10 中我們做了些修改來證明範例 16-8 的程式有正確執行，產生的執行緒先在會傳送數個訊息並在每個訊息間暫停個一秒鐘。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::mpsc;
@@ -315,7 +315,7 @@ changes in the compiler -->
 取得：嗨
 </code></pre>
 <p>因為我們在主執行緒中的 <code>for</code> 迴圈內沒有任何會暫停或延遲的程式碼，所以我們可以看出主執行緒是在等待產生的執行緒傳送的數值。</p>
-<h3><a class="header" href="#透過克隆發送者來建立多重生產者" id="透過克隆發送者來建立多重生產者">透過克隆發送者來建立多重生產者</a></h3>
+<h3 id="透過克隆發送者來建立多重生產者"><a class="header" href="#透過克隆發送者來建立多重生產者">透過克隆發送者來建立多重生產者</a></h3>
 <p>稍早之前我們提過 <code>mpsc</code> 是<strong>多重生產者、唯一消費者</strong>（multiple producer, single consumer）的縮寫。讓我們來使用 <code>mpsc</code> 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。為此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;

@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#match-控制流運算子" id="match-控制流運算子"><code>match</code> 控制流運算子</a></h2>
+                        <h2 id="match-控制流運算子"><a class="header" href="#match-控制流運算子"><code>match</code> 控制流運算子</a></h2>
 <p>Rust 有個功能非常強大的控制流運算子叫做 <code>match</code>，你可以使用一系列模式來配對數值並依據配對到的模式來執行對應的程式。模式（Patterns）可以是字面數值、變數名稱、通配符（wildcards）和其他更多元件來組成。第十八章會涵蓋所有不同類型的模式，以及它們的用途。<code>match</code> 強大的地方在於模式表達的清楚程度以及編譯器會確保所有可能的情況都處理了。</p>
 <p>你可以想像 <code>match</code> 表達式成一個硬幣分類機器：硬幣會滑到不同大小的軌道，然後每個硬幣會滑入第一個符合大小的軌道。同樣地，數值會依序遍歷 <code>match</code> 的每個模式，然後進入第一個「配對」到該數值的模式所在的程式碼區塊，並在執行過程中使用。</p>
 <p>既然我們都提到硬幣了，就讓我們用它們來作為 <code>match</code> 的範例吧！我們可以寫一個接收未知美國硬幣的函式，以類似驗鈔機的方式，決定它是何種硬幣並以美分作為單位回傳其值。如範例 6-3 所示。</p>
@@ -220,7 +220,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<h3><a class="header" href="#綁定數值的模式" id="綁定數值的模式">綁定數值的模式</a></h3>
+<h3 id="綁定數值的模式"><a class="header" href="#綁定數值的模式">綁定數值的模式</a></h3>
 <p>另一項配對分支的實用功能是它們可以綁定配對模式中部分的數值，這讓我們可以取出枚舉變體中的數值。</p>
 <p>舉例來說，讓我們改變我們其中一個枚舉變體成擁有資料。從 1999 年到 2008 年，美國在鑄造 25 美分硬幣時，其中一側會有 50 個州不同的設計。不過其他的硬幣就沒有這樣的設計，只有 25 美分會有特殊值而已。我們可以改變我們的 <code>enum</code> 中的 <code>Quarter</code> 變體成儲存 <code>UsState</code> 數值，如範例 6-4所示。</p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)] // 這讓我們可以顯示每個州
@@ -273,7 +273,7 @@ enum Coin {
 </span><span class="boring">}
 </span></code></pre></pre>
 <p>如果我們呼叫 <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code> 的話，<code>coin</code> 就會是 <code>Coin::Quarter(UsState::Alaska)</code>。當我們比較每個配對分支時，我們會到 <code>Coin::Quarter(state)</code> 的分支才配對成功。此時 <code>state</code> 綁定的數值就會是 <code>UsState::Alaska</code>。我們就可以在 <code>println!</code> 表達式中使用該綁定的值，以此取得 <code>Coin</code> 枚舉中 <code>Quarter</code> 變體內的值。</p>
-<h3><a class="header" href="#配對-optiont" id="配對-optiont">配對 <code>Option&lt;T&gt;</code></a></h3>
+<h3 id="配對-optiont"><a class="header" href="#配對-optiont">配對 <code>Option&lt;T&gt;</code></a></h3>
 <p>在上一個段落，我們想要在使用 <code>Option&lt;T&gt;</code> 時取得 <code>Some</code> 內部的 <code>T</code> 值。如同枚舉 <code>Coin</code>，我們一樣可以使用 <code>match</code> 來處理 <code>Option&lt;T&gt;</code>！相對於比較硬幣，我們要比較的是 <code>Option&lt;T&gt;</code> 的變體，不過 <code>match</code> 表達式運作的方式一模一樣。</p>
 <p>假設我們要寫個接受 <code>Option&lt;i32&gt;</code> 的函式，而且如果內部有值的話就將其加上 1。如果內部沒有數值的話，該函式就回傳 <code>None</code> 且不再嘗試做任何動作。</p>
 <p>拜 <code>match</code> 所賜，這樣的函式很容易寫出來，長得就像範例 6-5。</p>
@@ -336,7 +336,7 @@ enum Coin {
 </span></code></pre>
 <p>配對成功！因為沒有任何數值可以相加，程式就停止並在 <code>=&gt;</code> 之後馬上回傳 <code>None</code>。因為第一個分支就配對成功了，沒有其他的分支需要再做比較。</p>
 <p>用 <code>match</code> 與枚舉組合起來在很多地方都很實用。你將會在許多 Rust 程式碼看到這樣的模式，使用 <code>match</code> 配對枚舉，綁定內部的資料，然後執行對應的程式碼。一開始使用的確會有點陌生，但當你熟悉以後，你會希望所有語言都能提供這樣的功能。這一直是使用者最愛的功能之一。</p>
-<h3><a class="header" href="#配對必須是徹底的" id="配對必須是徹底的">配對必須是徹底的</a></h3>
+<h3 id="配對必須是徹底的"><a class="header" href="#配對必須是徹底的">配對必須是徹底的</a></h3>
 <p>我們還有一個 <code>match</code> 的細節要討論，今天要是我們像這樣寫了一個有錯誤的 <code>plus_one</code> 函式版本，它會無法編譯：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
@@ -369,7 +369,7 @@ error: could not compile `enums`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是<strong>徹底</strong>（<em>exhaustive</em>）的：我們必須列舉出所有可能的情形，程式碼才能夠被視為有效。尤其是在 <code>Option&lt;T&gt;</code> 的情況下，當 Rust 防止我們忘記處理 <code>None</code> 的情形時，它也使我們免於以為擁有一個有效實際上卻是空的值。因此要造成之前提過的十億美元級錯誤在這邊基本上是不可能的。</p>
-<h3><a class="header" href="#_-佔位符" id="_-佔位符"><code>_</code> 佔位符</a></h3>
+<h3 id="_-佔位符"><a class="header" href="#_-佔位符"><code>_</code> 佔位符</a></h3>
 <p>Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需要使用此模式就好。舉例來說 <code>u8</code> 可能的數值為 0 到 255，如果我們只在意數值 1、3、5 和 7，我們就不會想要列出 0、2、4、6、8、9 以及剩下一直到 255 的每個值。幸運的是，我們不需要這樣做，我們可以使用特殊模式 <code>_</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let some_u8_value = 0u8;

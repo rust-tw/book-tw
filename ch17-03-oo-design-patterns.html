@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#實作物件導向設計模式" id="實作物件導向設計模式">實作物件導向設計模式</a></h2>
+                        <h2 id="實作物件導向設計模式"><a class="header" href="#實作物件導向設計模式">實作物件導向設計模式</a></h2>
 <p><strong>狀態模式</strong>（state pattern）是種物件導向設計模式。此模式的關鍵在於一個數值會有些內部狀態，會以<strong>狀態物件</strong>（state objects）呈現，然後數值的行為會依據內部狀態而有所改變。狀態物件會分享功能，當然在 Rust 中我們使用結構體與特徵，而不是使用物件與繼承。每個狀態物件負責本身的行為並監測何時要改變成其他狀態。持有狀態物件的數值不會知道狀態中不同的行為，或是何時要轉換狀態。</p>
 <p>使用狀態模式表示當我們程式的業務需求改變時，我們不需要改變持有狀態的數值或使用其數值的程式碼。我們只需要變更其中一個狀態物件的程式碼來改變其規則，或者新增更多狀態物件。讓我們看看狀態設計模式的範例，以及如何在 Rust 中使用。</p>
 <p>我們會漸進式地實作一個網誌文章工作流程。網誌最終的功能會長得像這樣：</p>
@@ -203,7 +203,7 @@ fn main() {
 <p>我們想要讓使用者能透過 <code>Post::new</code> 來建立新的網誌文章草稿，然後我們希望在草稿階段時能對網誌文章加入文字。如果我們想在通過前立即取得文章內容的話，我們什麼都不會看到，因為該文章還只是個草稿。我們加入的 <code>assert_eq!</code> 在此只是作為解釋目的。更好地做法是寫個判定網誌文章草稿是否會從 <code>content</code> 方法回傳空字串的單元測試，不過我們在此例不會寫任何測試。</p>
 <p>接著，我們想要請求文章審核，且我們希望在等待審核時 <code>content</code> 仍是回傳空字串。當文章通過時，它就會被發佈，代表當 <code>content</code> 呼叫時，文章中的文字就會回傳。</p>
 <p>注意到我們要使用此 crate 時只會接觸到到一個型別 <code>Post</code>。此型別會使用狀態模式，並持有個數值能包含三種狀態物件其中之一，來代表文章狀態可以是擬稿中、等待審核或已發佈。變更狀態由 <code>Post</code> 型別內部管理。狀態依據函式庫使用者對 <code>Post</code> 實例呼叫的方法而改變，但他們不用手動管理狀態的變更。而且使用者也不可能會在狀態中出錯，像是在審核前就發佈文章。</p>
-<h3><a class="header" href="#定義-post-並在草稿階段建立新實例" id="定義-post-並在草稿階段建立新實例">定義 <code>Post</code> 並在草稿階段建立新實例</a></h3>
+<h3 id="定義-post-並在草稿階段建立新實例"><a class="header" href="#定義-post-並在草稿階段建立新實例">定義 <code>Post</code> 並在草稿階段建立新實例</a></h3>
 <p>讓我們開始實作出函式庫吧！我們知道我們需要一個公開的結構體 <code>Post</code> 來存有些內容，所以我們先從結構體的定義開始，它會有個公開的關聯函式 <code>new</code> 來建立 <code>Post</code> 的實例，如範例 17-12 所示。我們還會再定義一個私有的特徵 <code>State</code>。然後 <code>Post</code> 會有個私有欄位 <code>state</code> 來擁有 <code>Option&lt;T&gt;</code> 且其內會存有一個特徵物件 <code>Box&lt;dyn State&gt;</code>。你會在之後瞭解為何 <code>Option&lt;T&gt;</code> 在此是必要的。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
@@ -233,7 +233,7 @@ impl State for Draft {}
 <p><span class="caption">範例 17-12：<code>Post</code> 結構體、能建立新的 <code>Post</code> 實例的 <code>new</code> 函式、<code>State</code> 特徵與 <code>Draft</code> 結構體的定義</span></p>
 <p><code>State</code> 定義了不同文章狀態共享的行為，而且<code>Draft</code>、<code>PendingReview</code> 與 <code>Published</code> 狀態都會實作 <code>State</code> 特徵。目前特徵還沒有任何方法，而且我們也只先定義 <code>Draft</code> 狀態，因為這是文章的初始狀態。</p>
 <p>當我們建立新的 <code>Post</code>，我們對其 <code>state</code> 欄位給予存有 <code>Box</code> 的 <code>Some</code> 數值。此 <code>Box</code> 會指向一個新的 <code>Draft</code> 結構體實例。這確保每當我們建立 <code>Post</code> 的新實例時，它會從草稿起始。因為 <code>Post</code> 的 <code>state</code> 欄位是私有的，我們沒有任何方法可以建立處於其他狀態的 <code>Post</code>！在 <code>Post::new</code> 函式中，我們設置 <code>content</code> 欄位為一個新的空 <code>String</code>。</p>
-<h3><a class="header" href="#儲存文章內容的文字" id="儲存文章內容的文字">儲存文章內容的文字</a></h3>
+<h3 id="儲存文章內容的文字"><a class="header" href="#儲存文章內容的文字">儲存文章內容的文字</a></h3>
 <p>範例 17-11 展示我們想要能夠呼叫一個叫做 <code>add_text</code> 的函式並傳入 <code>&amp;str</code> 來對網誌文章增加文字內容。我們實作此方法，而不是將 <code>content</code> 欄位透過 <code>pub</code> 公開出去。這代表我們之後可意實作個方法來控制 <code>content</code> 欄位資料該怎麼讀取。<code>add_text</code> 方法非常直觀，所以讓我們在 <code>impl Post</code> 區塊中加上範例 17-13 的實作吧：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Post {
@@ -265,7 +265,7 @@ impl State for Draft {}
 </span></code></pre></pre>
 <p><span class="caption">範例 17-13：實作 <code>add_text</code> 方法來將文字加入文章的 <code>content</code> 中</span></p>
 <p><code>add_text</code> 方法接收 <code>self</code> 的可變引用，因為我們在呼叫 <code>add_text</code> 時會改變 <code>Post</code> 實例。然後我們對 <code>content</code> 中的 <code>String</code> 呼叫<code>push_str</code>，並傳入 <code>text</code> 引數來存到 <code>content</code> 之中。此行為與文章的狀態無關，所以它沒有被包含在狀態模式中。<code>add_text</code> 方法不會與 <code>state</code> 欄位有關係，但它是我們想支援的部分行為之一。</p>
-<h3><a class="header" href="#確保文章草稿的內容為空" id="確保文章草稿的內容為空">確保文章草稿的內容為空</a></h3>
+<h3 id="確保文章草稿的內容為空"><a class="header" href="#確保文章草稿的內容為空">確保文章草稿的內容為空</a></h3>
 <p>儘管我們已經能透過 <code>add_text</code> 來為我們的文章加些內容，但我們還是希望 <code>content</code> 方法會回傳空字串切片，因為文章還在草稿階段中，如範例 17-11 的第七行所示。現在先讓我們用能滿足需求最簡單的方式來實作 <code>content</code> 方法，也就是永遠回傳空字串切片。之後一旦我們實作出能改變文章狀態為已發佈的能力，我們會回來修改這部分。目前文章只能處於草稿階段，所以文章內容應該要永遠為空。範例 17-14 顯示了此暫時的實作方式：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Post {
@@ -301,7 +301,7 @@ impl State for Draft {}
 </span></code></pre></pre>
 <p><span class="caption">範例 17-14：<code>Post</code> 暫時實作的 <code>content</code> 方法，這會永遠回傳一個空字串切片</span></p>
 <p>透過此 <code>content</code> 方法，範例 17-11 的程式碼到地七行都能如期執行。</p>
-<h3><a class="header" href="#請求文章審核來變更它的狀態" id="請求文章審核來變更它的狀態">請求文章審核來變更它的狀態</a></h3>
+<h3 id="請求文章審核來變更它的狀態"><a class="header" href="#請求文章審核來變更它的狀態">請求文章審核來變更它的狀態</a></h3>
 <p>接下來，我們需要增加請求文章審核的功能，這會將其狀態從 <code>Draft</code> 變更為 <code>PendingReview</code>。如範例 14-15 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Post {
@@ -363,7 +363,7 @@ impl State for PendingReview {
 <p><code>Draft</code> 的 <code>request_review</code> 方法需要回傳一個新的結構體 <code>PendingReview</code> box 實例，這代表文章正在等待審核的狀態。<code>PendingReview</code> 結構體也實作了 <code>request_review</code> 方法但沒有做任何轉換。反之，它只會回傳自己，因為當我們向已經處於 <code>PendingReview</code> 狀態的文章請求審核的話，它應該會維持 <code>PendingReview</code> 的狀態。</p>
 <p>現在我們可以開始看出狀態模式的優勢了，<code>Post</code> 的 <code>request_review</code> 方法不管其 <code>state</code> 數值為何都是一樣的。每個狀態負責自己的規則。</p>
 <p>我們維持 <code>Post</code> 的方法 <code>content</code> 不變，依然回傳一個空字串切片。我們現在的 <code>Post</code> 可以處於 <code>PendingReview</code> 狀態與 <code>Draft</code> 狀態，但我們想要 <code>PendingReview</code> 狀態也有相同的行為。現在範例 17-11 可以運行到第十行了！</p>
-<h3><a class="header" href="#新增改變-content-行為的-approve-方法" id="新增改變-content-行為的-approve-方法">新增改變 <code>content</code> 行為的 <code>approve</code> 方法</a></h3>
+<h3 id="新增改變-content-行為的-approve-方法"><a class="header" href="#新增改變-content-行為的-approve-方法">新增改變 <code>content</code> 行為的 <code>approve</code> 方法</a></h3>
 <p><code>approve</code> 方法會類似於 <code>request_review</code> 方法，它會設置 <code>state</code> 的數值為目前狀態審核通過時該處於的狀態，如範例 17-16 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
@@ -631,7 +631,7 @@ impl State for Published {
 <p>我們對 <code>content</code> 方法加上預設實作來回傳一個空字串切片。這代表我們不需要在 <code>Draft</code> 與 <code>PendingReview</code> 結構體實作 <code>content</code>。<code>Published</code> 結構體會覆寫 <code>content</code> 方法並回傳 <code>post.content</code> 的數值。</p>
 <p>注意到我們在此方法需要生命週期詮釋，如我們在第十章所討論到的。我們取得 <code>post</code> 的引用作為引數並回傳 <code>post</code> 的部分引用，所以回傳引用的生命週期與 <code>post</code> 引數的生命週期有關聯。</p>
 <p>這樣就完成了！範例 17-11 可以成功執行！我們實作了網誌文章工作流程規則的狀態模式。規則邏輯會位於狀態物件中，而不會分散在 <code>Post</code> 中。</p>
-<h3><a class="header" href="#狀態模式的權衡取捨" id="狀態模式的權衡取捨">狀態模式的權衡取捨</a></h3>
+<h3 id="狀態模式的權衡取捨"><a class="header" href="#狀態模式的權衡取捨">狀態模式的權衡取捨</a></h3>
 <p>我們展示了 Rust 能夠實作出物件導向狀態模式，來封裝文章每個狀態之間不同的行為。<code>Post</code> 的方法不會知道這些不同的行為。我們組織程式碼的方式，讓我們可以只看一個地方就能知道已發佈文章會擁有的各種行為，也就是實作 <code>State</code> 特徵的 <code>Published</code> 結構體。</p>
 <p>如果我們要建立個不使用狀態模式的替代實作，我們可能會在 <code>Post</code> 或甚至在 <code>main</code> 程式碼中改使用 <code>match</code> 表達式檢查文章狀態並變更行為。這意味著我們得查看許多地方才能知道已發佈文章狀態的含義！而且當我們增加的狀態越多，每個 <code>match</code> 表達式就需要更多分支。</p>
 <p>透過狀態模式，<code>Post</code> 方法以及我們使用 <code>Post</code> 的地方就不需要 <code>match</code> 表達式，而且要加入新的狀態的話，我們只需要新增一個結構體並對其實作特徵方法。</p>
@@ -646,7 +646,7 @@ impl State for Published {
 <p>另一項劣勢是我們重複了一些邏輯。要消除掉一些重複的部分，我們可以是著對 <code>State</code> 的 <code>request_review</code> 和 <code>approve</code> 方法提供回傳 <code>self</code> 的預設實作。但是這樣就違反物件安全了，因為特徵不知道 <code>self</code> 的實際型別為何。我們想要能將 <code>State</code> 用在特徵物件中，所以它的方法必須是物件安全的。</p>
 <p>另一個重複的部分包含 <code>Post</code> 的 <code>request_review</code> 與 <code>approve</code> 方法都以類似的方式實作。兩者均呼叫 <code>state</code> 欄位中 <code>Option</code> 內數值對應的相同方法。如果 <code>Post</code> 有很多方法都遵循這樣的模式的話，我們可以考慮定義巨集（macro）來消除重複的部分（請查閱第十九章的<a href="ch19-06-macros.html#macros">「巨集」</a><!-- ignore -->段落）。</p>
 <p>如其他物件導向語言所定義的來實作狀態模式，我們並沒有完全發揮出 Rust 的所有潛力。讓我們看看我們能對 <code>blog</code> crate 做些什麼改善，讓無效的狀態與轉換會產生成編譯時錯誤。</p>
-<h4><a class="header" href="#定義狀態與行為成型別" id="定義狀態與行為成型別">定義狀態與行為成型別</a></h4>
+<h4 id="定義狀態與行為成型別"><a class="header" href="#定義狀態與行為成型別">定義狀態與行為成型別</a></h4>
 <p>我們會向你展示如何重新思考狀態模式，來達到不同的取捨效果。與其完全封裝狀態與轉換，讓外部程式碼完全看不到它們，我們會將狀態定義成不同的型別。這樣一來，Rust 的型別檢查系統就能避免在只能使用已發佈文章的地方使用到了文章草稿，並在編譯時就回傳錯誤。</p>
 <p>讓我們先想一下範例 17-11 中 <code>main</code> 的第一個部分：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -701,7 +701,7 @@ impl DraftPost {
 <p><code>Post</code> 與 <code>DraftPost</code> 結構體都有個私有欄位 <code>content</code> 來儲存網誌文章文字。結構體不再有 <code>state</code> 欄位，因為我們將狀態的定義移到了結構體的型別中。<code>Post</code> 結構體就代表已發佈的文章，且其有個 <code>content</code> 方法來回傳 <code>content</code>。</p>
 <p>我們仍然有 <code>Post::new</code> 函式，但是它沒有回傳 <code>Post</code> 實例，而是回傳了 <code>DraftPost</code> 的實例。因為 <code>content</code> 是私有的，而且沒有任何函式回傳 <code>Post</code>，所以目前沒有任何辦法能建立 <code>Post</code> 的實例。</p>
 <p><code>DraftPost</code> 結構體有個 <code>add_text</code> 方法，所以我們可以像之前一樣為 <code>content</code> 新增文字，但注意到 <code>DraftPost</code> 沒有定義 <code>content</code> 方法！所以現在程式確保所有文章都已草稿為起始，而且文章草稿不會提供顯示其內容的方法。任何想嘗試繞過此約束的方式都會產生變意錯誤。</p>
-<h4><a class="header" href="#透過不同型別的轉移來實作狀態轉換" id="透過不同型別的轉移來實作狀態轉換">透過不同型別的轉移來實作狀態轉換</a></h4>
+<h4 id="透過不同型別的轉移來實作狀態轉換"><a class="header" href="#透過不同型別的轉移來實作狀態轉換">透過不同型別的轉移來實作狀態轉換</a></h4>
 <p>所以我們該怎麼取得發佈的文章呢？我們想要遵守執行的規則，文章草稿在審核並通過後才能夠發佈。在審核中的文章狀態應保持不顯示任何內容。讓我們新增另一個結構體 <code>PendingReviewPost</code> 來遵守這些約束吧。在 <code>DraftPost</code> 中訂一個會回傳 <code>PendingReviewPost</code> 的 <code>request_review</code> 方法，再對 <code>PendingReviewPost</code> 定義 <code>approve</code> 方法來回傳 <code>Post</code>，如範例 17-20 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
@@ -775,7 +775,7 @@ fn main() {
 <p>我們修改 <code>main</code> 來重新賦值 <code>post</code> 意味著此實作不再遵循物件導向狀態模式了，狀態的轉換不再完全封裝在 <code>Post</code> 實作內部。然而我們得到的好處是的是無效狀態是不可能發生的了，這都多虧了型別系統與編譯時型別檢查！這確保了特定程式錯誤會在進入生產環境前就被察覺，像是顯示尚未發佈的文章內容。</p>
 <p>你可以試試看在範例 17-20 之後，對 <code>blog</code> crate 實作我們在此段落稍早提及的額外需求任務建議，來看看你覺得此版本的程式碼設計如何。注意有些任務很可能在此設計就已經實作完成了。</p>
 <p>我們看到儘管 Rust 能夠實作物件導向設計模式、其他像是將狀態寫入型別系統中的模式在 Rust 中也是可行的。這些模式有不同的取捨。雖然你可能非常熟悉物件導向模式，但重新思考問題，並善用 Rust 的特色可以帶來不少優勢，像是在執行時就避免錯誤發生。物件導向模式在 Rust 中不會永遠是最好的解決方案，因為 Rust 有像是所有權這樣物件導向語言所沒有的特定功能。</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>無論你讀完此章後，認為 Rust 是否屬於物件導向語言，你都知道在 Rust 中你可以使用特徵物件來取得一些物件導向的特色。動態分配能給予你的程式碼更多的彈性，但會犧牲一點執行時效能。你可以使用此彈性來實作物件導向模式，幫助提升程式碼可維護性。Rust 還有其他像是所有權等物件導向語言所沒有的功能。物件導向模式不會永遠是善用 Rust 潛能的最佳方案，不過仍是個不錯的選項。</p>
 <p>接下來，我們要看看模式（patterns），這是 Rust 另一個可以提供大量彈性的功能。我們在書中一路下來簡單看過它們好幾次了，不過我們還沒見識到它們全部的本事。讓我們來探索吧！</p>
 <blockquote>

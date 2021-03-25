@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#函式語言功能疊代器與閉包" id="函式語言功能疊代器與閉包">函式語言功能：疊代器與閉包</a></h2>
+                        <h2 id="函式語言功能疊代器與閉包"><a class="header" href="#函式語言功能疊代器與閉包">函式語言功能：疊代器與閉包</a></h2>
 <p>Rust 的閉包（closures）是個你能賦值給變數或作為其他函式引數的匿名函式。你可以在某處建立閉包，然後在不同的地方呼叫閉包並執行它。而且不像函式，閉包可以從它們所定義的作用域中獲取數值。我們將會解釋這些閉包功能如何允許程式碼重用以及自訂行為。</p>
-<h3><a class="header" href="#透過閉包建立抽象行為" id="透過閉包建立抽象行為">透過閉包建立抽象行為</a></h3>
+<h3 id="透過閉包建立抽象行為"><a class="header" href="#透過閉包建立抽象行為">透過閉包建立抽象行為</a></h3>
 <p>讓我們處理一個範例是當儲存閉包並在之後才執行是很實況的情況。在過程中，我們會討論到閉包語法、型別推導以及特徵。</p>
 <p>讓我們考慮以下假設情境：我們在一家新創公司上班並正在推出一支會產生自訂重訓方案的應用程式。其後端就是用 Rust 寫的，且產生重訓方案的演算法有很多因素要考量，像是使用者的年齡、身高體重指數、健身喜好、最近鍛鍊的項目以及他們指定的重訓強度。此例中實際使用的演算法並不重要，重要的是此運算會花費數秒鐘。我們只想要在我們需要時呼叫此演算法並只會呼叫一次，讓使用者不會等待太久。</p>
 <p>我們會模擬這個假設的演算法為函式 <code>simulated_expensive_calculation</code>，如範例 13-1 所示，他會印出 <code>緩慢計算中...</code>、等待兩秒鐘，然後回傳我們傳入的數值。</p>
@@ -264,7 +264,7 @@ fn simulated_expensive_calculation(intensity: u32) -&gt; u32 {
 <p>低強度重訓方案會依據我們麼體的複雜演算法來建議一些伏地挺身和仰臥起坐。</p>
 <p>如果使用者想要高強度重用，就會有額外的邏輯：如果應用程式產生的隨機數字是 3 的話，應用程式會建議休息並多喝水；如果不是的話，使用者會依據複雜演算法得到數分鐘的跑步訓練。</p>
 <p>此程式碼能夠應付業務邏輯了，但是假設未來資料科學團隊決定要求我們需要更改我們呼叫 <code>simulated_expensive_calculation</code> 函式的方式。為了簡化這些更新步驟，我們想要重構此程式碼好讓 <code>simulated_expensive_calculation</code> 只會呼叫一次。同時我們也想要去掉我們目前呼叫兩次的多餘程式碼，我們不希望再對此程序加上更多的函式呼叫。也就是說，我們不希望在沒有需要取得結果時呼叫程式碼，且我們希望它只會被呼叫一次。</p>
-<h4><a class="header" href="#透過函式重構" id="透過函式重構">透過函式重構</a></h4>
+<h4 id="透過函式重構"><a class="header" href="#透過函式重構">透過函式重構</a></h4>
 <p>我們可以用許多方式重構此重訓程式。首先我們先將重複呼叫 <code>simulated_expensive_calculation</code> 的地方改成變數，如範例 13-4 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::thread;
@@ -301,7 +301,7 @@ fn simulated_expensive_calculation(intensity: u32) -&gt; u32 {
 <p><span class="caption">範例 13-4：提取 <code>simulated_expensive_calculation</code> 的呼叫到同個位置並用變數 <code>expensive_result</code> 儲存結果</span></p>
 <p>此變更統一了所有 <code>simulated_expensive_calculation</code> 的呼叫並解決第一個 <code>if</code> 區塊重複呼叫函式兩次的問題。不幸的是，現在我們一定得呼叫此函式並在所有情形下都得等待，這包含沒有使用到此結果的 <code>if</code> 區塊。</p>
 <p>我們想在程式某處定義程式碼，並在我們確實需要它時<strong>執行</strong>程式碼就好。這就是閉包能使用的場合！</p>
-<h4><a class="header" href="#透過閉包重構來儲存程式碼" id="透過閉包重構來儲存程式碼">透過閉包重構來儲存程式碼</a></h4>
+<h4 id="透過閉包重構來儲存程式碼"><a class="header" href="#透過閉包重構來儲存程式碼">透過閉包重構來儲存程式碼</a></h4>
 <p>與其在 <code>if</code> 區塊之前就呼叫 <code>simulated_expensive_calculation</code> 函式，我們可以定義一個閉包並將<strong>閉包</strong>存入變數中，而不是儲存函式呼叫的結果，如範例 13-5 所示。我們可以將 <code>simulated_expensive_calculation</code> 的本體移入這個閉包中。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::thread;
@@ -377,7 +377,7 @@ fn simulated_expensive_calculation(intensity: u32) -&gt; u32 {
 <p><span class="caption">範例 13-6：呼叫我們定義的 <code>expensive_closure</code></span></p>
 <p>現在耗時的計算只會在一處呼叫了，而且我們只會在需要結果時才會執行該程式碼。</p>
 <p>然而我們又重新引入了範例 13-3 其中一個問題，我們仍然會在第一個 <code>if</code> 區塊呼叫閉包兩次，也就是會呼叫耗時的程式碼兩次，讓使用者需要多等一倍的時間。我們可以透過在 <code>if</code> 區塊內建立變數並取得呼叫閉包的結果來修正這個問題，但是閉包還能提供我們另一種解決辦法。我們稍後會介紹這個解決辦法。但在這之前讓我們先討論為何閉包定義中不用型別詮釋，以及與閉包相關的特徵。</p>
-<h3><a class="header" href="#閉包型別推導與詮釋" id="閉包型別推導與詮釋">閉包型別推導與詮釋</a></h3>
+<h3 id="閉包型別推導與詮釋"><a class="header" href="#閉包型別推導與詮釋">閉包型別推導與詮釋</a></h3>
 <p>閉包不必像 <code>fn</code> 函式那樣要求你要詮釋參數或回傳值的型別。函式需要型別詮釋是因為它們是顯式公開給使用者的介面。嚴格定義此介面是很重要的，這能確保每個人同意函式使用或回傳的數值型別為何。但是閉包並不是為了對外公開使用，它們儲存在變數且沒有名稱能公開給我們函式庫的使用者。</p>
 <p>閉包通常很短，而且只與小範圍內的程式碼有關，而非適用於任何場合。有了這樣限制的環境，編譯器能可靠地推導出參數與回傳值的型別，如同其如何推導出大部分的變數型別一樣。</p>
 <p>要求開發者得為這些小小的匿名函式詮釋型別的話會變得很惱人且非常多餘，因為編譯器早就有足夠的資訊能推導出來了。</p>
@@ -453,7 +453,7 @@ error: could not compile `closure-example`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>當我們第一次使用 <code>String</code> 數值呼叫 <code>example_closure</code> 時，編譯器會推導 <code>x</code> 與閉包回傳值的型別為 <code>String</code>。這樣 <code>example_closure</code> 閉包內的型別就會鎖定，然後我們如果對同樣的閉包嘗試使用不同的型別的話，我們就會得到型別錯誤。</p>
-<h3><a class="header" href="#透過泛型參數與-fn-特徵儲存閉包" id="透過泛型參數與-fn-特徵儲存閉包">透過泛型參數與 <code>Fn</code> 特徵儲存閉包</a></h3>
+<h3 id="透過泛型參數與-fn-特徵儲存閉包"><a class="header" href="#透過泛型參數與-fn-特徵儲存閉包">透過泛型參數與 <code>Fn</code> 特徵儲存閉包</a></h3>
 <p>讓我們回到我們的重訓生成應用程式。在範例 13-6 中，我們的程式碼仍然會呼叫耗時的閉包不止一次。其中一個解決此問題的選項是將耗時閉包的結果存入變數中，並在我們需要結果的地方使用該變數，而不是再呼叫閉包一次。不過此方法可能會增加很多重複的程式碼。</p>
 <p>幸運的是我們還有另一個解決辦法。我們可以建立一個結構體來儲存閉包以及呼叫閉包的結果數值。此結構體只會在我們需要結果數值時執行閉包，然後它會獲取結果數值，所以我們的程式碼就不必負責儲存要重複使用的結果。你可能會聽過這種模式叫做<strong>記憶化（memoization）<strong>或</strong>惰性求值（lazy evaluation）</strong>。</p>
 <p>要定義一個結構體儲存一個閉包，我們需要指定閉包的型別，因為結構體定義需要知道它每個欄位的型別。每個閉包實例都有自己獨特的匿名型別，也就是說就算有兩個閉包的簽名一模一樣，它們的型別還是會被視為不同的。要定義有使用閉包的結構體、枚舉或函式參數的話，我們可以使用在第十章所提到的泛型與特徵界限。</p>
@@ -585,7 +585,7 @@ where
 <p><span class="caption">範例 13-11：在函式 <code>generate_workout</code> 使用 <code>Cacher</code> 來抽象化快取邏輯</span></p>
 <p>不同於將閉包儲存給變數，我們建立一個新的 <code>Cacher</code> 實例來儲存閉包。然後在每個我們需要結果的地方，我們呼叫 <code>Cacher</code> 實例的 <code>value</code> 方法。我們要呼叫 <code>value</code> 方法幾次都行，或者不叫也行，無論如何耗時計算最多就只會被執行一次。</p>
 <p>請嘗試從範例 13-2 的 <code>main</code> 函式執行此程式。變更 <code>simulated_user_specified_value</code> 與 <code>simulated_random_number</code> 的數值來驗證看看在所有情況下與數個 <code>if</code> 和 <code>else</code> 區塊中，<code>緩慢計算中...</code> 只會出現一次且只有在需要時才會出現。<code>Cacher</code> 負責確保我們不會呼叫超過耗時計算所需的邏輯，讓 <code>generate_workout</code> 可以專注在業務邏輯。</p>
-<h3><a class="header" href="#cacher-實作的限制" id="cacher-實作的限制"><code>Cacher</code> 實作的限制</a></h3>
+<h3 id="cacher-實作的限制"><a class="header" href="#cacher-實作的限制"><code>Cacher</code> 實作的限制</a></h3>
 <p>快取數值是個廣泛實用的行為，我們可能會希望在程式碼中的其他不同閉包也使用到。然而目前<code>Cacher</code> 的實作有兩個問題可能會在不同場合重複使用變得有點困難。</p>
 <p>第一個問題是 <code>Cacher</code> 實例假設它永遠會從方法 <code>value</code> 的參數 <code>arg</code> 中取得相同數值，所以說以下 <code>Cacher</code> 的測試就會失敗：</p>
 <pre><code class="language-rust ignore panics"><span class="boring">struct Cacher&lt;T&gt;
@@ -663,7 +663,7 @@ error: test failed, to rerun pass '--lib'
 <p>問題在於我們第一次會使用 1 呼叫 <code>c.value</code>，<code>Cacher</code> 實例會儲存 <code>Some(1)</code> 給 <code>self.value</code>。因此無論我們再傳入任何值給 <code>value</code> 方法，它永遠只會回傳 1。</p>
 <p>我們可以嘗試將 <code>Cacher</code> 改成儲存雜湊映射（hash map）而非單一數值。雜湊映射的鍵會是傳入的 <code>arg</code> 數值，而雜湊映射的值則是用該鍵呼叫閉包的結果。所以不同於查看 <code>self.value</code> 是 <code>Some</code> 還是 <code>None</code> 值， <code>value</code> 函式將會查看 <code>arg</code> 有沒有在雜湊映射內，而如果有的話就會傳對應數值。如果沒有的話，<code>Cacher</code> 會呼叫閉包並儲存 <code>arg</code> 數值與對應的結果數值到雜湊映射中。</p>
 <p>第二個問題是目前的 <code>Cacher</code> 實作只會接受參數型別為 <code>u32</code> 並回傳 <code>u32</code> 的閉包。舉例來說，我們可能會想要快取給予字串並回傳 <code>usize</code> 的閉包結果數值。要修正此問題，你可以嘗試加上更多泛型參數來增加 <code>Cacher</code> 功能的彈性。</p>
-<h3><a class="header" href="#透過閉包獲取環境" id="透過閉包獲取環境">透過閉包獲取環境</a></h3>
+<h3 id="透過閉包獲取環境"><a class="header" href="#透過閉包獲取環境">透過閉包獲取環境</a></h3>
 <p>在重訓生成範例中，我們只將閉包作為行內匿名函式。但是閉包還有個函式所沒有的能力：它們可以獲取它們的環境並取得在它們所定義的作用域內的變數。</p>
 <p>範例 13-12 有一個儲存在變數 <code>equal_to_x</code> 的閉包，其使用變數 <code>x</code> 來取得閉包周圍的環境。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

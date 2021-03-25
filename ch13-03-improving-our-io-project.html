@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#改善我們的-io-專案" id="改善我們的-io-專案">改善我們的 I/O 專案</a></h2>
+                        <h2 id="改善我們的-io-專案"><a class="header" href="#改善我們的-io-專案">改善我們的 I/O 專案</a></h2>
 <p>有了疊代器這樣的新知識，我們可以使用疊代器來改善第十二章的 I/O 專案，讓程式碼更清楚與簡潔。我們來看看疊代器如何改善 <code>Config::new</code> 函式與 <code>search</code> 函式的實作。</p>
-<h3><a class="header" href="#使用疊代器移除-clone" id="使用疊代器移除-clone">使用疊代器移除 <code>clone</code></a></h3>
+<h3 id="使用疊代器移除-clone"><a class="header" href="#使用疊代器移除-clone">使用疊代器移除 <code>clone</code></a></h3>
 <p>在範例 12-6 中，我們加了些程式碼來取得 <code>String</code> 數值的切片並透過索引切片與克隆數值來產生 <code>Config</code> 實例，讓 <code>Config</code> 結構體能擁有其數值。在範例 13-24 中，我們重現了範例 12-23 的 <code>Config::new</code> 函式實作：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
@@ -288,7 +288,7 @@
 <p>我們在此需要 <code>clone</code> 的原因為我們的參數 <code>args</code> 是擁有 <code>String</code> 元素的切片，但是 <code>new</code> 函式並不擁有 <code>args</code>。要回傳 <code>Config</code> 實例的所有權，我們必須克隆數值給 <code>Config</code> 的 <code>query</code> 與 <code>filename</code> 欄位，<code>Config</code> 實例才能擁有其值。</p>
 <p>有了我們新學到的疊代器，我們可以改變 <code>new</code> 函式來取得疊代器的所有權來作為引數，而非借用切片。我們會來使用疊代器的功能，而不是檢查切片長度並索引特定位置。這能讓 <code>Config::new</code> 函式的意圖更清楚，因為疊代器會存取數值。</p>
 <p>一旦 <code>Config::new</code> 取得疊代器的所有權並不在使用借用的索引動作，我們就可以從疊代器中移動 <code>String</code> 的數值至 <code>Config</code> 而非呼叫 <code>clone</code> 來產生新的分配。</p>
-<h4><a class="header" href="#直接使用回傳的疊代器" id="直接使用回傳的疊代器">直接使用回傳的疊代器</a></h4>
+<h4 id="直接使用回傳的疊代器"><a class="header" href="#直接使用回傳的疊代器">直接使用回傳的疊代器</a></h4>
 <p>請開啟你的 I/O 專案下的 <em>src/main.rs</em> 檔案，這應該會看起來像這樣：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
@@ -447,7 +447,7 @@
 </span></code></pre>
 <p><span class="caption">範例 13-26：更新 <code>Config::new</code> 的簽名來接收疊代器</span></p>
 <p>標準函式庫技術文件顯示 <code>env::args</code> 函式回傳的疊代器型別為 <code>std::env::Args</code>。我們更新了 <code>Config::new</code> 函式的簽名，讓參數 <code>args</code> 的型別為 <code>std::env::Args</code> 而非 <code>&amp;[String]</code>。因為我們取得了 <code>args</code> 的所有權，而且我們需要將 <code>args</code> 成為可變的讓我們可以疊代它，所以我們將關鍵字 <code>mut</code> 加到 <code>args</code> 的參數指定使其成為可變的。</p>
-<h4><a class="header" href="#使用-iterator-特徵方法而非索引" id="使用-iterator-特徵方法而非索引">使用 <code>Iterator</code> 特徵方法而非索引</a></h4>
+<h4 id="使用-iterator-特徵方法而非索引"><a class="header" href="#使用-iterator-特徵方法而非索引">使用 <code>Iterator</code> 特徵方法而非索引</a></h4>
 <p>接下來，我們要修正 <code>Config::new</code> 的本體。標準函式庫還提到了 <code>std::env::Args</code> 有實作 <code>Iterator</code> 特徵，所以我們知道我們可以對它呼叫 <code>next</code> 方法！範例 13-27 更新了範例 12-23 的程式碼來使用 <code>next</code> 方法：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::env;
@@ -564,7 +564,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 13-27：變更 <code>Config::new</code> 的本體來使用疊代器方法</span></p>
 <p>我們還記得 <code>env::args</code> 回傳的第一個數值會是程式名稱。我們想要忽略該值並取得下個數值，所以我們第一次呼叫 <code>next</code> 時不會對回傳值做任何事。再來我們才會呼叫 <code>next</code> 來取得我們想要的數值置入 <code>Config</code> 中的 <code>query</code> 欄位。如果 <code>next</code> 回傳 <code>Some</code> 的話，我們使用 <code>match</code> 來提取數值。如果它回傳 <code>None</code> 的話，這代表引數不足，所以我們提早用 <code>Err</code> 數值回傳。我們對 <code>filename</code> 數值也做一樣的事。</p>
-<h3><a class="header" href="#透過疊代配接器讓程式碼更清楚" id="透過疊代配接器讓程式碼更清楚">透過疊代配接器讓程式碼更清楚</a></h3>
+<h3 id="透過疊代配接器讓程式碼更清楚"><a class="header" href="#透過疊代配接器讓程式碼更清楚">透過疊代配接器讓程式碼更清楚</a></h3>
 <p>我們也可以對 I/O 專案中的 <code>search</code> 函式利用疊代器的優勢，範例 13-28 重現了範例 12-19 的程式碼：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;

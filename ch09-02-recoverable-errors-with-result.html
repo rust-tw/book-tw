@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#result-與可復原的錯誤" id="result-與可復原的錯誤"><code>Result</code> 與可復原的錯誤</a></h2>
+                        <h2 id="result-與可復原的錯誤"><a class="header" href="#result-與可復原的錯誤"><code>Result</code> 與可復原的錯誤</a></h2>
 <p>大多數的錯誤沒有嚴重到需要讓整個程式停止執行。有時候當函式失敗時，你是可以輕易理解並作出反應的。舉例來說，如果你嘗試開啟一個檔案，但該動作卻因為沒有該檔案而失敗的話，你可能會想要建立檔案，而不是終止程序。</p>
 <p>回憶一下第二章的<a href="ch02-00-guessing-game-tutorial.html#%E4%BD%BF%E7%94%A8-result-%E5%9E%8B%E5%88%A5%E8%99%95%E7%90%86%E5%8F%AF%E8%83%BD%E7%9A%84%E9%8C%AF%E8%AA%A4">「使用 <code>Result</code> 型別處理可能的錯誤」</a><!-- ignore -->提到 <code>Result</code> 枚舉的定義有兩個變體 <code>Ok</code> 和 <code>Err</code>，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -249,7 +249,7 @@ thread 'main' panicked at '開啟檔案時發生問題：Os { code: 2, kind: Not
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p>如往常一樣，此輸出告訴我們哪裡出錯了。</p>
-<h3><a class="header" href="#配對不同種的錯誤" id="配對不同種的錯誤">配對不同種的錯誤</a></h3>
+<h3 id="配對不同種的錯誤"><a class="header" href="#配對不同種的錯誤">配對不同種的錯誤</a></h3>
 <p>範例 9-4 的程式碼不管 <code>File::open</code> 為何失敗都會呼叫 <code>panic!</code>。我們希望做的是依據不同的錯誤原因採取不同的動作，如果 <code>File::open</code> 是因為檔案不存在的話，我們想要建立檔案並回傳新檔案的控制代碼。如果 <code>File::open</code> 是因為其他原因失敗的話，像是我們沒有開啟檔案的權限，我們仍然要像範例 9-4 這樣呼叫 <code>panic!</code>。範例 9-5 就這樣對 <code>match</code> 表達式加了更多條件。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- ignore this test because otherwise it creates hello.txt which causes other
@@ -294,7 +294,7 @@ fn main() {
 }
 </code></pre>
 <p>雖然此程式碼的行為和範例 9-5 一樣，但他沒有包含任何 <code>match</code> 表達式而且更易閱讀。當你讀完第十三章後，別忘了回來看看此範例，並查閱標準函式庫中的 <code>unwrap_or_else</code> 方法。除此方法以外，還有更多方法可以來解決處理錯誤時龐大的 <code>match</code> 表達式。</p>
-<h3><a class="header" href="#錯誤發生時產生恐慌的捷徑unwrap-與-expect" id="錯誤發生時產生恐慌的捷徑unwrap-與-expect">錯誤發生時產生恐慌的捷徑：<code>unwrap</code> 與 <code>expect</code></a></h3>
+<h3 id="錯誤發生時產生恐慌的捷徑unwrap-與-expect"><a class="header" href="#錯誤發生時產生恐慌的捷徑unwrap-與-expect">錯誤發生時產生恐慌的捷徑：<code>unwrap</code> 與 <code>expect</code></a></h3>
 <p>雖然 <code>match</code> 已經足以勝任指派的任務了，但它還是有點冗長，而且可能無法正確傳遞錯誤的嚴重性。<code>Result&lt;T, E&gt;</code> 型別有非常多的輔助方法來執行不同的任務。其中一個方法就是 <code>unwrap</code>，這是和我們在範例 9-4 所寫的 <code>match</code> 表達式一樣，擁有類似效果的捷徑方法。如果 <code>Result</code> 的值是 <code>Ok</code> 變體，<code>unwrap</code>會回傳 <code>Ok</code> 裡面的值；如果 <code>Result</code> 是 <code>Err</code> 變體的話，<code>unwrap</code> 會呼叫 <code>panic!</code> 巨集。以下是使用 <code>unwrap</code> 的方式：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic">use std::fs::File;
@@ -321,7 +321,7 @@ fn main() {
 2, message: &quot;No such file or directory&quot; } }', src/libcore/result.rs:906:4
 </code></pre>
 <p>由於此錯誤訊息指明了我們想表達的訊息「開啟 hello.txt 失敗」，我們比較能知道此錯誤訊息是從哪裡發生的。如果我們在多處使用 <code>unwrap</code>，我們會需要一些時間才能理解 <code>unwrap</code> 是從哪裡引發恐慌的，因為 <code>unwrap</code> 很可能會顯示相同的訊息。</p>
-<h3><a class="header" href="#傳播錯誤" id="傳播錯誤">傳播錯誤</a></h3>
+<h3 id="傳播錯誤"><a class="header" href="#傳播錯誤">傳播錯誤</a></h3>
 <p>當你在寫某函式實作時，要是它的呼叫的程式碼可能會失敗，與其直接在此函式處理錯誤，你可以回傳錯誤給呼叫此程式的程式碼，由它們決定如何處理。這稱之為<strong>傳播</strong>（propagating）錯誤並讓呼叫者可以有更多的控制權，因為比起你程式碼當下的內容，回傳的錯誤可能提供更多資訊與邏輯以利處理。</p>
 <p>舉例來說，範例 9-6 展示了一個從檔案讀取使用者名稱的函式。如果檔案不存在或無法讀取的話，此函式會回傳該錯誤給呼叫此函式的程式碼。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -358,7 +358,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <p>接著我們在變數 <code>s</code> 建立新的 <code>String</code> 並對檔案控制代碼 <code>f</code> 呼叫 <code>read_to_string</code> 方法來讀取檔案內容至 <code>s</code>。<code>read_to_string</code> 也會回傳 <code>Result</code> 因為它也可能失敗，就算 <code>File::open</code> 是執行成功的。所以我們需要另一個 <code>match</code> 來處理該 <code>Result</code>，如果 <code>read_to_string</code> 成功的話，我們的函式就是成功的，然後在 <code>Ok</code> 回傳 <code>s</code> 中該檔案的使用者名稱。如果 <code>read_to_string</code> 失敗的話，我們就像處理 <code>File::open</code> 的 <code>match</code> 一樣回傳錯誤值。不過我們不需要顯式寫出 <code>return</code>，因為這是函式中的最後一個表達式。</p>
 <p>呼叫此程式碼的程式就會需要處理包含使用者名稱的 <code>Ok</code> 數值以及包含 <code>io::Error</code> 的 <code>Err</code> 數值。我們不會知道呼叫此程式碼的人會如何處理這些數值。舉例來說，如果呼叫此程式碼而獲得錯誤的話，它可能選擇呼叫 <code>panic!</code> 讓程式崩潰，或者使用預設的使用者名稱從檔案以外的地方尋找該使用者。所以我們傳播所有成功或錯誤的資訊給呼叫者，讓它們能妥善處理。</p>
 <p>這樣傳播錯誤的模式是非常常見的，所以 Rust 提供了 <code>?</code> 來簡化流程。</p>
-<h4><a class="header" href="#傳播錯誤的捷徑-運算子" id="傳播錯誤的捷徑-運算子">傳播錯誤的捷徑：<code>?</code> 運算子</a></h4>
+<h4 id="傳播錯誤的捷徑-運算子"><a class="header" href="#傳播錯誤的捷徑-運算子">傳播錯誤的捷徑：<code>?</code> 運算子</a></h4>
 <p>範例 9-7 是另一個 <code>read_username_from_file</code>的實作，擁有和範例 9-6 一樣的效果，不過這次使用了 <code>?</code> 運算子。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- Deliberately not using rustdoc_include here; the `main` function in the
@@ -424,7 +424,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 </span></code></pre></pre>
 <p><span class="caption">範例 9-9：使用 <code>fs::read_to_string</code> 而不是開啟檔案後才讀取</span></p>
 <p>讀取檔案至字串中算是個常見動作，所以 Rust 提供了一個方便的函式 <code>fs::read_to_string</code> 來開啟檔案、建立新的 <code>String</code>、讀取檔案內容、將內容放入該 <code>String</code> 並回傳它。不過使用 <code>fs::read_to_string</code> 就沒有機會讓我們來解釋所有的錯誤處理，所以我們一開始才用比較長的寫法。</p>
-<h4><a class="header" href="#-運算子可以用在回傳-result-的函式" id="-運算子可以用在回傳-result-的函式"><code>?</code> 運算子可以用在回傳 <code>Result</code> 的函式</a></h4>
+<h4 id="-運算子可以用在回傳-result-的函式"><a class="header" href="#-運算子可以用在回傳-result-的函式"><code>?</code> 運算子可以用在回傳 <code>Result</code> 的函式</a></h4>
 <p><code>?</code> 可以用在回傳型別為 <code>Result</code> 的函式，因為它與範例 9-6 的 <code>match</code> 表達式有相同的運作方式。<code>match</code> 的 <code>return Err(e)</code> 會要求 <code>Result</code> 作為回傳型別。所以函式回傳值也需要是 <code>Result</code> 才能與此 <code>return</code> 相容。</p>
 <p>讓我們看看如果我們在 <code>main</code> 使用 <code>?</code> 運算子的話會發生什麼事情，你應該還記得此函式的回傳型別為 <code>()</code>：</p>
 <pre><code class="language-rust ignore does_not_compile">use std::fs::File;

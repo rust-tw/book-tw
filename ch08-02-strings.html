@@ -171,14 +171,14 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#透過字串儲存-utf-8-編碼的文字" id="透過字串儲存-utf-8-編碼的文字">透過字串儲存 UTF-8 編碼的文字</a></h2>
+                        <h2 id="透過字串儲存-utf-8-編碼的文字"><a class="header" href="#透過字串儲存-utf-8-編碼的文字">透過字串儲存 UTF-8 編碼的文字</a></h2>
 <p>我們已經在第四章提到字串（String），但現在我們要更加深入探討。Rustaceans 初學者常常會卡在三個環節：Rust 傾向於回報可能的錯誤、字串的資料結構比開發者所熟悉的還要複雜，以及 UTF-8。這些要素讓來自其他程式語言背景的開發者會遇到一些困難。</p>
 <p>我們會在集合章節討論字串的原因是，字串本身就是位元組的集合，且位元組作為文字呈現時，它會提供一些實用的方法。在此段落我們將和其他集合型別一樣討論 <code>String</code> 的操作，像是建立、更新與讀取。我們還會討論到 <code>String</code> 與其他集合不一樣的地方，像是 <code>String</code> 的索引就比其他集合還複雜，因為它會依據人們對於 <code>String</code> 資料型別的理解而有所不同。</p>
-<h3><a class="header" href="#什麼是字串" id="什麼是字串">什麼是字串？</a></h3>
+<h3 id="什麼是字串"><a class="header" href="#什麼是字串">什麼是字串？</a></h3>
 <p>首先我們要好好定義<strong>字串（String）<strong>這個術語。Rust 在核心語言中只有一個字串型別，那就是字串切片 <code>str</code>，它通常是以借用的形式存在 <code>&amp;str</code>。在第四章中我們提到</strong>字串切片</strong>是一個針對存在某處的  UTF-8 編碼資料的引用。舉例來說，字串字面值（String literals）就儲存在程式的二進制檔案中，因此就是字串切片。</p>
 <p><code>String</code> 型別是 Rust 標準函式庫所提供的型別，並不是核心語言內建的型別，它是可增長的、可變的、可擁有所有權的 UTF-8 編碼字串型別。當 Rustaceans 提及 Rust 中的「字串」時，他們通常指的是 <code>String</code> 以及字串切片 <code>&amp;str</code> 型別，而不只是其中一種型別。雖然此段落大部分都在討論 <code>String</code>，這兩個型別都時常用在 Rust 的標準函式庫中，且 <code>String</code> 與字串切片都是 UTF-8 編碼的。</p>
 <p>Rust 的標準函式庫還包含了其他種類的字串型別，像是 <code>OsString</code>、<code>OsStr</code>、<code>CString</code> 以及 <code>CStr</code>。函式庫 crates 更可以提供儲存字串資料的更多選項。你應該會注意到這些型別的結尾都是 <code>String</code> 和 <code>Str</code>，它們分別代表擁有所有權與借用的變體。就像你之前看到的 <code>String</code> 和 <code>str</code> 型別一樣。這些字串型別可以儲存不同編碼的文字或者以不同的記憶體形式呈現。我們不會在本章節討論這些字串型別，要是你想知道如何或何時使用它們的話，你可以查閱它們的 API 技術文件。</p>
-<h3><a class="header" href="#建立新的字串" id="建立新的字串">建立新的字串</a></h3>
+<h3 id="建立新的字串"><a class="header" href="#建立新的字串">建立新的字串</a></h3>
 <p>許多 <code>Vec&lt;T&gt;</code> 可使用的方法在 <code>String</code> 也都能用，像是用 <code>new</code> 函式建立新的字串，如範例 8-11 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut s = String::new();
@@ -221,9 +221,9 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 8-14：用字串儲存各種語言打招呼的文字</span></p>
 <p>以上全是合理的 <code>String</code> 數值。</p>
-<h3><a class="header" href="#更新字串" id="更新字串">更新字串</a></h3>
+<h3 id="更新字串"><a class="header" href="#更新字串">更新字串</a></h3>
 <p>就和 <code>Vec&lt;T&gt;</code> 一樣，如果你插入更多資料的話，<code>String</code> 可以增長大小並變更其內容。除此之外你也可以使用 <code>+</code> 運算子或 <code>format!</code> 巨集來串接 <code>String</code> 數值。</p>
-<h4><a class="header" href="#使用-push_str-和-push-追加字串" id="使用-push_str-和-push-追加字串">使用 <code>push_str</code> 和 <code>push</code> 追加字串</a></h4>
+<h4 id="使用-push_str-和-push-追加字串"><a class="header" href="#使用-push_str-和-push-追加字串">使用 <code>push_str</code> 和 <code>push</code> 追加字串</a></h4>
 <p>我們可以使用 <code>push_str</code> 方法來追加一個字串切片使字串增長，如範例 8-15 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut s = String::from(&quot;foo&quot;);
@@ -249,7 +249,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 8-17：使用 <code>push</code> 將一個字元加到 <code>String</code></span></p>
 <p>此程式碼的結果就是 <code>s</code> 會包含 <code>lol</code>。</p>
-<h4><a class="header" href="#使用--運算子或-format-巨集串接字串" id="使用--運算子或-format-巨集串接字串">使用 <code>+</code> 運算子或 <code>format!</code> 巨集串接字串</a></h4>
+<h4 id="使用--運算子或-format-巨集串接字串"><a class="header" href="#使用--運算子或-format-巨集串接字串">使用 <code>+</code> 運算子或 <code>format!</code> 巨集串接字串</a></h4>
 <p>你通常會想要組合兩個字串在一起，其中一種方式是用 <code>+</code> 運算子。如範例 8-18 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;Hello, &quot;);
@@ -284,7 +284,7 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p>此程式碼一樣能設置 <code>s</code> 為to <code>tic-tac-toe</code>。<code>format!</code> 巨集運作的方式和 <code>println!</code> 一樣，但不會將輸出結果顯示在螢幕上，它做的是回傳內容的 <code>String</code>。使用 <code>format!</code> 的程式碼版本看起來比較好讀懂，而且不會取走任何參數的所有權。</p>
-<h3><a class="header" href="#索引字串" id="索引字串">索引字串</a></h3>
+<h3 id="索引字串"><a class="header" href="#索引字串">索引字串</a></h3>
 <p>在其他許多程式語言中，使用索引引用字串來取得獨立字元是有效且常見的操作。然而在 Rust 中如果你嘗試對 <code>String</code> 使用索引語法的話，你會得到錯誤。請看看範例 8-19 這段無效的程式碼。</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;hello&quot;);
@@ -311,7 +311,7 @@ error: could not compile `collections`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>錯誤訊息與提示告訴了我們 Rust 字串並不支援索引。但為何不支援呢？要回答此問題，我們需要先討論 Rust 如何儲存字串進記憶體的。</p>
-<h4><a class="header" href="#內部呈現" id="內部呈現">內部呈現</a></h4>
+<h4 id="內部呈現"><a class="header" href="#內部呈現">內部呈現</a></h4>
 <p><code>String</code> 基本上就是 <code>Vec&lt;u8&gt;</code> 的封裝。讓我們看看範例 8-14 中一些正確編碼為 UTF-8 字串的例子，像是這一個：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let hello = String::from(&quot;السلام عليكم&quot;);
@@ -347,7 +347,7 @@ To learn more, run the command again with --verbose.
 let answer = &amp;hello[0];
 </code></pre>
 <p><code>answer</code> 的數值會是多少呢？會是第一個字母 <code>З</code> 嗎？當經過 UTF-8 編碼時，<code>З</code> 的第一個位元組會是 <code>208</code> 然後第二個是 <code>151</code>。所以 <code>answer</code> 實際上會拿到 <code>208</code>，但 <code>208</code> 本身又不是個有效字元。回傳 <code>208</code> 可能不會是使用者想要的，他們希望的應該是此字串的第一個字母，但這是 Rust 在位元組索引 0 唯一能回傳的資料。就算字串都只包含拉丁字母，使用者通常也不會希望看到位元組數值作為回傳值。如果 <code>&amp;&quot;hello&quot;[0]</code> 是有效程式碼且會回傳位元組數值的話，它會回傳的是 <code>104</code> 並非 <code>h</code>。為了預防回傳意外數值進而導致無法立刻察覺的錯誤，Rust 不會成功編譯這段程式碼，並在開發過程前期就杜絕誤會發生。</p>
-<h4><a class="header" href="#位元組純量數值與形素群集我的天啊" id="位元組純量數值與形素群集我的天啊">位元組、純量數值與形素群集！我的天啊！</a></h4>
+<h4 id="位元組純量數值與形素群集我的天啊"><a class="header" href="#位元組純量數值與形素群集我的天啊">位元組、純量數值與形素群集！我的天啊！</a></h4>
 <p>UTF-8 還有一個重點是在 Rust 中我們實際上可以有三種觀點來理解字串：位元組、純量數值（scalar values）以及形素群集（grapheme clusters，最接近人們常說的「<strong>字母</strong>」）。</p>
 <p>如果我們觀察用天成體寫的印度語「नमस्ते」，它存在向量中的 <code>u8</code> 數值就會長這樣：</p>
 <pre><code class="language-text">[224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
@@ -361,7 +361,7 @@ let answer = &amp;hello[0];
 </code></pre>
 <p>Rust 提拱多種不同的方式來解釋電腦中儲存的原始字串資料，讓每個程式無論是何種人類語言的資料，都可以選擇它們需要的呈現方式。</p>
 <p>Rust 還有一個不允許索引 <code>String</code> 來取得字元的原因是因為，索引運算必須永遠預期是花費常數時間（O(1)）。但在 <code>String</code> 上無法提供這樣的效能保證，因為 Rust 會需要從索引的開頭遍歷每個內容才能決定多少有效字元存在。</p>
-<h3><a class="header" href="#字串切片" id="字串切片">字串切片</a></h3>
+<h3 id="字串切片"><a class="header" href="#字串切片">字串切片</a></h3>
 <p>索引字串通常不是個好點子，因為字符串索引要回傳的型別是不明確的，是要一個位元組數值、一個字元、一個形素群集還是一個字串切片呢。因此如果你真的想要使用索引建立字串切片的話，Rust 會要你更明確些。要明確指定你的索引與你想要的字串切片，與其在 <code>[]</code> 只使用一個數字來索引，你可以在 <code>[]</code> 指定一個範圍來建立包含特定位元組的字串切片：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -381,7 +381,7 @@ thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside 'З
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p>你在使用範圍來建立字串切片時要格外小心，因為這樣做有可能會使你的程式崩潰。</p>
-<h3><a class="header" href="#遍歷字串的方法" id="遍歷字串的方法">遍歷字串的方法</a></h3>
+<h3 id="遍歷字串的方法"><a class="header" href="#遍歷字串的方法">遍歷字串的方法</a></h3>
 <p>幸運的是你有其他方法來取得字串的元素。</p>
 <p>如果你需要對每個獨立的 Unicode 純量型別做運算的話，最好的方式是使用 <code>chars</code> 方法。對「नमस्ते」呼叫 <code>chars</code> 會將六個擁有 <code>char</code> 型別的數值拆開並回傳，這樣一來你就可以遍歷每個元素：</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -418,7 +418,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p>請確定你已經瞭解有效的 Unicode 純量數值可能不止佔 1 個位元組。</p>
 <p>而要從字串取得形素群集的話就非常複雜了，所以標準函式庫並未提供這項功能。如果你需要的話，<a href="https://crates.io/">crates.io</a> 上會有提供這項功能的 crate。</p>
-<h3><a class="header" href="#字串並不簡單" id="字串並不簡單">字串並不簡單</a></h3>
+<h3 id="字串並不簡單"><a class="header" href="#字串並不簡單">字串並不簡單</a></h3>
 <p>總結來說，字串是很複雜的。不同的程式語言會選擇不同的決定來呈現給程式設計師。Rust 選擇正確處理 <code>String</code> 的方式作為所有 Rust 程式的預設行為，這也代表開發者在處理 UTF-8 資料時需要多加考量。這樣的取捨的確對比其他程式語言來說，增加了不少字串的複雜程度，但是這能讓你在開發週期免於處理非 ASCII 字元相關的錯誤。</p>
 <p>讓我們接下去開一個較簡單地集合吧：雜湊映射（hash maps）！</p>
 <blockquote>

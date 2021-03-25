@@ -171,10 +171,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#對無法復原的錯誤使用-panic" id="對無法復原的錯誤使用-panic">對無法復原的錯誤使用 <code>panic!</code></a></h2>
+                        <h2 id="對無法復原的錯誤使用-panic"><a class="header" href="#對無法復原的錯誤使用-panic">對無法復原的錯誤使用 <code>panic!</code></a></h2>
 <p>有時候壞事就是會發生在你的程式中，這本來就是你沒辦法全部避免的。在這種情況，Rust 有提供 <code>panic!</code> 巨集。當 <code>panic!</code> 巨集執行時，你的程式就會印出程式出錯的訊息，展開並清理堆疊，然後離開程式。這常用來處理當程式遇到某種錯誤時，開發者不清楚如何處理該錯誤的狀況。</p>
 <blockquote>
-<h3><a class="header" href="#恐慌時該解開堆疊還是直接終止" id="恐慌時該解開堆疊還是直接終止">恐慌時該解開堆疊還是直接終止</a></h3>
+<h3 id="恐慌時該解開堆疊還是直接終止"><a class="header" href="#恐慌時該解開堆疊還是直接終止">恐慌時該解開堆疊還是直接終止</a></h3>
 <p>當恐慌（panic）發生時，程式預設會開始做<strong>解開</strong>（unwind）堆疊的動作，這代表 Rust 會回溯整個堆疊，並清理每個它遇到的函式資料。但是這樣回溯並清理的動作很花力氣。另一種方式是直接<strong>終止</strong>（abort）程式而不清理，程式使用的記憶體會需要由作業系統來清理。如果你需要你的專案產生的二進制檔案越小越好，你可以從解開切換成終止，只要在 <em>Cargo.toml</em> 檔案中的 <code>[profile]</code> 段落加上 <code>panic = 'abort'</code> 就好。舉例來說，如果你希望在發佈模式（release mode）恐慌時直接終止，那就加上：</p>
 <pre><code class="language-toml">[profile.release]
 panic = 'abort'
@@ -196,7 +196,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p><code>panic!</code> 的呼叫導致印出了最後兩行的錯誤訊息。第一行顯示了我們的恐慌訊息以及該恐慌是在原始碼何處發生的：<em>src/main.rs:2:5</em> 指的是它發生在我們的 <em>src/main.rs</em> 檔案第二行第五個字元。</p>
 <p>在此例中，該行指的就是我們寫的程式碼。如果我們查看該行，我們會看到 <code>panic!</code> 巨集的呼叫。在其他情形，<code>panic!</code> 的呼叫可能會發生在我們呼叫的程式碼內，所以錯誤訊息回報的檔案名稱與行數可能就會是其他人呼叫 <code>panic!</code> 巨集的程式碼，而不是因為我們的程式碼才導致 <code>panic!</code> 的呼叫。我們可以在呼叫 <code>panic!</code> 程式碼的地方使用 backtrace 來找出出現問題的地方。接下來我們就會深入瞭解 backtrace。</p>
-<h3><a class="header" href="#使用-panic-backtrace" id="使用-panic-backtrace">使用 <code>panic!</code> Backtrace</a></h3>
+<h3 id="使用-panic-backtrace"><a class="header" href="#使用-panic-backtrace">使用 <code>panic!</code> Backtrace</a></h3>
 <p>讓我們看看另一個例子，這是函式庫發生錯誤而呼叫 <code>panic!</code>，而不是來自於我們在程式碼自己呼叫的巨集。範例 9-1 是個嘗試從向量取得元素的例子。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic panics">fn main() {

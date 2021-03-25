@@ -171,20 +171,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#可延展的並行與-sync-及-send-特徵" id="可延展的並行與-sync-及-send-特徵">可延展的並行與 <code>Sync</code> 及 <code>Send</code> 特徵</a></h2>
+                        <h2 id="可延展的並行與-sync-及-send-特徵"><a class="header" href="#可延展的並行與-sync-及-send-特徵">可延展的並行與 <code>Sync</code> 及 <code>Send</code> 特徵</a></h2>
 <p>有一個有趣的點是 Rust 語言提供的並行功能並<strong>沒有很多</strong>。本章節討論到的並行功能幾乎都來自於標準函式庫，並不是語言本身。你能處理並行的選項並不限於語言或標準函式庫，你可以寫出你自己的並行功能或使用其他人提供的。</p>
 <p>然而，還有有兩個並行概念深植於語言中，那就是 <code>std::marker</code> 中的 <code>Sync</code> 與 <code>Send</code> 特徵。</p>
-<h3><a class="header" href="#透過-send-來允許所有權能在執行緒間轉移" id="透過-send-來允許所有權能在執行緒間轉移">透過 <code>Send</code> 來允許所有權能在執行緒間轉移</a></h3>
+<h3 id="透過-send-來允許所有權能在執行緒間轉移"><a class="header" href="#透過-send-來允許所有權能在執行緒間轉移">透過 <code>Send</code> 來允許所有權能在執行緒間轉移</a></h3>
 <p><code>Send</code> 標記特徵（marker traits）指定有實作 <code>Send</code> 特徵的型別才能將其所有權在執行緒間轉移。幾乎所有的 Rust 型別都有 <code>Send</code>，但有些例外。這包含 <code>Rc&lt;T&gt;</code>，此型別沒有 <code>Send</code> 是因為如果你克隆了 <code>Rc&lt;T&gt;</code> 數值並嘗試轉移克隆的所有權到其他執行緒，會有兩條執行緒可能同時更新引用引用計數。基於此原因，<code>Rc&lt;T&gt;</code> 是用於當你不想要付出執行緒安全效能開銷時而在單一執行緒使用的情況。</p>
 <p>因此 Rust 的型別系統與特徵界限確保你無法意外不安全地傳送 <code>Rc&lt;T&gt;</code> 數值到其他執行緒。當我們嘗試範例 16-14 時，我們就會得到錯誤 <code>the trait Send is not implemented for Rc&lt;Mutex&lt;i32&gt;&gt;</code>。當我們切換成有實作 <code>Send</code> 的 <code>Arc&lt;T&gt;</code> 的話，程式碼就能編譯通過。</p>
 <p>任何由具有 <code>Send</code> 的型別所組成的型別也都會自動標記為 <code>Send</code>。幾乎所有原始型別都是 <code>Send</code>，除了我們將在第十九章提及的裸指標（raw pointers）。</p>
-<h3><a class="header" href="#透過-sync-來允許多重執行緒存取" id="透過-sync-來允許多重執行緒存取">透過 <code>Sync</code> 來允許多重執行緒存取</a></h3>
+<h3 id="透過-sync-來允許多重執行緒存取"><a class="header" href="#透過-sync-來允許多重執行緒存取">透過 <code>Sync</code> 來允許多重執行緒存取</a></h3>
 <p><code>Sync</code> 標記特徵指定有實作 <code>Sync</code> 的型別都能安全從多個執行緒來引用。換句話說，對於任何型別 <code>T</code>，如果 <code>&amp;T</code>（對 <code>T</code> 的引用）有 <code>Send</code> 的話，<code>T</code> 就是 <code>Sync</code> 的，這代表引用可以安全地傳給其他執行緒。與 <code>Send</code> 類似，原始型別都是 <code>Sync</code>，所以由具有 <code>Sync</code> 的型別所組成的型別也都有 <code>Sync</code>。</p>
 <p>智慧指標 <code>Rc&lt;T&gt;</code> 沒有 <code>Sync</code> 的原因和沒有 <code>Send</code> 的原因一樣。<code>RefCell&lt;T&gt;</code> 型別（我們在第十五章提過）與其 <code>Cell&lt;T&gt;</code> 也都沒有 <code>Sync</code>。 <code>RefCell&lt;T&gt;</code> 在執行時的借用檢查實作沒有執行緒安全。智慧指標 <code>Mutex&lt;T&gt;</code> 才有 <code>Sync</code> 並能像你在<a href="ch16-03-shared-state.html#%E5%9C%A8%E6%95%B8%E5%80%8B%E5%9F%B7%E8%A1%8C%E7%B7%92%E9%96%93%E5%85%B1%E4%BA%AB-mutext">「在數個執行緒間共享 <code>Mutex&lt;T&gt;</code>」</a><!-- ignore -->段落看到的那樣用來在多個執行緒間分享存取。</p>
-<h3><a class="header" href="#手動實作-send-與-sync-是不安全的" id="手動實作-send-與-sync-是不安全的">手動實作 <code>Send</code> 與 <code>Sync</code> 是不安全的</a></h3>
+<h3 id="手動實作-send-與-sync-是不安全的"><a class="header" href="#手動實作-send-與-sync-是不安全的">手動實作 <code>Send</code> 與 <code>Sync</code> 是不安全的</a></h3>
 <p>因為由具有 <code>Send</code> 與 <code>Sync</code> 的型別組成的型別自動就會有 <code>Send</code> 與 <code>Sync</code>，我們不需要親自實作這些特徵。至於標記特徵，它們甚至沒有任何方法需要實作。它們只是用於強制確保並行相關的不變性。</p>
 <p>要手動實作這些特徵會需要實作不安全（unsafe）的 Rust 程式碼。我們會在第十九章討論如何使用不安全的 Rust 程式碼，現在最重要的資訊是要從不具有 <code>Send</code> 與 <code>Sync</code> 的元件來組成新的並行型別需要格外小心才能確保其安全保障。<a href="https://doc.rust-lang.org/nomicon/index.html">「The Rustonomicon」</a> 有更多關於這些保障與如何維持它們的資訊。</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>這不會是你在本書中最後一次看到並行程式碼，第二十章的專案將會在更實際的場合中使用本章節的概念，而非這裡討論的簡單範例。</p>
 <p>如之前提過的，因為 Rust 語言本身很少處理並行的部分，許多並行解決方案都實作成 crate。這些 crate 通常發展的比標準函式庫還快，所以別忘了到線上尋找目前最先進的 crate 來在多執行緒場合中使用喔。</p>
 <p>Rust 標準函式庫提供訊息傳遞的通道與智慧指標，像是 <code>Mutex&lt;T&gt;</code> 與 <code>Arc&lt;T&gt;</code>，能夠在並行環境中安全使用。型別系統與借用檢查器中確保使用這些解決方案的程式碼不會發生資料競爭或是無效引用。一旦你讓你的程式碼能編譯通過後，你可以放心地認定它會開開心心地在多執行緒中執行，並且不會發生任何在其他語言中常見且難以追蹤的程式錯誤。並行程式設計就不再是個令人害怕的概念，無畏無懼地開發並行程式吧！</p>

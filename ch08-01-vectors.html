@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#透過向量儲存列表" id="透過向量儲存列表">透過向量儲存列表</a></h2>
+                        <h2 id="透過向量儲存列表"><a class="header" href="#透過向量儲存列表">透過向量儲存列表</a></h2>
 <p>我們第一個要來看的集合是 <code>Vec&lt;T&gt;</code> 常稱為<strong>向量</strong>（vector）。向量允許你在一個資料結構儲存不止一個數值，而且該結構的記憶體會接連排列所有數值。它們很適合用來處理你手上的項目列表，像是一個檔案中每行的文字，或是購物車內每項物品。</p>
-<h3><a class="header" href="#建立新的向量" id="建立新的向量">建立新的向量</a></h3>
+<h3 id="建立新的向量"><a class="header" href="#建立新的向量">建立新的向量</a></h3>
 <p>要建立一個新的空向量的話，我們可以呼叫 <code>Vec::new</code> 函式，如範例 8-1 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v: Vec&lt;i32&gt; = Vec::new();
@@ -188,7 +188,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 8-2：建立一個擁有數值的新向量</span></p>
 <p>因為我們給予了初始的 <code>i32</code> 數值，Rust 可以推導出 <code>v</code> 的型別為 <code>Vec&lt;i32&gt;</code>，所以型別詮釋就不是必要的了。接下來，讓我們看看如何修改向量。</p>
-<h3><a class="header" href="#更新向量" id="更新向量">更新向量</a></h3>
+<h3 id="更新向量"><a class="header" href="#更新向量">更新向量</a></h3>
 <p>要在建立向量之後新增元素的話，我們可以使用 <code>push</code> 方法，如範例 8-3 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut v = Vec::new();
@@ -201,7 +201,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 8-3：使用 <code>push</code> 方法來新增數值到向量</span></p>
 <p>與其他變數一樣，如果我們想要變更其數值的話，我們需要使用 <code>mut</code> 關鍵字使它成為可變的，如同第三章提到的一樣。我們插入的數值所屬型別均為 <code>i32</code>，然後 Rust 可以從資料推導，所以我們不必指明 <code>Vec&lt;i32&gt;</code>。</p>
-<h3><a class="header" href="#釋放向量的同時也會釋放其元素" id="釋放向量的同時也會釋放其元素">釋放向量的同時也會釋放其元素</a></h3>
+<h3 id="釋放向量的同時也會釋放其元素"><a class="header" href="#釋放向量的同時也會釋放其元素">釋放向量的同時也會釋放其元素</a></h3>
 <p>就像其它 <code>struct</code> 一樣，向量會在作用域結束時被釋放，如範例 8-4 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    {
@@ -213,7 +213,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 8-4：顯示向量及其元素在哪裡被釋放</span></p>
 <p>當向量被釋放時，其所有內容也都會被釋放，代表它持有的那些整數都會被清除。這雖然聽起來很直觀，但是當我們開始引用向量中的元素時可能就會變得有點複雜。讓我們看看怎麼處理這種情形吧！</p>
-<h3><a class="header" href="#讀取向量元素" id="讀取向量元素">讀取向量元素</a></h3>
+<h3 id="讀取向量元素"><a class="header" href="#讀取向量元素">讀取向量元素</a></h3>
 <p>現在你知道如何建立、更新與刪除向量，接下來就是要知道如何讀取他們的內容了。要引用向量儲存的數值有兩種方式。為了更加清楚說明此範例，我們詮釋了函式回傳值的型別。</p>
 <p>範例 8-5 顯示了取得向量中數值的方法，可以是用索引語法或者 <code>get</code> 方法。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -279,7 +279,7 @@ To learn more, run the command again with --verbose.
 <blockquote>
 <p>注意：關於 <code>Vec&lt;T&gt;</code> 型別更多的實作細節，歡迎查閱<a href="https://doc.rust-lang.org/nomicon/vec.html">「The Rustonomicon」</a>。</p>
 </blockquote>
-<h3><a class="header" href="#遍歷向量的元素" id="遍歷向量的元素">遍歷向量的元素</a></h3>
+<h3 id="遍歷向量的元素"><a class="header" href="#遍歷向量的元素">遍歷向量的元素</a></h3>
 <p>如果我們想要依序存取向量中每個元素的話，我們可以遍歷所有元素而不必用索引一個一個取得。範例 8-8 闡釋了如何使用 <code>for</code> 迴圈來取得一個 <code>i32</code> 向量中每個元素的不可變引用並印出他們。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v = vec![100, 32, 57];
@@ -299,7 +299,7 @@ To learn more, run the command again with --verbose.
 </span></code></pre></pre>
 <p><span class="caption">範例 8-9：遍歷向量中的元素取得可變引用</span></p>
 <p>要改變可變引用指向的數值，在使用 <code>+=</code> 運算子之前，我們需要使用解引用運算子（<code>*</code>）來取得 <code>i</code> 的數值。我們會在第十五章的<a href="ch15-02-deref.html#%E4%BD%BF%E7%94%A8%E8%A7%A3%E5%BC%95%E7%94%A8%E9%81%8B%E7%AE%97%E5%AD%90%E8%BF%BD%E8%B9%A4%E6%8C%87%E6%A8%99%E7%9A%84%E6%95%B8%E5%80%BC">「使用解引用運算子追蹤指標的數值」</a>段落來講解更多解引用運算子的細節。</p>
-<h3><a class="header" href="#使用枚舉來儲存多種型別" id="使用枚舉來儲存多種型別">使用枚舉來儲存多種型別</a></h3>
+<h3 id="使用枚舉來儲存多種型別"><a class="header" href="#使用枚舉來儲存多種型別">使用枚舉來儲存多種型別</a></h3>
 <p>在本章的一開始，我們說向量只能儲存同型別的數值。這在某些情況會很不方便，一定會有場合是要儲存不同型別到一個列表中的。幸運的是，枚舉的變體是定義在相同的枚舉型別，所以當我們需要在向量儲存不同型別的元素時，我們可以用枚舉來定義！</p>
 <p>舉例來說，假設我們想從表格中的一行取得數值，但是有些行內的列會包含整數、浮點數以及一些字串。我們可以定義一個枚舉，其變體會持有不同的數值型別，然後所有的枚舉變體都會被視為相同型別：就是它們的枚舉。接著我們就可以建立一個擁有此枚舉型別的向量，最終達成持有不同型別。如範例 8-10 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {

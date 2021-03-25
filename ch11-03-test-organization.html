@@ -171,12 +171,12 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#測試組織架構" id="測試組織架構">測試組織架構</a></h2>
+                        <h2 id="測試組織架構"><a class="header" href="#測試組織架構">測試組織架構</a></h2>
 <p>如同本章開頭提到的，測試是個複雜的領域，不同的人可能使用不同的術語與組織架構。Rust 社群將測試分為兩大分類術語：<strong>單元測試（unit tests）<strong>和</strong>整合測試（integration tests）</strong>。單元測試比較小且較專注，傾向在隔離環境中一次只測試一個模組，且能夠測試私有介面。整合測試對於你的函式庫來說是個完全外部的程式碼，所以會如其他外部程式碼一樣使用你的程式碼，只能使用公開介面且每個測試可能會有數個模組。</p>
 <p>這兩種測試都很重要，且能確保函式庫每個部分能在分別或一起執行的情況下，如你預期的方式運作。</p>
-<h3><a class="header" href="#單元測試" id="單元測試">單元測試</a></h3>
+<h3 id="單元測試"><a class="header" href="#單元測試">單元測試</a></h3>
 <p>單元測試的目的是要在隔離其他程式碼的狀況下測試每個程式碼單元，迅速查明程式碼有沒有如預期或非預期的方式運作。你會將單元測試放在 <em>src</em> 目錄中每個你要測試的程式同個檔案下。我們常見的做法是在每個檔案建立一個模組 <code>tests</code> 來包含測試函式，並用 <code>cfg(test)</code> 來詮釋模組。</p>
-<h4><a class="header" href="#測試模組與-cfgtest" id="測試模組與-cfgtest">測試模組與 <code>#[cfg(test)]</code></a></h4>
+<h4 id="測試模組與-cfgtest"><a class="header" href="#測試模組與-cfgtest">測試模組與 <code>#[cfg(test)]</code></a></h4>
 <p>測試模組上的 <code>#[cfg(test)]</code> 詮釋會告訴 Rust 當你執行 <code>cargo test</code> 才會編譯並執行測試程式碼。而不是當你執行 <code>cargo build</code>。當你想要建構函式庫時，這能節省編譯時間並降低編譯出的檔案所佔的空間，因為這些測試沒有被包含到。整合測試位於不同目錄，所以它們不需要 <code>#[cfg(test)]</code>。但是因為單元測試與程式碼位於相同的檔案下，你需要使用 <code>#[cfg(test)]</code> 來指明它們不應該被包含在編譯結果。</p>
 <p>回想一下本章節第一個段落中我們建立了一個新專案 <code>adder</code>，並用 Cargo 為我們產生以下程式碼：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -191,7 +191,7 @@ mod tests {
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p>此程式碼是自動產生的測試模組。<code>cfg</code> 屬性代表的是 <em>configuration</em> 並告訴 Rust 以下項目只有在給予特定配置選項時才會被考慮。在此例中配置選項是 <code>test</code>，這是 Rust 提供用來編譯與執行測試的選項。使用 <code>cfg</code> 屬性的話，Cargo 只有在我們透過 <code>cargo test</code> 執行測試時才會編譯我們的測試程式碼。這包含此模組能可能需要的輔助函式，以及用 <code>#[test]</code> 詮釋的測試函式。</p>
-<h4><a class="header" href="#測試私有函式" id="測試私有函式">測試私有函式</a></h4>
+<h4 id="測試私有函式"><a class="header" href="#測試私有函式">測試私有函式</a></h4>
 <p>在測試領域的社群中對於是否應該直接測試私有函式一直存在著爭議，而且有些其他語言會讓測試私有函式變得很困難，甚至不可能。不管你認為哪個論點比較理想，Rust 的隱私權規則還是能讓你測試私有函式。考慮以下範例 11-12 擁有私有函式 <code>internal_adder</code> 的程式碼。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">pub fn add_two(a: i32) -&gt; i32 {
@@ -216,9 +216,9 @@ mod tests {
 </span></code></pre></pre>
 <p><span class="caption">範例 11-12：測試私有函式</span></p>
 <p>注意到函式 <code>internal_adder</code> 沒有標記為 <code>pub</code>，但是因為測試也只是 Rust 的程式碼，且 <code>tests</code> 也只是另一個模組，你可以將 <code>internal_adder</code> 引入測試的作用域並呼叫它。如果你不認為私有函式不應該測試，Rust 也沒有什麼好阻止你的地方。</p>
-<h3><a class="header" href="#整合測試" id="整合測試">整合測試</a></h3>
+<h3 id="整合測試"><a class="header" href="#整合測試">整合測試</a></h3>
 <p>在 Rust 中，整合測試對你的函式庫來說是完全外部的程式。它們使用你的函式庫的方式與其他程式碼一樣，所以它們只能呼叫屬於函式庫中公開 API 的函式。它們的目的是要測試你的函式庫屬個部分一起運作時有沒有正確無誤。單獨運作無誤的程式碼單元可能會在整合時出現問題，所以整合測試的程式碼的涵蓋率也很重要。要建立整合測試，你需要先有個 <em>tests</em> 目錄。</p>
-<h4><a class="header" href="#tests-目錄" id="tests-目錄"><em>tests</em> 目錄</a></h4>
+<h4 id="tests-目錄"><a class="header" href="#tests-目錄"><em>tests</em> 目錄</a></h4>
 <p>我們在專案目錄最上層在 <em>src</em> 旁建立一個 <em>tests</em> 目錄。Cargo 知道要從此目錄來尋找整合測試。我們接著就可以在此目錄建立多少個測試都沒問題，Cargo會編譯每個檔案成獨立的 crate。</p>
 <p>讓我們來建立一個整合測試，將範例 11-12 的程式碼保留在 <em>src/lib.rs</em> 檔案中，然後建立一個 <em>tests</em> 目錄、一個叫做 <em>tests/integration_test.rs</em> 的檔案並輸入範例 11-13 的程式碼。</p>
 <p><span class="filename">檔案名稱：tests/integration_test.rs</span></p>
@@ -272,7 +272,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 </code></pre>
 <p>此命令會只執行 <em>tests/integration_test.rs</em> 檔案內的測試。</p>
-<h4><a class="header" href="#整合測試的子模組" id="整合測試的子模組">整合測試的子模組</a></h4>
+<h4 id="整合測試的子模組"><a class="header" href="#整合測試的子模組">整合測試的子模組</a></h4>
 <p>隨著你加入的整合測試越多，你可能會想要在 <em>tests</em> 目錄下產生更多檔案來協助組織它們。舉例來說，你以用測試函式測試的功能來組織它們。如同稍早提到的，<em>tests</em>  目錄下的每個檔案都會編譯成自己獨立的 crate。</p>
 <p>將每個整合測試檔案視為獨立的 crate 有助於建立不同的作用域，這就像是使用者使用你的 crate 的可能環境。然而這也代表 <em>tests</em> 目錄的檔案不會和 <em>src</em> 的檔案行為一樣，也就是你在第七章學到如何拆開程式碼成模組與檔案的部分。</p>
 <p>當你希望擁有一些能協助數個整合測試檔案的輔助函式，並遵循第七章的<a href="ch07-05-separating-modules-into-different-files.html">「將模組拆成不同檔案」</a><!-- ignore -->段落來提取它們到一個通用模組時，你就會發現 <em>tests</em> 目錄下的檔案行為是不同的。舉例來說，我們建立了 <em>tests/common.rs</em> 並寫了一個函式 <code>setup</code>，然後我們希望 <code>setup</code> 能被不同測試檔案的數個測試函式呼叫：</p>
@@ -331,10 +331,10 @@ fn it_adds_two() {
 }
 </code></pre>
 <p>注意到 <code>mod common;</code> 的宣告與我們在範例 7-21 說明的模組宣告方式一樣。然而後在測試函式中，我們就可以呼叫函式 <code>common::setup()</code>。</p>
-<h4><a class="header" href="#二進制執行檔-crate-的整合測試" id="二進制執行檔-crate-的整合測試">二進制執行檔 Crate 的整合測試</a></h4>
+<h4 id="二進制執行檔-crate-的整合測試"><a class="header" href="#二進制執行檔-crate-的整合測試">二進制執行檔 Crate 的整合測試</a></h4>
 <p>如果我們的專案是只包含 <em>src/main.rs</em> 檔案的二進制執行檔 crate 而沒有 <em>src/lib.rs</em> 檔案的話，我們無法在 <em>tests</em> 目錄下建立整合測試，也無法將 <em>src/main.rs</em> 檔案中定義的函式透過 <code>use</code> 陳述式引入作用域。只有函式庫 crate 能公開函式給其他 crate 使用，二進制 crate 只用於獨自執行。</p>
 <p>這也是為何 Rust 專案為二進制執行檔提供直白的 <em>src/main.rs</em> 檔案並允許呼叫 <em>src/lib.rs</em> 檔案中的邏輯程式碼。使用這樣子的架構的話，整合測試<strong>可以</strong>透過 <code>use</code> 來測試函式庫 crate，並讓重點功能可以公開使用。如果重點功能可以運作的話，那 <em>src/main.rs</em> 檔案中剩下的程式碼部分也能夠如期執行，而這一小部分就不必特定做測試。</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>Rust 的測試功能提供了判定程式碼怎樣才算正常運作的方法，以確保它能以你預期的方式運作，就算當你做了改變時也是如此。單元測試分別測試函式庫中每個不同的部分，且能測試私有實作細節。整合測試檢查函式庫數個部分一起執行時是否正確無誤，且它們使用函式庫公開 API 來測試程式碼的行為與外部程式碼使用的方式一樣。雖然 Rust 型別系統與所有權規則能避免某些種類的程式錯誤，測試還是減少邏輯程式錯誤的重要辦法，讓你的程式碼能如預期行為運作。</p>
 <p>讓我們統整此章節以及之前的章節所學到的知識來寫一支專案吧！</p>
 <blockquote>

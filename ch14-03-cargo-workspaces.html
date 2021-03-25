@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#cargo-工作空間" id="cargo-工作空間">Cargo 工作空間</a></h2>
+                        <h2 id="cargo-工作空間"><a class="header" href="#cargo-工作空間">Cargo 工作空間</a></h2>
 <p>在第十二章中，我們建立的套件包含一個二進制執行檔 crate 與一個函式庫 crate。隨著專案開發，你可能會發現函式庫 crate 變得越來越大，而你可能會想要將套件拆成數個函式庫 crate。針對這種情形，Cargo 提供了一個功能叫做<strong>工作空間</strong>（workspaces）能來幫助管理並開發數個相關的套件。</p>
-<h3><a class="header" href="#建立工作空間" id="建立工作空間">建立工作空間</a></h3>
+<h3 id="建立工作空間"><a class="header" href="#建立工作空間">建立工作空間</a></h3>
 <p><strong>工作空間</strong>是一系列的共享相同 <em>Cargo.lock</em> 與輸出目錄的套件。讓我們建立個使用工作空間的專案，我們會使用簡單的程式碼，好讓我們能專注在工作空間的架構上。組織工作空間的架構有很多種方式，我們會顯示其中一種常見的方式。我們的工作空間將會包含一個二進制執行檔與兩個函式庫。執行檔會提供主要功能，並依賴其他兩個函式庫。其中一個函式庫會提供函式 <code>add_one</code>，而另一個函式庫會提供函式 <code>add_two</code>。這三個 crate 會包含在相同的工作空間中，我們先從建立工作空間的目錄開始：</p>
 <pre><code class="language-console">$ mkdir add
 $ cd add
@@ -206,7 +206,7 @@ copy output below
 └── target
 </code></pre>
 <p>工作空間在頂層有一個 <em>target</em> 目錄用來儲存編譯結果。<code>adder</code> 套件不會有自己的 <em>target</em> 目錄。就算我們在 <em>adder</em> 目錄底下執行 <code>cargo build</code>，編譯結果仍然會在 <em>add/target</em> 底下而非 <em>add/adder/target</em>。Cargo 之所以這樣組織工作空間的 <em>target</em> 目錄是因為工作空間的 crate 是會彼此互相依賴的。 如果每個 crate 都有自己的 <em>target</em> 目錄，每個 crate 就得重新編譯工作空間中的其他每個 crate 才能將編譯結果放入它們自己的 <em>target</em> 目錄。共享 <em>target</em> 目錄的話，crate 可以避免不必要的重新建構。</p>
-<h3><a class="header" href="#在工作空間中建立第二個套件" id="在工作空間中建立第二個套件">在工作空間中建立第二個套件</a></h3>
+<h3 id="在工作空間中建立第二個套件"><a class="header" href="#在工作空間中建立第二個套件">在工作空間中建立第二個套件</a></h3>
 <p>接下來讓我們在工作空間中建立另一個套件成員 <code>add-one</code>。請修改頂層 <em>Cargo.toml</em> 來指定 <em>add-one</em> 的路徑到 <code>members</code> 列表中：</p>
 <p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">[workspace]
@@ -293,7 +293,7 @@ copy output below; the output updating script doesn't handle subdirectories in p
 你好，世界！10 加一會是 11！
 </code></pre>
 <p>這就會執行 <em>adder/src/main.rs</em> 的程式碼，其依賴於 <code>add-one</code> crate。</p>
-<h4><a class="header" href="#在工作空間中依賴外部套件" id="在工作空間中依賴外部套件">在工作空間中依賴外部套件</a></h4>
+<h4 id="在工作空間中依賴外部套件"><a class="header" href="#在工作空間中依賴外部套件">在工作空間中依賴外部套件</a></h4>
 <p>注意到工作空間只有在頂層有一個 <em>Cargo.lock</em> 檔案，而不是在每個 crate 目錄都有一個 <em>Cargo.lock</em>。這確保所有的 crate 都對所有的依賴使用相同的版本。如果我們加了 <code>rand</code> 套件到 <em>adder/Cargo.toml</em> 與 <em>add-one/Cargo.toml</em> 檔案中，Cargo 會將兩者的版本解析為同一個 <code>rand</code> 版本並記錄到同個 <em>Cargo.lock</em> 中。確保工作空間所有 crate 都會使用相同依賴代表工作空間中的 crate 永遠都彼此相容。讓我們將 <code>rand</code> crate 加到 <em>add-one/Cargo.toml</em> 檔案的 <code>[dependencies]</code> 段落中，使 <code>add-one</code> crate 可以使用 <code>rand</code> crate：</p>
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -335,7 +335,7 @@ error[E0432]: unresolved import `rand`
   |     ^^^^ no `rand` external crate
 </code></pre>
 <p>要修正此問題，只要修改 <code>adder</code> 套件的 <em>Cargo.toml</em> 檔案，指示它也加入 <code>rand</code> 作為依賴就好了。這樣建構 <code>adder</code> 套件就會將在 <em>Cargo.lock</em> 中將 <code>rand</code> 加入 <code>adder</code> 的依賴，但是沒有額外的 <code>rand</code> 會被下載。Cargo 會確保工作空間中每個套件的每個 crate 都會使用相同的 <code>rand</code> 套件版本。在工作空間中使用相同版本的 <code>rand</code> 可以節省空間，因為我們就不會重複下載並能確保工作空間中的 crate 彼此可以互相兼容。</p>
-<h4><a class="header" href="#在工作空間中新增測試" id="在工作空間中新增測試">在工作空間中新增測試</a></h4>
+<h4 id="在工作空間中新增測試"><a class="header" href="#在工作空間中新增測試">在工作空間中新增測試</a></h4>
 <p>讓我們再進一步加入一個測試函式 <code>add_one::add_one</code> 到 <code>add_one</code> crate 之中：</p>
 <p><span class="filename">檔案名稱：add-one/src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">

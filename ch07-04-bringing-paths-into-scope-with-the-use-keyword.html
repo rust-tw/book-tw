@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#透過-use-關鍵字引入路徑" id="透過-use-關鍵字引入路徑">透過 <code>use</code> 關鍵字引入路徑</a></h2>
+                        <h2 id="透過-use-關鍵字引入路徑"><a class="header" href="#透過-use-關鍵字引入路徑">透過 <code>use</code> 關鍵字引入路徑</a></h2>
 <p>我們目前呼叫函式的路徑都很冗長、重複且不方便。舉例來說範例 7-7 我們在考慮要使用絕對或相對路徑來呼叫 <code>add_to_waitlist</code> 函式時，每次想要呼叫 <code>add_to_waitlist</code> 我們都得指明 <code>front_of_house</code> 以及
 <code>hosting</code>。幸運的是，我們有簡化過程的辦法。我們可以使用 <code>use</code> 關鍵字將路徑引入作用域，然後就像它們是本地項目一樣來呼叫它們。</p>
 <p>在範例 7-11 中，我們引入了 <code>crate::front_of_house::hosting</code> 模組進 <code>eat_at_restaurant</code> 函式的作用域中，所以我們要呼叫函式 <code>add_to_waitlist</code> 的話我們只需要指明 <code>hosting::add_to_waitlist</code>。</p>
@@ -213,7 +213,7 @@ pub fn eat_at_restaurant() {
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 7-12：使用 <code>use</code> 與相對路徑將項目引入作用域</span></p>
-<h3><a class="header" href="#建立慣用的-use-路徑" id="建立慣用的-use-路徑">建立慣用的 <code>use</code> 路徑</a></h3>
+<h3 id="建立慣用的-use-路徑"><a class="header" href="#建立慣用的-use-路徑">建立慣用的 <code>use</code> 路徑</a></h3>
 <p>在範例 7-11 你可能會好奇為何我們指明 <code>use crate::front_of_house::hosting</code> 然後在 <code>eat_at_restaurant</code> 呼叫，而不是直接用 <code>use</code> 指明 <code>add_to_waitlist</code> 函式的整個路徑就好。像範例 7-13 這樣寫。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">mod front_of_house {
@@ -266,7 +266,7 @@ fn function2() -&gt; io::Result&lt;()&gt; {
 </span></code></pre></pre>
 <p><span class="caption">範例 7-15：要將兩個同名的型別引入相同作用域的話，必須使用它們所屬的模組</span></p>
 <p>如同你所見使用對應的模組可以分辨出是在使用哪個 <code>Result</code> 型別。如果我們直接指明 <code>use std::fmt::Result</code> 和 <code>use std::io::Result</code> 的話，我們會在同一個作用域中擁有兩個 <code>Result</code> 型別，這樣一來 Rust 就無法知道我們想用的 <code>Result</code> 是哪一個。</p>
-<h3><a class="header" href="#使用-as-關鍵字提供新名稱" id="使用-as-關鍵字提供新名稱">使用 <code>as</code> 關鍵字提供新名稱</a></h3>
+<h3 id="使用-as-關鍵字提供新名稱"><a class="header" href="#使用-as-關鍵字提供新名稱">使用 <code>as</code> 關鍵字提供新名稱</a></h3>
 <p>要在相同作用域中使用 <code>use</code> 引入兩個同名型別的話，還有另一個辦法。在路徑之後，我們可以用 <code>as</code> 指定一個該型別在本地的新名稱，或者說別名。範例 7-16 展示重寫了範例 7-15，將其中一個 <code>Result</code> 型別使用 <code>as</code> 重新命名。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">
@@ -288,7 +288,7 @@ fn function2() -&gt; IoResult&lt;()&gt; {
 </span></code></pre></pre>
 <p><span class="caption">範例 7-16：使用 <code>as</code> 將型別引入作用域的同時重新命名</span></p>
 <p>在第二個 <code>use</code> 陳述式，我們選擇了將 <code>std::io::Result</code> 型別重新命名為 <code>IoResult</code>，這樣就不會和同樣引入作用域內 <code>std::fmt</code> 的 <code>Result</code> 有所衝突。範例 7-15 與 範例 7-16 都屬於習慣用法，你可以選擇你比較喜歡的方式！</p>
-<h3><a class="header" href="#使用-pub-use-重新匯出名稱" id="使用-pub-use-重新匯出名稱">使用 <code>pub use</code> 重新匯出名稱</a></h3>
+<h3 id="使用-pub-use-重新匯出名稱"><a class="header" href="#使用-pub-use-重新匯出名稱">使用 <code>pub use</code> 重新匯出名稱</a></h3>
 <p>當我們使用 <code>use</code> 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 <code>pub</code> 和 <code>use</code>。這樣的技巧稱之為<strong>重新匯出（re-exporting）</strong>，因為我們將項目引入作用域，並同時公開給其他作用域引用。</p>
 <p>範例 7-17 將範例 7-11 在源頭模組中原本的 <code>use</code> 改成 <code>pub use</code>。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -311,7 +311,7 @@ pub fn eat_at_restaurant() {
 <p><span class="caption">範例 7-17：使用 <code>pub use</code> 使名稱公開給任何程式的作用域中引用</span></p>
 <p>使用 <code>pub use</code> 可以讓外部程式碼以 <code>hosting::add_to_waitlist</code> 的方式來呼叫函式 <code>add_to_waitlist</code>。如果我們沒有指明 <code>pub use</code>，函式 <code>eat_at_restaurant</code> 仍可以在它的作用域呼叫 <code>hosting::add_to_waitlist</code>，但外部程式碼就無法利用這個新的路徑。</p>
 <p>當程式碼的內部結構與使用程式的開發者對於該領域所想像的結構不同時，重新匯出會很有用。我們再次用餐廳做比喻的話就像是，經營餐廳的人可能會想像餐廳是由「前台」與「後台」所組成，但光顧的顧客可能不會用這些術語來描繪餐廳的每個部分。使用 <code>pub use</code> 的話，我們可以用某種架構寫出程式碼，再以不同的架構對外公開。這樣讓我們的的函式庫可以完整的組織起來，且對開發函式庫的開發者與使用函式庫的開發者都提供友善的架構。</p>
-<h3><a class="header" href="#使用外部套件" id="使用外部套件">使用外部套件</a></h3>
+<h3 id="使用外部套件"><a class="header" href="#使用外部套件">使用外部套件</a></h3>
 <p>在第二章我們寫了一支猜謎遊戲專案時，有用到一個外部套件叫做 <code>rand</code> 來取得隨機數字。要在專案內使用 <code>rand</code> 的話，我們會在 <em>Cargo.toml</em> 加上此行：</p>
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -354,7 +354,7 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <p>這是個用標準函式庫的 crate 名稱 <code>std</code> 起頭的絕對路徑。</p>
-<h3><a class="header" href="#使用巢狀路徑來清理大量的-use-行數" id="使用巢狀路徑來清理大量的-use-行數">使用巢狀路徑來清理大量的 <code>use</code> 行數</a></h3>
+<h3 id="使用巢狀路徑來清理大量的-use-行數"><a class="header" href="#使用巢狀路徑來清理大量的-use-行數">使用巢狀路徑來清理大量的 <code>use</code> 行數</a></h3>
 <p>如果我們要使用在相同 crate 或是相同模組內定義的數個項目，針對每個項目都單獨寫一行的話，會佔據我們檔案內很多空間。舉例來說，範例 2-4 中的猜謎遊戲我們用了這兩個 <code>use</code> 陳述式來引入作用域中：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
@@ -442,7 +442,7 @@ use std::io::Write;
 </span></code></pre></pre>
 <p><span class="caption">範例 7-20：組合範例 7-19 的路徑為一個 <code>use</code> 陳述式</span></p>
 <p>此行就會將 <code>std::io</code> 和 <code>std::io::Write</code> 引入作用域。</p>
-<h3><a class="header" href="#全域運算子" id="全域運算子">全域運算子</a></h3>
+<h3 id="全域運算子"><a class="header" href="#全域運算子">全域運算子</a></h3>
 <p>如果我們想要將在一個路徑中所定義的<strong>所有</strong>公開項目引入作用域的話，我們可以在指明路徑之後加上全域（glob）運算子 <code>*</code>：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]

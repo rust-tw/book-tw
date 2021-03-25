@@ -171,10 +171,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#設計猜謎遊戲程式" id="設計猜謎遊戲程式">設計猜謎遊戲程式</a></h1>
+                        <h1 id="設計猜謎遊戲程式"><a class="header" href="#設計猜謎遊戲程式">設計猜謎遊戲程式</a></h1>
 <p>讓我們親自動手一同完成一項專案來開始上手 Rust 吧！本章節會介紹一些常見 Rust 概念，展示如何在實際程式中使用它們。你會學到 <code>let</code>、<code>match</code>、方法、關聯函式、使用外部 crate 以及更多等等！之後的章節會更詳細地探討這些概念。在本章中，你會先練習基礎概念。</p>
 <p>我們會實作個經典新手程式問題：猜謎遊戲。它的運作方式如下：程式會產生 1 到 100 之間的隨機整數。接著它會通知玩家猜一個數字。在輸入猜測數字之後，程式會回應猜測的數字太低或太高。如果猜對的話，遊戲就會顯示祝賀訊息並關閉。</p>
-<h2><a class="header" href="#設置新專案" id="設置新專案">設置新專案</a></h2>
+<h2 id="設置新專案"><a class="header" href="#設置新專案">設置新專案</a></h2>
 <p>要設置新專案的話，前往你在第一章建立的 <em>projects</em> 目錄並使用 Cargo 建立一個新的專案，如下所示：</p>
 <pre><code class="language-console">$ cargo new guessing_game
 $ cd guessing_game
@@ -208,7 +208,7 @@ Hello, world!
 </code></pre>
 <p><code>run</code> 命令在你需要對專案快速疊代時會很有用，我們要寫的遊戲也是如此，在繼續下一步之前可以快速測試每一步。</p>
 <p>請重新開啟 <em>src/main.rs</em> 檔案。你要寫的程式碼全都會位於此檔案中。</p>
-<h2><a class="header" href="#處理猜測" id="處理猜測">處理猜測</a></h2>
+<h2 id="處理猜測"><a class="header" href="#處理猜測">處理猜測</a></h2>
 <p>猜謎遊戲的第一個部分會要求使用者輸入數字、處理該輸入，並檢查該輸入是否符合格式。所以我們要先讓玩家能夠輸入猜測數字，請輸入範例 2-1 的程式碼至 <em>src/main.rs</em>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use std::io;
@@ -282,7 +282,7 @@ fn main() {
 </span><span class="boring">}
 </span></code></pre>
 <p>此程式碼會顯式提示訊息向使用者說明此遊戲該輸入什麼。</p>
-<h3><a class="header" href="#透過變數儲存數值" id="透過變數儲存數值">透過變數儲存數值</a></h3>
+<h3 id="透過變數儲存數值"><a class="header" href="#透過變數儲存數值">透過變數儲存數值</a></h3>
 <p>接著我們要建立一個變數來儲存使用者輸入，如以下所示：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
 </span><span class="boring">
@@ -335,7 +335,7 @@ let mut bar = 5; // 可變的
 <p>而程式碼的下個部分 <code>.read_line(&amp;mut guess)</code> 會對標準輸入控制代碼呼叫 <a href="https://doc.rust-lang.org/std/io/struct.Stdin.html#method.read_line"><code>read_line</code></a><!-- ignore --> 方法（method）來取得使用者的輸入。我們還傳遞了一個引數（argument）給 <code>read_line</code>：<code>&amp;mut guess</code>。</p>
 <p><code>read_line</code> 的任務是取得使用者在標準輸入寫入的任何內容，並放置到字串中，所以它才接收字串作為引數。字串引數需要是可變的，這樣該方法才能變更字串的內容成使用者的輸入。</p>
 <p><code>&amp;</code> 說明此引數是個<strong>引用（reference）</strong>，這讓程式中的多個部分可以取得此資料內容，但不需要每次都得複製資料到記憶體中。引用是個複雜的概念，而 Rust 其中一項主要優勢就是能夠輕鬆又安全地使用引用。你現在還不用知道一堆細節才能完成程式。現在你只需要知道引用和變數一樣，預設都是不可變的。因此你必須寫 <code>&amp;mut guess</code> 而不是 <code>&amp;guess</code> 才能讓它成為可變的。（第四章會再全面詳細解釋引用。）</p>
-<h3><a class="header" href="#使用-result-型別處理可能的錯誤" id="使用-result-型別處理可能的錯誤">使用 <code>Result</code> 型別處理可能的錯誤</a></h3>
+<h3 id="使用-result-型別處理可能的錯誤"><a class="header" href="#使用-result-型別處理可能的錯誤">使用 <code>Result</code> 型別處理可能的錯誤</a></h3>
 <p>我們要繼續處理這段程式碼。雖然我們已經討論到第三行了，這仍然是這段單一邏輯程式碼中的一部分。接下來的部分是此方法：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
 </span><span class="boring">
@@ -377,7 +377,7 @@ warning: unused `std::result::Result` that must be used
 </code></pre>
 <p>Rust 警告你沒有使用 <code>read_line</code> 回傳的 <code>Result</code> 數值，這意味著程式沒有處理可能發生的錯誤。</p>
 <p>要解決此警告的正確方式是實際進行錯誤處理，但因為我們只想要當問題發生時直接讓程式當掉，所以你可以先使用 <code>expect</code> 就好。你會在第九章學到如何從錯誤中恢復。</p>
-<h3><a class="header" href="#透過-println-佔位符印出數值" id="透過-println-佔位符印出數值">透過 <code>println!</code> 佔位符印出數值</a></h3>
+<h3 id="透過-println-佔位符印出數值"><a class="header" href="#透過-println-佔位符印出數值">透過 <code>println!</code> 佔位符印出數值</a></h3>
 <p>在結束大括號之前，目前程式碼中還有一行要來討論，也就是以下這行：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
 </span><span class="boring">
@@ -406,7 +406,7 @@ println!(&quot;x = {} 而且 y = {}&quot;, x, y);
 <span class="boring">}
 </span></code></pre></pre>
 <p>此程式碼會印出 <code>x = 5 而且 y = 10</code>。</p>
-<h3><a class="header" href="#測試第一個部分" id="測試第一個部分">測試第一個部分</a></h3>
+<h3 id="測試第一個部分"><a class="header" href="#測試第一個部分">測試第一個部分</a></h3>
 <p>讓我們來測試猜謎遊戲中的第一個部分。請使用 <code>cargo run</code> 來執行它：</p>
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/listing-02-01/
@@ -423,9 +423,9 @@ input 6 -->
 你的猜測數字：6
 </code></pre>
 <p>到目前為止，遊戲的第一個部分就完成了：我們取得了鍵盤的輸入然後顯示出來。</p>
-<h2><a class="header" href="#產生祕密數字" id="產生祕密數字">產生祕密數字</a></h2>
+<h2 id="產生祕密數字"><a class="header" href="#產生祕密數字">產生祕密數字</a></h2>
 <p>接下來，我們要產生一個能讓使用者猜看看的祕密數字。祕密數字每次都要不同，這樣遊戲才值得多玩幾次。讓我們使用 1 到 100 之間的隨機數字，這樣遊戲才不會太困難。Rust 的標準函式庫並不包含產生隨機數字的功能。然而，Rust 團隊有提供個 <a href="https://crates.io/crates/rand"><code>rand</code> crate</a>。</p>
-<h3><a class="header" href="#使用-crate-來取得更多功能" id="使用-crate-來取得更多功能">使用 Crate 來取得更多功能</a></h3>
+<h3 id="使用-crate-來取得更多功能"><a class="header" href="#使用-crate-來取得更多功能">使用 Crate 來取得更多功能</a></h3>
 <p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<strong>二進制（binary） crate</strong>，也就會是個執行檔。而 <code>rand</code> crate 屬於<strong>函式庫（library） crate</strong>，這會包含讓其他程式能夠使用的程式碼。</p>
 <p>Cargo 可以使用外部 crate 的功能正是它的亮點。在我們可以使用 <code>rand</code> 來寫程式碼前，我們需要修改 <em>Cargo.toml</em> 檔案來包含 <code>rand</code> crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 <code>[dependencies]</code> 標頭（header）段落中最後一行下面：</p>
 <!-- When updating the version of `rand` used, also update the version of
@@ -473,10 +473,10 @@ cargo build -->
     Finished dev [unoptimized + debuginfo] target(s) in 2.53 secs
 </code></pre>
 <p>這幾行表示 Cargo 只更新你對 <em>src/main.rs</em> 檔案的瑣碎修改進行建構。你的依賴沒變，所以 Cargo 知道它可以重複使用已經下載並編譯過的程式碼。它只重新建構了程式碼中的一小部分。</p>
-<h4><a class="header" href="#透過-cargolock-檔案確保建構可以重現" id="透過-cargolock-檔案確保建構可以重現">透過 <em>Cargo.lock</em> 檔案確保建構可以重現</a></h4>
+<h4 id="透過-cargolock-檔案確保建構可以重現"><a class="header" href="#透過-cargolock-檔案確保建構可以重現">透過 <em>Cargo.lock</em> 檔案確保建構可以重現</a></h4>
 <p>Cargo 有個機制能確保任何人或你在任何時候重新建構程式碼時，都能產生相同結果。舉例來說，要是下一週 <code>rand</code> crate 發佈了版本 0.5.6，其包含重大程式錯誤更新，卻也有個會破壞你的程式碼的回歸（regression）問題，這時會發生什麼事呢？</p>
 <p>此問題的答案位於 <em>Cargo.lock</em> 檔案中，這會在你第一次執行 <code>cargo build</code> 時建立，並位於 <em>guessing_game</em> 目錄中。當你第一次建構專案時，Cargo 會決定出符合情境的依賴函式庫版本，然後將它們寫入 <em>Cargo.lock</em> 檔案中。當你在未來建構專案時，Cargo 會看到 <em>Cargo.lock</em> 的存在並使用其指定的版本，而非重新再次決定該用哪些版本。這讓你有個能自動重現的建構方案。換句話說，你的專案仍會繼續使用 <code>0.5.5</code> 直到你顯式升級為止，這都多虧了 <em>Cargo.lock</em> 檔案。</p>
-<h4><a class="header" href="#升級-crate-來取得新版本" id="升級-crate-來取得新版本">升級 Crate 來取得新版本</a></h4>
+<h4 id="升級-crate-來取得新版本"><a class="header" href="#升級-crate-來取得新版本">升級 Crate 來取得新版本</a></h4>
 <p>當你<strong>真的</strong>想升級 crate 時，Cargo 有提供另一個命令 <code>update</code>，這會忽略 <em>Cargo.lock</em> 檔案並依據 <em>Cargo.toml</em> 指定的規格決定所有合適的最新版本。如果成功的話，Cargo 會將這些版本寫入 <em>Cargo.lock</em> 檔案中。</p>
 <p>Cargo 預設只會尋找大於 <code>0.5.5</code> 且小於 <code>0.6.0</code> 的版本。如果 <code>rand</code> 有發佈兩個新版本 <code>0.5.6</code> 和 <code>0.6.0</code>，當你輸入 <code>cargo update</code> 時，你會看到以下結果：</p>
 <!-- manual-regeneration
@@ -495,7 +495,7 @@ rand = &quot;0.6.0&quot;
 </code></pre>
 <p>下次你執行 <code>cargo build</code> 時，Cargo 將會更新 crate registry ，並依據你指定的新版本來重新評估 <code>rand</code> 的確切版本。</p>
 <p><a href="http://doc.crates.io">Cargo</a><!-- ignore --> 與<a href="http://doc.crates.io/crates-io.html">其生態系統</a><!-- ignore -->還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。</p>
-<h3><a class="header" href="#產生隨機數字" id="產生隨機數字">產生隨機數字</a></h3>
+<h3 id="產生隨機數字"><a class="header" href="#產生隨機數字">產生隨機數字</a></h3>
 <p>現在既然你已經將 <code>rand</code> crate 加入 <em>Cargo.toml</em> 中，讓我們開始使用 <code>rand</code> 吧。下一步是更新 <em>src/main.rs</em>，如範例 2-3 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use std::io;
@@ -554,7 +554,7 @@ $ cargo run
 你的猜測數字：5
 </code></pre>
 <p>你應該會得到不同的隨機數字，而且它們都應該要在 1 到 100 的範圍內。做得好！</p>
-<h2><a class="header" href="#將猜測的數字與祕密數字做比較" id="將猜測的數字與祕密數字做比較">將猜測的數字與祕密數字做比較</a></h2>
+<h2 id="將猜測的數字與祕密數字做比較"><a class="header" href="#將猜測的數字與祕密數字做比較">將猜測的數字與祕密數字做比較</a></h2>
 <p>現在我們有使用者的輸入與隨機數字，我們可以來比較它們了。這步驟顯示在範例 2-4。注意此程式碼還無法編譯，我們會解釋為什麼。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use rand::Rng;
@@ -675,7 +675,7 @@ cargo run
 </code></pre>
 <p>不錯！儘管我們在猜測數字前加了一些空格，但程式仍能推斷出使用者猜測的是 76。多執行程式幾次來驗證不同種輸入產生的不同行為：像是正確猜出數字、猜測的數字太高或猜測的數字太低。</p>
 <p>我們已經大致上將遊戲完成了，但使用者只能猜測一次。讓我們用迴圈來修改吧！</p>
-<h2><a class="header" href="#透過迴圈來允許多次猜測" id="透過迴圈來允許多次猜測">透過迴圈來允許多次猜測</a></h2>
+<h2 id="透過迴圈來允許多次猜測"><a class="header" href="#透過迴圈來允許多次猜測">透過迴圈來允許多次猜測</a></h2>
 <p><code>loop</code> 關鍵字會產生無限迴圈。我們加入此迴圈讓使用者可能有更多機會可以猜測：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
@@ -749,7 +749,7 @@ thread 'main' panicked at '請輸入一個數字！: ParseIntError { kind: Inval
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </code></pre>
 <p>輸入 <code>quit</code> 就能真的離開遊戲，但是其他非數字輸入也是如此。這並不是最理想的方案，我們想要在猜對數字時自動停止。</p>
-<h3><a class="header" href="#猜對後離開" id="猜對後離開">猜對後離開</a></h3>
+<h3 id="猜對後離開"><a class="header" href="#猜對後離開">猜對後離開</a></h3>
 <p>讓我們加上 <code>break</code> 陳述式來在使用者獲勝時離開遊戲：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
@@ -790,7 +790,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 }
 </code></pre>
 <p>在 <code>獲勝！</code> 之後加上 <code>break</code> 這行讓程式在使用者猜對祕密數字時可以離開迴圈。離開迴圈也意味著離開程式，因為此迴圈是 <code>main</code> 中的最後一個部分。</p>
-<h3><a class="header" href="#處理無效輸入" id="處理無效輸入">處理無效輸入</a></h3>
+<h3 id="處理無效輸入"><a class="header" href="#處理無效輸入">處理無效輸入</a></h3>
 <p>為了進一步改善遊戲體驗，當使用者的輸入不是數字時，我們不該讓程式直接當掉。遊戲程式可以忽略非數字來讓使用者繼續猜測。我們可以修改 <code>guess</code> 這段將 <code>String</code> 轉換成 <code>u32</code> 的程式碼，如範例 2-5 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
@@ -907,7 +907,7 @@ fn main() {
 }
 </code></pre>
 <p><span class="caption">範例 2-6：完整的猜謎遊戲程式碼</span></p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>此時此刻，你已經完成了猜謎遊戲。恭喜你！</p>
 <p>此專案讓你能動手實踐並親自體驗許多 Rust 的新概念：<code>let</code>、<code>match</code>、方法、關聯函式、外部 crate 的使用以及更多等等。在接下來陸續的章節，你將深入學習這些概念。第三章會涵蓋多數程式設計語言都有的概念，像是變數、資料型別與函式，以及如何在 Rust 中使用它們。第四章會探索所有權（ownership），這是 Rust 與其他語言最不同的特色。第五章會討論結構體（structs）與方法語法，而第六章會解釋枚舉。</p>
 <blockquote>

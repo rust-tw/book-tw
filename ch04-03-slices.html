@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#切片型別" id="切片型別">切片型別</a></h2>
+                        <h2 id="切片型別"><a class="header" href="#切片型別">切片型別</a></h2>
 <p>另一種沒有所有權的資料型別是<strong>切片（slice）</strong>。切片讓你可以引用一串集合中的元素序列，而並非引用整個集合。</p>
 <p>以下是個小小的程式問題：寫一支接收字串的函式並回傳第一個找到的單字，如果函式沒有在字串找到空格的話，就代表整個字串就是一個單字，所以就回傳整個字串。</p>
 <p>先來想想看函式簽名該長怎樣：</p>
@@ -273,7 +273,7 @@
 </code></pre>
 <p>現在我們得同時紀錄起始<strong>與</strong>結束的索引，而且我們還產生了更多與原本數值沒辦法直接相關的計算結果。我們現在有三個非直接相關的變數需要保持同步。</p>
 <p>幸運的是 Rust 為此提供了一個解決辦法：字串切片（String slice）。</p>
-<h3><a class="header" href="#字串切片" id="字串切片">字串切片</a></h3>
+<h3 id="字串切片"><a class="header" href="#字串切片">字串切片</a></h3>
 <p><strong>字串切片</strong>是 <code>String</code> 其中一部分的引用，它長得像這樣：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s = String::from(&quot;hello world&quot;);
@@ -393,7 +393,7 @@ error: could not compile `ownership`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>回憶一下借用規則，要是我們有不可變引用的話，我們就不能取得可變引用。因為 <code>clear</code> 會縮減 <code>String</code>，它必須是可變引用。這樣一來 Rust 就不允許，並讓編譯失敗。Rust 不僅讓我們的 API 更容易使用，還想辦法讓所有錯誤在編譯期就消除！</p>
-<h4><a class="header" href="#字串字面值就是切片" id="字串字面值就是切片">字串字面值就是切片</a></h4>
+<h4 id="字串字面值就是切片"><a class="header" href="#字串字面值就是切片">字串字面值就是切片</a></h4>
 <p>回想一下我們講說字串字面值是怎麼存在二進制檔案的。現在既然我們已經知道切片，我們就能知道更清楚理解字串字面值：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -402,7 +402,7 @@ To learn more, run the command again with --verbose.
 <span class="boring">}
 </span></code></pre></pre>
 <p>此處 <code>s</code> 的型別是 <code>&amp;str</code>：它是指向二進制檔案某部份的切片。這也是為何字串字面值是不可變的，<code>&amp;str</code> 是個不可變引用。</p>
-<h4><a class="header" href="#字串切片作為參數" id="字串切片作為參數">字串切片作為參數</a></h4>
+<h4 id="字串切片作為參數"><a class="header" href="#字串切片作為參數">字串切片作為參數</a></h4>
 <p>知道你可以取得字面值的切片與 <code>String</code> 數值後，我們可以再改善一次 <code>first_word</code>。也就是它的簽名表現：</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; &amp;str {
 </code></pre>
@@ -466,7 +466,7 @@ To learn more, run the command again with --verbose.
     let word = first_word(my_string_literal);
 }
 </code></pre></pre>
-<h3><a class="header" href="#其他切片" id="其他切片">其他切片</a></h3>
+<h3 id="其他切片"><a class="header" href="#其他切片">其他切片</a></h3>
 <p>字串切片如你所想的一樣是特別針對字串的。但是我們還有更通用的切片型別。請考慮以下陣列：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -484,7 +484,7 @@ let slice = &amp;a[1..3];
 <span class="boring">}
 </span></code></pre></pre>
 <p>此切片的型別為 <code>&amp;[i32]</code>，它和字串運作的方式一樣，儲存了切片的第一個元素以及總長度。你以後會對其他集合也使用這樣的切片。我們會在第八章討論這些集合的更多細節。</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>所有權、借用與切片的概念讓 Rust 可以在編譯時期就確保記憶體安全。Rust 程式語言讓你和其他程式語言一樣控制你的記憶體使用方式，但是會在擁有者離開作用域時自動清除擁有的資料，讓你不必在編寫或除錯額外的程式碼。</p>
 <p>所有權影響了 Rust 很多其它部分執行的方式，所以我們在書中之後討論這些概念。讓我們繼續到第五章，看看如何用 <code>struct</code> 將資料組合在一起。</p>
 <blockquote>

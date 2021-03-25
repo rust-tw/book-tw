@@ -171,12 +171,12 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#hello-world" id="hello-world">Hello, World!</a></h2>
+                        <h2 id="hello-world"><a class="header" href="#hello-world">Hello, World!</a></h2>
 <p>現在你已經安裝好 Rust，讓我們開始來寫你的第一支 Rust 程式吧。當我們學習一門新的語言時，有一個習慣是寫一支印出「Hello, world!」到螢幕上的小程式，此章節將教你做一樣的事！</p>
 <blockquote>
 <p>注意：本書將假設你已經知道命令列最基本的使用方法。Rust 對於你的編輯器、工具以及程式碼位於何處沒有特殊的要求，所以如果你更傾向於使用整合開發環境（IDE）的話，請儘管使用你最愛的 IDE。許多 IDE 都已經針對 Rust 提供某種程度的支援，請查看你所使用的 IDE 技術文件以瞭解詳情。最近，Rust 團隊正在積極專注在提升 IDE 的支援，而且進展十分迅速出色！</p>
 </blockquote>
-<h3><a class="header" href="#建立專案目錄" id="建立專案目錄">建立專案目錄</a></h3>
+<h3 id="建立專案目錄"><a class="header" href="#建立專案目錄">建立專案目錄</a></h3>
 <p>你將先建立一個目錄來儲存你的 Rust 程式碼。程式碼位於何處並不重要，但為了能好好練習書中的範例和專案，我們建議你可以在你的 home 目錄建立一個 <em>projects</em> 目錄然後將你所有的專案保存在此。</p>
 <p>請開啟終端機然後輸入以下命令來建立 <em>projects</em> 目錄和另一個在 <em>projects</em> 目錄底下的真正要寫「Hello, world!」專案的目錄。</p>
 <p>對於 Linux、macOS 和 Windows 的 PowerShell，請輸入：</p>
@@ -191,7 +191,7 @@ $ cd hello_world
 &gt; mkdir hello_world
 &gt; cd hello_world
 </code></pre>
-<h3><a class="header" href="#編寫並執行-rust-程式" id="編寫並執行-rust-程式">編寫並執行 Rust 程式</a></h3>
+<h3 id="編寫並執行-rust-程式"><a class="header" href="#編寫並執行-rust-程式">編寫並執行 Rust 程式</a></h3>
 <p>接著，請產生一個全新原始碼檔案並命名為 <em>main.rs</em>。Rust 的文件檔案都會以 <em>.rs</em> 副檔名稱作為結尾。如果你用到不只一個單字的話，請用底線區隔開來。比方說，請使用 <em>hello_world.rs</em> 而不是 <em>helloworld.rs</em>。</p>
 <p>現在請開啟 <em>main.rs</em> 檔案然而後輸入範例 1-1 中的程式碼。</p>
 <p><span class="filename">檔案名稱：main.rs</span></p>
@@ -212,7 +212,7 @@ Hello, world!
 </code></pre>
 <p>不管你的作業系統為何，終端機上應該都會出現 <code>Hello, world!</code>。如果你沒有看到，可以回到安裝章節中的<a href="ch01-01-installation.html#%E7%96%91%E9%9B%A3%E6%8E%92%E9%99%A4">「疑難排除」</a><!-- ignore -->尋求協助。</p>
 <p>如果 <code>Hello, world!</code> 有印出來，那麼恭喜你！你正式寫了一支 Rust 程式，所以你也正式成為 Rust 開發者了——歡迎加入！</p>
-<h3><a class="header" href="#分析這支-rust-程式" id="分析這支-rust-程式">分析這支 Rust 程式</a></h3>
+<h3 id="分析這支-rust-程式"><a class="header" href="#分析這支-rust-程式">分析這支 Rust 程式</a></h3>
 <p>讓我們來仔細瞧瞧你的「Hello, world!」程式實際上發生了什麼事。這是第一塊拼圖：</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
 
@@ -233,7 +233,7 @@ Hello, world!
 <p>第二，<code>println!</code> 會呼叫一支 Rust 巨集（macro）。如果是呼叫函式的話，那則會是 <code>println</code>（去掉 <code>!</code>）。我們會在第十九章討論更多巨集的細節。現在你只需要知道使用 <code>!</code> 代表呼叫一支巨集而非一個正常的函式。</p>
 <p>第三，<code>&quot;Hello, world!&quot;</code> 是一個字串，我們將此字串作為引數傳遞給 <code>println!</code>，然後該字串就會被顯示到螢幕上。</p>
 <p>第四，我們用分號（<code>;</code>）作為該行結尾，代表此表達式的結束和下一個表達式的開始。多數的 Rust 程式碼都以分號做結尾。</p>
-<h3><a class="header" href="#編譯和執行是不同的步驟" id="編譯和執行是不同的步驟">編譯和執行是不同的步驟</a></h3>
+<h3 id="編譯和執行是不同的步驟"><a class="header" href="#編譯和執行是不同的步驟">編譯和執行是不同的步驟</a></h3>
 <p>你剛剛執行了一個新建立的程式，讓我們來檢查過程中的每一個步驟吧。</p>
 <p>在你執行一支 Rust 程式前，你必須用 Rust 編譯器來編譯它，也就是輸入 <code>rustc</code> 命令然後加上你的原始檔案，像這樣子：</p>
 <pre><code class="language-console">$ rustc main.rs

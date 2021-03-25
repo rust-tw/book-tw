@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#使用結構體的程式範例" id="使用結構體的程式範例">使用結構體的程式範例</a></h2>
+                        <h2 id="使用結構體的程式範例"><a class="header" href="#使用結構體的程式範例">使用結構體的程式範例</a></h2>
 <p>為了瞭解我們何時會想要使用結構體，讓我們來寫一支計算長方形面積的程式。我們會先從單一變數開始，再慢慢重構成使用結構體。</p>
 <p>讓我們用 Cargo 建立一個新的專案 <em>rectangles</em> ，它將接收長方形的長度與寬度，然後計算出長方形的面積。範例 5-8 展示了在我們專案底下 <em>src/main.rs</em> 用其中一種方式寫出來的小程式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -214,7 +214,7 @@ fn area(width: u32, height: u32) -&gt; u32 {
 </span><span class="boring">}
 </span></code></pre>
 <p><code>area</code> 函式應該要計算長方形的面積，但是我們寫的函式有兩個參數。參數之間是有關聯的，但是它在我們的程式中沒有表現出來。要是能將寬度與長度組合起來的話，會更容易閱讀與管理。我們可以使用我們在第三章提到的<a href="ch03-02-data-types.html#%E5%85%83%E7%B5%84%E5%9E%8B%E5%88%A5">「元組型別」</a><!-- ignore -->。</p>
-<h3><a class="header" href="#使用元組重構" id="使用元組重構">使用元組重構</a></h3>
+<h3 id="使用元組重構"><a class="header" href="#使用元組重構">使用元組重構</a></h3>
 <p>範例 5-9 展示了我們的程式用元組的另一種寫法。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -233,7 +233,7 @@ fn area(dimensions: (u32, u32)) -&gt; u32 {
 <p><span class="caption">範例 5-9：使用元組指定長方形的寬度與長度</span></p>
 <p>一方面來說，此程式的確比較好。元組讓我們增加了一些結構，而我們現在只需要傳遞一個引數。但另一方面來說，此版本的閱讀性反而更差。元組無法命名它的元素，所以我們在計算時反而更難讀懂，我們傳得只是元組的索引。</p>
 <p>我們在計算面積時，哪個值是寬度還是長度的確不重要。但如果我們要顯示出來的話，這就很重要了！我們會需要記住元組索引 <code>0</code> 是 <code>width</code> 然後元組索引 <code>1</code> 是 <code>height</code>。如果有其他人要維護這段程式碼的話，他就也得知道並記住這件事才行。但事實上是我們很常忘記這樣數值的意義並導致錯誤發生，因為我們無法從程式碼推導出資料的意義。</p>
-<h3><a class="header" href="#使用結構體重構賦予更多意義" id="使用結構體重構賦予更多意義">使用結構體重構：賦予更多意義</a></h3>
+<h3 id="使用結構體重構賦予更多意義"><a class="header" href="#使用結構體重構賦予更多意義">使用結構體重構：賦予更多意義</a></h3>
 <p>我們可以用結構體來為資料命名以賦予其意義。我們可以將元組轉換成一個有整體名稱且內部資料也都有名稱的資料型別，如範例 5-10 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Rectangle {
@@ -261,7 +261,7 @@ fn area(rectangle: &amp;Rectangle) -&gt; u32 {
 <p>我們在此定義了一個結構體叫做 <code>Rectangle</code>。在大括號內，我們定義了 <code>width</code> 與 <code>height</code> 的欄位，兩者型別皆為 <code>u32</code>。然後在 <code>main</code> 中，我們建立了一個寬度為 30 長度為 50 的 <code>Rectangle</code> 實例。</p>
 <p>現在我們的 <code>area</code> 函式使需要一個參數 <code>rectangle</code>，其型別為 <code>Rectangle</code> 結構體實例的不可變借用。如同第四章提到的，我們希望借用結構體而非取走其所有權。這樣一來，<code>main</code> 能保留它的所有權並讓 <code>rect1</code> 繼續使用，這也是為何我們要在要呼叫函式的簽名中使用 <code>&amp;</code>。</p>
 <p><code>area</code> 函式能夠存取 <code>Rectangle</code> 中的 <code>width</code> 與 <code>height</code> 欄位。我們的 <code>area</code> 函式簽名由可以表達出我們想要做的事情了：使用 <code>width</code> 與 <code>height</code> 欄位來計算 <code>Rectangle</code> 的面積。這能表達出寬度與長度之間的關係，並且給了它們容易讀懂的名稱，而不是像元組那樣用索引 <code>0</code> 和 <code>1</code>。這樣清楚多了。</p>
-<h3><a class="header" href="#使用推導特徵實現更多功能" id="使用推導特徵實現更多功能">使用推導特徵實現更多功能</a></h3>
+<h3 id="使用推導特徵實現更多功能"><a class="header" href="#使用推導特徵實現更多功能">使用推導特徵實現更多功能</a></h3>
 <p>現在要是能夠在我們除錯程式時能夠印出 <code>Rectangle</code> 的實例並看到它所有的欄位數值就更好了。範例 5-11 嘗試使用我們之前章節提到的 <code>println!</code> 巨集，但是卻無法執行。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">struct Rectangle {

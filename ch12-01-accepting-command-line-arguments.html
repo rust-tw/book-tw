@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#接受命令列引數" id="接受命令列引數">接受命令列引數</a></h2>
+                        <h2 id="接受命令列引數"><a class="header" href="#接受命令列引數">接受命令列引數</a></h2>
 <p>一如往常我們用 <code>cargo new</code> 建立新的專案，我們將我們的專案命名為 <code>minigrep</code> 來與很可能已經在你系統中的 <code>grep</code> 工具做區別。</p>
 <pre><code class="language-console">$ cargo new minigrep
      Created binary (application) `minigrep` project
@@ -181,7 +181,7 @@ $ cd minigrep
 <pre><code class="language-console">$ cargo run searchstring example-filename.txt
 </code></pre>
 <p>但現在由 <code>cargo new</code> 產生的程式還無法處理我們給予的引數。<a href="https://crates.io/">crates.io</a> 有些函式庫可以幫助程式接收命令列中的引數，但有鑑於你要學習此概念，讓我們親自來實作一個。</p>
-<h3><a class="header" href="#讀取引數數值" id="讀取引數數值">讀取引數數值</a></h3>
+<h3 id="讀取引數數值"><a class="header" href="#讀取引數數值">讀取引數數值</a></h3>
 <p>要讓 <code>minigrep</code> 能夠讀取我們傳入的命令列引數數值，我們需要使用 Rust 標準函式庫中提供的函式，也就是 <code>std::env::args</code>。此函式會回傳一個包含我們傳給 <code>minigrep</code> 的命令列引數的疊代器（iterator）。我們會在<a href="ch13-00-functional-features.html">第十三章</a><!-- ignore -->詳細解釋疊代器。現在你只需要知道疊代器的兩項重點：疊代器會產生一系列的數值，然後我們可以對疊代器呼叫 <code>collect</code> 方法來將其轉換成像是向量的集合，來包含疊代器產生的所有元素。</p>
 <p>使用範例 21-1 的程式碼能讓你的 <code>minigrep</code> 程式能夠讀取任何傳入的命令列引數，然後收集數值成一個向量。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -195,7 +195,7 @@ fn main() {
 <p><span class="caption">範例 12-1：收集命令列引數至向量中並顯示它們</span></p>
 <p>首先我們透過 <code>use</code> 陳述式將 <code>std::env</code> 模組引入作用域，讓我們可以使用它的 <code>args</code> 函式。注意到 <code>std::env::args</code> 函式位於兩層模組下。如同我們在<a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html#%E5%BB%BA%E7%AB%8B%E6%85%A3%E7%94%A8%E7%9A%84-use-%E8%B7%AF%E5%BE%91">第七章</a><!-- ignore -->談過的，如果我們要用的函式模組路徑超過一層以上的話，通常就會將上層模組引入作用域中，而不是函式本身。這樣的話，我們可以輕鬆使用 <code>std::env</code> 中的其他函式。而且這也比直接加上 <code>use std::env::args</code> 然後只使用 <code>args</code> 來呼叫函式還要明確些，因為 <code>args</code> 容易被誤認成是由目前模組定義的函式。</p>
 <blockquote>
-<h3><a class="header" href="#args-函式與無效的-unicode" id="args-函式與無效的-unicode"><code>args</code> 函式與無效的 Unicode</a></h3>
+<h3 id="args-函式與無效的-unicode"><a class="header" href="#args-函式與無效的-unicode"><code>args</code> 函式與無效的 Unicode</a></h3>
 <p>值得注意的是如果任何引數包含無效 Unicode 的話，<code>std::env::args</code> 就會恐慌。如果你的程式想要接受包含無效 Unicode 引數的話，請改使用 <code>std::env::args_os</code>。該函式回傳會產生 <code>OsString</code> 數值的疊代器，而非 <code>String</code> 數值。我們出於簡單方便所以在此使用 <code>std::env::args</code>，因為 <code>OsString</code> 在不同平台中數值會有所差異，且會比 <code>String</code> 數值還要難處理。</p>
 </blockquote>
 <p>我們在 <code>main</code> 中的第一行呼叫 <code>env::args</code>，然後馬上使用 <code>collect</code> 來將疊代器轉換成向量，這會包含疊代器產生的所有數值。我們可以使用 <code>collect</code> 函式來建立許多種集合，所以我們顯式詮釋 <code>args</code> 的型別來指定我們想要字串向量。雖然我們很少需要在 Rust 中詮釋型別，<code>collect</code> 是其中一個你常常需要詮釋的函式，因為 Rust 無法推斷出你想要何種集合。</p>
@@ -213,7 +213,7 @@ fn main() {
 [&quot;target/debug/minigrep&quot;, &quot;needle&quot;, &quot;haystack&quot;]
 </code></pre>
 <p>值得注意的是向量中第一個數值為 <code>&quot;target/debug/minigrep&quot;</code>，這是我們的執行檔名稱。這與 C 的引數列表行為相符，讓程式在執行時能使用它們被呼叫的名稱路徑。存取程式名稱通常是很實用的，像是你能將它顯示在訊息中，或是依據程式被呼叫的命令列別名還改變程式的行為。但考慮本章節的目的，我們會忽略它並只儲存我們想要的兩個引數。</p>
-<h3><a class="header" href="#將引數數值儲存至變數" id="將引數數值儲存至變數">將引數數值儲存至變數</a></h3>
+<h3 id="將引數數值儲存至變數"><a class="header" href="#將引數數值儲存至變數">將引數數值儲存至變數</a></h3>
 <p>顯示向量中的引數數值能說明程式能夠取得命令列引數指定的數值。現在我們想要將這兩個引數存入變數中，讓我們可以在接下來的程式中使用數值，如範例 12-2 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust should_panic">use std::env;

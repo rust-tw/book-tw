@@ -171,11 +171,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#建立單一執行緒的網頁伺服器" id="建立單一執行緒的網頁伺服器">建立單一執行緒的網頁伺服器</a></h2>
+                        <h2 id="建立單一執行緒的網頁伺服器"><a class="header" href="#建立單一執行緒的網頁伺服器">建立單一執行緒的網頁伺服器</a></h2>
 <p>我們會先從建立一個可運作的單一執行緒網頁伺服器作為起始。在我們開始之前，讓我們快速瞭解一下建構網頁伺服器會涉及到的協定。這些協定的細節超出本書的範疇，不過以下簡短的概覽可以提供你所需要知道的訊息。</p>
 <p>網頁伺服器會涉及到的兩大協定為<strong>超文本傳輸協定（Hypertext Transfer Protocol, HTTP）<strong>與</strong>傳輸控制協定（Transmission Control Protocol, TCP）</strong>。這兩種協定都是<strong>請求-回應（request-response）<strong>協定，這意味著</strong>客戶端</strong>會初始一個請求，然後<strong>伺服器</strong>接聽請求並提供回應給客戶端。協定會定義這些請求與回應的內容。</p>
 <p>TCP 是個較底層的協定並描述資訊如何從一個伺服器傳送到另一個伺服器的細節，但是它並不指定資訊內容為何。HTTP 建立在 TCP 之上並定義請求與回應的內容。技術上來說，HTTP 是可以與其他協定組合的，但是對大多數場合中，HTTP 主要還是透過 TCP 來傳送資訊。我們會處理 TCP 與 HTTP 中請求與回應的原始位元組（raw bytes）。</p>
-<h3><a class="header" href="#監聽-tcp-連線" id="監聽-tcp-連線">監聽 TCP 連線</a></h3>
+<h3 id="監聽-tcp-連線"><a class="header" href="#監聽-tcp-連線">監聽 TCP 連線</a></h3>
 <p>我們的網頁伺服器需要監聽一個 TCP 連線，所以這就是我們要處理的第一個步驟。標準函式庫有提供 <code>std::net</code> 模組能讓我們使用。讓我們如往常一樣建立一個新的專案：</p>
 <pre><code class="language-console">$ cargo new hello
      Created binary (application) `hello` project
@@ -210,7 +210,7 @@ fn main() {
 <p>有時候你可能從一次瀏覽器請求看到數個訊息顯示出來，原因很可能是因為瀏覽器除了請求頁面內容以外，也嘗試請求其他資源，像是出現在瀏覽器分頁上的 <em>favicon.ico</em> 圖示。</p>
 <p>而瀏覽器嘗試多次連線至伺服器的原因還有可能是因為伺服器沒有回傳任何資料。當 <code>stream</code> 離開作用域並在迴圈結尾被釋放時，連線會在 <code>drop</code> 的實作中被關閉。瀏覽器有時處理被關閉的連線的方式是在重試幾次，因為發生的問題可能是暫時的。不管如何，現在最重要的是我們成功取得 TCP 的連線了！</p>
 <p>當你執行完特定版本的程式碼後，記得按下 <span class="keystroke">ctrl-c</span> 來停止程式。然後在你變更一些程式碼後重啟 <code>cargo run</code> 來確保你只執行到最新的程式碼。</p>
-<h3><a class="header" href="#讀取請求" id="讀取請求">讀取請求</a></h3>
+<h3 id="讀取請求"><a class="header" href="#讀取請求">讀取請求</a></h3>
 <p>讓我們來實作讀取瀏覽器請求的功能吧！為了能分開取得連線的方式與處理連線的方式，我們會建立另一個新的函式來處理連線。在此 <code>handle_connection</code> 新的函式中，我們會讀取從 TCP 流取得的資料並顯示出來，讓我們可以觀察瀏覽器傳送的資料。請修改程式碼成範例 20-2。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run">use std::io::prelude::*;
@@ -258,7 +258,7 @@ Upgrade-Insecure-Requests: 1
 </code></pre>
 <p>依據你的瀏覽器，你可能會看到一些不同的輸出結果。現在我們顯示了請求的資料，我們可以觀察為何瀏覽器會產生多次請求，我們可以看看 <code>Request: GET</code> 之後的路徑。如果重複的連線都在請求 <code>/</code> 的話，我們就能知道瀏覽器在重複嘗試取得 <code>/</code>，因為它沒有從我們的程式取得回應。</p>
 <p>讓我們拆開此請求資料來理解瀏覽器在向我們的程式請求什麼。</p>
-<h3><a class="header" href="#仔細觀察-http-請求" id="仔細觀察-http-請求">仔細觀察 HTTP 請求</a></h3>
+<h3 id="仔細觀察-http-請求"><a class="header" href="#仔細觀察-http-請求">仔細觀察 HTTP 請求</a></h3>
 <p>HTTP 是基於文字的協定，而請求格式如下：</p>
 <pre><code class="language-text">Method Request-URI HTTP-Version CRLF
 headers CRLF
@@ -271,7 +271,7 @@ message-body
 <p>在請求行之後，剩餘從 <code>Host:</code> 開始的行數都是標頭（header）。<code>GET</code> 請求不會有本體（body）。</p>
 <p>你可以嘗試看看從不同的瀏覽器或尋問不同的位址，像是 <em>127.0.0.1:7878/test</em>，來看看請求資料有什麼改變。</p>
 <p>現在我們知道瀏覽器在請求什麼了，讓我們回傳一些資料吧！</p>
-<h3><a class="header" href="#寫入回應" id="寫入回應">寫入回應</a></h3>
+<h3 id="寫入回應"><a class="header" href="#寫入回應">寫入回應</a></h3>
 <p>現在我們要實作傳送資料來回應客戶端的請求。回應格式如下：</p>
 <pre><code class="language-text">HTTP-Version Status-Code Reason-Phrase CRLF
 headers CRLF
@@ -312,7 +312,7 @@ message-body
 <p>新的第一行定義了變數 <code>response</code> 會持有成功訊息的資料。然後我們對我們的 <code>response</code> 呼叫 <code>as_bytes</code> 來將字串轉換成位元組。<code>stream</code> 中的 <code>write</code> 方法接收 <code>&amp;[u8]</code> 然後將這些位元組直接傳到連線中。</p>
 <p>由於 <code>write</code> 操作可能會失敗，我們如前面一樣對任何錯誤使用 <code>unwrap</code>。同樣地，在實際的應用程式中你應該要在此加上錯誤處理。最後，<code>flush</code> 會停止程式繼續執行，直到等待所有位元組都寫入連線為止。<code>TcpStream</code> 包含一個內部緩衝區來降低底層作業系統的呼叫次數。</p>
 <p>有了這些改變，讓我們執行程式碼然後下達請求。我們不再顯示任何資料到終端機上了，所以我們不會看到任何輸出，只會有 Cargo 執行的訊息。當你在網頁瀏覽器讀取 <em>127.0.0.1:7878</em> 時，你應該會得到一個空白頁面，而不是錯誤了。你剛剛手寫了一個 HTTP 請求與回應！</p>
-<h3><a class="header" href="#回傳真正的-html" id="回傳真正的-html">回傳真正的 HTML</a></h3>
+<h3 id="回傳真正的-html"><a class="header" href="#回傳真正的-html">回傳真正的 HTML</a></h3>
 <p>讓我們實作不止是回傳空白頁面的功能。首先在專案根目錄建立一個檔案 <em>hello.html</em>，而不是在 <em>src</em> 目錄內。你可以輸入任何你想要的 HTML，範例 20-4 是犯了其中一種可能的範本。</p>
 <p><span class="filename">檔案名稱：hello.html</span></p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
@@ -368,7 +368,7 @@ message-body
 <p>接下來，我們使用 <code>format!</code> 來加入檔案內容來作為成功回應的本體。為了確保這是有效的 HTTP 回應，我們加上 <code>Content-Length</code> 標頭並設置為回應本體的大小，在此例中就是 <code>hello.html</code> 的大小。</p>
 <p>透過 <code>cargo run</code> 執行此程式碼並在你的瀏覽器讀取 <em>127.0.0.1:7878</em>，你應該就會看到 HTML 的顯示結果了！</p>
 <p>目前我們忽略了 <code>buffer</code> 中的請求資料，並毫無條件地回傳 HTML 檔案內容。這意味著如果你嘗試在瀏覽器中請求 <em>127.0.0.1:7878/something-else</em>，你還是會得到相同的 HTML 回應。這樣我們的伺服器是很受限的，而且這也不是大多數網頁伺服器會做的行為。我們想要依據請求自訂我們的回應，並只對格式良好的 <code>/</code> 請求回傳 HTML 檔案。</p>
-<h3><a class="header" href="#驗證請求並選擇性地回應" id="驗證請求並選擇性地回應">驗證請求並選擇性地回應</a></h3>
+<h3 id="驗證請求並選擇性地回應"><a class="header" href="#驗證請求並選擇性地回應">驗證請求並選擇性地回應</a></h3>
 <p>目前我們的網頁伺服器不管客戶端的請求為何，都會回傳 HTML 檔案。讓我們加個功能來在回傳 HTML 檔案前檢查瀏覽器請求是否為 <code>/</code>，如果瀏覽器請求的是其他的話就回傳錯誤。為此我們得修改 <code>handle_connection</code> 成像是範例 20-6 這樣。此新的程式碼會檢查收到的請求，比較是否符合 <code>/</code> 的前半部分，並增加了 <code>if</code> 與 <code>else</code> 區塊來處理不同請求。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::fs;
@@ -477,7 +477,7 @@ fn handle_connection(mut stream: TcpStream) {
 </code></pre>
 <p><span class="caption">範例 20-8：回傳任何 404 回應的頁面內容範本</span></p>
 <p>有了這些改變後，再次執行你的伺服器。請求 <em>127.0.0.1:7878</em> 的話就應該會回傳 <em>hello.html</em> 的內容，而任何其他請求，像是 <em>127.0.0.1:7878/foo</em> 就應該回傳 <em>404.html</em> 的錯誤頁面。</p>
-<h3><a class="header" href="#再做一些重構" id="再做一些重構">再做一些重構</a></h3>
+<h3 id="再做一些重構"><a class="header" href="#再做一些重構">再做一些重構</a></h3>
 <p>目前 <code>if</code> 與 <code>else</code> 區塊有很多重複的地方，它們都會讀取檔案並將檔案內容寫入流中。唯一不同的地方在於狀態行與檔案名稱。讓我們將程式碼變得更簡潔，將不同之處分配給 <code>if</code> 與 <code>else</code>，它們會分別將相對應的狀態行與檔案名稱賦值給變數。我們就能使用這些變數無條件地讀取檔案並寫入回應。範例 20-9 顯示了替換大段 <code>if</code> 與 <code>else</code> 區塊後的程式碼。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::fs;

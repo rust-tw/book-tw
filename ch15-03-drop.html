@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#透過-drop-特徵執行清除程式碼" id="透過-drop-特徵執行清除程式碼">透過 <code>Drop</code> 特徵執行清除程式碼</a></h2>
+                        <h2 id="透過-drop-特徵執行清除程式碼"><a class="header" href="#透過-drop-特徵執行清除程式碼">透過 <code>Drop</code> 特徵執行清除程式碼</a></h2>
 <p>第二個對智慧指標模式很重要的特徵是 <code>Drop</code>，這讓你能自訂數值離開作用域時的行為。你可以對任何型別實作 <code>Drop</code> 特徵，然後你指定的程式碼就能用來釋放像是檔案或網路連線等資源。我們在智慧指標的章節介紹 <code>Drop</code> 的原因是因為 <code>Drop</code> 特徵的功能幾乎永遠會在實作智慧指標時用到。舉例來說，當 <code>Box&lt;T&gt;</code> 離開作用域時，它會釋放該 box 在堆積上指向的記憶體空間。</p>
 <p>在某些語言中，當程式設計師使用完智慧指標的實例後，每次都得呼叫釋放記憶體與資源的程式碼。如果他們忘記的話，系統可能就會過載並崩潰。在 Rust 中你可以對數值離開作用域時指定一些程式碼，然後編譯器就會自動插入此程式碼。所以你就不用每次在特定型別實例使用完時，在程式的每個地方都寫上清理程式碼。而且你還不會泄漏資源！</p>
 <p>透過實作 <code>Drop</code> 特徵我們可以指定當數值離開作用域時要執行的程式碼。<code>Drop</code> 特徵會要求我們實作一個方法叫做 <code>drop</code>，這會取得 <code>self</code> 的可變引用。為了觀察 Rust 何時會呼叫 <code>drop</code>，讓我們先用 <code>println!</code> 陳述式實作 <code>drop</code>。</p>
@@ -210,7 +210,7 @@ CustomSmartPointers 建立完畢。
 釋放 CustomSmartPointer 的資料 `我的東東`!
 </code></pre>
 <p>當我們的實例離開作用域時，Rust 會自動呼叫 <code>drop</code>，呼叫我們指定的程式碼。變數會以與建立時相反的順序被釋放，所以 <code>d</code> 會在 <code>c</code> 之前被釋放。此範例給了我們一個觀察 <code>drop</code> 如何執行的視覺化指引，通常你會指定該型別所需的清除程式碼，而不是印出訊息。</p>
-<h3><a class="header" href="#透過-stdmemdrop-提早釋放數值" id="透過-stdmemdrop-提早釋放數值">透過 <code>std::mem::drop</code> 提早釋放數值</a></h3>
+<h3 id="透過-stdmemdrop-提早釋放數值"><a class="header" href="#透過-stdmemdrop-提早釋放數值">透過 <code>std::mem::drop</code> 提早釋放數值</a></h3>
 <p>不幸的是，我們無法直接了當地取消自動 <code>drop</code> 的功能。停用 <code>drop</code> 通常是不必要的，整個 <code>Drop</code> 的目的本來就是要能自動處理。不過有些時候你可能會想要提早清除數值。其中一個例子是使用智慧指標來管理鎖：你可能會想要強制呼叫 <code>drop</code> 方法來釋放鎖，好讓作用域中的其他程式碼可以取得該鎖。Rust 不會讓你手動呼叫 <code>Drop</code> 特徵的 <code>drop</code> 方法。不過如果你想要一個數值在離開作用域前就被釋放的話，你可以使用標準函式庫提供的 <code>std::mem::drop</code> 函式來呼叫。</p>
 <p>如果我們嘗試修改範例 15-14 的 <code>main</code> 函式來手動呼叫 <code>Drop</code> 特徵的 <code>drop</code> 方法，如範例 15-15 所示，我們會得到編譯錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

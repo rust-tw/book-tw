@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#泛型資料型別" id="泛型資料型別">泛型資料型別</a></h2>
+                        <h2 id="泛型資料型別"><a class="header" href="#泛型資料型別">泛型資料型別</a></h2>
 <p>我們可以使用泛型（generics）來建立項目的定義，像是函式簽名或結構體，讓我們在之後可以使用在不同的實際資料型別。讓我們先看看如何使用泛型定義函式、枚舉與方法。然後我們會在來看泛型對程式碼的效能影響如何。</p>
-<h3><a class="header" href="#在函式中定義" id="在函式中定義">在函式中定義</a></h3>
+<h3 id="在函式中定義"><a class="header" href="#在函式中定義">在函式中定義</a></h3>
 <p>當要使用泛型定義函數時，我們通常會將泛型置於函式簽名中指定參數與回傳值資料型別的位置。這樣做能讓我們的程式碼更具彈性並向呼叫者提供更多功能，同時還能防止重複程式碼。</p>
 <p>接續我們 <code>largest</code> 函式的例子，範例 10-4 展示了兩個都在切片上尋找最大值的函式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -270,7 +270,7 @@ error: could not compile `chapter10`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>註釋中提到了 <code>std::cmp::PartialOrd</code> 這個<strong>特徵（trait）</strong>。我們會在下個段落來討論特徵。現在此錯誤告訴我們 <code>largest</code> 本體無法適用於所有可能的 <code>T</code> 型別，因為我們想要在本體中比較型別 <code>T</code> 的數值，我們只能在能夠排序的型別中做比較。要能夠比較的話，標準函式庫有提供 <code>std::cmp::PartialOrd</code> 特徵讓你可以針對你的型別來實作（請查閱附錄 C 來瞭解更多此特徵的細節）。你會在<a href="ch10-02-traits.html#%E7%89%B9%E5%BE%B5%E4%BD%9C%E7%82%BA%E5%8F%83%E6%95%B8">「特徵作為參數」</a><!-- ignore -->的段落學習到如何指定特定泛型型別擁有特定特徵。不過先讓先我們探索其他泛型型別參數使用的方式。</p>
-<h3><a class="header" href="#在結構體中定義" id="在結構體中定義">在結構體中定義</a></h3>
+<h3 id="在結構體中定義"><a class="header" href="#在結構體中定義">在結構體中定義</a></h3>
 <p>我們一樣能以 <code>&lt;&gt;</code> 語法來對結構體中一或多個欄位使用泛型型別參數。範例 10-6 顯示了如何定義 <code>Point&lt;T&gt;</code> 結構體並讓 <code>x</code> 與 <code>y</code> 可以是任意型別數值。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T&gt; {
@@ -328,7 +328,7 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 10-8：<code>Point&lt;T, U&gt;</code> 擁有兩個泛型惜別，所以 <code>x</code> 和 <code>y</code> 可以有不同的型別數值</span></p>
 <p>現在這些所有的 <code>Point</code> 實例都是允許的了！你要在定義中使用多少泛型型別參數都沒問題，但用太多的話會讓你的程式碼難以閱讀。當你的程式碼需要使用大量泛型的話，通常代表你的程式碼需要重新組織成更小的元件。</p>
-<h3><a class="header" href="#在枚舉中定義" id="在枚舉中定義">在枚舉中定義</a></h3>
+<h3 id="在枚舉中定義"><a class="header" href="#在枚舉中定義">在枚舉中定義</a></h3>
 <p>如同結構體一樣，我們可以定義枚舉讓它們的變體擁有泛型資料型別。讓我們看看我們在第六章標準函式庫提供的 <code>Option&lt;T&gt;</code> 枚舉：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -352,7 +352,7 @@ fn main() {
 </span></code></pre></pre>
 <p><code>Result</code> 枚舉有兩個泛型型別 <code>T</code> 和 <code>E</code> 且有兩個變體：<code>Ok</code> 擁有型別 <code>T</code> 的數值；而 <code>Err</code> 擁有型別 <code>E</code> 的數值。這樣的定義讓我們很方便能表達 <code>Result</code> 枚舉可能擁有一個成功的數值（返回型別 <code>T</code> 的數值）或失敗的數值（回傳型別為 <code>E</code> 的錯誤值）。事實上這就是我們在範例 9-3 開啟檔案的方式，當我們成功開啟檔案時的 <code>T</code> 就會是型別 <code>std::fs::File</code>，然後當開啟檔案會發生問題時 <code>E</code> 就會是型別 <code>std::io::Error</code>。</p>
 <p>當你發現你的程式碼有許多結構體或枚舉都只有儲存的值有所不同時，你可以使用泛型行別來避免重複。</p>
-<h3><a class="header" href="#在方法中定義" id="在方法中定義">在方法中定義</a></h3>
+<h3 id="在方法中定義"><a class="header" href="#在方法中定義">在方法中定義</a></h3>
 <p>我們可以對結構體或枚舉定義方法（如第五章所述）並也可以使用泛型型別來定義。範例 10-9 展示了我們在範例 10-6 定義的結構體 <code>Point&lt;T&gt;</code> 並實作了一個叫做 <code>x</code> 的方法。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T&gt; {
@@ -430,7 +430,7 @@ fn main() {
 <p><span class="caption">範例 10-11：結構體定義中使用不同的泛型型別的方法</span></p>
 <p>在 <code>main</code> 中，我們定義了一個 <code>Point</code>，其 <code>x</code> 型別為 <code>i32</code>（數值為 <code>5</code>），<code>y</code> 型別為 <code>f64</code>（數值為 <code>10.4</code>）。變數 <code>p2</code> 是個 <code>Point</code> 結構體，<code>x</code> 為字串切片（數值為 <code>&quot;Hello&quot;</code>），<code>y</code> 為 <code>char</code>（數值為 <code>c</code>）。在 <code>p1</code> 呼叫 <code>mixup</code> 並加上引數 <code>p2</code> 的話會給我們 <code>p3</code>，它的 <code>x</code> 會有型別 <code>i32</code>，因為 <code>x</code> 來自 <code>p1</code>。而且變數 <code>p3</code> 還會有型別為 <code>char</code> 的 <code>y</code>，因為 <code>y</code> 來自 <code>p2</code>。<code>println!</code> 巨集的呼叫就會顯示 <code>p3.x = 5, p3.y = c</code>。</p>
 <p>此例是是為了展示一些泛型參數是透過 <code>impl</code> 宣告而有些則是透過方法定義來得。在此，泛型參數 <code>T</code> 和 <code>U</code> 是宣告在 <code>impl</code> 之後，因為它們與結構體定義有關聯。而在 <code>fn mixup</code> 之後宣告的泛型參數只和該方法有關。</p>
-<h3><a class="header" href="#使用泛型的程式碼效能" id="使用泛型的程式碼效能">使用泛型的程式碼效能</a></h3>
+<h3 id="使用泛型的程式碼效能"><a class="header" href="#使用泛型的程式碼效能">使用泛型的程式碼效能</a></h3>
 <p>你可能會好奇當你使用泛型型別參數會不會有執行時的消耗。好消息是 Rust 實作泛型的方式讓你使用泛型的的程式碼跑得不會比使用實際型別還來的慢。</p>
 <p>Rust 在編譯時對使用泛型的程式碼進行單態化（monomorphization）。<strong>單態化</strong>是個讓泛型程式碼轉換成特定程式碼的過程，在編譯時填入實際的型別。</p>
 <p>在此過程中，編譯器會做與我們在範例 10-5 建立泛型函式相反的事：編譯器檢查所有泛型程式碼被呼叫的地方，並依據泛型程式碼被呼叫的情況產生實際型別的程式碼。</p>

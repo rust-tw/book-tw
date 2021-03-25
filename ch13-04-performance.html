@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#比較效能迴圈-vs-疊代器" id="比較效能迴圈-vs-疊代器">比較效能：迴圈 vs. 疊代器</a></h2>
+                        <h2 id="比較效能迴圈-vs-疊代器"><a class="header" href="#比較效能迴圈-vs-疊代器">比較效能：迴圈 vs. 疊代器</a></h2>
 <p>為了決定該使用迴圈還是疊代器，你需要知道哪個 <code>search</code> 函式的版本比較快：是顯式 <code>for</code> 迴圈的版本，還是疊代器的版本。</p>
 <p>我們可以透過讀取整本 Sir Arthur Conan Doyle 寫的 <em>The Adventures of Sherlock Holmes</em> 到 <code>String</code> 中並搜尋內容中的 <em>the</em> 來進行評測。以下為針對 <code>search</code> 函式使用 <code>for</code> 迴圈與使用疊代器的版本評測（benchmark）：</p>
 <pre><code class="language-text">test bench_search_for  ... bench:  19,620,300 ns/iter (+/- 915,700)
@@ -199,7 +199,7 @@ for i in 12..buffer.len() {
 <p>要計算 <code>prediction</code> 的數值的話，此程式碼會遍歷 <code>coefficients</code> 的 12 個數值並使用 <code>zip</code> 方法將係數數值與 <code>buffer</code> 中之前 12 個數值做配對。然後在每個配對中，我們將數值相乘，然後相加所有結果，最後對總和往右偏移 <code>qlp_shift</code> 位。</p>
 <p>像音訊解碼器這種的應用程式運算通常最注重效率。我們在此建立了一個疊代器，使用兩個配接器，然後消化數值。這段 Rust 程式碼會產生什麼樣的組合語言程式碼呢？在本書撰寫時，它會編譯出與你自己手寫一樣的組合語言。遍歷 <code>coefficients</code> 的數值完全不需用到迴圈：Rust 知道一共有 12 次疊代，所以它會「展開（unroll）」迴圈。<strong>展開</strong>是一種優化方式，這會移除迴圈控制程式碼並改產生針對迴圈中每次疊代的重複程式碼。</p>
 <p>所有的係數都會存在暫存器中，這意味著存取數值會非常地快。在執行時不會有對陣列的界限檢查。這些所有 Rust 能做的優化讓產生的程式碼可以十分迅速。現在既然你已經知道了，你就可以自在地使用疊代器與閉包！它們可以寫出高階的程式碼，但不會犧牲執行時的效能。</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>閉包與疊代是是 Rust 啟發自函式程式語言的概念。它們讓 Rust 在表達高階概念的同時，仍能擁有低階程式碼的效能。閉包與疊代器的實作對執行時效能不會有影響。這是 Rust 竭力提供零成本抽象的目標之一。</p>
 <p>現在我們改善了 I/O 專案的可讀性，讓我們看看 <code>cargo</code> 一些更多的功能，來幫助我們分享專案給全世界。</p>
 

@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#套件與-crates" id="套件與-crates">套件與 Crates</a></h2>
+                        <h2 id="套件與-crates"><a class="header" href="#套件與-crates">套件與 Crates</a></h2>
 <p>首先我們要介紹的第一個模組系統部分為套件與 crates。一個 crate 指的是一個二進制執行檔或函式庫。<strong>crate 的源頭</strong>會是一個原始檔案，讓 Rust 的編譯器可以作為起始點並組織 crate 模組的地方（我們會在<a href="ch07-02-defining-modules-to-control-scope-and-privacy.html">「定義模組來控制作用域與隱私權」</a><!-- ignore -->的段落更加解釋模組）。<strong>套件</strong>（package）則是提供一系列功能的一或數個 crate。一個套件會包含一個 <em>Cargo.toml</em> 檔案來解釋如何建構那些 crate。</p>
 <p>套件依據一些規則來組成。一個套件<strong>必須</strong>包含零或一個函式庫 crate，不能再更多。它可以包含多少二進制執行檔 crate 都沒關係，但一定得至少提供一個 crate（無論是函式庫或二進制執行檔）。</p>
 <p>讓我們看看當我們建立一個套件時發生了什麼事。首先我們先輸入 <code>cargo new</code> 命令：</p>

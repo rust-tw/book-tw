@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#控制流程" id="控制流程">控制流程</a></h2>
+                        <h2 id="控制流程"><a class="header" href="#控制流程">控制流程</a></h2>
 <p>在大多數程式語言中，能夠決定依據某項條件是否為真來執行些程式碼，以及依據某項條件是否為真來重複執行些程式碼是非常基本的組成元件。在 Rust 程式碼中能讓你控制執行流程的常見方法有 <code>if</code> 表達式以及迴圈。</p>
-<h3><a class="header" href="#if-表達式" id="if-表達式"><code>if</code> 表達式</a></h3>
+<h3 id="if-表達式"><a class="header" href="#if-表達式"><code>if</code> 表達式</a></h3>
 <p><code>if</code> 能讓你依照條件判斷對你的程式碼產生分支。基本上你提供一個條件然後就像是在說：「如果此條件符合的話，就執行這個程式碼區塊；如果沒有的話，就不要執行這段程式碼。」</p>
 <p>請在你的 <em>projects</em> 目錄下建立一個新的專案叫做 <em>branches</em> 好讓我們來探討 <code>if</code> 表達式。接著請在 <em>src/main.rs</em> 檔案內輸入以下內容：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -251,7 +251,7 @@ To learn more, run the command again with --verbose.
 }
 </code></pre></pre>
 <p>執行此程式碼就會印出「數字不為零」。</p>
-<h4><a class="header" href="#使用-else-if-處理多重條件" id="使用-else-if-處理多重條件">使用 <code>else if</code> 處理多重條件</a></h4>
+<h4 id="使用-else-if-處理多重條件"><a class="header" href="#使用-else-if-處理多重條件">使用 <code>else if</code> 處理多重條件</a></h4>
 <p>想要實現多重條件的話，你可以將 <code>if</code> 和 <code>else</code> 組合成 <code>else if</code> 表達式。舉例來說：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -277,7 +277,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>當此程式執行時，他會依序檢查每一個 <code>if</code> 表達式，並執行第一個符合條件的程式碼段落。注意到雖然 6 的確可以除以 2，但我們沒有看到 <code>數字可以被 2 整除</code>，也沒有看到來自 <code>else</code> 那段的 <code>數字無法被 4、3、2 整除</code>。這是因為 Rust 只會執行第一個符合條件的區塊，而當它遇到時它就不會再檢查其他條件。</p>
 <p>使用太多的 <code>else if</code> 表達式很容易讓你的程式碼變得凌亂，所以當你需要用到一個以上時，你可能會想要先重構程式碼看看。為此我們在第六章會介紹一個功能強大的 Rust 條件判斷結構叫做 <code>match</code>。</p>
-<h4><a class="header" href="#在-let-陳述式中使用-if" id="在-let-陳述式中使用-if">在 <code>let</code> 陳述式中使用 <code>if</code></a></h4>
+<h4 id="在-let-陳述式中使用-if"><a class="header" href="#在-let-陳述式中使用-if">在 <code>let</code> 陳述式中使用 <code>if</code></a></h4>
 <p>因為 <code>if</code> 是表達式，所以我們可以像範例 3-2 這樣放在 <code>let</code> 陳述式的右邊。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -324,10 +324,10 @@ error: could not compile `branches`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p><code>if</code> 段落的表達式運算出整數，但 <code>else</code> 的區塊卻運算出字串。這樣行不通的原因是變數只能有一個型別。Rust 必須在編譯期間確切知道變數 <code>number</code> 的型別，這樣才能驗證它的型別在任何有使用到 <code>number</code> 的地方都是有效的。要是 <code>number</code> 只能在執行時知道的話，Rust 就沒辦法這樣做了。如果編譯器必須追蹤所有變數多種可能存在的型別，那就會變得非常複雜並無法為程式碼提供足夠的保障。</p>
-<h3><a class="header" href="#使用迴圈重複執行" id="使用迴圈重複執行">使用迴圈重複執行</a></h3>
+<h3 id="使用迴圈重複執行"><a class="header" href="#使用迴圈重複執行">使用迴圈重複執行</a></h3>
 <p>重複執行同一段程式碼區塊時常是很有用的。針對這樣的任務，Rust 提供了多種產生<strong>迴圈</strong>（loops）的方式。一個迴圈會執行一段程式碼區塊，然後在結束時馬上回到區塊起始位置繼續執行。為了繼續探討迴圈，讓我們再開一個新專案 <em>loops</em>。</p>
 <p>Rust 提供三種迴圈：<code>loop</code>、<code>while</code> 和 <code>for</code>。讓我們每個都嘗試看看吧。</p>
-<h4><a class="header" href="#使用-loop-重複執行程式碼" id="使用-loop-重複執行程式碼">使用 <code>loop</code> 重複執行程式碼</a></h4>
+<h4 id="使用-loop-重複執行程式碼"><a class="header" href="#使用-loop-重複執行程式碼">使用 <code>loop</code> 重複執行程式碼</a></h4>
 <p><code>loop</code> 關鍵字告訴 Rust 去反覆不停地執行一段程式碼直到你親自告訴它要停下來。</p>
 <p>我們用以下範例示範，請修改你 <em>loops</em> 目錄下的 <em>src/main.rs</em> 檔案成以下程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -355,7 +355,7 @@ CTRL-C
 </code></pre>
 <p><code>^C</code> 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 <code>再一次！</code> 出現在 <code>^C</code> 之後。</p>
 <p>幸運的是 Rust 有提供另一個打破迴圈更可靠的方法。你可以在迴圈內加上 <code>break</code> 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E7%8C%9C%E5%B0%8D%E5%BE%8C%E9%9B%A2%E9%96%8B">「猜對後離開」</a><!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。</p>
-<h4><a class="header" href="#從迴圈回傳數值" id="從迴圈回傳數值">從迴圈回傳數值</a></h4>
+<h4 id="從迴圈回傳數值"><a class="header" href="#從迴圈回傳數值">從迴圈回傳數值</a></h4>
 <p>其中一種使用 <code>loop</code> 的用途是重試某些你覺得會失敗的動作，像是檢查一個執行緒是否已經完成其任務。不過這樣你可能就會想傳遞任務結果給之後的程式碼。要做到這樣的事，你可以在你要用來停下迴圈的 <code>break</code> 表達式內加上一個你想回傳數值，該值就會被停止的迴圈回傳，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let mut counter = 0;
@@ -372,7 +372,7 @@ CTRL-C
 }
 </code></pre></pre>
 <p>在迴圈之前，我們宣告了一個變數 <code>counter</code> 並初始化為 <code>0</code>，然後我們宣告了另一個變數 <code>result</code> 來取得迴圈回傳的值。在迴圈每一次的疊代中，我們將變數 <code>counter</code> 加上 <code>1</code> 並檢查它是否等於 <code>10</code>。如果是的話就用 <code>break</code> 關鍵字回傳 <code>counter * 2</code>。在迴圈結束後，我們用分號才結束這個賦值給 <code>result</code> 的陳述式。最後我們印出 <code>result</code>，而結果為 20。</p>
-<h4><a class="header" href="#使用-while-做條件迴圈" id="使用-while-做條件迴圈">使用 <code>while</code> 做條件迴圈</a></h4>
+<h4 id="使用-while-做條件迴圈"><a class="header" href="#使用-while-做條件迴圈">使用 <code>while</code> 做條件迴圈</a></h4>
 <p>在程式中用條件判斷迴圈的執行通常是很有用的。當條件為真時，迴圈就繼續執行。當條件不再符合時，程式就用 <code>break</code> 停止迴圈。這樣的循環方法可以用 <code>loop</code>、<code>if</code>、<code>else</code> 和 <code>break</code> 組合出來。如果你想嘗試的話，你現在就可以自己寫寫看看。</p>
 <p>但是這種模式非常常見，所以 Rust 有提供內建的結構稱為 <code>while</code> 迴圈。範例 3-3 就是使用 <code>while</code> 的例子：該程式會循環三次，每次計數都減一，然後在迴圈之後印出訊息並離開。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -390,7 +390,7 @@ CTRL-C
 </code></pre></pre>
 <p><span class="caption">範例 3-3：使用 <code>while</code> 迴圈，當條件符合就持續執行程式碼</span></p>
 <p>這樣消除了很多使用 <code>loop</code>、<code>if</code>、<code>else</code> 與 <code>break</code> 會有的巢狀結構，這樣可以更易閱讀。當條件為真的，程式碼就執行；不然的話，它就離開迴圈。</p>
-<h4><a class="header" href="#使用-for-遍歷集合" id="使用-for-遍歷集合">使用 <code>for</code> 遍歷集合</a></h4>
+<h4 id="使用-for-遍歷集合"><a class="header" href="#使用-for-遍歷集合">使用 <code>for</code> 遍歷集合</a></h4>
 <p>你可以用 <code>while</code> 來遍歷一個集合的元素，像是陣列等等。舉例來說，我們可以看看範例 3-4。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -442,7 +442,7 @@ CTRL-C
 }
 </code></pre></pre>
 <p>這樣是不是看起來好讀許多？</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>你做到了！這的確是篇大章節：你學到了變數、純量與複合資料型別、函式、註解、<code>if</code> 表達式以及迴圈！如果你想練習此章的概念，你可以試著打造以下程式：</p>
 <ul>
 <li>轉換攝氏與華氏溫度。</li>

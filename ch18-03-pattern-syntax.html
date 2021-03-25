@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#模式語法" id="模式語法">模式語法</a></h2>
+                        <h2 id="模式語法"><a class="header" href="#模式語法">模式語法</a></h2>
 <p>在整本書中，我們已經看過許多種類的模式範例了。在此段落中，我們會收集所有模式中的有效語法，並討論你會怎麼使用它們。</p>
-<h3><a class="header" href="#配對字面值" id="配對字面值">配對字面值</a></h3>
+<h3 id="配對字面值"><a class="header" href="#配對字面值">配對字面值</a></h3>
 <p>如同你在第六章所見的，你可以直接使用字面值來配對模式，以下程式碼展示了一些範例：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 1;
@@ -187,7 +187,7 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p>此程式碼會顯示「一」因為 x 的數值為 1。此語法適用於當你想要程式碼取得一個特定數值時，就馬上採取行動的情況。</p>
-<h3><a class="header" href="#配對變數名稱" id="配對變數名稱">配對變數名稱</a></h3>
+<h3 id="配對變數名稱"><a class="header" href="#配對變數名稱">配對變數名稱</a></h3>
 <p>變數名稱是能配對任何數值的不可反駁模式，而且我們在本書中已經使用非常多次。不過當你在 <code>match</code> 表達式中使用變數名稱時會複雜一點。因為 <code>match</code> 會初始一個新的作用域，作為 <code>match</code> 表達式部分模式的宣告變數會遮蔽 <code>match</code> 結構外同名的變數，和所有變數一樣。在範例 18-11 中，我宣告了一個變數叫做 <code>x</code> 其有數值 <code>Some(5)</code> 和一個變數 <code>y</code> 其有數值 <code>10</code>。然後我們建立一個數值 <code>x</code> 的 <code>match</code> 表達式。檢查配對分之中的模式並在最後用 <code>println!</code> 顯示出來，並嘗試在程式碼執行或進一步閱讀之前推測其會顯示的結果會為何。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -209,7 +209,7 @@
 <p>如果 <code>x</code> 是 <code>None</code> 數值而非 <code>Some(5)</code> 的話，前兩個分支的模式都不會配對到，所以數值會配對到底線的分支。我們沒有在底線分支的模式中宣告 <code>x</code> 變數，所以表達式中的 <code>x</code> 仍然是外部沒有被遮蔽的 <code>x</code> 。在這樣的假設狀況下，<code>match</code> 會印出 <code>預設情形，x = None</code>。</p>
 <p>當 <code>match</code> 完成時，其作用域就會結束，所以作用域內的內部 <code>y</code> 也會結束。最後一個 <code>println!</code> 會顯示 <code>最後結果：x = Some(5), y = 10</code>。</p>
 <p>要建立個能對外部 <code>x</code> 與 <code>y</code> 數值做比較的 <code>match</code> 表達式而非遮蔽變數的話，我們需要改用條件配對守護。我們會在之後的<a href="#%E6%8F%90%E4%BE%9B%E9%A1%8D%E5%A4%96%E6%A2%9D%E4%BB%B6%E7%9A%84%E9%85%8D%E5%B0%8D%E5%AE%88%E8%AD%B7">「提供額外條件的配對守護」</a><!-- ignore -->段落討論配對守護。</p>
-<h3><a class="header" href="#多重模式" id="多重模式">多重模式</a></h3>
+<h3 id="多重模式"><a class="header" href="#多重模式">多重模式</a></h3>
 <p>在 <code>match</code> 表達式中，你可以使用 <code>|</code> 語法來配對數個模式，其代表 <strong>OR（或）</strong> 的意思。舉例來說，以下程式碼會配對 <code>x</code> 的數值到配對分支，第一個分支有個 <em>OR</em> 的選項，代表如果 <code>x</code> 的數值配對的到分支中任一數值的話，該分支的程式碼就會執行：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 1;
@@ -222,7 +222,7 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p>此程式碼會印出 <code>一或二</code>。</p>
-<h3><a class="header" href="#透過--配對數值範圍" id="透過--配對數值範圍">透過 <code>..=</code> 配對數值範圍</a></h3>
+<h3 id="透過--配對數值範圍"><a class="header" href="#透過--配對數值範圍">透過 <code>..=</code> 配對數值範圍</a></h3>
 <p><code>..=</code> 語法讓我們可以配對一個範圍內包含的數值。在以下程式碼中，當模式配對的到範圍內的任何數值時，該分支就會執行：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 5;
@@ -247,9 +247,9 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p>Rust 可以知道 <code>c</code> 有包含在第一個模式的範圍內，所以印出 <code>前半部 ASCII 字母</code>。</p>
-<h3><a class="header" href="#解構拆開數值" id="解構拆開數值">解構拆開數值</a></h3>
+<h3 id="解構拆開數值"><a class="header" href="#解構拆開數值">解構拆開數值</a></h3>
 <p>我們可以使用模式來解構結構體、枚舉、元組與引用，以便使用這些數值的不同部分。讓我們依序來看看。</p>
-<h4><a class="header" href="#解構結構體" id="解構結構體">解構結構體</a></h4>
+<h4 id="解構結構體"><a class="header" href="#解構結構體">解構結構體</a></h4>
 <p>範例 18-12 有個結構體 <code>Point</code> 其有兩個欄位 <code>x</code> 與 <code>y</code>，我們可以在 <code>let</code> 陳述式使用模式來拆開它。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point {
@@ -306,7 +306,7 @@ fn main() {
 <p>第一個分支透過指定 <code>y</code> 欄位配對字面值為 <code>0</code> 來配對任何在 <code>x</code> 軸上的點。此模式仍然會建立變數 <code>x</code> 能讓我們在此分支的程式碼中使用。</p>
 <p>同樣地，第二個分支透過指定 <code>x</code> 欄位配對字面值為 <code>0</code> 來配對任何在 <code>y</code> 軸上的點，並建立擁有 <code>y</code> 欄位數值的變數 <code>y</code>。 第三個分支沒有指定任何字面值，所以它能配對任何其他 <code>Point</code> 並建立 <code>x</code> 與 <code>y</code> 欄位對應的變數。</p>
 <p>在此例中，數值 <code>p</code> 會配對到第二個分支，因為其 <code>x</code> 為 0，所以此程式碼會印出 <code>位於 y 軸的 7</code>。</p>
-<h4><a class="header" href="#解構枚舉" id="解構枚舉">解構枚舉</a></h4>
+<h4 id="解構枚舉"><a class="header" href="#解構枚舉">解構枚舉</a></h4>
 <p>我們已經在本書中之前的章節就解構過枚舉。舉例來說，第六章的範例 6-5 我們就解構了 <code>Option&lt;i32&gt;</code>。其中一個我們還沒談到的細節是解構枚舉的模式必須與枚舉定義中其所儲存的資料相符。作為示範，我們在範例 18-15 中使用範例 6-2 的 <code>Message</code> 枚舉並寫一個 <code>match</code> 來提供會解構每個內部數值的模式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum Message {
@@ -342,7 +342,7 @@ fn main() {
 <p>對於像是 <code>Message::Quit</code> 這種沒有任何資料的枚舉，我們無法進一步解構出任何資料。我們只能配對其本身的數值 <code>Message::Quit</code>，所以在該模式中沒有任何變數。</p>
 <p>對於像是 <code>Message::Move</code> 這種類結構體枚舉變體，我們可以使用類似於指定配對結構體的模式。在變體名稱之後，我們加上大括號以及列出欄位名稱作為變數，讓我們能拆成不同部分並在此分支的程式碼中使用。我們在此使用範例 18-13 一樣的簡寫形式。</p>
 <p>對於像是 <code>Message::Write</code> 這種持有一個元素，以及 <code>Message::ChangeColor</code> 這種持有三個元素的類元組枚舉變體，我們可以使用類似於配對元組的模式。模式中的變數數量必須與我們要配對的變體中元素個數相符。</p>
-<h4><a class="header" href="#解構巢狀結構體與枚舉" id="解構巢狀結構體與枚舉">解構巢狀結構體與枚舉</a></h4>
+<h4 id="解構巢狀結構體與枚舉"><a class="header" href="#解構巢狀結構體與枚舉">解構巢狀結構體與枚舉</a></h4>
 <p>到目前為止，我們所有的結構體或枚舉配對範例的深度都只有一層。配對也可以用於巢狀項目中！</p>
 <p>舉例來說，我們可以重構範例 18-15 的程式碼，在 <code>ChangeColor</code> 中支援 RGB 與 HSV 顏色，如範例 18-16 所示。</p>
 <pre><pre class="playground"><code class="language-rust">enum Color {
@@ -375,7 +375,7 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 18-16：配對巢狀枚舉</span></p>
 <p><code>match</code> 表達式的第一個分支模式會配對包含 <code>Color::Rgb</code> 變體的 <code>Message::ChangeColor</code> 枚舉變體，然後該模式會綁定內部三個 <code>i32</code> 數值。第二個分支也是配對到 <code>Message::ChangeColor</code> 枚舉變體，但是內部枚舉會改配對 <code>Color::Hsv</code>。我們可以在一個 <code>match</code> 表達式指定這些複雜條件，即使有兩個枚舉參與其中。</p>
-<h4><a class="header" href="#解構結構體與元組" id="解構結構體與元組">解構結構體與元組</a></h4>
+<h4 id="解構結構體與元組"><a class="header" href="#解構結構體與元組">解構結構體與元組</a></h4>
 <p>我們甚至可以用更複雜的方式來混合、配對並巢狀解構模式。以下範例展示了一個複雜的結構模式，其將一個結構體與一個元組置於另一個元組中，並將所有的原始數值全部解構出來：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    struct Point {
@@ -388,9 +388,9 @@ fn main() {
 </span></code></pre></pre>
 <p>此程式碼讓我們將複雜的型別拆成部分元件，讓我們可以分別使用我們有興趣的數值。</p>
 <p>解構模式是個能方便使用部分數值的方式，比如結構體每個欄位分別獨立的數值。</p>
-<h3><a class="header" href="#忽略模式中的數值" id="忽略模式中的數值">忽略模式中的數值</a></h3>
+<h3 id="忽略模式中的數值"><a class="header" href="#忽略模式中的數值">忽略模式中的數值</a></h3>
 <p>你已經看過有時候在模式中忽略數值是很實用的，像是在 <code>match</code> 中的最後一個分支能捕獲所有剩餘用不到的可能數值。模式有一些方式可以忽略所有或部分數值：使用（你已經看過的） <code>_</code> 模式、在其他模式使用 <code>_</code> 模式、在名稱前加上底線，或是使用 <code>..</code> 來忽略剩餘部分的數值。讓我們來探討如何與為何要使用這些模式吧。</p>
-<h4><a class="header" href="#透過-_-忽略整個數值" id="透過-_-忽略整個數值">透過 <code>_</code> 忽略整個數值</a></h4>
+<h4 id="透過-_-忽略整個數值"><a class="header" href="#透過-_-忽略整個數值">透過 <code>_</code> 忽略整個數值</a></h4>
 <p>我們使用底線在（<code>_</code>）來作為通配符（wildcard）模式，這會配對任何數值，但不會綁定其值。雖然底線 <code>_</code> 模式特別適合作為 <code>match</code> 表達式最後一個分支，但我們可以將它用在任何模式中，包含函式參數，如範例 18-17 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn foo(_: i32, y: i32) {
@@ -404,7 +404,7 @@ fn main() {
 <p><span class="caption">範例 18-17：在函式簽名中使用 <code>_</code></span></p>
 <p>此程式碼會完全忽略第一個引數傳入的數值 <code>3</code>，並會印出 <code>此程式碼只使用了參數 y：4</code>。</p>
 <p>在大多數情況中如果當你不再需要特定函式參數的話，你會直接變更簽名讓它不會包含沒有使用到的參數。但忽略函式參數在某些場合會很有用。舉例來說，當你實作的特徵有個特定的型別簽名，但是你實作的函式本體不需要其中某個參數。這樣編譯器就不會警告沒有使用到的函式參數，會當做你有使用參數名稱一樣。</p>
-<h4><a class="header" href="#透過巢狀-_-忽略部分數值" id="透過巢狀-_-忽略部分數值">透過巢狀 <code>_</code> 忽略部分數值</a></h4>
+<h4 id="透過巢狀-_-忽略部分數值"><a class="header" href="#透過巢狀-_-忽略部分數值">透過巢狀 <code>_</code> 忽略部分數值</a></h4>
 <p>我們也可以在其他模式中使用 <code>_</code> 來忽略部分數值。舉例來說，當我們只想測試部分數值，但不會用到執行的程式碼中其他部分數值的情況。範例 18-18 的程式碼負責管理設定值的數值。業務要求使用者不能覆寫已經存在的自訂數訂值，但可以取消設定值，也可以在目前未設定時提供數值。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut setting_value = Some(5);
@@ -438,7 +438,7 @@ fn main() {
 </span></code></pre></pre>
 <p><span class="caption">範例 18-19：忽略元組中數個位置</span></p>
 <p>此程式碼會印出 <code>一些數字2、8、32</code>，然後數值 4 與 16 會被忽略。</p>
-<h4><a class="header" href="#在名稱前加上-_-來忽略未使用的變數" id="在名稱前加上-_-來忽略未使用的變數">在名稱前加上 <code>_</code> 來忽略未使用的變數</a></h4>
+<h4 id="在名稱前加上-_-來忽略未使用的變數"><a class="header" href="#在名稱前加上-_-來忽略未使用的變數">在名稱前加上 <code>_</code> 來忽略未使用的變數</a></h4>
 <p>如果你建立了一個變數但沒有在任何地方使用到它，Rust 通常會提出警告，因為這可能是個錯誤。但有時候先建立個你還沒有使用的變數是很有用的，像是你還在寫原型或是才剛開個專案而已。在這種場合，你可以在尚未使用的變數名稱前加上底線，來告訴 Rust 不用提出警告。在範例 18-20 中，我們建立了兩個未使用的變數，但當我們執行此程式碼時，我們應該會只收到其中一個的警告而已。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -473,7 +473,7 @@ fn main() {
 </span></code></pre></pre>
 <p><span class="caption">範例 18-22：使用底線不會綁定數值</span></p>
 <p>此程式碼就能執行，因為我們沒有將 <code>s</code> 綁定給誰，它沒被移動。</p>
-<h4><a class="header" href="#透過--忽略剩餘部分數值" id="透過--忽略剩餘部分數值">透過 <code>..</code> 忽略剩餘部分數值</a></h4>
+<h4 id="透過--忽略剩餘部分數值"><a class="header" href="#透過--忽略剩餘部分數值">透過 <code>..</code> 忽略剩餘部分數值</a></h4>
 <p>對於有許多部分的數值，我們可以用 <code>..</code> 語法來只使用一些部分，然後忽略剩餘部分，來避免需要對每個要忽略的數值都得加上底線。<code>..</code> 模式會忽略模式中剩餘尚未配對的任何部分數值。在範例 18-23 中，我們有個 <code>Point</code> 結構體存有三維空間中的座標。而在 <code>match</code> 表達式中，我們想要只處理 <code>x</code> 座標並忽略 <code>y</code> 與 <code>z</code> 欄位的數值。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    struct Point {
@@ -536,7 +536,7 @@ error: could not compile `patterns`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>Rust 不可能會知道在配對 <code>second</code> 之前要忽略多少元組中的數值，以及在之後得再忽略多少數值此程式碼可以代表我們想要忽略 <code>2</code>、綁定 <code>second</code> 到 <code>4</code> 然後忽略 <code>8</code>、<code>16</code> 和 <code>32</code>；或者我們想要忽略 <code>2</code> 和 <code>4</code>、綁定 <code>second</code> 到 <code>8</code> 然後忽略 <code>16</code> 和 <code>32</code>，以及更多可能。變數名稱 <code>second</code> 對 Rust 沒有任何特別意義，所以我們得到編譯錯誤，因為像這樣在兩個地方使用 <code>..</code> 是含糊不清的。</p>
-<h3><a class="header" href="#提供額外條件的配對守護" id="提供額外條件的配對守護">提供額外條件的配對守護</a></h3>
+<h3 id="提供額外條件的配對守護"><a class="header" href="#提供額外條件的配對守護">提供額外條件的配對守護</a></h3>
 <p><strong>配對守護</strong>（match guard）是個在 <code>match</code> 分支之後額外指定的 <code>if</code> 條件，除了原本的模式配對，此條件也必須配對才能選擇該分支。配對守護適用於比單獨模式所能表達的還複雜的情況。</p>
 <p>該條件能使用配對建立的變數。範例 18-26 展示 <code>match</code> 的第一個分支有個模式 <code>Some(x)</code> 並使用配對守護 <code>if x &lt; 5</code>。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -590,7 +590,7 @@ To learn more, run the command again with --verbose.
 <pre><code class="language-text">4 | 5 | (6 if y) =&gt; ...
 </code></pre>
 <p>在執行此程式碼之後，優先層級的行為就很明顯了，如果配對守護只會用在由 <code>|</code> 運算子指定數值列表中最後一個數值的話，該分支應該要能配對到並讓程式印出 <code>是</code>。</p>
-<h3><a class="header" href="#-綁定" id="-綁定"><code>@</code> 綁定</a></h3>
+<h3 id="-綁定"><a class="header" href="#-綁定"><code>@</code> 綁定</a></h3>
 <p><em>At</em> 運算子（<code>@</code>）能讓我們在測試某個數值是否配對的到一個模式的同時，建立出一個變數來持有該數值。範例 18-29 展示我們想要測試 <code>Message::Hello</code> 的 <code>id</code> 欄位是否位於 <code>3..=7</code> 的範圍中。但我們也想要將該數值綁定到變數 <code>id_variable</code> 之中，讓我們可以在該分支對應的程式碼中使用它。我們可以將此變數命名為與欄位同名的 <code>id</code>，但在此例中我們會使用不同名稱。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum Message {
@@ -615,7 +615,7 @@ To learn more, run the command again with --verbose.
 <p>在第二個分支中，我們只有在模式中指定範圍，該分支對應的程式碼就沒有變數能包含 <code>id</code> 欄位的實際數值。<code>id</code> 欄位數值可能是 10、11 或 12，但此模式的程式碼不會知道其值為何。該模式程式碼無法使用 <code>id</code> 欄位的數值，因為我們沒有將 <code>id</code> 數值存為變數。</p>
 <p>在最後一個分支中，我們指定沒有限制範圍的變數，我們有能在分支程式碼中使用的有效變數 <code>id</code>。原因是因為我們使用了結構體欄位簡寫語法。不過我們在此分支沒有向前兩個條分支進行任何對 <code>id</code> 欄位的測試，任何數值都會配對到此模式。</p>
 <p>使用 <code>@</code> 讓我們能在一個模式中測試數值並將其儲存至變數。</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>Rust 的模式對於幫助分辨不同種資料來說非常實用。當在 <code>match</code> 表達式中使用時，Rust 確保你的模式有涵蓋所有可能數值，不然你的程式就不會編譯通過。在 <code>let</code> 陳述式與函式參數中的模式使它們的結構更實用，在能夠解構數值成更小部分的同時賦值給變數。我們能夠建立簡單或複雜的模式來滿足我們的需求。</p>
 <p>接下來，在本書的倒數第二章中，我們要來看 Rust 眾多特色中的一些進階部分。</p>
 <blockquote>

@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#進階特徵" id="進階特徵">進階特徵</a></h2>
+                        <h2 id="進階特徵"><a class="header" href="#進階特徵">進階特徵</a></h2>
 <p>我們在第十章<a href="ch10-02-traits.html#%E7%89%B9%E5%BE%B5-%E5%AE%9A%E7%BE%A9%E5%85%B1%E4%BA%AB%E8%A1%8C%E7%82%BA">「特徵：定義共享行為」</a>一節首次提及特徵（trait），但和生命週期（lifetime）一樣，對其進階細節並無著墨。現在你已熟稔 Rust ，了解箇中真諦的時機已至。</p>
-<h3><a class="header" href="#利用關聯型別在特徵定義中指定佔位符型別" id="利用關聯型別在特徵定義中指定佔位符型別">利用關聯型別在特徵定義中指定佔位符型別</a></h3>
+<h3 id="利用關聯型別在特徵定義中指定佔位符型別"><a class="header" href="#利用關聯型別在特徵定義中指定佔位符型別">利用關聯型別在特徵定義中指定佔位符型別</a></h3>
 <p><strong>關聯型別</strong>（associated types）連結了一個型別佔位符（placeholder）與一個特徵，可以將這些佔位符型別使用在這些特徵所定義的方法簽名上。對特定實作來說，特徵的實作者必須指明在這個型別位置上會用到的具體型別。如此一來，我們可以定義一個特色，使用了某個型別，但直到特徵被實作之前，都不需知道實際上的型別。</p>
 <p>多數在本章提及的進階特色都較少使用，而關聯型別則是介於其中：他們比書中其他內容來得少用，但比本章介紹的其他特色來得更常見。</p>
 <p>一個具有關聯型別的特徵之範例是標準函式庫提供的 <code>Iterator</code> 特徵。這例子中的關聯型別叫做 <code>Item</code>，表示一型別實作 <code>Iterator</code> 特徵時，會被迭代的那些值的型別。範例 19-12 展示了在第十三章<a href="ch13-02-iterators.html#iterator-%E7%89%B9%E5%BE%B5%E8%88%87-next-%E6%96%B9%E6%B3%95">「<code>Iterator</code> 特徵與 <code>next</code> 方法」</a>一節提及的 <code>Iterator</code> 特徵定義：</p>
@@ -230,7 +230,7 @@
 <p><span class="caption">範例 19-13: 假設使用泛型來定義 <code>Iterator</code> 特徵</span></p>
 <p>差別在於使用泛型時，如範例 19-13 所示，由於我們可以實作出 <code>Iterator&lt;String&gt; for Counter</code> 或以任意多個其他泛型型別來替 <code>Counter</code> 實作 <code>Iterator</code>，因此，必須在每個實作都標註該型別。換言之，當一特徵擁有泛型參數，一型別即可透過改變泛型型別參數（generic type parameter）的具體型別，進而實作該特徵多次。於是，當我們使用 <code>next</code> 方法時，必須提供型別標註，指名要用哪個 <code>Iterator</code> 的實作。</p>
 <p>有了關聯型別，同個型別就不能實作同個特徵多次，所以我們不需要標註型別。範例 19-12 中的定義用上了關聯型別，因為只能擁有一個 <code>impl Iterator for Counter</code>，於是只能替 <code>Item</code> 選擇唯一一個型別。在任何地方呼叫 <code>Counter</code> 的 <code>next</code> 方法就不必再明確指定我們想要 <code>u32</code> 疊代器了。</p>
-<h3><a class="header" href="#預設泛型型別參數與運算子重載" id="預設泛型型別參數與運算子重載">預設泛型型別參數與運算子重載</a></h3>
+<h3 id="預設泛型型別參數與運算子重載"><a class="header" href="#預設泛型型別參數與運算子重載">預設泛型型別參數與運算子重載</a></h3>
 <p>我們可以透過泛型型別參數（generic type parameter）指定該泛型型別預設的具體型別。在預設型別可運作的情形下，這可省去實作者需要指定具體型別的勞動。替泛型型別指定預設型別的語法是在宣告泛型型別是寫稱 <code>&lt;PlaceholderType=ConcreteType&gt;</code>。</p>
 <p>運算子重載（operator overloading）就是一個使用這個技術的好例子。<strong>運算子重載</strong>是指特定情況下自訂運算子（如 <code>+</code>）的行為。</p>
 <p>Rust 不允許建立你自己的運算子或重載任意的運算子，但你可以透過實作 <code>std::ops</code> 表列出的特徵與相關的運算子，來重載特定運算與相應特徵。在範例 19-14 我們重載了 <code>+</code> 運算子，讓兩個 <code>Point</code> 實例可相加。這個功能是透過對 <code>Point</code> 結構體實作 <code>Add</code> 特徵來達成：</p>
@@ -304,7 +304,7 @@ impl Add&lt;Meters&gt; for Millimeters {
 </ul>
 <p>標準函式庫是第二種情況的範例：通常你會將兩個相同的型別相加，但 <code>Add</code> 特徵提供超乎預設的自訂能力。<code>Add</code> 特徵定義中的預設型別參數讓我們大多數時候不需要指定額外的參數。換句話說，不用再寫部分重複的樣板，讓該特徵更易用。</p>
 <p>第一種情況和第二種類似，但概念相反：若你想替既有特徵加上新的型別參數，可以給它一個預設值，允許擴充該特徵的功能，而不破壞既有的程式實作。</p>
-<h3><a class="header" href="#消除歧義的完全限定語法呼叫同名的方法" id="消除歧義的完全限定語法呼叫同名的方法">消除歧義的完全限定語法：呼叫同名的方法</a></h3>
+<h3 id="消除歧義的完全限定語法呼叫同名的方法"><a class="header" href="#消除歧義的完全限定語法呼叫同名的方法">消除歧義的完全限定語法：呼叫同名的方法</a></h3>
 <p>Rust 並沒有限制不同特徵之間不能有同名的方法，也沒有阻止你對同一個型別實作這兩個特徵。有可能實作一個型別，其擁有多個從多個特徵而來的同名方法的型別。</p>
 <p>當呼叫這些同名方法，你必須告訴 Rust 你想呼叫誰。試想範例 19-16 的程式碼，我們定義了兩個特徵 <code>Pilot</code> 與 <code>Wizard</code>，兩者都有 <code>fly</code> 方法。當我們對一個已經擁有 <code>fly</code> 方法的 <code>Human</code> 型別分別實作這兩個特徵時，每個 <code>fly</code> 方法的行為皆不同。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -540,7 +540,7 @@ To learn more, run the command again with --verbose.
 <pre><code class="language-rust ignore">&lt;Type as Trait&gt;::function(receiver_if_method, next_arg, ...);
 </code></pre>
 <p>對於關聯函式來說，不會有 <code>receiver</code>，只會有其他引數的列表。你可以在任何呼叫函式或方法之處使用完全限定語法。然而，你亦可在 Rust 能透過程式其他資訊推斷出的地方省略這個語法。只需要在有多個同名實作且需要協助 Rust 指定呼叫哪個實作時，才需要使用這囉嗦冗長的語法。</p>
-<h3><a class="header" href="#使用超特徵要求在一個特徵內有另一特徵的功能" id="使用超特徵要求在一個特徵內有另一特徵的功能">使用超特徵要求在一個特徵內有另一特徵的功能</a></h3>
+<h3 id="使用超特徵要求在一個特徵內有另一特徵的功能"><a class="header" href="#使用超特徵要求在一個特徵內有另一特徵的功能">使用超特徵要求在一個特徵內有另一特徵的功能</a></h3>
 <p>有些時候，你會需要一個使用到其他特徵的功能的特徵。在這種情形下，相依的特徵也需要被實作，而你依賴的這個特徵就是你正在實作的特徵的「超特徵（supertrait）」。</p>
 <p>假設我們想要建立一個 <code>OutlinePrint</code> 特徵，它有一個 <code>outline_print</code> 方法會印出一個被星號包圍的值。換句話說，給定一個實作 <code>Display</code> 而會產生 <code>(x, y)</code> 的 <code>Point</code> 結構體，當我們對 <code>x</code> 為 <code>1</code>，<code>y</code> 為 <code>3</code> 的 <code>Point</code> 實例呼叫 <code>outline_print</code>，它印出如下：</p>
 <pre><code class="language-text">**********
@@ -651,7 +651,7 @@ impl fmt::Display for Point {
 </span><span class="boring">}
 </span></code></pre></pre>
 <p>於是對 <code>Point</code> 實作 <code>OutlinePrint</code> 特徵就成功編譯，我們即可以對 <code>Point</code> 實例呼叫 <code>outline_print</code> 來顯示一個星號外框框住它。</p>
-<h3><a class="header" href="#使用新型別模式替外部型別實作外部特徵" id="使用新型別模式替外部型別實作外部特徵">使用新型別模式替外部型別實作外部特徵</a></h3>
+<h3 id="使用新型別模式替外部型別實作外部特徵"><a class="header" href="#使用新型別模式替外部型別實作外部特徵">使用新型別模式替外部型別實作外部特徵</a></h3>
 <p>在第十章<a href="ch10-02-traits.html#%E7%82%BA%E5%9E%8B%E5%88%A5%E5%AF%A6%E4%BD%9C%E7%89%B9%E5%BE%B5">「為型別實作特徵」</a>一節中，我們提及孤兒規則（orphah rule），這個規則指出只要型別或特徵其一是在本地的 crate 中定義，就允許我們對該型別實作該特徵。使用<strong>新型別模式（newtype pattern）</strong>，即可繞過這項規則，此模式涉及建立一個元組結構體（tuple struct）型別（我們在<a href="ch05-01-defining-structs.html#%E4%BD%BF%E7%94%A8%E7%84%A1%E5%90%8D%E7%A8%B1%E6%AC%84%E4%BD%8D%E7%9A%84%E5%85%83%E7%B5%84%E7%B5%90%E6%A7%8B%E9%AB%94%E4%BE%86%E5%BB%BA%E7%AB%8B%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%88%A5">「使用無名稱欄位的元組結構體來建立不同型別」</a>說明了元組結構體）。元組結構體包含一個欄位，在我們想要實作該特徵的型別外作一層薄薄的封裝。這封裝型別對 crate 來說算作在本地定義，因此可以對該封裝實作該特徵。<strong>新型別</strong>是一個源自 Haskell 程式語言的術語。使用此模式不會有任何執行時效能的耗損，這個封裝型別會在編譯期刪略。</p>
 <p>舉個例子，我們想要對 <code>Vec&lt;T&gt;</code> 實作 <code>Display</code>，但孤兒規則限制我們不能這樣做，因為 <code>Display</code> 特徵與 <code>Vec&lt;T&gt;</code> 都是在我們的 crate 之外定義。我們可以建立一個 <code>Wrapper</code> 結構體，帶有一個 <code>Vec&lt;T&gt;</code> 實例，接下來再對 <code>Wrapper</code> 實作 <code>Display</code> 並使用 <code>Vec&lt;T&gt;</code> 之值，如範例 19-23 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

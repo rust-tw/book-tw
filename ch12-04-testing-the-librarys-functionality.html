@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#透過測試驅動開發完善函式庫功能" id="透過測試驅動開發完善函式庫功能">透過測試驅動開發完善函式庫功能</a></h2>
+                        <h2 id="透過測試驅動開發完善函式庫功能"><a class="header" href="#透過測試驅動開發完善函式庫功能">透過測試驅動開發完善函式庫功能</a></h2>
 <p>現在我們提取邏輯到 <em>src/lib.rs</em> 並在 <em>src/main.rs</em> 留下引數收集與錯誤處理的任務，現在對程式碼中的核心功能進行測試會簡單許多。我們可以使用各種引數直接呼叫函式來檢查回傳值，而不用從命令列呼叫我們的執行檔。歡迎自行對 <code>Config::new</code> 與 <code>run</code> 函式的功能寫些測試。</p>
 <p>在此段落中，我們會在 <code>minigrep</code> 程式中利用試驅動開發（Test-driven development, TDD）來新增搜尋邏輯。此程式開發技巧遵循以下步驟：</p>
 <ol>
@@ -182,7 +182,7 @@
 </ol>
 <p>此流程是編寫軟體的許多方式之一，但 TDD 也有助於程式碼的設計。在寫出能通過測試的程式碼之前先寫好測試能夠協助在開發過程中維持高測試覆蓋率。</p>
 <p>我們將用測試驅動功能的實作，而要實作的功能就是在檔案內容中找到欲搜尋的字串，並產生符合查詢字串的行數列表。我們會在一個叫做 <code>search</code> 的函式新增此功能。</p>
-<h3><a class="header" href="#編寫失敗的測試" id="編寫失敗的測試">編寫失敗的測試</a></h3>
+<h3 id="編寫失敗的測試"><a class="header" href="#編寫失敗的測試">編寫失敗的測試</a></h3>
 <p>讓我們移除 <em>src/lib.rs</em> 與 <em>src/main.rs</em> 中用來檢查程式行為的 <code>println!</code> 陳述式，因為我們不再需要它們了。然後在 <em>src/lib.rs</em> 中，我們加上 <code>tests</code> 模組與一個測試函式，如我們在<a href="ch11-01-writing-tests.html#%E6%B8%AC%E8%A9%A6%E5%87%BD%E5%BC%8F%E5%89%96%E6%9E%90">第十一章</a><!-- ignore -->所做的一樣。測試函式會指定我們希望 <code>search</code> 函式所能擁有的行為，它會接收搜尋字串與一段要被搜尋的文字，然後它只回傳文字中包含該搜尋字串的行數。範例 12-15 展示了此測試，但還不能編譯。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
@@ -332,7 +332,7 @@ test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 error: test failed, to rerun pass '--lib'
 </code></pre>
 <p>很好！測試如我們所預期地失敗。接下來我們要讓測試通過！</p>
-<h3><a class="header" href="#寫出讓測試成功的程式碼" id="寫出讓測試成功的程式碼">寫出讓測試成功的程式碼</a></h3>
+<h3 id="寫出讓測試成功的程式碼"><a class="header" href="#寫出讓測試成功的程式碼">寫出讓測試成功的程式碼</a></h3>
 <p>目前我們的測試會失敗，因為我們永遠只回傳一個空向量。要修正並實作 <code>search</code>，我們的程式需要完成以下步驟：</p>
 <ul>
 <li>遍歷內容的每一行。</li>
@@ -342,7 +342,7 @@ error: test failed, to rerun pass '--lib'
 <li>回傳符合的結果列表。</li>
 </ul>
 <p>讓我們來完成每個步驟，先從遍歷每一行開始。</p>
-<h4><a class="header" href="#透過-lines-方法來遍歷每一行" id="透過-lines-方法來遍歷每一行">透過 <code>lines</code> 方法來遍歷每一行</a></h4>
+<h4 id="透過-lines-方法來遍歷每一行"><a class="header" href="#透過-lines-方法來遍歷每一行">透過 <code>lines</code> 方法來遍歷每一行</a></h4>
 <p>Rust 有個實用的方法能逐步處理字串的每一行，這方法就叫 <code>lines</code>，而使用方式就如範例 12-17 所示。注意此例還不法編譯。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;
@@ -397,7 +397,7 @@ error: test failed, to rerun pass '--lib'
 <p><span class="caption">範例 12-17：在 <code>contents</code> 中遍歷每一行
 </span></p>
 <p><code>lines</code> 方法會回傳疊代器（iterator）。我們會在<a href="ch13-02-iterators.html">第十三章</a><!-- ignore -->詳細解釋疊代器，不過回想一下你在<a href="ch03-05-control-flow.html#%E4%BD%BF%E7%94%A8-for-%E9%81%8D%E6%AD%B7%E9%9B%86%E5%90%88">範例 3-5</a><!-- ignore -->就看過疊代器的用法了，我們對疊代器使用 <code>for</code> 迴圈來對集合中的每個項目執行一些程式碼。</p>
-<h4><a class="header" href="#檢查每行是否有要搜尋的字串" id="檢查每行是否有要搜尋的字串">檢查每行是否有要搜尋的字串</a></h4>
+<h4 id="檢查每行是否有要搜尋的字串"><a class="header" href="#檢查每行是否有要搜尋的字串">檢查每行是否有要搜尋的字串</a></h4>
 <p>接著，我們要檢查目前的行數是否有包含我們要搜尋的字串。幸運的是，字串有個好用的方法叫做 <code>contains</code> 能幫我處理這件事！在 <code>search</code> 函式中加上方法 <code>contains</code> 的呼叫，如範例 12-18 所示。注意這仍然無法編譯。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;
@@ -452,7 +452,7 @@ error: test failed, to rerun pass '--lib'
 </span><span class="boring">}
 </span></code></pre>
 <p><span class="caption">範例 12-18：增加檢查行數是否包含 <code>query</code> 字串的功能</span></p>
-<h4><a class="header" href="#儲存符合條件的行數" id="儲存符合條件的行數">儲存符合條件的行數</a></h4>
+<h4 id="儲存符合條件的行數"><a class="header" href="#儲存符合條件的行數">儲存符合條件的行數</a></h4>
 <p>我們也需要有個方式能儲存包含搜尋字串的行數。為此我們可以在 <code>for</code> 迴圈前建立一個可變向量然後對向量呼叫 <code>push</code> 方法來儲存 <code>line</code>。在 <code>for</code> 迴圈之後，我們回傳向量，如範例 12-19 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;
@@ -537,7 +537,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </code></pre>
 <p>我們的測試通過了，所以我們確定它運作無誤！</p>
 <p>在此刻之後，我們可以考慮重構搜尋函式的實作，並確保測試能通過以維持功能不變。搜尋函式的程式碼並沒有很糟，但它沒有用到疊代器中的一些實用功能優勢。我們會在<a href="ch13-02-iterators.html">第十三章</a><!-- ignore -->詳細探討疊代器之後，再回過頭來看這個例子，來看看如何改善。</p>
-<h4><a class="header" href="#在-run-函式中使用-search-函式" id="在-run-函式中使用-search-函式">在 <code>run</code> 函式中使用 <code>search</code> 函式</a></h4>
+<h4 id="在-run-函式中使用-search-函式"><a class="header" href="#在-run-函式中使用-search-函式">在 <code>run</code> 函式中使用 <code>search</code> 函式</a></h4>
 <p>現在 <code>search</code> 函式能夠執行且也有測試過了，我們需要從 <code>run</code> 函式呼叫 <code>search</code>。我們需要將 <code>config.query</code> 數值與 <code>run</code> 從檔案讀取到的 <code>contents</code> 傳給 <code>search</code> 函式。然後 <code>run</code> 會印出 <code>search</code> 回傳的每一行：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;

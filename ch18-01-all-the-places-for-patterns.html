@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#所有能使用模式的地方" id="所有能使用模式的地方">所有能使用模式的地方</a></h2>
+                        <h2 id="所有能使用模式的地方"><a class="header" href="#所有能使用模式的地方">所有能使用模式的地方</a></h2>
 <p>模式常出現於 Rust 中數個位置，而你已經不經意使用了很多模式了！此段落會介紹所有模式能有效出現的地方。</p>
-<h3><a class="header" href="#match-分支" id="match-分支"><code>match</code> 分支</a></h3>
+<h3 id="match-分支"><a class="header" href="#match-分支"><code>match</code> 分支</a></h3>
 <p>如同第六章所討論過的，我們可以在 <code>match</code> 表達式中的分支使用模式。正式來說，<code>match</code> 表達式的定義為 <code>match</code> 關鍵字加上一個要配對的數值，然後會有一或數個包含模式的分支，以及如果數值配對到該分支模式之後要執行的表達式，如以下所示：</p>
 <pre><code class="language-text">match VALUE {
     PATTERN =&gt; EXPRESSION,
@@ -183,7 +183,7 @@
 </code></pre>
 <p><code>match</code> 表達式有個要求就是它們必須是<strong>徹底的（exhaustive）</strong>，所有 <code>match</code> 表達式數值可能的結果都必須涵蓋到。其中一個確保你有考慮到所有可能性的方式是在最後一個分支使用捕獲模式，命名一個能配對任何數值的變數就覺不會失敗，因此可以涵蓋剩餘的情況。</p>
 <p>還有一個特定模式 <code>_</code> 可以獲取任意可能情況，但它不會綁定到變數中，所以它也很常用在最後的配對分支。舉例來說，<code>_</code> 模式就很適合用來忽略任何沒指明的數值。我們會在本章之後的 <a href="ch18-03-pattern-syntax.html#%E5%BF%BD%E7%95%A5%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84%E6%95%B8%E5%80%BC">「忽略模式中的數值」</a><!-- ignore -->段落談到更多 <code>_</code> 的細節。</p>
-<h3><a class="header" href="#if-let-條件表達式" id="if-let-條件表達式"><code>if let</code> 條件表達式</a></h3>
+<h3 id="if-let-條件表達式"><a class="header" href="#if-let-條件表達式"><code>if let</code> 條件表達式</a></h3>
 <p>在第六章中我們介紹了如何使用 <code>if let</code> 表達式，它等同於只配對一種情況的 <code>match</code> 表達式，主要作為更簡潔的語法。此外，<code>if let</code> 可以再加上 <code>else</code> 來包含如果 <code>if let</code> 模式不符的話能執行的程式碼。</p>
 <p>範例 18-1 展示了我們能夠混合並配對 <code>if let</code>、<code>else if</code> 與 <code>else if let</code> 表達式。這樣做可以比 <code>match</code> 表達式還來得有彈性，因為 <code>match</code> 只能有一個數值與模式們配對。另外，<code>if let</code>、<code>else if</code> 與 <code>else if let</code> 分支之間的條件彼此並不需要有關聯。</p>
 <p>範例 18-1 的程式碼顯示了一系列的條件檢查來決定背景顏色該為何。在此例中，我們建立一個寫死的變數數值，在實際程式中應該會由使用者輸入。</p>
@@ -213,7 +213,7 @@
 <p>這樣的條件結構讓我們可以支援複雜的需求。透過我們在此寫死的數值，此例會印出 <code>使用紫色作為背景顏色</code>。</p>
 <p>你可以看到 <code>if let</code> 也能如同 <code>match</code> 的分支一樣遮蔽變數，<code>if let Ok(age) = age</code> 這行就產生了新的遮蔽變數 <code>age</code> 來包含 <code>Ok</code> 變體內的數值。這意味著我們需要將 <code>if age &gt; 30</code> 的條件放在區塊內，我們不能組合這兩個條件成 <code>if let Ok(age) = age &amp;&amp; age &gt; 30</code>。遮蔽的 <code>age</code> 在大括號開始之後的新作用域才有效，此時才能與 30 做比較。</p>
 <p>使用 <code>if let</code> 表達式的缺點是編譯器不會徹底檢查，而 <code>match</code> 表達式則會。如果我們省略最後一個 <code>else</code> 區塊而因此忘了處理一些情況，編譯器不會警告我們這種可能的邏輯錯誤。</p>
-<h3><a class="header" href="#while-let-條件迴圈" id="while-let-條件迴圈"><code>while let</code> 條件迴圈</a></h3>
+<h3 id="while-let-條件迴圈"><a class="header" href="#while-let-條件迴圈"><code>while let</code> 條件迴圈</a></h3>
 <p>與 <code>if let</code> 的結構類似，<code>while let</code> 條件迴圈允許 <code>while</code> 迴圈只要在模式持續配對符合的情況下一直執行。範例 18-2 的例子展示一個 <code>while let</code> 迴圈使用向量做為堆疊，並以數值被插入向量時相反的順序印出它們。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut stack = Vec::new();
@@ -229,7 +229,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 18-2：使用 <code>while let</code> 迴圈，且只要 <code>stack.pop()</code> 有回傳 <code>Some</code> 就持續印出數值</span></p>
 <p>此範例會依序顯示 3、2 然後是 1。<code>pop</code> 方法會取得向量最後一個數值並回傳 <code>Some(value)</code>。如果向量是空的，<code>pop</code> 就回傳 <code>None</code>。只要 <code>pop</code> 有回傳 <code>Some</code>，<code>while</code> 迴圈就會持續執行其區塊中的程式碼。當 <code>pop</code> 回傳 <code>None</code> 時，迴圈就會結束。我們可以使用 <code>while let</code> 來取得堆疊彈出的每個數值。</p>
-<h3><a class="header" href="#for-迴圈" id="for-迴圈"><code>for</code> 迴圈</a></h3>
+<h3 id="for-迴圈"><a class="header" href="#for-迴圈"><code>for</code> 迴圈</a></h3>
 <p>在第三章中，我們提到 <code>for</code> 迴圈是 Rust 程式碼中最常見的迴圈結構，但我們尚未介紹要如何在  <code>for</code> 中使用模式。在 <code>for</code> 迴圈中，<code>for</code> 關鍵字之後的數值就是模式，所以在 <code>for x in y</code> 中 <code>x</code> 就是模式。</p>
 <p>範例 19-3 展示了如何在 <code>for</code> 迴圈使用模式來解構或拆開一個 <code>for</code> 迴圈中的元組。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -251,7 +251,7 @@ b 位於索引 1
 c 位於索引 2
 </code></pre>
 <p>我們使用 <code>enumerate</code> 方法來配接一個疊代器來產生一個數值與該數值在疊代器中的索引，並放入元組中。第一次呼叫 <code>enumerate</code> 會產生元組 <code>(0, 'a')</code>。當此數值配對到 <code>(index, value)</code> 模式時，<code>index</code> 會是 <code>0</code> 而 <code>value</code> 會是 <code>'a'</code>，並印出第一行的輸出。</p>
-<h3><a class="header" href="#let-陳述式" id="let-陳述式"><code>let</code> 陳述式</a></h3>
+<h3 id="let-陳述式"><a class="header" href="#let-陳述式"><code>let</code> 陳述式</a></h3>
 <p>在本章節之前，我們只有告訴你模式能用在 <code>match</code> 和 <code>if let</code>，但事實上我們在其他地方也早就使用過模式了，這包含 <code>let</code> 陳述式。舉例來說，請看看以下這個使用 <code>let</code> 賦值變數的直白例子：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -296,7 +296,7 @@ error: could not compile `patterns`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>如果我們在元組中想要忽略一或數個數值的話，我們可以使用 <code>_</code> 或 <code>..</code>，你會在<a href="ch18-03-pattern-syntax.html#%E5%BF%BD%E7%95%A5%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84%E6%95%B8%E5%80%BC">「忽略模式中的數值」</a><!-- ignore -->段落中瞭解更多詳情。如果問題出在於我們模式中有太多變數的話，解決辦法就是移除些變數使變數數量等同於元組元素個數，讓型別可以配對。</p>
-<h3><a class="header" href="#函式參數" id="函式參數">函式參數</a></h3>
+<h3 id="函式參數"><a class="header" href="#函式參數">函式參數</a></h3>
 <p>函式參數也可以是模式。範例 18-6 的程式碼宣告了一個函式叫做 <code>foo</code> 來接收一個參數叫做 <code>x</code> 其型別為 <code>i32</code>，現在這看起來你應該都還很熟悉。</p>
 <pre><pre class="playground"><code class="language-rust">fn foo(x: i32) {
     // 內部的程式碼

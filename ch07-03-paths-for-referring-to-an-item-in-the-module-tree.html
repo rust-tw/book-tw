@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#引用模組項目的路徑" id="引用模組項目的路徑">引用模組項目的路徑</a></h2>
+                        <h2 id="引用模組項目的路徑"><a class="header" href="#引用模組項目的路徑">引用模組項目的路徑</a></h2>
 <p>要展示 Rust 如何從模組樹中找到一個項目，我們要使用和查閱檔案系統時一樣的路徑方法。如果我們想要呼叫函式，我們需要知道它的路徑：</p>
 <p>路徑可以有兩種形式：</p>
 <ul>
@@ -227,7 +227,7 @@ To learn more, run the command again with --verbose.
 <p>模組不僅用來組織你的程式碼，它們還定義了 Rust 的<strong>隱私界限（privacy boundary）</strong>：這是條封裝實作細節讓外部程式碼無法看到、呼叫或依賴的界限。所以你想要建立私有的函式或結構體，你可以將它們放入模組內。</p>
 <p>Rust 隱私權的運作方式是預設所有的項目（函式、方法、結構體、枚舉、模組與常數）都是私有的。上層模組的項目無法使用下層模組的私有項目，但下層模組能使用它們上方所有模組的項目。這麼做的原因是因為下層模組用來實現實作細節，而下層模組應該要能夠看到在自己所定義的地方的其他內容。讓我們繼續用餐廳做比喻的話，我們可以想像隱私權規則就像是餐廳的後臺辦公室。對餐廳顧客來說裡面發生什麼事情都是未知的，但是辦公室經理可以知道經營餐廳時的所有事物。</p>
 <p>Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來的。這樣一來，你就能知道內部哪些程式碼需要修改，而不會破壞到外部的程式碼。不過你可以使用 <code>pub</code> 關鍵字來讓下層模組內部的一些程式碼公開給上層模組來使用。</p>
-<h3><a class="header" href="#使用-pub-關鍵字公開路徑" id="使用-pub-關鍵字公開路徑">使用 <code>pub</code> 關鍵字公開路徑</a></h3>
+<h3 id="使用-pub-關鍵字公開路徑"><a class="header" href="#使用-pub-關鍵字公開路徑">使用 <code>pub</code> 關鍵字公開路徑</a></h3>
 <p>讓我們再執行一次範例 7-4 的錯誤，它告訴我們 <code>hosting</code> 模組是私有的。我們希望上層模組中的 <code>eat_at_restaurant</code> 函式可以呼叫下層模組的 <code>add_to_waitlist</code> 函式，所以我們將 <code>hosting</code> 模組加上 <code>pub</code> 關鍵字，如範例 7-5 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
@@ -292,7 +292,7 @@ pub fn eat_at_restaurant() {
 <p>現在程式碼就能成功編譯了！讓我們看看絕對與相對路徑，以及再次檢查為何 <code>pub</code> 關鍵字是如何遵守隱私權規則，讓我們可以在 <code>add_to_waitlist</code> 取得這些路徑。</p>
 <p>在絕對路徑中，我們始於 <code>crate</code>，這是 crate 模組樹的跟。再來 <code>front_of_house</code> 模組被定義在 crate 源頭中，<code>front_of_house</code> 模組不是公開，但因為 <code>eat_at_restaurant</code> 函式被定義在與 <code>front_of_house</code> 同一層模組中（也就是 <code>eat_at_restaurant</code> 與 <code>front_of_house</code> 同輩（siblings）），我們可以從 <code>eat_at_restaurant</code> 引用 <code>front_of_house</code>。接下來是有 <code>pub</code> 標記的 <code>hosting</code> 模組，我們可以取得 <code>hosting</code> 的上層模組，所以我們可以取得 <code>hosting</code>。最後 <code>add_to_waitlist</code> 函式也有 <code>pub</code> 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！</p>
 <p>而在相對路徑中，基本邏輯與絕對路徑一樣，不過第一步有點不同。我們不是從 crate 源頭開始，路徑是從 <code>front_of_house</code> 開始。<code>front_of_house</code> 與 <code>eat_at_restaurant</code> 被定義在同一層模組中，所以從 <code>eat_at_restaurant</code> 開始定義的相對路徑是有效的。再來因為 <code>hosting</code> 與 <code>add_to_waitlist</code> 都有 <code>pub</code> 標記，其餘的路徑也都是可以進入的，所以此函式呼叫也是有效的！</p>
-<h3><a class="header" href="#使用-super-作為相對路徑的開頭" id="使用-super-作為相對路徑的開頭">使用 <code>super</code> 作為相對路徑的開頭</a></h3>
+<h3 id="使用-super-作為相對路徑的開頭"><a class="header" href="#使用-super-作為相對路徑的開頭">使用 <code>super</code> 作為相對路徑的開頭</a></h3>
 <p>我們還可以在路徑開頭使用 <code>super</code> 來建構從上層模組出發的相對路徑。這就像在檔案系統中使用 <code>..</code> 作為路徑開頭一樣。不過為何我們想要這樣做呢？</p>
 <p>請考慮範例 7-8 的程式碼，這模擬了一個主廚修正一個錯誤的訂單，並親自提供給顧客的場景。函式 <code>fix_incorrect_order</code> 呼叫了函式 <code>serve_order</code>，不過這次是使用 <code>super</code> 來指定 <code>serve_order</code> 的路徑：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -311,7 +311,7 @@ mod back_of_house {
 </span></code></pre></pre>
 <p><span class="caption">範例 7-8：使用 <code>super</code> 作為呼叫函式路徑的開頭</span></p>
 <p><code>fix_incorrect_order</code> 函式在 <code>back_of_house</code> 模組中，所以我們可以使用 <code>super</code> 前往 <code>back_of_house</code> 的上層模組，在此例的話就是源頭 <code>crate</code>。然後在此時我們就能找到 <code>serve_order</code>。成功！我們認定 <code>back_of_house</code> 模組與 <code>serve_order</code> 函式應該會維持這樣相同的關係，在我們要組織 crate 的模組樹時，它們理當一起被移動。因此我們使用 <code>super</code> 讓我們在未來程式碼被移動到不同模組時，我們不用更新太多程式路徑。</p>
-<h3><a class="header" href="#公開結構體與枚舉" id="公開結構體與枚舉">公開結構體與枚舉</a></h3>
+<h3 id="公開結構體與枚舉"><a class="header" href="#公開結構體與枚舉">公開結構體與枚舉</a></h3>
 <p>我們也可以使用 <code>pub</code> 來公開結構體與枚舉，但是我們有些額外細節要考慮到。如果我們在結構體定義之前加上 <code>pub</code> 的話，我們的確能公開結構體，但是結構體內的欄位仍然會是私有的。我們可以視情況決定每個欄位要不要公開。在範例 7-9 我們定義了一個公開的結構體 <code>back_of_house::Breakfast</code> 並公開欄位 <code>toast</code>，不過將欄位 <code>seasonal_fruit</code> 維持是私有的。這次範例模擬的情境是，餐廳顧客可以選擇早餐要點什麼類型的麵包，但是由主廚視庫存與當季食材來決定提供何種水果。餐廳提供的水果種類隨季節變化很快，所以顧客無法選擇或預先知道他們會拿到何種水果。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">

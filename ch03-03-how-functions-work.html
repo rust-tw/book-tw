@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#函式" id="函式">函式</a></h2>
+                        <h2 id="函式"><a class="header" href="#函式">函式</a></h2>
 <p>函式在 Rust 程式碼中無所不在。你已經見過一個語言最重要的函式了：<code>main</code> 函式是許多程式的入口點。此外你也看到了 <code>fn</code> 關鍵字能讓你宣告新的函式。</p>
 <p>Rust 程式碼使用 <em>snake case</em> 式作為函式與變數名稱的慣例風格。在 snake case 中，所有的字母都是小寫，並用底線區隔單字。以下是一支包含函式定義範例的程式：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -196,7 +196,7 @@ Hello, world!
 另一支函式。
 </code></pre>
 <p>程式碼會按照 <code>main</code> 函式中的順序執行。首先，「Hello, world!」的訊息會先顯示出來，再來才會呼叫 <code>another_function</code> 並印出它的訊息。</p>
-<h3><a class="header" href="#函式參數" id="函式參數">函式參數</a></h3>
+<h3 id="函式參數"><a class="header" href="#函式參數">函式參數</a></h3>
 <p>函式也可以被定義成擁有<strong>參數（parameters）<strong>的，這是函式簽名（signatures）中特殊的變數。當函式有參數時，你可以提供那些參數的確切數值。嚴格上來說，我們傳遞的數值會叫做</strong>引數（arguments）</strong>。但為了方便起見，通常大家不太會去在意兩者的區別。雖然函式定義時才叫<strong>參數</strong>，傳遞數值時叫做<strong>引數</strong>，但很多情況下都能被交換使用。</p>
 <p>以下是加上參數後重新寫過的 <code>another_function</code> 範例：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -238,7 +238,7 @@ x 的數值為：5
 y 的數值為：6
 </code></pre>
 <p>因為我們呼叫函式時，將 <code>5</code> 給了  <code>x</code> 且將 <code>6</code> 給了 <code>y</code>，字串就會印出這些數值。</p>
-<h3><a class="header" href="#函式本體包含陳述式與表達式" id="函式本體包含陳述式與表達式">函式本體包含陳述式與表達式</a></h3>
+<h3 id="函式本體包含陳述式與表達式"><a class="header" href="#函式本體包含陳述式與表達式">函式本體包含陳述式與表達式</a></h3>
 <p>函式本體是由一系列的陳述式（statements）並在最後可以選擇加上表達式（expression）來組成。目前我們只講了沒有用到表達式做結尾的函式。由於 Rust 是門基於表達式（expression-based）的語言，知道這樣的區別是很重要的。其他語言通常沒有這樣的區別，所以現在讓我們來看看陳述式和表達式有什麼不同，以及它們怎麼影響函式本體。</p>
 <p>我們其實已經使用了很多次陳述式與表達式。<strong>陳述式</strong>（Statements）是進行一些動作的指令，且不回傳任何數值。<strong>表達式</strong>（Expressions）則是計算並產生數值。讓我們來看一些範例：</p>
 <p>建立一個變數然後用 <code>let</code> 關鍵字賦值給它就是一道陳述式。在範例 3-1 中的 <code>let y = 6;</code> 就是個陳述式。</p>
@@ -287,7 +287,7 @@ error: expected expression, found statement (`let`)
 }
 </code></pre>
 <p>就是一個會回傳 <code>4</code> 的區塊，此值再用 <code>let</code> 陳述式賦值給 <code>y</code>。請注意到 <code>x + 1</code> 這行沒有加上分號，它和你目前看到的寫法有點不同，因為表達式結尾不會加上分號。如果你在此表達式加上分號的話，它就不會回傳數值。在我們繼續探討函式回傳值與表達式的同時請記住這一點。</p>
-<h3><a class="header" href="#函式回傳值" id="函式回傳值">函式回傳值</a></h3>
+<h3 id="函式回傳值"><a class="header" href="#函式回傳值">函式回傳值</a></h3>
 <p>函式可以回傳數值給呼叫它們的程式碼，我們不會為回傳值命名，但我們會用箭頭（<code>-&gt;</code>）來宣告它們的型別。在 Rust 中，回傳值其實就是函式本體最後一行的表達式。你可以用 <code>return</code> 關鍵字加上一個數值來提早回傳函式，但多數函式都能用最後一行的表達式作為數值回傳。以下是一個有回傳數值的函式範例：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn five() -&gt; i32 {

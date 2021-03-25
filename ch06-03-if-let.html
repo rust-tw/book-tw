@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#透過-if-let-簡化控制流" id="透過-if-let-簡化控制流">透過 <code>if let</code> 簡化控制流</a></h2>
+                        <h2 id="透過-if-let-簡化控制流"><a class="header" href="#透過-if-let-簡化控制流">透過 <code>if let</code> 簡化控制流</a></h2>
 <p><code>if let</code> 語法讓你可以用 <code>if</code> 與 <code>let</code> 的組合來以比較不冗長的方式，來處理只在乎其中一種模式而忽略其餘的數值。現在考慮一支程式如範例 6-6 所示，我們配對 <code>Option&lt;u8&gt;</code> 的值，但只想在數值為 3 時執行程式。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let some_u8_value = Some(0u8);
@@ -244,7 +244,7 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p>如果你的程式碼邏輯遇到使用 <code>match</code> 表達會太囉唆的話，記得 <code>if let</code> 也在你的 Rust 工具箱中供你使用。</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>我們現在涵蓋了如何使用枚舉來建立一系列枚舉數值的自訂型別。我們展示了標準函式庫的 <code>Option&lt;T&gt;</code> 型別如何用型別系統來預防錯誤。當枚舉數值其內有資料時，你可以依照你想處理的情況數量，使用 <code>match</code> 或 <code>if let</code> 來取出並使用那些數值。</p>
 <p>你的 Rust 程式碼現在能夠使用結構體與枚舉來表達你所相關研究領域的概念了。在你的 API 建立自訂型別可以確保型別安全，編譯器會保證你的函式只會取得該函式預期的型別數值。</p>
 <p>接下來為了提供組織完善且直觀的的 API 供你的使用者使用，並只表達出使用者確切所需要的內容，我們需要瞭解 Rust 的模組。</p>

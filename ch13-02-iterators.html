@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#使用疊代器來處理一系列的項目" id="使用疊代器來處理一系列的項目">使用疊代器來處理一系列的項目</a></h2>
+                        <h2 id="使用疊代器來處理一系列的項目"><a class="header" href="#使用疊代器來處理一系列的項目">使用疊代器來處理一系列的項目</a></h2>
 <p>疊代器（Iterator）模式讓你可以對一個項目序列依序進行某些任務。一個疊代器負責遍歷序每個項目以及序列何時結束的邏輯。當你使用疊代器，你不需要自己實作這些邏輯。</p>
 <p>在 Rust 中疊代器是<strong>惰性</strong>（lazy）的，代表除非你呼叫方法來使用疊代器，不然它們不會有任何效果。舉例來說，範例 13-13 的程式碼會透過 <code>Vec&lt;T&gt;</code> 定義的方法 <code>iter</code> 從向量<code>v1</code> 建立一個疊代器來遍歷它的項目。此程式碼本身沒有啥實用之處。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -196,7 +196,7 @@
 <p><span class="caption">範例 13-14：在 <code>for</code> 迴圈使用疊代器</span></p>
 <p>在標準函式庫沒有提供疊代器的語言中，你可能會用別種方式寫這個相同的函式，像是先從一個變數 0 作為索引開始、使用該變數索引向量來獲取數值，然後在迴圈中增加變數的值直到它抵達向量的總長。</p>
 <p>疊代器會為你處理這些所有邏輯，減少重複且你可能會搞砸的程式碼。疊代器還能讓你靈活地將相同的邏輯用於不同的序列，而不只是像向量這種你能進行索引的資料結構。讓我們研究看看疊代器怎麼辦到的。</p>
-<h3><a class="header" href="#iterator-特徵與-next-方法" id="iterator-特徵與-next-方法"><code>Iterator</code> 特徵與 <code>next</code> 方法</a></h3>
+<h3 id="iterator-特徵與-next-方法"><a class="header" href="#iterator-特徵與-next-方法"><code>Iterator</code> 特徵與 <code>next</code> 方法</a></h3>
 <p>所有的疊代器都會實作定義在標準函式庫的 <code>Iterator</code> 特徵。特徵的定義如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -234,7 +234,7 @@
 <p><span class="caption">範例 13-15：對疊代器呼叫 <code>next</code> 方法</span></p>
 <p>注意到 <code>v1_iter</code> 需要是可變的：在疊代器上呼叫 <code>next</code> 方法會改變疊代器內部用來紀錄序列位置的狀態。換句話說，此程式碼<strong>消耗</strong>或者說使用了疊代器。每次 <code>next</code> 的呼叫會從疊代器消耗一個項目。而我們不必在 <code>for</code> 迴圈指定 <code>v1_iter</code> 為可變是因為迴圈會取得 <code>v1_iter</code> 的所有權並在內部將其改為可變。</p>
 <p>另外還要注意的是我們從 <code>next</code> 呼叫取得的是向量中數值的不可變引用。<code>iter</code> 方法會從疊代器中產生不可變引用。如果我們想要一個取得 <code>v1</code> 所有權的疊代器，我們可以呼叫 <code>into_iter</code> 而非 <code>iter</code>。同樣地，如果我們想要遍歷可變引用，我們可以呼叫 <code>iter_mut</code> 而非 <code>iter</code>。</p>
-<h3><a class="header" href="#消耗疊代器的方法" id="消耗疊代器的方法">消耗疊代器的方法</a></h3>
+<h3 id="消耗疊代器的方法"><a class="header" href="#消耗疊代器的方法">消耗疊代器的方法</a></h3>
 <p>標準函式庫提供的 <code>Iterator</code> 特徵有一些不同的預設實作方法，你可以查閱標準函式庫的 <code>Iterator</code> 特徵 API 技術文件來找到這些方法。其中有些方法就是在它們的定義呼叫 <code>next</code> 方法，這就是為何當你實作 <code>Iterator</code> 特徵時需要提供 <code>next</code> 方法的實作。</p>
 <p>會呼叫 <code>next</code> 的方法被稱之為<strong>消耗配接器（consuming adaptors）</strong>，因為呼叫它們會使用掉疊代器。其中一個例子就是方法 <code>sum</code>，這會取得疊代器的所有權並重複呼叫 <code>next</code> 來遍歷所有項目，因而消耗掉疊代器。隨著遍歷的過程中，他會將每個項目加到總計中，並在疊代完成時回傳總計數值。範例 13-16 展示了一個使用 <code>sum</code> 方法的測試：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -256,7 +256,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 13-16：呼叫 <code>sum</code> 方法來取得疊代器中所有項目的總計數值</span></p>
 <p>我們在呼叫 <code>sum</code> 之後就不允許使用 <code>v1_iter</code> 因為 <code>sum</code> 取得了疊代器的所有權。</p>
-<h3><a class="header" href="#產生其他疊代器的方法" id="產生其他疊代器的方法">產生其他疊代器的方法</a></h3>
+<h3 id="產生其他疊代器的方法"><a class="header" href="#產生其他疊代器的方法">產生其他疊代器的方法</a></h3>
 <p>而其他定義在 <code>Iterator</code> 特徵的方法則叫做<strong>疊代配接器（iterator adaptors）</strong>，它們能讓你變更疊代器成其他種類的疊代器。你可以串接數個疊代配接器的呼叫來組織一系列複雜的動作並仍能保持閱讀性。不過因為所有的疊代器都是惰性的，你需要呼叫一個消耗配接器方法來取得疊代配接器呼叫的結果。</p>
 <p>範例 13-17 呼叫了疊代器的疊代配接器方法 <code>map</code>，這可以取得一個閉包來對每個項目進行處理以產生一個新的疊代器。閉包會將向量中的每個項目加 1 來產生新的疊代器。不過此程式碼會產生一個警告：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -296,7 +296,7 @@ warning: unused `std::iter::Map` that must be used
 </span></code></pre></pre>
 <p><span class="caption">範例 13-18：呼叫方法 <code>map</code> 來建立新的疊代器並呼叫 <code>collect</code> 方法來消耗新的疊代器來產生向量</span></p>
 <p>因為 <code>map</code> 接受一個閉包，我們可以對每個項目指定任何我們想做的動作。這是一個展示如何使用閉包來自訂行為，同時又能重複使用 <code>Iterator</code> 特徵提供的遍歷行為的絕佳例子。</p>
-<h3><a class="header" href="#使用閉包獲取它們的環境" id="使用閉包獲取它們的環境">使用閉包獲取它們的環境</a></h3>
+<h3 id="使用閉包獲取它們的環境"><a class="header" href="#使用閉包獲取它們的環境">使用閉包獲取它們的環境</a></h3>
 <p>現在我們介紹了疊代器，我們可以展示一個透過使用 <code>filter</code> 疊代配接器與閉包獲取它們環境的常見範例。疊代器中的 <code>filter</code> 方法會接受一個使用疊代器的每個項目並回傳布林值的閉包。如果閉包回傳 <code>true</code>，該數值就會被包含在 <code>filter</code> 產生的疊代器中；如果閉包回傳 <code>false</code>，該數值就保不會被包含在結果疊代器中。</p>
 <p>在範例 13-19 中我們使用 <code>filter</code> 與一個從它的環境獲取變數 <code>shoe_size</code> 的閉包來遍歷一個有 <code>Shoe</code> 結構體實例的集合。它會回傳只有符合指定大小的鞋子：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -356,7 +356,7 @@ fn main() {}
 <p>在 <code>shoes_in_my_size</code> 的本體中，我們呼叫 <code>into_iter</code> 來建立一個會取得向量所有權的疊代器。然後我們呼叫 <code>filter</code> 來將該疊代器轉換成只包含閉包回傳為 <code>true</code> 的元素的新疊代器。</p>
 <p>閉包會從環境獲取 <code>shoe_size</code> 參數並比較每個鞋子數值的大小，讓只有符合大小的鞋子保留下來。最後呼叫 <code>collect</code> 來收集疊代器回傳的數值進一個函式會回傳的向量。</p>
 <p>此測試顯示了當我們呼叫 <code>shoes_in_my_size</code> 時，我們會得到我們指定相同大小的鞋子。</p>
-<h3><a class="header" href="#透過-iterator-特徵建立我們自己的疊代器" id="透過-iterator-特徵建立我們自己的疊代器">透過 <code>Iterator</code> 特徵建立我們自己的疊代器</a></h3>
+<h3 id="透過-iterator-特徵建立我們自己的疊代器"><a class="header" href="#透過-iterator-特徵建立我們自己的疊代器">透過 <code>Iterator</code> 特徵建立我們自己的疊代器</a></h3>
 <p>我們已經顯示了你可以對向量呼叫 <code>iter</code>、<code>into_iter</code> 或 <code>iter_mut</code> 來建立疊代器。你也可以從標準函式庫的其他集合型別產生疊代器，像是雜湊映射等等。你也可以透過對你自己的型別實作 <code>Iterator</code> 特徵來建立任何你所希望的疊代器。如同之前提到的，你唯一需要提供的方法定義就是 <code>next</code> 方法。一旦你完成，你就可以使用 <code>Iterator</code> 特徵提供的所有預設實作方法！</p>
 <p>作為展示，讓我們建立一個只會從 1 數到 5 的疊代器。首先，我們要建立個擁有一些數值的結構體。然後我們對此結構體實作 <code>Iterator</code> 特徵將它變成一個疊代器，並在實作中使用其值。</p>
 <p>範例 13-20 有個結構體 <code>Counter</code> 的定義以及能夠產生 <code>Counter</code> 實例的關聯函式 <code>new</code>：</p>
@@ -405,7 +405,7 @@ fn main() {}
 <p><span class="caption">範例 13-21：在我們的 <code>Counter</code> 結構體實作 <code>Iterator</code> 特徵</span></p>
 <p>我們將疊代器的關聯型別 <code>Item</code> 設為 <code>u32</code>，代表疊代器將會回傳 <code>u32</code> 數值。一樣先別擔心關聯型別，我們會在第十九章討論到。</p>
 <p>我們希望我們的疊代器對目前的狀態加 1，所以我們將 <code>count</code> 初始化為 0，這樣它就會先回傳 1。如果 <code>count</code> 的值小於 5，<code>next</code> 就會增加 <code>count</code> 的值並用 <code>Some</code> 回傳目前數值。一旦 <code>count</code> 等於 5，我們的疊代器就會停止增加 <code>count</code> 並永遠回傳傳 <code>None</code>。</p>
-<h4><a class="header" href="#使用-counter-疊代器的-next-方法" id="使用-counter-疊代器的-next-方法">使用 <code>Counter</code> 疊代器的 <code>next</code> 方法</a></h4>
+<h4 id="使用-counter-疊代器的-next-方法"><a class="header" href="#使用-counter-疊代器的-next-方法">使用 <code>Counter</code> 疊代器的 <code>next</code> 方法</a></h4>
 <p>一旦我們實作了 <code>Iterator</code> 特徵，我們就有一個疊代器了！範例 13-22 的測試展示我們可以對我們的 <code>Counter</code> 結構體直接呼叫 <code>next</code> 方法來使用疊代器的功能，就像我們在範例 13-15 對向量建立的疊代器使用的方式一樣。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Counter {
@@ -452,7 +452,7 @@ fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 13-22：測試 <code>next</code> 方法實作的功能</span></p>
 <p>此測試建立了一個新的 <code>Counter</code> 實例給變數 <code>counter</code> 並重複呼叫 <code>next</code>，驗證我們實作的疊代器是否行為如我們預期的一樣：回傳數值 1 到 5。</p>
-<h4><a class="header" href="#使用其他-iterator-特徵方法" id="使用其他-iterator-特徵方法">使用其他 <code>Iterator</code> 特徵方法</a></h4>
+<h4 id="使用其他-iterator-特徵方法"><a class="header" href="#使用其他-iterator-特徵方法">使用其他 <code>Iterator</code> 特徵方法</a></h4>
 <p>我們透過定義 <code>next</code> 方法來實作 <code>Iterator</code> 特徵，所以我們現在可使用在標準函式庫提供的 <code>Iterator</code> 特徵中所任何有預設實作的方法了，因為它們都使用到了 <code>next</code> 的方法功能。</p>
 <p>舉例來說，如果我們因為某些原因想要取得一個 <code>Counter</code> 實例的數值與另一個 <code>Counter</code> 實例去掉第一個值的數值來做配對、對每個配對相乘、保留結果可以被 3 整除的值，最後將所有結果數值相加，我們可以這樣寫，如範例 13-23 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>

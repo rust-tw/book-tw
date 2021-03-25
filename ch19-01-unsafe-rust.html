@@ -171,11 +171,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#不安全的-rust" id="不安全的-rust">不安全的 Rust</a></h2>
+                        <h2 id="不安全的-rust"><a class="header" href="#不安全的-rust">不安全的 Rust</a></h2>
 <p>到目前為止，我們討論的所有程式碼都在編譯期強制加上 Rust 記憶體安全保證。然而，Rust 內部其實隱藏了第二種語言，並不強制加上這些記憶體安全保證：這語言叫做<strong>不安全（unsafe）的 Rust</strong>，可和常規 Rust 一樣正常執行，同時賦予我們極強的能力。</p>
 <p>不安全的 Rust 之所以存在，是由於靜態分析本質上過於保守。當編譯器嘗試確認程式碼是否遵守這些安全保證時，比起接受一些非法的程式，寧願是拒絕部分合法程式。儘管有些程式碼看上去正確，但 Rust 就是會說「不」！這些案例中，你可以寫不安全程式碼並告訴編譯器：「相信我，我知道我在幹麻。」從反面來看這也有缺點，你必須自行承擔風險：若誤用不安全程式碼，可能會造成記憶體不安全，例如發生對空指標（null pointer）解引用。</p>
 <p>Rust 擁有另一個不安全的自我的另一理由是電腦硬體本質上就不安全。如果 Rust 不允許這些不安全操作，就無法完成特定任務。Rust 必須允許你做這些底層系統程式設計，例如直接與作業系統互動，甚至撰寫自己的作業系統。系統程式設計是這個語言的目標之一，一起探索我們可以用不安全的 Rust 做什麼和如何使用吧。</p>
-<h3><a class="header" href="#不安全的超能力" id="不安全的超能力">不安全的超能力</a></h3>
+<h3 id="不安全的超能力"><a class="header" href="#不安全的超能力">不安全的超能力</a></h3>
 <p>欲切換成不安全的 Rust，可使用 <code>unsafe</code> 關鍵字開啟一個新程式碼區塊，並封裝這些不安全程式碼。在不安全的 Rust，你可使用在安全的 Rust 之下無法使用，我們稱之為<strong>不安全的超能力</strong>的五種功能。這些超能力包含：</p>
 <ul>
 <li>對裸指標（raw pointer）解引用</li>
@@ -189,7 +189,7 @@
 <p>錯誤因人類不可靠而發生。不過，將五種不安全操作標記在 <code>unsafe</code> 區塊內，讓你得知任何記憶體安全相關的錯誤一定在某個 <code>unsafe</code> 內。請將 <code>unsafe</code> 區塊保持夠小，當你在調查一個記憶體錯誤時，會慶幸當初有這麼做。</p>
 <p>為了盡可能隔離不安全程式碼，最佳作法是將之封裝在安全的抽象並提供安全的 API，本章在後面的探討不安全函式和方法一併討論之。部分的標準函式庫同樣是在審核過的不安全程式碼上提供安全抽象。透過安全抽象封裝不安全程式碼，可防止你或你的使用者使用以 <code>unsafe</code> 實作的功能，不會將實際的 <code>unsafe</code> 使用洩漏到四散各地，因為安全抽象就是安全的 Rust。</p>
 <p>接下來將依序探討這五個不安全的超能力。也會看看一些替不安全程式碼提供安全介面的抽象。</p>
-<h3><a class="header" href="#對裸指標解引用" id="對裸指標解引用">對裸指標解引用</a></h3>
+<h3 id="對裸指標解引用"><a class="header" href="#對裸指標解引用">對裸指標解引用</a></h3>
 <p>在第四章<a href="ch04-02-references-and-borrowing.html#%E8%BF%B7%E9%80%94%E5%BC%95%E7%94%A8">「迷途引用」</a>一節，我們提及編譯器確保引用一定是合法的。不安全的 Rust 有兩種新型別叫<strong>裸指標</strong>，和引用非常相似。和引用一樣，裸指標能是不可變或可變，分別寫做 <code>*const T</code> 和 <code>*mut T</code>。星號不是引用運算子，它就是型別名稱的一部分。在裸指標的脈絡下，<strong>不可變</strong>代表指標不能在被解引用之後直接賦值。</p>
 <p>和引用與智慧指標（smart pointer）不同，裸指標是：</p>
 <ul>
@@ -235,7 +235,7 @@
 <p>建立一個指標沒有危險性，只有當我們嘗試存取它指向的值時，才可能需要處理非法的值。</p>
 <p>請注意，範例 19-1 與 19-3，我們建立了 <code>*const i32</code> 與 <code>*mut i32</code> 兩個裸指標，皆指向相同儲存 <code>num</code> 的記憶體位置。若我們走正常程序建立指向 <code>num</code>  的不可變與可變引用，程式碼將因為 Rust 所有權規則不允許同時存在一個可變引用與多個不可變引用，進而無法編譯。有了裸指標，即可建立指向同個位置的可變指標和不可變指標，並透過可變指標改變其資料，但可能帶來資料競爭（data races），請小心！</p>
 <p>既然有這些危險，為什麼你還要用裸指標呢？一個主要用例是與 C 程式碼介接，你將會在下一節<a href="#%E5%91%BC%E5%8F%AB%E4%B8%8D%E5%AE%89%E5%85%A8%E5%87%BD%E5%BC%8F%E6%88%96%E6%96%B9%E6%B3%95">「呼叫不安全函式或方法」</a>讀到。另一個用例是在借用檢查器不理解之處建立一層安全抽象。我們將會介紹不安全函式，再探討一個使用到不安全程式碼的安全抽象範例。</p>
-<h3><a class="header" href="#呼叫不安全函式或方法" id="呼叫不安全函式或方法">呼叫不安全函式或方法</a></h3>
+<h3 id="呼叫不安全函式或方法"><a class="header" href="#呼叫不安全函式或方法">呼叫不安全函式或方法</a></h3>
 <p>第二種需要不安全區塊的操作是呼叫不安全函式。不安全函式與方法外觀看起來與正常函式及方法並無二致，僅在整個函式定義前多了額外的 <code>unsafe</code> 。<code>unsafe</code> 關鍵字在此脈絡下是指此函式在呼叫時必須遵守某些要求，因為 Rust 無法保證我們能達成這項要求。當我們在一個 <code>unsafe</code> 區塊內呼叫一個 <code>unsafe</code> 函式，意味著我們已閱讀此函式的文件，而且有責任遵守此函式的使用條款。</p>
 <p>這裡有個不安全函式叫做 <code>dangerous</code>，函式本體內無任何東西:</p>
 <pre><pre class="playground"><code class="language-rust unsafe"><span class="boring">fn main() {
@@ -266,7 +266,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p>藉由一個 <code>unsafe</code> 區塊封裝我們對 <code>dangerous</code> 的呼叫，我們可以對 Rust 聲明我們閱讀過該函式的文件，理解如何合理使用它，並且驗證過我們已履行該函式的使用條款。</p>
 <p>不安全函式本體與 <code>unsafe</code> 區塊等效，所以可以在該不安全函式執行其他不安全操作，不需再加 <code>unsafe</code> 區塊。</p>
-<h4><a class="header" href="#在不安全程式碼上建立安全的抽象" id="在不安全程式碼上建立安全的抽象">在不安全程式碼上建立安全的抽象</a></h4>
+<h4 id="在不安全程式碼上建立安全的抽象"><a class="header" href="#在不安全程式碼上建立安全的抽象">在不安全程式碼上建立安全的抽象</a></h4>
 <p>一個函式有不安全程式碼並不代表我們必須將整個函式標註為不安全。事實上，將不安全程式碼封裝在安全函式中一直是常見的抽象。我們來研讀標準函式庫的 <code>split_at_mut</code> 函式作為範例，它需要一些不安全程式碼，並來探索我們能如何實作之。這個安全方法定義在可變的切片上：它將一個切片在給定的索引引數（argument）上一分為二。範例 19-4 展示了如何使用 <code>split_at_mut</code>。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut v = vec![1, 2, 3, 4, 5, 6];
@@ -360,7 +360,7 @@ fn split_at_mut(slice: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;m
 </span></code></pre></pre>
 <p><span class="caption">範例 19-7：從任意記憶體位址建立切片</span></p>
 <p>我們不擁有此位址之下的記憶體，且並不保證這段程式碼建立的切片一定包含合法的 <code>i32</code> 值。嘗試將 <code>slice</code> 當作合法的切片來使用，會導致為未定義行為（undefined behavior）。</p>
-<h4><a class="header" href="#使用-extern-函式呼叫外部程式碼" id="使用-extern-函式呼叫外部程式碼">使用 <code>extern</code> 函式呼叫外部程式碼</a></h4>
+<h4 id="使用-extern-函式呼叫外部程式碼"><a class="header" href="#使用-extern-函式呼叫外部程式碼">使用 <code>extern</code> 函式呼叫外部程式碼</a></h4>
 <p>有些時候，你的 Rust 程式碼可能需要與其他語言撰寫的程式碼互動。這種情況 Rust 提供 <code>extern</code> 關鍵字，予以協助建立與使用<strong>外部函式介面（Foreign Function Interface，FFI）</strong> 。FFI 的功能是給在一門程式語言定義函式，使得另一門（外部）程式語言可以呼叫這些函式。</p>
 <p>範例 19-8 展示了如何建立整合一個 C 標準函式庫的 <code>abc</code> 函式。由於其他語言並無強制遵守 Rust 的規則和保證，而且 Rust 也無法檢查之，因此在 Rust 程式碼中呼叫在 <code>extern</code> 區塊內宣告的函式一定是不安全的操作，所以確保安全的重責大任就會落在程式設計師身上。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -377,7 +377,7 @@ fn main() {
 <p><span class="caption">範例 19-8：宣告並呼叫一個用其他語言定義的 <code>extern</code> 函式</span></p>
 <p>在 <code>extern &quot;C&quot;</code> 區塊內，我們列出我們想要呼叫的，從其他語言而來的外部函式名稱與簽名。<code>&quot;C&quot;</code> 的部分定義了外部函式使用了哪個應用程式二進位制介面（ABI）：ABI 定義了在組合語言層級該如何呼叫此函式。<code>&quot;C&quot;</code> ABI 最為通用且遵循 C 程式語言的 ABI 規範。</p>
 <blockquote>
-<h4><a class="header" href="#從其他語言呼叫-rust-函式" id="從其他語言呼叫-rust-函式">從其他語言呼叫 Rust 函式</a></h4>
+<h4 id="從其他語言呼叫-rust-函式"><a class="header" href="#從其他語言呼叫-rust-函式">從其他語言呼叫 Rust 函式</a></h4>
 <p>我們也可透過 <code>extern</code> 定義一個介面，允許其他語言呼叫 Rust 的函式。有別於使用 <code>extern</code> 區塊，我們會在 <code>fn</code> 關鍵字前加上 <code>extern</code> 關鍵字並指明應用程式二進位制介面（ABI）。我們甚至可加上 <code>#[no_mangle]</code> 註記來告訴編譯器不要重整（mangle）該函式名稱。<strong>重整</strong>是一個編譯器透過改變我們賦予函式的名稱，成為帶有更多資訊的名稱進而提供給編譯過程使用，但人類就相對難以閱讀。每個程式語言編譯器重整名稱的作法有些許不同，因此必須關閉 Rust 編譯器的名稱重整功能。</p>
 <p>接下來的範例，我們寫了 <code>call_from_c</code> 函式，可以在編譯成共享函式庫（shared library）且連結至 C 後，由 C 程式碼存取：</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -391,7 +391,7 @@ pub extern &quot;C&quot; fn call_from_c() {
 </span></code></pre></pre>
 <p>這類的 <code>extern</code> 用途不需要 <code>unsafe</code>。</p>
 </blockquote>
-<h3><a class="header" href="#存取或修改可變的靜態變數" id="存取或修改可變的靜態變數">存取或修改可變的靜態變數</a></h3>
+<h3 id="存取或修改可變的靜態變數"><a class="header" href="#存取或修改可變的靜態變數">存取或修改可變的靜態變數</a></h3>
 <p>到此，我們還沒聊到<strong>全域變數</strong>（global variable），這個 Rust 支援但會被 Rust 的所有權規則搞得七葷八素的功能。試想有兩個執行緒同時存取同一個可變全域變數，豈不導致資料競爭。</p>
 <p>Rust 的全域變數稱做<strong>靜態</strong>變數。範例 19-9 展示了宣告並使用一個儲存字串切片的靜態變數。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -425,7 +425,7 @@ fn main() {
 <p><span class="caption">範例 19-10：讀取與寫入可變的靜態變數為不安全的操作</span></p>
 <p>與普通變數一樣，我們透過 <code>mut</code> 關鍵字指明可變性。任何讀寫 <code>COURTER</code> 的程式碼皆必須在 <code>unsafe</code> 區塊中。這個程式碼會編譯並打印出我們預期中的 <code>COUNTER: 3</code> 是因為他在單執行緒執行，若在多執行緒存取 <code>COUTER</code> 則可能導致資料競爭。</p>
 <p>當能從全域存取可變資料時，確保沒有資料競爭就不容易了，這就是為什麼 Rust 將可變的靜態變數視為不安全。若是可能的話，我們推薦使用第十六章討論的並行技術與執行緒安全（thread-safe）的智慧指標（smart pointer），如此一來編譯器就能檢查從不同執行緒存取資料是安全的。</p>
-<h3><a class="header" href="#實作不安全特徵" id="實作不安全特徵">實作不安全特徵</a></h3>
+<h3 id="實作不安全特徵"><a class="header" href="#實作不安全特徵">實作不安全特徵</a></h3>
 <p>最後一個可以用在 <code>unsafe</code> 的功能是實作不安全特徵。當一個特徵是有至少一個方法包含編譯器無法驗證的不變條件（invariant），就稱該特徵不安全。我們可以透過在 <code>trait</code> 前加上 <code>unsafe</code> 關鍵字來宣告一個特徵為 <code>unsafe</code>，這也讓實作該特徵會變成 <code>unsafe</code>，如 19-11 所示。</p>
 <pre><pre class="playground"><code class="language-rust unsafe">unsafe trait Foo {
     // 內部的方法
@@ -440,9 +440,9 @@ fn main() {}
 <p><span class="caption">範例 19-11：定義並實作一個不安全特徵</span></p>
 <p>透過 <code>unsafe impl</code>，我們承諾我們將會遵守這些編譯器無法驗證的不變條件（invariant）。</p>
 <p>回想第十六章<a href="ch16-04-extensible-concurrency-sync-and-send.html#%E5%8F%AF%E5%BB%B6%E5%B1%95%E7%9A%84%E4%B8%A6%E8%A1%8C%E8%88%87-sync-%E5%8F%8A-send-%E7%89%B9%E5%BE%B5">「可延展的並行與 <code>Sync</code> 及 <code>Send</code> 特徵」</a>一節的兩個記號特徵（marker trait）<code>Sync</code> 與 <code>Send</code>：若我們的型別是由 <code>Send</code> 與 <code>Sync</code> 組合而成，編譯器會自動實作這些特徵。若我們的型別包含一些非 <code>Send</code> 或 <code>Sync</code> 的型別，例如裸指標，但我們希望替型別做上 <code>Send</code> 或 <code>Sync</code> 的記號，就必須使用 <code>unsafe</code>。Rust 無法驗證我們的型別有遵守可以在多執行緒中傳遞或存取的保證。因而，我們需要自己手動檢查，並指明這是 <code>unsafe</code>。</p>
-<h3><a class="header" href="#存取聯合體的欄位" id="存取聯合體的欄位">存取聯合體的欄位</a></h3>
+<h3 id="存取聯合體的欄位"><a class="header" href="#存取聯合體的欄位">存取聯合體的欄位</a></h3>
 <p><code>union</code> 與 <code>struct</code> 十分相似，差異是在一個聯合體實例中僅儲存其中一個宣告的欄位。聯合體主要用在與 C 程式碼的聯合體介接。存取聯合體的欄位並不安全，由於 Rust 無法保證當前儲存在聯合體實例中的資料是什麼型別，因此存取聯合體的欄位並不安全。你可以從<a href="https://doc.rust-lang.org/reference/items/unions.html">參考手冊</a>了解更多關於聯合體的資訊。</p>
-<h3><a class="header" href="#何時該用不安全程式碼" id="何時該用不安全程式碼">何時該用不安全程式碼</a></h3>
+<h3 id="何時該用不安全程式碼"><a class="header" href="#何時該用不安全程式碼">何時該用不安全程式碼</a></h3>
 <p>透過 <code>unsafe</code> 使用上述五種功能（超能力）並沒有錯，更並非不能接受，但由於編譯期無法協助遵守記憶體安全，這讓 <code>unsafe</code> 程式碼要正確無誤略顯棘手。當你因故需要使用 <code>unsafe</code> 程式碼，就去用吧，並且記得替 <code>unsafe</code> 撰寫明確的註釋，讓有問題發生時更容易追蹤查找源頭。</p>
 <blockquote>
 <ul>

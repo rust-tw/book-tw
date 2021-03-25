@@ -171,17 +171,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#控制程式如何執行" id="控制程式如何執行">控制程式如何執行</a></h2>
+                        <h2 id="控制程式如何執行"><a class="header" href="#控制程式如何執行">控制程式如何執行</a></h2>
 <p>就像 <code>cargo run</code> 會編譯你的程式碼並執行產生的二進制檔案，<code>cargo test</code> 會在測試模式編譯你的程式碼並執行產生的測試二進制檔案。你可以指定命令列選項來改變 <code>cargo test</code> 的預設行為。舉例來說 <code>cargo test</code> 預設行為產生的二進制執行檔會平行執行所有測試並獲取測試執行時產生的輸出，讓測試各自的輸出結果不會顯示出來，以更容易讀取相關測試的結果。</p>
 <p>有些命令列選項用於 <code>cargo test</code> 而有些則用於產生的測試二進制檔案。要分開這兩種引數，你可以先寫奧用於 <code>cargo test</code> 的引數然後加上 <code>--</code> 分隔線來區隔要用於測試二進制檔案的引數。執行 <code>cargo test --help</code> 可以顯示你能用在 <code>cargo test</code> 的選項，而執行 <code>cargo test -- --help</code> 在則會顯示你在 <code>--</code> 之後能用的選項。</p>
-<h3><a class="header" href="#平行或接續執行測試" id="平行或接續執行測試">平行或接續執行測試</a></h3>
+<h3 id="平行或接續執行測試"><a class="header" href="#平行或接續執行測試">平行或接續執行測試</a></h3>
 <p>當你執行數個測試時，它們預設會使用執行緒（thread）來平行執行。這樣測試可以更快完成，讓你可以從你或其他人的程式碼更快獲得回饋。因為測試是同時一起執行的，請確保你的測試並不依賴其他測試或是共享的狀態。這包含共享環境，像是目前的工作目錄或是環境變數。</p>
 <p>舉例來說，假設你的每個測試都會執行些程式碼會在硬碟上產生一個檔案叫做 <em>test-output.txt</em> 並將一些資料寫入檔案中。然後每個測試讀取檔案中的資料，並判定該檔案有沒有包含特定的值，而這個值在每個測試都不相同。因為測試同時執行，其中的測試可以能覆蓋其他測試寫入與讀取的內容。這樣其他測試就會失敗，並不是因為程式碼不正確，而是因為平行執行時該測試會被其他測試所影響。其中一個解決辦法是確保每個測試都寫入不同的檔案，或者也可以選擇一次只執行一個測試。</p>
 <p>如果你不想平行執行測試，或者你想要能更加掌控使用的執行緒數量，你可以傳遞 <code>--test-threads</code> 的選項以及你希望在測試執行檔使用的執行緒數量。請看一下以下範例：</p>
 <pre><code class="language-console">$ cargo test -- --test-threads=1
 </code></pre>
 <p>我們將測試執行緒設為 <code>1</code>，告訴程式不要做任何平行化。使用一條執行緒執行測試會比平行執行它們還來的久，但是如果測試有共享狀態的話，它們就會不互相影響到對方了。</p>
-<h3><a class="header" href="#顯示函式輸出結果" id="顯示函式輸出結果">顯示函式輸出結果</a></h3>
+<h3 id="顯示函式輸出結果"><a class="header" href="#顯示函式輸出結果">顯示函式輸出結果</a></h3>
 <p>如果測試通過的話，Rust 的測試函式庫預設會獲取所有印出的標準輸出。舉例來說，如果我們在測試中呼叫 <code>println!</code> 然後測試通過的話，我們不會在終端機看到 <code>println!</code> 的輸出，我們只會看到一行表達測試通過的訊息。如果測試失敗，我們才會看到所有印出的標準輸出與失敗訊息。</p>
 <p>舉例來說，範例 11-10 有個蠢蠢的函式只會印出它的參數並回傳 10，以及一個會通過的測試與一個會失敗的測試。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -277,7 +277,7 @@ test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 
 error: test failed, to rerun pass '--lib'
 </code></pre>
-<h3><a class="header" href="#透過名稱來執行部分測試" id="透過名稱來執行部分測試">透過名稱來執行部分測試</a></h3>
+<h3 id="透過名稱來執行部分測試"><a class="header" href="#透過名稱來執行部分測試">透過名稱來執行部分測試</a></h3>
 <p>有時執行完整所有的測試會很花時間。如果你正專注於程式碼的特定部分，你可能會想要只執行與該程式碼有關的測試。你可以向 <code>cargo test</code> 傳遞你想要執行的測試名稱作為引數。</p>
 <p>為了解釋如何執行部分測試，我們將為 <code>add_two</code> 函式建立三個測試，如範例 11-11 所示，然後選擇其中一個執行。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -330,7 +330,7 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 </code></pre>
-<h4><a class="header" href="#執行單獨一個測試" id="執行單獨一個測試">執行單獨一個測試</a></h4>
+<h4 id="執行單獨一個測試"><a class="header" href="#執行單獨一個測試">執行單獨一個測試</a></h4>
 <p>我們可以傳遞任何測試函式的名稱給 <code>cargo test</code> 來只執行該測試：</p>
 <pre><code class="language-console">$ cargo test one_hundred
    Compiling adder v0.1.0 (file:///projects/adder)
@@ -345,7 +345,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out
 </code></pre>
 <p>只有名稱為 <code>one_hundred</code> 的測試會執行，其他兩個的名稱並不符合。測試輸出會在總結的最後顯示 <code>2 filtered out</code> 告訴我們除了命令列執行的測試以外，還有更多其他測試。</p>
 <p>我們無法用此方式指定多個測試名稱，只有第一個傳給 <code>cargo test</code> 有用。但我們有其他方式能執行數個測試。</p>
-<h4><a class="header" href="#過濾執行數個測試" id="過濾執行數個測試">過濾執行數個測試</a></h4>
+<h4 id="過濾執行數個測試"><a class="header" href="#過濾執行數個測試">過濾執行數個測試</a></h4>
 <p>我們可以指定部分測試名稱，然後任何測試名稱中有相符的就會被執行。舉例來說，因為我們有兩個測試的名稱都包含 <code>add</code>，我們可以透過執行 <code>cargo test add</code> 來執行這兩個測試：</p>
 <pre><code class="language-console">$ cargo test add
    Compiling adder v0.1.0 (file:///projects/adder)
@@ -360,7 +360,7 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out
 
 </code></pre>
 <p>此命令會執行所有名稱中包含 <code>add</code> 的測試，並過濾掉 <code>one_hundred</code> 的測試名稱。另外測試所在的模組也屬於測試名稱中，所以我們可以透過過濾模組名稱來執行該模組的所有測試。</p>
-<h3><a class="header" href="#忽略某些測試除非特別指定" id="忽略某些測試除非特別指定">忽略某些測試除非特別指定</a></h3>
+<h3 id="忽略某些測試除非特別指定"><a class="header" href="#忽略某些測試除非特別指定">忽略某些測試除非特別指定</a></h3>
 <p>有時候有些特定的測試執行會花非常多時間，所以你可能希望在執行 <code>cargo test</code> 時能排除它們。與其列出所有你想要的測試作為引數，你可以在花時間的測試前加上 <code>ignore</code> 屬性詮釋來排除它們，如以下所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">#[test]

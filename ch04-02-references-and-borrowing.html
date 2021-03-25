@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#引用與借用" id="引用與借用">引用與借用</a></h2>
+                        <h2 id="引用與借用"><a class="header" href="#引用與借用">引用與借用</a></h2>
 <p>我們在範例 4-5 使用元組的問題在於，我們必須回傳 <code>String</code> 給呼叫的函式，我們才能繼續在呼叫 <code>calculate_length</code> 之後繼續使用 <code>String</code>，因為 <code>String</code> 會被傳入 <code>calculate_length</code>。</p>
 <p>以下是我們定義並使用 <code>calculate_length</code> 時，在參數改用引用物件而非取得所有權的程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -255,7 +255,7 @@ error: could not compile `ownership`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>如同變數預設是不可變，引用也是一樣的。我們不被允許修改我們引用的值。</p>
-<h3><a class="header" href="#可變引用" id="可變引用">可變引用</a></h3>
+<h3 id="可變引用"><a class="header" href="#可變引用">可變引用</a></h3>
 <p>我們可以修正這項錯誤，只要在範例 4-6 做一點小修改就好：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -369,7 +369,7 @@ To learn more, run the command again with --verbose.
 </span></code></pre></pre>
 <p>不可變引用 <code>r1</code> 和 <code>r2</code> 的作用域在 <code>println!</code> 之後結束。這是它們最後一次使用到的地方，也就是在宣告可變引用 <code>r3</code> 之前。它們的作用域沒有重疊，所以程式碼是允許的。</p>
 <p>雖然借用錯誤有時是令人沮喪的，但請記得這是 Rust 編譯器希望提前（在編譯時而非執行時）指出潛在程式錯誤並告訴你問題的源頭在哪。這樣你就不必親自追蹤為何你的資料跟你預期的不一樣。</p>
-<h3><a class="header" href="#迷途引用" id="迷途引用">迷途引用</a></h3>
+<h3 id="迷途引用"><a class="header" href="#迷途引用">迷途引用</a></h3>
 <p>在有指標的語言中，通常都很容易不小心產生<strong>迷途指標（dangling pointer）</strong>。當資源已經被釋放但指標卻還留著，這樣的指標指向的地方很可能就已經被別人所有了。相反地，在 Rust 中編譯器會保證引用絕不會是迷途引用：如果你有某些資料的引用，編譯器會確保資料不會在引用結束前離開作用域。</p>
 <p>讓我們來嘗試產生迷途指標，看看 Rust 怎麼產生編譯期錯誤：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -432,7 +432,7 @@ for it to be borrowed from.
 }
 </code></pre></pre>
 <p>這樣就沒問題了。所有權轉移了出去，沒有任何值被釋放。</p>
-<h3><a class="header" href="#引用規則" id="引用規則">引用規則</a></h3>
+<h3 id="引用規則"><a class="header" href="#引用規則">引用規則</a></h3>
 <p>讓我們來回顧我們討論到的引用規則：</p>
 <ul>
 <li>在任何時候，我們要嘛<strong>只能有</strong>一個可變引用，要嘛可以有<strong>任意數量</strong>的不可變引用。</li>

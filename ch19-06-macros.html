@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#巨集" id="巨集">巨集</a></h2>
+                        <h2 id="巨集"><a class="header" href="#巨集">巨集</a></h2>
 <p>在本書中，我們到處使用像 <code>println!</code> 這類的巨集（macro），但尚未完全探索巨集究竟是何物，以及該如何駕馭。<strong>巨集</strong>指的是一整家族的 Rust 功能集合：使用 <code>macro_rules!</code> 的<strong>宣告式（declarative）巨集</strong>，以及另外三種<strong>程序式（procedural）巨集</strong>：</p>
 <ul>
 <li>自訂 <code>#[derive]</code> 巨集，可以將指定的程式碼加在使用 <code>derive</code> 屬性的結構體和枚舉</li>
@@ -179,13 +179,13 @@
 <li>類函式巨集，看起來像是函式的呼叫但實際上將標記（token）當作引數來處理</li>
 </ul>
 <p>我們將會按照順序聊聊每種巨集，但首先，來看看為什麼我們已經有了函式，仍需要巨集呢？</p>
-<h3><a class="header" href="#巨集與函式的差異" id="巨集與函式的差異">巨集與函式的差異</a></h3>
+<h3 id="巨集與函式的差異"><a class="header" href="#巨集與函式的差異">巨集與函式的差異</a></h3>
 <p>基本上，巨集是一種透過寫程式碼來產生其他程式碼的手段，又稱作<strong>超程式設計</strong>（metaprogramming）。像是在附錄 C，我們探討的 <code>derive</code> 屬性，這個屬性會替你產生多種特徵的實作。還有在整本書中到處使用 <code>println!</code> 和 <code>vec!</code> 兩巨集。以上這些巨集都會<strong>展開</strong>來，產生比你自己手寫的還要多的程式碼。</p>
 <p>超程式設計對減少撰寫和維護的程式碼量非常有幫助，這和函式扮演的角色相同，然而，巨集具有函式沒有的特殊本事。</p>
 <p>一個函式簽名必須宣告該函式需要的參數型別與數量。反觀巨集可以接收變動數量的參數：我們可以用一個參數呼叫 <code>println!(&quot;hello&quot;)</code> ，也可以是兩個參數的 <code>println!(&quot;hello {}&quot;, name)</code>。另外，巨集會在編譯器開始翻譯程式碼的意義之前展開。例如可以使用巨集實作一個特徵。這種事函式便無法做到，因為函式會在執行期呼叫，而特徵需要在編譯期就實作。</p>
 <p>選擇實作巨集而不用函式也有缺點，巨集的定義比函式更加複雜，因為你是在寫寫 Rust 程式碼的 Rust 程式碼。就是因為這種間接迂迴的關係，一般情況下，相較於函式來說巨集的定義都更加難以閱讀、理解與維護。</p>
 <p>另一個巨集和函式之間的重要的的差異，在一個檔案中想呼叫巨集，必須在作用域（scope）內定義或是將巨集帶到這個作用域，而反過來函式可以在任何地方定義與呼叫。</p>
-<h3><a class="header" href="#使用-macro_rules-宣告式巨集做普通的超程式設計" id="使用-macro_rules-宣告式巨集做普通的超程式設計">使用 <code>macro_rules!</code> 宣告式巨集做普通的超程式設計</a></h3>
+<h3 id="使用-macro_rules-宣告式巨集做普通的超程式設計"><a class="header" href="#使用-macro_rules-宣告式巨集做普通的超程式設計">使用 <code>macro_rules!</code> 宣告式巨集做普通的超程式設計</a></h3>
 <p>Rust 中最廣泛使用的巨集形式非<strong>宣告式巨集</strong>莫屬。這種巨集有時也稱為「巨集為例（macros by example）」、「<code>macro_rules!</code>」，或是直白的「巨集」。宣告式巨集的核心就是賦予你寫些類似 Rust <code>match</code> 表達式的東西。在第六章我們聊了 <code>match</code> 表達式是一種流程控制結構，會拿一個表達式，將其結果值與其他模式作比較，並執行匹配模式對應的程式碼。巨集同樣會拿一個值，與模式相比較，而這個模式又與特定程式碼相關聯：這種情況會是，傳入巨集的值就是一字一字刻出來 Rust 原始碼，而所謂模式則是比較原始碼的結構，當原始碼與模式相匹配，就會帶入與模式關聯的這段特定程式碼，取代原先傳入巨集的原始碼。這些都發生在編譯的期間。</p>
 <p>你可以透過 <code>macro_rules!</code> 定義一個巨集。讓我們藉著閱讀 <code>vec!</code> 的定義來探索如何使用 <code>macro_rules!</code>。第八章我們介紹了如何使用 <code>vec!</code> 巨集來建立含有特定值的向量。例如，下面的巨集會建立帶著三個整數的新向量：</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -236,7 +236,7 @@ macro_rules! vec {
 </code></pre>
 <p>我們定義了一個巨集，接收任意數量任意型別的引數，並產生建立一個包含指定元素的向量的程式碼。</p>
 <p>有鑑於 <code>macro_rules!</code> 仍有些詭異的邊界情況（edge case），未來 Rust 會有第二類宣告式巨集，會具有相似的工作流程，但會修復這些邊界情況。在該更新到來過後，<code>macro_rules!</code> 會即期棄用（deprecate）。考量到這點，加上以事實來說大多數 Rust 程式設計師<strong>使用</strong>巨集多過<strong>撰寫</strong>巨集，所以 <code>macro_rules!</code> 相關討論就此打住，想理解更多有關撰寫巨集之事，可查閱線上文件或其他資源，例如<a href="https://danielkeep.github.io/tlborm/book/index.html">「The Little Book of Rust Macros」</a>。</p>
-<h3><a class="header" href="#使用程序式巨集從屬性產生程式碼" id="使用程序式巨集從屬性產生程式碼">使用程序式巨集從屬性產生程式碼</a></h3>
+<h3 id="使用程序式巨集從屬性產生程式碼"><a class="header" href="#使用程序式巨集從屬性產生程式碼">使用程序式巨集從屬性產生程式碼</a></h3>
 <p>第二種巨集形式是<strong>程序式巨集</strong>，其行為更像是函式（也是一種程序）。程序式巨集接受一些程式碼作為輸入，操作這些程式碼，然後輸出一些程式碼。和宣告式巨集去匹配模式和取代程式碼的方式不同。</p>
 <p>三種程序式巨集（自訂 derive，類屬性、類函式）都有著相近的工作方式。</p>
 <p>當建立一個程序式巨集時，該巨集必須放置在自己特殊的一種 crate 中。會這種是因為一些複雜的技術問題，我們希望在未來消弭這個情況。使用程序式巨集看起來就像範例 19-29，其中 <code>some_attribute</code> 是一個用來代表特定巨集的佔位符。</p>
@@ -250,7 +250,7 @@ pub fn some_name(input: TokenStream) -&gt; TokenStream {
 <p><span class="caption">範例 19-29：使用程序式巨集</span></p>
 <p>這個函式定義一個程序式巨集，接受輸入 <code>TokenStream</code>，並輸出 <code>TokenStream</code>。<code>TokenStream</code> 型別定義在 <code>proc_macro</code> crate 中，這個 crate 包含在 Rust 中，可以表示一連串的標記，這就是巨集的核心：巨集替來自輸入的 <code>TokenStream</code> 搽脂抹粉，而巨集產生的程式碼就是輸出的 <code>TokenStream</code>。上面例子中這個函式附加了一個屬性，指定我們要產生哪個程序式巨集。在同一個 crate 中我們可以使用多個不同的程序式巨集。</p>
 <p>我們來看不同的程序式巨集吧。就從自訂 derive 巨集開始，逐步介紹它與其他種類巨集的細部差異。</p>
-<h3><a class="header" href="#如何撰寫自訂的-derive-巨集" id="如何撰寫自訂的-derive-巨集">如何撰寫自訂的 <code>derive</code> 巨集</a></h3>
+<h3 id="如何撰寫自訂的-derive-巨集"><a class="header" href="#如何撰寫自訂的-derive-巨集">如何撰寫自訂的 <code>derive</code> 巨集</a></h3>
 <p>我們建立一個 <code>hello_macro</code> crate，並定義 <code>HelloMacro</code> 特徵與它的 <code>hello_macro</code> 關聯函式。我們提供一個程序式巨集，讓使用者透過 <code>#[derive(HelloMacro)]</code> 標註它們的型別，來獲得預設的 <code>hello_macro</code> 函式的實作，而不需要使用者替每個型別手動實作 <code>HelloMacro</code> 特徵。這個預設的函式實作會印出 <code>你好，巨集，我叫作型別名稱！</code>，其中 <code>型別名稱</code> 是實作特徵那個型別的名字。換句話說，就是我們會寫出一個 crate，讓其他程式設計師用我們的 crate，以範例 19-30 的方式來寫程式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use hello_macro::HelloMacro;
@@ -396,7 +396,7 @@ hello_macro_derive = { path = &quot;../hello_macro/hello_macro_derive&quot; }
 </code></pre>
 <p>將這段程式碼放到範例 19-30 的 <em>src/main.rs</em> 並執行 <code>cargo run</code>，他應該會印出 <code>你好，巨集！我叫作鬆餅！</code>。這個由程序式巨集實作的 <code>HelloMacro</code> 特徵，不需要 <code>pancakes</code> 自行手動實作，而是透過 <code>#[derive(HelloMacro)]</code> 將特徵的實作加上去。</p>
 <p>接著，一起來探索其他種類的程序式巨集和自訂 derive 巨集有何不同。</p>
-<h3><a class="header" href="#類屬性巨集" id="類屬性巨集">類屬性巨集</a></h3>
+<h3 id="類屬性巨集"><a class="header" href="#類屬性巨集">類屬性巨集</a></h3>
 <p>類屬性巨集和自訂 derive 巨集相似，但並非只能透過 <code>derive</code> 屬性產生程式碼，類屬性巨集讓你可以建立新的屬性。它們更靈活：<code>derive</code> 只能用在結構體和枚舉，而屬性可以用在其他項目之上，例如函式。這裡有個類屬性巨集例子，是在使用一個網頁應用程式框架時，透過你的 <code>route</code> 屬性來標註一個函式：</p>
 <pre><code class="language-rust ignore">#[route(GET, &quot;/&quot;)]
 fn index() {
@@ -407,7 +407,7 @@ pub fn route(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
 </code></pre>
 <p>這裡，我們有兩個 <code>TokenStream</code> 型別的參數，第一個是屬性的內容，也就是 <code>Get, &quot;/&quot;</code> 這部分。第二部分則是該屬性附著的項目本體：在這個例子就是 <code>fn index() {}</code> 及其函式本體。</p>
 <p>除此之外，類屬性巨集的工作方式和自訂 derive 巨集一樣：透過 <code>proc-macro</code> crate 建立一個 crate，並實作一個函式替你產生程式碼！</p>
-<h3><a class="header" href="#類函式巨集" id="類函式巨集">類函式巨集</a></h3>
+<h3 id="類函式巨集"><a class="header" href="#類函式巨集">類函式巨集</a></h3>
 <p>類函式巨集可以定義和函式呼叫很類似的巨集。和 <code>marco_rules!</code> 一樣，類函式巨集比函式更有靈活，例如可以接收未知長度的引數。然而，<code>macro_rules!</code> 巨集只能使用像 match 一樣的語法，如同早前在<a href="#%E4%BD%BF%E7%94%A8-macro_rules-%E5%AE%A3%E5%91%8A%E5%BC%8F%E5%B7%A8%E9%9B%86%E5%81%9A%E6%99%AE%E9%80%9A%E7%9A%84%E8%B6%85%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88">「使用 <code>macro_rules!</code> 宣告式巨集做普通的超程式設計」</a>一節所述。而類函式巨集則可以拿 <code>TokenStream</code> 參數及其定義來操作 Rust 程式碼，和另外兩個程序式巨集所做的一模一樣。</p>
 <p>舉個例子，一個 <code>sql!</code> 類函式巨集可能會被這樣呼叫：</p>
 <pre><code class="language-rust ignore">let sql = sql!(SELECT * FROM posts WHERE id=1);
@@ -417,7 +417,7 @@ pub fn route(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
 pub fn sql(input: TokenStream) -&gt; TokenStream {
 </code></pre>
 <p>這個定義和自訂 derive 巨集簽名相似：我們接受在括號內的標記，並回傳想要產生的程式碼。</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>呼！現在你的工具箱多了一些 Rust 特色功能，雖然不常用，但在特定情況下你會知道它們存在。我們介紹了許多複雜的主題，所以當你在錯誤訊息或是其他人的程式碼與它們相遇，你會有辦法辨認這些概念和語法。你可以將這章作為能引導找到解法的參考書。</p>
 <p>接下來，我們會動手做另一個專案，實際運用本書所講的一切。</p>
 <blockquote>

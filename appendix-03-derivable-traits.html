@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#附錄-c可推導的特徵" id="附錄-c可推導的特徵">附錄 C：可推導的特徵</a></h2>
+                        <h2 id="附錄-c可推導的特徵"><a class="header" href="#附錄-c可推導的特徵">附錄 C：可推導的特徵</a></h2>
 <p>在本書中的許多地方方，我們都有遇到 <code>derive</code> 屬性，這能用在結構體或枚舉定義中。<code>derive</code> 屬性會透過 <code>derive</code> 語法來對被標記的型別產生對應的預設特徵實作。</p>
 <p>在此附錄中，我們提供了所有在標準函式庫中你可以透過 <code>derive</code> 來使用的特徵。每個段落會包含：</p>
 <ul>
@@ -185,24 +185,24 @@
 <p>其他在標準函式庫中定義的特徵則無法使用 <code>derive</code> 來對你的型別實作。這些特徵通常不太常有理想的預設行為，所以會由你來決定最合理的方式來實作它們。</p>
 <p>其中一個無法推導的特徵範例就是 <code>Display</code>，這用來顯示格式化資訊給終端使用者。這應該永遠由你來決定顯示型別給終端使用者的最佳方式。型別的哪些部分應該給使用者看到？哪些部分他們會覺得是有關聯的？什麼樣的資料格式對他們最相關？Rust 編譯器並不具這樣的眼光能判斷，所以它無法為你提供適合的預設行為。</p>
 <p>此附錄提供的可推導的特徵列表並不是就是所有能用的特徵：函式庫也可以為他們自己的特徵實作 <code>derive</code>，所以你可以使用 <code>derive</code> 的特徵是沒有極限的。實作 <code>derive</code> 會需要用到過程式巨集（procedural macro），這在第十九章的<a href="ch19-06-macros.html#%E5%B7%A8%E9%9B%86">「巨集」</a><!-- ignore -->段落有提到。</p>
-<h3><a class="header" href="#用於開發時輸出的-debug" id="用於開發時輸出的-debug">用於開發時輸出的 <code>Debug</code></a></h3>
+<h3 id="用於開發時輸出的-debug"><a class="header" href="#用於開發時輸出的-debug">用於開發時輸出的 <code>Debug</code></a></h3>
 <p><code>Debug</code> 特徵用於啟用除錯格式資訊的格式化字串，讓你可以在 <code>{}</code> 佔位符加上 <code>:?</code> 來顯示。</p>
 <p><code>Debug</code> 特徵讓你可以印出型別實例的除錯資訊，好讓你以及其他程式設計師在使用你的型別時，能在程式執行的特定時間點觀察實例。</p>
 <p>舉例來說，要使用 <code>assert_eq!</code> 巨集的話就必須要有 <code>Debug</code> 特徵。如果相等判定失敗的話，此巨集會印出作為引數的實例數值，讓程式設計師可以看到為何兩個實例不相等。</p>
-<h3><a class="header" href="#用於比較相等的-partialeq-與-eq" id="用於比較相等的-partialeq-與-eq">用於比較相等的 <code>PartialEq</code> 與 <code>Eq</code></a></h3>
+<h3 id="用於比較相等的-partialeq-與-eq"><a class="header" href="#用於比較相等的-partialeq-與-eq">用於比較相等的 <code>PartialEq</code> 與 <code>Eq</code></a></h3>
 <p><code>PartialEq</code> 特徵讓你可以比較型別實例來檢查是否相等，並可因此使用 <code>==</code> 與 <code>!=</code> 運算子。</p>
 <p>推導 <code>PartialEq</code> 會實作 <code>eq</code> 方法。當推導結構體的 <code>PartialEq</code> 時，兩個實例之間必須<strong>所有</strong>欄位都相等才算相等，所以要是有任意欄位不相等實例就不算相等。而在枚舉推導時，每個變體會與自己相等，且與其他變體不相等。</p>
 <p>舉例來說，使用 <code>assert_eq!</code> 巨集的話就必須要有 <code>PartialEq</code> 特徵，因為這要用來比較兩個型別實例是否相等。</p>
 <p><code>Eq</code> 特徵沒有任何方法，它用來表示指定型別的每個數值都與自己本身相等。<code>Eq</code> 只能用於也有實作 <code>PartialEq</code> 的型別，然而並非所有實作 <code>PartialEq</code> 的型別都能實作 <code>Eq</code>。其中一個例子就是浮點數型別，浮點數的實作就指明兩個非數（not-a-number, <code>NaN</code>）實例數值彼此並不相等。</p>
 <p>而 <code>Eq</code> 會用到的地方則有像是 <code>HashMap&lt;K, V&gt;</code> 中的鍵，這樣 <code>HashMap&lt;K, V&gt;</code> 才能知道兩個鍵之間是否相等。</p>
-<h3><a class="header" href="#用於比較順序的-partialord-與-ord" id="用於比較順序的-partialord-與-ord">用於比較順序的 <code>PartialOrd</code> 與 <code>Ord</code></a></h3>
+<h3 id="用於比較順序的-partialord-與-ord"><a class="header" href="#用於比較順序的-partialord-與-ord">用於比較順序的 <code>PartialOrd</code> 與 <code>Ord</code></a></h3>
 <p><code>PartialOrd</code> 特徵讓你比較型別實例排序的順序。有實作 <code>PartialOrd</code> 的型別能夠使用 <code>&lt;</code>、<code>&gt;</code>、<code>&lt;=</code> 與 <code>&gt;=</code> 運算子。你只能在有實作 <code>PartialEq</code> 的型別實作 <code>PartialOrd</code> 特徵。</p>
 <p>推導 <code>PartialOrd</code> 會實作 <code>partial_cmp</code> 方法，這會回傳一個 <code>Option&lt;Ordering&gt;</code>，當給予的數值無法產生任何順序的話就會是 <code>None</code>。其中一個儘管該型別大多數數值都能比較時，但仍有機會無法產生順序的範例就是非數（not-a-number, <code>NaN</code>）浮點數數值。對任意浮點數與 <code>NaN</code> 浮點數數值呼叫 <code>partial_cmp</code> 的話就會回傳 <code>None</code>。</p>
 <p>當在結構體推導時，<code>PartialOrd</code> compare會比較兩個實例，並從結構體定義的欄位順序來依序比較每個欄位的數值。而在枚舉推導時，在枚舉定義中較早宣告的枚舉變體會比之後的變體還小。</p>
 <p>舉例來說，<code>rand</code> crate 中的 <code>gen_range</code> 方法就必須要有 <code>PartialOrd</code> 特徵，該方法會在指定的最小值與最大值範圍內產生隨機數值。</p>
 <p><code>Ord</code> 特徵能讓你知道指定型別的任意兩個數值存在著順序。<code>Ord</code> 特徵實作了 <code>cmp</code> 方法，這會回傳 <code>Ordering</code> 而不只是 <code>Option&lt;Ordering&gt;</code>，因為其永遠會有有效的順序。你只能在有實作 <code>PartialOrd</code> 與 <code>Eq</code>（而 <code>Eq</code> 需要 <code>PartialEq</code>）的特徵實作 <code>Ord</code> 特徵。在結構體與枚舉推導時，<code>cmp</code> 的行為會與 <code>PartialOrd</code> 推導的 <code>partial_cmp</code> 行為一致。</p>
 <p>其中一個需要 <code>Ord</code> 的範例就是當 <code>BTreeSet&lt;T&gt;</code> 要儲存數值的時候，這是一個依據數值排序順序儲存資料的資料結構。</p>
-<h3><a class="header" href="#用於複製數值的-clone-與-copy" id="用於複製數值的-clone-與-copy">用於複製數值的 <code>Clone</code> 與 <code>Copy</code></a></h3>
+<h3 id="用於複製數值的-clone-與-copy"><a class="header" href="#用於複製數值的-clone-與-copy">用於複製數值的 <code>Clone</code> 與 <code>Copy</code></a></h3>
 <p><code>Clone</code> 特徵讓你能顯式建立一個數值的深拷貝，而且在複製的過程中可能會包含執行其他程式碼並拷貝堆積的資料。你可以在第四章的<a href="ch04-01-what-is-ownership.html#%E8%AE%8A%E6%95%B8%E8%88%87%E8%B3%87%E6%96%99%E4%BA%92%E5%8B%95%E7%9A%84%E6%96%B9%E5%BC%8F%E5%85%8B%E9%9A%86clone">「變數與資料互動的方式：克隆（Clone）」</a><!-- ignore -->段落瞭解更多關於 <code>Clone</code> 的資訊。</p>
 <p>推導 <code>Clone</code> 會實作 <code>clone</code> 方法，這在整個型別實作時，會呼叫每個型別部分的 <code>clone</code>。這意味著該型別的所有欄位或數值都必須有實作 <code>Clone</code> 才能推導 <code>Clone</code>。</p>
 <p>會需要用到 <code>Clone</code> 的其中一個例子是對 slice 呼叫 <code>to_vec</code> 方法。Slice 不擁有其所包含的型別實例，但是 <code>to_vec</code> 回傳的向量會需要擁有其實例，所以 <code>to_vec</code> 會對每個項目呼叫 <code>clone</code>。因此，儲存在 slice 內的型別必須實作 <code>Clone</code>。</p>
@@ -211,10 +211,10 @@
 <p>你可以對任何內部所有部分有實作 <code>Copy</code> 的型別推導 <code>Copy</code>。此外你只能對有實作 <code>Clone</code> 的型別實作 <code>Copy</code>，因為有實作 <code>Copy</code> 的型別都會附有 <code>Clone</code> 的實作，其所做的事會與 <code>Copy</code> 一樣。</p>
 <p><code>Copy</code> 通常不是必要的，實作 <code>Copy</code> 的型別會能進行優化，代表你不需要呼叫 <code>clone</code> 並讓程式碼更簡潔。</p>
 <p>所有 <code>Copy</code> 能辦到的事你也能用 <code>Clone</code> 來達成，但是程式碼會變得比較慢或是需要使用 <code>clone</code>。</p>
-<h3><a class="header" href="#用於映射數值至固定大小數值的-hash" id="用於映射數值至固定大小數值的-hash">用於映射數值至固定大小數值的 <code>Hash</code></a></h3>
+<h3 id="用於映射數值至固定大小數值的-hash"><a class="header" href="#用於映射數值至固定大小數值的-hash">用於映射數值至固定大小數值的 <code>Hash</code></a></h3>
 <p><code>Hash</code> 特徵讓你能取得任意大小的型別實例，並使用在雜湊函式映射（map）到固定大小的數值實例。推導 <code>Hash</code> 會實作 <code>hash</code> 方法。推導出的 <code>hash</code> 方法實作會組合該型別每個部分的 <code>hash</code> 呼叫結果，這代表所有的欄位或數值也必須實作 <code>Hash</code> 才能推導 <code>Hash</code>。</p>
 <p>會需要 <code>Hash</code> 的其中一個範例是在 <code>HashMap&lt;K, V&gt;</code> 儲存鍵，這樣才能有效率地儲存資料。</p>
-<h3><a class="header" href="#用於預設數值的-default" id="用於預設數值的-default">用於預設數值的 <code>Default</code></a></h3>
+<h3 id="用於預設數值的-default"><a class="header" href="#用於預設數值的-default">用於預設數值的 <code>Default</code></a></h3>
 <p><code>Default</code> 特徵讓你能建立一個型別的預設數值。推導 <code>Default</code> 會實作 <code>default</code> 函式。推導出的 <code>default</code> 函式實作會呼叫該型別每個部分的 <code>default</code> 函式，這代表該型別的所有欄位或數值都得實作 <code>Default</code> 才能推導 <code>Default</code>。</p>
 <p><code>Default::default</code> 函式常用於結合結構體更新語法，如果我們在第五章的<a href="ch05-01-defining-structs.html#%E4%BD%BF%E7%94%A8%E7%B5%90%E6%A7%8B%E9%AB%94%E6%9B%B4%E6%96%B0%E8%AA%9E%E6%B3%95%E5%BE%9E%E5%85%B6%E4%BB%96%E7%B5%90%E6%A7%8B%E9%AB%94%E5%BB%BA%E7%AB%8B%E5%AF%A6%E4%BE%8B">「使用結構體更新語法從其他結構體建立實例」</a><!-- ignore -->段落所提及的。你可以自訂結構體中的一些欄位，然後使用 <code>..Default::default()</code> 將剩餘的欄位設為預設數值。</p>
 <p>舉例來說，當你在 <code>Option&lt;T&gt;</code> 實例中使用 <code>unwrap_or_default</code> 方法就會需要 <code>Default</code> 特徵。如果 <code>Option&lt;T&gt;</code> 為 <code>None</code>，<code>unwrap_or_default</code> 方法就會回傳儲存在 <code>Option&lt;T&gt;</code> 的 <code>T</code> 的 <code>Default::default</code> 結果。</p>

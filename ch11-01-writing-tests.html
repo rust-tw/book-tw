@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#如何寫測試" id="如何寫測試">如何寫測試</a></h2>
+                        <h2 id="如何寫測試"><a class="header" href="#如何寫測試">如何寫測試</a></h2>
 <p>測試是一種 Rust 函式來驗證非測試程式碼是否以預期的方式執行。測試函式的本體通常會做三件動作：</p>
 <ol>
 <li>設置任何所需要的資料或狀態。</li>
@@ -179,7 +179,7 @@
 <li>判定結果是否與你預期的相符。</li>
 </ol>
 <p>讓我們看看 Rust 特地提供給測試的功能：包含 <code>test</code> 屬性（attribute）、一些巨集以及 <code>should_panic</code> 屬性。</p>
-<h3><a class="header" href="#測試函式剖析" id="測試函式剖析">測試函式剖析</a></h3>
+<h3 id="測試函式剖析"><a class="header" href="#測試函式剖析">測試函式剖析</a></h3>
 <p>最簡單的形式來看，測試在 Rust 中就是附有 <code>test</code> 屬性的函式。屬性（Attributes）是一種關於某段 Rust 程式碼的詮釋資料（metadata），其中一個例子是我們在第五章使用的 <code>derive</code> 屬性。要將一個函式轉換成測試函式，在 <code>fn</code> 前一行加上 <code>#[test]</code> 即可。當你用 <code>cargo test</code> 命令來執行你的測試時，Rust 會建構一個測試執行檔並執行標有 <code>test</code> 屬性的程式，並回報每個測試函式是否通過或失敗。</p>
 <p>當我們用 Cargo 建立新的函式庫專案時，同時會自動建立一個擁有測試函式的測試模組。此模組能協助我們開始寫測試，讓你不必在每次建立新專案時，尋找特定結構體與測試函式的語法。你可以新增多少測試函式與多少測試模組都沒問題！</p>
 <p>我們將會透過實驗測試產生的樣板而非實際測試任何程式碼，來探索測試如何運作的每個環節。然後我們會寫些現實世界會寫得測試，呼叫我們寫的程式碼並判定其行為是否正確。</p>
@@ -302,7 +302,7 @@ error: test failed, to rerun pass '--lib'
 <p><code>test tests::another</code> 這行會顯示 <code>FAILED</code> 而非 <code>ok</code>。在獨立結果與總結之間出現了兩個新的段落，第一個段落會顯示每個測試失敗的原因細節。在此例中，<code>another</code> 因為 <em>src/lib.rs</em> 檔案中第十行的恐慌 <code>panicked at '此測試會失敗'</code> 而失敗。下一個段落則是會列出所有失敗的測試，要是測試很多且失敗測試輸出結果很長的話，此資訊就很實用。我們可以使用失敗測試的名稱來只執行這個測試以便除錯。我們會在<a href="ch11-02-running-tests.html#%E6%8E%A7%E5%88%B6%E7%A8%8B%E5%BC%8F%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C">「控制程式如何執行」</a><!-- ignore -->段落討論更多執行測試的方法。</p>
 <p>總結會顯示在最後一行，在此例中它表示我們有一個測試結果是 <code>FAILED</code>。也就是我們有一個測試通過，一個測試失敗。</p>
 <p>現在你知道測試結果在不同場合看起來的樣子，讓我們來看看除了 <code>panic!</code> 以外對測試也很有幫助的巨集吧。</p>
-<h3><a class="header" href="#透過-assert-巨集檢查結果" id="透過-assert-巨集檢查結果">透過 <code>assert!</code> 巨集檢查結果</a></h3>
+<h3 id="透過-assert-巨集檢查結果"><a class="header" href="#透過-assert-巨集檢查結果">透過 <code>assert!</code> 巨集檢查結果</a></h3>
 <p>標準函式庫提供的 <code>assert!</code> 巨集可以在你要確保測試中的一些條件評估為 <code>true</code> 時使用。我們給予 <code>assert!</code> 巨集一個引數來計算出布林值。如果數值為 <code>true</code>，<code>assert!</code> 不會做任何動作然後測試就會通過。如果數值為 <code>false</code>，<code>assert!</code> 巨集會呼叫 <code>panic!</code> 巨集導致測試失敗。使用 <code>assert!</code> 巨集能幫助我們檢查我們的程式碼是否以我們預期的方式運作。</p>
 <p>在第五章的範例 5-15，我們有結構體 <code>Rectangle</code> 與方法 <code>can_hold</code>，我們在範例 11-5 再看一次。讓我們將此程式碼寫入 <em>src/lib.rs</em> 檔案中，並寫些對它使用 <code>assert!</code> 巨集的測試。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -519,7 +519,7 @@ test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 error: test failed, to rerun pass '--lib'
 </code></pre>
 <p>我們的測試抓到了錯誤！因為 <code>larger.width</code> 是 8 而 <code>smaller.width</code> 是 5，<code>can_hold</code> 比較寬度時現在會回傳 <code>false</code>，因為 8 沒有比 5 小。</p>
-<h3><a class="header" href="#透過-assert_eq-與-assert_ne-macros測試相等" id="透過-assert_eq-與-assert_ne-macros測試相等">透過 <code>assert_eq!</code> 與 <code>assert_ne!</code> Macros測試相等</a></h3>
+<h3 id="透過-assert_eq-與-assert_ne-macros測試相等"><a class="header" href="#透過-assert_eq-與-assert_ne-macros測試相等">透過 <code>assert_eq!</code> 與 <code>assert_ne!</code> Macros測試相等</a></h3>
 <p>有一種常見的測試程式的方式是將程式碼的結果與你預期程式碼會回傳的數值做比較，檢查它們是否相等。你可以使用 <code>assert!</code> 巨集並傳入使用 <code>==</code> 運算子的表達式來辦到。不過這種測試方法是很常見的，所以標準函式庫提供了一對巨集 <code>assert_eq!</code> 與 <code>assert_ne!</code> 來讓你能更方便地測試。這兩個巨集分別比較兩個引數是否相等或不相等。如果判定失敗的話，它們還會印出兩個數值，讓我們能清楚看到<strong>為何</strong>測試失敗。相對地，<code>assert!</code> 巨集只會說明它在 <code>==</code> 表達式中取得 <code>false</code> 值，而不會告訴你導致 <code>false</code> 的那兩個值。</p>
 <p>在範例 11-7 中，我們寫了個函式叫做 <code>add_two</code> 並對參數加上 <code>2</code> 然後回傳為結果。然後我們使用 <code>assert_eq!</code> 巨集來測試此函式。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -605,7 +605,7 @@ error: test failed, to rerun pass '--lib'
 <p>注意到在有些語言或測試框架中，判定兩個數值是否相等的函式的參數會稱作 <code>expected</code> 和 <code>actual</code>，然後它們會因為指定的引數順序而有差。但在 Rust 中它們被稱為 <code>left</code> 和 <code>right</code>，且我們預期的值與測試中程式碼產生的值之間的順序沒有任何影響。我們可以在此程式這樣寫判定 <code>assert_eq!(add_two(2), 4)</code>，而錯誤訊息就會顯示成 <code>assertion failed: `(left == right)`</code>，然後 <code>left</code> 會是 <code>5</code> 而 <code>right</code> 會是 <code>4</code>。</p>
 <p><code>assert_ne!</code> 巨集會在我們給予的兩個值不相等時通過，相等時失敗。此巨集適用於當我們不確定一個數值<strong>會是</strong>什麼樣子，但是我們確定知道如果我們程式如預期執行的話，該數值<strong>不會</strong>是某種樣子。舉例來說，如果我們要測試一個保證會以某種形式更改其輸入的函式，但輸入變更的方式是依照我們執行程式時的當天是星期幾來決定，此時最好的判定方式就是檢查函式的輸出不等於輸入。</p>
 <p><code>assert_eq!</code> 和 <code>assert_ne!</code> 巨集底下分別使用了 <code>==</code> 和 <code>!=</code> 運算子。當判定失敗時，巨集會透過除錯格式化資訊來顯示它們的引數，代表要比較的數值必須要實作 <code>PartialEq</code> 和 <code>Debug</code> 特徵。所有的基本型別與大多數標準函式庫中提供的型別都有實作這些特徵。對於你自己定義的結構體與枚舉，你需要實作 <code>PartialEq</code>，這樣該型別的數值才能判定相等或不相等。你需要實作 <code>Debug</code> 來顯示判定失敗時的數值。因為這兩個特徵都是可推導的特徵，就像第五章的範例 5-12 所寫的那樣，我們通常只要在你定義的結構體或枚舉前加上 <code>#[derive(PartialEq, Debug)]</code> 的詮釋就好。你可以查閱附錄 C <a href="appendix-03-derivable-traits.html">「可推導的特徵」</a><!-- ignore --> 來發現更多可推導的特徵。</p>
-<h3><a class="header" href="#加入自訂失敗訊息" id="加入自訂失敗訊息">加入自訂失敗訊息</a></h3>
+<h3 id="加入自訂失敗訊息"><a class="header" href="#加入自訂失敗訊息">加入自訂失敗訊息</a></h3>
 <p>你可以寫一個一個與失敗訊息一同顯示的自訂訊息，作為 <code>assert!</code>、<code>assert_eq!</code> 與 <code>assert_ne!</code> 巨集的選擇性引數。任何指定在 <code>assert!</code> 一個必要引數或 <code>assert_eq!</code> 和 <code>assert_ne!</code> 兩個必要引數後方的任何引數都會傳給 <code>format!</code> 巨集（我們在第八章<a href="ch08-02-strings.html#%E4%BD%BF%E7%94%A8--%E9%81%8B%E7%AE%97%E5%AD%90%E6%88%96-format-%E5%B7%A8%E9%9B%86%E4%B8%B2%E6%8E%A5%E5%AD%97%E4%B8%B2">「使用 <code>+</code> 運算子或 <code>format!</code> 巨集串接字串」</a><!-- ignore -->的段落討論過），所以你可以傳入一個包含 <code>{}</code> 佔位符（placeholder）的格式化字串以及其對應的數值。自訂訊息可以用來紀錄判定的意義，當測試失敗時，你可以更清楚知道程式碼的問題。</p>
 <p>舉例來說，假設我們有個函式會以收到的名字向人們打招呼，而且我們希望測試我們傳入的名字有出現在輸出：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -712,7 +712,7 @@ test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 error: test failed, to rerun pass '--lib'
 </code></pre>
 <p>我們可以看到我們實際從測試輸出拿到的數值，這能幫助我們除錯找到實際發生什麼，而不只是預期會是什麼。</p>
-<h3><a class="header" href="#透過-should_panic-檢查恐慌" id="透過-should_panic-檢查恐慌">透過 <code>should_panic</code> 檢查恐慌</a></h3>
+<h3 id="透過-should_panic-檢查恐慌"><a class="header" href="#透過-should_panic-檢查恐慌">透過 <code>should_panic</code> 檢查恐慌</a></h3>
 <p>除了檢查我們的程式碼有沒有回傳我們預期的正確數值，檢查我們的程式碼有沒有如我們預期處理錯誤條件也是很重要的。舉例來說，考慮我們在第九章範例 9-10 建立的 <code>Guess</code> 型別。其他使用 <code>Guess</code> 的程式碼保證會拿到數值為 1 到 100 的 <code>Guess</code> 實例。我們可以寫個會恐慌的程式，嘗試用範圍之外的數字建立 <code>Guess</code> 實例。</p>
 <p>為此我們可以加上另一個屬性 <code>should_panic</code> 到我們的測試函式。此屬性讓函式的程式碼恐慌時才會通過測試，反之如果函式的程式碼沒有恐慌的話測試就會失敗。</p>
 <p>範例 11-8 展示一支檢查 <code>Guess::new</code> 是否以我們預期的錯誤條件出錯的測試。</p>
@@ -914,7 +914,7 @@ test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
 error: test failed, to rerun pass '--lib'
 </code></pre>
 <p>錯誤訊息表示此程式碼的確有如我們預期地恐慌，但是恐慌訊息並沒有包含預期的字串 <code>'猜測數字必須小於等於 100'</code>。在此例我們的會得到的恐慌訊息為 <code>猜測數字必須大於等於 1，取得的數值是 200。</code>這樣我們就能尋找錯誤在哪了！</p>
-<h3><a class="header" href="#在測試中使用-resultt-e" id="在測試中使用-resultt-e">在測試中使用 <code>Result&lt;T, E&gt;</code></a></h3>
+<h3 id="在測試中使用-resultt-e"><a class="header" href="#在測試中使用-resultt-e">在測試中使用 <code>Result&lt;T, E&gt;</code></a></h3>
 <p>目前為止，我們的測試在失敗時就會恐慌。我們也可以寫出使用 <code>Result&lt;T, E&gt;</code> 的測試！以下是範例 11-1 的測試，不過重寫成 <code>Result&lt;T, E&gt;</code> 的版本並回傳 <code>Err</code> 而非恐慌：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {}

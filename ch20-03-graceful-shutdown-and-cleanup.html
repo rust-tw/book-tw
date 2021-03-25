@@ -171,10 +171,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#正常關機與清理" id="正常關機與清理">正常關機與清理</a></h2>
+                        <h2 id="正常關機與清理"><a class="header" href="#正常關機與清理">正常關機與清理</a></h2>
 <p>範例 20-20 的程式碼能如我們所預期地使用執行緒池來同時回應多重請求。我們有看到些警告說 <code>workers</code>、<code>id</code> 與 <code>thread</code> 欄位沒有被直接使用，這提醒我們尚未清理所有內容。當我們使用比較不優雅的 <span class="keystroke">ctrl-c</span> 方式來中斷主執行緒時，所有其他執行緒也會立即停止，不管它們是否正在處理請求。</p>
 <p>現在我們要實作 <code>Drop</code> 特徵來對池中的每個執行緒呼叫 <code>join</code>，讓它們能在關閉前把任務處理完畢。然後我們要實作個方式來告訴執行緒它們該停止接收新的請求並關閉。為了觀察此程式碼的實際運作，我們會修改伺服器讓它在正常關機（graceful shutdown）前，只接收兩個請求。</p>
-<h3><a class="header" href="#對-threadpool-實作-drop-特徵" id="對-threadpool-實作-drop-特徵">對 <code>ThreadPool</code> 實作 <code>Drop</code> 特徵</a></h3>
+<h3 id="對-threadpool-實作-drop-特徵"><a class="header" href="#對-threadpool-實作-drop-特徵">對 <code>ThreadPool</code> 實作 <code>Drop</code> 特徵</a></h3>
 <p>讓我們先對執行緒池實作 <code>Drop</code> 。當池被釋放時，我們的執行緒都該加入（join）回來以確保它們有完成它們的工作。範例 20-22 為實作 <code>Drop</code> 的第一次嘗試，不過此程式碼還無法執行。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::sync::mpsc;
@@ -542,7 +542,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">}
 </span></code></pre>
 <p>如同第十七章所討論的，<code>Option</code> 的 <code>take</code> 方法會取走 <code>Some</code> 變體的數值並在原地留下 <code>None</code>。我們使用 <code>if let</code> 來解構 <code>Some</code> 並取得執行緒，然後我們對執行緒呼叫 <code>join</code>。如果工作者的執行緒已經是 <code>None</code>，我們就知道該該工作者已經清理其執行緒了，所以沒有必要再處理。</p>
-<h3><a class="header" href="#對執行緒發送停止接收任務的信號" id="對執行緒發送停止接收任務的信號">對執行緒發送停止接收任務的信號</a></h3>
+<h3 id="對執行緒發送停止接收任務的信號"><a class="header" href="#對執行緒發送停止接收任務的信號">對執行緒發送停止接收任務的信號</a></h3>
 <p>有了以上的改變，我們的程式碼就能成功編譯且沒有任何警告。但壞消息是此程式碼並沒有如我們所預期地運作。關鍵邏輯位於 <code>Worker</code> 實例中執行緒執行的閉包，現在雖然我們有呼叫 <code>join</code>，但這無法關閉執行緒，因為它們會一直 <code>loop</code> 來尋找任務執行。如果我們嘗試以目前的 <code>drop</code> 實作釋放 <code>ThreadPool</code> 的話，主執行緒會被阻擋，一直等待第一個執行緒處理完成。</p>
 <p>要修正此問題，我們要修改執行緒，讓它們除了接收 <code>Job</code> 來執行以外，也要能收到告訴它們要停止接收並離開無限迴圈的信號。所以我們的通道將傳送以下兩種枚舉變體，而不再是 <code>Job</code> 實例。
 <span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -1092,7 +1092,7 @@ impl Worker {
 <li>使用 <code>ThreadPool</code> 來處理其他種類的任務，而不只是網頁請求。</li>
 <li>在 <a href="https://crates.io/">crates.io</a> 找到一個執行緒池 crate，並使用該 crate 實作類似的網頁伺服器。然後比較該 crate 與我們實作的執行緒池之間的 API 與穩固程度。</li>
 </ul>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>做得好！你已經讀完整本輸了！我們由衷感謝你一同加入 Rust 的旅途。現在你已經準備好實作你自己的 Rust 專案並協助其他人的專案。別忘了我們有個友善的社群，其他 Rustaceans 會很樂意幫助你一同面對 Rust 旅途中的任何挑戰。</p>
 <blockquote>
 <ul>

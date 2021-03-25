@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#將單一執行緒伺服器轉換為多執行緒伺服器" id="將單一執行緒伺服器轉換為多執行緒伺服器">將單一執行緒伺服器轉換為多執行緒伺服器</a></h2>
+                        <h2 id="將單一執行緒伺服器轉換為多執行緒伺服器"><a class="header" href="#將單一執行緒伺服器轉換為多執行緒伺服器">將單一執行緒伺服器轉換為多執行緒伺服器</a></h2>
 <p>現在的伺服器會依序處理請求，代表它處理完第一個連線之前，都無法處理第二個連線。如果伺服器收到越來越多請求，這樣的連續處理方式會變得越來越沒效率。如果伺服器收到一個會花很久時間才能處理完成的請求，之後的請求都得等待這個長時間的請求完成才行，就算新的請求能很快處理完成也是如此。我們需要修正此問題，但首先讓我們先觀察此問題怎麼發生的。</p>
-<h3><a class="header" href="#對目前伺服器實作模擬緩慢的請求" id="對目前伺服器實作模擬緩慢的請求">對目前伺服器實作模擬緩慢的請求</a></h3>
+<h3 id="對目前伺服器實作模擬緩慢的請求"><a class="header" href="#對目前伺服器實作模擬緩慢的請求">對目前伺服器實作模擬緩慢的請求</a></h3>
 <p>我們來觀察看看處理緩慢的請求如何影響我們目前伺服器實作中的其他請求。範例 20-10實作了處理 <code>/sleep</code> 的請求，其在回應前讓伺服器沉睡 5 秒鐘來模擬緩慢的回應。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::fs;
@@ -227,14 +227,14 @@ fn handle_connection(mut stream: TcpStream) {
 <p>你可以看出我們的伺服器有多基本：真實的函式庫會以較不冗長的方式來識別處理數種請求！</p>
 <p>使用 <code>cargo run</code> 來啟動伺服器，然後開啟兩個瀏覽器視窗：一個請求 <em>http://127.0.0.1:7878/</em> 然後另一個請求 <em>http://127.0.0.1:7878/sleep</em>。如果你輸入好幾次 <code>/</code> URI 的話，你會如之前一樣迅速地收到回應。但如果你先輸入 <code>/sleep</code> 在讀取 <code>/</code> 的話，你會看到 <code>/</code> 得等待 <code>sleep</code> 沉睡整整 5 秒鐘後才能讀取。</p>
 <p>我們有好幾種方式能改變網頁伺服器的運作方式，來避免緩慢請求造成的請求堆積。其中一種就是我們要實作的執行緒池（thread pool）。</p>
-<h3><a class="header" href="#透過執行緒池改善吞吐量" id="透過執行緒池改善吞吐量">透過執行緒池改善吞吐量</a></h3>
+<h3 id="透過執行緒池改善吞吐量"><a class="header" href="#透過執行緒池改善吞吐量">透過執行緒池改善吞吐量</a></h3>
 <p><strong>執行緒池</strong>（thread pool）會產生一群執行緒來等待並隨時準備好處理任務。當程式收到新任務時，它會將此任務分配給執行緒池其中一條執行緒，然後該執行緒就會處理該任務。池中剩餘的執行緒在第一條執行緒處理任務時，仍能隨時處理任何其他來臨的任務。當第一條執行緒處理完成時，他會回到閒置執行緒池之中，等待處理新的任務。執行緒池讓你能並行處理連線，增加伺服器的吞吐量。</p>
 <p>我們會限制執行緒池的數量為少量的數量就好，以避免我們造成阻斷服務（Denial of Service,  DOS）攻擊。如果我們的程式每次遇到新的請求時就產生新的執行緒，某個人就可以產生一千萬個請求至我們的伺服器，來破壞並用光我們伺服器的資源，並導致所有請求的處理都被擱置。</p>
 <p>所以與其產生無限制的執行緒，我們會有個固定數量的執行緒在池中等待。當有請求來臨時，它們會被送至池中處理。此池會維護一個接收請求的佇列（queue）。每個執行緒會從此佇列彈出一個請求、處理該請求然後再繼續向佇列索取下一個請求。有了此設計，我們就可以同時處理 <code>N</code> 個請求，其中 <code>N</code> 就是執行緒的數量。如果每個執行緒都負責到需要長時間處理的請求，隨後的請求還是會阻塞佇列，但是我們至少增加了能夠同時處理長時間請求的數量。</p>
 <p>此技巧只是其中一種改善網頁伺服器吞吐量的方式而已。其他你可能會探索到的選項還有 fork/join 模型或是單執行緒非同步模型。如果你對此議題有興趣，你可以閱讀其他解決方案，並嘗試實作到 Rust 中。像 Rust 這種低階語言，這些所有選項都是可能的。</p>
 <p>在我們開始實作執行緒池之前，讓我們討論一下使用該池會是什麼樣子。當你嘗試設計程式碼時，先寫出使用者的介面能協助引導你的設計。寫出程式碼的 API，使其能以你所期望的方式呼叫，然後在該結構內實作功能，而不是先實作功能再設計公開 API。</p>
 <p>類似於第十二章的專案所用到的測試驅動開發（test-driven development），我們會在此使用編譯器驅動開發方式。我們會先寫出呼叫所預期函式的程式碼，然後觀察編譯器的錯誤來決定接下來該改變什麼，才能讓程式碼成功運行。</p>
-<h4><a class="header" href="#如果我們對每個請求都產生執行緒的程式碼結構" id="如果我們對每個請求都產生執行緒的程式碼結構">如果我們對每個請求都產生執行緒的程式碼結構</a></h4>
+<h4 id="如果我們對每個請求都產生執行緒的程式碼結構"><a class="header" href="#如果我們對每個請求都產生執行緒的程式碼結構">如果我們對每個請求都產生執行緒的程式碼結構</a></h4>
 <p>首先，讓我們先探討如果我們的程式碼都對每次連線建立新的執行緒會怎樣。如之前提及的，這不會是我們最終的計劃，因為這有可能會產生無限條執行緒的問題，但是這是個很好的起始點。範例 20-11 在 <code>main</code> 的 <code>for</code> 迴圈中，對每個流都產生一條新的執行緒。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run"><span class="boring">use std::fs;
@@ -282,7 +282,7 @@ fn handle_connection(mut stream: TcpStream) {
 </span></code></pre></pre>
 <p><span class="caption">範例 20-11：對每個流都產生新的一條執行緒</span></p>
 <p>如你在第十六章所學到的，<code>thread::spawn</code> 會建立一條執行緒並在新的執行緒執行閉包的程式碼。如果你執行此程式碼，並在瀏覽器中讀取 <code>/sleep</code>，然後在開兩個瀏覽器分頁來讀取 <code>/</code> 的話，你的確就能看到 <code>/</code> 請求不必等待 <code>/sleep</code> 完成。但如我們所提的，這最終可能會拖累系統，因為你可以無限制地產生新的執行緒。</p>
-<h4><a class="header" href="#用有限數量的執行緒建立類似介面" id="用有限數量的執行緒建立類似介面">用有限數量的執行緒建立類似介面</a></h4>
+<h4 id="用有限數量的執行緒建立類似介面"><a class="header" href="#用有限數量的執行緒建立類似介面">用有限數量的執行緒建立類似介面</a></h4>
 <p>我們想要我們的執行緒池能以類似的方式運作，這樣從執行緒切換成執行緒池時，使用我們 API 的程式碼就不必作出大量修改。範例 20-12 顯示一個我們想使用的假想 <code>ThreadPool</code> 結構體，而非使用 <code>thread::spawn</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::fs;
@@ -331,7 +331,7 @@ fn handle_connection(mut stream: TcpStream) {
 </span></code></pre>
 <p><span class="caption">範例 20-12：我們理想的 <code>ThreadPool</code> 介面</span></p>
 <p>我們使用 <code>ThreadPool::new</code> 來建立新的執行緒池且有個可設置的執行緒數量參數，在此例中設為四。然後在 <code>for</code> 迴圈中 ，<code>pool.execute</code> 的介面類似於 <code>thread::spawn</code>，其會接收一個執行緒池執行在每個流中的閉包。我們需要實作 <code>pool.execute</code>，使其能接收閉包並傳給池中的執行緒來執行。此程式碼還不能編譯，但是我們接下來能試著讓編譯器引導我們如何修正。</p>
-<h4><a class="header" href="#透過編譯器驅動開發建立-threadpool-結構體" id="透過編譯器驅動開發建立-threadpool-結構體">透過編譯器驅動開發建立 <code>ThreadPool</code> 結構體</a></h4>
+<h4 id="透過編譯器驅動開發建立-threadpool-結構體"><a class="header" href="#透過編譯器驅動開發建立-threadpool-結構體">透過編譯器驅動開發建立 <code>ThreadPool</code> 結構體</a></h4>
 <p>將範例 20-12 的變更寫入 <em>src/main.rs</em>，然後讓我們從 <code>cargo check</code> 產生的編譯器錯誤來引導我們的開發吧。以下是我們第一個收到的錯誤：</p>
 <pre><code class="language-console">$ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
@@ -486,7 +486,7 @@ To learn more, run the command again with --verbose.
 <blockquote>
 <p>注意：你可能聽過對於像是 Haskell 和 Rust 這種嚴格編譯器的語言，會號稱「如果程式碼能編譯，它就能正確執行。」但這全然是正確的。我們的專案能編譯，但是它沒有做任何事！如果我們在寫的是實際的完整專案，這是個寫單元測試的好時機，這能檢查程式碼能編譯<strong>而且</strong>有我們的預期行為。</p>
 </blockquote>
-<h4><a class="header" href="#在-new-驗證執行緒數量" id="在-new-驗證執行緒數量">在 <code>new</code> 驗證執行緒數量</a></h4>
+<h4 id="在-new-驗證執行緒數量"><a class="header" href="#在-new-驗證執行緒數量">在 <code>new</code> 驗證執行緒數量</a></h4>
 <p>我們對 <code>new</code> 與 <code>execute</code> 的參數沒有做任何事情。讓我們對這些函式本體實作出我們所預期的行為吧。我們先從 <code>new</code> 開始。稍早我們選擇非帶號型別作為 <code>size</code> 的參數，因為負數對於執行緒數量並沒有任何意義。然而，零條執行緒的池一樣也沒有任何意義，但零卻可以是完全合理的 <code>usize</code>。我們要在回傳 <code>ThreadPool</code> 前，加上程式碼來檢查 <code>size</code> 有大於零，並透過 <code>assert!</code> 來判定。如果為零的話就會恐慌，如範例 20-13 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct ThreadPool;
@@ -521,7 +521,7 @@ To learn more, run the command again with --verbose.
 <p>除了像我們這樣使用 <code>assert!</code> 巨集之外，我們也可以讓 <code>new</code> 回傳 <code>Result</code>，就像範例 12-9 我們對 I/O 專案的 <code>Config::new</code> 所做的一樣。但是我們決定在此情況中，嘗試建立零條執行緒的池應該要是不可回復的錯誤。如果你有信心的話，你可以試著寫出有以下簽名的 <code>new</code> 版本，並比較兩者的區別：</p>
 <pre><code class="language-rust ignore">pub fn new(size: usize) -&gt; Result&lt;ThreadPool, PoolCreationError&gt; {
 </code></pre>
-<h4><a class="header" href="#建立執行緒的儲存空間" id="建立執行緒的儲存空間">建立執行緒的儲存空間</a></h4>
+<h4 id="建立執行緒的儲存空間"><a class="header" href="#建立執行緒的儲存空間">建立執行緒的儲存空間</a></h4>
 <p>現在我們有一個有效的執行緒數量能儲存至池中，我們可以在返回實例前，建立這些執行緒並儲存至 <code>ThreadPool</code> 結構體中。但我們要怎麼「儲存」執行緒呢？讓我們再看一次 <code>thread::spawn</code> 的簽名：</p>
 <pre><code class="language-rust ignore">pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
     where
@@ -571,7 +571,7 @@ impl ThreadPool {
 <p>我們將 <code>std::thread</code> 引入函式庫 crate 中的作用域，因為我們使用 <code>thread::JoinHandle</code> 作為 <code>ThreadPool</code> 中向量的項目型別。</p>
 <p>一旦有收到有效大小，<code>ThreadPool</code> 就會建立一個可以儲存 <code>size</code> 個項目的新向量。我們還沒有在本書中使用過 <code>with_capacity</code> 函式，這會與 <code>Vec::new</code> 做同樣的事，但是有一個關鍵差別：它會預先分配空間給向量。由於我們知道要儲存 <code>size</code> 個元素至向量中，這樣的分配方式會比 <code>Vec::new</code> 還要些微有效一點，因為後者只會在元素插入時才重新分配自身大小。</p>
 <p>當你再次執行 <code>cargo check</code>，你會收到一些警告，但應該仍能成功編譯。</p>
-<h4><a class="header" href="#結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒" id="結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒">結構體 <code>Worker</code> 負責從 <code>ThreadPool</code> 傳遞程式碼給一條執行緒</a></h4>
+<h4 id="結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒"><a class="header" href="#結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒">結構體 <code>Worker</code> 負責從 <code>ThreadPool</code> 傳遞程式碼給一條執行緒</a></h4>
 <p>我們在範例 20-14 的 <code>for</code> 迴圈中留下一個關於建立執行緒的註解。我們在此將看看我們該如何實際建立執行緒。標準函式庫提供 <code>thread::spawn</code> 作為建立執行緒的方式，然後 <code>thread::spawn</code> 預期在執行緒建立時就會獲得一些程式碼讓執行緒能夠執行。但在我們的場合中，我們希望建立執行緒，並讓它們<strong>等待</strong>我們之後會傳送的程式碼。標準函式庫的執行緒實作並不包含這種方式，我們得自己實作。</p>
 <p>我們實作此行為的方法是在 <code>ThreadPool</code> 與執行緒間建立一個新的資料結構，這用來管理此新的行為。我們將此資料結構稱為 <code>Worker</code>，這在池實作中是很常見的術語。想像一下這是有一群人在餐廳廚房內工作：工作者（worker）會等待顧客的訂帶，然後他們負責接受這些訂單並完成它們。</p>
 <p>所以與其在執行緒池中儲存 <code>JoinHandle&lt;()&gt;</code> 實例的向量，我們可以儲存 <code>Worker</code> 結構體的實例。每個 <code>Worker</code> 會儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例。然後對 <code>Worker</code> 實作一個方法來取得閉包要執行的程式碼，並傳入已經在執行的執行緒來處理。我們也會給每個 <code>Worker</code> 一個 <code>id</code>，好讓我們在紀錄日誌或除錯時，分辨池中不同的工作者。</p>
@@ -639,7 +639,7 @@ impl Worker {
 <p>我們將 <code>ThreadPool</code> 中欄位的名稱從 <code>threads</code> 改為 <code>workers</code>，因為它現在啊儲存的是 <code>Worker</code> 實例而非 <code>JoinHandle&lt;()&gt;</code> 實例。我們使用 <code>for</code> 迴圈的計數作為 <code>Worker::new</code> 的引數，然後我們將每個新的  <code>Worker</code> 儲存到名稱為 <code>workers</code> 的向量中。</p>
 <p>外部的程式碼（像是我們在 <em>src/bin/main.rs</em> 的伺服器）不需要知道 <code>ThreadPool</code> 內部實作細節已經改為使用 <code>Worker</code> 結構體，所以我們讓 <code>Worker</code> 結構體與其 <code>new</code> 函式維持私有。<code>Worker::new</code> 函式會使用我們給予的 <code>id</code> 並儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例，這是用空閉包產生的新執行緒所建立的。</p>
 <p>此程式碼會編譯通過並透過 <code>ThreadPool::new</code> 的指定引數儲存一定數量的 <code>Worker</code> 實例。但我們<strong>仍然</strong>沒有處理 <code>execute</code>中取得的閉包。讓我們看看接下來怎麼做。</p>
-<h4><a class="header" href="#透過通道傳遞請求給執行緒" id="透過通道傳遞請求給執行緒">透過通道傳遞請求給執行緒</a></h4>
+<h4 id="透過通道傳遞請求給執行緒"><a class="header" href="#透過通道傳遞請求給執行緒">透過通道傳遞請求給執行緒</a></h4>
 <p>現在我們要來處理的問題是 <code>thread::spawn</code> 中的閉包不會做任何事情。目前我們透過 <code>execute</code> 取得我們想執行的閉包。但是我們當在 <code>ThreadPool</code> 的生成中建立每個 <code>Worker</code> 時，我會需要給 <code>thread::spawn</code> 一個閉包來執行。</p>
 <p>我們想要我們建立的 <code>Worker</code> 結構體能夠從 <code>ThreadPool</code> 中的佇列提取程式碼來執行，並將該程式碼傳至自身的執行緒來執行。</p>
 <p>在第十六章中，你有學過<strong>通道（channels）</strong>，這是個能在兩個執行緒間溝通的好辦法，這對我們的專案來說可說是絕佳解法。我們會用通道來作為任務佇列，然後 <code>execute</code> 來傳送從 <code>ThreadPool</code> 一份任務至 <code>Worker</code> 實例，其就會傳遞該任務給自身的執行緒。以下是我們的計劃：</p>
@@ -867,7 +867,7 @@ use std::sync::Mutex;
 <p><span class="caption">範例 20-18：透過 <code>Arc</code> 與<code>Mutex</code> 來在工作者間共享通道的接收端</span></p>
 <p>在 <code>ThreadPool::new</code> 中，我們將通道接收端放入 <code>Arc</code> 與 <code>Mutex</code> 之中。對於每個新的工作者，我們會克隆 <code>Arc</code> 來增加引用計數，讓工作者可以共享接收端的所有權。</p>
 <p>有了這些改變，程式碼就能編譯了！我們就快完成了！</p>
-<h4><a class="header" href="#實作-execute-方法" id="實作-execute-方法">實作 <code>execute</code> 方法</a></h4>
+<h4 id="實作-execute-方法"><a class="header" href="#實作-execute-方法">實作 <code>execute</code> 方法</a></h4>
 <p>最後讓我們來對 <code>ThreadPool</code> 實作 <code>execute</code> 方法吧。我們還會將 <code>Job</code> 的型別從結構體改為特徵物件的型別別名，這會儲存 <code>execute</code> 收到的閉包型別。如同在第十九章的<a href="ch19-04-advanced-types.html#%E9%80%8F%E9%81%8E%E5%9E%8B%E5%88%A5%E5%88%A5%E5%90%8D%E5%BB%BA%E7%AB%8B%E5%9E%8B%E5%88%A5%E5%90%8C%E7%BE%A9%E8%A9%9E">「透過型別別名建立型別同義詞」</a><!-- ignore -->段落所介紹的，型別別名讓我們能將很長的型別變短一些，如範例 20-19 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;

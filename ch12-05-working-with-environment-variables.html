@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#處理環境變數" id="處理環境變數">處理環境變數</a></h2>
+                        <h2 id="處理環境變數"><a class="header" href="#處理環境變數">處理環境變數</a></h2>
 <p>我們會新增一個額外的功能來改善 <code>minigrep</code>：使用者可以透過環境變數來啟用不區分大小寫的搜尋功能。我們可以將此功能設為命令列選項並要求使用者每次需要時就要加上它，但是這次我們選擇使用環境變數。這樣一來能讓使用者設置環境變數一次就好，然後在該終端機 session 中所有的搜尋都會是不區分大小寫的。</p>
-<h3><a class="header" href="#寫個不區分大小寫的-search-函式的失敗測試" id="寫個不區分大小寫的-search-函式的失敗測試">寫個不區分大小寫的 <code>search</code> 函式的失敗測試</a></h3>
+<h3 id="寫個不區分大小寫的-search-函式的失敗測試"><a class="header" href="#寫個不區分大小寫的-search-函式的失敗測試">寫個不區分大小寫的 <code>search</code> 函式的失敗測試</a></h3>
 <p>我們想新增個 <code>search_case_insensitive</code> 函式在環境變數啟用時呼叫它。我們將繼續遵守 TDD 流程，所以第一步一樣是先寫個會失敗的測試。我們會為新函式 <code>search_case_insensitive</code> 新增一個測試，並將舊測試從 <code>one_result</code> 改名為 <code>case_sensitive</code> 以便清楚兩個測試的差別，如範例 12-20 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::error::Error;
@@ -256,7 +256,7 @@ Trust me.&quot;;
 <p><span class="caption">範例 12-20：為準備加入的不區分大小寫函式新增個失敗測試</span></p>
 <p>注意到我們也修改了舊測試 <code>contents</code>。我們新增了一行使用大寫 D 的 <code>&quot;Duct tape.&quot;</code>，當我們以區分大小寫來搜尋時，就不會符合要搜尋的 <code>&quot;duct&quot;</code>。這樣變更舊測試能確保我們沒有意外破壞我們已經實作好的區分大小寫的功能。此測試應該要能通過，並在我們實作不區分大小寫的搜尋時仍能繼續通過。</p>
 <p>新的不區分大小寫的搜尋測試使用 <code>&quot;rUsT&quot;</code> 來搜尋。在我們準備要加入的 <code>search_case_insensitive</code> 函式中，要搜尋的 <code>&quot;rUsT&quot;</code> 應該要能符合有大寫 R 的 <code>&quot;Rust:&quot;</code> 以及 <code>&quot;Trust me.&quot;</code> 這幾行，就算兩者都與搜尋字串有不同的大小寫。這是我們的失敗測試而且它還無法編譯，因為我們還沒有定義 <code>search_case_insensitive</code> 函式。歡迎自行加上一個永遠回傳空向量的骨架實作，就像我們在範例 12-16 所做的一樣，然後看看測試能不能編譯過並失敗。</p>
-<h3><a class="header" href="#實作-search_case_insensitive-函式" id="實作-search_case_insensitive-函式">實作 <code>search_case_insensitive</code> 函式</a></h3>
+<h3 id="實作-search_case_insensitive-函式"><a class="header" href="#實作-search_case_insensitive-函式">實作 <code>search_case_insensitive</code> 函式</a></h3>
 <p>範例 12-21 顯示的 <code>search_case_insensitive</code> 函式會與 <code>search</code> 函式幾乎一樣。唯一的不同在於我們將 <code>query</code> 與每個 <code>line</code> 都變成小寫，所以無論輸入引數是大寫還是小寫，當我們在檢查行數是否包含搜尋的字串時，它們都會是小寫。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::error::Error;

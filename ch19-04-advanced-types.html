@@ -171,16 +171,16 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#進階型別" id="進階型別">進階型別</a></h2>
+                        <h2 id="進階型別"><a class="header" href="#進階型別">進階型別</a></h2>
 <p>我們提及 Rust 的型別系統有諸多特色，不過尚未深入討論。本章將從一般角度切入討論新型別（newtype）並檢驗為何作為型別來說，新型別非常好用。再來，接續看看型別別名（type alias）這個類似新型別但語意上不盡相同的特色。我們也會探討 <code>!</code> 型別與動態大小型別（dynamically sized type）。</p>
 <blockquote>
 <p>注意：接下來一節假定你已閱讀前面的章節 <a href="ch19-03-advanced-traits.html#%E4%BD%BF%E7%94%A8%E6%96%B0%E5%9E%8B%E5%88%A5%E6%A8%A1%E5%BC%8F%E6%9B%BF%E5%A4%96%E9%83%A8%E5%9E%8B%E5%88%A5%E5%AF%A6%E4%BD%9C%E5%A4%96%E9%83%A8%E7%89%B9%E5%BE%B5">「使用新型別模式替外部型別實作外部特徵」</a>。</p>
 </blockquote>
-<h3><a class="header" href="#透過新型別模式達成型別安全與抽象" id="透過新型別模式達成型別安全與抽象">透過新型別模式達成型別安全與抽象</a></h3>
+<h3 id="透過新型別模式達成型別安全與抽象"><a class="header" href="#透過新型別模式達成型別安全與抽象">透過新型別模式達成型別安全與抽象</a></h3>
 <p>目前為止，我們討論過的任務中，新型別模式皆游刃有餘，包括靜態強制不讓值被混淆，同時能表示該值的單位。在範例 19-15 可以見到如何善用新型別表示該值的單位：回憶一下，<code>Millimeters</code> 與 <code>Meters</code> 將 <code>u32</code> 的值封裝在新型別內，若我們寫了一個函式需要型別為 <code>Millimeters</code> 的參數，我們不可能編譯出一支可以誤傳 <code>Meters</code> 型別或 <code>u32</code> 來呼叫這個函式的程式。</p>
 <p>另一個新型別的使用情境是替一型別的實作細節建立抽象層：如果我們直接將新型別作為限制可用功能的手段，新型別就可以公開有別於私有內部型別的 API。</p>
 <p>新型別也可以隱藏內部實作。例如，我們可以提供 <code>People</code> 型別，封裝用來儲存人們的 ID 與姓名之間的關聯的 <code>HashMap&lt;i32, String&gt;</code>。使用 <code>People</code> 的程式碼僅能與我們提供的公開 API 互動，例如透過一個方法替 <code>People</code> 集合添加名字字串，這段程式碼就不需知道內部會將 <code>i32</code> 作為 ID 並映射到姓名上。我們在第十七章的<a href="ch17-01-what-is-oo.html#%E9%9A%B1%E8%97%8F%E5%AF%A6%E4%BD%9C%E7%B4%B0%E7%AF%80%E7%9A%84%E5%B0%81%E8%A3%9D">「隱藏實作細節的封裝」</a>一節也曾提及，利用新型別模式來達到封裝與隱藏實作細節，不失為一種輕量的方法。</p>
-<h3><a class="header" href="#透過型別別名建立型別同義詞" id="透過型別別名建立型別同義詞">透過型別別名建立型別同義詞</a></h3>
+<h3 id="透過型別別名建立型別同義詞"><a class="header" href="#透過型別別名建立型別同義詞">透過型別別名建立型別同義詞</a></h3>
 <p>此外，Rust 提供了替一個既有型別宣告型別別名的方式。對此我們會使用 <code>type</code> 關鍵字，例如我們可以建立 <code>i32</code> 的別名 <code>Kilometers</code>，如範例所示：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    type Kilometers = i32;
@@ -285,7 +285,7 @@ pub trait Write {
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p>型別別名有助於兩個面向：讓程式碼更容易撰寫，<strong>且</strong>對所有 <code>std::io</code> 提供一致的介面。因為它僅僅是別名，所以就是一個 <code>Result&lt;T, E&gt;</code> 而已，這意味著我們能使用任何可與 <code>Result&lt;T, E&gt;</code> 互動的方法，以及使用類似 <code>?</code> 運算子這種特殊語法。</p>
-<h3><a class="header" href="#永不回傳的永不型別" id="永不回傳的永不型別">永不回傳的永不型別</a></h3>
+<h3 id="永不回傳的永不型別"><a class="header" href="#永不回傳的永不型別">永不回傳的永不型別</a></h3>
 <p>Rust 有一個特殊的型別叫做 <code>!</code>，由於它沒有任何值，在型別理論的行話中又稱為<strong>空型別</strong>（empty type）。不過我們更喜歡稱之為<strong>永不型別</strong>（never type），因為當一個函式永遠不會回傳，永不型別將會替代原本的回傳型別。這裡來個範例:</p>
 <pre><pre class="playground"><code class="language-rust">fn bar() -&gt; ! {
     // --省略--
@@ -379,7 +379,7 @@ pub trait Write {
 <span class="boring">}
 </span></code></pre>
 <p>這裡迴圈永不結束，所以 <code>!</code> 就是迴圈表達式的值。但當我們有一個 <code>break</code> 時，這就不成立了，因為迴圈會在抵達 <code>break</code> 時終止。</p>
-<h3><a class="header" href="#動態大小型別與-sized-特徵" id="動態大小型別與-sized-特徵">動態大小型別與 <code>Sized</code> 特徵</a></h3>
+<h3 id="動態大小型別與-sized-特徵"><a class="header" href="#動態大小型別與-sized-特徵">動態大小型別與 <code>Sized</code> 特徵</a></h3>
 <p>由於 Rust 需要了解特定細節，例如需替特定型別之值分配多少空間，導致其類型系統有個地方令人困惑，就是<strong>動態大小型別</strong>（dynamically sized type）的概念。 有時稱為 <em>DST</em> 或<strong>不定大小（unsize）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
 <p>讓我們深入研究一個貫穿全書到處使用的動態大小型別 <code>str</code> 的細節。你沒看錯，不是 <code>&amp;str</code> 而是 <code>str</code> 本身就是 DST。在執行期前我們無從得知字串多長，也就表示無法建立一個型別為 <code>str</code> 的變數，更不能將 <code>str</code> 型別作為引數。試想以下不能執行的程式碼：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {

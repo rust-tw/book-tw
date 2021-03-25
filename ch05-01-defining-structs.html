@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#定義與實例化結構體" id="定義與實例化結構體">定義與實例化結構體</a></h2>
+                        <h2 id="定義與實例化結構體"><a class="header" href="#定義與實例化結構體">定義與實例化結構體</a></h2>
 <p>結構體（Structs）和我們在第三章討論過的元組類似。和元組一樣，結構體的每個部分可以是不同的型別。但與元組不同的地方是，你必須為每個資料部分命名以便表達每個數值的意義。因為有了這些名稱，結構體通常比元組還來的有彈性：你不需要依賴資料的順序來指定或存取實例中的值。</p>
 <p>欲定義結構體，我們輸入關鍵字 <code>struct</code> 並為整個結構體命名。結構體的名稱需要能夠描述其所組合出的資料意義。然後在大括號內，我們對每個資料部分定義名稱與型別，我們會稱為<strong>欄位（fields）</strong>。舉例來說，範例 5-1 定義了一個儲存使用者帳號的結構體。</p>
 <pre><pre class="playground"><code class="language-rust">struct User {
@@ -249,7 +249,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 5-4：<code>build_user</code> 函式取得電子郵件與使用者名稱並回傳 <code>User</code> 實例</span></p>
 <p>函式參數名稱與結構體欄位名稱相同是非常合理的，但是要重複寫 <code>email</code> 和 <code>username</code> 的欄位名稱與變數就有點冗長了。如果結構體有更多欄位的話，重複寫這些名稱就顯得有些煩人了。幸運的是，我們的確有更方便的語法！</p>
-<h3><a class="header" href="#當變數與欄位名稱相同時使用欄位初始化簡寫語法" id="當變數與欄位名稱相同時使用欄位初始化簡寫語法">當變數與欄位名稱相同時使用欄位初始化簡寫語法</a></h3>
+<h3 id="當變數與欄位名稱相同時使用欄位初始化簡寫語法"><a class="header" href="#當變數與欄位名稱相同時使用欄位初始化簡寫語法">當變數與欄位名稱相同時使用欄位初始化簡寫語法</a></h3>
 <p>由於範例 5-4 的參數名稱與結構體欄位名稱相同，我們可以使用<strong>欄位初始化簡寫</strong>（field init shorthand）語法來重寫 <code>build_user</code>，讓它的結果相同但不必重複寫出 <code>email</code> 和 <code>username</code>，如範例 5-5 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    username: String,
@@ -276,7 +276,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 5-5：<code>build_user</code> 函式使用欄位初始化簡寫，因為參數 <code>email</code> 與 <code>username</code> 結構體欄位相同</span></p>
 <p>在此我們建立了 <code>User</code> 結構體的實例，它有一個欄位叫做 <code>email</code>。我們希望用 <code>build_user</code> 函式中的參數 <code>email</code> 賦值給 <code>email</code> 欄位。然後因為 <code>email</code> 欄位與 <code>email</code> 參數有相同的名稱，我們只要寫 <code>email</code> 就好，不必寫 <code>email: email</code>。</p>
-<h3><a class="header" href="#使用結構體更新語法從其他結構體建立實例" id="使用結構體更新語法從其他結構體建立實例">使用結構體更新語法從其他結構體建立實例</a></h3>
+<h3 id="使用結構體更新語法從其他結構體建立實例"><a class="header" href="#使用結構體更新語法從其他結構體建立實例">使用結構體更新語法從其他結構體建立實例</a></h3>
 <p>通常我們也會從舊的實例來產生新的實例，不過修改一些欄位數值，這時你可以使用<strong>結構體更新語法（struct update syntax）</strong>。</p>
 <p>首先範例 5-6 顯示了我們沒有使用更新語法來建立新的 <code>User</code> 實例 <code>user2</code>。我們設置了新的數值給 <code>email</code> 和 <code>username</code>，但其他欄位就使用我們在範例 5-2 建立的 <code>user1</code> 相同的值。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
@@ -328,7 +328,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 5-7：對新的 <code>User</code> 實例設置新的 <code>email</code> 和 <code>username</code> 數值，但其他欄位使用與 <code>user1</code> 變數實例中欄位相同的值</span></p>
 <p>範例 5-7 的程式碼一樣產生了有不同 <code>email</code> 和 <code>username</code> 的 <code>user2</code> 實例，但是有與 <code>user1</code> 相同的 <code>active</code> 和 <code>sign_in_count</code>。</p>
-<h3><a class="header" href="#使用無名稱欄位的元組結構體來建立不同型別" id="使用無名稱欄位的元組結構體來建立不同型別">使用無名稱欄位的元組結構體來建立不同型別</a></h3>
+<h3 id="使用無名稱欄位的元組結構體來建立不同型別"><a class="header" href="#使用無名稱欄位的元組結構體來建立不同型別">使用無名稱欄位的元組結構體來建立不同型別</a></h3>
 <p>你還可以定義結構體讓它長得像是元組那樣，我們稱作<strong>元組結構體（tuple structs）</strong>。元組結構體仍然有定義整個結構的名稱，但是它們的欄位不會有名稱，它們只會有欄位型別而已。元組結構體的用途在於當你想要為元組命名，好讓它跟其他不同型別的元組作出區別，以及對常規結構體每個欄位命名是冗長且不必要的時候。</p>
 <p>要定義一個元組結構體，一樣先從 <code>struct</code> 關鍵字開始，其後再接著要定義的元組。舉例來說，以下是兩個使用元組結構體定義的 <code>Color</code> 和 <code>Point</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -340,10 +340,10 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p>注意 <code>black</code> 與 <code>origin</code> 屬於不同型別，因為它們是不同的元組結構體實例。每個你定義的結構體都是專屬於自己的型別，就算它們的欄位型別一摸一樣。舉例來說，一個參數為 <code>Color</code> 的函式就無法接受 <code>Point</code> 引數，就算它們的型別都是三個 <code>i32</code> 的組合。除此之外，元組結構體實例的行為和元組類似：你可以將它們解構為獨立部分，你也可以使用 <code>.</code> 加上索引來取得每個數值等等。</p>
-<h3><a class="header" href="#無任何欄位的類單元結構體" id="無任何欄位的類單元結構體">無任何欄位的類單元結構體</a></h3>
+<h3 id="無任何欄位的類單元結構體"><a class="header" href="#無任何欄位的類單元結構體">無任何欄位的類單元結構體</a></h3>
 <p>你也可以定義沒有任何欄位的結構體！這些叫做<strong>類單元結構體（unit-like structs）</strong>，因為它們的行為就很像 <code>()</code> 單元型別（unit type）。類單元結構體很適合用在當你要實作一個特徵（trait）或某種型別，但你沒有任何需要儲存在型別中的資料。我們會在第十章討論特徵。</p>
 <blockquote>
-<h3><a class="header" href="#結構體資料的所有權" id="結構體資料的所有權">結構體資料的所有權</a></h3>
+<h3 id="結構體資料的所有權"><a class="header" href="#結構體資料的所有權">結構體資料的所有權</a></h3>
 <p>在範例 5-1 的 <code>User</code> 結構體定義中，我們使用了擁有所有權的 <code>String</code> 型別，而不是 <code>&amp;str</code> 字串切片型別。這邊是故意這樣選擇的，因為我們希望解構體的實例可以擁有它所有的資料，並在整個結構體都有效時資料也是有效的。</p>
 <p>要在結構體中儲存別人擁有的資料引用是可行的，但這會用到<strong>生命週期（lifetimes）</strong>，我們在第十章才會談到。生命週期能確保資料引用在結構體存在期間都是有效的。要是你沒有使用生命週期來用結構體儲存引用的話，會如以下出錯：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

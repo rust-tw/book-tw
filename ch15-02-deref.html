@@ -171,13 +171,13 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#透過-deref-特徵將智慧指標視為一般引用" id="透過-deref-特徵將智慧指標視為一般引用">透過 <code>Deref</code> 特徵將智慧指標視為一般引用</a></h2>
+                        <h2 id="透過-deref-特徵將智慧指標視為一般引用"><a class="header" href="#透過-deref-特徵將智慧指標視為一般引用">透過 <code>Deref</code> 特徵將智慧指標視為一般引用</a></h2>
 <p>實作 <code>Deref</code> 特徵讓你可以自訂<strong>解引用運算子（dereference operator）</strong> <code>*</code> 的行為（這不是相乘或全域運算子）。透過這種方式實作 <code>Deref</code> 的智慧指標可以被視為正常引用來對待，這樣操作引用的程式碼也能用在智慧指標中。</p>
 <p>讓我們先看解引用運算子如何在正常引用中使用。然後我們會嘗試定義一個行為類似 <code>Box&lt;T&gt;</code> 的自定型別，並看看為何解引用運算子無法像引用那樣用在我們新定義的型別。我們將會探討如何實作 <code>Deref</code> 特徵使智慧指標能像類似引用的方式運作。接著我們會看看 Rust 的<strong>強制解引用</strong>（deref coercion）功能並瞭解它如何處理引用與智慧指標。</p>
 <blockquote>
 <p>注意：我們即將定義的 <code>MyBox&lt;T&gt;</code> 型別與真正的 <code>Box&lt;T&gt;</code> 有一項很大的差別，就是我們的版本不會將其資料儲存在堆積上。我們在此例會專注在 <code>Deref</code> 上，所以資料實際上儲存在何處，並沒有比指標相關行為來得重要。</p>
 </blockquote>
-<h3><a class="header" href="#使用解引用運算子追蹤指標的數值" id="使用解引用運算子追蹤指標的數值">使用解引用運算子追蹤指標的數值</a></h3>
+<h3 id="使用解引用運算子追蹤指標的數值"><a class="header" href="#使用解引用運算子追蹤指標的數值">使用解引用運算子追蹤指標的數值</a></h3>
 <p>一般的引用是一種指標，其中一種理解指標的方式是看成一個會指向存於某處數值的箭頭。在範例 15-6 中我們建立了數值 <code>i32</code> 的引用，接著使用解引用運算子來追蹤引用的資料：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -210,7 +210,7 @@ error: could not compile `deref-example`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>比較一個數字與一個數字的引用是不允許的，因為它們是不同的型別。我們必須使用解引用運算子來追蹤其指向的數值。</p>
-<h3><a class="header" href="#像引用般使用-boxt" id="像引用般使用-boxt">像引用般使用 <code>Box&lt;T&gt;</code></a></h3>
+<h3 id="像引用般使用-boxt"><a class="header" href="#像引用般使用-boxt">像引用般使用 <code>Box&lt;T&gt;</code></a></h3>
 <p>我們將範例 15-6 的引用改用 <code>Box&lt;T&gt;</code> 重寫。解引用運算子的使用方式如範例 15-7 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -223,7 +223,7 @@ To learn more, run the command again with --verbose.
 </code></pre></pre>
 <p><span class="caption">範例 15-7：對 <code>Box&lt;i32&gt;</code> 使用解引用運算子</span></p>
 <p>範例 15-7 與範例 15-6 唯一的差別在於這裡我們設置 <code>y</code> 為一個指向 <code>x</code> 的拷貝數值的 box 實例，而不是指向 <code>x</code> 數值的引用。在最後的判定中，我們可以對 box 的指標使用解引用運算子，跟我們對當 <code>y</code> 還是引用時所做的動作一樣。接下來，我們要來探討 <code>Box&lt;T&gt;</code> 有何特別之處，讓我們可以對自己定義的 box 型別也可以使用解引用運算子。</p>
-<h3><a class="header" href="#定義我們自己的智慧指標" id="定義我們自己的智慧指標">定義我們自己的智慧指標</a></h3>
+<h3 id="定義我們自己的智慧指標"><a class="header" href="#定義我們自己的智慧指標">定義我們自己的智慧指標</a></h3>
 <p>讓我們定義一個與標準函式庫所提供的 <code>Box&lt;T&gt;</code> 型別類似的智慧指標，並看看智慧指標預設行為與引用有何不同。然後我們就會來看能夠使用解引用運算子的方式。</p>
 <p><code>Box&lt;T&gt;</code> 本質上就是定義成只有一個元素的元組結構體，所以範例 15-8 用相同的方式來定義 <code>MyBox&lt;T&gt;</code>。我們也定義了 <code>new</code> 函式來對應於 <code>Box&lt;T&gt;</code> 的 <code>new</code> 函式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -275,7 +275,7 @@ error: could not compile `deref-example`.
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>我們的 <code>MyBox&lt;T&gt;</code> 型別無法解引用因為我們還沒有對我們的型別實作該能力。要透過 <code>*</code> 運算子來解引用的話，我們要實作 <code>Deref</code> 特徵。</p>
-<h3><a class="header" href="#透過實作-deref-特徵來將一個型別能像引用般對待" id="透過實作-deref-特徵來將一個型別能像引用般對待">透過實作 <code>Deref</code> 特徵來將一個型別能像引用般對待</a></h3>
+<h3 id="透過實作-deref-特徵來將一個型別能像引用般對待"><a class="header" href="#透過實作-deref-特徵來將一個型別能像引用般對待">透過實作 <code>Deref</code> 特徵來將一個型別能像引用般對待</a></h3>
 <p>如同第十章講過的，要實作一個特徵的話，我們需要提供該特徵要求的方法實作。標準函式庫所提供的 <code>Deref</code> 特徵要求我們實作一個方法叫做 <code>deref</code>，這會借用 <code>self</code> 並回傳內部資料的引用。範例 15-10 包含了對 <code>MyBox</code> 定義加上的 <code>Deref</code> 實作：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::ops::Deref;
@@ -314,7 +314,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p>Rust 將 <code>*</code> 運算子替換為方法 <code>deref</code> 的呼叫再進行普通的解引用，所以我們不必煩惱何時該或不該呼叫 <code>deref</code> 方法。此 Rust 特性讓我們可以對無論是引用或是有實作 <code>Deref</code> 的型別都能寫出一致的程式碼。</p>
 <p><code>deref</code> 方法會回傳一個數值引用，以及括號外要再加上普通解引用的原因，都是因為所有權系統。如果 <code>deref</code> 方法直接回傳數值而非引用數值的話，該數值就會移出 <code>self</code>。我們不希望在此例或是大多數使用解引用運算子的場合下，取走 <code>MyBox&lt;T&gt;</code> 內部數值的所有權。</p>
 <p>注意到每次我們在程式碼中使用 <code>*</code> 時，<code>*</code> 運算子被替換成 <code>deref</code> 方法呼叫，然後再呼叫 <code>*</code> 剛好一次。因為 <code>*</code> 運算子不會被無限遞迴替換，我們能剛好取得型別 <code>i32</code> 並符合範例 15-9 <code>assert_eq!</code> 中與 <code>5</code> 的判定。</p>
-<h3><a class="header" href="#函式與方法的隱式強制解引用" id="函式與方法的隱式強制解引用">函式與方法的隱式強制解引用</a></h3>
+<h3 id="函式與方法的隱式強制解引用"><a class="header" href="#函式與方法的隱式強制解引用">函式與方法的隱式強制解引用</a></h3>
 <p>*<em>強制解引用</em>（Deref coercion）是一個 Rust 針對函式或方法的引數的便利設計。強制解引用只適用於有實作 <code>Deref</code> 特徵的型別。強制解引用會將一個型別轉換成另一個型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>str</code>。當我們將某個特定型別數值的引用作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
 <p>Rust 會加入強制解引用的原因是因為程式設計師在寫函式與方法呼叫時，就不必加上許多顯式引用 <code>&amp;</code> 與解引用 <code>*</code>。強制解引用還讓我們可以寫出能同時用於引用或智慧指標的程式碼。</p>
 <p>為了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 有個函式定義且有個字串切片作為參數：</p>
@@ -389,7 +389,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p><span class="caption">範例 15-13：如果 Rust 沒有強制解引用，我們就得這樣寫程式碼</span></p>
 <p><code>(*m)</code> 會將 <code>MyBox&lt;String&gt;</code> 解引用成 <code>String</code>，然後 <code>&amp;</code> 和 <code>[..]</code> 會從 <code>String</code> 中取得等於整個字串的字串切片，這就符合 <code>hello</code> 的簽名。沒有強制解引用的程式碼就難以閱讀、寫入或是理解，因為有太多的符號參雜其中。強制解引用能讓 Rust 自動幫我們做這些轉換。</p>
 <p>當某型別有定義 <code>Deref</code> 特徵時，Rust 會分析該型別並重複使用 <code>Deref::deref</code> 直到能取得與參數型別相符的引用。<code>Deref::deref</code> 需要呼叫的次數會在編譯時期插入，所以使用強制解引用沒有任何的執行時開銷！</p>
-<h3><a class="header" href="#強制解引用如何處理可變性" id="強制解引用如何處理可變性">強制解引用如何處理可變性</a></h3>
+<h3 id="強制解引用如何處理可變性"><a class="header" href="#強制解引用如何處理可變性">強制解引用如何處理可變性</a></h3>
 <p>類似於你如何使用 the <code>Deref</code> 特徵來覆蓋不可變引用的 <code>*</code> 運算子，你也可以使用 <code>DerefMut</code> 特徵來覆蓋可變引用的 <code>*</code> 運算子。</p>
 <p>當 Rust 發現型別與特徵實作符合以下三種情況時，它就會進行強制解引用：</p>
 <ul>

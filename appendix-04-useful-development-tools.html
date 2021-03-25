@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#附錄-d---實用開發工具" id="附錄-d---實用開發工具">附錄 D - 實用開發工具</a></h2>
+                        <h2 id="附錄-d---實用開發工具"><a class="header" href="#附錄-d---實用開發工具">附錄 D - 實用開發工具</a></h2>
 <p>在此附錄中，我們會討論些 Rust 專案提供的實用開發工具。我們會介紹自動格式化工具、修正警告最快速的方式、linter 以及 IDE 的整合工具。</p>
-<h3><a class="header" href="#透過-rustfmt-自動格式化" id="透過-rustfmt-自動格式化">透過 <code>rustfmt</code> 自動格式化</a></h3>
+<h3 id="透過-rustfmt-自動格式化"><a class="header" href="#透過-rustfmt-自動格式化">透過 <code>rustfmt</code> 自動格式化</a></h3>
 <p><code>rustfmt</code> 工具會依據社群程式碼風格來重新格式化你的程式碼。許多協作專案都會使用 <code>rustfmt</code> 來避免 Rust 風格的歧義，每個人都能用此工具格式化他們的程式碼。</p>
 <p>欲安裝 <code>rustfmt</code>，請輸入以下命令：</p>
 <pre><code class="language-console">$ rustup component add rustfmt
@@ -182,7 +182,7 @@
 <pre><code class="language-console">$ cargo fmt
 </code></pre>
 <p>執行此命令會重新格式化目前 crate 中所有的 Rust 程式碼。不過這只會變更程式碼風格，並不會影響程式碼語義。想瞭解更多 <code>rustfmt</code> 的資訊，歡迎查閱<a href="https://github.com/rust-lang/rustfmt">它的技術文件</a>。</p>
-<h3><a class="header" href="#透過-rustfix-修正你的程式碼" id="透過-rustfix-修正你的程式碼">透過 <code>rustfix</code> 修正你的程式碼</a></h3>
+<h3 id="透過-rustfix-修正你的程式碼"><a class="header" href="#透過-rustfix-修正你的程式碼">透過 <code>rustfix</code> 修正你的程式碼</a></h3>
 <p>rustfix 工具包含在 Rust 的安裝中，且可以自動修正一些編譯器警告。如果你寫過 Rust 程式碼的話，你應該會看過一些編譯器警告，舉例來說，請參考以下程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn do_something() {}
@@ -224,7 +224,7 @@ fn main() {
 </code></pre></pre>
 <p><code>for</code> 迴圈變數現在改名為 <code>_i</code>，而警告也不再出現了。</p>
 <p>你也可以使用 <code>cargo fix</code> 命令來在不同的 Rust 版號之間做轉換程式碼。版號會在附錄 E 做介紹。</p>
-<h3><a class="header" href="#透過-clippy-運用更多功能" id="透過-clippy-運用更多功能">透過 Clippy 運用更多功能</a></h3>
+<h3 id="透過-clippy-運用更多功能"><a class="header" href="#透過-clippy-運用更多功能">透過 Clippy 運用更多功能</a></h3>
 <p>Clippy 工具是一系列的 lint 集合，用來分析程式碼以獲取常見錯誤並改善你的 Rust 程式碼。</p>
 <p>要安裝 Clippy 的話，輸入以下命令：</p>
 <pre><code class="language-console">$ rustup component add clippy
@@ -259,7 +259,7 @@ fn main() {
 }
 </code></pre></pre>
 <p>關於更多 Clippy 的資訊，請查閱<a href="https://github.com/rust-lang/rust-clippy">它的技術文件</a>。</p>
-<h3><a class="header" href="#使用-rust-language-server-整合-ide" id="使用-rust-language-server-整合-ide">使用 Rust Language Server 整合 IDE</a></h3>
+<h3 id="使用-rust-language-server-整合-ide"><a class="header" href="#使用-rust-language-server-整合-ide">使用 Rust Language Server 整合 IDE</a></h3>
 <p>為了協助 IDE 的整合，Rust 專案有發佈 <strong>Rust Language Server</strong>（<code>rls</code>）。此工具會與 <a href="http://langserver.org/">Language Server Protocol</a> 溝通，這是 IDE 與程式語言彼此溝通的協定規格。<code>rls</code> 可用於各種不同的客戶端，像是 <a href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust">Visual Studio Code 的 Rust 插件</a>。</p>
 <p>要安裝 <code>rls</code> 的話，輸入以下命令：</p>
 <pre><code class="language-console">$ rustup component add rls

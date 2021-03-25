@@ -171,9 +171,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#進階函式與閉包" id="進階函式與閉包">進階函式與閉包</a></h2>
+                        <h2 id="進階函式與閉包"><a class="header" href="#進階函式與閉包">進階函式與閉包</a></h2>
 <p>接下來，我們會探索函式與閉包相關的進階特色，包括函式指標和回傳閉包。</p>
-<h3><a class="header" href="#函式指標" id="函式指標">函式指標</a></h3>
+<h3 id="函式指標"><a class="header" href="#函式指標">函式指標</a></h3>
 <p>我們已探討過如何將閉包傳遞給函式，其實你還可以將一般的函式傳給函式！當你想要傳遞已經定義好的函式，而不是新的閉包時，就會凸顯這個技巧好用之處。有了函式指標，就可以將函式當作其他函式的引數，而這個作為引數的函式會轉型為 <code>fn</code> 型別（小寫的 f），別和閉包特徵的 <code>Fn</code> 搞混了。這個 <code>fn</code> 型別就稱為<strong>函式指標</strong>（function pointer）。其語法與閉包語法類似，可用於將函式指標作為參數的型別，如範例 19-27 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn add_one(x: i32) -&gt; i32 {
@@ -221,7 +221,7 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <p>這裡，我們對一個範圍呼叫 <code>map</code>，並用每個 <code>u32</code> 值，透過 <code>Status::Value</code> 的初始化函式來建立 <code>Status::Value</code> 的實例。有些人更喜歡上述的作法，但有人偏好閉包。這兩者的編譯結果相同，所以選一個你覺得清晰的風格吧。</p>
-<h3><a class="header" href="#回傳閉包" id="回傳閉包">回傳閉包</a></h3>
+<h3 id="回傳閉包"><a class="header" href="#回傳閉包">回傳閉包</a></h3>
 <p>閉包是用特徵來表示，言下之意是你不能直接回傳一個閉包。大多數的情況，當你想回傳一個特徵時，可以改回傳有實作該特徵的具體型別。但你並無法對閉包這樣做，因為它們根本沒有可供回傳的具體型別，比方說不允許你使用 <code>fn</code> 函式指標作為回傳型別。</p>
 <p>接下來的程式碼嘗試直接回傳一個閉包，但它無法編譯：</p>
 <pre><code class="language-rust ignore does_not_compile">fn returns_closure() -&gt; dyn Fn(i32) -&gt; i32 {

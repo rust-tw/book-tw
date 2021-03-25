@@ -171,14 +171,14 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#hello-cargo" id="hello-cargo">Hello, Cargo!</a></h2>
+                        <h2 id="hello-cargo"><a class="header" href="#hello-cargo">Hello, Cargo!</a></h2>
 <p>Cargo 是 Rust 的建構系統與套件管理工具。大部分的 Rustaceans 都會用此工具來管理他們的專案，因為 Cargo 能幫你處理很多任務，像是建構你的程式碼、下載你程式碼所需要的依賴函式庫並建構它們。我們常簡稱程式碼所需要用到的函式庫為<strong>依賴（dependencies）</strong>。</p>
 <p>簡單的 Rust 程式像是我們目前所寫的不會有任何依賴。所以當我們用 Cargo 建構「Hello, world!」專案時，Cargo 只會用到建構程式碼的那部分。隨著你寫的 Rust 程式越來越複雜，你將會加入一些依賴函式庫來幫助你。而如果你使用 Cargo 的話，加入這些依賴就會簡單很多。</p>
 <p>既然大多數的 Rust 專案都是用 Cargo，所以接下來本書也將假設你也使用 Cargo。Cargo 在你使用<a href="ch01-01-installation.html#installation">「安裝教學」</a><!-- ignore -->的官方安裝連結來安裝 Rust 時就已經連同安裝好了。如果你是用其他方式下載 Rust 的話，想要檢查 Cargo 有沒有下載好可以透過你的終端機輸入：</p>
 <pre><code class="language-console">$ cargo --version
 </code></pre>
 <p>如果你有看到版本號，那就代表你有安裝了！如果你看到錯誤訊息，像是 <code>command not found</code>，請查看你的安裝辦法的技術文件，尋找如何額外下載 Cargo。</p>
-<h3><a class="header" href="#使用-cargo-建立專案" id="使用-cargo-建立專案">使用 Cargo 建立專案</a></h3>
+<h3 id="使用-cargo-建立專案"><a class="header" href="#使用-cargo-建立專案">使用 Cargo 建立專案</a></h3>
 <p>讓我們來用 Cargo 建立一個專案，並來比較它和我們原本的「Hello, world!」專案有什麼差別。請回到你的 <em>projects</em>  目錄（或者任何你決定存放程式碼的地方），然後在任何作業系統上輸入：</p>
 <pre><code class="language-console">$ cargo new hello_cargo
 $ cd hello_cargo
@@ -213,7 +213,7 @@ edition = &quot;2018&quot;
 <p>Cargo 預設會為你產生一個「Hello, world!」程式，就像我們範例 1-1 寫的一樣！目前我們之前寫的專案與 Cargo 產生的程式碼不同的地方在於 Cargo 將程式碼放在 <em>src</em> 目錄底下，而且我們還有一個 <em>Cargo.toml</em> 配置文件在根目錄。</p>
 <p>Cargo 預期你的原始檔案都會放在 <em>src</em> 目錄底下。專案的根目錄是用來放 README 檔案、授權條款、配置檔案以及其他與你的程式碼不相關的檔案。使用 Cargo 能夠幫助你組織你的專案，讓一切井然有序。</p>
 <p>如果你的專案還沒開始使用 Cargo 的話，像是我們剛剛寫的「Hello, world!」專案，你只要將程式碼移入 <em>src</em> 然後產生正確的 <em>Cargo.toml</em> 檔案，就可以將它轉換成能夠使用 Cargo 的專案。</p>
-<h3><a class="header" href="#建構並執行-cargo-專案" id="建構並執行-cargo-專案">建構並執行 Cargo 專案</a></h3>
+<h3 id="建構並執行-cargo-專案"><a class="header" href="#建構並執行-cargo-專案">建構並執行 Cargo 專案</a></h3>
 <p>現在讓我們看看用 Cargo 產生的「Hello, world!」程式在建構和執行時有什麼差別！請在你的 <em>hello_cargo</em> 目錄下輸入以下命令來建構專案：</p>
 <pre><code class="language-console">$ cargo build
    Compiling hello_cargo v0.1.0 (file:///projects/hello_cargo)
@@ -251,9 +251,9 @@ Hello, world!
 <li>Cargo 會儲存建構結果在 <em>target/debug</em> 目錄底下，而不是放在與我們程式碼相同的目錄。</li>
 </ul>
 <p>使用 Cargo 還有一項好處是在任何作業系統所使用的命令都是相同的，所以到這邊開始我們不再需要特別提供 Linux 和 macOS 相對於 Windows 不同的特殊命令。</p>
-<h3><a class="header" href="#建構發佈版本release" id="建構發佈版本release">建構發佈版本（Release）</a></h3>
+<h3 id="建構發佈版本release"><a class="header" href="#建構發佈版本release">建構發佈版本（Release）</a></h3>
 <p>當你的專案正式準備好要發佈的話，你可以使用 <code>cargo build --release</code> 來最佳化編譯結果。此命令會產生執行檔到 <em>target/release</em> 而不是 <em>target/debug</em>。最佳化可以讓你的 Rust 程式碼跑得更快，不過也會讓編譯的時間變得更久。這也是為何 Cargo 提供兩種不同的設定檔（profile）：一個用來作為開發使用，讓你可以快速並經常重新建構；另一個用來最終產生你要給使用者運行的程式用，它通常不會需要重新建構且能盡所能地跑得越快越好。如果你要做基準化分析（benchmarking）來檢測程式運行時間的話，請確認執行的是 <code>cargo build --release</code> 並使用 <em>target/release</em> 底下的執行檔做檢測。</p>
-<h3><a class="header" href="#將-cargo-視為常規" id="將-cargo-視為常規">將 Cargo 視為常規</a></h3>
+<h3 id="將-cargo-視為常規"><a class="header" href="#將-cargo-視為常規">將 Cargo 視為常規</a></h3>
 <p>雖然在簡單的專案下，Cargo 比起只使用 <code>rustc</code> 的確沒辦法突顯出什麼價值。但是當你的程式變得越來越複雜時，它將證明它的用途。在擁有一堆 crate 的龐大專案下，讓 Cargo 來協調你的專案會來的簡單許多。</p>
 <p>儘管 <code>hello_cargo</code> 是個小專案，但它使用了你未來的 Rust 生涯中真實情況下會用到的工具。事實上，所有存在的專案，你幾乎都可以用以下命令完成：使用 Git 下載專案、移至專案目錄然後建構完成。</p>
 <pre><code class="language-console">$ git clone someurl.com/someproject
@@ -261,7 +261,7 @@ $ cd someproject
 $ cargo build
 </code></pre>
 <p>有關 Cargo 的更多資訊，請查看它的<a href="https://doc.rust-lang.org/cargo/">技術文件</a>。</p>
-<h2><a class="header" href="#總結" id="總結">總結</a></h2>
+<h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>你已經完成你的 Rust 旅途的第一步了！在本章節你學到了：</p>
 <ul>
 <li>使用 <code>rustup</code> 安裝最新穩定版 Rust</li>

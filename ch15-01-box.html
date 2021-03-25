@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#使用-boxt-指向堆積上的資料" id="使用-boxt-指向堆積上的資料">使用 <code>Box&lt;T&gt;</code> 指向堆積上的資料</a></h2>
+                        <h2 id="使用-boxt-指向堆積上的資料"><a class="header" href="#使用-boxt-指向堆積上的資料">使用 <code>Box&lt;T&gt;</code> 指向堆積上的資料</a></h2>
 <p>最直白的智慧指標是 <em>box</em> 其型別為 <code>Box&lt;T&gt;</code>。Box 允許你儲存資料到堆積上，而不是堆疊。留在堆疊上的會是指向堆積資料的指標。你可以回顧第四章瞭解堆疊與堆積的差別。</p>
 <p>Box 沒有額外的效能開銷，就只是將它們的資料儲存在堆積上而非堆疊而已。不過相對地它們也沒有多少額外功能。你大概會在這些場合用到它們：</p>
 <ul>
@@ -180,7 +180,7 @@
 <li>當你想要擁有某個值，但你只在意該型別有實作特定的特徵，而不再是何種特定型別</li>
 </ul>
 <p>我們會在<a href="#%E9%80%8F%E9%81%8E-box-%E5%BB%BA%E7%AB%8B%E9%81%9E%E8%BF%B4%E5%9E%8B%E5%88%A5">「透過 Box 建立遞迴型別」</a><!-- ignore -->段落解說第一種情形。而在第二種情形，轉移龐大的資料的所有權可能會很花費時間，因為在堆疊上的話會拷貝所有資料。要改善此情形，我們可以用 box 將龐大的資料儲存在堆積上。這樣就只有少量的指標資料在堆疊上被拷貝，而其引用的資料仍然保留在堆積上的同個位置。第三種情況被稱之為<strong>特徵物件（trait object）</strong>，第十七章會花整個<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->段落來討論此議題。所以你在此學到的到第十七章會再次用上！</p>
-<h3><a class="header" href="#使用-boxt-儲存資料到堆積上" id="使用-boxt-儲存資料到堆積上">使用 <code>Box&lt;T&gt;</code> 儲存資料到堆積上</a></h3>
+<h3 id="使用-boxt-儲存資料到堆積上"><a class="header" href="#使用-boxt-儲存資料到堆積上">使用 <code>Box&lt;T&gt;</code> 儲存資料到堆積上</a></h3>
 <p>在我們討論 <code>Box&lt;T&gt;</code> 的使用場合前，我們會先介紹語法以及如何對 <code>Box&lt;T&gt;</code> 內儲存的數值進行互動。</p>
 <p>範例 15-1 顯示如何使用 box 在堆積上儲存一個 <code>i32</code> 數值：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -192,10 +192,10 @@
 <p><span class="caption">範例 15-1：使用 box 在堆積上儲存一個 <code>i32</code> 數值</span></p>
 <p>我們定義了變數 <code>b</code> 其數值為 <code>Box</code> 分配在堆積上指向的數值 <code>5</code>。程式在此例會印出 <code>b = 5</code>，在此例中我們可以用在堆疊上相同的方式取得 box 的資料。就像任何有所有權的數值一樣，當 box 離開作用域時會釋放記憶體，在此例就是當 <code>b</code> 抵達 <code>main</code> 結尾的時候。釋放記憶體作用於 box（儲存在堆疊上）以及其所指向的資料（儲存在堆積上）。</p>
 <p>將單一數值放在堆積上的確沒什麼用處，所以你不會對這種類型經常使用 box。在大多數情況下將像 <code>i32</code> 這種單一數值預設儲存在堆疊的確比較適合。</p>
-<h3><a class="header" href="#透過-box-建立遞迴型別" id="透過-box-建立遞迴型別">透過 Box 建立遞迴型別</a></h3>
+<h3 id="透過-box-建立遞迴型別"><a class="header" href="#透過-box-建立遞迴型別">透過 Box 建立遞迴型別</a></h3>
 <p>在編譯時期，Rust 需要知道一個型別佔用的空間有多少。其中一種無法在編譯期間知道大小的型別就是<strong>遞迴型別（recursive type）</strong>，其值的一部分可以是相同型別的另一個值。由於這種巢狀數值理論上可以無限循環下去，Rust 無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。</p>
 <p>讓我們來探索 <em>cons list</em>，這是個在函式程式語言中常見的資料型別，很適合作為遞迴型別的範例。我們要定義的 cons list 型別除了遞迴的部分以外都很直白，因此這個例子的概念在往後你遇到更複雜的遞迴型別時會很實用。</p>
-<h4><a class="header" href="#更多關於-cons-list-的資訊" id="更多關於-cons-list-的資訊">更多關於 Cons List 的資訊</a></h4>
+<h4 id="更多關於-cons-list-的資訊"><a class="header" href="#更多關於-cons-list-的資訊">更多關於 Cons List 的資訊</a></h4>
 <p><em>cons list</em> 是個起源於 Lisp 程式設計語言與其方言的資料結構。在 Lisp 中，<code>cons</code> 函式（「construct function」的縮寫）會從兩個引數建構一個新的配對，而這通常是一個數值與另一個配對，而這些配對就包含了列表中的配對。</p>
 <p>cons 函式的概念在往後成了常見的函式語言術語：「將 <em>x</em> cons 到 <em>y</em>」通常代表的是建立一個新的容器實例，將元素 <em>x</em> 置於此容器的開頭，而後方則是連接到容器 <em>y</em>。</p>
 <p>每個 cons list 的項目都包含兩個元素：目前項目的數值與下一個項目。列表中的最後一個項目只會包含一個數值叫做 <code>Nil</code>，並不會再連接下一個項目。cons list 透過遞迴呼叫 <code>cons</code> 函式來產生。表示遞迴終止條件的名稱為 <code>Nil</code>。注意這和第六章提到的「null」或「nil」的概念不全然相同，這些代表的是無效或空缺的數值。</p>
@@ -260,7 +260,7 @@ To learn more, run the command again with --verbose.
 </code></pre>
 <p><span class="caption">範例 15-4：嘗試定義遞迴枚舉所得到的錯誤</span></p>
 <p>錯誤顯示此型別的「大小為無限」，原因是因為我們定義的 <code>List</code> 有個變體是遞迴：它直接存有另一個相同類型的數值。所以 Rust 無法判別出它需要多少空間才能儲存一個 <code>List</code> 的數值。讓我進一步研究為何我們會得到這樣的錯誤，首先來看 Rust 如何決定要分配多少空間來儲存非遞迴型別。</p>
-<h4><a class="header" href="#計算非遞迴型別的大小" id="計算非遞迴型別的大小">計算非遞迴型別的大小</a></h4>
+<h4 id="計算非遞迴型別的大小"><a class="header" href="#計算非遞迴型別的大小">計算非遞迴型別的大小</a></h4>
 <p>回想一下第六章中，當我們在討論枚舉定義時，我們在範例 6-2 定義的 <code>Message</code> 枚舉：</p>
 <pre><pre class="playground"><code class="language-rust">enum Message {
     Quit,
@@ -275,7 +275,7 @@ To learn more, run the command again with --verbose.
 <p>將此對應到當 Rust 嘗試檢查像是範例 15-2 的 <code>List</code> 枚舉來決定遞迴型別需要多少空間時，究竟會發生什麼事。編譯器先從查看 <code>Cons</code> 的變體開始，其存有一個 <code>i32</code> 型別與一個 <code>List</code> 型別。因此 <code>Cons</code> 需要的空間大小為 <code>i32</code> 的大小加上 <code>List</code> 的大小。為了要瞭解 <code>List</code> 型別需要的多少記憶體，編譯器在進一步看它的變體，也是從 <code>Cons</code> 變體開始。<code>Cons</code> 變體存有一個型別 <code>i32</code> 與一個型別 <code>List</code>，而這樣的過程就無限處理下去，如圖示 15-1 所示。</p>
 <img alt="An infinite Cons list" src="img/trpl15-01.svg" class="center" style="width: 50%;" />
 <p><span class="caption">圖示 15-1：無限個 <code>List</code> 包含著無限個 <code>Cons</code> 變體</span></p>
-<h4><a class="header" href="#使用-boxt-取得已知大小的遞迴型別" id="使用-boxt-取得已知大小的遞迴型別">使用 <code>Box&lt;T&gt;</code> 取得已知大小的遞迴型別</a></h4>
+<h4 id="使用-boxt-取得已知大小的遞迴型別"><a class="header" href="#使用-boxt-取得已知大小的遞迴型別">使用 <code>Box&lt;T&gt;</code> 取得已知大小的遞迴型別</a></h4>
 <p>Rust 無法判別出遞迴定義型別要分配多少空間，所以編譯器給了範例 15-4 的錯誤，但是此錯誤有提供實用的建議：</p>
 <!-- manual-regeneration
 after doing automatic regeneration, look at listings/ch15-smart-pointers/listing-15-03/output.txt and copy the relevant line

@@ -171,7 +171,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2><a class="header" href="#定義模組來控制作用域與隱私權" id="定義模組來控制作用域與隱私權">定義模組來控制作用域與隱私權</a></h2>
+                        <h2 id="定義模組來控制作用域與隱私權"><a class="header" href="#定義模組來控制作用域與隱私權">定義模組來控制作用域與隱私權</a></h2>
 <p>在此段落，我們將討論模組以及其他模組系統的部分，像是<strong>路徑</strong>（paths）允許你來命名項目，而 <code>use</code> 關鍵字可以將路徑引入作用域，再來 <code>pub</code> 關鍵字可以讓指定的項目對外公開。我們還會討論到 <code>as</code> 關鍵字、外部套件以及全域（glob）運算子。現在讓我們先專注在模組吧！</p>
 <p><strong>模組</strong>（Modules）能讓我們在 crate 內組織程式碼成數個群組以便使用且增加閱讀性。模組也能控制項目的<strong>隱私權</strong>，也就是該項目能否被外部程式碼<strong>公開</strong>（public）使用，或者只作為內部<strong>私有</strong>（private）實作細節，對外是無法使用的。</p>
 <p>舉例來說，讓我們建立一個提供餐廳功能的函式庫 crate。我們定義一個函式簽名不過本體會是空的，好讓我們專注在程式組織，而非餐廳程式碼的實作。</p>
