@@ -122,7 +122,7 @@ fn add(self, s: &str) -> String {
 {{#rustdoc_include ../listings/ch08-common-collections/no-listing-02-format/src/main.rs:here}}
 ```
 
-此程式碼一樣能設置 `s` 為to `tic-tac-toe`。`format!` 巨集運作的方式和 `println!` 一樣，但不會將輸出結果顯示在螢幕上，它做的是回傳內容的 `String`。使用 `format!` 的程式碼版本看起來比較好讀懂，而且不會取走任何參數的所有權。
+此程式碼一樣能設置 `s` 為 `tic-tac-toe`。`format!` 巨集運作的方式和 `println!` 一樣，但不會將輸出結果顯示在螢幕上，它做的是回傳內容的 `String`。使用 `format!` 的程式碼版本看起來比較好讀懂，而且不會取走任何參數的所有權。
 
 ### 索引字串
 
