@@ -197,7 +197,7 @@
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 7-1：<code>front_of_house</code> 模組包含了其他擁有函式的模組</span></p>
-<p>我們用 <code>mod</code> 關鍵字加上模組的名稱（在此例為 <code>front_of_house</code>）來定義一個模組，並用大括號涵蓋模組的本體。在模組中，我們可以再包含其他模組，在此例中我們包含了 <code>hosting</code> 和 <code>serving</code>。模組還能包含其他項目，像是結構體、枚舉、常數、特徵、或像是 範例 7-1 的函式。</p>
+<p>我們用 <code>mod</code> 關鍵字加上模組的名稱（在此例為 <code>front_of_house</code>）來定義一個模組，並用大括號涵蓋模組的本體。在模組中，我們可以再包含其他模組，在此例中我們包含了 <code>hosting</code> 和 <code>serving</code>。模組還能包含其他項目，像是結構體、枚舉、常數、特徵、或像是範例 7-1 的函式。</p>
 <p>使用模組的話，我們就能將相關的定義組合起來，並用名稱指出會與它們互相關聯。程式設計師在使用此程式碼時就能快速找到他們想使用的定義，因為他們就不必遍歷所有的定義，只要觀察依據組合起來的模組名稱就好。要對此程式碼增加新功能的開發者也能知道該將程式碼放在哪裡，以維持程式碼的組織。</p>
 <p>稍早我們提到說 <em>src/main.rs</em> 和 <em>src/lib.rs</em> 屬於 crate 的源頭。之所以這樣命名的原因是因為這兩個文件的內容都會在 crate 源頭模組架構中組成一個模組叫做 <code>crate</code>，這樣的結構稱之為<strong>模組樹（module tree）</strong>。</p>
 <p>範例 7-2 顯示了範例 7-1 的模組樹架構。</p>

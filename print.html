@@ -4290,7 +4290,7 @@ main.rs
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 7-1：<code>front_of_house</code> 模組包含了其他擁有函式的模組</span></p>
-<p>我們用 <code>mod</code> 關鍵字加上模組的名稱（在此例為 <code>front_of_house</code>）來定義一個模組，並用大括號涵蓋模組的本體。在模組中，我們可以再包含其他模組，在此例中我們包含了 <code>hosting</code> 和 <code>serving</code>。模組還能包含其他項目，像是結構體、枚舉、常數、特徵、或像是 範例 7-1 的函式。</p>
+<p>我們用 <code>mod</code> 關鍵字加上模組的名稱（在此例為 <code>front_of_house</code>）來定義一個模組，並用大括號涵蓋模組的本體。在模組中，我們可以再包含其他模組，在此例中我們包含了 <code>hosting</code> 和 <code>serving</code>。模組還能包含其他項目，像是結構體、枚舉、常數、特徵、或像是範例 7-1 的函式。</p>
 <p>使用模組的話，我們就能將相關的定義組合起來，並用名稱指出會與它們互相關聯。程式設計師在使用此程式碼時就能快速找到他們想使用的定義，因為他們就不必遍歷所有的定義，只要觀察依據組合起來的模組名稱就好。要對此程式碼增加新功能的開發者也能知道該將程式碼放在哪裡，以維持程式碼的組織。</p>
 <p>稍早我們提到說 <em>src/main.rs</em> 和 <em>src/lib.rs</em> 屬於 crate 的源頭。之所以這樣命名的原因是因為這兩個文件的內容都會在 crate 源頭模組架構中組成一個模組叫做 <code>crate</code>，這樣的結構稱之為<strong>模組樹（module tree）</strong>。</p>
 <p>範例 7-2 顯示了範例 7-1 的模組樹架構。</p>
@@ -4319,7 +4319,7 @@ main.rs
 <p>路徑可以有兩種形式：</p>
 <ul>
 <li><strong>絕對路徑</strong>（absolute path）是從 crate 的源頭開始找起，用 crate 的名稱或 <code>crate</code> 作為起頭。</li>
-<li><strong>相對路徑</strong>（relative path）則是從本身的模組開始，使用 <code>self</code>、<code>super</code>或是當前模組的標識符（identifiers）。</li>
+<li><strong>相對路徑</strong>（relative path）則是從本身的模組開始，使用 <code>self</code>、<code>super</code> 或是當前模組的標識符（identifiers）。</li>
 </ul>
 <p>無論是絕對或相對路徑其後都會接著一或多個標識符，並使用雙冒號（<code>::</code>）區隔開來。</p>
 <p>讓我們回頭看看範例 7-1，我們要如何呼叫函式 <code>add_to_waitlist</code> 呢？這就和問函式 <code>add_to_waitlist</code> 在哪的問題是一樣的。在範例 7-3，我們移除了一些模組與函式來精簡程式碼的呈現方式。我們會展示兩種從 crate 源頭定義的 <code>eat_at_restaurant</code> 函式內呼叫 <code>add_to_waitlist</code> 的方法。<code>eat_at_restaurant</code> 函式是我們函式庫 crate 公開 API 的一部分，所以我們會加上 <code>pub</code> 關鍵字。在<a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#%E4%BD%BF%E7%94%A8-pub-%E9%97%9C%E9%8D%B5%E5%AD%97%E5%85%AC%E9%96%8B%E8%B7%AF%E5%BE%91">「使用 <code>pub</code> 關鍵字公開路徑」</a><!-- ignore -->的段落中，我們會提到更多 <code>pub</code> 的細節。請注意此範例還不能編譯，我們等等會解釋原因。</p>
@@ -4340,8 +4340,8 @@ pub fn eat_at_restaurant() {
 </code></pre>
 <p><span class="caption">範例 7-3：使用絕對與相對路徑呼叫 <code>add_to_waitlist</code> 函式</span></p>
 <p>我們在 <code>eat_at_restaurant</code> 中第一次呼叫 <code>add_to_waitlist</code> 函式的方式是用絕對路徑。<code>add_to_waitlist</code> 函式和 <code>eat_at_restaurant</code> 都是在同一個 crate 底下，所以我們可以使用 <code>crate</code> 關鍵字來作為絕對路徑的開頭。</p>
-<p>在 <code>crate</code> 之後, 我們接續加上對應的模組直到抵達 <code>add_to_waitlist</code>。你可以想像一個有相同架構的檔案系統，然後我們指定 <code>/front_of_house/hosting/add_to_waitlist</code> 這樣的路徑來執行 <code>add_to_waitlist</code> 程式。使用 <code>crate</code> 這樣的名稱作為 crate 源頭的開始，就像在你的 shell 使用 <code>/</code> 作為檔案系統的根一樣。</p>
-<p>而我們第二次在 <code>eat_at_restaurant</code> 呼叫 <code>add_to_waitlist</code> 的方式是使用相對路徑。 路徑的起頭是 <code>front_of_house</code>，因為它和 <code>eat_at_restaurant</code> 都被定義在模組樹的同一層中。這裡相對應的檔案系統路徑就是 <code>front_of_house/hosting/add_to_waitlist</code>。使用一個名稱作為開頭通常就是代表相對路徑。</p>
+<p>在 <code>crate</code> 之後，我們接續加上對應的模組直到抵達 <code>add_to_waitlist</code>。你可以想像一個有相同架構的檔案系統，然後我們指定 <code>/front_of_house/hosting/add_to_waitlist</code> 這樣的路徑來執行 <code>add_to_waitlist</code> 程式。使用 <code>crate</code> 這樣的名稱作為 crate 源頭的開始，就像在你的 shell 使用 <code>/</code> 作為檔案系統的根一樣。</p>
+<p>而我們第二次在 <code>eat_at_restaurant</code> 呼叫 <code>add_to_waitlist</code> 的方式是使用相對路徑。路徑的起頭是 <code>front_of_house</code>，因為它和 <code>eat_at_restaurant</code> 都被定義在模組樹的同一層中。這裡相對應的檔案系統路徑就是 <code>front_of_house/hosting/add_to_waitlist</code>。使用一個名稱作為開頭通常就是代表相對路徑。</p>
 <p>何時該用相對或絕對路徑是你在你的專案中要做的選擇。選擇的依據通常會看你移動程式碼位置時，是會連帶它們一起移動，或是分開移動到不同地方。舉例來說，如果我們同時將 <code>front_of_house</code> 模組和 <code>eat_at_restaurant</code> 函式移入另一個模組叫做 <code>customer_experience</code> 的話，就會需要修改 <code>add_to_waitlist</code> 的絕對路徑，但是相對路徑就可以原封不動。而如果我們只單獨將 <code>eat_at_restaurant</code> 函式移入一個叫做 <code>dining</code> 模組的話，<code>add_to_waitlist</code> 的絕對路徑就不用修改，但相對路徑就需要更新。我們通常會傾向於指定絕對路徑，因為分別移動程式碼定義與項目呼叫的位置通常是比較常見的。</p>
 <p>讓我們嘗試編譯範例 7-3 並看看為何不能編譯吧！以下範例 7-4 是我們得到的錯誤資訊。</p>
 <pre><code class="language-console">$ cargo build
@@ -4368,7 +4368,7 @@ To learn more, run the command again with --verbose.
 <p><span class="caption">範例 7-4：範例 7-3 嘗試編譯程式碼出現的錯誤</span></p>
 <p>錯誤訊息表示 <code>hosting</code> 模組是私有的。換句話說，我們指定 <code>hosting</code> 模組與 <code>add_to_waitlist</code> 函式的路徑是正確的，但是因為它沒有私有部分的存取權，所以 Rust 不讓我們使用。</p>
 <p>模組不僅用來組織你的程式碼，它們還定義了 Rust 的<strong>隱私界限（privacy boundary）</strong>：這是條封裝實作細節讓外部程式碼無法看到、呼叫或依賴的界限。所以你想要建立私有的函式或結構體，你可以將它們放入模組內。</p>
-<p>Rust 隱私權的運作方式是預設所有的項目（函式、方法、結構體、枚舉、模組與常數）都是私有的。上層模組的項目無法使用下層模組的私有項目，但下層模組能使用它們上方所有模組的項目。這麼做的原因是因為下層模組用來實現實作細節，而下層模組應該要能夠看到在自己所定義的地方的其他內容。讓我們繼續用餐廳做比喻的話，我們可以想像隱私權規則就像是餐廳的後臺辦公室。對餐廳顧客來說裡面發生什麼事情都是未知的，但是辦公室經理可以知道經營餐廳時的所有事物。</p>
+<p>Rust 隱私權的運作方式是預設所有的項目（函式、方法、結構體、枚舉、模組與常數）都是私有的。上層模組的項目無法使用下層模組的私有項目，但下層模組能使用它們上方所有模組的項目。這麼做的原因是因為下層模組用來實現實作細節，而下層模組應該要能夠看到在自己所定義的地方的其他內容。讓我們繼續用餐廳做比喻的話，我們可以想像隱私權規則就像是餐廳的後台辦公室。對餐廳顧客來說裡面發生什麼事情都是未知的，但是辦公室經理可以知道經營餐廳時的所有事物。</p>
 <p>Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來的。這樣一來，你就能知道內部哪些程式碼需要修改，而不會破壞到外部的程式碼。不過你可以使用 <code>pub</code> 關鍵字來讓下層模組內部的一些程式碼公開給上層模組來使用。</p>
 <h3 id="使用-pub-關鍵字公開路徑"><a class="header" href="#使用-pub-關鍵字公開路徑">使用 <code>pub</code> 關鍵字公開路徑</a></h3>
 <p>讓我們再執行一次範例 7-4 的錯誤，它告訴我們 <code>hosting</code> 模組是私有的。我們希望上層模組中的 <code>eat_at_restaurant</code> 函式可以呼叫下層模組的 <code>add_to_waitlist</code> 函式，所以我們將 <code>hosting</code> 模組加上 <code>pub</code> 關鍵字，如範例 7-5 所示。</p>
@@ -4800,7 +4800,7 @@ use std::io::Write;
 <span class="boring">}
 </span></code></pre></pre>
 <p>此 <code>use</code> 陳述式會將 <code>std::collections</code> 定義的所有公開項目都引入作用域中。不過請小心使用全域運算子！它容易讓我們無法分辨作用域內的名稱，以及程式中使用的名稱是從哪定義來的。</p>
-<p>全域運算子很常用在 <code>tests</code> 模組下，將所有東西引入測試中。我們會在第十一章的<a href="ch11-01-writing-tests.html#how-to-write-tests">「如何寫測試」</a><!-- ignore -->段落來討論。 全域運算子也常拿來用在 prelude 模式中，你可以查閱<a href="https://doc.rust-lang.org/std/prelude/index.html#other-preludes">標準函式庫的技術文件</a><!-- ignore -->來瞭解此模式的更多資訊。</p>
+<p>全域運算子很常用在 <code>tests</code> 模組下，將所有東西引入測試中。我們會在第十一章的<a href="ch11-01-writing-tests.html#how-to-write-tests">「如何寫測試」</a><!-- ignore -->段落來討論。全域運算子也常拿來用在 prelude 模式中，你可以查閱<a href="https://doc.rust-lang.org/std/prelude/index.html#other-preludes">標準函式庫的技術文件</a><!-- ignore -->來瞭解此模式的更多資訊。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -5138,7 +5138,7 @@ To learn more, run the command again with --verbose.
     let s = format!(&quot;{}-{}-{}&quot;, s1, s2, s3);
 <span class="boring">}
 </span></code></pre></pre>
-<p>此程式碼一樣能設置 <code>s</code> 為to <code>tic-tac-toe</code>。<code>format!</code> 巨集運作的方式和 <code>println!</code> 一樣，但不會將輸出結果顯示在螢幕上，它做的是回傳內容的 <code>String</code>。使用 <code>format!</code> 的程式碼版本看起來比較好讀懂，而且不會取走任何參數的所有權。</p>
+<p>此程式碼一樣能設置 <code>s</code> 為 <code>tic-tac-toe</code>。<code>format!</code> 巨集運作的方式和 <code>println!</code> 一樣，但不會將輸出結果顯示在螢幕上，它做的是回傳內容的 <code>String</code>。使用 <code>format!</code> 的程式碼版本看起來比較好讀懂，而且不會取走任何參數的所有權。</p>
 <h3 id="索引字串"><a class="header" href="#索引字串">索引字串</a></h3>
 <p>在其他許多程式語言中，使用索引引用字串來取得獨立字元是有效且常見的操作。然而在 Rust 中如果你嘗試對 <code>String</code> 使用索引語法的話，你會得到錯誤。請看看範例 8-19 這段無效的程式碼。</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
@@ -5300,7 +5300,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span></code></pre></pre>
 <p><span class="caption">範例 8-20：建立新的雜湊映射並插入一些鍵值</span></p>
 <p>注意到我們需要先使用 <code>use</code> 將標準函式庫的 <code>HashMap</code> 集合引入。在我們介紹的三個常見集合中，此集合是最少被用到的，所以它並沒有包含在 prelude 內讓我們能自動引用。雜湊映射也沒有像前者那麼多標準函式庫提供的支援，像是內建建構它們的巨集。</p>
-<p>和向量一樣，雜湊映射會將它們的資料儲存在堆積上。此 <code>HashMap</code> 得鍵是 <code>String</code> 型別而值是 <code>i32</code> 型別。和向量一樣，雜湊函式宣告後就都得是同類的，所有的鍵都必須是同型別，且所有的值也都必須是同型別。</p>
+<p>和向量一樣，雜湊映射會將它們的資料儲存在堆積上。此 <code>HashMap</code> 的鍵是 <code>String</code> 型別而值是 <code>i32</code> 型別。和向量一樣，雜湊函式宣告後就都得是同類的，所有的鍵都必須是同型別，且所有的值也都必須是同型別。</p>
 <p>另一種建構雜湊映射的方式為使用疊代器並在一個元組組成的向量中使用 <code>collect</code> 方法，其中每個元組都包含一個鍵與值的配對。我們會在第十三章的<a href="ch13-02-iterators.html">「使用疊代器來處理一系列的項目」</a><!-- ignore -->段落中深入探討疊代器與它們相關的方法。<code>collect</code> 方法會將收集的資料轉換成其他集合型別，包含 <code>HashMap</code>。舉例來說，如果我們有兩個向量分別是隊伍名稱與隊伍分數的話，我們可以使用 <code>zip</code> 方法來產生由元組組成的向量，其中「藍隊」會與 10 配對，以此類推。然後我們就能用 <code>collect</code> 方法將元組向量轉換成雜湊映射，如範例 8-21 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
@@ -5330,7 +5330,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span></code></pre></pre>
 <p><span class="caption">範例 8-22：展示當鍵值插入雜湊映射後就會擁有它們</span></p>
 <p>我們之後就無法使用變數 <code>field_name</code> 和 <code>field_value</code>，因為它們的值已經透過呼叫 <code>insert</code> 被移入雜湊映射之中。</p>
-<p>如果我們插入雜湊映射的數值是引用的話，該值就不會被移動到雜湊映射之中。不過該值的引用就必須一直有效，至少直到該雜湊映射離開作用域為止。我們會在第十章的<a href="ch10-03-lifetime-syntax.html#validating-references-with-lifetimes">“透過生命週期驗證引用”</a><!-- ignore --> 段落討落更多細節。</p>
+<p>如果我們插入雜湊映射的數值是引用的話，該值就不會被移動到雜湊映射之中。不過該值的引用就必須一直有效，至少直到該雜湊映射離開作用域為止。我們會在第十章的<a href="ch10-03-lifetime-syntax.html#validating-references-with-lifetimes">“透過生命週期驗證引用”</a><!-- ignore -->段落討落更多細節。</p>
 <h3 id="取得雜湊映射的數值"><a class="header" href="#取得雜湊映射的數值">取得雜湊映射的數值</a></h3>
 <p>我們可以透過 <code>get</code> 方法並提供鍵來取得其在雜湊映射對應的值，如範例 8-23 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -5875,14 +5875,14 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 </ul>
 </blockquote>
 <h2 id="要-panic-還是不要-panic"><a class="header" href="#要-panic-還是不要-panic">要 panic! 還是不要 panic!</a></h2>
-<p>所以你該如何決定何時要呼叫 panic! 還是要回傳 Result 呢？當程式碼恐慌時，就沒有任何回復的方式。你可以在任何錯誤場合呼叫 <code>panic!</code>，無論是可能或不可能復原的情況。不過這樣你就等於替呼叫你的程式碼的呼叫者做出決定，讓情況變成無法復原的錯誤了。當你選擇回傳 <code>Result</code> 數值，你將決定權交給呼叫者的程式碼。呼叫者可能會選擇符合當下場合的方式嘗試復原錯誤，或者它可以選擇 Err 內的數值是不可回復的，所以它就呼叫 panic! 讓你原本可回復的錯誤轉成不可回復。因此，當你定義可能失敗的函式時預設回傳 Result 是不錯的選擇。</p>
-<p>在少數情況下，程式碼恐慌會比回傳 Result 來得恰當。讓我們來探討為何在範例、程式碼原型與測試選擇恐慌會比較好。然後我們將討論到一種編譯器無法辨別出不可能失敗，但人類的你卻可以的情況。本章節會總結一些通用指導原則來決定何時在函式庫程式碼中恐慌。</p>
+<p>所以你該如何決定何時要呼叫 <code>panic!</code> 還是要回傳 Result 呢？當程式碼恐慌時，就沒有任何回復的方式。你可以在任何錯誤場合呼叫 <code>panic!</code>，無論是可能或不可能復原的情況。不過這樣你就等於替呼叫你的程式碼的呼叫者做出決定，讓情況變成無法復原的錯誤了。當你選擇回傳 <code>Result</code> 數值，你將決定權交給呼叫者的程式碼。呼叫者可能會選擇符合當下場合的方式嘗試復原錯誤，或者它可以選擇 <code>Err</code> 內的數值是不可回復的，所以它就呼叫 <code>panic!</code> 讓你原本可回復的錯誤轉成不可回復。因此，當你定義可能失敗的函式時預設回傳 <code>Result</code> 是不錯的選擇。</p>
+<p>在少數情況下，程式碼恐慌會比回傳 <code>Result</code> 來得恰當。讓我們來探討為何在範例、程式碼原型與測試選擇恐慌會比較好。然後我們將討論到一種編譯器無法辨別出不可能失敗，但人類的你卻可以的情況。本章節會總結一些通用指導原則來決定何時在函式庫程式碼中恐慌。</p>
 <h3 id="範例程式碼原型與測試"><a class="header" href="#範例程式碼原型與測試">範例、程式碼原型與測試</a></h3>
-<p>當你在寫解釋一些概念的範例時，寫出完善錯誤處理的範例，反而會讓範例變得較不清楚。在範例中，使用像是 unwrap 這樣會恐慌的方法可以被視為是一種要求使用者自行決定如何處理錯誤的表現，因為他們可以依據程式碼執行的方式來修改此方法。</p>
-<p>同樣地 unwrap 與 expect 方法也很適用在試做原型，你可以在決定準備開始處理錯誤前使用它們。它們會留下清楚的痕跡，當你準備好要讓程式碼更穩固時，你就能回來修改。</p>
-<p>如果有方法在測試內失敗時，你會希望整個測試都失敗，就算該方法不是要測試的功能。因為 panic! 會將測試標記為失敗，所以在此呼叫 unwrap 或 expect 是很正確的。</p>
+<p>當你在寫解釋一些概念的範例時，寫出完善錯誤處理的範例，反而會讓範例變得較不清楚。在範例中，使用像是 <code>unwrap</code> 這樣會恐慌的方法可以被視為是一種要求使用者自行決定如何處理錯誤的表現，因為他們可以依據程式碼執行的方式來修改此方法。</p>
+<p>同樣地 <code>unwrap</code> 與 <code>expect</code> 方法也很適用在試做原型，你可以在決定準備開始處理錯誤前使用它們。它們會留下清楚的痕跡，當你準備好要讓程式碼更穩固時，你就能回來修改。</p>
+<p>如果有方法在測試內失敗時，你會希望整個測試都失敗，就算該方法不是要測試的功能。因為 <code>panic!</code> 會將測試標記為失敗，所以在此呼叫 <code>unwrap</code> 或 <code>expect</code> 是很正確的。</p>
 <h3 id="當你知道的比編譯器還多的時候"><a class="header" href="#當你知道的比編譯器還多的時候">當你知道的比編譯器還多的時候</a></h3>
-<p>如果你知道一些編譯器不知道的邏輯的話，直接在 Result 呼叫 unwrap 來直接取得 Ok 的數值是很有用的。你還是會有個 <code>Result</code> 數值需要做處理，你呼叫的程式碼還是有機會失敗的，就算在你的特定場合中邏輯上是不可能的。如果你能保證在親自審閱程式碼後，你絕對不可能會有 <code>Err</code> 變體的話，那麼呼叫 <code>unwrap</code> 是完全可以接受的。以下範例就是如此：</p>
+<p>如果你知道一些編譯器不知道的邏輯的話，直接在 <code>Result</code> 呼叫 <code>unwrap</code> 來直接取得 <code>Ok </code>的數值是很有用的。你還是會有個 <code>Result</code> 數值需要做處理，你呼叫的程式碼還是有機會失敗的，就算在你的特定場合中邏輯上是不可能的。如果你能保證在親自審閱程式碼後，你絕對不可能會有 <code>Err</code> 變體的話，那麼呼叫 <code>unwrap</code> 是完全可以接受的。以下範例就是如此：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    use std::net::IpAddr;
 

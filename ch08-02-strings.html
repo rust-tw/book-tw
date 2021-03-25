@@ -283,7 +283,7 @@
     let s = format!(&quot;{}-{}-{}&quot;, s1, s2, s3);
 <span class="boring">}
 </span></code></pre></pre>
-<p>此程式碼一樣能設置 <code>s</code> 為to <code>tic-tac-toe</code>。<code>format!</code> 巨集運作的方式和 <code>println!</code> 一樣，但不會將輸出結果顯示在螢幕上，它做的是回傳內容的 <code>String</code>。使用 <code>format!</code> 的程式碼版本看起來比較好讀懂，而且不會取走任何參數的所有權。</p>
+<p>此程式碼一樣能設置 <code>s</code> 為 <code>tic-tac-toe</code>。<code>format!</code> 巨集運作的方式和 <code>println!</code> 一樣，但不會將輸出結果顯示在螢幕上，它做的是回傳內容的 <code>String</code>。使用 <code>format!</code> 的程式碼版本看起來比較好讀懂，而且不會取走任何參數的所有權。</p>
 <h3 id="索引字串"><a class="header" href="#索引字串">索引字串</a></h3>
 <p>在其他許多程式語言中，使用索引引用字串來取得獨立字元是有效且常見的操作。然而在 Rust 中如果你嘗試對 <code>String</code> 使用索引語法的話，你會得到錯誤。請看看範例 8-19 這段無效的程式碼。</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {

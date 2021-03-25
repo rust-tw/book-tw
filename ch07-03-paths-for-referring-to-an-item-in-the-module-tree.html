@@ -176,7 +176,7 @@
 <p>路徑可以有兩種形式：</p>
 <ul>
 <li><strong>絕對路徑</strong>（absolute path）是從 crate 的源頭開始找起，用 crate 的名稱或 <code>crate</code> 作為起頭。</li>
-<li><strong>相對路徑</strong>（relative path）則是從本身的模組開始，使用 <code>self</code>、<code>super</code>或是當前模組的標識符（identifiers）。</li>
+<li><strong>相對路徑</strong>（relative path）則是從本身的模組開始，使用 <code>self</code>、<code>super</code> 或是當前模組的標識符（identifiers）。</li>
 </ul>
 <p>無論是絕對或相對路徑其後都會接著一或多個標識符，並使用雙冒號（<code>::</code>）區隔開來。</p>
 <p>讓我們回頭看看範例 7-1，我們要如何呼叫函式 <code>add_to_waitlist</code> 呢？這就和問函式 <code>add_to_waitlist</code> 在哪的問題是一樣的。在範例 7-3，我們移除了一些模組與函式來精簡程式碼的呈現方式。我們會展示兩種從 crate 源頭定義的 <code>eat_at_restaurant</code> 函式內呼叫 <code>add_to_waitlist</code> 的方法。<code>eat_at_restaurant</code> 函式是我們函式庫 crate 公開 API 的一部分，所以我們會加上 <code>pub</code> 關鍵字。在<a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#%E4%BD%BF%E7%94%A8-pub-%E9%97%9C%E9%8D%B5%E5%AD%97%E5%85%AC%E9%96%8B%E8%B7%AF%E5%BE%91">「使用 <code>pub</code> 關鍵字公開路徑」</a><!-- ignore -->的段落中，我們會提到更多 <code>pub</code> 的細節。請注意此範例還不能編譯，我們等等會解釋原因。</p>
@@ -197,8 +197,8 @@ pub fn eat_at_restaurant() {
 </code></pre>
 <p><span class="caption">範例 7-3：使用絕對與相對路徑呼叫 <code>add_to_waitlist</code> 函式</span></p>
 <p>我們在 <code>eat_at_restaurant</code> 中第一次呼叫 <code>add_to_waitlist</code> 函式的方式是用絕對路徑。<code>add_to_waitlist</code> 函式和 <code>eat_at_restaurant</code> 都是在同一個 crate 底下，所以我們可以使用 <code>crate</code> 關鍵字來作為絕對路徑的開頭。</p>
-<p>在 <code>crate</code> 之後, 我們接續加上對應的模組直到抵達 <code>add_to_waitlist</code>。你可以想像一個有相同架構的檔案系統，然後我們指定 <code>/front_of_house/hosting/add_to_waitlist</code> 這樣的路徑來執行 <code>add_to_waitlist</code> 程式。使用 <code>crate</code> 這樣的名稱作為 crate 源頭的開始，就像在你的 shell 使用 <code>/</code> 作為檔案系統的根一樣。</p>
-<p>而我們第二次在 <code>eat_at_restaurant</code> 呼叫 <code>add_to_waitlist</code> 的方式是使用相對路徑。 路徑的起頭是 <code>front_of_house</code>，因為它和 <code>eat_at_restaurant</code> 都被定義在模組樹的同一層中。這裡相對應的檔案系統路徑就是 <code>front_of_house/hosting/add_to_waitlist</code>。使用一個名稱作為開頭通常就是代表相對路徑。</p>
+<p>在 <code>crate</code> 之後，我們接續加上對應的模組直到抵達 <code>add_to_waitlist</code>。你可以想像一個有相同架構的檔案系統，然後我們指定 <code>/front_of_house/hosting/add_to_waitlist</code> 這樣的路徑來執行 <code>add_to_waitlist</code> 程式。使用 <code>crate</code> 這樣的名稱作為 crate 源頭的開始，就像在你的 shell 使用 <code>/</code> 作為檔案系統的根一樣。</p>
+<p>而我們第二次在 <code>eat_at_restaurant</code> 呼叫 <code>add_to_waitlist</code> 的方式是使用相對路徑。路徑的起頭是 <code>front_of_house</code>，因為它和 <code>eat_at_restaurant</code> 都被定義在模組樹的同一層中。這裡相對應的檔案系統路徑就是 <code>front_of_house/hosting/add_to_waitlist</code>。使用一個名稱作為開頭通常就是代表相對路徑。</p>
 <p>何時該用相對或絕對路徑是你在你的專案中要做的選擇。選擇的依據通常會看你移動程式碼位置時，是會連帶它們一起移動，或是分開移動到不同地方。舉例來說，如果我們同時將 <code>front_of_house</code> 模組和 <code>eat_at_restaurant</code> 函式移入另一個模組叫做 <code>customer_experience</code> 的話，就會需要修改 <code>add_to_waitlist</code> 的絕對路徑，但是相對路徑就可以原封不動。而如果我們只單獨將 <code>eat_at_restaurant</code> 函式移入一個叫做 <code>dining</code> 模組的話，<code>add_to_waitlist</code> 的絕對路徑就不用修改，但相對路徑就需要更新。我們通常會傾向於指定絕對路徑，因為分別移動程式碼定義與項目呼叫的位置通常是比較常見的。</p>
 <p>讓我們嘗試編譯範例 7-3 並看看為何不能編譯吧！以下範例 7-4 是我們得到的錯誤資訊。</p>
 <pre><code class="language-console">$ cargo build
@@ -225,7 +225,7 @@ To learn more, run the command again with --verbose.
 <p><span class="caption">範例 7-4：範例 7-3 嘗試編譯程式碼出現的錯誤</span></p>
 <p>錯誤訊息表示 <code>hosting</code> 模組是私有的。換句話說，我們指定 <code>hosting</code> 模組與 <code>add_to_waitlist</code> 函式的路徑是正確的，但是因為它沒有私有部分的存取權，所以 Rust 不讓我們使用。</p>
 <p>模組不僅用來組織你的程式碼，它們還定義了 Rust 的<strong>隱私界限（privacy boundary）</strong>：這是條封裝實作細節讓外部程式碼無法看到、呼叫或依賴的界限。所以你想要建立私有的函式或結構體，你可以將它們放入模組內。</p>
-<p>Rust 隱私權的運作方式是預設所有的項目（函式、方法、結構體、枚舉、模組與常數）都是私有的。上層模組的項目無法使用下層模組的私有項目，但下層模組能使用它們上方所有模組的項目。這麼做的原因是因為下層模組用來實現實作細節，而下層模組應該要能夠看到在自己所定義的地方的其他內容。讓我們繼續用餐廳做比喻的話，我們可以想像隱私權規則就像是餐廳的後臺辦公室。對餐廳顧客來說裡面發生什麼事情都是未知的，但是辦公室經理可以知道經營餐廳時的所有事物。</p>
+<p>Rust 隱私權的運作方式是預設所有的項目（函式、方法、結構體、枚舉、模組與常數）都是私有的。上層模組的項目無法使用下層模組的私有項目，但下層模組能使用它們上方所有模組的項目。這麼做的原因是因為下層模組用來實現實作細節，而下層模組應該要能夠看到在自己所定義的地方的其他內容。讓我們繼續用餐廳做比喻的話，我們可以想像隱私權規則就像是餐廳的後台辦公室。對餐廳顧客來說裡面發生什麼事情都是未知的，但是辦公室經理可以知道經營餐廳時的所有事物。</p>
 <p>Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來的。這樣一來，你就能知道內部哪些程式碼需要修改，而不會破壞到外部的程式碼。不過你可以使用 <code>pub</code> 關鍵字來讓下層模組內部的一些程式碼公開給上層模組來使用。</p>
 <h3 id="使用-pub-關鍵字公開路徑"><a class="header" href="#使用-pub-關鍵字公開路徑">使用 <code>pub</code> 關鍵字公開路徑</a></h3>
 <p>讓我們再執行一次範例 7-4 的錯誤，它告訴我們 <code>hosting</code> 模組是私有的。我們希望上層模組中的 <code>eat_at_restaurant</code> 函式可以呼叫下層模組的 <code>add_to_waitlist</code> 函式，所以我們將 <code>hosting</code> 模組加上 <code>pub</code> 關鍵字，如範例 7-5 所示。</p>
