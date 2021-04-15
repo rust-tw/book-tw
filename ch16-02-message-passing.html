@@ -305,7 +305,7 @@ fn main() {
 <p><span class="caption">範例 16-10：傳送數個訊息並在之間暫停片刻</span></p>
 <p>這次產生的執行緒有個字串向量，我們希望能傳送它們到主執行緒中。我們遍歷它們，單獨傳送每個值，然後透過 <code>Duration</code> 數值呼叫 <code>thread::sleep</code> 來暫停一秒。</p>
 <p>在主執行緒中，我們不再顯式呼叫 <code>recv</code> 函式，我們改將 <code>rx</code> 作為疊代器使用。對每個接收到的數值，我們印出它。當通道關閉時，疊代器就會結束。</p>
-<p>當執行範例 16-10 的程式碼，你應該會看到以下輸出，每一行會間格一秒鐘：</p>
+<p>當執行範例 16-10 的程式碼，你應該會看到以下輸出，每一行會間隔一秒鐘：</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
@@ -316,7 +316,7 @@ changes in the compiler -->
 </code></pre>
 <p>因為我們在主執行緒中的 <code>for</code> 迴圈內沒有任何會暫停或延遲的程式碼，所以我們可以看出主執行緒是在等待產生的執行緒傳送的數值。</p>
 <h3 id="透過克隆發送者來建立多重生產者"><a class="header" href="#透過克隆發送者來建立多重生產者">透過克隆發送者來建立多重生產者</a></h3>
-<p>稍早之前我們提過 <code>mpsc</code> 是<strong>多重生產者、唯一消費者</strong>（multiple producer, single consumer）的縮寫。讓我們來使用 <code>mpsc</code> 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。為此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
+<p>稍早之前我們提過 <code>mpsc</code> 是<strong>多重生產者、唯一消費者</strong>（multiple producer, single consumer）的縮寫。讓我們來使用 <code>mpsc</code> 並擴展範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。為此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::thread;

@@ -209,7 +209,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 19-1：從引用建立裸指標</span></p>
 <p>注意，這段程式碼並無使用 <code>unsafe</code> 關鍵字。我們可以在安全程式碼中建立裸指標，我們只是不能在不安全區塊外對其解引用，你很快就會看到。</p>
-<p>我們透過 <code>as</code> 將不可變與可變引用轉型稱個別對應的裸指標。由於這些裸指標是從保證合法的引用而來，就能得知這些裸指標同樣合法，但我們無法推導所有裸指標都合法。</p>
+<p>我們透過 <code>as</code> 將不可變與可變引用轉型成個別對應的裸指標。由於這些裸指標是從保證合法的引用而來，就能得知這些裸指標同樣合法，但我們無法推導所有裸指標都合法。</p>
 <p>接下來，我們將建立無法確認合法性的裸指標，範例 19-2 展示了如何從任意記憶體的位置建立裸指標。嘗試使用任意的記憶體行為並未定義，該位址上可能有也可能沒資料，且編譯器可能會最佳化該程式，所以該處可能不會存取記憶體，或是程式因區段錯誤導致崩潰。
 一般情況下，雖然這種程式碼能寫得出來，但不會有任何好理由寫出它。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -402,7 +402,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 19-9：定義並使用一個不可變的靜態變數</span></p>
-<p>靜態變數（static variable）與我們在第三章「<a href="ch03-01-variables-and-mutability.html#%E8%AE%8A%E6%95%B8%E8%88%87%E5%B8%B8%E6%95%B8%E7%9A%84%E5%B7%AE%E7%95%B0">變數與常數的差異</a>」一節討論的常數相似。慣例上靜態變數會用尖叫蛇式命名（<code>SCREAMING_SNAKE_CASE</code>），且<strong>必須</strong>標註變數型別，例如範例中的 <code>*'static str</code>。由於靜態變數只能儲存 <code>static</code> 生命週期的引用，代表 Rust 編譯器可推導出它的生命週期，不需要我們手動標註。存取一個不可變的靜態變數是安全的。</p>
+<p>靜態變數（static variable）與我們在第三章「<a href="ch03-01-variables-and-mutability.html#%E8%AE%8A%E6%95%B8%E8%88%87%E5%B8%B8%E6%95%B8%E7%9A%84%E5%B7%AE%E7%95%B0">變數與常數的差異</a>」一節討論的常數相似。慣例上靜態變數會用尖叫蛇式命名（<code>SCREAMING_SNAKE_CASE</code>），且<strong>必須</strong>標註變數型別，例如範例中的 <code>&amp;'static str</code>。由於靜態變數只能儲存 <code>static</code> 生命週期的引用，代表 Rust 編譯器可推導出它的生命週期，不需要我們手動標註。存取一個不可變的靜態變數是安全的。</p>
 <p>常數和不可變靜態變數看似相同，實則有些許隱晦差異：靜態變數之值有固定的記憶體位址，使用該值永遠會存取相同的資料。反之，常數在使用上則可複製它們儲存的資料。</p>
 <p>另一個常數與靜態變數的差異是，靜態變數能是可變的。存取並修改可變的靜態變數並「<strong>不安全</strong>」。範例 19-10 展示了如何宣告、存取、修改一個可變的靜態變數 <code>COUNTER</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

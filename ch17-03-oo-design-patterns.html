@@ -234,7 +234,7 @@ impl State for Draft {}
 <p><code>State</code> 定義了不同文章狀態共享的行為，而且<code>Draft</code>、<code>PendingReview</code> 與 <code>Published</code> 狀態都會實作 <code>State</code> 特徵。目前特徵還沒有任何方法，而且我們也只先定義 <code>Draft</code> 狀態，因為這是文章的初始狀態。</p>
 <p>當我們建立新的 <code>Post</code>，我們對其 <code>state</code> 欄位給予存有 <code>Box</code> 的 <code>Some</code> 數值。此 <code>Box</code> 會指向一個新的 <code>Draft</code> 結構體實例。這確保每當我們建立 <code>Post</code> 的新實例時，它會從草稿起始。因為 <code>Post</code> 的 <code>state</code> 欄位是私有的，我們沒有任何方法可以建立處於其他狀態的 <code>Post</code>！在 <code>Post::new</code> 函式中，我們設置 <code>content</code> 欄位為一個新的空 <code>String</code>。</p>
 <h3 id="儲存文章內容的文字"><a class="header" href="#儲存文章內容的文字">儲存文章內容的文字</a></h3>
-<p>範例 17-11 展示我們想要能夠呼叫一個叫做 <code>add_text</code> 的函式並傳入 <code>&amp;str</code> 來對網誌文章增加文字內容。我們實作此方法，而不是將 <code>content</code> 欄位透過 <code>pub</code> 公開出去。這代表我們之後可意實作個方法來控制 <code>content</code> 欄位資料該怎麼讀取。<code>add_text</code> 方法非常直觀，所以讓我們在 <code>impl Post</code> 區塊中加上範例 17-13 的實作吧：</p>
+<p>範例 17-11 展示我們想要能夠呼叫一個叫做 <code>add_text</code> 的函式並傳入 <code>&amp;str</code> 來對網誌文章增加文字內容。我們實作此方法，而不是將 <code>content</code> 欄位透過 <code>pub</code> 公開出去。這代表我們之後可以實作個方法來控制 <code>content</code> 欄位資料該怎麼讀取。<code>add_text</code> 方法非常直觀，所以讓我們在 <code>impl Post</code> 區塊中加上範例 17-13 的實作吧：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Post {
 </span><span class="boring">    state: Option&lt;Box&lt;dyn State&gt;&gt;,

@@ -14401,7 +14401,7 @@ fn main() {
 <p><span class="caption">範例 16-10：傳送數個訊息並在之間暫停片刻</span></p>
 <p>這次產生的執行緒有個字串向量，我們希望能傳送它們到主執行緒中。我們遍歷它們，單獨傳送每個值，然後透過 <code>Duration</code> 數值呼叫 <code>thread::sleep</code> 來暫停一秒。</p>
 <p>在主執行緒中，我們不再顯式呼叫 <code>recv</code> 函式，我們改將 <code>rx</code> 作為疊代器使用。對每個接收到的數值，我們印出它。當通道關閉時，疊代器就會結束。</p>
-<p>當執行範例 16-10 的程式碼，你應該會看到以下輸出，每一行會間格一秒鐘：</p>
+<p>當執行範例 16-10 的程式碼，你應該會看到以下輸出，每一行會間隔一秒鐘：</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
@@ -14412,7 +14412,7 @@ changes in the compiler -->
 </code></pre>
 <p>因為我們在主執行緒中的 <code>for</code> 迴圈內沒有任何會暫停或延遲的程式碼，所以我們可以看出主執行緒是在等待產生的執行緒傳送的數值。</p>
 <h3 id="透過克隆發送者來建立多重生產者"><a class="header" href="#透過克隆發送者來建立多重生產者">透過克隆發送者來建立多重生產者</a></h3>
-<p>稍早之前我們提過 <code>mpsc</code> 是<strong>多重生產者、唯一消費者</strong>（multiple producer, single consumer）的縮寫。讓我們來使用 <code>mpsc</code> 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。為此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
+<p>稍早之前我們提過 <code>mpsc</code> 是<strong>多重生產者、唯一消費者</strong>（multiple producer, single consumer）的縮寫。讓我們來使用 <code>mpsc</code> 並擴展範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。為此我們可以克隆通道的發送部分，如範例 16-11 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::thread;
@@ -15116,7 +15116,7 @@ impl State for Draft {}
 <p><code>State</code> 定義了不同文章狀態共享的行為，而且<code>Draft</code>、<code>PendingReview</code> 與 <code>Published</code> 狀態都會實作 <code>State</code> 特徵。目前特徵還沒有任何方法，而且我們也只先定義 <code>Draft</code> 狀態，因為這是文章的初始狀態。</p>
 <p>當我們建立新的 <code>Post</code>，我們對其 <code>state</code> 欄位給予存有 <code>Box</code> 的 <code>Some</code> 數值。此 <code>Box</code> 會指向一個新的 <code>Draft</code> 結構體實例。這確保每當我們建立 <code>Post</code> 的新實例時，它會從草稿起始。因為 <code>Post</code> 的 <code>state</code> 欄位是私有的，我們沒有任何方法可以建立處於其他狀態的 <code>Post</code>！在 <code>Post::new</code> 函式中，我們設置 <code>content</code> 欄位為一個新的空 <code>String</code>。</p>
 <h3 id="儲存文章內容的文字"><a class="header" href="#儲存文章內容的文字">儲存文章內容的文字</a></h3>
-<p>範例 17-11 展示我們想要能夠呼叫一個叫做 <code>add_text</code> 的函式並傳入 <code>&amp;str</code> 來對網誌文章增加文字內容。我們實作此方法，而不是將 <code>content</code> 欄位透過 <code>pub</code> 公開出去。這代表我們之後可意實作個方法來控制 <code>content</code> 欄位資料該怎麼讀取。<code>add_text</code> 方法非常直觀，所以讓我們在 <code>impl Post</code> 區塊中加上範例 17-13 的實作吧：</p>
+<p>範例 17-11 展示我們想要能夠呼叫一個叫做 <code>add_text</code> 的函式並傳入 <code>&amp;str</code> 來對網誌文章增加文字內容。我們實作此方法，而不是將 <code>content</code> 欄位透過 <code>pub</code> 公開出去。這代表我們之後可以實作個方法來控制 <code>content</code> 欄位資料該怎麼讀取。<code>add_text</code> 方法非常直觀，所以讓我們在 <code>impl Post</code> 區塊中加上範例 17-13 的實作吧：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Post {
 </span><span class="boring">    state: Option&lt;Box&lt;dyn State&gt;&gt;,
@@ -16430,7 +16430,7 @@ To learn more, run the command again with --verbose.
 </span></code></pre></pre>
 <p><span class="caption">範例 19-1：從引用建立裸指標</span></p>
 <p>注意，這段程式碼並無使用 <code>unsafe</code> 關鍵字。我們可以在安全程式碼中建立裸指標，我們只是不能在不安全區塊外對其解引用，你很快就會看到。</p>
-<p>我們透過 <code>as</code> 將不可變與可變引用轉型稱個別對應的裸指標。由於這些裸指標是從保證合法的引用而來，就能得知這些裸指標同樣合法，但我們無法推導所有裸指標都合法。</p>
+<p>我們透過 <code>as</code> 將不可變與可變引用轉型成個別對應的裸指標。由於這些裸指標是從保證合法的引用而來，就能得知這些裸指標同樣合法，但我們無法推導所有裸指標都合法。</p>
 <p>接下來，我們將建立無法確認合法性的裸指標，範例 19-2 展示了如何從任意記憶體的位置建立裸指標。嘗試使用任意的記憶體行為並未定義，該位址上可能有也可能沒資料，且編譯器可能會最佳化該程式，所以該處可能不會存取記憶體，或是程式因區段錯誤導致崩潰。
 一般情況下，雖然這種程式碼能寫得出來，但不會有任何好理由寫出它。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -16623,7 +16623,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 19-9：定義並使用一個不可變的靜態變數</span></p>
-<p>靜態變數（static variable）與我們在第三章「<a href="ch03-01-variables-and-mutability.html#%E8%AE%8A%E6%95%B8%E8%88%87%E5%B8%B8%E6%95%B8%E7%9A%84%E5%B7%AE%E7%95%B0">變數與常數的差異</a>」一節討論的常數相似。慣例上靜態變數會用尖叫蛇式命名（<code>SCREAMING_SNAKE_CASE</code>），且<strong>必須</strong>標註變數型別，例如範例中的 <code>*'static str</code>。由於靜態變數只能儲存 <code>static</code> 生命週期的引用，代表 Rust 編譯器可推導出它的生命週期，不需要我們手動標註。存取一個不可變的靜態變數是安全的。</p>
+<p>靜態變數（static variable）與我們在第三章「<a href="ch03-01-variables-and-mutability.html#%E8%AE%8A%E6%95%B8%E8%88%87%E5%B8%B8%E6%95%B8%E7%9A%84%E5%B7%AE%E7%95%B0">變數與常數的差異</a>」一節討論的常數相似。慣例上靜態變數會用尖叫蛇式命名（<code>SCREAMING_SNAKE_CASE</code>），且<strong>必須</strong>標註變數型別，例如範例中的 <code>&amp;'static str</code>。由於靜態變數只能儲存 <code>static</code> 生命週期的引用，代表 Rust 編譯器可推導出它的生命週期，不需要我們手動標註。存取一個不可變的靜態變數是安全的。</p>
 <p>常數和不可變靜態變數看似相同，實則有些許隱晦差異：靜態變數之值有固定的記憶體位址，使用該值永遠會存取相同的資料。反之，常數在使用上則可複製它們儲存的資料。</p>
 <p>另一個常數與靜態變數的差異是，靜態變數能是可變的。存取並修改可變的靜態變數並「<strong>不安全</strong>」。範例 19-10 展示了如何宣告、存取、修改一個可變的靜態變數 <code>COUNTER</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -16854,19 +16854,19 @@ impl Human {
 </span><span class="boring">
 </span><span class="boring">impl Pilot for Human {
 </span><span class="boring">    fn fly(&amp;self) {
-</span><span class="boring">        println!(&quot;This is your captain speaking.&quot;);
+</span><span class="boring">        println!(&quot;這裡是艦長發言。&quot;);
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Wizard for Human {
 </span><span class="boring">    fn fly(&amp;self) {
-</span><span class="boring">        println!(&quot;Up!&quot;);
+</span><span class="boring">        println!(&quot;起！&quot;);
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Human {
 </span><span class="boring">    fn fly(&amp;self) {
-</span><span class="boring">        println!(&quot;*waving arms furiously*&quot;);
+</span><span class="boring">        println!(&quot;*狂揮雙臂*&quot;);
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
