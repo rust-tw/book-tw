@@ -10,19 +10,19 @@ struct Human;
 
 impl Pilot for Human {
     fn fly(&self) {
-        println!("This is your captain speaking.");
+        println!("這裡是艦長發言。");
     }
 }
 
 impl Wizard for Human {
     fn fly(&self) {
-        println!("Up!");
+        println!("起！");
     }
 }
 
 impl Human {
     fn fly(&self) {
-        println!("*waving arms furiously*");
+        println!("*狂揮雙臂*");
     }
 }
 
