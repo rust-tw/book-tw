@@ -100,7 +100,7 @@ changes in the compiler -->
 
 在主執行緒中，我們不再顯式呼叫 `recv` 函式，我們改將 `rx` 作為疊代器使用。對每個接收到的數值，我們印出它。當通道關閉時，疊代器就會結束。
 
-當執行範例 16-10 的程式碼，你應該會看到以下輸出，每一行會間格一秒鐘：
+當執行範例 16-10 的程式碼，你應該會看到以下輸出，每一行會間隔一秒鐘：
 
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
@@ -117,7 +117,7 @@ changes in the compiler -->
 
 ### 透過克隆發送者來建立多重生產者
 
-稍早之前我們提過 `mpsc` 是**多重生產者、唯一消費者**（multiple producer, single consumer）的縮寫。讓我們來使用 `mpsc` 並擴產範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。為此我們可以克隆通道的發送部分，如範例 16-11 所示：
+稍早之前我們提過 `mpsc` 是**多重生產者、唯一消費者**（multiple producer, single consumer）的縮寫。讓我們來使用 `mpsc` 並擴展範例 16-10 的程式碼來建立數個執行緒，它們都將傳遞數值給同個接收者。為此我們可以克隆通道的發送部分，如範例 16-11 所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
