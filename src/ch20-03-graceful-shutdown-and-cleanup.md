@@ -176,7 +176,7 @@ Shutting down worker 3
 
 ## 總結
 
-做得好！你已經讀完整本輸了！我們由衷感謝你一同加入 Rust 的旅途。現在你已經準備好實作你自己的 Rust 專案並協助其他人的專案。別忘了我們有個友善的社群，其他 Rustaceans 會很樂意幫助你一同面對 Rust 旅途中的任何挑戰。
+做得好！你已經讀完整本書了！我們由衷感謝你一同加入 Rust 的旅途。現在你已經準備好實作你自己的 Rust 專案並協助其他人的專案。別忘了我們有個友善的社群，其他 Rustaceans 會很樂意幫助你一同面對 Rust 旅途中的任何挑戰。
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch20-03-graceful-shutdown-and-cleanup.md)
