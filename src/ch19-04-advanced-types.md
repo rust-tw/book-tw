@@ -42,7 +42,7 @@ Box<dyn Fn() + Send + 'static>
 
 <span class="caption">範例 19-24：在多處使用很長的型別</span>
 
-使用型別別名減少重複，讓程式碼更可控。範例 19-25，我們替落落長的型別導入一個 `Trunk` 別名，所有用到該型別之處都能用短小的 `Thunk` 替代。
+使用型別別名減少重複，讓程式碼更可控。範例 19-25，我們替落落長的型別導入一個 `Thunk` 別名，所有用到該型別之處都能用短小的 `Thunk` 替代。
 
 ```rust
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-25/src/main.rs:here}}
