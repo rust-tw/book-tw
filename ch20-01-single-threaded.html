@@ -236,8 +236,8 @@ fn handle_connection(mut stream: TcpStream) {
 }
 </code></pre></pre>
 <p><span class="caption">範例 20-2：讀取 <code>TcpStream</code> 並顯示資料</span></p>
-<p>我們將 <code>std::io::prelude</code> 引入作用域來取得特定的特徵，讓我們可以讀取並寫入流之中。在 <code>main</code> 函式的 <code>for</code> 迴圈中，不同於印出說我們取得連線的訊息，我們系安在會呼叫新的 <code>handle_connection</code> 函式並將 <code>stream</code> 傳入。</p>
-<p>在 <code>handle_connection</code> 函式中，參數 <code>stream</code> 必須是可變的。原因是因為 <code>TcpStream</code> 實例會內部追蹤回傳給我們的資料。它可能會讀取到比我們所要求的還多的資料，並儲存起來作為下次我們要求取得的資料。因此它需要 <code>mut</code>，因為其內部狀態可能會改變。通常我們不會任何「讀取」是需要可變的，但在此情況中，我們會需要 <code>mut</code> 關鍵字。</p>
+<p>我們將 <code>std::io::prelude</code> 引入作用域來取得特定的特徵，讓我們可以讀取並寫入流之中。在 <code>main</code> 函式的 <code>for</code> 迴圈中，不同於印出說我們取得連線的訊息，我們現在會呼叫新的 <code>handle_connection</code> 函式並將 <code>stream</code> 傳入。</p>
+<p>在 <code>handle_connection</code> 函式中，參數 <code>stream</code> 必須是可變的。原因是因為 <code>TcpStream</code> 實例會內部追蹤回傳給我們的資料。它可能會讀取到比我們所要求的還多的資料，並儲存起來作為下次我們要求取得的資料。因此它需要 <code>mut</code>，因為其內部狀態可能會改變。通常我們不會認為「讀取」是需要可變的，但在此情況中，我們會需要 <code>mut</code> 關鍵字。</p>
 <p>接著，我們需要實際讀取流。我們在此分成兩個步驟：首先，我們在堆疊上宣告 <code>buffer</code> 來儲存讀取到的資料。我們緩衝區（buffer）的大小為 1024 位元組，這足以儲存基本請求的資料，並滿足本章節的目的。如果我們想要處理任意大小的請求，緩衝區管理會變得更複雜，我們在此先以簡單的方式處理。我們將緩衝區傳至 <code>stream.read</code>，這會讀取 <code>TcpStream</code> 的位元組並置入緩衝區中。</p>
 <p>再來，我們將緩衝區的位元組轉換成字串並顯示出來。<code>String::from_utf8_lossy</code> 函式接收一個 <code>&amp;[u8]</code> 並以此產生 <code>String</code>。名稱中的「lossy」指的是此函式的行為，當它看到無效的 UTF-8 序列時，它會將其替換成 <code>�</code>，也就是 <code>U+FFFD REPLACEMENT CHARACTER</code>。你可能會在緩衝區剩餘沒填入請求資料的地方看到這些字元。</p>
 <p>讓我們嘗試看看此程式碼！開啟程式並再次從網頁瀏覽器發送請求。注意到我們仍然會在瀏覽器中取得錯誤頁面，但是我們程式在終端機的輸出應該會類似以下結果：</p>

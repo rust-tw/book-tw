@@ -220,7 +220,7 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 19-24：在多處使用很長的型別</span></p>
-<p>使用型別別名減少重複，讓程式碼更可控。範例 19-25，我們替落落長的型別導入一個 <code>Trunk</code> 別名，所有用到該型別之處都能用短小的 <code>Thunk</code> 替代。</p>
+<p>使用型別別名減少重複，讓程式碼更可控。範例 19-25，我們替落落長的型別導入一個 <code>Thunk</code> 別名，所有用到該型別之處都能用短小的 <code>Thunk</code> 替代。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    type Thunk = Box&lt;dyn Fn() + Send + 'static&gt;;
 

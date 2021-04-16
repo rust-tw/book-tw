@@ -17231,7 +17231,7 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 19-24：在多處使用很長的型別</span></p>
-<p>使用型別別名減少重複，讓程式碼更可控。範例 19-25，我們替落落長的型別導入一個 <code>Trunk</code> 別名，所有用到該型別之處都能用短小的 <code>Thunk</code> 替代。</p>
+<p>使用型別別名減少重複，讓程式碼更可控。範例 19-25，我們替落落長的型別導入一個 <code>Thunk</code> 別名，所有用到該型別之處都能用短小的 <code>Thunk</code> 替代。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    type Thunk = Box&lt;dyn Fn() + Send + 'static&gt;;
 
@@ -17478,7 +17478,7 @@ fn main() {
 </span></code></pre></pre>
 <p>這裡，我們對一個範圍呼叫 <code>map</code>，並用每個 <code>u32</code> 值，透過 <code>Status::Value</code> 的初始化函式來建立 <code>Status::Value</code> 的實例。有些人更喜歡上述的作法，但有人偏好閉包。這兩者的編譯結果相同，所以選一個你覺得清晰的風格吧。</p>
 <h3 id="回傳閉包"><a class="header" href="#回傳閉包">回傳閉包</a></h3>
-<p>閉包是用特徵來表示，言下之意是你不能直接回傳一個閉包。大多數的情況，當你想回傳一個特徵時，可以改回傳有實作該特徵的具體型別。但你並無法對閉包這樣做，因為它們根本沒有可供回傳的具體型別，比方說不允許你使用 <code>fn</code> 函式指標作為回傳型別。</p>
+<p>閉包是用特徵來表示，言下之意是你不能直接回傳一個閉包。大多數的情況，當你想回傳一個特徵時，可以改回傳有實作該特徵的具體型別。但你並無法對閉包這樣做，因為它們根本沒有可供回傳的具體型別，比方說不允許你使用 <code>Fn</code> 特徵作為回傳型別。</p>
 <p>接下來的程式碼嘗試直接回傳一個閉包，但它無法編譯：</p>
 <pre><code class="language-rust ignore does_not_compile">fn returns_closure() -&gt; dyn Fn(i32) -&gt; i32 {
     |x| x + 1
@@ -17877,8 +17877,8 @@ fn handle_connection(mut stream: TcpStream) {
 }
 </code></pre></pre>
 <p><span class="caption">範例 20-2：讀取 <code>TcpStream</code> 並顯示資料</span></p>
-<p>我們將 <code>std::io::prelude</code> 引入作用域來取得特定的特徵，讓我們可以讀取並寫入流之中。在 <code>main</code> 函式的 <code>for</code> 迴圈中，不同於印出說我們取得連線的訊息，我們系安在會呼叫新的 <code>handle_connection</code> 函式並將 <code>stream</code> 傳入。</p>
-<p>在 <code>handle_connection</code> 函式中，參數 <code>stream</code> 必須是可變的。原因是因為 <code>TcpStream</code> 實例會內部追蹤回傳給我們的資料。它可能會讀取到比我們所要求的還多的資料，並儲存起來作為下次我們要求取得的資料。因此它需要 <code>mut</code>，因為其內部狀態可能會改變。通常我們不會任何「讀取」是需要可變的，但在此情況中，我們會需要 <code>mut</code> 關鍵字。</p>
+<p>我們將 <code>std::io::prelude</code> 引入作用域來取得特定的特徵，讓我們可以讀取並寫入流之中。在 <code>main</code> 函式的 <code>for</code> 迴圈中，不同於印出說我們取得連線的訊息，我們現在會呼叫新的 <code>handle_connection</code> 函式並將 <code>stream</code> 傳入。</p>
+<p>在 <code>handle_connection</code> 函式中，參數 <code>stream</code> 必須是可變的。原因是因為 <code>TcpStream</code> 實例會內部追蹤回傳給我們的資料。它可能會讀取到比我們所要求的還多的資料，並儲存起來作為下次我們要求取得的資料。因此它需要 <code>mut</code>，因為其內部狀態可能會改變。通常我們不會認為「讀取」是需要可變的，但在此情況中，我們會需要 <code>mut</code> 關鍵字。</p>
 <p>接著，我們需要實際讀取流。我們在此分成兩個步驟：首先，我們在堆疊上宣告 <code>buffer</code> 來儲存讀取到的資料。我們緩衝區（buffer）的大小為 1024 位元組，這足以儲存基本請求的資料，並滿足本章節的目的。如果我們想要處理任意大小的請求，緩衝區管理會變得更複雜，我們在此先以簡單的方式處理。我們將緩衝區傳至 <code>stream.read</code>，這會讀取 <code>TcpStream</code> 的位元組並置入緩衝區中。</p>
 <p>再來，我們將緩衝區的位元組轉換成字串並顯示出來。<code>String::from_utf8_lossy</code> 函式接收一個 <code>&amp;[u8]</code> 並以此產生 <code>String</code>。名稱中的「lossy」指的是此函式的行為，當它看到無效的 UTF-8 序列時，它會將其替換成 <code>�</code>，也就是 <code>U+FFFD REPLACEMENT CHARACTER</code>。你可能會在緩衝區剩餘沒填入請求資料的地方看到這些字元。</p>
 <p>讓我們嘗試看看此程式碼！開啟程式並再次從網頁瀏覽器發送請求。注意到我們仍然會在瀏覽器中取得錯誤頁面，但是我們程式在終端機的輸出應該會類似以下結果：</p>
@@ -19062,7 +19062,7 @@ Worker 2 got a job; executing.
 </code></pre>
 <p>成功了！我們現在有個執行緒池能非同步地處理連線。我們產生的執行緒不超過四條，所以如果伺服器收到大量請求時，我們的系統就不會超載。如果我們下達 <code>/sleep</code> 的請求，伺服器會有其他執行緒來處理其他請求並執行它們。</p>
 <blockquote>
-<p>注意：如果你在數個瀏覽器視窗同時打開 <code>/sleep</code>，它們可能會彼此間格 5 秒鐘來讀取。這是因為有些網頁流來器會對多個相同請求的實例做快取。這項限制不是網頁伺服器造成的。</p>
+<p>注意：如果你在數個瀏覽器視窗同時打開 <code>/sleep</code>，它們可能會彼此間格 5 秒鐘來讀取。這是因為有些網頁瀏覽器會對多個相同請求的實例做快取。這項限制不是網頁伺服器造成的。</p>
 </blockquote>
 <p>在學習過第十八章的 <code>while let</code> 迴圈後，你可能會好奇為何我們不像範例 20-21 這樣來寫工作者執行緒的程式碼。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -20064,7 +20064,7 @@ impl Worker {
 <li>在 <a href="https://crates.io/">crates.io</a> 找到一個執行緒池 crate，並使用該 crate 實作類似的網頁伺服器。然後比較該 crate 與我們實作的執行緒池之間的 API 與穩固程度。</li>
 </ul>
 <h2 id="總結-19"><a class="header" href="#總結-19">總結</a></h2>
-<p>做得好！你已經讀完整本輸了！我們由衷感謝你一同加入 Rust 的旅途。現在你已經準備好實作你自己的 Rust 專案並協助其他人的專案。別忘了我們有個友善的社群，其他 Rustaceans 會很樂意幫助你一同面對 Rust 旅途中的任何挑戰。</p>
+<p>做得好！你已經讀完整本書了！我們由衷感謝你一同加入 Rust 的旅途。現在你已經準備好實作你自己的 Rust 專案並協助其他人的專案。別忘了我們有個友善的社群，其他 Rustaceans 會很樂意幫助你一同面對 Rust 旅途中的任何挑戰。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -20567,7 +20567,7 @@ fn main() {
 <li>穩定版（Stable）</li>
 </ul>
 <p>大多數的 Rust 開發者主要都使用穩定版的通道，但是想要實驗新功能的人可以嘗試使用夜版或測試版。</p>
-<p>以下是開發與發佈過程是如何進行的範例：讓我們假設 Rust 團隊正在準備發佈 Rust 1.5。這在 2015 年十二月就發佈了，並不過這能為我們提供較真實的版本數字。其中有一個新功能會加入 Rust 並在 <code>master</code> 分支新增一個 commit。每個晚上 Rust 都會產生新的夜版版本，然後每到天亮就會發佈，而這些發佈均由發佈基礎設施自動產生。所以隨著時間過去，我們每晚都會有一個發佈像這樣進行：</p>
+<p>以下是開發與發佈過程是如何進行的範例：讓我們假設 Rust 團隊正在準備發佈 Rust 1.5。這在 2015 年十二月就發佈了，這只是能為我們提供較真實的版本數字。其中有一個新功能會加入 Rust 並在 <code>master</code> 分支新增一個 commit。每個晚上 Rust 都會產生新的夜版版本，然後每到天亮就會發佈，而這些發佈均由發佈基礎設施自動產生。所以隨著時間過去，我們每晚都會有一個發佈像這樣進行：</p>
 <pre><code class="language-text">nightly: * - - * - - *
 </code></pre>
 <p>接著每隔六週就是時候發佈新的發佈版本了！Rust repository 的 <code>beta</code> 分支會從夜版使用的 <code>master</code> 分支產生。現在我們就有了兩種發佈：</p>
@@ -20599,8 +20599,8 @@ beta:                * - - - - - - - - *       *
                                        |
 stable:                                *
 </code></pre>
-<p>這就叫「火車模型（train model）」，因為每個六週就會有個發佈「駛離車站」，但其仍需要穿梭過測試版通道，才能抵達穩定版發佈。</p>
-<p>Rust 會像發條裝置一樣每個六週定時發佈。如果你已經知道一個 Rust 發佈的日期，你就能知道下一個的發佈日期，也就是六週之後。這樣每隔六週發佈的時程表有個好處是下一輛火車很快也會接著抵達。如果某個特定版本遺漏某項功能的話，不用擔心，因為下一版很快就會來臨了！這能降低發佈截止日期前，不得不偷偷釋出尚未完善的功能的壓力。</p>
+<p>這就叫「火車模型（train model）」，因為每隔六週就會有個發佈「駛離車站」，但其仍需要穿梭過測試版通道，才能抵達穩定版發佈。</p>
+<p>Rust 會像發條裝置一樣每隔六週定時發佈。如果你已經知道一個 Rust 發佈的日期，你就能知道下一個的發佈日期，也就是六週之後。這樣每隔六週發佈的時程表有個好處是下一輛火車很快也會接著抵達。如果某個特定版本遺漏某項功能的話，不用擔心，因為下一版很快就會來臨了！這能降低發佈截止日期前，不得不偷偷釋出尚未完善的功能的壓力。</p>
 <p>幸虧有此流程，你永遠都可以看到 Rust 的下一個版本並驗證你是否能輕鬆升級。如果測試版不如你所預期，你可以回報給團隊並在穩定版發佈前修正完成！在測試版出現重大缺陷是很少見的，但 <code>rustc</code> 本身仍是個軟體，總避免不了些錯誤發生。</p>
 <h3 id="不穩定功能"><a class="header" href="#不穩定功能">不穩定功能</a></h3>
 <p>此發佈模型還有一項重點，那就是不穩定（unstable）功能。Rust 使用一個叫做「功能標記（feature flags）」的技術來決定一個發佈能啟用哪些功能。如果有個新功能正在積極開發中，它可以加進 <code>master</code> 因而出現在夜版中，但是會有個<strong>功能標記</strong>。如果身為使用者的你想要嘗試看看仍在開發中的功能的話，你是可以使用的。但是你必須透過 Rust 夜版並在你的程式碼指明對應的功能標記才行。</p>
