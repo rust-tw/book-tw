@@ -251,7 +251,6 @@ more text"
 [package]
 name = "hello_cargo"
 version = "0.1.0"
-authors = ["Your Name <you@example.com>"]
 
 [dependencies]
 ```
@@ -284,7 +283,6 @@ is still here` link at *ref*"
 [package]
 name = "hello_cargo"
 version = "0.1.0"
-authors = ["Your Name <you@example.com>"]
 
 [dependencies]
 ```
@@ -297,7 +295,6 @@ more text
 [package]
 name = "hello_cargo"
 version = "0.1.0"
-authors = ["Your Name <you@example.com>"]
 
 [dependencies]
 ```
