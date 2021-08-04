@@ -2,7 +2,9 @@
 
 第一步是安裝 Rust，我們將會透過 `rustup` 安裝 Rust，這是個管理 Rust 版本及相關工具的命令列工具。你將會需要網路連線才能下載。
 
-> 注意：如果你基於某些原因不想使用 `rustup` 的話，請前往[安裝 Rust 頁面][install]尋求其他選項。
+> 注意：如果你基於某些原因不想使用 `rustup` 的話，請前往 [Rust 其他安裝方法的頁面][install]尋求其他選項。
+
+[install]: https://forge.rust-lang.org/infra/other-installation-methods.html
 
 以下步驟將會安裝最新的穩定版 Rust 編譯器。Rust 的穩定性能確保本書的所有範例在更新的 Rust 版本仍然能繼續編譯出來。輸出的結果可能會在不同版本間而有些微的差異，因為 Rust 時常會改善錯誤與警告訊息。換句話說，任何你所安裝的最新穩定版 Rust 都應該能夠正常運行本書的內容。
 
@@ -24,7 +26,16 @@ $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 Rust is installed now. Great!
 ```
 
-除此之外，你還會需要某種類型的連結器（linker）。這通常在你的系統上都已經安裝了，但如果你嘗試編譯 Rust 程式卻遇到連結器無法執行的錯誤時，這代表你的系統並未安裝，而你需要自行安裝一個。C 編譯器通常都會帶有一個正確的連結器，你可以檢查你的平台文件，查看如何下載 C 編譯器。此外，一些常見的 Rust 套件也會依賴 C 的程式，所以也需要 C 編譯器。因此現在最好還是有安裝一個比較好。
+你還會需要一個連結器（linker）來讓 Rust 將編譯好的輸出資料整理到一個檔案內。通常你很可能已經有安裝了，但如果你遇到連結器相關的錯誤時，這代表你需要安裝一個 C 編譯器，因爲它通常都會帶有一個的連結器。有個 C 編譯器通常也很實用，因爲一些常見的 Rust 套件也會依賴於 C 而需要一個 C 編譯器。
+
+在 macOS 上，你可以輸入以下命令來安裝 C 編譯器：
+
+```console
+$ xcode-select --install
+```
+
+Linux 使用者的話則需要依據他們的發行版文件來安裝 GCC 或 Clang。舉例來說，如果你使用 Ubuntu 的話，你可以安裝 `build-essential` 套件。
+
 
 ### 在 Windows 上安裝 `rustup`
 

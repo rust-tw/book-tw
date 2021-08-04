@@ -75,12 +75,11 @@ Rust 語言也希望能支援其他許多使用者，這裡提及的只是一部
 
 學習 Rust 的過程中有個重要的部分就是要學習如何閱讀編譯器顯示的錯誤訊息，這些能引導你寫出正確的程式碼。所以我們會提供很多無法編譯的範例，以及各種編譯器會顯示訊息的狀況。如果你執行任何範例的話，它很可能不會編譯通過！別忘了看看周遭的文字來瞭解該執行範例是不是故意出錯。Ferris 也會來幫助你分辨哪些程式碼本來就無法使用：
 
-| Ferris                                                                 | 意義                                          |
-|------------------------------------------------------------------------|--------------------------------------------------|
-| <img src="img/ferris/does_not_compile.svg" class="ferris-explain"/>    | 此程式碼無法編譯！                               |
-| <img src="img/ferris/panics.svg" class="ferris-explain"/>              | 此程式碼會恐慌！                                 |
-| <img src="img/ferris/unsafe.svg" class="ferris-explain"/>              | 此程式碼區塊包含不安全的程式碼。                 |
-| <img src="img/ferris/not_desired_behavior.svg" class="ferris-explain"/>| 此程式碼沒有產生預期的行為。                     |
+| Ferris                                                                                                           | Meaning                                          |
+|------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| <img src="img/ferris/does_not_compile.svg" class="ferris-explain" alt="Ferris with a question mark"/>            | 此程式碼無法編譯！                      |
+| <img src="img/ferris/panics.svg" class="ferris-explain" alt="Ferris throwing up their hands"/>                   | 此程式碼會恐慌！                                |
+| <img src="img/ferris/not_desired_behavior.svg" class="ferris-explain" alt="Ferris with one claw up, shrugging"/> | 此程式碼沒有產生預期的行為。 |
 
 在大多數的情況下，我們會引導你將無法編譯的程式碼寫成正確的版本。
 

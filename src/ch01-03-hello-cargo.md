@@ -48,7 +48,7 @@ edition = "2018"
 
 第一行的 `[package]` 是一個段落（section）標題，說明以下的陳述式（statement）會配置這個套件。隨著我們加入更多資訊到此文件，我們也會加上更多段落。
 
-接下來四行就是 Cargo 編譯你的程式所需的配置資訊：名稱、版本、誰寫的以及哪個 Rust `edition` 會用到。Cargo 會透過環境取得你的名字和電子郵件資訊，所以要是資訊不對的話，請現在編輯然後儲存檔案。我們會在附錄 E 介紹什麼是 `edition`。
+接下來三行就是 Cargo 編譯你的程式所需的配置資訊：名稱、版本、誰寫的以及哪個 Rust `edition` 會用到。我們會在[附錄 E][appendix-e]<!-- ignore --> 介紹什麼是 `edition`。
 
 最後一行 `[dependencies]` 是用來列出你的專案會用到哪些依賴的段落。在 Rust 中，程式碼套件會被稱為 *crates*。我們在此專案還不需要任何其他 crate。但是我們會在第二章開始用到，屆時我們會再來介紹。
 
@@ -136,7 +136,7 @@ $ cargo check
 儘管 `hello_cargo` 是個小專案，但它使用了你未來的 Rust 生涯中真實情況下會用到的工具。事實上，所有存在的專案，你幾乎都可以用以下命令完成：使用 Git 下載專案、移至專案目錄然後建構完成。
 
 ```console
-$ git clone someurl.com/someproject
+$ git clone example.org/someproject
 $ cd someproject
 $ cargo build
 ```
@@ -158,6 +158,7 @@ $ cargo build
 接下來是時候來建立一個更實際的程式來熟悉 Rust 程式碼的讀寫了。所以在第二章我們將寫出一支猜謎遊戲的程式。如果你想直接學習 Rust 的常見程式設計概念的話，你可直接閱讀第三章，之後再回來看第二章。
 
 [installation]: ch01-01-installation.html#installation
+[appendix-e]: appendix-05-editions.html
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [a2e4bbf](https://github.com/rust-lang/book/blob/a2e4bbfdfbdb195bf134e5a53174d7d4ab027b1f/src/ch01-03-hello-cargo.md)

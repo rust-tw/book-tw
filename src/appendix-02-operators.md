@@ -22,7 +22,7 @@
 | `&&` | `expr && expr` | 邏輯運算 AND | |
 | `*` | `expr * expr` | 算數乘法 | `Mul` |
 | `*=` | `var *= expr` | 算數乘法並賦值 | `MulAssign` |
-| `*` | `*expr` | 解引用 | |
+| `*` | `*expr` | 解引用 | `Deref` |
 | `*` | `*const type`, `*mut type` | 裸指標 | |
 | `+` | `trait + trait`, `'a + trait` | 複合型別約束 | |
 | `+` | `expr + expr` | 算數加法 | `Add` |
@@ -33,11 +33,11 @@
 | `-=` | `var -= expr` | 算數減法並賦值 | `SubAssign` |
 | `->` | `fn(...) -> type`, <code>&vert;...&vert; -> type</code> | 函式與閉包回傳型別 | |
 | `.` | `expr.ident` | 成員存取 | |
-| `..` | `..`, `expr..`, `..expr`, `expr..expr` | 右排除範圍 | |
-| `..=` | `..=expr`, `expr..=expr` | 右包含範圍 | |
+| `..` | `..`, `expr..`, `..expr`, `expr..expr` | 右排除範圍 | `PartialOrd` |
+| `..=` | `..=expr`, `expr..=expr` | 右包含範圍 | `PartialOrd` |
 | `..` | `..expr` | 結構體更新語法 | |
 | `..` | `variant(x, ..)`, `struct_type { x, .. }` | 「與剩餘部分」模式綁定 | |
-| `...` | `expr...expr` | 模式：包含範圍模式 | |
+| `...` | `expr...expr` | （已棄用，請改用 `..=`）模式：包含範圍模式 | |
 | `/` | `expr / expr` | 算數除法 | `Div` |
 | `/=` | `var /= expr` | 算數除法並賦值 | `DivAssign` |
 | `:` | `pat: type`, `ident: type` | 約束 | |
