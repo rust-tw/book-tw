@@ -14,5 +14,3 @@ mod tests {
         assert!(result.contains("卡爾"));
     }
 }
-
-fn main() {}

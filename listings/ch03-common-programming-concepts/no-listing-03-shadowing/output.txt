@@ -2,4 +2,5 @@ $ cargo run
    Compiling variables v0.1.0 (file:///projects/variables)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/variables`
-x 的數值為：12
+x 在內部範圍的數值為：12
+x 的數值為：6

@@ -8,7 +8,7 @@ use std::{cmp::Ordering, io};
 fn main() {
     println!("請猜測一個數字！");
 
-    let secret_number = rand::thread_rng().gen_range(1, 101);
+    let secret_number = rand::thread_rng().gen_range(1..101);
 
     println!("祕密數字為：{}", secret_number);
 

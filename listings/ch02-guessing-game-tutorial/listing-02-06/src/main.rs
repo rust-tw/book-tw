@@ -5,7 +5,7 @@ use std::io;
 fn main() {
     println!("請猜測一個數字！");
 
-    let secret_number = rand::thread_rng().gen_range(1, 101);
+    let secret_number = rand::thread_rng().gen_range(1..101);
 
     loop {
         println!("請輸入你的猜測數字。");

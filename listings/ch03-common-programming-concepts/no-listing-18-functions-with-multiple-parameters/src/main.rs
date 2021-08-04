@@ -1,8 +1,7 @@
 fn main() {
-    another_function(5, 6);
+    print_labeled_measurement(5, 'h');
 }
 
-fn another_function(x: i32, y: i32) {
-    println!("x 的數值為：{}", x);
-    println!("y 的數值為：{}", y);
+fn print_labeled_measurement(value: i32, unit_label: char) {
+    println!("測量值爲：{}{}", value, unit_label);
 }
