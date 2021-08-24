@@ -34,7 +34,7 @@ fn first_word(s: &String) -> ?
 
 我們會在第十三章討論疊代器的細節。現在我們只需要知道 `iter` 是個能夠回傳集合中每個元素的方法，然後 `enumerate` 會將 `iter` 的結果包裝起來回傳成元組。`enumerate` 回傳的元組中的第一個元素是索引，第二個才是元素的引用。這樣比我們自己計算索引還來的方便。
 
-既然 `enumerate` 回傳的是元組，我們可以用模式配對來解構元組，就像在 Rust 其他地方使用的方式一樣。所以在 `for` 迴圈中，我們指定了一個模式讓 `i` 取得索引然後 `&item` 取得元組中的位元組。因為我們從用 `.iter().enumerate()` 取得引用的，所以在模式中我們用的是 `&` 來獲取。
+既然 `enumerate` 回傳的是元組，我們可以用模式配對來解構元組。我們會在第六章進一步解釋模式配對。所以在 `for` 迴圈中，我們指定了一個模式讓 `i` 取得索引然後 `&item` 取得元組中的位元組。因為我們從用 `.iter().enumerate()` 取得引用的，所以在模式中我們用的是 `&` 來獲取。
 
 在 `for` 迴圈裡面我們使用字串字面值的語法搜尋位元組是不是空格。如果我們找到空格的話，我們就回傳該位置。不然我們就用 `s.len()` 回傳整個字串的長度：
 
@@ -74,15 +74,15 @@ fn second_word(s: &String) -> (usize, usize) {
 
 這和取得整個 `String` 的引用相似，但是加上了 `[0..5]`。所以與其引用整個 `String`，這個只引用了一部分的`String`。
 
-我們可以像這樣 `[起始索引..結束索引]` 用中括號加上一個範圍來建立切片。`起始索引` 是切片的第一個位置，而 `結束索引` 在索引結尾之後的位置（所以不包含此值）。在內部的切片資料結構會儲存起始位置，以及 `結束索引` 與 `起始索引` 相減後的長度。所以用 `let world = &s[6..11];` 作為例子的話， `world` 就會是個切片，包含一個指標指向 `s` 第七個位元組和一個長度數值 `5`。
+我們可以像這樣 `[起始索引..結束索引]` 用中括號加上一個範圍來建立切片。`起始索引` 是切片的第一個位置，而 `結束索引` 在索引結尾之後的位置（所以不包含此值）。在內部的切片資料結構會儲存起始位置，以及 `結束索引` 與 `起始索引` 相減後的長度。所以用 `let world = &s[6..11];` 作為例子的話， `world` 就會是個切片，包含一個指標指向索引爲 6 的位元組 `s` 和一個長度數值 `5`。
 
 圖示 4-6 就是此例的示意圖。
 
-<img alt="world containing a pointer to the 6th byte of String s and a length 5" src="img/trpl04-06.svg" class="center" style="width: 50%;" />
+<img alt="world containing a pointer to the byte at index 6 of String s and a length 5" src="img/trpl04-06.svg" class="center" style="width: 50%;" />
 
 <span class="caption">圖示 4-6：指向部分 `String` 的字串切片</span>
 
-要是你想用 Rust 指定範圍的語法 `..` 從第一個索引（也就是零）開始的話，你可以省略兩個句點之前的值。換句話說，以下兩個是相等的：
+要是你想用 Rust 指定範圍的語法 `..` 從索引零開始的話，你可以省略兩個句點之前的值。換句話說，以下兩個是相等的：
 
 ```rust
 let s = String::from("hello");
@@ -148,7 +148,7 @@ fn second_word(s: &String) -> &str {
 {{#include ../listings/ch04-understanding-ownership/no-listing-19-slice-error/output.txt}}
 ```
 
-回憶一下借用規則，要是我們有不可變引用的話，我們就不能取得可變引用。因為 `clear` 會縮減 `String`，它必須是可變引用。這樣一來 Rust 就不允許，並讓編譯失敗。Rust 不僅讓我們的 API 更容易使用，還想辦法讓所有錯誤在編譯期就消除！
+回憶一下借用規則，要是我們有不可變引用的話，我們就不能取得可變引用。因為 `clear` 會縮減 `String`，它必須是可變引用。在呼叫 `clear` 之後的 `println!` 用到了 `word` 的引用，所以不可變引用在該處仍必須保持有效。Rust 不允許同時存在 `clear` 的可變引用與 `word` 的不可變引用，所以編譯會失敗。Rust 不僅讓我們的 API 更容易使用，還想辦法讓所有錯誤在編譯期就消除！
 
 #### 字串字面值就是切片
 
@@ -176,7 +176,8 @@ fn first_word(s: &String) -> &str {
 
 <span class="caption">範例 4-9：使用字串切片作為參數 `s` 來改善函式 `first_word`</span>
 
-如果我們有字串字面值的話，我們可以直接傳遞。如果我們有 `String` 的話，我可以們傳遞整個 `String` 的切片。定義函式的參數為字串字面值而非 `String` 可以讓我們的 API 更通用且不會失去去任何功能：
+如果我們有字串字面值的話，我們可以直接傳遞。如果我們有 `String` 的話，我可以們傳遞整個 `String` 的切片或引用。這樣的彈性用到了**強制解引用**（deref coercion），這個功能我們會在第十五章的[「函式與方法的隱式強制解引用」][deref-coercions]<!--ignore-->段落做介紹。定義函式的參數為字串字面值而非 `String` 可以讓我們的 API 更通用且不會失去去任何功能：
+
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -198,6 +199,8 @@ let a = [1, 2, 3, 4, 5];
 let a = [1, 2, 3, 4, 5];
 
 let slice = &a[1..3];
+
+assert_eq!(slice, &[2, 3]);
 ```
 
 此切片的型別為 `&[i32]`，它和字串運作的方式一樣，儲存了切片的第一個元素以及總長度。你以後會對其他集合也使用這樣的切片。我們會在第八章討論這些集合的更多細節。
@@ -209,6 +212,7 @@ let slice = &a[1..3];
 所有權影響了 Rust 很多其它部分執行的方式，所以我們在書中之後討論這些概念。讓我們繼續到第五章，看看如何用 `struct` 將資料組合在一起。
 
 [strings]: ch08-02-strings.html#storing-utf-8-encoded-text-with-strings
+[deref-coercions]: ch15-02-deref.html#函式與方法的隱式強制解引用
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch04-03-slices.md)

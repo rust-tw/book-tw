@@ -1,6 +1,6 @@
 ## 定義與實例化結構體
 
-結構體（Structs）和我們在第三章討論過的元組類似。和元組一樣，結構體的每個部分可以是不同的型別。但與元組不同的地方是，你必須為每個資料部分命名以便表達每個數值的意義。因為有了這些名稱，結構體通常比元組還來的有彈性：你不需要依賴資料的順序來指定或存取實例中的值。
+結構體（Structs）和我們在[「元組型別」][tuples]<!-- ignore -->段落討論過的元組類似。和元組一樣，結構體的每個部分可以是不同的型別。但與元組不同的地方是，你必須為每個資料部分命名以便表達每個數值的意義。因為有了這些名稱，結構體通常比元組還來的有彈性：你不需要依賴資料的順序來指定或存取實例中的值。
 
 欲定義結構體，我們輸入關鍵字 `struct` 並為整個結構體命名。結構體的名稱需要能夠描述其所組合出的資料意義。然後在大括號內，我們對每個資料部分定義名稱與型別，我們會稱為**欄位（fields）**。舉例來說，範例 5-1 定義了一個儲存使用者帳號的結構體。
 
@@ -149,6 +149,8 @@ after running update-rustc.sh:
 pbcopy < listings/ch05-using-structs-to-structure-related-data/no-listing-02-reference-in-struct/output.txt
 paste above
 add `> ` before every line -->
+
+[tuples]: ch03-02-data-types.html#元組型別
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch05-01-defining-structs.md)

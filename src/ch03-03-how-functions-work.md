@@ -52,7 +52,7 @@ Rust 的函式定義從 `fn` 開始且在函式名稱後會有一組括號，大
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-18-functions-with-multiple-parameters/src/main.rs}}
 ```
 
-此範例建立了一個有兩個參數的函式，兩個都是 `i32` 型別。接著函式在印出兩個參數的數值，注意參數不必得是相同的型別，這只是我們在此範例這樣寫而已。
+此範例建立了一個有兩個參數的函式 `print_labeled_measurement`，第一個參數叫做 `value` 而型別爲 `i32`，第二個參數叫做 `unit_label` 而型別爲 `char`。接著函式會印出包含 `value` 與 `unit_label` 的文字。
 
 讓我們試著執行此程式碼，請覆蓋你的專案 *functions* 內的 *src/main.rs* 檔案內容為以上範例，然後用 `cargo run` 執行程式：
 
@@ -60,7 +60,7 @@ Rust 的函式定義從 `fn` 開始且在函式名稱後會有一組括號，大
 {{#include ../listings/ch03-common-programming-concepts/no-listing-18-functions-with-multiple-parameters/output.txt}}
 ```
 
-因為我們呼叫函式時，將 `5` 給了  `x` 且將 `6` 給了 `y`，字串就會印出這些數值。
+因為我們呼叫函式時，將 `5` 給了 `value` 且將 `'h'` 給了 `unit_label`，程式輸出就會包含這些數值。
 
 ### 函式本體包含陳述式與表達式
 
@@ -96,7 +96,7 @@ Rust 的函式定義從 `fn` 開始且在函式名稱後會有一組括號，大
 
 `let y = 6` 陳述式不回傳數值，所以 `x` 得不到任何數值。這就和其他語言有所不同，像是 C 或 Ruby，通常它們的賦值仍能回傳所得到的值。在那些語言，你可以寫 `x = y = 6` 同時讓 `x` 與 `y` 都取得 `6`，但在 Rust 就不行。
 
-表達式則會運算出些東西，並組合成你大部分所寫的 Rust 程式。先想想看一個簡單的數學運算比如 `5 + 6`，這就是個會算出 `11` 的表達式。表達式可以是陳述式的一部分：在範例 3-1 中 `let y = 6;` 的 `6` 其實就是個算出 `6` 的表達式。呼叫函式也可以是表達式、呼叫巨集也是表達式、我們用 `{}` 產生的作用域也是表達式。舉例來說：
+表達式則會運算出一個數值，並組合成你大部分所寫的 Rust 程式。先想想看一個數學運算比如 `5 + 6`，這就是個會算出 `11` 的表達式。表達式可以是陳述式的一部分：在範例 3-1 中 `let y = 6;` 的 `6` 其實就是個算出 `6` 的表達式。呼叫函式也可以是表達式、呼叫巨集也是表達式、我們用 `{}` 產生的作用域也是表達式。舉例來說：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -161,7 +161,7 @@ let x = 5;
 {{#include ../listings/ch03-common-programming-concepts/no-listing-23-statements-dont-return-values/output.txt}}
 ```
 
-錯誤訊息「mismatched types」就告訴了我們此程式碼的核心問題。`plus_one` 的函式定義說它會回傳 `i32` 但是陳述式不會回傳任何數值。我們用空元組 `()` 表示不會回傳任何值。因此沒有任何值被回傳，這和函式定義相牴觸，最後產生錯誤。在此輸出結果，Rust 提供了一道訊息來協助解決問題：它建議移除分號，這樣就能修正錯誤。
+錯誤訊息「mismatched types」就告訴了我們此程式碼的核心問題。`plus_one` 的函式定義說它會回傳 `i32` 但是陳述式不會回傳任何數值。我們用單元型別 `()` 表示不會回傳任何值。因此沒有任何值被回傳，這和函式定義相牴觸，最後產生錯誤。在此輸出結果，Rust 提供了一道訊息來協助解決問題：它建議移除分號，這樣就能修正錯誤。
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch03-03-how-functions-work.md)
