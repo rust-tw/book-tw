@@ -7,8 +7,8 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-11/src/lib.rs:here}}
+```rust,noplayground,test_harness
+{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-11/src/lib.rs}}
 ```
 
 <span class="caption">範例 7-11：使用 `use` 將模組引入</span>
@@ -19,8 +19,8 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-12/src/lib.rs:here}}
+```rust,noplayground,test_harness
+{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-12/src/lib.rs}}
 ```
 
 <span class="caption">範例 7-12：使用 `use` 與相對路徑將項目引入作用域</span>
@@ -31,13 +31,13 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-13/src/lib.rs:here}}
+```rust,noplayground,test_harness
+{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-13/src/lib.rs}}
 ```
 
 <span class="caption">範例 7-13：使用 `use` 將 `add_to_waitlist` 函式引入作用域，但這較不符合習慣</span>
 
-雖然範例 7-11 與範例 7-13 都能完成相同的任務，但是範例 7-11 使用 `use` 將函式引入作用域的方法比較符合習慣用法。使用 `use` 將函式的上層模組引入作用域，讓我們必須在呼叫函式時得指明對應模組。這樣清楚知道該函式並非本地定義的，同時一樣能簡化路徑。範例 7-13 的程式碼會不清楚 `add_to_waitlist` 是在哪定義的。
+雖然範例 7-11 與範例 7-13 都能完成相同的任務，但是範例 7-11 使用 `use` 將函式引入作用域的方法比較符合習慣用法。使用 `use` 將函式的上層模組引入作用域，讓我們必須在呼叫函式時得指明對應模組。在呼叫函式時指定上層模組能清楚地知道該函式並非本地定義的，同時一樣能簡化路徑。範例 7-13 的程式碼會不清楚 `add_to_waitlist` 是在哪定義的。
 
 另一方面，如果是要使用 `use` 引入結構體、枚舉或其他項目的話，直接指明完整路徑反而是符合習慣的方式。範例 7-14 顯示了將標準函式庫的 `HashMap` 引入二進制 crate 作用域的習慣用法。
 
@@ -55,7 +55,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-15/src/lib.rs:here}}
 ```
 
@@ -69,7 +69,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-16/src/lib.rs:here}}
 ```
 
@@ -85,8 +85,8 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-17/src/lib.rs:here}}
+```rust,noplayground,test_harness
+{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-17/src/lib.rs}}
 ```
 
 <span class="caption">範例 7-17：使用 `pub use` 使名稱公開給任何程式的作用域中引用</span>
@@ -156,7 +156,7 @@ use std::collections::HashMap;
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-19/src/lib.rs}}
 ```
 
@@ -166,7 +166,7 @@ use std::collections::HashMap;
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-20/src/lib.rs}}
 ```
 

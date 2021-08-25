@@ -78,7 +78,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-01-define-threadpool-struct/src/lib.rs}}
 ```
 
@@ -100,8 +100,8 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch20-web-server/no-listing-02-impl-threadpool-new/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch20-web-server/no-listing-02-impl-threadpool-new/src/lib.rs}}
 ```
 
 我們選擇 `usize` 作為參數 `size` 的型別，因為我們知道負數對執行緒數量來說沒有任何意義。我們也知道 4 會作為執行緒集合的元素個數，這正是使用 `usize` 型別的原因，如同第三章[「整數型別」][integer-types]<!-- ignore -->段落所講的。
@@ -119,8 +119,9 @@
 ```rust,ignore
 pub fn spawn<F, T>(f: F) -> JoinHandle<T>
     where
-        F: FnOnce() -> T + Send + 'static,
-        T: Send + 'static
+        F: FnOnce() -> T,
+        F: Send + 'static,
+        T: Send + 'static,
 ```
 
 `F` 型別參數正是我們所在意的，`T` 型別則是與回傳型別有關，而我們目前並不在意。我們可以看到 `spawn` 使用 `FnOnce` 作為 `F` 的界限。這大概就是我們也想要的，因為我們最終會將 `execute` 的引數傳遞給 `spawn`。我們現在更確信 `FnOnce` 就是我們想使用的特徵，因為執行請求的執行緒只會執行該請求閉包一次，這正符合 `FnOnce` 中 `Once` 的意思。
@@ -129,7 +130,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-03-define-execute/src/lib.rs:here}}
 ```
 
@@ -151,7 +152,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-13/src/lib.rs:here}}
 ```
 
@@ -172,8 +173,9 @@ pub fn new(size: usize) -> Result<ThreadPool, PoolCreationError> {
 ```rust,ignore
 pub fn spawn<F, T>(f: F) -> JoinHandle<T>
     where
-        F: FnOnce() -> T + Send + 'static,
-        T: Send + 'static
+        F: FnOnce() -> T,
+        F: Send + 'static,
+        T: Send + 'static,
 ```
 
 `spawn` 函式會回傳 `JoinHandle<T>`，而 `T` 為閉包回傳的型別。讓我們也試著使用 `JoinHandle` 來看看會發生什麼事。在我們的情況中，我們傳遞至執行緒池的閉包會處理連線但不會回傳任何值，所以 `T` 就會是單元型別 `()`。
@@ -215,7 +217,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-15/src/lib.rs:here}}
 ```
 
@@ -245,7 +247,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-16/src/lib.rs:here}}
 ```
 
@@ -279,7 +281,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-18/src/lib.rs:here}}
 ```
 
@@ -295,7 +297,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-19/src/lib.rs:here}}
 ```
 
@@ -307,7 +309,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-20/src/lib.rs:here}}
 ```
 
@@ -351,6 +353,8 @@ warning: field is never read: `thread`
 49 |     thread: thread::JoinHandle<()>,
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+warning: 3 warnings emitted
+
     Finished dev [unoptimized + debuginfo] target(s) in 1.40s
      Running `target/debug/main`
 Worker 0 got a job; executing.
@@ -379,9 +383,9 @@ Worker 2 got a job; executing.
 
 <span class="caption">範例 20-21：使用 `while let` 來實作 `Worker::new` 的替代方案</span>
 
-此程式碼能編譯並執行，但不會是有我們預期的執行緒行為：緩慢的請求仍然會卡住其他請求。發生的原因有點微妙，`Mutex` 結構體沒有公開的 `unlock` 方法，這是因為鎖的所有權是依據 `lock` 方法所回傳的 `LockResult<MutexGuard<T>>` 中 `MutexGuard<T>` 的生命週期。在編譯時借用檢查器可以以此確保沒有持有鎖的話，我們就無法取得 `Mutex` 守護的資源。不過沒有仔細思考 `MutexGuard<T>` 的生命週期的話，此實作可能就會導致持有鎖的時間比預期的更久。由於 `while let` 表達式的數值會存在於整個區塊的作用域中，該鎖直到呼叫完 `job()` 這段時間都是持續持有著的，這意味著其他工作者無法取得鎖。
+此程式碼能編譯並執行，但不會是有我們預期的執行緒行為：緩慢的請求仍然會卡住其他請求。發生的原因有點微妙，`Mutex` 結構體沒有公開的 `unlock` 方法，這是因為鎖的所有權是依據 `lock` 方法所回傳的 `LockResult<MutexGuard<T>>` 中 `MutexGuard<T>` 的生命週期。在編譯時借用檢查器可以以此確保沒有持有鎖的話，我們就無法取得 `Mutex` 守護的資源。不過沒有仔細思考 `MutexGuard<T>` 的生命週期的話，此實作可能就會導致持有鎖的時間比預期的更久。
 
-而使用 `loop` 來獲取鎖，且並沒有賦值給任何變數的話，`lock` 方法所回傳暫時的 `MutexGuard` 會在 `let job` 陳述式結束時就被釋放。這確保在呼叫 `recv` 時得持有鎖，但在呼叫 `job()` 之前該鎖就被釋放了，讓數個請求可以同時處理。
+在範例 20-20 程式碼中的 `let job = receiver.lock().unwrap().recv().unwrap();` 可以這樣寫的原因是因爲用的是 `let`，等號右方任何表達式中的暫時數值都會在 `let` 陳述式結束時釋放。然而 `while let` （還有 `if let` 和 `match`）是不會釋放暫時數值的，直到其區塊結束爲止。在範例 20-21 中，在呼叫 `job` 的這段期間內，鎖都會持續鎖著，代表其他工作者無法取得工作。
 
 [creating-type-synonyms-with-type-aliases]:
 ch19-04-advanced-types.html#透過型別別名建立型別同義詞

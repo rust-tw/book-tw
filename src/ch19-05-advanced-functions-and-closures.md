@@ -62,7 +62,7 @@
 
 這個錯誤再度指出 `Sized` 特徵！Rust 不知道我們需要多少空間儲存這個閉包，我們之前看過這類問題的解法。可以使用特徵物件：
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-19-returns-closure-trait-object/src/lib.rs}}
 ```
 

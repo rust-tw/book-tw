@@ -2,7 +2,7 @@
 
 *由 Steve Klabnik 與 Carol Nichols，以及 Rust 社群的貢獻撰寫而成*
 
-此版本假設你使用的是 Rust 1.41.0 或更高的版本，並在所有專案中的 *Cargo.toml* 都有 `edition="2018"` 來使用 Rust 2018 版號。請查看[第一章的「安裝」段落][install]<!-- ignore -->來安裝或更新 Rust，並查看[附錄 E][editions]<!-- ignore --> 來瞭解版號的資訊。
+此版本假設你使用的是 Rust 1.54 或更高的版本，並在所有專案中的 *Cargo.toml* 都有 `edition="2018"` 來使用 Rust 2018 版號。請查看[第一章的「安裝」段落][install]<!-- ignore -->來安裝或更新 Rust，並查看[附錄 E][editions]<!-- ignore --> 來瞭解版號的資訊。
 
 Rust 語言的 2018 版號包含一系列的改進使得 Rust 更加易讀易用且更容易學習。本書這次的疊代版本中包含一些更新內容來反映這些改進：
 

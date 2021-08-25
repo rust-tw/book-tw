@@ -16,12 +16,14 @@ fn first_word(s: &str) -> &str {
 fn main() {
     let my_string = String::from("hello world");
 
-    // first_word 適用於 `String` 的切片
+    // first_word 適用於 `String` 的切片，無論是部分或整體
+    let word = first_word(&my_string[0..6]);
     let word = first_word(&my_string[..]);
 
     let my_string_literal = "hello world";
 
-    // first_word 適用於字串字面值
+    // first_word 適用於字串字面值，無論是部分或整體
+    let word = first_word(&my_string_literal[0..6]);
     let word = first_word(&my_string_literal[..]);
 
     // 因為字串字面值本來就是切片

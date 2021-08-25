@@ -27,10 +27,8 @@ pub mod utils {
     pub fn mix(c1: PrimaryColor, c2: PrimaryColor) -> SecondaryColor {
         // --省略--
         // ANCHOR_END: here
-        SecondaryColor::Orange
+        unimplemented!();
         // ANCHOR: here
     }
 }
 // ANCHOR_END: here
-
-fn main() {}

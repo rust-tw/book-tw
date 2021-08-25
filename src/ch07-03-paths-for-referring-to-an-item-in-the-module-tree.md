@@ -71,8 +71,8 @@ Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-07/src/lib.rs:here}}
+```rust,noplayground,test_harness
+{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-07/src/lib.rs}}
 ```
 
 <span class="caption">範例 7-7：將 `mod hosting` 和 `fn add_to_waitlist` 都加上 `pub` 關鍵字，讓我們可以從 `eat_at_restaurant` 呼叫函式</span>
@@ -91,8 +91,8 @@ Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-08/src/lib.rs:here}}
+```rust,noplayground,test_harness
+{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-08/src/lib.rs}}
 ```
 
 <span class="caption">範例 7-8：使用 `super` 作為呼叫函式路徑的開頭</span>
@@ -105,7 +105,7 @@ Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-09/src/lib.rs}}
 ```
 
@@ -119,7 +119,7 @@ Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-10/src/lib.rs}}
 ```
 

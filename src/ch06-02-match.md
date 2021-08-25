@@ -110,14 +110,14 @@ Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-11-underscore-placeholder/src/main.rs:here}}
 ```
 
-`_` 模式會配對任意數值，將它置於所有分支之後，`_` 就會配對剩下尚未指明的可能情形。`()` 只是一個單位數值，所以在 `_` 的分支沒有任何事情會發生。所以我們可以說我們不想針對 `_` 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。
+`_` 模式會配對任意數值，將它置於所有分支之後，`_` 就會配對剩下尚未指明的可能情形。`()` 只是一個單位數值（我們在[「元組型別」][tuples]<!-- ignore -->段落提到的空元組型別），所以在 `_` 的分支沒有任何事情會發生。所以我們可以說我們不想針對 `_` 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。
 
 不過有時候我們只在意其中**一種**情形的話， `match` 表達式的確會有點囉唆。針對此情形，Rust 提供 `if let`。
 
 而更多有關配對模式的內容可以在[第十八章][ch18-00-patterns]查閱。
 
-[ch18-00-patterns]:
-ch18-00-patterns.html
+[tuples]: ch03-02-data-types.html#元組型別
+[ch18-00-patterns]: ch18-00-patterns.html
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [41d9f4c](https://github.com/rust-lang/book/blob/41d9f4c9ae6ba07191f55338e864c713cd49a876/src/ch06-01-defining-an-enum.md)

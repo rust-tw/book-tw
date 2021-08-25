@@ -91,7 +91,7 @@ $ cargo new add-one --lib
 
 <span class="filename">檔案名稱：add-one/src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch14-more-about-cargo/no-listing-02-workspace-with-two-crates/add/add-one/src/lib.rs}}
 ```
 
@@ -163,7 +163,7 @@ $ cargo run -p adder
 {{#include ../listings/ch14-more-about-cargo/no-listing-03-workspace-with-external-dependency/add/add-one/Cargo.toml:7:8}}
 ```
 
-我們現在就可以將 `use rand;` 加到 *add-one/src/lib.rs* 檔案中，接著在 *add* 目錄下執行 `cargo build` 來建構整個工作空間就會引入並編譯 `rand` crate：
+我們現在就可以將 `use rand;` 加到 *add-one/src/lib.rs* 檔案中，接著在 *add* 目錄下執行 `cargo build` 來建構整個工作空間就會引入並編譯 `rand` crate。我們會得到一個警告，因爲我們還沒有開始使用引入作用域的 `rand`：
 
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/no-listing-03-workspace-with-external-dependency/add
@@ -174,10 +174,19 @@ copy output below; the output updating script doesn't handle subdirectories in p
 ```console
 $ cargo build
     Updating crates.io index
-  Downloaded rand v0.5.5
+  Downloaded rand v0.8.3
    --省略--
-   Compiling rand v0.5.6
+   Compiling rand v0.8.3
    Compiling add-one v0.1.0 (file:///projects/add/add-one)
+warning: unused import: `rand`
+ --> add-one/src/lib.rs:1:5
+  |
+1 | use rand;
+  |     ^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+warning: 1 warning emitted
+
    Compiling adder v0.1.0 (file:///projects/add/adder)
     Finished dev [unoptimized + debuginfo] target(s) in 10.18s
 ```
@@ -198,7 +207,7 @@ error[E0432]: unresolved import `rand`
  --> adder/src/main.rs:2:5
   |
 2 | use rand;
-  |     ^^^^ no `rand` external crate
+  |     ^^^^ no external crate `rand`
 ```
 
 要修正此問題，只要修改 `adder` 套件的 *Cargo.toml* 檔案，指示它也加入 `rand` 作為依賴就好了。這樣建構 `adder` 套件就會將在 *Cargo.lock* 中將 `rand` 加入 `adder` 的依賴，但是沒有額外的 `rand` 會被下載。Cargo 會確保工作空間中每個套件的每個 crate 都會使用相同的 `rand` 套件版本。在工作空間中使用相同版本的 `rand` 可以節省空間，因為我們就不會重複下載並能確保工作空間中的 crate 彼此可以互相兼容。
@@ -209,7 +218,7 @@ error[E0432]: unresolved import `rand`
 
 <span class="filename">檔案名稱：add-one/src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch14-more-about-cargo/no-listing-04-workspace-with-tests/add/add-one/src/lib.rs}}
 ```
 
@@ -231,19 +240,19 @@ $ cargo test
 running 1 test
 test tests::it_works ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
      Running target/debug/deps/adder-49979ff40686fa8e
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
    Doc-tests add-one
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
 
 輸出的第一個段落顯示了 `add-one` crate 中的 `it_works` 測試通過。下一個段落顯示 `adder` crate 沒有任何測試，然後最後一個段落顯示 `add-one` 中沒有任何技術文件測試。在像工作空間這樣的架構下執行 `cargo test` 就會執行工作空間內的所有 crate 測試。
@@ -264,13 +273,13 @@ $ cargo test -p add-one
 running 1 test
 test tests::it_works ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
    Doc-tests add-one
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
 
 此輸出顯示 `cargo test` 只執行了 `add-one` crate 的測試並沒有執行 `adder` crate 的測試。

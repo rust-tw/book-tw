@@ -36,7 +36,7 @@ let v: Vec<u32> = vec![1, 2, 3];
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-28/src/lib.rs}}
 ```
 
@@ -74,9 +74,9 @@ let v: Vec<u32> = vec![1, 2, 3];
 
 我們定義了一個巨集，接收任意數量任意型別的引數，並產生建立一個包含指定元素的向量的程式碼。
 
-有鑑於 `macro_rules!` 仍有些詭異的邊界情況（edge case），未來 Rust 會有第二類宣告式巨集，會具有相似的工作流程，但會修復這些邊界情況。在該更新到來過後，`macro_rules!` 會即期棄用（deprecate）。考量到這點，加上以事實來說大多數 Rust 程式設計師**使用**巨集多過**撰寫**巨集，所以 `macro_rules!` 相關討論就此打住，想理解更多有關撰寫巨集之事，可查閱線上文件或其他資源，例如[「The Little Book of Rust Macros」][tlborm]。
+有鑑於 `macro_rules!` 仍有些詭異的邊界情況（edge case），未來 Rust 會有第二類宣告式巨集，會具有相似的工作流程，但會修復這些邊界情況。在該更新到來過後，`macro_rules!` 會即期棄用（deprecate）。考量到這點，加上以事實來說大多數 Rust 程式設計師**使用**巨集多過**撰寫**巨集，所以 `macro_rules!` 相關討論就此打住，想理解更多有關撰寫巨集之事，可查閱線上文件或其他資源，例如原作者 Daniel Keep 與後繼維護者 Lukas Wirth 所寫的[「The Little Book of Rust Macros」][tlborm]。
 
-[tlborm]: https://danielkeep.github.io/tlborm/book/index.html
+[tlborm]: https://veykril.github.io/tlborm/
 
 ### 使用程序式巨集從屬性產生程式碼
 
@@ -124,7 +124,7 @@ $ cargo new hello_macro --lib
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-20-impl-hellomacro-for-pancakes/hello_macro/src/lib.rs}}
 ```
 

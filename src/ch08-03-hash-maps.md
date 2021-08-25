@@ -20,7 +20,7 @@
 
 和向量一樣，雜湊映射會將它們的資料儲存在堆積上。此 `HashMap` 的鍵是 `String` 型別而值是 `i32` 型別。和向量一樣，雜湊函式宣告後就都得是同類的，所有的鍵都必須是同型別，且所有的值也都必須是同型別。
 
-另一種建構雜湊映射的方式為使用疊代器並在一個元組組成的向量中使用 `collect` 方法，其中每個元組都包含一個鍵與值的配對。我們會在第十三章的[「使用疊代器來處理一系列的項目」][iterators]<!-- ignore -->段落中深入探討疊代器與它們相關的方法。`collect` 方法會將收集的資料轉換成其他集合型別，包含 `HashMap`。舉例來說，如果我們有兩個向量分別是隊伍名稱與隊伍分數的話，我們可以使用 `zip` 方法來產生由元組組成的向量，其中「藍隊」會與 10 配對，以此類推。然後我們就能用 `collect` 方法將元組向量轉換成雜湊映射，如範例 8-21 所示。
+另一種建構雜湊映射的方式為使用疊代器並在一個元組組成的向量中使用 `collect` 方法，其中每個元組都包含一個鍵與值的配對。我們會在第十三章的[「使用疊代器來處理一系列的項目」][iterators]<!-- ignore -->段落中深入探討疊代器與它們相關的方法。`collect` 方法會將收集的資料轉換成其他集合型別，包含 `HashMap`。舉例來說，如果我們有兩個向量分別是隊伍名稱與隊伍分數的話，我們可以使用 `zip` 方法來產生由元組組成的疊代器，其中「藍隊」會與 10 配對，以此類推。然後我們就能用 `collect` 方法將元組疊代器轉換成雜湊映射，如範例 8-21 所示。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-21/src/main.rs:here}}
@@ -115,9 +115,9 @@
 
 ### 雜湊函式
 
-`HashMap` 預設是使用一種「密碼學安全（cryptographically strong）」[^siphash]的雜湊函式（hashing function），這可以抵禦阻斷服務（Denial of Service, DoS）的攻擊。這並不是最快的雜湊演算法，但為了提升安全性而犧牲一點效能是值得的。如果你做評測時覺得預設的雜湊函式太慢無法滿足你的需求的話，你可以指定不同的 *hasher* 來切換成其他雜湊函式。Hasher 是一個有實作 `BuildHasher` 特徵的型別。我們會在第十章討論到特徵以及如何實作它們。你不必從頭自己實作一個 hasher，[crates.io](https://crates.io/) 上有其他 Rust 使用者分享的函式庫，其中就有不少提供許多常見雜湊演算法的 hasher 實作。
+`HashMap` 預設是使用一種叫做 SipHash 的雜湊函式（hashing function），這可以透過 [^siphash] 雜湊表（hash table）抵禦阻斷服務（Denial of Service, DoS）的攻擊。這並不是最快的雜湊演算法，但為了提升安全性而犧牲一點效能是值得的。如果你做評測時覺得預設的雜湊函式太慢無法滿足你的需求的話，你可以指定不同的 *hasher* 來切換成其他雜湊函式。Hasher 是一個有實作 `BuildHasher` 特徵的型別。我們會在第十章討論到特徵以及如何實作它們。你不必從頭自己實作一個 hasher，[crates.io](https://crates.io/) 上有其他 Rust 使用者分享的函式庫，其中就有不少提供許多常見雜湊演算法的 hasher 實作。
 
-[^siphash]: [https://www.131002.net/siphash/siphash.pdf](https://www.131002.net/siphash/siphash.pdf)
+[^siphash]: [https://en.wikipedia.org/wiki/SipHash](https://en.wikipedia.org/wiki/SipHash)
 
 ## 總結
 

@@ -35,7 +35,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch17-oop/listing-17-12/src/lib.rs}}
 ```
 
@@ -51,7 +51,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch17-oop/listing-17-13/src/lib.rs:here}}
 ```
 
@@ -65,7 +65,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch17-oop/listing-17-14/src/lib.rs:here}}
 ```
 
@@ -79,7 +79,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch17-oop/listing-17-15/src/lib.rs:here}}
 ```
 
@@ -105,7 +105,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch17-oop/listing-17-16/src/lib.rs:here}}
 ```
 
@@ -135,7 +135,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch17-oop/listing-17-18/src/lib.rs:here}}
 ```
 
@@ -186,7 +186,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch17-oop/listing-17-19/src/lib.rs}}
 ```
 
@@ -204,7 +204,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch17-oop/listing-17-20/src/lib.rs:here}}
 ```
 

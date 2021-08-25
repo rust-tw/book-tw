@@ -52,7 +52,7 @@ copy just the doc-tests section below
 running 1 test
 test src/lib.rs - add_one (line 5) ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
 ```
 
 現在如果我們變更函式或範例使其內的 `assert_eq!` 會恐慌並再次執行 `cargo test` 的話，我們會看到技術文件測試能互獲取錯誤，告訴我們範例與程式碼已經不同不了！
@@ -93,7 +93,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground,test_harness
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-03/src/lib.rs:here}}
 ```
 
@@ -208,7 +208,7 @@ license = "MIT"
 
 你的專案適合使用什麼樣的授權條款超出了本書的範疇。不過 Rust 社群中許多人都會用 `MIT OR Apache-2.0` 雙授權條款作為它們專案的授權方式，這和 Rust 的授權條款一樣。這也剛好展示你也可以用 `OR` 指定數個授權條款，讓你的專案擁有數個不同的授權方式。
 
-有了當你用 `cargo new` 建立 crate 時就會產生的獨特名稱、版本與作者資訊，以及你的手動加入的描述與授權條款，已經準備好發佈的 *Cargo.toml* 檔案會如以下所示：
+有了獨特名稱、版本、描述與授權條款，已經準備好發佈的 *Cargo.toml* 檔案會如以下所示：
 
 <span class="filename">檔案名稱：Cargo.toml</span>
 
@@ -216,7 +216,6 @@ license = "MIT"
 [package]
 name = "guessing_game"
 version = "0.1.0"
-authors = ["Your Name <you@example.com>"]
 edition = "2018"
 description = "A fun game where you guess what number the computer has chosen."
 license = "MIT OR Apache-2.0"

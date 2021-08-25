@@ -46,7 +46,7 @@ pub trait Iterator {
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-15/src/lib.rs:here}}
 ```
 
@@ -64,7 +64,7 @@ pub trait Iterator {
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-16/src/lib.rs:here}}
 ```
 
@@ -116,19 +116,19 @@ pub trait Iterator {
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-19/src/lib.rs}}
 ```
 
 <span class="caption">範例 13-19：使用 `filter` 方法與一個獲取 `shoe_size` 的閉包</span>
 
-函式 `shoes_in_my_size` 會取得鞋子向量的所有權以及一個鞋子大小作為參數。它會回傳只有符合指定大小的鞋子向量。
+函式 `shoes_in_size` 會取得鞋子向量的所有權以及一個鞋子大小作為參數。它會回傳只有符合指定大小的鞋子向量。
 
-在 `shoes_in_my_size` 的本體中，我們呼叫 `into_iter` 來建立一個會取得向量所有權的疊代器。然後我們呼叫 `filter` 來將該疊代器轉換成只包含閉包回傳為 `true` 的元素的新疊代器。
+在 `shoes_in_size` 的本體中，我們呼叫 `into_iter` 來建立一個會取得向量所有權的疊代器。然後我們呼叫 `filter` 來將該疊代器轉換成只包含閉包回傳為 `true` 的元素的新疊代器。
 
 閉包會從環境獲取 `shoe_size` 參數並比較每個鞋子數值的大小，讓只有符合大小的鞋子保留下來。最後呼叫 `collect` 來收集疊代器回傳的數值進一個函式會回傳的向量。
 
-此測試顯示了當我們呼叫 `shoes_in_my_size` 時，我們會得到我們指定相同大小的鞋子。
+此測試顯示了當我們呼叫 `shoes_in_size` 時，我們會得到我們指定相同大小的鞋子。
 
 ### 透過 `Iterator` 特徵建立我們自己的疊代器
 
@@ -140,7 +140,7 @@ pub trait Iterator {
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-20/src/lib.rs}}
 ```
 
@@ -152,7 +152,7 @@ pub trait Iterator {
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-21/src/lib.rs:here}}
 ```
 
@@ -168,7 +168,7 @@ pub trait Iterator {
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-22/src/lib.rs:here}}
 ```
 
@@ -185,7 +185,7 @@ pub trait Iterator {
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-23/src/lib.rs:here}}
 ```
 

@@ -11,4 +11,3 @@ fn expensive_test() {
 }
 // ANCHOR_END: here
 
-fn main() {}

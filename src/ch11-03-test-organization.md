@@ -16,8 +16,8 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-01/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-01/src/lib.rs}}
 ```
 
 此程式碼是自動產生的測試模組。`cfg` 屬性代表的是 *configuration* 並告訴 Rust 以下項目只有在給予特定配置選項時才會被考慮。在此例中配置選項是 `test`，這是 Rust 提供用來編譯與執行測試的選項。使用 `cfg` 屬性的話，Cargo 只有在我們透過 `cargo test` 執行測試時才會編譯我們的測試程式碼。這包含此模組能可能需要的輔助函式，以及用 `#[test]` 詮釋的測試函式。
@@ -28,13 +28,13 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-12/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-12/src/lib.rs}}
 ```
 
 <span class="caption">範例 11-12：測試私有函式</span>
 
-注意到函式 `internal_adder` 沒有標記為 `pub`，但是因為測試也只是 Rust 的程式碼，且 `tests` 也只是另一個模組，你可以將 `internal_adder` 引入測試的作用域並呼叫它。如果你不認為私有函式不應該測試，Rust 也沒有什麼好阻止你的地方。
+注意到函式 `internal_adder` 沒有標記為 `pub`。測試也只是 Rust 的程式碼，且 `tests` 也只是另一個模組。如同我們在[引用模組項目的路徑][paths]<!-- ignore -->段落討論到的，下層模組的項目可以使用該項目以上的模組。在此測試中，我們透過 `use super::*` 引入 `test` 模組上層的所有項目，所以測試能呼叫 `internal_adder`。如果你不認為私有函式應該測試，Rust 也沒有什麼好阻止你的地方。
 
 ### 整合測試
 
@@ -64,7 +64,7 @@
 
 輸出結果中有三個段落，包含單元測試、整合測試與技術文件測試。第一個段落的單元測試與我們看過的相同：每行會是每個單元測試（在此例是我們在範例 11-12 寫得 `internal`）最後附上單元測試的總結。
 
-整合測試段落從 `Running target/debug/deps/integration_test-ce99bcc2479f4607` 開始（最後的雜湊值（hash）可能會與你的輸出不同），接著每行會是每個整合測試的測試函式，最後在 `Doc-tests adder` 段落開始前的那一行則是整合測試的總結結果。
+整合測試段落從 `Running target/debug/deps/integration_test-1082c4b063a8fbe6` 開始（最後的雜湊值（hash）可能會與你的輸出不同），接著每行會是每個整合測試的測試函式，最後在 `Doc-tests adder` 段落開始前的那一行則是整合測試的總結結果。
 
 當我們加入更多單元測試時，單元測試段落就會顯示更多結果。同樣地當我們將更多測試函式加入整合測試檔案內的話，該整合測試段落就會顯示更多結果。每個整合測試檔案會有自己的段落，如果如果我們在 *tests* 目錄加入更多檔案的話，就會出現更多整合測試段落。
 
@@ -122,6 +122,7 @@ Rust 的測試功能提供了判定程式碼怎樣才算正常運作的方法，
 
 讓我們統整此章節以及之前的章節所學到的知識來寫一支專案吧！
 
+[paths]: ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html
 [separating-modules-into-files]:
 ch07-05-separating-modules-into-different-files.html
 

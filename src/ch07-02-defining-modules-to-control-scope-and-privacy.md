@@ -12,8 +12,8 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-01/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-01/src/lib.rs}}
 ```
 
 <span class="caption">範例 7-1：`front_of_house` 模組包含了其他擁有函式的模組</span>

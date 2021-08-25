@@ -26,8 +26,8 @@ $ cargo test -- --test-threads=1
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,panics
-{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-10/src/lib.rs:here}}
+```rust,panics,noplayground
+{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-10/src/lib.rs}}
 ```
 
 <span class="caption">範例 11-10：測試會呼叫 `println!` 的函式</span>
@@ -60,7 +60,7 @@ $ cargo test -- --show-output
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-11/src/lib.rs}}
 ```
 
@@ -100,8 +100,8 @@ $ cargo test -- --show-output
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-11-ignore-a-test/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-11-ignore-a-test/src/lib.rs}}
 ```
 
 對於想排除的測試，我們在 `#[test]` 之後我們加上 `#[ignore]`。現在當我們執行我們的測試時，`it_works` 會執行但 `expensive_test` 就不會：

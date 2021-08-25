@@ -154,7 +154,21 @@ $ cargo run
 
 `^C` 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 `再一次！` 出現在 `^C` 之後。
 
-幸運的是 Rust 有提供另一個打破迴圈更可靠的方法。你可以在迴圈內加上 `break` 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章[「猜對後離開」][quitting-after-a-correct-guess]<!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。
+幸運的是 Rust 有提供一個從程式中打破迴圈的方法。你可以在迴圈內加上 `break` 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章[「猜對後離開」][quitting-after-a-correct-guess]<!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。
+
+我們在猜謎遊戲中也用到了 `continue`。這個 `continue` 關鍵字在迴圈中會告訴程式跳過這次迭代中剩餘的程式碼，然後進行下一次迭代。
+
+如果你有迴圈在迴圈之內的話，`break` 和 `continue` 會用在該位置最內層的迴圈中。你可以選擇在迴圈使用 **迴圈標籤（loop label）**，然後使用 `break` 和 `continue` 加上那些迴圈標籤定義的關鍵字，而不是作用在最內層迴圈而已。以下是使用雙層巢狀迴圈的範例：
+
+```rust
+{{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-32-5-loop-labels/src/main.rs}}
+```
+
+外層迴圈有個 `'counting_up` 的標籤，而且其會從 0 數到 2。而內層沒有迴圈標籤的迴圈則會從 10 數到 9。第一個 `break` 沒有指定任何標籤只會離開內層迴圈。而陳述式 `break 'counting_up;` 則會離開外層迴圈。此程式碼會印出：
+
+```console
+{{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-32-5-loop-labels/output.txt}}
+```
 
 #### 從迴圈回傳數值
 
@@ -196,13 +210,13 @@ $ cargo run
 
 程式在此對陣列的每個元素計數，它先從索引 `0` 開始，然後持續循環直到它抵達最後一個陣列索引為止（也就是 `index < 5` 不再為真）。執行此程式會印出陣列裡的每個元素：
 
-```text
+```console
 {{#include ../listings/ch03-common-programming-concepts/listing-03-04/output.txt}}
 ```
 
 所有五個元素都如預期顯示在終端機上。儘管 `index` 會在某一刻達到 `5`，但是迴圈會在嘗試取得陣列第六個元素前就停止執行。
 
-但這樣的方式是容易出錯的，我們可能取得錯誤的索引長度造成程式恐慌。這同時也使程式變慢，因為編譯器得在執行時的程式碼對迴圈中每次疊代的每個元素加上條件檢查。
+但這樣的方式是容易出錯的，我們可能取得錯誤的索引數值或測試條件而造成程式恐慌。這同時也使程式變慢，因為編譯器得在執行時的程式碼對迴圈中每次疊代中進行索引是否在陣列範圍內的條件檢查。
 
 所以更簡潔的替代方案是，你可以使用 `for` 迴圈來對集合的每個元素執行一些程式碼。`for` 迴圈的樣子就像範例 3-5 寫的這一樣。
 

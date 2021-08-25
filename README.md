@@ -75,6 +75,18 @@ kinds of contributions we're looking for.
 
 [contrib]: https://github.com/rust-lang/book/blob/master/CONTRIBUTING.md
 
+Because the book is [printed](https://nostarch.com/rust), and because we want
+to keep the online version of the book close to the print version when
+possible, it may take longer than you're used to for us to address your issue
+or pull request.
+
+So far, we've been doing a larger revision to coincide with [Rust
+Editions](https://doc.rust-lang.org/edition-guide/). Between those larger
+revisions, we will only be correcting errors. If your issue or pull request
+isn't strictly fixing an error, it might sit until the next time that we're
+working on a large revision: expect on the order of months or years. Thank you
+for your patience!
+
 ### Translations
 
 We'd love help translating the book! See the [Translations] label to join in
@@ -88,7 +100,8 @@ before we merge any in, but feel free to start!
 ## Spellchecking
 
 To scan source files for spelling errors, you can use the `spellcheck.sh`
-script. It needs a dictionary of valid words, which is provided in
-`dictionary.txt`. If the script produces a false positive (say, you used word
-`BTreeMap` which the script considers invalid), you need to add this word to
-`dictionary.txt` (keep the sorted order for consistency).
+script available in the `ci` directory. It needs a dictionary of valid words,
+which is provided in `ci/dictionary.txt`. If the script produces a false
+positive (say, you used word `BTreeMap` which the script considers invalid),
+you need to add this word to `ci/dictionary.txt` (keep the sorted order for
+consistency).

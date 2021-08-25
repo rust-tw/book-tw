@@ -59,13 +59,13 @@ Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-20/src/lib.rs}}
 ```
 
 <span class="caption">範例 15-20：追蹤某個值與最大值差距的函式庫並以此值的特定層級傳送警告</span>
 
-此程式碼其中一個重點是 `Messenger` 特徵有個方法叫做 `send`，這會接收一個 `self` 的不可變引用與一串訊息文字。這就是我們的模擬物件所需的介面。另一個重點是我們想要測試 `LimitTracker` 中 `set_value` 方法的行為。我們可以改變傳給參數 `value` 的值，但是 `set_value` 沒有回傳任何東西好讓我們做判斷。我們希望如果我們透過某個實作 `Messenger` 的型別與特定數值 `max` 來建立 `LimitTracker` 時，傳送訊息者能被通知要傳遞合適的訊息。
+此程式碼其中一個重點是 `Messenger` 特徵有個方法叫做 `send`，這會接收一個 `self` 的不可變引用與一串訊息文字。此特徵就是我們的模擬物件所需實作的介面，讓我們能模擬和實際物件一樣的行爲。另一個重點是我們想要測試 `LimitTracker` 中 `set_value` 方法的行為。我們可以改變傳給參數 `value` 的值，但是 `set_value` 沒有回傳任何東西好讓我們做判斷。我們希望如果我們透過某個實作 `Messenger` 的型別與特定數值 `max` 來建立 `LimitTracker` 時，傳送訊息者能被通知要傳遞合適的訊息。
 
 我們需要有個模擬物件，而不是在呼叫 `send` 時真的傳送電子郵件或文字訊息，我們只想紀錄訊息被通知要傳送了。我們可以建立模擬物件的實例，以此建立 `LimitTracker`、呼叫 `LimitTracker` 的 `set_value`，並檢查模擬物件有我們預期的訊息。範例 15-21 展示一個嘗試實作此事的模擬物件，但借用檢查器卻不允許：
 
@@ -83,17 +83,17 @@ Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 
 
 但是此測試有個問題，如以下所示：
 
-```text
+```console
 {{#include ../listings/ch15-smart-pointers/listing-15-21/output.txt}}
 ```
 
 我們無法修改 `MockMessenger` 來追蹤訊息，因為 `send` 方法取得的是 `self` 的不可變引用。而我們也無法使用錯誤訊息中推薦使用的 `&mut self`，因為 `send` 的簽名就會與 `Messenger` 特徵所定義的不相符（你可以試看看並觀察錯誤訊息）。
 
-這就是內部可變性能帶來幫助的場合！我們會將 `sent_messages` 存入 `RefCell<T>` 內，然後 `send` 訊息就也能夠進行修改存入訊息。範例 15-22 顯示了變更後的程式碼：
+這就是內部可變性能帶來幫助的場合！我們會將 `sent_messages` 存入 `RefCell<T>` 內，然後 `send` 方法就也能夠進行修改存入訊息。範例 15-22 顯示了變更後的程式碼：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-22/src/lib.rs:here}}
 ```
 

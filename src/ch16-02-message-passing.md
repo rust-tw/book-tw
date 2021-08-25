@@ -90,7 +90,7 @@ changes in the compiler -->
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-10/src/main.rs}}
 ```
 
@@ -121,7 +121,7 @@ changes in the compiler -->
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-11/src/main.rs:here}}
 ```
 
