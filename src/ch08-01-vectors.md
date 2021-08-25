@@ -134,7 +134,3 @@ Rust 需要在編譯時期知道向量的型別以及要在堆積上用到多少
 [nomicon]: https://doc.rust-lang.org/nomicon/vec.html
 [vec-api]: https://doc.rust-lang.org/std/vec/struct.Vec.html
 [deref]: ch15-02-deref.html#使用解引用運算子追蹤指標的數值
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch08-01-vectors.md)
-> - updated: 2020-09-11

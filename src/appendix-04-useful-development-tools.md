@@ -156,7 +156,3 @@ $ rustup component add rls
 關於更多 `rls` 的資訊，請查閱[它的技術文件][rls]。
 
 [rls]: https://github.com/rust-lang/rls
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-04-useful-development-tools.md)
-> - updated: 2020-09-30

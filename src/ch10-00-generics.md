@@ -63,7 +63,3 @@
 舉例來說，假設我們有兩個函式：一個會找出 `i32` 型別切片中的最大值而另一個會找出 `char` 型別切片的最大值。我們要如何刪除重複的部分呢？讓我們拭目以待！
 
 [ch18]: ch18-00-patterns.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch10-00-generics.md)
-> - updated: 2020-09-14

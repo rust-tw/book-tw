@@ -18,7 +18,3 @@ Rust 有一系列的功能能讓你管理你的程式碼組織，包含哪些細
 在本章節中，我們會涵蓋所有這些功能，討論它們如何互動，並解釋如何使用它們來管理作用域。在讀完後，你應該就會對模組系統有紮實的認知，並能夠對作用域的使用駕輕就熟！
 
 [workspaces]: ch14-03-cargo-workspaces.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [41d9f4c](https://github.com/rust-lang/book/blob/41d9f4c9ae6ba07191f55338e864c713cd49a876/src/ch06-03-if-let.md)
-> - updated: 2020-09-11

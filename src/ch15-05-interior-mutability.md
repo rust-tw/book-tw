@@ -164,7 +164,3 @@ Rust 的物件與其他語言中的物件概念並不全然相同，而且 Rust 
 標準函式庫也提供了其他具有內部可變性的型別。像是 `Cell<T>`，這類似 `RefCell<T>` 但不同於給予內部數值的引用，`Cell<T>` 的數值會被拷貝出去。還有 `Mutex<T>` 能提供跨執行緒安全的內部可變性，我們會在第十六章討論如何使用它。歡迎查閱標準函式庫的計數文件來瞭解這些型別之間的細節差異。
 
 [wheres-the---operator]: ch05-03-method-syntax.html#--運算子跑去哪了
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-05-interior-mutability.md)
-> - updated: 2020-09-20

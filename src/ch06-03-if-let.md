@@ -43,7 +43,3 @@
 你的 Rust 程式碼現在能夠使用結構體與枚舉來表達你所相關研究領域的概念了。在你的 API 建立自訂型別可以確保型別安全，編譯器會保證你的函式只會取得該函式預期的型別數值。
 
 接下來為了提供組織完善且直觀的的 API 供你的使用者使用，並只表達出使用者確切所需要的內容，我們需要瞭解 Rust 的模組。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [41d9f4c](https://github.com/rust-lang/book/blob/41d9f4c9ae6ba07191f55338e864c713cd49a876/src/ch06-03-if-let.md)
-> - updated: 2020-09-11

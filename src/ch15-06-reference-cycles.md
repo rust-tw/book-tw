@@ -158,8 +158,4 @@ children: RefCell { value: [] } }] } })
 
 接下來，我們將討論 Rust 的並行性。你還會再學到一些新的智慧指標。
 
-[nomicon]: ../nomicon/index.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-06-reference-cycles.md)
-> - updated: 2020-09-20
+[nomicon]: https://doc.rust-lang.org/nomicon/

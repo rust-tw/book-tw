@@ -322,7 +322,3 @@ ch11-02-running-tests.html#控制程式如何執行
 [derivable-traits]: appendix-03-derivable-traits.html
 [doc-comments]: ch14-02-publishing-to-crates-io.html#將技術文件註解作為測試
 [paths-for-referring-to-an-item-in-the-module-tree]: ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch11-01-writing-tests.md)
-> - updated: 2020-09-15

@@ -48,7 +48,7 @@
 * `where` - 表示約束該型別用的子句
 * `while` - 依據表達式結果的條件迴圈
 
-[union]: ../reference/items/unions.html
+[union]: https://doc.rust-lang.org/reference/items/unions.html
 
 ### 未來可能會使用而保留的關鍵字
 
@@ -111,7 +111,3 @@ fn main() {
 原始標識符能讓你使用任何字作為標識符，就算該字剛好是保留的關鍵字。除此之外，原始標識符讓你可以使用與你 crate 的 Rust 版號（edition）不相同的函式庫。舉例來說 `try` 在 2015 版號還不是關鍵字，但到 2018 版號才加入。如果你依賴一個使用 2015 版號的函式庫，且其中有個 `try` 函式，你就需要使用原始標識符語法。在此例中就是在你 2018 版號的程式碼用 `r#try` 來呼叫該函式。情查閱[附錄 E][appendix-e]<!-- ignore -->以瞭解關於版號的更多資訊。
 
 [appendix-e]: appendix-05-editions.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-01-keywords.md)
-> - updated: 2020-09-28

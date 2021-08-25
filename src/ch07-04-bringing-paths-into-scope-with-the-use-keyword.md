@@ -188,7 +188,3 @@ use std::collections::*;
 
 [rand]: ch02-00-guessing-game-tutorial.html#產生隨機數字
 [writing-tests]: ch11-01-writing-tests.html#how-to-write-tests
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch07-04-bringing-paths-into-scope-with-the-use-keyword.md)
-> - updated: 2020-09-11

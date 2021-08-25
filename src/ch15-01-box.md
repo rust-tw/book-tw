@@ -134,7 +134,3 @@ Boxes 只提供了間接儲存與堆積分配，它們沒有其他任何特殊�
 `Box<T>` 型別是智慧指標是因為它有實作 `Deref` 特徵，讓 `Box<T>` 的數值可以被視為引用所使用。當 `Box<T>` 數值離開作用域時，該 box 指向的堆積資料也會被清除，因為其有 `Drop` 特徵實作。讓我們來探討這兩種特徵的細節吧。這兩種特徵對於本章將會討論的其他智慧指標型別所提供的功能，將會更加重要。
 
 [trait-objects]: ch17-02-trait-objects.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-01-box.md)
-> - updated: 2020-09-19

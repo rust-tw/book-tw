@@ -74,7 +74,3 @@ $ cargo run searchstring example-filename.txt
 
 [ch13]: ch13-00-functional-features.html
 [ch7-idiomatic-use]: ch07-04-bringing-paths-into-scope-with-the-use-keyword.html#建立慣用的-use-路徑
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-01-accepting-command-line-arguments.md)
-> - updated: 2020-10-02

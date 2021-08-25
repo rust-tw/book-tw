@@ -236,7 +236,3 @@
 
 [more-info-than-rustc]: ch09-03-to-panic-or-not-to-panic.html#當你知道的比編譯器還多的時候
 [macros]: ch19-06-macros.html#macros
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch17-03-oo-design-patterns.md)
-> - updated: 2020-09-24

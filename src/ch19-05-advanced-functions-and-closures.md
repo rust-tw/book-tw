@@ -72,7 +72,3 @@
 
 [進階特徵]: ch19-03-advanced-traits.html#進階特徵
 [允許不同型別數值的特徵物件]: ch17-02-trait-objects.html#允許不同型別數值的特徵物件
-
-> - translators: [Weihang Lo <me@weihanglo.tw>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch19-05-advanced-functions-and-closures.md)
-> - updated: 2020-09-17

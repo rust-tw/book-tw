@@ -277,7 +277,3 @@ $ cargo yank --vers 1.0.1 --undo
 ```
 
 撤回**並不會**刪除任何程式碼。舉例來說，撤回此功能並不會刪除任何不小心上傳的祕密訊息。如果真的出現這種情形，你必須立即重設那些資訊。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-02-publishing-to-crates-io.md)
-> - updated: 2020-09-19

@@ -118,7 +118,3 @@ Rust 還有一個模式可以讓我們不必列出所有可能的數值，只需
 
 [tuples]: ch03-02-data-types.html#元組型別
 [ch18-00-patterns]: ch18-00-patterns.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [41d9f4c](https://github.com/rust-lang/book/blob/41d9f4c9ae6ba07191f55338e864c713cd49a876/src/ch06-01-defining-an-enum.md)
-> - updated: 2020-09-11

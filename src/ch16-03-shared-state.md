@@ -124,7 +124,3 @@ changes in the compiler -->
 另一個值得注意的細節是當你使用 `Mutex<T>` 時，Rust 無法避免所有種類的邏輯錯誤。 回憶一下第十五章使用 `Rc<T>` 時會有可能產生引用循環的風險，兩個 `Rc<T>` 數值可能會彼此引用，造成記憶體泄漏。同樣地，`Mutex<T>` 有產生**死結**（deadlocks）的風險。這會發生在當有個動作需要鎖定兩個資源，而有兩個執行緒分別擁有其中一個鎖，導致它們永遠都在等待彼此。如果你對此有興趣的話，歡迎嘗試建立一個有死結的 Rust 程式，然後研究看看任何語言中避免的互斥鎖死結的策略，並嘗試實作它們在 Rust 中。標準函式庫中 `Mutex<T>` 與 `MutexGuard` 的 API 技術文件可以提供些實用資訊。
 
 接下來在本章結尾我們會來討論 `Send` 與 `Sync` 特徵以及我們如何在自訂型別中使用它們。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch16-03-shared-state.md)
-> - updated: 2020-09-22

@@ -153,7 +153,7 @@ pub trait Clone {
 {{#include ../listings/ch17-oop/no-listing-01-trait-object-of-clone/output.txt}}
 ```
 
-此錯誤表示你不能這樣在特徵物件使用此特徵。如果你對物件安全的細節有興趣的話，歡迎查閱 [Rust RFC 255] 或 [Rust Reference][object-safety-reference] 的物件安全段落。
+此錯誤表示你不能這樣在特徵物件使用此特徵。如果你對物件安全的細節有興趣的話，歡迎查閱 [Rust RFC 255] 或[參考手冊][object-safety-reference]的物件安全段落。
 
 [Rust RFC 255]: https://github.com/rust-lang/rfcs/blob/master/text/0255-object-safety.md
 
@@ -161,7 +161,3 @@ pub trait Clone {
 ch10-01-syntax.html#使用泛型的程式碼效能
 [dynamically-sized]: ch19-04-advanced-types.html#動態大小型別與-sized-特徵
 [object-safety-reference]: https://doc.rust-lang.org/stable/reference/items/traits.html#object-safety
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch17-02-trait-objects.md)
-> - updated: 2020-09-23

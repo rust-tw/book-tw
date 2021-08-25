@@ -241,7 +241,3 @@ HTTP/1.1 200 OK\r\n\r\n
 太棒了！我們現在有個用約莫 40 行 Rust 程式碼寫出的簡單網頁瀏覽器，可以對一種請求回應內容頁面，然後對其他所有請求回應 404 錯誤。
 
 目前我們的伺服器只跑在單一執行緒，這意味著它一次只能處理一個請求。讓我們模擬些緩慢的請求來探討這為何會成為問題。然後我們會加以修正讓我們伺服器可以同時處理數個請求。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch20-00-ch20-01-single-threaded.md)
-> - updated: 2020-10-01

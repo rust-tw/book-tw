@@ -149,7 +149,3 @@ changes in the compiler -->
 你可能會看到數值以不同順序排序，這完全依據你的系統來決定。這正是並行程式設計既有趣卻又困難的地方。如果你加上 `thread::sleep` 來實驗，並在不同執行緒給予不同數值的話，就會發現每一輪都會更不確定，每次都會產生不同的輸出結果。
 
 現在我們已經看完通道如何運作，接著讓我們來看看並行的不同方法吧。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch16-02-message-passing.md)
-> - updated: 2020-09-21

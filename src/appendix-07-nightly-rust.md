@@ -117,7 +117,3 @@ $ rustup override set nightly
 如果功能被接受了，Rust repository 便會開啟對應 issue，然後每個人就都能嘗試實作它。實作該功能的人很可能與當初提案的人不相同！當實作準備好後，它便會加入 `master` 分支並有個功能標記，如同我們在[「不穩定功能」](#unstable-features)<!-- ignore -->段落所提及的。
 
 經過一段時間後，一旦使用夜版發佈的 Rust 開發者嘗試過新功能後，團隊成員會討論此功能，其在夜版運行的如何，並決定它是否該加到穩定版。如果決定進一步加入的話，功能標記就會被移除，然後該功能就會是穩定功能了！它就像搭乘火車班抵達最新的 Rust 穩定版發佈。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-07-nightly-rust.md)
-> - updated: 2020-10-01

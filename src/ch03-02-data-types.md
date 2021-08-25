@@ -240,7 +240,3 @@ ch02-00-guessing-game-tutorial.html#將猜測的數字與祕密數字做比較
 [unrecoverable-errors-with-panic]: ch09-01-unrecoverable-errors-with-panic.html
 [wrapping]: https://doc.rust-lang.org/std/num/struct.Wrapping.html
 [appendix_b]: appendix-02-operators.md
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [88250d6](https://github.com/rust-lang/book/blob/88250d663d5288a7f643ffca2f2c999190f3d4ae/src/ch03-02-data-types.md)
-> - updated: 2020-09-05

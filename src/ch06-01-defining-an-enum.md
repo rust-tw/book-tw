@@ -174,6 +174,3 @@ enum Option<T> {
 
 整體來說，要使用 `Option<T>` 數值的話，你要讓程式碼可以處理每個變體。你會希望有一些程式碼只會在當我們有 `Some(T)` 時執行，然後這些程式碼允許使用內部的 `T`。你會希望有另一部分的程式碼能在只有 `None` 時執行，且這些程式碼不會拿到有效的 `T` 數值。`match` 表達式正是處理此枚舉行為的控制流結構：它會針對不同的枚舉變體執行不同的程式碼，而且程式碼可以使用配對到的數值資料。
 
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch06-01-defining-an-enum.md)
-> - updated: 2020-09-11

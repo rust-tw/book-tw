@@ -9,7 +9,7 @@ error[E0382]: use of moved value: `v`
 6  |     let handle = thread::spawn(move || {
    |                                ------- value moved into closure here
 7  |         println!("這是個向量：{:?}", v);
-   |                                           - variable moved due to use in closure
+   |                                    - variable moved due to use in closure
 ...
 10 |     drop(v); // 喔不！
    |          ^ value used here after move

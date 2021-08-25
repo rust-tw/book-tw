@@ -39,9 +39,9 @@ Linux 使用者的話則需要依據他們的發行版文件來安裝 GCC 或 Cl
 
 ### 在 Windows 上安裝 `rustup`
 
-在 Windows 上請前往[下載頁面][install]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求說你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 [Build Tools for Visual Studio][visualstudio]。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，而且有包含 Windows 10 SDK 和英文語言包套件。
+在 Windows 上請前往[下載頁面][install-windows]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求說你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 [Build Tools for Visual Studio][visualstudio]。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，而且有包含 Windows 10 SDK 和英文語言包套件。
 
-[install]: https://www.rust-lang.org/zh-TW/tools/install
+[install-windows]: https://www.rust-lang.org/zh-TW/tools/install
 [visualstudio]: https://visualstudio.microsoft.com/visual-cpp-build-tools/
 
 本書接下來使用的命令都相容於 *cmd.exe* 和 PowerShell。如果有特別不同的地方，我們會解釋該怎麼使用。
@@ -85,7 +85,3 @@ rustc x.y.z (abcabcabc yyyy-mm-dd)
 安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 `rustup doc` 就可以用你的瀏覽器開啟本地文件。
 
 每當有任何型別或函式出現而你卻不清楚如何使用時，你就可以閱讀應用程式介面（API）技術文件來理解！
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [bad683b](https://github.com/rust-lang/book/blob/bad683bb7dcd06ef7f5f83bad3a25b1706b7b230/src/ch01-01-installation.md)
-> - updated: 2020-09-05

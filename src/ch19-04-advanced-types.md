@@ -167,7 +167,3 @@ Rust 必須知道該配置多少記憶體給特定型別之值，且所有該型
 [match-控制流運算子]: ch06-02-match.html#match-控制流運算子
 [允許不同型別數值的特徵物件]: ch17-02-trait-objects.html#允許不同型別數值的特徵物件
 [使用新型別模式]: ch19-03-advanced-traits.html#使用新型別模式替外部型別實作外部特徵
-
-> - translators: [Weihang Lo <me@weihanglo.tw>]
-> - commit: [5c71aac](https://github.com/rust-lang/book/blob/5c71aac64380f74f34cd9a158cc2b1d9122b5ceb/src/ch19-04-advanced-types.md)
-> - updated: 2020-09-16

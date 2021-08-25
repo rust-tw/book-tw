@@ -91,7 +91,3 @@ ch04-01-what-is-ownership.html#只在堆疊上的資料拷貝copy
 [ways-variables-and-data-interact-clone]:
 ch04-01-what-is-ownership.html#變數與資料互動的方式克隆clone
 [macros]: ch19-06-macros.html#巨集
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-03-derivable-traits.md)
-> - updated: 2020-09-29

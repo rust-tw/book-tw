@@ -175,7 +175,3 @@ for it to be borrowed from.
 接下來我們要來看看一個不太一樣的引用型別：切片（slices）。
 
 [nll]: https://doc.rust-lang.org/edition-guide/rust-2018/ownership-and-lifetimes/non-lexical-lifetimes.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch04-02-references-and-borrowing.md)
-> - updated: 2020-09-08

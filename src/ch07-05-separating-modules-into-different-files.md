@@ -47,7 +47,3 @@
 Rust 讓你能夠將套件拆成數個 crate，然後 crate 能在分成數個模組，好讓你可以從一個模組內指定其他模組的項目。而你可以使用絕對或相對路徑來達成。這些路徑可以用 `use` 陳述式來引入作用域，讓你可以在該作用域用更短的路徑來多次呼叫該項目。模組程式碼預設為私有的，但你可以使用 `pub` 關鍵字公開它的定義內容。
 
 在下個章節，我們將探討在標準函式庫中的一些資料結構集合，讓你可以利用它們寫出整潔有組織的程式碼。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch07-05-separating-modules-into-different-files.md)
-> - updated: 2020-09-11

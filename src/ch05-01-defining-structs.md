@@ -170,7 +170,3 @@ paste above
 add `> ` before every line -->
 
 [tuples]: ch03-02-data-types.html#元組型別
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch05-01-defining-structs.md)
-> - updated: 2020-09-10

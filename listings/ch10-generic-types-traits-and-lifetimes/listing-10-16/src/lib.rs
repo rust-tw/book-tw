@@ -14,9 +14,9 @@ impl<T> Pair<T> {
 impl<T: Display + PartialOrd> Pair<T> {
     fn cmp_display(&self) {
         if self.x >= self.y {
-            println!("The largest member is x = {}", self.x);
+            println!("最大的是 x = {}", self.x);
         } else {
-            println!("The largest member is y = {}", self.y);
+            println!("最大的是 y = {}", self.y);
         }
     }
 }

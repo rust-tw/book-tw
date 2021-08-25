@@ -33,7 +33,3 @@
 ```
 
 Rust 還有另一種註解：技術文件註解。我們會在第十四章的「發佈 Crate 到 Crates.io」段落提到它。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [25a1530](https://github.com/rust-lang/book/blob/25a1530ccbf0a79c8df2920ee2af8beb106122e8/src/ch03-04-comments.md)
-> - updated: 2020-09-06

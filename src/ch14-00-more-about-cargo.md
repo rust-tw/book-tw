@@ -9,7 +9,3 @@
 * 使用自訂命令擴展 Cargo 的功能
 
 Cargo 能做的事還不止本章會介紹到的，所以想要知道它所有功能的話，歡迎查閱[它的技術文件](https://doc.rust-lang.org/cargo/)。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-00-more-about-cargo.md)
-> - updated: 2020-09-19

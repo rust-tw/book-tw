@@ -11,7 +11,3 @@ Rust 的標準函式庫提供一些非常實用的資料結構稱之為**集合�
 [collections]: https://doc.rust-lang.org/std/collections/index.html
 
 我們將討論如何建立與更新向量、字串與雜湊映射，以及它們的所長。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch08-00-common-collections.md)
-> - updated: 2020-09-11

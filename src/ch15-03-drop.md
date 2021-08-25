@@ -77,7 +77,3 @@ Rust 不讓我們顯式呼叫 `drop`，因為 Rust 還是會在 `main` 結束時
 你也不必擔心會意外清理仍在使用的數值：所有權系統會確保所有引用永遠有效，並確保當數值不再需要使用時只會呼叫 `drop` 一次。
 
 現在你看過 `Box<T>` 以及一些智慧指標的特性了，讓我們來看看一些其他定義在標準函式庫的智慧指標吧。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-03-drop.md)
-> - updated: 2020-09-19

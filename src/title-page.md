@@ -25,6 +25,4 @@ Rust 語言的 2018 版號包含一系列的改進使得 Rust 更加易讀易用
 [editions]: appendix-05-editions.html
 [nsprust]: https://nostarch.com/rust
 
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/title-page.md)
-> - updated: 2020-10-03
+> - commit: [e8200d2](https://github.com/rust-lang/book/commit/e8200d27ed1dde8d1c3411cfc9580b0aa53cf7ee)

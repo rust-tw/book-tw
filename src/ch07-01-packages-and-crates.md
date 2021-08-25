@@ -29,7 +29,3 @@ Crate 會將相關的程式碼組織在一個作用域內，好讓其能易於�
 
 [modules]: ch07-02-defining-modules-to-control-scope-and-privacy.html
 [rand]: ch02-00-guessing-game-tutorial.html#產生隨機數字
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch07-01-packages-and-crates.md)
-> - updated: 2020-09-11
