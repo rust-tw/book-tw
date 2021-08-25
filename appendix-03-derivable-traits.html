@@ -186,13 +186,6 @@
 <p><code>Default</code> 特徵讓你能建立一個型別的預設數值。推導 <code>Default</code> 會實作 <code>default</code> 函式。推導出的 <code>default</code> 函式實作會呼叫該型別每個部分的 <code>default</code> 函式，這代表該型別的所有欄位或數值都得實作 <code>Default</code> 才能推導 <code>Default</code>。</p>
 <p><code>Default::default</code> 函式常用於結合結構體更新語法，如果我們在第五章的<a href="ch05-01-defining-structs.html#%E4%BD%BF%E7%94%A8%E7%B5%90%E6%A7%8B%E9%AB%94%E6%9B%B4%E6%96%B0%E8%AA%9E%E6%B3%95%E5%BE%9E%E5%85%B6%E4%BB%96%E7%B5%90%E6%A7%8B%E9%AB%94%E5%BB%BA%E7%AB%8B%E5%AF%A6%E4%BE%8B">「使用結構體更新語法從其他結構體建立實例」</a><!-- ignore -->段落所提及的。你可以自訂結構體中的一些欄位，然後使用 <code>..Default::default()</code> 將剩餘的欄位設為預設數值。</p>
 <p>舉例來說，當你在 <code>Option&lt;T&gt;</code> 實例中使用 <code>unwrap_or_default</code> 方法就會需要 <code>Default</code> 特徵。如果 <code>Option&lt;T&gt;</code> 為 <code>None</code>，<code>unwrap_or_default</code> 方法就會回傳儲存在 <code>Option&lt;T&gt;</code> 的 <code>T</code> 的 <code>Default::default</code> 結果。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-03-derivable-traits.md">e5ed971</a></li>
-<li>updated: 2020-09-29</li>
-</ul>
-</blockquote>
 
                     </main>
 

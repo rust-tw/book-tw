@@ -323,13 +323,6 @@ changes in the compiler -->
 <p>你可能已經注意到 <code>counter</code> 是不可變的，但我們卻可以取得數值其內部的可變引用，這代表 <code>Mutex&lt;T&gt;</code> 有提供內部可變性，就像 <code>Cell</code> 家族一樣。我們在第十五章也以相同的方式使用 <code>RefCell&lt;T&gt;</code> 來讓我們能改變 <code>Rc&lt;T&gt;</code> 內部的數值，而在此我們使用 <code>Mutex&lt;T&gt;</code> 改變 <code>Arc&lt;T&gt;</code> 內部的內容。</p>
 <p>另一個值得注意的細節是當你使用 <code>Mutex&lt;T&gt;</code> 時，Rust 無法避免所有種類的邏輯錯誤。 回憶一下第十五章使用 <code>Rc&lt;T&gt;</code> 時會有可能產生引用循環的風險，兩個 <code>Rc&lt;T&gt;</code> 數值可能會彼此引用，造成記憶體泄漏。同樣地，<code>Mutex&lt;T&gt;</code> 有產生<strong>死結</strong>（deadlocks）的風險。這會發生在當有個動作需要鎖定兩個資源，而有兩個執行緒分別擁有其中一個鎖，導致它們永遠都在等待彼此。如果你對此有興趣的話，歡迎嘗試建立一個有死結的 Rust 程式，然後研究看看任何語言中避免的互斥鎖死結的策略，並嘗試實作它們在 Rust 中。標準函式庫中 <code>Mutex&lt;T&gt;</code> 與 <code>MutexGuard</code> 的 API 技術文件可以提供些實用資訊。</p>
 <p>接下來在本章結尾我們會來討論 <code>Send</code> 與 <code>Sync</code> 特徵以及我們如何在自訂型別中使用它們。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch16-03-shared-state.md">e5ed971</a></li>
-<li>updated: 2020-09-22</li>
-</ul>
-</blockquote>
 
                     </main>
 

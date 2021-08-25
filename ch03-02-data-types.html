@@ -375,13 +375,6 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
 <p>此程式會在使用無效數值進行索引操作時產生<strong>執行時</strong>（runtime）錯誤。程式會退出並回傳錯誤訊息，且不會執行最後的 <code>println!</code>。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。這樣的檢查必須發生在執行時，尤其是在此例，因爲編譯器無法知道之後的使用者將會輸入哪些數值。</p>
 <p>這是 Rust 記憶體安全原則給予的保障。在許多低階語言並不會提供這樣的檢查，所以當你提供不正確的索引時，無效的記憶體可能會被存取。Rust 會保護你免於這樣的錯誤風險，並立即離開程式，而不是允許記憶體存取並繼續。第九章將會討論更多有關 Rust 的錯誤處理方式。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/88250d663d5288a7f643ffca2f2c999190f3d4ae/src/ch03-02-data-types.md">88250d6</a></li>
-<li>updated: 2020-09-05</li>
-</ul>
-</blockquote>
 
                     </main>
 

@@ -467,13 +467,6 @@ impl Counter {
 <p><span class="caption">範例 13-23：對我們的 <code>Counter</code> 疊代器使用各式各樣的 <code>Iterator</code> 特徵方法</span></p>
 <p>注意到 <code>zip</code> 只會產生四個配對，理論上的 <code>(5, None)</code> 配對是不會產生出來的，因為 <code>zip</code> 會在它的其中一個輸入疊代器回傳 <code>None</code> 時就回傳 <code>None</code>。</p>
 <p>這些所有呼叫都是可行的，因為我們已經定義了 <code>next</code> 運作的行為，而標準函式庫會提供其他呼叫 <code>next</code> 方法的預設實作。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch13-02-iterators.md">e5ed971</a></li>
-<li>updated: 2020-09-18</li>
-</ul>
-</blockquote>
 
                     </main>
 

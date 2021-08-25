@@ -502,13 +502,6 @@ fn handle_connection(mut stream: TcpStream) {
 <p>之前重複的程式碼現在位於 <code>if</code> 與 <code>else</code> 區塊之外並使用變數 <code>status_line</code> 與 <code>filename</code>。這讓我們更容易觀察兩種條件不同的地方，且也意味著如果我們想要變更讀取檔案與寫入回應的行為的話，我們只需要更新其中一段程式碼就好。範例 20-9 與範例 20-8 的程式碼行為一模一樣。</p>
 <p>太棒了！我們現在有個用約莫 40 行 Rust 程式碼寫出的簡單網頁瀏覽器，可以對一種請求回應內容頁面，然後對其他所有請求回應 404 錯誤。</p>
 <p>目前我們的伺服器只跑在單一執行緒，這意味著它一次只能處理一個請求。讓我們模擬些緩慢的請求來探討這為何會成為問題。然後我們會加以修正讓我們伺服器可以同時處理數個請求。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch20-00-ch20-01-single-threaded.md">e5ed971</a></li>
-<li>updated: 2020-10-01</li>
-</ul>
-</blockquote>
 
                     </main>
 

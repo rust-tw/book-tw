@@ -721,7 +721,7 @@ error[E0382]: borrow of moved value: `x`
   |                      value moved into closure here
 5 | 
 6 |     println!(&quot;無法在此使用 x：{:?}&quot;, x);
-  |                                        ^ value borrowed here after move
+  |                                    ^ value borrowed here after move
 
 error: aborting due to previous error
 
@@ -733,13 +733,6 @@ To learn more, run the command again with --verbose.
 <p>當閉包定義時，數值 <code>x</code> 會移入閉包中，因為我們加上了 <code>move</code> 關鍵字。閉包因此取得 <code>x</code> 的所有權，然後 <code>main</code> 就會不允許 <code>x</code> 在 <code>println!</code> 陳述式中使用。移除此例的 <code>println!</code> 就能修正問題。</p>
 <p>大多數要指定 <code>Fn</code> 特徵界限時，你可以先從 <code>Fn</code> 開始，然後編譯器會依據閉包本體的使用情況來告訴你該使用 <code>FnMut</code> 或 <code>FnOnce</code>。</p>
 <p>接下來為了講解閉包獲取環境的行為很適合用於函式參數的情形，讓我們移至下個主題：疊代器。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch13-01-closures.md">e5ed971</a></li>
-<li>updated: 2020-09-17</li>
-</ul>
-</blockquote>
 
                     </main>
 

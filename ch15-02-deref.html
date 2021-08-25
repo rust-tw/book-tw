@@ -367,13 +367,6 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 </ul>
 <p>前兩個除了可變性之外是相同的。第一個情況表示如果你有個 <code>&amp;T</code> 且 <code>T</code> 有實作 <code>Deref</code> 到某個型別 <code>U</code>，你就可以直接得到 <code>&amp;U</code>。第二種情況指的的則是對可變引用的強制解引用。</p>
 <p>第三種情況比較棘手：Rust 也能強制將可變引用轉為一個不可變引用。但反過來是<strong>不可行</strong>的：不可變引用永遠不可能強制解引用成可變引用。由於借用規則，如果你有個可變引用，該可變引用必須是該資料的唯一引用（不然程式無法編譯）。轉換可變引用成不可變引用不會破壞借用規則。轉換不可變引用成可變引用的話，就需要此不可變引用是該資料的唯一引用，但借用規則無法做擔保。因此 Rust 無法將不可變引用轉換成可變引用。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-02-deref.md">e5ed971</a></li>
-<li>updated: 2020-09-19</li>
-</ul>
-</blockquote>
 
                     </main>
 

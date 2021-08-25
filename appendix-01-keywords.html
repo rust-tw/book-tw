@@ -178,7 +178,7 @@
 <li><code>trait</code> - 定義特徵</li>
 <li><code>true</code> - 布林字面值 true</li>
 <li><code>type</code> - 定義型別別名或關聯型別</li>
-<li><code>union</code> - 定義聯集（<a href="../reference/items/unions.html">union</a>）且只作為宣告聯集時的關鍵字</li>
+<li><code>union</code> - 定義聯集（<a href="https://doc.rust-lang.org/reference/items/unions.html">union</a>）且只作為宣告聯集時的關鍵字</li>
 <li><code>unsafe</code> - 表示不安全的程式碼、函式、特徵或實作</li>
 <li><code>use</code> - 將符號引入作用域</li>
 <li><code>where</code> - 表示約束該型別用的子句</li>
@@ -228,13 +228,6 @@ fn main() {
 </code></pre></pre>
 <p>此程式碼就能夠編譯並沒有任何錯誤。注意到 <code>r#</code> 前綴會用於函式定義的名稱以及在 <code>main</code> 呼叫該函式的地方。</p>
 <p>原始標識符能讓你使用任何字作為標識符，就算該字剛好是保留的關鍵字。除此之外，原始標識符讓你可以使用與你 crate 的 Rust 版號（edition）不相同的函式庫。舉例來說 <code>try</code> 在 2015 版號還不是關鍵字，但到 2018 版號才加入。如果你依賴一個使用 2015 版號的函式庫，且其中有個 <code>try</code> 函式，你就需要使用原始標識符語法。在此例中就是在你 2018 版號的程式碼用 <code>r#try</code> 來呼叫該函式。情查閱<a href="appendix-05-editions.html">附錄 E</a><!-- ignore -->以瞭解關於版號的更多資訊。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-01-keywords.md">e5ed971</a></li>
-<li>updated: 2020-09-28</li>
-</ul>
-</blockquote>
 
                     </main>
 

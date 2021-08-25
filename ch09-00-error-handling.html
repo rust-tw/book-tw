@@ -143,13 +143,6 @@
 <p>Rust 對可靠性的注重也包含錯誤處理。錯誤是軟體開發中不可避免的一環，所以 Rust 有一些特色能夠處理發生錯誤的情形。在許多情況下，Rust 要求你要任知道可能出錯的地方，並在編譯前採取行動。這樣的要求能讓你的程式更穩定，確保你能發現錯誤並在程式碼發佈到生產環境前妥善處理它們！</p>
 <p>Rust 將錯誤分成兩大類：<strong>可復原的</strong>（recoverable）和<strong>不可復原的</strong>（unrecoverable）錯誤。像是找不到檔案這種可復原的錯誤，回報問題給使用者並重試是很合理的。而不可復原的錯誤就會是程式錯誤的跡象，像是嘗試取得陣列結尾之後的位置。</p>
 <p>許多語言不會區分這兩種錯誤，並以相同的方式處理，使用像是例外（exceptions）這樣統一的機制處理。Rust 沒有例外處理機制，取而代之的是它對可復原的錯誤提供 <code>Result&lt;T, E&gt;</code> 型別，對不可復原的錯誤使用 <code>panic!</code> 將程式停止執行。本章節會先介紹 <code>panic!</code> 再來討論 <code>Result&lt;T, E&gt;</code> 數值的回傳。除此之外，我們也將探討何時該從錯誤中復原，何時該選擇停止程式。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch09-00-error-handling.md">e5ed971</a></li>
-<li>updated: 2020-09-11</li>
-</ul>
-</blockquote>
 
                     </main>
 

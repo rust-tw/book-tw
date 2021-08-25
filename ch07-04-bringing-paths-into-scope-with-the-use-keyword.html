@@ -395,13 +395,6 @@ use std::io::Write;
 </span></code></pre></pre>
 <p>此 <code>use</code> 陳述式會將 <code>std::collections</code> 定義的所有公開項目都引入作用域中。不過請小心使用全域運算子！它容易讓我們無法分辨作用域內的名稱，以及程式中使用的名稱是從哪定義來的。</p>
 <p>全域運算子很常用在 <code>tests</code> 模組下，將所有東西引入測試中。我們會在第十一章的<a href="ch11-01-writing-tests.html#how-to-write-tests">「如何寫測試」</a><!-- ignore -->段落來討論。全域運算子也常拿來用在 prelude 模式中，你可以查閱<a href="https://doc.rust-lang.org/std/prelude/index.html#other-preludes">標準函式庫的技術文件</a><!-- ignore -->來瞭解此模式的更多資訊。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch07-04-bringing-paths-into-scope-with-the-use-keyword.md">e5ed971</a></li>
-<li>updated: 2020-09-11</li>
-</ul>
-</blockquote>
 
                     </main>
 

@@ -216,13 +216,6 @@ note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose bac
 <p>輸出結果有點多啊！你看到的實際輸出可能會因你的作業系統與 Rust 版本而有所不同。要取得這些資訊的 backtrace，除錯符號（debug symbols）必須啟用。當我們在使用 <code>cargo build</code> 或 <code>cargo run</code> 且沒有加上 <code>--release</code> 時，除錯符號預設是啟用的。</p>
 <p>在範例 9-2 的輸出結果中，第 6 行的 backtrace 指向了我們專案中產生問題的地方：<em>src/main.rs</em> 中的第四行。如果我們不想讓程式恐慌，我們就要來調查我們所寫的程式中第一個被錯誤訊息指向的位置。在範例 9-1 中，我們為了顯示如何使用 backtrace，故意寫出會恐慌的程式碼。要修正的方法就是不要向只有 3 個元素的向量要求取得索引 99 的值。當在未來你的程式碼恐慌時，你會需要知道是程式碼中的什麼動作造成的、什麼數值導致恐慌以及正確的程式碼該怎麼處理。</p>
 <p>我們會在本章節<a href="ch09-03-to-panic-or-not-to-panic.html#to-panic-or-not-to-panic">「要 <code>panic!</code> 還是不要 <code>panic!</code>」</a><!-- ignore -->的段落中再回來看 <code>panic!</code> 並研究何時該與不該使用 <code>panic!</code> 來處理錯誤條件。接下來，我們要看如何使用 <code>Result</code>來處理可回復的錯誤。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch09-01-unrecoverable-errors-with-panic.md">e5ed971</a></li>
-<li>updated: 2020-09-11</li>
-</ul>
-</blockquote>
 
                     </main>
 

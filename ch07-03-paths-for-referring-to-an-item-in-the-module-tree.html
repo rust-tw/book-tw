@@ -350,13 +350,6 @@ pub fn eat_at_restaurant() {
 <p><span class="caption">範例 7-10：公開枚舉會讓其所有變體也公開</span></p>
 <p>因為我們公開了 <code>Appetizer</code> 枚舉，我們可以在 <code>eat_at_restaurant</code> 使用 <code>Soup</code> 和 <code>Salad</code>。枚舉的變體沒有全部都公開的話，通常會讓枚舉很不好用。要用 <code>pub</code> 標註所有的枚舉變體都公開的話又很麻煩。所以公開枚舉的話，預設就會公開其變體。相反地，結構體不讓它的欄位全部都公開的話，通常反而比較實用。因此結構體欄位的通用原則是預設為私有，除非有 <code>pub</code> 標註。</p>
 <p>我們還有一個 <code>pub</code> 的使用情境還沒提到，也就是我們模組系統最後一項功能：<code>use</code> 關鍵字。我們接下來會先解釋 <code>use</code>，再來研究如何組合 <code>pub</code> 和 <code>use</code>。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md">e5ed971</a></li>
-<li>updated: 2020-09-11</li>
-</ul>
-</blockquote>
 
                     </main>
 

@@ -329,13 +329,6 @@ fn main() {
 <p>我們可以看見第一個輸出結果來自 <em>src/main.rs</em> 第十行，也就是我們除錯表達式 <code>30 * scale</code> 的地方，其結果數值爲 60 （整數實作的 <code>Debug</code> 格式只會印出它們的數值）。而在 <em>src/main.rs</em> 第十四行所呼叫的 <code>dbg!</code> 則輸出 <code>&amp;rect1</code> 的數值，也就是 <code>Rectangle</code> 的結構體。此輸出就會使用 <code>Rectangle</code> 實作的 <code>Debug</code> 漂亮格式。當你需要嘗試理解程式碼怎麼運作時，<code>dbg!</code> 巨集可以變得相當實用！</p>
 <p>除了 <code>Debug</code> 特徵之外，Rust 還提供了一些特徵能讓我們透過 <code>derive</code> 來使用並爲我們的自訂型別擴增實用的行爲。這些特徵與它們的行爲有列在<a href="appendix-03-derivable-traits.html">附錄 C</a><!--ignore -->。我們會在第十章介紹如何實作這些特徵的自訂行爲，以及如何建立你自己的特徵。</p>
 <p>我們的函式 <code>area</code> 最後就非常清楚明白了，它只會計算長方形的面積。這樣的行為要是能夠緊貼著我們的 <code>Rectangle</code> 結構體，因為這樣一來它就不會相容於其他型別。讓我們看看我們如何繼續重構我們的程式碼，接下來我們可以將函式 <code>area</code> 轉換為 <code>Rectangle</code> 型別的<strong>方法（method）</strong>。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch05-02-example-structs.md">d44317c</a></li>
-<li>updated: 2020-09-10</li>
-</ul>
-</blockquote>
 
                     </main>
 

@@ -378,13 +378,6 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 <p>如果你想要發佈工作空間的 crate 到 <a href="https://crates.io/">crates.io</a>，工作空間中的每個 crate 必須分別獨自發佈。<code>cargo publish</code> 命令並沒有 <code>--all</code> 或是 <code>-p</code> 之類的選項，所以你必須移動到每個 crate 的目錄並執行 <code>cargo publish</code>，這樣工作空間中的每個 crate 才會發佈出去。</p>
 <p>之後想嘗試練習的話，你可以在工作空間中在加上 <code>add-two</code> crate，方式和 <code>add-one</code> crate 類似！</p>
 <p>隨著你的專案成長，你可以考慮使用工作空間：拆成各個小部分比一整塊大程式還更容易閱讀。再者，如果需要經常同時修改的話，將 crate 放在同個工作空間中更易於彼此的協作。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-03-cargo-workspaces.md">e5ed971</a></li>
-<li>updated: 2020-09-19</li>
-</ul>
-</blockquote>
 
                     </main>
 

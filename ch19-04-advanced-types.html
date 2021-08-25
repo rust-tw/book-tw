@@ -367,13 +367,6 @@ pub trait Write {
 <p><code>?Sized</code> 特徵界限代表「<code>T</code> 可能是或不是 <code>Sized</code>」，而此詮釋會覆蓋原本預設泛型型別必須在編譯期就已知大小。<code>?Trait</code> 的語法與語義只能用在 <code>Sized</code>，不適用於其他特徵。</p>
 <p>也請注意，我們將參數 <code>t</code> 的型別由 <code>T</code> 轉為 <code>&amp;T</code>，是因為這個型別可能不是 <code>Sized</code>，所以我們需要將它放在指標之後才能使用之，而在這例子中，我們選擇將它放在引用之後。
 接下來，我們會聊聊函式和閉包！</p>
-<blockquote>
-<ul>
-<li>translators: [Weihang Lo <a href="mailto:me@weihanglo.tw">me@weihanglo.tw</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/5c71aac64380f74f34cd9a158cc2b1d9122b5ceb/src/ch19-04-advanced-types.md">5c71aac</a></li>
-<li>updated: 2020-09-16</li>
-</ul>
-</blockquote>
 
                     </main>
 

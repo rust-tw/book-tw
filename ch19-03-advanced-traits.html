@@ -631,13 +631,6 @@ fn main() {
 <p>因為 <code>Wrapper</code> 是一個元組結構體而 <code>Vec&lt;T&gt;</code> 是該元組在索引 0 上的項目，所以該 <code>Display</code> 的實作使用 <code>self.0</code> 存取內部的 <code>Vec&lt;T&gt;</code>。我們就可以在 <code>Wrapper</code> 上使用 <code>Display</code> 的功能了。</p>
 <p>使用這個技術的缺點是 <code>Wrapper</code> 是個新型別，並無它封裝的值所擁有的方法。我們不得不在 <code>Wapper</code> 上實作所有 <code>Vec&lt;T&gt;</code> 的方法，委派這些方法給 <code>self.0</code>，讓我們可以將 <code>Wrapper</code> 作為 <code>Vec&lt;T&gt;</code> 一樣對待。如果我們想要新型別得到所有內部型別擁有的所有方法，一個解法是透過對 <code>Wrapper</code> 實作 <code>Deref</code> 特徵（在第十五章<a href="ch15-02-deref.html#%E9%80%8F%E9%81%8E-deref-%E7%89%B9%E5%BE%B5%E5%B0%87%E6%99%BA%E6%85%A7%E6%8C%87%E6%A8%99%E8%A6%96%E7%82%BA%E4%B8%80%E8%88%AC%E5%BC%95%E7%94%A8">「透過 <code>Deref</code> 特徵將智慧指標視為一般引用」</a>一節有相應討論）並回傳內部型別。如果我們不想要 <code>Wrapper</code> 擁有所有內部型別的方法，例如限制 <code>Wrapper</code> 型別之行為，就僅須實作那些我們想要的方法。</p>
 <p>現在，你知道如何將新型別模式與特徵相關聯，縱使不涉及特徵，新型別模式仍非常實用。接下來我們將目光轉移到其他與 Rust 型別系統互動的方法吧。</p>
-<blockquote>
-<ul>
-<li>translators: [Weihang Lo <a href="mailto:me@weihanglo.tw">me@weihanglo.tw</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/1f8e2ec392b1d261acebda3fa9d81ea3f18c7e40/src/ch19-03-advanced-traits.md">1f8e2ec</a></li>
-<li>updated: 2020-09-16</li>
-</ul>
-</blockquote>
 
                     </main>
 

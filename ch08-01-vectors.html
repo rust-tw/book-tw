@@ -234,7 +234,7 @@ error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immuta
   |     ^^^^^^^^^ mutable borrow occurs here
 7 | 
 8 |     println!(&quot;第一個元素為 {}&quot;, first);
-  |                                          ----- immutable borrow later used here
+  |                               ----- immutable borrow later used here
 
 error: aborting due to previous error
 
@@ -288,13 +288,6 @@ To learn more, run the command again with --verbose.
 <p>Rust 需要在編譯時期知道向量的型別以及要在堆積上用到多少記憶體才能儲存每個元素。這樣做第二個好處是我們能顯式知道哪些型別可以放入向量中。如果 Rust 允許向量一次持有任意型別的話，在對向量中每個元素進行處理時，可能就會有一或多種型別會產生錯誤。使用枚舉和 <code>match</code> 表達式讓 Rust 可以在編譯期間確保每個可能的情形都已經處理完善了，如同第六章提到的一樣。</p>
 <p>當你在寫程式時，如果你無法確切知道執行時程式所處理的所有型別的話，枚舉就不管用了。這時使用特徵物件會比較好，我們會在第十七章再來解釋。</p>
 <p>現在我們已經講了一些向量常見的用法，有時間的話記得到<a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">向量的 API 技術文件</a>瞭解標準函式庫中 <code>Vec&lt;T&gt;</code> 所有實用的方法。舉例來說，除了 <code>push</code> 方法以外，還有個 <code>pop</code> 方法可以移除並回傳最後一個元素。接下來讓我們看看下一個集合型別：<code>String</code>！</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch08-01-vectors.md">e5ed971</a></li>
-<li>updated: 2020-09-11</li>
-</ul>
-</blockquote>
 
                     </main>
 

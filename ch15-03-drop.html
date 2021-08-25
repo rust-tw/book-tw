@@ -259,13 +259,6 @@ CustomSmartPointer 在 main 結束前就被釋放了。
 <p>你可以在許多地方使用 <code>Drop</code> 特徵實作所指定的程式碼，讓清除實例變得方便又安全。舉例來說，你可以用它來建立你自己的記憶體分配器！透過 <code>Drop</code> 特徵與 Rust 的所有權系統，你不必去擔心要記得清理，因為 Rust 會自動處理。</p>
 <p>你也不必擔心會意外清理仍在使用的數值：所有權系統會確保所有引用永遠有效，並確保當數值不再需要使用時只會呼叫 <code>drop</code> 一次。</p>
 <p>現在你看過 <code>Box&lt;T&gt;</code> 以及一些智慧指標的特性了，讓我們來看看一些其他定義在標準函式庫的智慧指標吧。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-03-drop.md">e5ed971</a></li>
-<li>updated: 2020-09-19</li>
-</ul>
-</blockquote>
 
                     </main>
 

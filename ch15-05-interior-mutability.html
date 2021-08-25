@@ -566,13 +566,6 @@ c 之後 = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
 </code></pre>
 <p>此技巧是不是很厲害！透過使用 <code>RefCell&lt;T&gt;</code>，我們可以得到一個外部是不可變的 <code>List</code> 數值，但是我們可以使用 <code>RefCell&lt;T&gt;</code> 提供的方法來取得其內部可變性，讓我們可以在我們想要時改變我們的資料。執行時的借用規則檢查能防止資料競爭，並在某些場合犧牲一點速度來換取資料結構的彈性。</p>
 <p>標準函式庫也提供了其他具有內部可變性的型別。像是 <code>Cell&lt;T&gt;</code>，這類似 <code>RefCell&lt;T&gt;</code> 但不同於給予內部數值的引用，<code>Cell&lt;T&gt;</code> 的數值會被拷貝出去。還有 <code>Mutex&lt;T&gt;</code> 能提供跨執行緒安全的內部可變性，我們會在第十六章討論如何使用它。歡迎查閱標準函式庫的計數文件來瞭解這些型別之間的細節差異。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-05-interior-mutability.md">e5ed971</a></li>
-<li>updated: 2020-09-20</li>
-</ul>
-</blockquote>
 
                     </main>
 

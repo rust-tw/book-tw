@@ -209,13 +209,6 @@ collection</span></p>
 </blockquote>
 <p>近年來像繼承這種程式設計的解決方案在許多程式設計語言中都漸漸失寵了，因為這經常有分享不必要程式碼的風險。子類型不應該永遠分享其父類型的所有特性，但繼承會這樣做。這會讓程式的設計較不具有彈性。這還可能產生不具意義或導致錯誤的子類型方法呼叫，因為該方法不適用於子類型。除此之外，有些語言只會允許子類型繼承一個類型，進一步限制了程式設計的彈性。</p>
 <p>基於這些原因，Rust 採取了不同的方案，使用特徵物件（trait objects）而非繼承。讓我們看看 Rust 的特徵物件如何達成多型。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch17-01-what-is-oo.md">e5ed971</a></li>
-<li>updated: 2020-09-23</li>
-</ul>
-</blockquote>
 
                     </main>
 

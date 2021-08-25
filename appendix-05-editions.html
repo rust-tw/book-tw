@@ -154,14 +154,7 @@
 <p>每個專案都能選擇一種版號而不只是使用預設的 2015 版號。版號會包含無法相容的變更，像是包含新的關鍵字使得程式碼中的標識符衝突。然而，除非你親自改變版號，不然就算你更新 Rust 編譯器的版本，你的程式碼依然能夠編譯通過。</p>
 <p>所有的 Rust 編譯器版本會支援在其編譯器發佈之前的任何版號，而且可以連結任何支援版號的 crate。版號變更只會影響編譯器初始解析程式碼的方式而已。因此，如果你使用 Rust 2015 但你其中一個依賴使用 Rust 2018 的話，你的專案仍然能編譯並使用該依賴函式庫。相對地，當你的專案使用 Rust 2018 而有依賴使用 Rust 2015 的話依然是如此。</p>
 <p>這裡要澄清一點：大多數功能在所有版號中都能使用。開發者使用任何 Rust 版號都能繼續獲得新的穩定版本帶來的改善。然而有些情況下，主要是增加新的關鍵字的時候，有一些新功能可能就只有後期的版號才能使用。你想使用利用新功能的話，就得切換版號。</p>
-<p>想瞭解更多資訊的話，請查閱<a href="https://doc.rust-lang.org/stable/edition-guide/"><em>Edition Guide</em></a>，這是本涵蓋所有版號之間不同的書籍，並會解釋如何使用 <code>cargo fix</code> 來自動升級你的程式碼至新的版號。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-05-editions.md">e5ed971</a></li>
-<li>updated: 2020-09-30</li>
-</ul>
-</blockquote>
+<p>想瞭解更多資訊的話，請查閱 <a href="https://doc.rust-lang.org/stable/edition-guide/"><em>Edition Guide</em></a>，這是本涵蓋所有版號之間不同的書籍，並會解釋如何使用 <code>cargo fix</code> 來自動升級你的程式碼至新的版號。</p>
 
                     </main>
 

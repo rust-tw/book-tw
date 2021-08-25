@@ -358,7 +358,7 @@ error[E0597]: `string2` does not live long enough
 7 |     }
   |     - `string2` dropped here while still borrowed
 8 |     println!(&quot;最長的字串為 {}&quot;, result);
-  |                                          ------ borrow later used here
+  |                               ------ borrow later used here
 
 error: aborting due to previous error
 
@@ -606,13 +606,6 @@ where
 <h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>我們在此章節涵蓋了許多內容！現在你已經知道泛型型別參數、特徵與特徵界限以及泛型生命週期參數，你已經準備好能寫出適用於許多不同情況且不重複的程式碼了。泛型型別參數讓你可以讓程式碼適用於不同型別；特徵與特徵界限確保就算型別為泛型，它們都會有相同的行為。你還學到了使用生命週期詮釋確保此如此彈性的程式碼不會造成迷途引用。而且這些分析都發生在編譯期間，完全不影響執行時效能！</p>
 <p>不管你信不信，本章節還有很多延伸主題可以導論，像是第十七章就會討論特徵物件（trait objects），這是另一個使用特徵的方法。另外還有一些更複雜的場合會涉及到更進階的生命週期詮釋。對此你可能就會想閱讀 <a href="../reference/index.html">Rust Reference</a>。接下來，你將學習如何在 Rust 寫測試，讓你可以確保程式碼能如期執行。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch10-03-lifetime-syntax.md">e5ed971</a></li>
-<li>updated: 2020-09-15</li>
-</ul>
-</blockquote>
 
                     </main>
 

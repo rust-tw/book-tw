@@ -351,7 +351,7 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
    |     ^^^^^^^^^ mutable borrow occurs here
 19 | 
 20 |     println!(&quot;第一個單字為：{}&quot;, word);
-   |                                       ---- immutable borrow later used here
+   |                                ---- immutable borrow later used here
 
 error: aborting due to previous error
 
@@ -461,13 +461,6 @@ assert_eq!(slice, &amp;[2, 3]);
 <h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>所有權、借用與切片的概念讓 Rust 可以在編譯時期就確保記憶體安全。Rust 程式語言讓你和其他程式語言一樣控制你的記憶體使用方式，但是會在擁有者離開作用域時自動清除擁有的資料，讓你不必在編寫或除錯額外的程式碼。</p>
 <p>所有權影響了 Rust 很多其它部分執行的方式，所以我們在書中之後討論這些概念。讓我們繼續到第五章，看看如何用 <code>struct</code> 將資料組合在一起。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch04-03-slices.md">d44317c</a></li>
-<li>updated: 2020-09-08</li>
-</ul>
-</blockquote>
 
                     </main>
 

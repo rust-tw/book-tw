@@ -187,7 +187,7 @@ edition = &quot;2018&quot;
     Finished dev [unoptimized + debuginfo] target(s) in 2.85 secs
 </code></pre>
 <p>此命令會產生一個執行檔 <em>target/debug/hello_cargo</em>（在 Windows 上則是 <em>target\debug\hello_cargo.exe</em>），而不是在你目前的目錄。你可以用以下命令運行執行檔：</p>
-<pre><code class="language-console">$ ./target/debug/hello_cargo # or .\target\debug\hello_cargo.exe on Windows
+<pre><code class="language-console">$ ./target/debug/hello_cargo # 在 Windows 上的話則是 .\target\debug\hello_cargo.exe
 Hello, world!
 </code></pre>
 <p>如果一切順利，<code>Hello, world!</code> 就會顯示在終端機上。第一次執行 <code>cargo build</code> 的話，還會在根目錄產生另一個新檔案：<em>Cargo.lock</em>。此檔案是用來追蹤依賴函式庫的確切版本。不過此專案沒有任何依賴，所以目前這個檔案看起來內容會有點少。你不會需要去手動更改此檔案，Cargo 會幫你管理這個檔案的內容。</p>
@@ -238,13 +238,6 @@ $ cargo build
 <li>使用 Cargo 建立並執行一個新專案</li>
 </ul>
 <p>接下來是時候來建立一個更實際的程式來熟悉 Rust 程式碼的讀寫了。所以在第二章我們將寫出一支猜謎遊戲的程式。如果你想直接學習 Rust 的常見程式設計概念的話，你可直接閱讀第三章，之後再回來看第二章。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/a2e4bbfdfbdb195bf134e5a53174d7d4ab027b1f/src/ch01-03-hello-cargo.md">a2e4bbf</a></li>
-<li>updated: 2020-09-05</li>
-</ul>
-</blockquote>
 
                     </main>
 

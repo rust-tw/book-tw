@@ -1104,13 +1104,6 @@ impl Worker {
 <p><span class="caption">範例 20-21：使用 <code>while let</code> 來實作 <code>Worker::new</code> 的替代方案</span></p>
 <p>此程式碼能編譯並執行，但不會是有我們預期的執行緒行為：緩慢的請求仍然會卡住其他請求。發生的原因有點微妙，<code>Mutex</code> 結構體沒有公開的 <code>unlock</code> 方法，這是因為鎖的所有權是依據 <code>lock</code> 方法所回傳的 <code>LockResult&lt;MutexGuard&lt;T&gt;&gt;</code> 中 <code>MutexGuard&lt;T&gt;</code> 的生命週期。在編譯時借用檢查器可以以此確保沒有持有鎖的話，我們就無法取得 <code>Mutex</code> 守護的資源。不過沒有仔細思考 <code>MutexGuard&lt;T&gt;</code> 的生命週期的話，此實作可能就會導致持有鎖的時間比預期的更久。</p>
 <p>在範例 20-20 程式碼中的 <code>let job = receiver.lock().unwrap().recv().unwrap();</code> 可以這樣寫的原因是因爲用的是 <code>let</code>，等號右方任何表達式中的暫時數值都會在 <code>let</code> 陳述式結束時釋放。然而 <code>while let</code> （還有 <code>if let</code> 和 <code>match</code>）是不會釋放暫時數值的，直到其區塊結束爲止。在範例 20-21 中，在呼叫 <code>job</code> 的這段期間內，鎖都會持續鎖著，代表其他工作者無法取得工作。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch20-02-multithreaded.md">e5ed971</a></li>
-<li>updated: 2020-10-02</li>
-</ul>
-</blockquote>
 
                     </main>
 

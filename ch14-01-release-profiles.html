@@ -171,13 +171,6 @@ opt-level = 1
 </code></pre>
 <p>這樣就會覆蓋預設設定 <code>0</code>。現在當我們執行 <code>cargo build</code>，Cargo 就會使用 <code>dev</code> 設定檔的預設值以及我們自訂的 <code>opt-level</code>。因為我們將 <code>opt-level</code> 設為 <code>1</code>，Cargo 會比原本的預設進行更多優化，但沒有發佈建構那麼多。</p>
 <p>對於完整的設置選項與每個設定檔的預設列表，請查閱 <a href="https://doc.rust-lang.org/cargo/reference/profiles.html">Cargo 的技術文件</a>。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-01-release-profiles.md">e5ed971</a></li>
-<li>updated: 2020-09-19</li>
-</ul>
-</blockquote>
 
                     </main>
 

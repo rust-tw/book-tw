@@ -246,13 +246,6 @@ c 離開作用域後的計數 = 2
 <p>我們可以看到 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 會有個初始引用計數 1，然後我們每次呼叫 <code>clone</code> 時，計數會加 1。當 <code>c</code> 離開作用域時，計數會減 1。我們不必呼叫任何函式來減少引用計數，像呼叫 <code>Rc::clone</code> 時才會增加引用計數那樣。當 <code>Rc&lt;T&gt;</code> 數值離開作用域時，<code>Drop</code> 特徵的實作就會自動減少引用計數。</p>
 <p>我們無法從此例觀察到的是當 <code>b</code> 然後是 <code>a</code> 從 <code>main</code> 的結尾離開作用域時，計數會是 0，然後 <code>Rc&lt;List&gt;</code> 在此時就會完全被清除。使用 <code>Rc&lt;T&gt;</code> 能允許單一數值能有數個擁有者，然後計數會確保只要有任何擁有者還存在的狀況下，數值會保持是有效的。</p>
 <p>透過不可變引用，<code>Rc&lt;T&gt;</code> 能讓你分享資料給程式中數個部分來只做讀取的動作。如果 <code>Rc&lt;T&gt;</code> 允許你也擁有數個可變引用的話，你可能就違反了第四章提及的借用規則：數個對相同位置的可變借用會導致資料競爭（data races）與不一致。但可變資料還是非常實用的！在下個段落，我們會討論內部可變性模式與 <code>RefCell&lt;T&gt;</code> 型別，此型別能讓你搭配 <code>Rc&lt;T&gt;</code> 使用來處理不可變的限制。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-04-rc.md">e5ed971</a></li>
-<li>updated: 2020-09-19</li>
-</ul>
-</blockquote>
 
                     </main>
 

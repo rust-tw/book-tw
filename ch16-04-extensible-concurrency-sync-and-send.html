@@ -157,13 +157,6 @@
 <p>如之前提過的，因為 Rust 語言本身很少處理並行的部分，許多並行解決方案都實作成 crate。這些 crate 通常發展的比標準函式庫還快，所以別忘了到線上尋找目前最先進的 crate 來在多執行緒場合中使用喔。</p>
 <p>Rust 標準函式庫提供訊息傳遞的通道與智慧指標，像是 <code>Mutex&lt;T&gt;</code> 與 <code>Arc&lt;T&gt;</code>，能夠在並行環境中安全使用。型別系統與借用檢查器中確保使用這些解決方案的程式碼不會發生資料競爭或是無效引用。一旦你讓你的程式碼能編譯通過後，你可以放心地認定它會開開心心地在多執行緒中執行，並且不會發生任何在其他語言中常見且難以追蹤的程式錯誤。並行程式設計就不再是個令人害怕的概念，無畏無懼地開發並行程式吧！</p>
 <p>接下來，我們要討論當你的 Rust 程式成長時，定義出問題並組織解決辦法的慣用方案。除此之外，我們也將討論 Rust 有哪些與物件導向程式設計（object-oriented programming）類似的概念。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch16-04-extensible-concurrency-sync-and-send.md">e5ed971</a></li>
-<li>updated: 2020-09-22</li>
-</ul>
-</blockquote>
 
                     </main>
 

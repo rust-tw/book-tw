@@ -186,7 +186,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 8-22：展示當鍵值插入雜湊映射後就會擁有它們</span></p>
 <p>我們之後就無法使用變數 <code>field_name</code> 和 <code>field_value</code>，因為它們的值已經透過呼叫 <code>insert</code> 被移入雜湊映射之中。</p>
-<p>如果我們插入雜湊映射的數值是引用的話，該值就不會被移動到雜湊映射之中。不過該值的引用就必須一直有效，至少直到該雜湊映射離開作用域為止。我們會在第十章的<a href="ch10-03-lifetime-syntax.html#validating-references-with-lifetimes">“透過生命週期驗證引用”</a><!-- ignore -->段落討落更多細節。</p>
+<p>如果我們插入雜湊映射的數值是引用的話，該值就不會被移動到雜湊映射之中。不過該值的引用就必須一直有效，至少直到該雜湊映射離開作用域為止。我們會在第十章的<a href="ch10-03-lifetime-syntax.html#validating-references-with-lifetimes">「透過生命週期驗證引用」</a><!-- ignore -->段落討落更多細節。</p>
 <h3 id="取得雜湊映射的數值"><a class="header" href="#取得雜湊映射的數值">取得雜湊映射的數值</a></h3>
 <p>我們可以透過 <code>get</code> 方法並提供鍵來取得其在雜湊映射對應的值，如範例 8-23 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -288,13 +288,6 @@
 </ul>
 <p>標準函式庫的 API 技術文件有詳細介紹向量、字串與雜湊映射的所有方法，這對於這些練習題應該會很有幫助！</p>
 <p>我們現在已經開始遇到有可能會運作失敗的複雜程式了，所以接下來正是來討論錯誤處理的時候！</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch08-03-hash-maps.md">e5ed971</a></li>
-<li>updated: 2020-09-11</li>
-</ul>
-</blockquote>
 
                     </main>
 

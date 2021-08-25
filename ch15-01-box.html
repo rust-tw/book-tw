@@ -277,13 +277,6 @@ fn main() {
 <p><span class="caption">圖示 15-2：不再是無限大小的 <code>List</code>，因為其 <code>Cons</code> 存的是 <code>Box</code></span></p>
 <p>Boxes 只提供了間接儲存與堆積分配，它們沒有其他任何特殊功能，比如我們等下就會看到的其他智慧指標型別。它們也沒有任何因這些特殊功能產生的額外效能開銷，所以它們很適合用於像是 cons list 這種我們只需要間接儲存的場合。我們在第十七章還會再介紹到更多 box 的使用情境。</p>
 <p><code>Box&lt;T&gt;</code> 型別是智慧指標是因為它有實作 <code>Deref</code> 特徵，讓 <code>Box&lt;T&gt;</code> 的數值可以被視為引用所使用。當 <code>Box&lt;T&gt;</code> 數值離開作用域時，該 box 指向的堆積資料也會被清除，因為其有 <code>Drop</code> 特徵實作。讓我們來探討這兩種特徵的細節吧。這兩種特徵對於本章將會討論的其他智慧指標型別所提供的功能，將會更加重要。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-01-box.md">e5ed971</a></li>
-<li>updated: 2020-09-19</li>
-</ul>
-</blockquote>
 
                     </main>
 

@@ -345,8 +345,8 @@ To learn more, run the command again with --verbose.
     match some_u8_value {
         1 =&gt; println!(&quot;一&quot;),
         3 =&gt; println!(&quot;三&quot;),
-        5 =&gt; println!(&quot;five&quot;),
-        7 =&gt; println!(&quot;seven&quot;),
+        5 =&gt; println!(&quot;五&quot;),
+        7 =&gt; println!(&quot;七&quot;),
         _ =&gt; (),
     }
 <span class="boring">}
@@ -354,13 +354,6 @@ To learn more, run the command again with --verbose.
 <p><code>_</code> 模式會配對任意數值，將它置於所有分支之後，<code>_</code> 就會配對剩下尚未指明的可能情形。<code>()</code> 只是一個單位數值（我們在<a href="ch03-02-data-types.html#%E5%85%83%E7%B5%84%E5%9E%8B%E5%88%A5">「元組型別」</a><!-- ignore -->段落提到的空元組型別），所以在 <code>_</code> 的分支沒有任何事情會發生。所以我們可以說我們不想針對 <code>_</code> 佔位符（placeholder）之前沒有列出的可能情形，做任何動作。</p>
 <p>不過有時候我們只在意其中<strong>一種</strong>情形的話， <code>match</code> 表達式的確會有點囉唆。針對此情形，Rust 提供 <code>if let</code>。</p>
 <p>而更多有關配對模式的內容可以在<a href="ch18-00-patterns.html">第十八章</a>查閱。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/41d9f4c9ae6ba07191f55338e864c713cd49a876/src/ch06-01-defining-an-enum.md">41d9f4c</a></li>
-<li>updated: 2020-09-11</li>
-</ul>
-</blockquote>
 
                     </main>
 

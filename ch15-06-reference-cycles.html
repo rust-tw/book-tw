@@ -433,15 +433,8 @@ children: RefCell { value: [] } }] } })
 <h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設引用所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料分配到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的引用數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，其會在執行時強制檢測借用規則，而非編譯時。</p>
 <p>我們也討論了 <code>Deref</code> 與 <code>Drop</code> 特徵，這些對智慧指標提供了許多功能。我們探討了引用循環可能會導致記憶體泄漏以及如何使用 <code>Weak&lt;T&gt;</code> 避免它們。</p>
-<p>如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱<a href="../nomicon/index.html">「The Rustonomicon」</a>來學習更多實用資訊。</p>
+<p>如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱<a href="https://doc.rust-lang.org/nomicon/">「The Rustonomicon」</a>來學習更多實用資訊。</p>
 <p>接下來，我們將討論 Rust 的並行性。你還會再學到一些新的智慧指標。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-06-reference-cycles.md">e5ed971</a></li>
-<li>updated: 2020-09-20</li>
-</ul>
-</blockquote>
 
                     </main>
 

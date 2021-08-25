@@ -603,7 +603,7 @@ test tests::greeting_contains_name ... FAILED
 failures:
 
 ---- tests::greeting_contains_name stdout ----
-thread 'main' panicked at 'assertion failed: result.contains(\&quot;Carol\&quot;)', src/lib.rs:12:9
+thread 'main' panicked at 'assertion failed: result.contains(\&quot;卡爾\&quot;)', src/lib.rs:12:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
@@ -646,7 +646,7 @@ test tests::greeting_contains_name ... FAILED
 failures:
 
 ---- tests::greeting_contains_name stdout ----
-thread 'main' panicked at '打招呼時並沒有喊出名稱，其數值為 `Hello!`', src/lib.rs:12:9
+thread 'main' panicked at '打招呼時並沒有喊出名稱，其數值為 `哈囉！`', src/lib.rs:12:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
@@ -863,7 +863,7 @@ mod tests {
         if 2 + 2 == 4 {
             Ok(())
         } else {
-            Err(String::from(&quot;two plus two does not equal four&quot;))
+            Err(String::from(&quot;二加二不等於四&quot;))
         }
     }
 }
@@ -872,13 +872,6 @@ mod tests {
 <p>測試中回傳 <code>Result&lt;T, E&gt;</code> 讓你可以在測試本體中使用問號運算子，這樣能方便地寫出任何運算回傳 <code>Err</code> 時該失敗的測試。</p>
 <p>不過你就不能將 <code>#[should_panic]</code> 詮釋用在使用 <code>Result&lt;T, E&gt;</code> 的測試。當程式該失敗時，你必須直接回傳 <code>Err</code> 數值。</p>
 <p>現在你知道了各種寫測試的方法，讓我們看看執行程式時發生了什麼事，並探索我們可以對 <code>cargo test</code> 使用的選項。</p>
-<blockquote>
-<ul>
-<li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
-<li>commit: <a href="https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch11-01-writing-tests.md">e5ed971</a></li>
-<li>updated: 2020-09-15</li>
-</ul>
-</blockquote>
 
                     </main>
 
