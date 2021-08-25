@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>透過重構來改善模組性與錯誤處理 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -233,7 +201,7 @@ fn parse_config(args: &amp;[String]) -&gt; (&amp;str, &amp;str) {
 </blockquote>
 <p>範例 12-6 改善了 <code>parse_config</code> 函式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">use std::env;
+<pre><code class="language-rust should_panic noplayground"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
 </span>fn main() {
@@ -263,7 +231,7 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
 
     Config { query, filename }
 }
-</code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 12-6：重構 <code>parse_config</code> 來返回 <code>Config</code> 結構體實例</span></p>
 <p>我們定義了一個結構體 <code>Config</code> 其欄位有 <code>query</code> 與 <code>filename</code>。<code>parse_config</code> 的簽名現在指明它會回傳一個 <code>Config</code> 數值。在 <code>parse_config</code> 的本體中，我們原先回傳 <code>args</code> 中 <code>String</code> 數值引用的字串切片，現在我們定義 <code>Config</code> 來包含具所有權的 <code>String</code> 數值。<code>main</code> 中的 <code>args</code> 變數是引數數值的擁有者，而且只是借用它們給 <code>parse_config</code> 函式，這意味著如果 <code>Config</code> 嘗試取得 <code>args</code> 中數值的所有權的話，我們會違反 Rust 的借用規則。</p>
 <p>我們可以用許多不同的方式來管理 <code>String</code> 的資料，但最簡單（卻較不有效率）的方式是對數值呼叫 <code>clone</code> 方法。這會複製整個資料讓 <code>Config</code> 能夠擁有，這會比引用字串資料還要花時間與記憶體。然而克隆資料讓我們的程式碼比較直白，因為在此情況下我們就不需要管理引用的生命週期，犧牲一點效能以換取簡潔性是值得的。</p>
@@ -277,7 +245,7 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
 <p>目前我們將負責解析命令列引數的邏輯從 <code>main</code> 移至 <code>parse_config</code> 函式。這樣做能幫助我們理解 <code>query</code> 與 <code>filename</code> 數值是相關的，且此關係應該要能在我們的程式碼中表達出來。然後我們增加了結構體 <code>Config</code> 來描述 <code>query</code> 與 <code>filename</code> 的相關性，並在 <code>parse_config</code> 函式中將數值名稱作為結構體欄位名稱來回傳。</p>
 <p>所以現在 <code>parse_config</code> 函式的目的是要建立 <code>Config</code> 實例，我們可以將 <code>parse_config</code> 從普通的函式變成與 <code>Config</code> 結構體相關連的 <code>new</code> 函式。這樣做能讓程式碼更符合慣例。我們可以對像是 <code>String</code> 等標準函式庫中的型別呼叫 <code>String::new</code> 來建立實例。同樣地，透過將 <code>parse_config</code> 改為 <code>Config</code> 的關聯函式 <code>new</code>，我們可以透過呼叫 <code>Config::new</code> 來建立 <code>Config</code> 的實例。範例 12-7 正是我們要作出的改變。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">use std::env;
+<pre><code class="language-rust should_panic noplayground"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
 </span>fn main() {
@@ -311,7 +279,7 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
         Config { query, filename }
     }
 }
-</code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 12-7：變更 <code>parse_config</code> 成 <code>Config::new</code></span></p>
 <p>我們更新了 <code>main</code> 原先呼叫 <code>parse_config</code> 的地方來改呼叫 <code>Config::new</code>。我們變更了 <code>parse_config</code> 的名稱成 <code>new</code> 並移入 <code>impl</code> 區塊中，讓 <code>new</code> 成為 <code>Config</code> 的關聯函式。請嘗試再次編譯此程式碼來確保它能執行。</p>
 <h3 id="修正錯誤處理"><a class="header" href="#修正錯誤處理">修正錯誤處理</a></h3>
@@ -321,7 +289,7 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
      Running `target/debug/minigrep`
 thread 'main' panicked at 'index out of bounds: the len is 1 but the index is 1', src/main.rs:27:21
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
 <p><code>index out of bounds: the len is 1 but the index is 1</code> 這行是給程式設計師看得錯誤訊息。這無法協助我們的終端使用者理解發生了什麼事以及他們開怎麼處理。讓我們來修正吧。</p>
 <h4 id="改善錯誤訊息"><a class="header" href="#改善錯誤訊息">改善錯誤訊息</a></h4>
@@ -372,7 +340,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
      Running `target/debug/minigrep`
 thread 'main' panicked at '引數不足', src/main.rs:26:13
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
 <p>這樣的輸出就好多了，我們現在有個合理的錯誤訊息。然而我們還是顯示了一些額外資訊給使用者。也許在此使用範例 9-10 的技巧並不是最好的選擇，如同<a href="ch09-03-to-panic-or-not-to-panic.html#%E9%8C%AF%E8%AA%A4%E8%99%95%E7%90%86%E7%9A%84%E6%8C%87%E5%B0%8E%E5%8E%9F%E5%89%87">第九章所提及的</a><!-- ignore -->，<code>panic!</code> 的呼叫比較屬於程式設計問題，而不是使用問題。我們可以改使用第九章的其他技巧，像是<a href="ch09-02-recoverable-errors-with-result.html">回傳 <code>Result</code></a><!-- ignore -->來表達是成功還是失敗。</p>
 <h4 id="從-new-回傳-result-而非呼叫-panic"><a class="header" href="#從-new-回傳-result-而非呼叫-panic">從 <code>new</code> 回傳 <code>Result</code> 而非呼叫 <code>panic!</code></a></h4>
@@ -402,7 +370,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Config {
-    fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+    fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
         if args.len() &lt; 3 {
             return Err(&quot;引數不足&quot;);
         }
@@ -415,7 +383,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 }
 </code></pre>
 <p><span class="caption">範例 12-9：從 <code>Config::new</code> 回傳 <code>Result</code></span></p>
-<p>我們的 <code>new</code> 函式現在會回傳 <code>Result</code>，在成功時會有 <code>Config</code> 實例，而在錯誤時會有個 <code>&amp;'static str</code>。回憶一下第十章中<a href="ch10-03-lifetime-syntax.html#%E9%9D%9C%E6%85%8B%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F">「靜態生命週期」</a><!-- ignore -->的段落曾解釋 <code>&amp;'static str</code> 是字串字面值的型別，這正是我們目前的錯誤訊息型別。</p>
+<p>我們的 <code>new</code> 函式現在會回傳 <code>Result</code>，在成功時會有 <code>Config</code> 實例，而在錯誤時會有個 <code>&amp;str</code>。</p>
 <p>我們在 <code>new</code> 函式本體作出了兩項改變：不同於呼叫 <code>panic!</code>，當使用者沒有傳遞足夠引數時，我們現在會回傳 <code>Err</code> 數值。此外我們也將 <code>Config</code> 封裝進 <code>Ok</code> 作為回傳值。這些改變讓函式能符合其新的型別簽名。</p>
 <p>從 <code>Config::new</code> 回傳 <code>Err</code> 數值讓 <code>main</code> 函式能處理 <code>new</code> 函式回傳的 <code>Result</code> 數值，並明確地在錯誤情況下離開程序。</p>
 <h4 id="呼叫-confignew-並處理錯誤"><a class="header" href="#呼叫-confignew-並處理錯誤">呼叫 <code>Config::new</code> 並處理錯誤</a></h4>
@@ -450,7 +418,7 @@ fn main() {
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Config {
-</span><span class="boring">    fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">    fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
 </span><span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;引數不足&quot;);
 </span><span class="boring">        }
@@ -463,7 +431,7 @@ fn main() {
 </span><span class="boring">}
 </span></code></pre>
 <p><span class="caption">範例 12-10：如果建立新的 <code>Config</code> 失敗時會用錯誤碼離開</span></p>
-<p>在此範例中，我們使用一個還沒介紹過的方法 <code>unwrap_or_else</code>，這定義在標準函式庫的 <code>Result&lt;T, E&gt;</code> 中。使用 <code>unwrap_or_else</code> 讓我們能定義一些自訂的非 <code>panic!</code> 錯誤處理。如果 <code>Result</code> 數值為 <code>Ok</code>，此方法行為就類似於 <code>unwrap</code>，它會回傳<code>Ok</code> 所封裝的內部數值。然而，如果數值為 <code>Err</code> 的話，此方法會呼叫<strong>閉包</strong>（closure）內的程式碼，這會是由我們所定義的匿名函式並作為引數傳給 <code>unwrap_or_else</code>。我們會在<a href="ch13-00-functional-features.html">第十三章</a><!-- ignore -->詳細介紹閉包。現在你只需要知道 <code>unwrap_or_else</code> 回傳遞 <code>Err</code> 的內部數值，在此例中就是我們在範例 12-9 新增的靜態字串 <code>引數不足</code>，將此數值傳遞給閉包中兩條直線之間的 <code>err</code> 引數。閉包內的程式碼就可以在執行時使用 <code>err</code> 數值。</p>
+<p>在此範例中，我們使用一個還沒詳細介紹的方法 <code>unwrap_or_else</code>，這定義在標準函式庫的 <code>Result&lt;T, E&gt;</code> 中。使用 <code>unwrap_or_else</code> 讓我們能定義一些自訂的非 <code>panic!</code> 錯誤處理。如果 <code>Result</code> 數值為 <code>Ok</code>，此方法行為就類似於 <code>unwrap</code>，它會回傳<code>Ok</code> 所封裝的內部數值。然而，如果數值為 <code>Err</code> 的話，此方法會呼叫<strong>閉包</strong>（closure）內的程式碼，這會是由我們所定義的匿名函式並作為引數傳給 <code>unwrap_or_else</code>。我們會在<a href="ch13-00-functional-features.html">第十三章</a><!-- ignore -->詳細介紹閉包。現在你只需要知道 <code>unwrap_or_else</code> 回傳遞 <code>Err</code> 的內部數值，在此例中就是我們在範例 12-9 新增的靜態字串「引數不足」，將此數值傳遞給閉包中兩條直線之間的 <code>err</code> 引數。閉包內的程式碼就可以在執行時使用 <code>err</code> 數值。</p>
 <p>我們新增了一行 <code>use</code> 來將標準函式庫中的 <code>process</code> 引入作用域。在錯誤情形下要執行的閉包程式碼只有兩行：我們印出 <code>err</code> 數值並呼叫 <code>process::exit</code>。<code>process::exit</code> 函式會立即停止程式並回傳給予的數字來作為退出狀態碼。這與範例 12-8 我們使用 <code>panic!</code> 來處理的方式類似，但我們不再顯示多餘的輸出結果。讓我們試試看：</p>
 <pre><code class="language-console">$ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -511,7 +479,7 @@ fn run(config: Config) {
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Config {
-</span><span class="boring">    fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">    fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
 </span><span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;引數不足&quot;);
 </span><span class="boring">        }
@@ -564,7 +532,7 @@ fn run(config: Config) {
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Config {
-</span><span class="boring">    fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">    fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
 </span><span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;引數不足&quot;);
 </span><span class="boring">        }
@@ -584,7 +552,7 @@ fn run(config: Config) {
 <p>當你執行此程式時，它雖然能編譯但會顯示一個警告：</p>
 <pre><code class="language-console">$ cargo run the poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-warning: unused `std::result::Result` that must be used
+warning: unused `Result` that must be used
   --&gt; src/main.rs:19:5
    |
 19 |     run(config);
@@ -593,15 +561,17 @@ warning: unused `std::result::Result` that must be used
    = note: `#[warn(unused_must_use)]` on by default
    = note: this `Result` may be an `Err` variant, which should be handled
 
+warning: 1 warning emitted
+
     Finished dev [unoptimized + debuginfo] target(s) in 0.71s
      Running `target/debug/minigrep the poem.txt`
 搜尋 the
 目標檔案為 poem.txt
 文字內容：
-I’m nobody! Who are you?
+I'm nobody! Who are you?
 Are you nobody, too?
-Then there’s a pair of us - don’t tell!
-They’d banish us, you know.
+Then there's a pair of us - don't tell!
+They'd banish us, you know.
 
 How dreary to be somebody!
 How public, like a frog
@@ -652,7 +622,7 @@ To an admiring bog!
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Config {
-</span><span class="boring">    fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">    fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
 </span><span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;引數不足&quot;);
 </span><span class="boring">        }
@@ -686,7 +656,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
         // --省略--
 <span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;引數不足&quot;);
@@ -753,69 +723,39 @@ fn main() {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch12-02-reading-a-file.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch12-04-testing-the-librarys-functionality.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch12-02-reading-a-file.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch12-04-testing-the-librarys-functionality.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

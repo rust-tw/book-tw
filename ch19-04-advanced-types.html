@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>進階型別 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -173,10 +141,10 @@
                     <main>
                         <h2 id="進階型別"><a class="header" href="#進階型別">進階型別</a></h2>
 <p>我們提及 Rust 的型別系統有諸多特色，不過尚未深入討論。本章將從一般角度切入討論新型別（newtype）並檢驗為何作為型別來說，新型別非常好用。再來，接續看看型別別名（type alias）這個類似新型別但語意上不盡相同的特色。我們也會探討 <code>!</code> 型別與動態大小型別（dynamically sized type）。</p>
+<h3 id="透過新型別模式達成型別安全與抽象"><a class="header" href="#透過新型別模式達成型別安全與抽象">透過新型別模式達成型別安全與抽象</a></h3>
 <blockquote>
 <p>注意：接下來一節假定你已閱讀前面的章節 <a href="ch19-03-advanced-traits.html#%E4%BD%BF%E7%94%A8%E6%96%B0%E5%9E%8B%E5%88%A5%E6%A8%A1%E5%BC%8F%E6%9B%BF%E5%A4%96%E9%83%A8%E5%9E%8B%E5%88%A5%E5%AF%A6%E4%BD%9C%E5%A4%96%E9%83%A8%E7%89%B9%E5%BE%B5">「使用新型別模式替外部型別實作外部特徵」</a>。</p>
 </blockquote>
-<h3 id="透過新型別模式達成型別安全與抽象"><a class="header" href="#透過新型別模式達成型別安全與抽象">透過新型別模式達成型別安全與抽象</a></h3>
 <p>目前為止，我們討論過的任務中，新型別模式皆游刃有餘，包括靜態強制不讓值被混淆，同時能表示該值的單位。在範例 19-15 可以見到如何善用新型別表示該值的單位：回憶一下，<code>Millimeters</code> 與 <code>Meters</code> 將 <code>u32</code> 的值封裝在新型別內，若我們寫了一個函式需要型別為 <code>Millimeters</code> 的參數，我們不可能編譯出一支可以誤傳 <code>Meters</code> 型別或 <code>u32</code> 來呼叫這個函式的程式。</p>
 <p>另一個新型別的使用情境是替一型別的實作細節建立抽象層：如果我們直接將新型別作為限制可用功能的手段，新型別就可以公開有別於私有內部型別的 API。</p>
 <p>新型別也可以隱藏內部實作。例如，我們可以提供 <code>People</code> 型別，封裝用來儲存人們的 ID 與姓名之間的關聯的 <code>HashMap&lt;i32, String&gt;</code>。使用 <code>People</code> 的程式碼僅能與我們提供的公開 API 互動，例如透過一個方法替 <code>People</code> 集合添加名字字串，這段程式碼就不需知道內部會將 <code>i32</code> 作為 ID 並映射到姓名上。我們在第十七章的<a href="ch17-01-what-is-oo.html#%E9%9A%B1%E8%97%8F%E5%AF%A6%E4%BD%9C%E7%B4%B0%E7%AF%80%E7%9A%84%E5%B0%81%E8%A3%9D">「隱藏實作細節的封裝」</a>一節也曾提及，利用新型別模式來達到封裝與隱藏實作細節，不失為一種輕量的方法。</p>
@@ -239,10 +207,7 @@
 <p><span class="caption">範例 19-25：導入型別別名 <code>Thunk</code> 來減少重複</span></p>
 <p>這段程式碼更容易讀寫了！選擇有意義的型別別名也有助於溝通傳達你的意圖（<em>thunk</em> 是一個表示會在未來對此程式碼求值，所以很適用表達儲存起來的閉包）。</p>
 <p>型別別名同樣十分常用在 <code>Result&lt;T, E&gt;</code> 來減少重複。試想標準函式庫的 <code>std::io</code> 模組，輸入輸出（I/O）操作通常會藉由回傳 <code>Result&lt;T, E&gt;</code> 來處理失敗的操作。標準函式庫有個 <code>std::io::Error</code> 結構體來表示所有可能的 I/O 錯誤。許多在 <code>std::io</code> 內的函式會回傳 <code>E</code> 為 <code>std::io::Error</code> 的 <code>Result&lt;T, E&gt;</code> ，例如這些 <code>Write</code> 特徵下的函式：</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use std::fmt;
+<pre><code class="language-rust noplayground">use std::fmt;
 use std::io::Error;
 
 pub trait Write {
@@ -252,10 +217,9 @@ pub trait Write {
     fn write_all(&amp;mut self, buf: &amp;[u8]) -&gt; Result&lt;(), Error&gt;;
     fn write_fmt(&amp;mut self, fmt: fmt::Arguments) -&gt; Result&lt;(), Error&gt;;
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>這些 <code>Result&lt;..., Error</code>&gt; 不斷重複，有鑑於此，<code>std::io</code> 宣告了這個型別的別名：</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use std::fmt;
+<pre><code class="language-rust noplayground"><span class="boring">use std::fmt;
 </span><span class="boring">
 </span>type Result&lt;T&gt; = std::result::Result&lt;T, std::io::Error&gt;;
 <span class="boring">
@@ -266,11 +230,9 @@ pub trait Write {
 </span><span class="boring">    fn write_all(&amp;mut self, buf: &amp;[u8]) -&gt; Result&lt;()&gt;;
 </span><span class="boring">    fn write_fmt(&amp;mut self, fmt: fmt::Arguments) -&gt; Result&lt;()&gt;;
 </span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p>由於這個宣告是在 <code>std::io</code> 模組內，因此我們可直接使用完全限定的別名 <code>std::io::Result&lt;T&gt;</code>，實際上就是 <code>E</code> 預先填入 <code>std::io::Error</code> 的 <code>Result&lt;T, E&gt;</code>。最終，<code>Write</code> 特徵的函式簽名就會長得這樣：</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use std::fmt;
+<pre><code class="language-rust noplayground"><span class="boring">use std::fmt;
 </span><span class="boring">
 </span><span class="boring">type Result&lt;T&gt; = std::result::Result&lt;T, std::io::Error&gt;;
 </span><span class="boring">
@@ -281,19 +243,15 @@ pub trait Write {
     fn write_all(&amp;mut self, buf: &amp;[u8]) -&gt; Result&lt;()&gt;;
     fn write_fmt(&amp;mut self, fmt: fmt::Arguments) -&gt; Result&lt;()&gt;;
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p>型別別名有助於兩個面向：讓程式碼更容易撰寫，<strong>且</strong>對所有 <code>std::io</code> 提供一致的介面。因為它僅僅是別名，所以就是一個 <code>Result&lt;T, E&gt;</code> 而已，這意味著我們能使用任何可與 <code>Result&lt;T, E&gt;</code> 互動的方法，以及使用類似 <code>?</code> 運算子這種特殊語法。</p>
 <h3 id="永不回傳的永不型別"><a class="header" href="#永不回傳的永不型別">永不回傳的永不型別</a></h3>
 <p>Rust 有一個特殊的型別叫做 <code>!</code>，由於它沒有任何值，在型別理論的行話中又稱為<strong>空型別</strong>（empty type）。不過我們更喜歡稱之為<strong>永不型別</strong>（never type），因為當一個函式永遠不會回傳，永不型別將會替代原本的回傳型別。這裡來個範例:</p>
-<pre><pre class="playground"><code class="language-rust">fn bar() -&gt; ! {
+<pre><code class="language-rust noplayground">fn bar() -&gt; ! {
     // --省略--
 <span class="boring">    panic!();
 </span>}
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p>這段程式碼可讀作「函式 <code>bar</code> 永不回傳」。永不回傳的函數稱為<strong>發散函式</strong>（diverging function），我們無法建立 <code>!</code> 型別，所以 <code>bar</code> 永遠無法回傳。</p>
 <p>不過，若永遠無法替這個型別建立值，那要這個型別幹嘛呢？回想一下，範例 2-5 的程式碼，在我們的範例 19-26 又重現了。</p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
@@ -303,7 +261,7 @@ pub trait Write {
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!(&quot;請猜測一個數字！&quot;);
 </span><span class="boring">
-</span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
+</span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1..101);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;祕密數字為：{}&quot;, secret_number);
 </span><span class="boring">
@@ -406,7 +364,7 @@ pub trait Write {
     // --省略--
 }
 </code></pre>
-<p><code>?Sized</code> 特徵界限與 <code>Sized</code> 特徵界限的效果相反：可以解讀為「<code>T</code> 可能是或不是 <code>Sized</code>」。這個語法只能用在 <code>Sized</code>，不適用於其他特徵。</p>
+<p><code>?Sized</code> 特徵界限代表「<code>T</code> 可能是或不是 <code>Sized</code>」，而此詮釋會覆蓋原本預設泛型型別必須在編譯期就已知大小。<code>?Trait</code> 的語法與語義只能用在 <code>Sized</code>，不適用於其他特徵。</p>
 <p>也請注意，我們將參數 <code>t</code> 的型別由 <code>T</code> 轉為 <code>&amp;T</code>，是因為這個型別可能不是 <code>Sized</code>，所以我們需要將它放在指標之後才能使用之，而在這例子中，我們選擇將它放在引用之後。
 接下來，我們會聊聊函式和閉包！</p>
 <blockquote>
@@ -421,69 +379,39 @@ pub trait Write {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch19-03-advanced-traits.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch19-05-advanced-functions-and-closures.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch19-03-advanced-traits.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch19-05-advanced-functions-and-closures.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

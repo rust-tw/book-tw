@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>透過雜湊映射儲存鍵值配對 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -189,7 +157,7 @@
 <p><span class="caption">範例 8-20：建立新的雜湊映射並插入一些鍵值</span></p>
 <p>注意到我們需要先使用 <code>use</code> 將標準函式庫的 <code>HashMap</code> 集合引入。在我們介紹的三個常見集合中，此集合是最少被用到的，所以它並沒有包含在 prelude 內讓我們能自動引用。雜湊映射也沒有像前者那麼多標準函式庫提供的支援，像是內建建構它們的巨集。</p>
 <p>和向量一樣，雜湊映射會將它們的資料儲存在堆積上。此 <code>HashMap</code> 的鍵是 <code>String</code> 型別而值是 <code>i32</code> 型別。和向量一樣，雜湊函式宣告後就都得是同類的，所有的鍵都必須是同型別，且所有的值也都必須是同型別。</p>
-<p>另一種建構雜湊映射的方式為使用疊代器並在一個元組組成的向量中使用 <code>collect</code> 方法，其中每個元組都包含一個鍵與值的配對。我們會在第十三章的<a href="ch13-02-iterators.html">「使用疊代器來處理一系列的項目」</a><!-- ignore -->段落中深入探討疊代器與它們相關的方法。<code>collect</code> 方法會將收集的資料轉換成其他集合型別，包含 <code>HashMap</code>。舉例來說，如果我們有兩個向量分別是隊伍名稱與隊伍分數的話，我們可以使用 <code>zip</code> 方法來產生由元組組成的向量，其中「藍隊」會與 10 配對，以此類推。然後我們就能用 <code>collect</code> 方法將元組向量轉換成雜湊映射，如範例 8-21 所示。</p>
+<p>另一種建構雜湊映射的方式為使用疊代器並在一個元組組成的向量中使用 <code>collect</code> 方法，其中每個元組都包含一個鍵與值的配對。我們會在第十三章的<a href="ch13-02-iterators.html">「使用疊代器來處理一系列的項目」</a><!-- ignore -->段落中深入探討疊代器與它們相關的方法。<code>collect</code> 方法會將收集的資料轉換成其他集合型別，包含 <code>HashMap</code>。舉例來說，如果我們有兩個向量分別是隊伍名稱與隊伍分數的話，我們可以使用 <code>zip</code> 方法來產生由元組組成的疊代器，其中「藍隊」會與 10 配對，以此類推。然後我們就能用 <code>collect</code> 方法將元組疊代器轉換成雜湊映射，如範例 8-21 所示。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
 
@@ -307,9 +275,9 @@
 <p><span class="caption">範例 8-26：使用雜湊映射儲存單字與次數來計算每個字出現的次數</span></p>
 <p>此程式碼會印出 <code>{&quot;world&quot;: 2, &quot;hello&quot;: 1, &quot;wonderful&quot;: 1}</code>。<code>or_insert</code> 方法會回傳該鍵對應數值的可變引用（<code>&amp;mut V</code>）。在此我們將可變引用儲存在 <code>count</code> 變數中，所以要賦值的話，我們必須先使用 <code>*</code> 來解引用（dereference）<code>count</code>。可變引用會在 <code>for</code> 結束時離開作用域，所以所有的改變都是安全的且符合借用規則。</p>
 <h3 id="雜湊函式"><a class="header" href="#雜湊函式">雜湊函式</a></h3>
-<p><code>HashMap</code> 預設是使用一種「密碼學安全（cryptographically strong）」<sup class="footnote-reference"><a href="#siphash">1</a></sup>的雜湊函式（hashing function），這可以抵禦阻斷服務（Denial of Service, DoS）的攻擊。這並不是最快的雜湊演算法，但為了提升安全性而犧牲一點效能是值得的。如果你做評測時覺得預設的雜湊函式太慢無法滿足你的需求的話，你可以指定不同的 <em>hasher</em> 來切換成其他雜湊函式。Hasher 是一個有實作 <code>BuildHasher</code> 特徵的型別。我們會在第十章討論到特徵以及如何實作它們。你不必從頭自己實作一個 hasher，<a href="https://crates.io/">crates.io</a> 上有其他 Rust 使用者分享的函式庫，其中就有不少提供許多常見雜湊演算法的 hasher 實作。</p>
+<p><code>HashMap</code> 預設是使用一種叫做 SipHash 的雜湊函式（hashing function），這可以透過 <sup class="footnote-reference"><a href="#siphash">1</a></sup> 雜湊表（hash table）抵禦阻斷服務（Denial of Service, DoS）的攻擊。這並不是最快的雜湊演算法，但為了提升安全性而犧牲一點效能是值得的。如果你做評測時覺得預設的雜湊函式太慢無法滿足你的需求的話，你可以指定不同的 <em>hasher</em> 來切換成其他雜湊函式。Hasher 是一個有實作 <code>BuildHasher</code> 特徵的型別。我們會在第十章討論到特徵以及如何實作它們。你不必從頭自己實作一個 hasher，<a href="https://crates.io/">crates.io</a> 上有其他 Rust 使用者分享的函式庫，其中就有不少提供許多常見雜湊演算法的 hasher 實作。</p>
 <div class="footnote-definition" id="siphash"><sup class="footnote-definition-label">1</sup>
-<p><a href="https://www.131002.net/siphash/siphash.pdf">https://www.131002.net/siphash/siphash.pdf</a></p>
+<p><a href="https://en.wikipedia.org/wiki/SipHash">https://en.wikipedia.org/wiki/SipHash</a></p>
 </div>
 <h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>當你的程式需要儲存、取得、修改資料時，向量、字串與雜湊映射可以提供大量的功能。以下是一些你應該能夠解決的練習題：</p>
@@ -332,69 +300,39 @@
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch08-02-strings.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch09-00-error-handling.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch08-02-strings.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch09-00-error-handling.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

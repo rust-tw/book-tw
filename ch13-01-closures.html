@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>閉包：能獲取其環境的匿名函式 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -300,7 +268,7 @@ fn simulated_expensive_calculation(intensity: u32) -&gt; u32 {
 </span></code></pre></pre>
 <p><span class="caption">範例 13-4：提取 <code>simulated_expensive_calculation</code> 的呼叫到同個位置並用變數 <code>expensive_result</code> 儲存結果</span></p>
 <p>此變更統一了所有 <code>simulated_expensive_calculation</code> 的呼叫並解決第一個 <code>if</code> 區塊重複呼叫函式兩次的問題。不幸的是，現在我們一定得呼叫此函式並在所有情形下都得等待，這包含沒有使用到此結果的 <code>if</code> 區塊。</p>
-<p>我們想在程式某處定義程式碼，並在我們確實需要它時<strong>執行</strong>程式碼就好。這就是閉包能使用的場合！</p>
+<p>我們想在 <code>generate_workout</code> 內只用一次 <code>simulated_expensive_calculation</code>，且只在我們真的需要結果的地方進行昂貴的運算就好。這就是閉包能使用的場合！</p>
 <h4 id="透過閉包重構來儲存程式碼"><a class="header" href="#透過閉包重構來儲存程式碼">透過閉包重構來儲存程式碼</a></h4>
 <p>與其在 <code>if</code> 區塊之前就呼叫 <code>simulated_expensive_calculation</code> 函式，我們可以定義一個閉包並將<strong>閉包</strong>存入變數中，而不是儲存函式呼叫的結果，如範例 13-5 所示。我們可以將 <code>simulated_expensive_calculation</code> 的本體移入這個閉包中。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -375,7 +343,7 @@ fn simulated_expensive_calculation(intensity: u32) -&gt; u32 {
 </span><span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 13-6：呼叫我們定義的 <code>expensive_closure</code></span></p>
-<p>現在耗時的計算只會在一處呼叫了，而且我們只會在需要結果時才會執行該程式碼。</p>
+<p>現在如何進行耗時的計算都定義在同一處了，而且我們只會在需要結果時才會執行該程式碼。</p>
 <p>然而我們又重新引入了範例 13-3 其中一個問題，我們仍然會在第一個 <code>if</code> 區塊呼叫閉包兩次，也就是會呼叫耗時的程式碼兩次，讓使用者需要多等一倍的時間。我們可以透過在 <code>if</code> 區塊內建立變數並取得呼叫閉包的結果來修正這個問題，但是閉包還能提供我們另一種解決辦法。我們稍後會介紹這個解決辦法。但在這之前讓我們先討論為何閉包定義中不用型別詮釋，以及與閉包相關的特徵。</p>
 <h3 id="閉包型別推導與詮釋"><a class="header" href="#閉包型別推導與詮釋">閉包型別推導與詮釋</a></h3>
 <p>閉包不必像 <code>fn</code> 函式那樣要求你要詮釋參數或回傳值的型別。函式需要型別詮釋是因為它們是顯式公開給使用者的介面。嚴格定義此介面是很重要的，這能確保每個人同意函式使用或回傳的數值型別為何。但是閉包並不是為了對外公開使用，它們儲存在變數且沒有名稱能公開給我們函式庫的使用者。</p>
@@ -442,13 +410,13 @@ error[E0308]: mismatched types
 5 |     let n = example_closure(5);
   |                             ^
   |                             |
-  |                             expected struct `std::string::String`, found integer
+  |                             expected struct `String`, found integer
   |                             help: try using a conversion method: `5.to_string()`
 
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0308`.
-error: could not compile `closure-example`.
+error: could not compile `closure-example`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -639,7 +607,7 @@ where
 <pre><code class="language-console">$ cargo test
    Compiling cacher v0.1.0 (file:///projects/cacher)
     Finished test [unoptimized + debuginfo] target(s) in 0.72s
-     Running target/debug/deps/cacher-4116485fb32b3fff
+     Running unittests (target/debug/deps/cacher-074d7c200c000afa)
 
 running 1 test
 test tests::call_with_different_values ... FAILED
@@ -650,13 +618,13 @@ failures:
 thread 'main' panicked at 'assertion failed: `(left == right)`
   left: `1`,
  right: `2`', src/lib.rs:43:9
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
     tests::call_with_different_values
 
-test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 error: test failed, to rerun pass '--lib'
 </code></pre>
@@ -707,7 +675,7 @@ error[E0434]: can't capture dynamic environment in a fn item
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0434`.
-error: could not compile `equal-to-x`.
+error: could not compile `equal-to-x`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -721,6 +689,9 @@ To learn more, run the command again with --verbose.
 </ul>
 <p>當你建立閉包時，Rust 會依據閉包如何使用環境的數值來推導該使用何種特徵。所有的閉包都會實作 <code>FnOnce</code> 因為它們都可以至少被呼叫一次。不會移動獲取變數的閉包還會實作 <code>FnMut</code>，最後不需要向獲取變數取得可變引用的閉包會再實作 <code>Fn</code>。在範例 13-12 中，<code>equal_to_x</code> 閉包會取得 <code>x</code> 的不可變借用（所以 <code>equal_to_x</code> 擁有 <code>Fn</code> 特徵），因為閉包本體只會讀取 <code>x</code> 數值。</p>
 <p>如果你希望強制閉包會取得周圍環境數值的所有權，你可以在參數列表前使用 <code>move</code> 關鍵字。此技巧在要將閉包傳給新的執行緒以便將資料移動到新執行緒時會很實用。</p>
+<blockquote>
+<p>注意：就算 <code>move</code> 閉包透過移動獲取變數，它們仍可能會實作成 <code>Fn</code> 或 <code>FnMut</code>。這是因爲閉包型別會實作哪種特徵，是有該閉包如何處理其獲取的變數來決定，而不是它如何獲取的。<code>move</code> 關鍵字只會處理後者的行爲。</p>
+</blockquote>
 <p>當我們在第十六章討論並行的時候，我們會遇到更多 <code>move</code> 閉包的範例。現在的話可以先看看範例 13-12 怎麼使用 <code>move</code> 關鍵字到閉包定義中 ，並使用向量而非整數，因為整數可以被拷貝而不是移動。注意此程式還不能編譯過。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
@@ -742,7 +713,7 @@ error[E0382]: borrow of moved value: `x`
  --&gt; src/main.rs:6:40
   |
 2 |     let x = vec![1, 2, 3];
-  |         - move occurs because `x` has type `std::vec::Vec&lt;i32&gt;`, which does not implement the `Copy` trait
+  |         - move occurs because `x` has type `Vec&lt;i32&gt;`, which does not implement the `Copy` trait
 3 | 
 4 |     let equal_to_x = move |z| z == x;
   |                      --------      - variable moved due to use in closure
@@ -755,7 +726,7 @@ error[E0382]: borrow of moved value: `x`
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0382`.
-error: could not compile `equal-to-x`.
+error: could not compile `equal-to-x`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -774,69 +745,39 @@ To learn more, run the command again with --verbose.
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch13-00-functional-features.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch13-02-iterators.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch13-00-functional-features.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch13-02-iterators.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

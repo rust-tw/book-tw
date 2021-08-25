@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>控制程式如何執行 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -185,9 +153,7 @@
 <p>如果測試通過的話，Rust 的測試函式庫預設會獲取所有印出的標準輸出。舉例來說，如果我們在測試中呼叫 <code>println!</code> 然後測試通過的話，我們不會在終端機看到 <code>println!</code> 的輸出，我們只會看到一行表達測試通過的訊息。如果測試失敗，我們才會看到所有印出的標準輸出與失敗訊息。</p>
 <p>舉例來說，範例 11-10 有個蠢蠢的函式只會印出它的參數並回傳 10，以及一個會通過的測試與一個會失敗的測試。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust panics"><span class="boring">fn main() {}
-</span><span class="boring">
-</span>fn prints_and_returns_10(a: i32) -&gt; i32 {
+<pre><code class="language-rust panics noplayground">fn prints_and_returns_10(a: i32) -&gt; i32 {
     println!(&quot;我得到的數值為 {}&quot;, a);
     10
 }
@@ -208,13 +174,13 @@ mod tests {
         assert_eq!(5, value);
     }
 }
-</code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 11-10：測試會呼叫 <code>println!</code> 的函式</span></p>
 <p>當我們使用 <code>cargo test</code> 執行這些程式時，我們會看到以下輸出結果：</p>
 <pre><code class="language-console">$ cargo test
    Compiling silly-function v0.1.0 (file:///projects/silly-function)
     Finished test [unoptimized + debuginfo] target(s) in 0.58s
-     Running target/debug/deps/silly_function-160869f38cff9166
+     Running unittests (target/debug/deps/silly_function-160869f38cff9166)
 
 running 2 tests
 test tests::this_test_will_fail ... FAILED
@@ -227,13 +193,13 @@ failures:
 thread 'main' panicked at 'assertion failed: `(left == right)`
   left: `5`,
  right: `10`', src/lib.rs:19:9
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
     tests::this_test_will_fail
 
-test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 error: test failed, to rerun pass '--lib'
 </code></pre>
@@ -245,7 +211,7 @@ error: test failed, to rerun pass '--lib'
 <pre><code class="language-console">$ cargo test -- --show-output
    Compiling silly-function v0.1.0 (file:///projects/silly-function)
     Finished test [unoptimized + debuginfo] target(s) in 0.60s
-     Running target/debug/deps/silly_function-160869f38cff9166
+     Running unittests (target/debug/deps/silly_function-160869f38cff9166)
 
 running 2 tests
 test tests::this_test_will_fail ... FAILED
@@ -267,13 +233,13 @@ failures:
 thread 'main' panicked at 'assertion failed: `(left == right)`
   left: `5`,
  right: `10`', src/lib.rs:19:9
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
     tests::this_test_will_fail
 
-test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 error: test failed, to rerun pass '--lib'
 </code></pre>
@@ -281,10 +247,7 @@ error: test failed, to rerun pass '--lib'
 <p>有時執行完整所有的測試會很花時間。如果你正專注於程式碼的特定部分，你可能會想要只執行與該程式碼有關的測試。你可以向 <code>cargo test</code> 傳遞你想要執行的測試名稱作為引數。</p>
 <p>為了解釋如何執行部分測試，我們將為 <code>add_two</code> 函式建立三個測試，如範例 11-11 所示，然後選擇其中一個執行。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub fn add_two(a: i32) -&gt; i32 {
+<pre><code class="language-rust noplayground">pub fn add_two(a: i32) -&gt; i32 {
     a + 2
 }
 
@@ -307,27 +270,26 @@ mod tests {
         assert_eq!(102, add_two(100));
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 11-11：三個名稱不同的測試</span></p>
 <p>如果我們沒有傳遞任何引數來執行測試的話，如我們前面看過的一樣，所有測試會平行執行：</p>
 <pre><code class="language-console">$ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
     Finished test [unoptimized + debuginfo] target(s) in 0.62s
-     Running target/debug/deps/adder-92948b65e88960b4
+     Running unittests (target/debug/deps/adder-92948b65e88960b4)
 
 running 3 tests
 test tests::add_three_and_two ... ok
 test tests::add_two_and_two ... ok
 test tests::one_hundred ... ok
 
-test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
    Doc-tests adder
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 </code></pre>
 <h4 id="執行單獨一個測試"><a class="header" href="#執行單獨一個測試">執行單獨一個測試</a></h4>
@@ -335,12 +297,12 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 <pre><code class="language-console">$ cargo test one_hundred
    Compiling adder v0.1.0 (file:///projects/adder)
     Finished test [unoptimized + debuginfo] target(s) in 0.69s
-     Running target/debug/deps/adder-92948b65e88960b4
+     Running unittests (target/debug/deps/adder-92948b65e88960b4)
 
 running 1 test
 test tests::one_hundred ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
 
 </code></pre>
 <p>只有名稱為 <code>one_hundred</code> 的測試會執行，其他兩個的名稱並不符合。測試輸出會在總結的最後顯示 <code>2 filtered out</code> 告訴我們除了命令列執行的測試以外，還有更多其他測試。</p>
@@ -350,20 +312,20 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out
 <pre><code class="language-console">$ cargo test add
    Compiling adder v0.1.0 (file:///projects/adder)
     Finished test [unoptimized + debuginfo] target(s) in 0.61s
-     Running target/debug/deps/adder-92948b65e88960b4
+     Running unittests (target/debug/deps/adder-92948b65e88960b4)
 
 running 2 tests
 test tests::add_three_and_two ... ok
 test tests::add_two_and_two ... ok
 
-test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
 
 </code></pre>
 <p>此命令會執行所有名稱中包含 <code>add</code> 的測試，並過濾掉 <code>one_hundred</code> 的測試名稱。另外測試所在的模組也屬於測試名稱中，所以我們可以透過過濾模組名稱來執行該模組的所有測試。</p>
 <h3 id="忽略某些測試除非特別指定"><a class="header" href="#忽略某些測試除非特別指定">忽略某些測試除非特別指定</a></h3>
 <p>有時候有些特定的測試執行會花非常多時間，所以你可能希望在執行 <code>cargo test</code> 時能排除它們。與其列出所有你想要的測試作為引數，你可以在花時間的測試前加上 <code>ignore</code> 屬性詮釋來排除它們，如以下所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">#[test]
+<pre><code class="language-rust noplayground">#[test]
 fn it_works() {
     assert_eq!(2 + 2, 4);
 }
@@ -373,44 +335,42 @@ fn it_works() {
 fn expensive_test() {
     // 會執行一小時的程式碼
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p>對於想排除的測試，我們在 <code>#[test]</code> 之後我們加上 <code>#[ignore]</code>。現在當我們執行我們的測試時，<code>it_works</code> 會執行但 <code>expensive_test</code> 就不會：</p>
 <pre><code class="language-console">$ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
     Finished test [unoptimized + debuginfo] target(s) in 0.60s
-     Running target/debug/deps/adder-92948b65e88960b4
+     Running unittests (target/debug/deps/adder-92948b65e88960b4)
 
 running 2 tests
 test expensive_test ... ignored
 test it_works ... ok
 
-test result: ok. 1 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out
+test result: ok. 1 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.02s
 
    Doc-tests adder
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
 
 </code></pre>
 <p><code>expensive_test</code> 函式會列在 <code>ignored</code>，如果我們希望只執行被忽略的測試，我們可以使用 <code>cargo test -- --ignored</code>：</p>
 <pre><code class="language-console">$ cargo test -- --ignored
    Compiling adder v0.1.0 (file:///projects/adder)
     Finished test [unoptimized + debuginfo] target(s) in 0.61s
-     Running target/debug/deps/adder-92948b65e88960b4
+     Running unittests (target/debug/deps/adder-92948b65e88960b4)
 
 running 1 test
 test expensive_test ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
 
    Doc-tests adder
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 </code></pre>
 <p>透過控制哪些測試能執行，你能夠確保快速執行 <code>cargo test</code>。當你有時間能夠執行 <code>ignored</code> 的測試時，你可以執行 <code>cargo test -- --ignored</code> 來等待結果。</p>
@@ -426,69 +386,39 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch11-01-writing-tests.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch11-03-test-organization.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch11-01-writing-tests.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch11-03-test-organization.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

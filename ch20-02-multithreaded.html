@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>將單一執行緒伺服器轉換為多執行緒伺服器 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -204,19 +172,24 @@ fn handle_connection(mut stream: TcpStream) {
     let sleep = b&quot;GET /sleep HTTP/1.1\r\n&quot;;
 
     let (status_line, filename) = if buffer.starts_with(get) {
-        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
     } else if buffer.starts_with(sleep) {
         thread::sleep(Duration::from_secs(5));
-        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
     } else {
-        (&quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;, &quot;404.html&quot;)
+        (&quot;HTTP/1.1 404 NOT FOUND&quot;, &quot;404.html&quot;)
     };
 
     // --省略--
 <span class="boring">
 </span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
 </span><span class="boring">
-</span><span class="boring">    let response = format!(&quot;{}{}&quot;, status_line, contents);
+</span><span class="boring">    let response = format!(
+</span><span class="boring">        &quot;{}\r\nContent-Length: {}\r\n\r\n{}&quot;,
+</span><span class="boring">        status_line,
+</span><span class="boring">        contents.len(),
+</span><span class="boring">        contents
+</span><span class="boring">    );
 </span><span class="boring">
 </span><span class="boring">    stream.write(response.as_bytes()).unwrap();
 </span><span class="boring">    stream.flush().unwrap();
@@ -264,17 +237,22 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">    let sleep = b&quot;GET /sleep HTTP/1.1\r\n&quot;;
 </span><span class="boring">
 </span><span class="boring">    let (status_line, filename) = if buffer.starts_with(get) {
-</span><span class="boring">        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
 </span><span class="boring">    } else if buffer.starts_with(sleep) {
 </span><span class="boring">        thread::sleep(Duration::from_secs(5));
-</span><span class="boring">        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
 </span><span class="boring">    } else {
-</span><span class="boring">        (&quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;, &quot;404.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 404 NOT FOUND&quot;, &quot;404.html&quot;)
 </span><span class="boring">    };
 </span><span class="boring">
 </span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
 </span><span class="boring">
-</span><span class="boring">    let response = format!(&quot;{}{}&quot;, status_line, contents);
+</span><span class="boring">    let response = format!(
+</span><span class="boring">        &quot;{}\r\nContent-Length: {}\r\n\r\n{}&quot;,
+</span><span class="boring">        status_line,
+</span><span class="boring">        contents.len(),
+</span><span class="boring">        contents
+</span><span class="boring">    );
 </span><span class="boring">
 </span><span class="boring">    stream.write(response.as_bytes()).unwrap();
 </span><span class="boring">    stream.flush().unwrap();
@@ -313,17 +291,22 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">    let sleep = b&quot;GET /sleep HTTP/1.1\r\n&quot;;
 </span><span class="boring">
 </span><span class="boring">    let (status_line, filename) = if buffer.starts_with(get) {
-</span><span class="boring">        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
 </span><span class="boring">    } else if buffer.starts_with(sleep) {
 </span><span class="boring">        thread::sleep(Duration::from_secs(5));
-</span><span class="boring">        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
 </span><span class="boring">    } else {
-</span><span class="boring">        (&quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;, &quot;404.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 404 NOT FOUND&quot;, &quot;404.html&quot;)
 </span><span class="boring">    };
 </span><span class="boring">
 </span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
 </span><span class="boring">
-</span><span class="boring">    let response = format!(&quot;{}{}&quot;, status_line, contents);
+</span><span class="boring">    let response = format!(
+</span><span class="boring">        &quot;{}\r\nContent-Length: {}\r\n\r\n{}&quot;,
+</span><span class="boring">        status_line,
+</span><span class="boring">        contents.len(),
+</span><span class="boring">        contents
+</span><span class="boring">    );
 </span><span class="boring">
 </span><span class="boring">    stream.write(response.as_bytes()).unwrap();
 </span><span class="boring">    stream.flush().unwrap();
@@ -335,28 +318,24 @@ fn handle_connection(mut stream: TcpStream) {
 <p>將範例 20-12 的變更寫入 <em>src/main.rs</em>，然後讓我們從 <code>cargo check</code> 產生的編譯器錯誤來引導我們的開發吧。以下是我們第一個收到的錯誤：</p>
 <pre><code class="language-console">$ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
-error[E0433]: failed to resolve: use of undeclared type or module `ThreadPool`
+error[E0433]: failed to resolve: use of undeclared type `ThreadPool`
   --&gt; src/main.rs:10:16
    |
 10 |     let pool = ThreadPool::new(4);
-   |                ^^^^^^^^^^ use of undeclared type or module `ThreadPool`
+   |                ^^^^^^^^^^ use of undeclared type `ThreadPool`
 
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0433`.
-error: could not compile `hello`.
+error: could not compile `hello`
 
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>很好！此錯誤告訴我們需要一個 <code>ThreadPool</code> 型別或模組，所以現在就讓我們來建立一個。我們的 <code>ThreadPool</code> 實作會與網頁伺服器相互獨立，所以讓我們將 <code>hello</code> crate 從二進制 crate 轉換成函式庫 crate 來存放我們的 <code>ThreadPool</code> 實作。這樣在我們切換成函式庫 crate 之後，我們就能夠將分出來的執行緒池函式庫用在其他我們想使用執行緒池的地方，而不僅僅是作為網頁請求所用。</p>
 <p>建立一個包含以下內容的 <em>src/lib.rs</em>，這是我們現在所能寫出最簡單的 <code>ThreadPool</code> 結構體定義了：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub struct ThreadPool;
-<span class="boring">}
-</span></code></pre></pre>
+<pre><code class="language-rust noplayground">pub struct ThreadPool;
+</code></pre>
 <p>然後建立一個新的目錄 <em>src/bin</em>，將 <em>src/main.rs</em> 的二進制 crate 移至 <em>src/bin/main.rs</em>。這樣會讓函式庫 crate 成為 <em>hello</em> 目錄中的主要 crate，我們仍能使用 <code>cargo run</code> 執行 <em>src/bin/main.rs</em> 中的二進制執行檔。在移動 <em>main.rs</em> 檔案後，編輯它使其引入函式庫 crate 並將 <code>ThreadPool</code> 引入作用域，請將以下程式碼加在 <em>src/bin/main.rs</em> 的最上方：</p>
 <p><span class="filename">檔案名稱：src/bin/main.rs</span></p>
 <pre><code class="language-rust ignore">use hello::ThreadPool;
@@ -388,17 +367,22 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    let sleep = b&quot;GET /sleep HTTP/1.1\r\n&quot;;
 </span><span class="boring">
 </span><span class="boring">    let (status_line, filename) = if buffer.starts_with(get) {
-</span><span class="boring">        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
 </span><span class="boring">    } else if buffer.starts_with(sleep) {
 </span><span class="boring">        thread::sleep(Duration::from_secs(5));
-</span><span class="boring">        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
 </span><span class="boring">    } else {
-</span><span class="boring">        (&quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;, &quot;404.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 404 NOT FOUND&quot;, &quot;404.html&quot;)
 </span><span class="boring">    };
 </span><span class="boring">
 </span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
 </span><span class="boring">
-</span><span class="boring">    let response = format!(&quot;{}{}&quot;, status_line, contents);
+</span><span class="boring">    let response = format!(
+</span><span class="boring">        &quot;{}\r\nContent-Length: {}\r\n\r\n{}&quot;,
+</span><span class="boring">        status_line,
+</span><span class="boring">        contents.len(),
+</span><span class="boring">        contents
+</span><span class="boring">    );
 </span><span class="boring">
 </span><span class="boring">    stream.write(response.as_bytes()).unwrap();
 </span><span class="boring">    stream.flush().unwrap();
@@ -407,45 +391,43 @@ To learn more, run the command again with --verbose.
 <p>此程式碼仍然無法執行，讓我們再次檢查並取得下一個要解決的錯誤：</p>
 <pre><code class="language-console">$ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
-error[E0599]: no function or associated item named `new` found for type `hello::ThreadPool` in the current scope
+error[E0599]: no function or associated item named `new` found for struct `ThreadPool` in the current scope
   --&gt; src/bin/main.rs:11:28
    |
 11 |     let pool = ThreadPool::new(4);
-   |                            ^^^ function or associated item not found in `hello::ThreadPool`
+   |                            ^^^ function or associated item not found in `ThreadPool`
 
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0599`.
-error: could not compile `hello`.
+error: could not compile `hello`
 
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>此錯誤指示我們需要對 <code>ThreadPool</code> 建立個關聯函式叫做 <code>new</code> 。我們還知道 <code>new</code> 需要有個參數來接受作為引數的 <code>4</code>，並需要回傳 <code>ThreadPool</code> 實例。讓我們來實作擁有這些特性的最簡單 <code>new</code> 函式：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">pub struct ThreadPool;
+<pre><code class="language-rust noplayground">pub struct ThreadPool;
 
 impl ThreadPool {
     pub fn new(size: usize) -&gt; ThreadPool {
         ThreadPool
     }
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p>我們選擇 <code>usize</code> 作為參數 <code>size</code> 的型別，因為我們知道負數對執行緒數量來說沒有任何意義。我們也知道 4 會作為執行緒集合的元素個數，這正是使用 <code>usize</code> 型別的原因，如同第三章<a href="ch03-02-data-types.html#%E6%95%B4%E6%95%B8%E5%9E%8B%E5%88%A5">「整數型別」</a><!-- ignore -->段落所講的。</p>
 <p>讓我們在檢查程式碼一次：</p>
 <pre><code class="language-console">$ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
-error[E0599]: no method named `execute` found for type `hello::ThreadPool` in the current scope
+error[E0599]: no method named `execute` found for type `ThreadPool` in the current scope
   --&gt; src/bin/main.rs:16:14
    |
 16 |         pool.execute(|| {
-   |              ^^^^^^^ method not found in `hello::ThreadPool`
+   |              ^^^^^^^ method not found in `ThreadPool`
 
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0599`.
-error: could not compile `hello`.
+error: could not compile `hello`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -453,13 +435,14 @@ To learn more, run the command again with --verbose.
 <p>我們定義 <code>ThreadPool</code> 的 <code>execute</code> 方法接收一個閉包來作為參數。回憶一下第十三章的<a href="ch13-01-closures.html#%E9%80%8F%E9%81%8E%E6%B3%9B%E5%9E%8B%E5%8F%83%E6%95%B8%E8%88%87-fn-%E7%89%B9%E5%BE%B5%E5%84%B2%E5%AD%98%E9%96%89%E5%8C%85">「透過泛型參數與 Fn 特徵儲存閉包」</a><!-- ignore -->段落中，我們可以透過三種不同的特徵來接受閉包：<code>Fn</code>、<code>FnMut</code> 與 <code>FnOnce</code>。我們需要決定這裡該使用何種閉包。我們知道我們的行為會類似於標準函式庫中 <code>thread::spawn</code> 的實作，所以讓我們看看 <code>thread::spawn</code> 簽名中的參數有哪些界限吧。技術文件會顯示以下結果給我們：</p>
 <pre><code class="language-rust ignore">pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
     where
-        F: FnOnce() -&gt; T + Send + 'static,
-        T: Send + 'static
+        F: FnOnce() -&gt; T,
+        F: Send + 'static,
+        T: Send + 'static,
 </code></pre>
 <p><code>F</code> 型別參數正是我們所在意的，<code>T</code> 型別則是與回傳型別有關，而我們目前並不在意。我們可以看到 <code>spawn</code> 使用 <code>FnOnce</code> 作為 <code>F</code> 的界限。這大概就是我們也想要的，因為我們最終會將 <code>execute</code> 的引數傳遞給 <code>spawn</code>。我們現在更確信 <code>FnOnce</code> 就是我們想使用的特徵，因為執行請求的執行緒只會執行該請求閉包一次，這正符合 <code>FnOnce</code> 中 <code>Once</code> 的意思。</p>
 <p><code>F</code> 型別參數還有個特徵界限 <code>Send</code> 與生命週期界限 <code>'static</code>，這在我們的場合中也很實用，我們需要 <code>Send</code> 來將閉包從一個執行緒轉移到另一個，而會需要 <code>'static</code> 是因為我們不知道執行緒會處理多久。讓我們對 <code>ThreadPool</code> 建立 <code>execute</code> 方法，並採用泛型參數型別 <code>F</code> 與其界限：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct ThreadPool;
+<pre><code class="language-rust noplayground"><span class="boring">pub struct ThreadPool;
 </span><span class="boring">
 </span>impl ThreadPool {
     // --省略--
@@ -473,9 +456,7 @@ To learn more, run the command again with --verbose.
     {
     }
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p>我們在 <code>FnOnce</code> 之後仍然使用 <code>()</code>，因為此 <code>FnOnce</code> 代表閉包沒有任何參數且回傳值為單元型別 <code>()</code>。與函式定義一樣，回傳型別可以在簽名中省略，但是儘管我們沒有任何參數，我們還是得加上括號。</p>
 <p>同樣地，這是 <code>execute</code> 方法最簡單的實作，它不會做任何事情，但是我們指示要先讓我們的程式碼能夠編譯通過。讓我們再次檢查：</p>
 <pre><code class="language-console">$ cargo check
@@ -489,7 +470,7 @@ To learn more, run the command again with --verbose.
 <h4 id="在-new-驗證執行緒數量"><a class="header" href="#在-new-驗證執行緒數量">在 <code>new</code> 驗證執行緒數量</a></h4>
 <p>我們對 <code>new</code> 與 <code>execute</code> 的參數沒有做任何事情。讓我們對這些函式本體實作出我們所預期的行為吧。我們先從 <code>new</code> 開始。稍早我們選擇非帶號型別作為 <code>size</code> 的參數，因為負數對於執行緒數量並沒有任何意義。然而，零條執行緒的池一樣也沒有任何意義，但零卻可以是完全合理的 <code>usize</code>。我們要在回傳 <code>ThreadPool</code> 前，加上程式碼來檢查 <code>size</code> 有大於零，並透過 <code>assert!</code> 來判定。如果為零的話就會恐慌，如範例 20-13 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct ThreadPool;
+<pre><code class="language-rust noplayground"><span class="boring">pub struct ThreadPool;
 </span><span class="boring">
 </span>impl ThreadPool {
     /// Create a new ThreadPool.
@@ -513,9 +494,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    {
 </span><span class="boring">    }
 </span>}
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 20-13：實作 <code>ThreadPool::new</code> 且如果 <code>size</code> 為零時就會恐慌</span></p>
 <p>我們透過技術文件註解來對 <code>ThreadPool</code> 加上技術文件說明。注意到我們有加上一個段落說明何種情況呼叫函式會恐慌，這樣我們就有遵守良好的技術文件典範，如同第十四章所討論過的。嘗試執行 <code>cargo doc --open</code> 然後點擊 <code>ThreadPool</code> 結構體來看看 <code>new</code> 產生出的技術文件長什麼樣子！</p>
 <p>除了像我們這樣使用 <code>assert!</code> 巨集之外，我們也可以讓 <code>new</code> 回傳 <code>Result</code>，就像範例 12-9 我們對 I/O 專案的 <code>Config::new</code> 所做的一樣。但是我們決定在此情況中，嘗試建立零條執行緒的池應該要是不可回復的錯誤。如果你有信心的話，你可以試著寫出有以下簽名的 <code>new</code> 版本，並比較兩者的區別：</p>
@@ -525,8 +504,9 @@ To learn more, run the command again with --verbose.
 <p>現在我們有一個有效的執行緒數量能儲存至池中，我們可以在返回實例前，建立這些執行緒並儲存至 <code>ThreadPool</code> 結構體中。但我們要怎麼「儲存」執行緒呢？讓我們再看一次 <code>thread::spawn</code> 的簽名：</p>
 <pre><code class="language-rust ignore">pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
     where
-        F: FnOnce() -&gt; T + Send + 'static,
-        T: Send + 'static
+        F: FnOnce() -&gt; T,
+        F: Send + 'static,
+        T: Send + 'static,
 </code></pre>
 <p><code>spawn</code> 函式會回傳 <code>JoinHandle&lt;T&gt;</code>，而 <code>T</code> 為閉包回傳的型別。讓我們也試著使用 <code>JoinHandle</code> 來看看會發生什麼事。在我們的情況中，我們傳遞至執行緒池的閉包會處理連線但不會回傳任何值，所以 <code>T</code> 就會是單元型別 <code>()</code>。</p>
 <p>範例 20-14 的程式碼可以編譯，但還不會產生任何執行緒。我們變更了 <code>ThreadPool</code> 的定義來儲存一個有 <code>thread::JoinHandle&lt;()&gt;</code> 實例的向量，用 <code>size</code> 來初始化向量的容量，設置一個會執行些程式碼來建立執行緒的 <code>for</code> 迴圈，然後回傳包含它們的 <code>ThreadPool</code> 實例。</p>
@@ -585,7 +565,7 @@ impl ThreadPool {
 <p>如果你想要挑戰看看的話，你可以試著先自己實作這些改變，再來查看範例 20-15 的程式碼。</p>
 <p>準備好了嗎？以下是範例 20-15 作出修改的方式。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">use std::thread;
+<pre><code class="language-rust noplayground">use std::thread;
 
 pub struct ThreadPool {
     workers: Vec&lt;Worker&gt;,
@@ -632,9 +612,7 @@ impl Worker {
         Worker { id, thread }
     }
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 20-15：變更 <code>ThreadPool</code> 來儲存 <code>Worker</code> 實例，而非直接儲存執行緒</span></p>
 <p>我們將 <code>ThreadPool</code> 中欄位的名稱從 <code>threads</code> 改為 <code>workers</code>，因為它現在啊儲存的是 <code>Worker</code> 實例而非 <code>JoinHandle&lt;()&gt;</code> 實例。我們使用 <code>for</code> 迴圈的計數作為 <code>Worker::new</code> 的引數，然後我們將每個新的  <code>Worker</code> 儲存到名稱為 <code>workers</code> 的向量中。</p>
 <p>外部的程式碼（像是我們在 <em>src/bin/main.rs</em> 的伺服器）不需要知道 <code>ThreadPool</code> 內部實作細節已經改為使用 <code>Worker</code> 結構體，所以我們讓 <code>Worker</code> 結構體與其 <code>new</code> 函式維持私有。<code>Worker::new</code> 函式會使用我們給予的 <code>id</code> 並儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例，這是用空閉包產生的新執行緒所建立的。</p>
@@ -652,7 +630,7 @@ impl Worker {
 </ol>
 <p>讓我們先在 <code>ThreadPool::new</code> 建立通道並讓 <code>ThreadPool</code> 實例儲存發送端，如範例 20-16 所示。現在結構體 <code>Job</code> 還不會儲存任何東西，但是它最終會是我們傳送給通道的型別。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use std::thread;
+<pre><code class="language-rust noplayground"><span class="boring">use std::thread;
 </span>// --省略--
 use std::sync::mpsc;
 
@@ -706,9 +684,7 @@ impl ThreadPool {
 </span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
 </span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><span class="caption">範例 20-16：變更 <code>ThreadPool</code> 來儲存通道的發送端以傳送 <code>Job</code> 實例</span></p>
 <p>在 <code>ThreadPool::new</code> 中，我們建立了一個新的通道並讓執行緒池儲存發送端。這能成功編譯，但還是會有些警告。</p>
 <p>讓我們嘗試在執行緒池建立通道時，將通道接收端傳給每個 <code>Worker</code>。我們知道我們想在 <code>Worker</code> 產生的執行緒中使用接收端，所以我們得在閉包中引用 <code>receiver</code> 參數。不過範例 20-17 的程式碼還不能編譯過。</p>
@@ -789,7 +765,7 @@ error[E0382]: use of moved value: `receiver`
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0382`.
-error: could not compile `hello`.
+error: could not compile `hello`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -797,7 +773,7 @@ To learn more, run the command again with --verbose.
 <p>除此之外，從通道佇列取得任務會需要可變的 <code>receiver</code>，所以執行緒需要有個安全的方式來共享並修改 <code>receiver</code>。不然的話，我們可能會遇到競爭條件（如第十六章所提及的）。</p>
 <p>回想一下第十六章討論到的執行緒安全智慧指標：要在多重執行緒共享所有權並允許執行緒改變數值的話，我們需要使用 <code>Arc&lt;Mutex&lt;T&gt;&gt;</code>。<code>Arc</code> 型別能讓數個工作者能擁有接收端，而 <code>Mutex</code> 能確保同時間只有一個工作者能獲取任務。範例 20-18 顯示了我們需要作出的改變：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
+<pre><code class="language-rust noplayground"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::thread;
 </span>use std::sync::Arc;
 use std::sync::Mutex;
@@ -861,16 +837,14 @@ use std::sync::Mutex;
 </span><span class="boring">        Worker { id, thread }
 </span>    }
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 20-18：透過 <code>Arc</code> 與<code>Mutex</code> 來在工作者間共享通道的接收端</span></p>
 <p>在 <code>ThreadPool::new</code> 中，我們將通道接收端放入 <code>Arc</code> 與 <code>Mutex</code> 之中。對於每個新的工作者，我們會克隆 <code>Arc</code> 來增加引用計數，讓工作者可以共享接收端的所有權。</p>
 <p>有了這些改變，程式碼就能編譯了！我們就快完成了！</p>
 <h4 id="實作-execute-方法"><a class="header" href="#實作-execute-方法">實作 <code>execute</code> 方法</a></h4>
 <p>最後讓我們來對 <code>ThreadPool</code> 實作 <code>execute</code> 方法吧。我們還會將 <code>Job</code> 的型別從結構體改為特徵物件的型別別名，這會儲存 <code>execute</code> 收到的閉包型別。如同在第十九章的<a href="ch19-04-advanced-types.html#%E9%80%8F%E9%81%8E%E5%9E%8B%E5%88%A5%E5%88%A5%E5%90%8D%E5%BB%BA%E7%AB%8B%E5%9E%8B%E5%88%A5%E5%90%8C%E7%BE%A9%E8%A9%9E">「透過型別別名建立型別同義詞」</a><!-- ignore -->段落所介紹的，型別別名讓我們能將很長的型別變短一些，如範例 20-19 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
+<pre><code class="language-rust noplayground"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
 </span><span class="boring">use std::thread;
@@ -935,17 +909,12 @@ impl ThreadPool {
 </span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
 </span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><span class="caption">範例 20-19：建立一個對 <code>Box</code> 的型別別名 <code>Job</code>，其存有每個閉包並傳送至通道</span></p>
 <p>在使用 <code>execute</code> 收到的閉包來建立新的 <code>Job</code> 實例之後，我們將該任務傳送至通道的發送端。我們對 <code>send</code> 呼叫 <code>unwrap</code> 來處理發送失敗的情況。舉例來說，這可能會發生在當我們停止所有執行緒時，這意味著接收端不再接收新的訊息。不過目前我們還無法讓我們的執行緒停止執行，只要執行緒池還在我們的執行緒就會繼續執行。我們使用 <code>unwrap</code> 的原因是因為我們知道失敗不可能發生，但編譯器並不知情。</p>
 <p>不過我們還沒結束呢！在工作者中，傳給 <code>thread::spawn</code> 的閉包仍然只有<strong>引用</strong>通道接收端。我們需要讓閉包一直循環，向通道接收端請求任務，並在取得任務時執行它。讓我們對 <code>Worker::new</code> 加上範例 20-20 的程式碼。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span><span class="boring">use std::sync::mpsc;
+<pre><code class="language-rust noplayground"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
 </span><span class="boring">use std::thread;
@@ -1011,8 +980,7 @@ impl Worker {
         Worker { id, thread }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 20-20：在工作者的執行緒中接收並執行任務</span></p>
 <p>我們在此首先對 <code>receiver</code> 呼叫 <code>lock</code> 以取得互斥鎖，然後我們呼叫 <code>unwrap</code> 讓任何錯誤都會恐慌。如果互斥鎖處於<strong>污染</strong>（poisoned）狀態的話，該鎖可能就會失敗，這在其他執行緒持有鎖時，卻發生恐慌而沒有釋放鎖的話就可能發生。在這種情形，呼叫 <code>unwrap</code> 來讓此執行緒恐慌是正確的選擇。你也可以將 <code>unwrap</code> 改成 <code>expect</code> 來加上一些對你更有幫助的錯誤訊息。</p>
 <p>如果我們得到互斥鎖的話，我們呼叫 <code>recv</code> 來從通道中取得 <code>Job</code>。最後的 <code>unwrap</code> 也繞過了任何錯誤，這在持有通道發送端的執行緒被關閉時就可能發生；就和如果接收端關閉時 <code>send</code> 方法就會回傳 <code>Err</code> 的情況類似。</p>
@@ -1045,6 +1013,8 @@ warning: field is never read: `thread`
    |
 49 |     thread: thread::JoinHandle&lt;()&gt;,
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: 3 warnings emitted
 
     Finished dev [unoptimized + debuginfo] target(s) in 1.40s
      Running `target/debug/main`
@@ -1132,8 +1102,8 @@ impl Worker {
 }
 </code></pre>
 <p><span class="caption">範例 20-21：使用 <code>while let</code> 來實作 <code>Worker::new</code> 的替代方案</span></p>
-<p>此程式碼能編譯並執行，但不會是有我們預期的執行緒行為：緩慢的請求仍然會卡住其他請求。發生的原因有點微妙，<code>Mutex</code> 結構體沒有公開的 <code>unlock</code> 方法，這是因為鎖的所有權是依據 <code>lock</code> 方法所回傳的 <code>LockResult&lt;MutexGuard&lt;T&gt;&gt;</code> 中 <code>MutexGuard&lt;T&gt;</code> 的生命週期。在編譯時借用檢查器可以以此確保沒有持有鎖的話，我們就無法取得 <code>Mutex</code> 守護的資源。不過沒有仔細思考 <code>MutexGuard&lt;T&gt;</code> 的生命週期的話，此實作可能就會導致持有鎖的時間比預期的更久。由於 <code>while let</code> 表達式的數值會存在於整個區塊的作用域中，該鎖直到呼叫完 <code>job()</code> 這段時間都是持續持有著的，這意味著其他工作者無法取得鎖。</p>
-<p>而使用 <code>loop</code> 來獲取鎖，且並沒有賦值給任何變數的話，<code>lock</code> 方法所回傳暫時的 <code>MutexGuard</code> 會在 <code>let job</code> 陳述式結束時就被釋放。這確保在呼叫 <code>recv</code> 時得持有鎖，但在呼叫 <code>job()</code> 之前該鎖就被釋放了，讓數個請求可以同時處理。</p>
+<p>此程式碼能編譯並執行，但不會是有我們預期的執行緒行為：緩慢的請求仍然會卡住其他請求。發生的原因有點微妙，<code>Mutex</code> 結構體沒有公開的 <code>unlock</code> 方法，這是因為鎖的所有權是依據 <code>lock</code> 方法所回傳的 <code>LockResult&lt;MutexGuard&lt;T&gt;&gt;</code> 中 <code>MutexGuard&lt;T&gt;</code> 的生命週期。在編譯時借用檢查器可以以此確保沒有持有鎖的話，我們就無法取得 <code>Mutex</code> 守護的資源。不過沒有仔細思考 <code>MutexGuard&lt;T&gt;</code> 的生命週期的話，此實作可能就會導致持有鎖的時間比預期的更久。</p>
+<p>在範例 20-20 程式碼中的 <code>let job = receiver.lock().unwrap().recv().unwrap();</code> 可以這樣寫的原因是因爲用的是 <code>let</code>，等號右方任何表達式中的暫時數值都會在 <code>let</code> 陳述式結束時釋放。然而 <code>while let</code> （還有 <code>if let</code> 和 <code>match</code>）是不會釋放暫時數值的，直到其區塊結束爲止。在範例 20-21 中，在呼叫 <code>job</code> 的這段期間內，鎖都會持續鎖著，代表其他工作者無法取得工作。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -1146,69 +1116,39 @@ impl Worker {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch20-01-single-threaded.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch20-03-graceful-shutdown-and-cleanup.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch20-01-single-threaded.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch20-03-graceful-shutdown-and-cleanup.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Cargo 工作空間 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -241,18 +209,13 @@ copy output below
 </code></pre>
 <p>在 <em>add-one/src/lib.rs</em> 檔案中，讓我們加上一個函式 <code>add_one</code>：</p>
 <p><span class="filename">檔案名稱：add-one/src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub fn add_one(x: i32) -&gt; i32 {
+<pre><code class="language-rust noplayground">pub fn add_one(x: i32) -&gt; i32 {
     x + 1
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>現在在我們在工作空間中有另一個套件了，我們可以讓我們 <code>adder</code> 套件的執行檔依賴擁有函式庫的 <code>add-one</code> 套件。首先，我們需要將 <code>add-one</code> 的路徑依賴加到 <em>adder/Cargo.toml</em>。</p>
 <p><span class="filename">檔案名稱：adder/Cargo.toml</span></p>
-<pre><code class="language-toml">[dependencies]
-
+<pre><code class="language-toml">
 add-one = { path = &quot;../add-one&quot; }
 </code></pre>
 <p>Cargo 不會假設工作空間下的 crate 會彼此依賴，我們我們要指定 crate 彼此之間依賴的關係。</p>
@@ -301,10 +264,9 @@ copy output below; the output updating script doesn't handle subdirectories in p
 * ch07-04-bringing-paths-into-scope-with-the-use-keyword.md
 -->
 <p><span class="filename">檔案名稱：add-one/Cargo.toml</span></p>
-<pre><code class="language-toml">[dependencies]
-rand = &quot;0.5.5&quot;
+<pre><code class="language-toml">rand = &quot;0.8.3&quot;
 </code></pre>
-<p>我們現在就可以將 <code>use rand;</code> 加到 <em>add-one/src/lib.rs</em> 檔案中，接著在 <em>add</em> 目錄下執行 <code>cargo build</code> 來建構整個工作空間就會引入並編譯 <code>rand</code> crate：</p>
+<p>我們現在就可以將 <code>use rand;</code> 加到 <em>add-one/src/lib.rs</em> 檔案中，接著在 <em>add</em> 目錄下執行 <code>cargo build</code> 來建構整個工作空間就會引入並編譯 <code>rand</code> crate。我們會得到一個警告，因爲我們還沒有開始使用引入作用域的 <code>rand</code>：</p>
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/no-listing-03-workspace-with-external-dependency/add
 cargo build
@@ -312,10 +274,19 @@ copy output below; the output updating script doesn't handle subdirectories in p
 -->
 <pre><code class="language-console">$ cargo build
     Updating crates.io index
-  Downloaded rand v0.5.5
+  Downloaded rand v0.8.3
    --省略--
-   Compiling rand v0.5.6
+   Compiling rand v0.8.3
    Compiling add-one v0.1.0 (file:///projects/add/add-one)
+warning: unused import: `rand`
+ --&gt; add-one/src/lib.rs:1:5
+  |
+1 | use rand;
+  |     ^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+warning: 1 warning emitted
+
    Compiling adder v0.1.0 (file:///projects/add/adder)
     Finished dev [unoptimized + debuginfo] target(s) in 10.18s
 </code></pre>
@@ -332,16 +303,13 @@ error[E0432]: unresolved import `rand`
  --&gt; adder/src/main.rs:2:5
   |
 2 | use rand;
-  |     ^^^^ no `rand` external crate
+  |     ^^^^ no external crate `rand`
 </code></pre>
 <p>要修正此問題，只要修改 <code>adder</code> 套件的 <em>Cargo.toml</em> 檔案，指示它也加入 <code>rand</code> 作為依賴就好了。這樣建構 <code>adder</code> 套件就會將在 <em>Cargo.lock</em> 中將 <code>rand</code> 加入 <code>adder</code> 的依賴，但是沒有額外的 <code>rand</code> 會被下載。Cargo 會確保工作空間中每個套件的每個 crate 都會使用相同的 <code>rand</code> 套件版本。在工作空間中使用相同版本的 <code>rand</code> 可以節省空間，因為我們就不會重複下載並能確保工作空間中的 crate 彼此可以互相兼容。</p>
 <h4 id="在工作空間中新增測試"><a class="header" href="#在工作空間中新增測試">在工作空間中新增測試</a></h4>
 <p>讓我們再進一步加入一個測試函式 <code>add_one::add_one</code> 到 <code>add_one</code> crate 之中：</p>
 <p><span class="filename">檔案名稱：add-one/src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub fn add_one(x: i32) -&gt; i32 {
+<pre><code class="language-rust noplayground">pub fn add_one(x: i32) -&gt; i32 {
     x + 1
 }
 
@@ -354,8 +322,7 @@ mod tests {
         assert_eq!(3, add_one(2));
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>現在在頂層的 <em>add</em> 目錄執行 <code>cargo test</code>：</p>
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/no-listing-04-workspace-with-tests/add
@@ -371,19 +338,19 @@ copy output below; the output updating script doesn't handle subdirectories in p
 running 1 test
 test tests::it_works ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
      Running target/debug/deps/adder-49979ff40686fa8e
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
    Doc-tests add-one
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 </code></pre>
 <p>輸出的第一個段落顯示了 <code>add-one</code> crate 中的 <code>it_works</code> 測試通過。下一個段落顯示 <code>adder</code> crate 沒有任何測試，然後最後一個段落顯示 <code>add-one</code> 中沒有任何技術文件測試。在像工作空間這樣的架構下執行 <code>cargo test</code> 就會執行工作空間內的所有 crate 測試。</p>
 <p>我們也可以在頂層目錄使用 <code>-p</code> 並指定我們想測試的 crate 名稱來測試工作空間中特定的 crate：</p>
@@ -399,13 +366,13 @@ copy output below; the output updating script doesn't handle subdirectories in p
 running 1 test
 test tests::it_works ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
    Doc-tests add-one
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 </code></pre>
 <p>此輸出顯示 <code>cargo test</code> 只執行了 <code>add-one</code> crate 的測試並沒有執行 <code>adder</code> crate 的測試。</p>
 <p>如果你想要發佈工作空間的 crate 到 <a href="https://crates.io/">crates.io</a>，工作空間中的每個 crate 必須分別獨自發佈。<code>cargo publish</code> 命令並沒有 <code>--all</code> 或是 <code>-p</code> 之類的選項，所以你必須移動到每個 crate 的目錄並執行 <code>cargo publish</code>，這樣工作空間中的每個 crate 才會發佈出去。</p>
@@ -423,69 +390,39 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch14-02-publishing-to-crates-io.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch14-04-installing-binaries.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch14-02-publishing-to-crates-io.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch14-04-installing-binaries.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

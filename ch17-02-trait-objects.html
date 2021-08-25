@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>允許不同型別數值的特徵物件 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -181,36 +149,25 @@
 <p>我們提到在 Rust 中，我們避免將結構體和枚舉稱為「物件」，來與其他語言的物件做區別。在結構體或枚舉中，結構你欄位中的資料與 <code>impl</code> 區塊的行為是分開來的。在其他語言中，資料與行為會組合成一個概念，也就是所謂的物件。然而特徵物件才比較像是其他語言中的物件，因為這才會將資料與行為組合起來。但特徵物件與傳統物件不同的地方在於，我們無法向特徵物件新增資料。特徵物件不像其他語言的物件那麼通用，它們是特別用於對共同行為產生的抽象概念。</p>
 <p>範例 17-3 定義了一個特徵叫做 <code>Draw</code> 以及一個方法叫做 <code>draw</code>：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub trait Draw {
+<pre><code class="language-rust noplayground">pub trait Draw {
     fn draw(&amp;self);
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-3：<code>Draw</code> 特徵的定義</span></p>
 <p>此語法和我們在第十章介紹過的特徵定義方式相同。接下來才是新語法用到的地方，範例 17-4 定義了一個結構體叫做 <code>Screen</code> 並持有個向量叫做 <code>components</code>。此向量的型別為 <code>Box&lt;dyn Draw&gt;</code>，這是一個特徵物件，這代表 <code>Box</code> 內的任何型別都得有實作 <code>Draw</code> 特徵。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span><span class="boring">pub trait Draw {
+<pre><code class="language-rust noplayground"><span class="boring">pub trait Draw {
 </span><span class="boring">    fn draw(&amp;self);
 </span><span class="boring">}
 </span><span class="boring">
 </span>pub struct Screen {
     pub components: Vec&lt;Box&lt;dyn Draw&gt;&gt;,
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-4：定義結構體 <code>Screen</code> 且有個 <code>components</code> 欄位來持有一個實作 <code>Draw</code> 特徵的特徵物件向量</span></p>
 <p>在 <code>Screen</code> 結構體中，我們定義了一個方法叫做 <code>run</code> 來對其 <code>components</code> 呼叫 <code>draw</code> 方法，如範例 17-5 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span><span class="boring">pub trait Draw {
+<pre><code class="language-rust noplayground"><span class="boring">pub trait Draw {
 </span><span class="boring">    fn draw(&amp;self);
 </span><span class="boring">}
 </span><span class="boring">
@@ -225,15 +182,11 @@
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-5：<code>Screen</code> 的方法 <code>run</code> 會呼叫每個 <code>component</code> 的 <code>draw</code> 方法</span></p>
 <p>這與定義一個結構體並使用附有特徵界限的泛型型別參數的方式不相同。泛型型別參數一次只能替換成一個實際型別，特徵物件則是在執行時允許數個實際型別能填入特徵物件中。舉例來說，我們可以使用泛型型別與特徵界限來定義 <code>Screen</code>，如範例 17-6 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span><span class="boring">pub trait Draw {
+<pre><code class="language-rust noplayground"><span class="boring">pub trait Draw {
 </span><span class="boring">    fn draw(&amp;self);
 </span><span class="boring">}
 </span><span class="boring">
@@ -251,15 +204,14 @@ where
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-6：<code>Screen</code> 結構體的另種實作方式，它的方法 <code>run</code> 則使用泛型與特徵界限</span></p>
 <p>這樣我們會限制 <code>Screen</code> 實例必須擁有一串全是 <code>Button</code> 型別或全是 <code>TextField</code> 型別的列表。如果你只會有同型別的集合，使用泛型與特徵界限的確是比較合適的，因為其定義就會在編譯時單態化為使用實際型別。</p>
 <p>另一方面，透過使用特徵物件的方法，<code>Screen</code> 實例就能有個同時包含 <code>Box&lt;Button&gt;</code> 與 <code>Box&lt;TextField&gt;</code> 的 <code>Vec&lt;T&gt;</code>。 讓我們看看這如何辦到的，然後我們會討論其對執行時效能的影響。</p>
 <h3 id="實作特徵"><a class="header" href="#實作特徵">實作特徵</a></h3>
 <p>現在我們來加上一些有實作 <code>Draw</code> 特徵的型別。我們會提供 <code>Button</code> 型別。再次重申 GUI 函式庫的實際實作超出了本書的範疇，所以 <code>draw</code> 的本體不會有任何有意義的實作。為了想像該實作會像是什麼，<code>Button</code> 型別可能會有欄位 <code>width</code>、<code>height</code> 與 <code>label</code>，如範例 17-7 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">pub trait Draw {
+<pre><code class="language-rust noplayground"><span class="boring">pub trait Draw {
 </span><span class="boring">    fn draw(&amp;self);
 </span><span class="boring">}
 </span><span class="boring">
@@ -286,9 +238,7 @@ impl Draw for Button {
         // 實際畫出按鈕的程式碼
     }
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-7：結構體 <code>Button</code> 實作了 <code>Draw</code> 特徵</span></p>
 <p>在 <code>Button</code> 中的 <code>width</code>、<code>height</code> 與 <code>label</code> 欄位會與其他元件不同，像是 <code>TextField</code> 可能就會有前面所有的欄位在加上 <code>placeholder</code> 欄位。每個我們想在螢幕上顯示的型別都會實作 <code>Draw</code> 特徵，但在 <code>draw</code> 方法會使用不同程式碼來定義如何印出該特定型別，像是這裡的 <code>Button</code> 型別（不包含實際 GUI 程式碼，因為這超出本章範疇）。舉例來說，<code>Button</code> 可能會有額外的 <code>impl</code> 區塊來包含使用者點擊按鈕時該如何反應的方法。這種方法就不適用於 <code>TextField</code>。</p>
 <p>如果有人想用我們的函式庫來實作個 <code>SelectBox</code> 結構體並擁有 <code>width</code>、<code>height</code> 與 <code>options</code> 欄位的話，他們也可以對 <code>SelectBox</code> 實作 <code>Draw</code> 特徵，如範例 17-8 所示：</p>
@@ -371,18 +321,18 @@ fn main() {
 <p>我們會因為 <code>String</code> 沒有實作 <code>Draw</code> 特徵而得到錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling gui v0.1.0 (file:///projects/gui)
-error[E0277]: the trait bound `std::string::String: gui::Draw` is not satisfied
+error[E0277]: the trait bound `String: Draw` is not satisfied
  --&gt; src/main.rs:5:26
   |
 5 |         components: vec![Box::new(String::from(&quot;嗨&quot;))],
-  |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `gui::Draw` is not implemented for `std::string::String`
+  |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `Draw` is not implemented for `String`
   |
-  = note: required for the cast to the object type `dyn gui::Draw`
+  = note: required for the cast to the object type `dyn Draw`
 
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0277`.
-error: could not compile `gui`.
+error: could not compile `gui`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -415,22 +365,23 @@ To learn more, run the command again with --verbose.
 <p>我們就會得到此錯誤：</p>
 <pre><code class="language-console">$ cargo build
    Compiling gui v0.1.0 (file:///projects/gui)
-error[E0038]: the trait `std::clone::Clone` cannot be made into an object
- --&gt; src/lib.rs:2:5
+error[E0038]: the trait `Clone` cannot be made into an object
+ --&gt; src/lib.rs:2:21
   |
 2 |     pub components: Vec&lt;Box&lt;dyn Clone&gt;&gt;,
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `std::clone::Clone` cannot be made into an object
+  |                     ^^^^^^^^^^^^^^^^^^^ `Clone` cannot be made into an object
   |
-  = note: the trait cannot require that `Self : Sized`
+  = note: the trait cannot be made into an object because it requires `Self: Sized`
+  = note: for a trait to be &quot;object safe&quot; it needs to allow building a vtable to allow the call to be resolvable dynamically; for more information visit &lt;https://doc.rust-lang.org/reference/items/traits.html#object-safety&gt;
 
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0038`.
-error: could not compile `gui`.
+error: could not compile `gui`
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>此錯誤表示你不能這樣在特徵物件使用此特徵。如果你對物件安全的細節有興趣的話，歡迎查閱 <a href="https://github.com/rust-lang/rfcs/blob/master/text/0255-object-safety.md">Rust RFC 255</a>。</p>
+<p>此錯誤表示你不能這樣在特徵物件使用此特徵。如果你對物件安全的細節有興趣的話，歡迎查閱 <a href="https://github.com/rust-lang/rfcs/blob/master/text/0255-object-safety.md">Rust RFC 255</a> 或 <a href="https://doc.rust-lang.org/stable/reference/items/traits.html#object-safety">Rust Reference</a> 的物件安全段落。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -443,69 +394,39 @@ To learn more, run the command again with --verbose.
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch17-01-what-is-oo.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch17-03-oo-design-patterns.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch17-01-what-is-oo.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch17-03-oo-design-patterns.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

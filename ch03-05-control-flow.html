@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>控制流程 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -236,7 +204,7 @@ error[E0308]: mismatched types
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0308`.
-error: could not compile `branches`.
+error: could not compile `branches`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -308,7 +276,7 @@ To learn more, run the command again with --verbose.
 <p>當我們嘗試編譯程式碼時，我們會得到錯誤。<code>if</code> 和 <code>else</code> 分支的型別並不一致，而且 Rust 還確切指出程式出錯的地方在哪：</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
-error[E0308]: if and else have incompatible types
+error[E0308]: `if` and `else` have incompatible types
  --&gt; src/main.rs:4:44
   |
 4 |     let number = if condition { 5 } else { &quot;六&quot; };
@@ -319,7 +287,7 @@ error[E0308]: if and else have incompatible types
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0308`.
-error: could not compile `branches`.
+error: could not compile `branches`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -354,7 +322,46 @@ CTRL-C
 ^C再一次！
 </code></pre>
 <p><code>^C</code> 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 <code>再一次！</code> 出現在 <code>^C</code> 之後。</p>
-<p>幸運的是 Rust 有提供另一個打破迴圈更可靠的方法。你可以在迴圈內加上 <code>break</code> 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E7%8C%9C%E5%B0%8D%E5%BE%8C%E9%9B%A2%E9%96%8B">「猜對後離開」</a><!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。</p>
+<p>幸運的是 Rust 有提供一個從程式中打破迴圈的方法。你可以在迴圈內加上 <code>break</code> 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E7%8C%9C%E5%B0%8D%E5%BE%8C%E9%9B%A2%E9%96%8B">「猜對後離開」</a><!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。</p>
+<p>我們在猜謎遊戲中也用到了 <code>continue</code>。這個 <code>continue</code> 關鍵字在迴圈中會告訴程式跳過這次迭代中剩餘的程式碼，然後進行下一次迭代。</p>
+<p>如果你有迴圈在迴圈之內的話，<code>break</code> 和 <code>continue</code> 會用在該位置最內層的迴圈中。你可以選擇在迴圈使用 <strong>迴圈標籤（loop label）</strong>，然後使用 <code>break</code> 和 <code>continue</code> 加上那些迴圈標籤定義的關鍵字，而不是作用在最內層迴圈而已。以下是使用雙層巢狀迴圈的範例：</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let mut count = 0;
+    'counting_up: loop {
+        println!(&quot;count = {}&quot;, count);
+        let mut remaining = 10;
+
+        loop {
+            println!(&quot;remaining = {}&quot;, remaining);
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+
+        count += 1;
+    }
+    println!(&quot;End count = {}&quot;, count);
+}
+</code></pre></pre>
+<p>外層迴圈有個 <code>'counting_up</code> 的標籤，而且其會從 0 數到 2。而內層沒有迴圈標籤的迴圈則會從 10 數到 9。第一個 <code>break</code> 沒有指定任何標籤只會離開內層迴圈。而陳述式 <code>break 'counting_up;</code> 則會離開外層迴圈。此程式碼會印出：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling loops v0.1.0 (file:///projects/loops)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.58s
+     Running `target/debug/loops`
+count = 0
+remaining = 10
+remaining = 9
+count = 1
+remaining = 10
+remaining = 9
+count = 2
+remaining = 10
+End count = 2
+</code></pre>
 <h4 id="從迴圈回傳數值"><a class="header" href="#從迴圈回傳數值">從迴圈回傳數值</a></h4>
 <p>其中一種使用 <code>loop</code> 的用途是重試某些你覺得會失敗的動作，像是檢查一個執行緒是否已經完成其任務。不過這樣你可能就會想傳遞任務結果給之後的程式碼。要做到這樣的事，你可以在你要用來停下迴圈的 <code>break</code> 表達式內加上一個你想回傳數值，該值就會被停止的迴圈回傳，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -406,7 +413,7 @@ CTRL-C
 </code></pre></pre>
 <p><span class="caption">範例 3-4：使用 <code>while</code> 遍歷集合的每個元素</span></p>
 <p>程式在此對陣列的每個元素計數，它先從索引 <code>0</code> 開始，然後持續循環直到它抵達最後一個陣列索引為止（也就是 <code>index &lt; 5</code> 不再為真）。執行此程式會印出陣列裡的每個元素：</p>
-<pre><code class="language-text">$ cargo run
+<pre><code class="language-console">$ cargo run
    Compiling loops v0.1.0 (file:///projects/loops)
     Finished dev [unoptimized + debuginfo] target(s) in 0.32s
      Running `target/debug/loops`
@@ -417,13 +424,13 @@ CTRL-C
 數值為：50
 </code></pre>
 <p>所有五個元素都如預期顯示在終端機上。儘管 <code>index</code> 會在某一刻達到 <code>5</code>，但是迴圈會在嘗試取得陣列第六個元素前就停止執行。</p>
-<p>但這樣的方式是容易出錯的，我們可能取得錯誤的索引長度造成程式恐慌。這同時也使程式變慢，因為編譯器得在執行時的程式碼對迴圈中每次疊代的每個元素加上條件檢查。</p>
+<p>但這樣的方式是容易出錯的，我們可能取得錯誤的索引數值或測試條件而造成程式恐慌。這同時也使程式變慢，因為編譯器得在執行時的程式碼對迴圈中每次疊代中進行索引是否在陣列範圍內的條件檢查。</p>
 <p>所以更簡潔的替代方案是，你可以使用 <code>for</code> 迴圈來對集合的每個元素執行一些程式碼。<code>for</code> 迴圈的樣子就像範例 3-5 寫的這一樣。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [10, 20, 30, 40, 50];
 
-    for element in a.iter() {
+    for element in a {
         println!(&quot;數值為：{}&quot;, element);
     }
 }
@@ -462,69 +469,39 @@ CTRL-C
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch03-04-comments.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch04-00-understanding-ownership.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch03-04-comments.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch04-00-understanding-ownership.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

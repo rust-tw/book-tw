@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>函式 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -220,24 +188,22 @@ x 的數值為：5
 <p>如果你希望函式擁有數個參數，你可以用逗號區隔開來，像這樣：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    another_function(5, 6);
+    print_labeled_measurement(5, 'h');
 }
 
-fn another_function(x: i32, y: i32) {
-    println!(&quot;x 的數值為：{}&quot;, x);
-    println!(&quot;y 的數值為：{}&quot;, y);
+fn print_labeled_measurement(value: i32, unit_label: char) {
+    println!(&quot;測量值爲：{}{}&quot;, value, unit_label);
 }
 </code></pre></pre>
-<p>此範例建立了一個有兩個參數的函式，兩個都是 <code>i32</code> 型別。接著函式在印出兩個參數的數值，注意參數不必得是相同的型別，這只是我們在此範例這樣寫而已。</p>
+<p>此範例建立了一個有兩個參數的函式 <code>print_labeled_measurement</code>，第一個參數叫做 <code>value</code> 而型別爲 <code>i32</code>，第二個參數叫做 <code>unit_label</code> 而型別爲 <code>char</code>。接著函式會印出包含 <code>value</code> 與 <code>unit_label</code> 的文字。</p>
 <p>讓我們試著執行此程式碼，請覆蓋你的專案 <em>functions</em> 內的 <em>src/main.rs</em> 檔案內容為以上範例，然後用 <code>cargo run</code> 執行程式：</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/functions`
-x 的數值為：5
-y 的數值為：6
+測量值爲：5h
 </code></pre>
-<p>因為我們呼叫函式時，將 <code>5</code> 給了  <code>x</code> 且將 <code>6</code> 給了 <code>y</code>，字串就會印出這些數值。</p>
+<p>因為我們呼叫函式時，將 <code>5</code> 給了 <code>value</code> 且將 <code>'h'</code> 給了 <code>unit_label</code>，程式輸出就會包含這些數值。</p>
 <h3 id="函式本體包含陳述式與表達式"><a class="header" href="#函式本體包含陳述式與表達式">函式本體包含陳述式與表達式</a></h3>
 <p>函式本體是由一系列的陳述式（statements）並在最後可以選擇加上表達式（expression）來組成。目前我們只講了沒有用到表達式做結尾的函式。由於 Rust 是門基於表達式（expression-based）的語言，知道這樣的區別是很重要的。其他語言通常沒有這樣的區別，所以現在讓我們來看看陳述式和表達式有什麼不同，以及它們怎麼影響函式本體。</p>
 <p>我們其實已經使用了很多次陳述式與表達式。<strong>陳述式</strong>（Statements）是進行一些動作的指令，且不回傳任何數值。<strong>表達式</strong>（Expressions）則是計算並產生數值。讓我們來看一些範例：</p>
@@ -258,16 +224,40 @@ y 的數值為：6
 <p>當你執行此程式時，你就會看到這樣的錯誤訊息：</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
+error[E0658]: `let` expressions in this position are experimental
+ --&gt; src/main.rs:2:14
+  |
+2 |     let x = (let y = 6);
+  |              ^^^^^^^^^
+  |
+  = note: see issue #53667 &lt;https://github.com/rust-lang/rust/issues/53667&gt; for more information
+  = help: you can write `matches!(&lt;expr&gt;, &lt;pattern&gt;)` instead of `let &lt;pattern&gt; = &lt;expr&gt;`
+
 error: expected expression, found statement (`let`)
  --&gt; src/main.rs:2:14
   |
 2 |     let x = (let y = 6);
-  |              ^^^
+  |              ^^^^^^^^^
   |
   = note: variable declaration using `let` is a statement
+
+warning: unnecessary parentheses around assigned value
+ --&gt; src/main.rs:2:13
+  |
+2 |     let x = (let y = 6);
+  |             ^^^^^^^^^^^ help: remove these parentheses
+  |
+  = note: `#[warn(unused_parens)]` on by default
+
+error: aborting due to 2 previous errors; 1 warning emitted
+
+For more information about this error, try `rustc --explain E0658`.
+error: could not compile `functions`
+
+To learn more, run the command again with --verbose.
 </code></pre>
 <p><code>let y = 6</code> 陳述式不回傳數值，所以 <code>x</code> 得不到任何數值。這就和其他語言有所不同，像是 C 或 Ruby，通常它們的賦值仍能回傳所得到的值。在那些語言，你可以寫 <code>x = y = 6</code> 同時讓 <code>x</code> 與 <code>y</code> 都取得 <code>6</code>，但在 Rust 就不行。</p>
-<p>表達式則會運算出些東西，並組合成你大部分所寫的 Rust 程式。先想想看一個簡單的數學運算比如 <code>5 + 6</code>，這就是個會算出 <code>11</code> 的表達式。表達式可以是陳述式的一部分：在範例 3-1 中 <code>let y = 6;</code> 的 <code>6</code> 其實就是個算出 <code>6</code> 的表達式。呼叫函式也可以是表達式、呼叫巨集也是表達式、我們用 <code>{}</code> 產生的作用域也是表達式。舉例來說：</p>
+<p>表達式則會運算出一個數值，並組合成你大部分所寫的 Rust 程式。先想想看一個數學運算比如 <code>5 + 6</code>，這就是個會算出 <code>11</code> 的表達式。表達式可以是陳述式的一部分：在範例 3-1 中 <code>let y = 6;</code> 的 <code>6</code> 其實就是個算出 <code>6</code> 的表達式。呼叫函式也可以是表達式、呼叫巨集也是表達式、我們用 <code>{}</code> 產生的作用域也是表達式。舉例來說：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;
@@ -355,11 +345,11 @@ error[E0308]: mismatched types
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0308`.
-error: could not compile `functions`.
+error: could not compile `functions`
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>錯誤訊息「mismatched types」就告訴了我們此程式碼的核心問題。<code>plus_one</code> 的函式定義說它會回傳 <code>i32</code> 但是陳述式不會回傳任何數值。我們用空元組 <code>()</code> 表示不會回傳任何值。因此沒有任何值被回傳，這和函式定義相牴觸，最後產生錯誤。在此輸出結果，Rust 提供了一道訊息來協助解決問題：它建議移除分號，這樣就能修正錯誤。</p>
+<p>錯誤訊息「mismatched types」就告訴了我們此程式碼的核心問題。<code>plus_one</code> 的函式定義說它會回傳 <code>i32</code> 但是陳述式不會回傳任何數值。我們用單元型別 <code>()</code> 表示不會回傳任何值。因此沒有任何值被回傳，這和函式定義相牴觸，最後產生錯誤。在此輸出結果，Rust 提供了一道訊息來協助解決問題：它建議移除分號，這樣就能修正錯誤。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -372,69 +362,39 @@ To learn more, run the command again with --verbose.
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch03-02-data-types.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch03-04-comments.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch03-02-data-types.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch03-04-comments.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

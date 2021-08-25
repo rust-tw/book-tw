@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>不安全的 Rust - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -173,7 +141,7 @@
                     <main>
                         <h2 id="不安全的-rust"><a class="header" href="#不安全的-rust">不安全的 Rust</a></h2>
 <p>到目前為止，我們討論的所有程式碼都在編譯期強制加上 Rust 記憶體安全保證。然而，Rust 內部其實隱藏了第二種語言，並不強制加上這些記憶體安全保證：這語言叫做<strong>不安全（unsafe）的 Rust</strong>，可和常規 Rust 一樣正常執行，同時賦予我們極強的能力。</p>
-<p>不安全的 Rust 之所以存在，是由於靜態分析本質上過於保守。當編譯器嘗試確認程式碼是否遵守這些安全保證時，比起接受一些非法的程式，寧願是拒絕部分合法程式。儘管有些程式碼看上去正確，但 Rust 就是會說「不」！這些案例中，你可以寫不安全程式碼並告訴編譯器：「相信我，我知道我在幹麻。」從反面來看這也有缺點，你必須自行承擔風險：若誤用不安全程式碼，可能會造成記憶體不安全，例如發生對空指標（null pointer）解引用。</p>
+<p>不安全的 Rust 之所以存在，是由於靜態分析本質上過於保守。當編譯器嘗試確認程式碼是否遵守這些安全保證時，比起接受一些非法的程式，寧願是拒絕部分合法程式。儘管有些程式碼<strong>看起來</strong>正確，但 Rust 無法獲取足夠資訊保證的話，它就是會擋下來。在這些案例中，你可以寫不安全程式碼並告訴編譯器：「相信我，我知道我在幹麻。」從反面來看這也有缺點，你必須自行承擔風險：若誤用不安全程式碼，可能會造成記憶體不安全，例如發生對空指標（null pointer）解引用。</p>
 <p>Rust 擁有另一個不安全的自我的另一理由是電腦硬體本質上就不安全。如果 Rust 不允許這些不安全操作，就無法完成特定任務。Rust 必須允許你做這些底層系統程式設計，例如直接與作業系統互動，甚至撰寫自己的作業系統。系統程式設計是這個語言的目標之一，一起探索我們可以用不安全的 Rust 做什麼和如何使用吧。</p>
 <h3 id="不安全的超能力"><a class="header" href="#不安全的超能力">不安全的超能力</a></h3>
 <p>欲切換成不安全的 Rust，可使用 <code>unsafe</code> 關鍵字開啟一個新程式碼區塊，並封裝這些不安全程式碼。在不安全的 Rust，你可使用在安全的 Rust 之下無法使用，我們稱之為<strong>不安全的超能力</strong>的五種功能。這些超能力包含：</p>
@@ -219,7 +187,7 @@
 </span></code></pre></pre>
 <p><span class="caption">範例 19-2：從任意記憶體位址建立裸指標</span></p>
 <p>回想一下，我們可以在安全的程式碼下建立裸指標，但我們不能對裸指標<strong>解引用</strong>並讀取它指向的資料。範例 19-3 我們對裸指標使用引用運算子 <code>*</code> 需要封裝在 <code>unsafe</code> 區塊內。</p>
-<pre><pre class="playground"><code class="language-rust unsafe"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut num = 5;
 
     let r1 = &amp;num as *const i32;
@@ -238,7 +206,7 @@
 <h3 id="呼叫不安全函式或方法"><a class="header" href="#呼叫不安全函式或方法">呼叫不安全函式或方法</a></h3>
 <p>第二種需要不安全區塊的操作是呼叫不安全函式。不安全函式與方法外觀看起來與正常函式及方法並無二致，僅在整個函式定義前多了額外的 <code>unsafe</code> 。<code>unsafe</code> 關鍵字在此脈絡下是指此函式在呼叫時必須遵守某些要求，因為 Rust 無法保證我們能達成這項要求。當我們在一個 <code>unsafe</code> 區塊內呼叫一個 <code>unsafe</code> 函式，意味著我們已閱讀此函式的文件，而且有責任遵守此函式的使用條款。</p>
 <p>這裡有個不安全函式叫做 <code>dangerous</code>，函式本體內無任何東西:</p>
-<pre><pre class="playground"><code class="language-rust unsafe"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    unsafe fn dangerous() {}
 
     unsafe {
@@ -260,7 +228,7 @@ error[E0133]: call to unsafe function is unsafe and requires unsafe function or 
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0133`.
-error: could not compile `unsafe-example`.
+error: could not compile `unsafe-example`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -316,13 +284,13 @@ error[E0499]: cannot borrow `*slice` as mutable more than once at a time
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0499`.
-error: could not compile `unsafe-example`.
+error: could not compile `unsafe-example`
 
 To learn more, run the command again with --verbose.
 </code></pre>
 <p>Rust 的借用檢查器（borrow checker）不能理解我們同時借用一個切片的不同部分，它只認知到我們借用同一個切片兩次。借用同一個切片的不同部分基本上沒什麼問題，因為兩個切片不會重疊，但 Rust 不夠聰明以致無法理解這件事。當我們知道程式碼沒問題，但 Rust 並不知道，就是時候搞一點 不安全程式碼了。</p>
 <p>範例 19-6 展示了如何使用一個 <code>unsafe</code> 區塊、一個裸指標，以及呼叫一些不安全函式來實作可成功執行的 <code>split_at_mut</code></p>
-<pre><pre class="playground"><code class="language-rust unsafe">use std::slice;
+<pre><pre class="playground"><code class="language-rust">use std::slice;
 
 fn split_at_mut(slice: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;mut [i32]) {
     let len = slice.len();
@@ -349,7 +317,7 @@ fn split_at_mut(slice: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;m
 <p><code>slice::from_raw_parts_mut</code> 之所以為不安全函式，是因為它需要裸指標，且必須相信這個指標合法。<code>add</code> 是不安全方法是由於它必須相信偏移後的位址是合法指標。因此，我們需要在呼叫 <code>slice::from_raw_parts_mut</code> 和 <code>add</code> 外包一層 <code>unsafe</code> 函式。透過閱讀程式碼與加上對 <code>mid</code> 一定等於或比 <code>len</code> 小的斷言，我們可以宣稱所有在 <code>unsafe</code> 區塊的裸指標都是指向原始切片內的合法指標。這是一個可接受且合理的 <code>unsafe</code> 使用情境。</p>
 <p>注意，我們不需替 <code>split_at_mut</code> 函式輸出結果做上 <code>unsafe</code> 的記號，而且我們可以在安全的 Rust 呼叫它。我們藉由安全的方式使用 <code>unsafe</code> 函式，完成了對不安全程式碼建立一層安全抽象，這個抽象只會從該函式能夠存取的資料內建立合法指標。</p>
 <p>對比之下，範例 19-7 中使用 <code>slice::from_raw_parts_mut</code> 則極有可能會在該切片被使用時崩潰。這段程式碼從任意的記憶體位置建立了一個 10,000 元素長的切片。</p>
-<pre><pre class="playground"><code class="language-rust unsafe"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    use std::slice;
 
     let address = 0x01234usize;
@@ -364,7 +332,7 @@ fn split_at_mut(slice: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;m
 <p>有些時候，你的 Rust 程式碼可能需要與其他語言撰寫的程式碼互動。這種情況 Rust 提供 <code>extern</code> 關鍵字，予以協助建立與使用<strong>外部函式介面（Foreign Function Interface，FFI）</strong> 。FFI 的功能是給在一門程式語言定義函式，使得另一門（外部）程式語言可以呼叫這些函式。</p>
 <p>範例 19-8 展示了如何建立整合一個 C 標準函式庫的 <code>abc</code> 函式。由於其他語言並無強制遵守 Rust 的規則和保證，而且 Rust 也無法檢查之，因此在 Rust 程式碼中呼叫在 <code>extern</code> 區塊內宣告的函式一定是不安全的操作，所以確保安全的重責大任就會落在程式設計師身上。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust unsafe">extern &quot;C&quot; {
+<pre><pre class="playground"><code class="language-rust">extern &quot;C&quot; {
     fn abs(input: i32) -&gt; i32;
 }
 
@@ -402,11 +370,11 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 19-9：定義並使用一個不可變的靜態變數</span></p>
-<p>靜態變數（static variable）與我們在第三章「<a href="ch03-01-variables-and-mutability.html#%E8%AE%8A%E6%95%B8%E8%88%87%E5%B8%B8%E6%95%B8%E7%9A%84%E5%B7%AE%E7%95%B0">變數與常數的差異</a>」一節討論的常數相似。慣例上靜態變數會用尖叫蛇式命名（<code>SCREAMING_SNAKE_CASE</code>），且<strong>必須</strong>標註變數型別，例如範例中的 <code>&amp;'static str</code>。由於靜態變數只能儲存 <code>static</code> 生命週期的引用，代表 Rust 編譯器可推導出它的生命週期，不需要我們手動標註。存取一個不可變的靜態變數是安全的。</p>
+<p>靜態變數（static variable）與我們在第三章「<a href="ch03-01-variables-and-mutability.html#%E8%AE%8A%E6%95%B8%E8%88%87%E5%B8%B8%E6%95%B8%E7%9A%84%E5%B7%AE%E7%95%B0">變數與常數的差異</a>」一節討論的常數相似。慣例上靜態變數會用尖叫蛇式命名（<code>SCREAMING_SNAKE_CASE</code>）。由於靜態變數只能儲存 <code>static</code> 生命週期的引用，代表 Rust 編譯器可推導出它的生命週期，不需要我們顯式標註。存取一個不可變的靜態變數是安全的。</p>
 <p>常數和不可變靜態變數看似相同，實則有些許隱晦差異：靜態變數之值有固定的記憶體位址，使用該值永遠會存取相同的資料。反之，常數在使用上則可複製它們儲存的資料。</p>
 <p>另一個常數與靜態變數的差異是，靜態變數能是可變的。存取並修改可變的靜態變數並「<strong>不安全</strong>」。範例 19-10 展示了如何宣告、存取、修改一個可變的靜態變數 <code>COUNTER</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust unsafe">static mut COUNTER: u32 = 0;
+<pre><pre class="playground"><code class="language-rust">static mut COUNTER: u32 = 0;
 
 fn add_to_count(inc: u32) {
     unsafe {
@@ -426,8 +394,8 @@ fn main() {
 <p>與普通變數一樣，我們透過 <code>mut</code> 關鍵字指明可變性。任何讀寫 <code>COURTER</code> 的程式碼皆必須在 <code>unsafe</code> 區塊中。這個程式碼會編譯並打印出我們預期中的 <code>COUNTER: 3</code> 是因為他在單執行緒執行，若在多執行緒存取 <code>COUTER</code> 則可能導致資料競爭。</p>
 <p>當能從全域存取可變資料時，確保沒有資料競爭就不容易了，這就是為什麼 Rust 將可變的靜態變數視為不安全。若是可能的話，我們推薦使用第十六章討論的並行技術與執行緒安全（thread-safe）的智慧指標（smart pointer），如此一來編譯器就能檢查從不同執行緒存取資料是安全的。</p>
 <h3 id="實作不安全特徵"><a class="header" href="#實作不安全特徵">實作不安全特徵</a></h3>
-<p>最後一個可以用在 <code>unsafe</code> 的功能是實作不安全特徵。當一個特徵是有至少一個方法包含編譯器無法驗證的不變條件（invariant），就稱該特徵不安全。我們可以透過在 <code>trait</code> 前加上 <code>unsafe</code> 關鍵字來宣告一個特徵為 <code>unsafe</code>，這也讓實作該特徵會變成 <code>unsafe</code>，如 19-11 所示。</p>
-<pre><pre class="playground"><code class="language-rust unsafe">unsafe trait Foo {
+<p>另一個 <code>unsafe</code> 的功能是實作不安全特徵。當一個特徵是有至少一個方法包含編譯器無法驗證的不變條件（invariant），就稱該特徵不安全。我們可以透過在 <code>trait</code> 前加上 <code>unsafe</code> 關鍵字來宣告一個特徵為 <code>unsafe</code>，這也讓實作該特徵會變成 <code>unsafe</code>，如 19-11 所示。</p>
+<pre><pre class="playground"><code class="language-rust">unsafe trait Foo {
     // 內部的方法
 }
 
@@ -441,7 +409,7 @@ fn main() {}
 <p>透過 <code>unsafe impl</code>，我們承諾我們將會遵守這些編譯器無法驗證的不變條件（invariant）。</p>
 <p>回想第十六章<a href="ch16-04-extensible-concurrency-sync-and-send.html#%E5%8F%AF%E5%BB%B6%E5%B1%95%E7%9A%84%E4%B8%A6%E8%A1%8C%E8%88%87-sync-%E5%8F%8A-send-%E7%89%B9%E5%BE%B5">「可延展的並行與 <code>Sync</code> 及 <code>Send</code> 特徵」</a>一節的兩個記號特徵（marker trait）<code>Sync</code> 與 <code>Send</code>：若我們的型別是由 <code>Send</code> 與 <code>Sync</code> 組合而成，編譯器會自動實作這些特徵。若我們的型別包含一些非 <code>Send</code> 或 <code>Sync</code> 的型別，例如裸指標，但我們希望替型別做上 <code>Send</code> 或 <code>Sync</code> 的記號，就必須使用 <code>unsafe</code>。Rust 無法驗證我們的型別有遵守可以在多執行緒中傳遞或存取的保證。因而，我們需要自己手動檢查，並指明這是 <code>unsafe</code>。</p>
 <h3 id="存取聯合體的欄位"><a class="header" href="#存取聯合體的欄位">存取聯合體的欄位</a></h3>
-<p><code>union</code> 與 <code>struct</code> 十分相似，差異是在一個聯合體實例中僅儲存其中一個宣告的欄位。聯合體主要用在與 C 程式碼的聯合體介接。存取聯合體的欄位並不安全，由於 Rust 無法保證當前儲存在聯合體實例中的資料是什麼型別，因此存取聯合體的欄位並不安全。你可以從<a href="https://doc.rust-lang.org/reference/items/unions.html">參考手冊</a>了解更多關於聯合體的資訊。</p>
+<p>最後一個可以使用 <code>unsafe</code> 的地方是存取 <code>union</code> 的欄位。<code>union</code> 與 <code>struct</code> 十分相似，差異是在一個聯合體實例中僅儲存其中一個宣告的欄位。聯合體主要用在與 C 程式碼的聯合體介接。存取聯合體的欄位並不安全，由於 Rust 無法保證當前儲存在聯合體實例中的資料是什麼型別，因此存取聯合體的欄位並不安全。你可以從<a href="https://doc.rust-lang.org/reference/items/unions.html">參考手冊</a>了解更多關於聯合體的資訊。</p>
 <h3 id="何時該用不安全程式碼"><a class="header" href="#何時該用不安全程式碼">何時該用不安全程式碼</a></h3>
 <p>透過 <code>unsafe</code> 使用上述五種功能（超能力）並沒有錯，更並非不能接受，但由於編譯期無法協助遵守記憶體安全，這讓 <code>unsafe</code> 程式碼要正確無誤略顯棘手。當你因故需要使用 <code>unsafe</code> 程式碼，就去用吧，並且記得替 <code>unsafe</code> 撰寫明確的註釋，讓有問題發生時更容易追蹤查找源頭。</p>
 <blockquote>
@@ -456,69 +424,39 @@ fn main() {}
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch19-00-advanced-features.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch19-03-advanced-traits.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch19-00-advanced-features.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch19-03-advanced-traits.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

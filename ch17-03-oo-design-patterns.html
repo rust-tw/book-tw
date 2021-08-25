@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>實作物件導向設計模式 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -206,10 +174,7 @@ fn main() {
 <h3 id="定義-post-並在草稿階段建立新實例"><a class="header" href="#定義-post-並在草稿階段建立新實例">定義 <code>Post</code> 並在草稿階段建立新實例</a></h3>
 <p>讓我們開始實作出函式庫吧！我們知道我們需要一個公開的結構體 <code>Post</code> 來存有些內容，所以我們先從結構體的定義開始，它會有個公開的關聯函式 <code>new</code> 來建立 <code>Post</code> 的實例，如範例 17-12 所示。我們還會再定義一個私有的特徵 <code>State</code>。然後 <code>Post</code> 會有個私有欄位 <code>state</code> 來擁有 <code>Option&lt;T&gt;</code> 且其內會存有一個特徵物件 <code>Box&lt;dyn State&gt;</code>。你會在之後瞭解為何 <code>Option&lt;T&gt;</code> 在此是必要的。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub struct Post {
+<pre><code class="language-rust noplayground">pub struct Post {
     state: Option&lt;Box&lt;dyn State&gt;&gt;,
     content: String,
 }
@@ -228,15 +193,14 @@ trait State {}
 struct Draft {}
 
 impl State for Draft {}
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-12：<code>Post</code> 結構體、能建立新的 <code>Post</code> 實例的 <code>new</code> 函式、<code>State</code> 特徵與 <code>Draft</code> 結構體的定義</span></p>
 <p><code>State</code> 定義了不同文章狀態共享的行為，而且<code>Draft</code>、<code>PendingReview</code> 與 <code>Published</code> 狀態都會實作 <code>State</code> 特徵。目前特徵還沒有任何方法，而且我們也只先定義 <code>Draft</code> 狀態，因為這是文章的初始狀態。</p>
 <p>當我們建立新的 <code>Post</code>，我們對其 <code>state</code> 欄位給予存有 <code>Box</code> 的 <code>Some</code> 數值。此 <code>Box</code> 會指向一個新的 <code>Draft</code> 結構體實例。這確保每當我們建立 <code>Post</code> 的新實例時，它會從草稿起始。因為 <code>Post</code> 的 <code>state</code> 欄位是私有的，我們沒有任何方法可以建立處於其他狀態的 <code>Post</code>！在 <code>Post::new</code> 函式中，我們設置 <code>content</code> 欄位為一個新的空 <code>String</code>。</p>
 <h3 id="儲存文章內容的文字"><a class="header" href="#儲存文章內容的文字">儲存文章內容的文字</a></h3>
 <p>範例 17-11 展示我們想要能夠呼叫一個叫做 <code>add_text</code> 的函式並傳入 <code>&amp;str</code> 來對網誌文章增加文字內容。我們實作此方法，而不是將 <code>content</code> 欄位透過 <code>pub</code> 公開出去。這代表我們之後可以實作個方法來控制 <code>content</code> 欄位資料該怎麼讀取。<code>add_text</code> 方法非常直觀，所以讓我們在 <code>impl Post</code> 區塊中加上範例 17-13 的實作吧：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Post {
+<pre><code class="language-rust noplayground"><span class="boring">pub struct Post {
 </span><span class="boring">    state: Option&lt;Box&lt;dyn State&gt;&gt;,
 </span><span class="boring">    content: String,
 </span><span class="boring">}
@@ -260,15 +224,13 @@ impl State for Draft {}
 </span><span class="boring">struct Draft {}
 </span><span class="boring">
 </span><span class="boring">impl State for Draft {}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><span class="caption">範例 17-13：實作 <code>add_text</code> 方法來將文字加入文章的 <code>content</code> 中</span></p>
 <p><code>add_text</code> 方法接收 <code>self</code> 的可變引用，因為我們在呼叫 <code>add_text</code> 時會改變 <code>Post</code> 實例。然後我們對 <code>content</code> 中的 <code>String</code> 呼叫<code>push_str</code>，並傳入 <code>text</code> 引數來存到 <code>content</code> 之中。此行為與文章的狀態無關，所以它沒有被包含在狀態模式中。<code>add_text</code> 方法不會與 <code>state</code> 欄位有關係，但它是我們想支援的部分行為之一。</p>
 <h3 id="確保文章草稿的內容為空"><a class="header" href="#確保文章草稿的內容為空">確保文章草稿的內容為空</a></h3>
 <p>儘管我們已經能透過 <code>add_text</code> 來為我們的文章加些內容，但我們還是希望 <code>content</code> 方法會回傳空字串切片，因為文章還在草稿階段中，如範例 17-11 的第七行所示。現在先讓我們用能滿足需求最簡單的方式來實作 <code>content</code> 方法，也就是永遠回傳空字串切片。之後一旦我們實作出能改變文章狀態為已發佈的能力，我們會回來修改這部分。目前文章只能處於草稿階段，所以文章內容應該要永遠為空。範例 17-14 顯示了此暫時的實作方式：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Post {
+<pre><code class="language-rust noplayground"><span class="boring">pub struct Post {
 </span><span class="boring">    state: Option&lt;Box&lt;dyn State&gt;&gt;,
 </span><span class="boring">    content: String,
 </span><span class="boring">}
@@ -296,15 +258,13 @@ impl State for Draft {}
 </span><span class="boring">struct Draft {}
 </span><span class="boring">
 </span><span class="boring">impl State for Draft {}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><span class="caption">範例 17-14：<code>Post</code> 暫時實作的 <code>content</code> 方法，這會永遠回傳一個空字串切片</span></p>
 <p>透過此 <code>content</code> 方法，範例 17-11 的程式碼到地七行都能如期執行。</p>
 <h3 id="請求文章審核來變更它的狀態"><a class="header" href="#請求文章審核來變更它的狀態">請求文章審核來變更它的狀態</a></h3>
 <p>接下來，我們需要增加請求文章審核的功能，這會將其狀態從 <code>Draft</code> 變更為 <code>PendingReview</code>。如範例 14-15 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">pub struct Post {
+<pre><code class="language-rust noplayground"><span class="boring">pub struct Post {
 </span><span class="boring">    state: Option&lt;Box&lt;dyn State&gt;&gt;,
 </span><span class="boring">    content: String,
 </span><span class="boring">}
@@ -352,9 +312,7 @@ impl State for PendingReview {
         self
     }
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-15：對 <code>Post</code> 與 <code>State</code> 特徵實作的 <code>request_review</code> 方法</span></p>
 <p><code>Post</code> 現在有個公開方法叫做 <code>request_review</code>，這會接收 <code>self</code> 的可變引用。然後我們對 <code>Post</code> 目前的狀態呼叫其內部的 <code>request_review</code> 方法，然後此 <code>request_review</code> 方法會消耗目前的狀態並回傳新的狀態。</p>
 <p>我們對 <code>State</code> 特徵也加上了 <code>request_review</code> 方法，所有有實作此特徵的型別現在都需要實作 <code>request_review</code> 方法。注意到不同於擁有 <code>self</code>、<code>&amp;self</code> 或 <code>&amp;mut self</code> 來作為方法的第一個參數，我們用的是 <code>self: Box&lt;Self&gt;</code>。此語法代表對持有型別的 <code>Box</code> 呼叫方法才有效。此語法取得 <code>Box&lt;Self&gt;</code> 的所有權，將舊的狀態無效化，讓 <code>Post</code> 的狀態數值可以轉換成新的狀態。</p>
@@ -366,10 +324,7 @@ impl State for PendingReview {
 <h3 id="新增改變-content-行為的-approve-方法"><a class="header" href="#新增改變-content-行為的-approve-方法">新增改變 <code>content</code> 行為的 <code>approve</code> 方法</a></h3>
 <p><code>approve</code> 方法會類似於 <code>request_review</code> 方法，它會設置 <code>state</code> 的數值為目前狀態審核通過時該處於的狀態，如範例 17-16 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span><span class="boring">pub struct Post {
+<pre><code class="language-rust noplayground"><span class="boring">pub struct Post {
 </span><span class="boring">    state: Option&lt;Box&lt;dyn State&gt;&gt;,
 </span><span class="boring">    content: String,
 </span><span class="boring">}
@@ -446,8 +401,7 @@ impl State for Published {
         self
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-16：對 <code>Post</code> 與 <code>State</code> 特徵實作 <code>approve</code> 方法</span></p>
 <p>我們在 <code>State</code> 特徵加上 <code>approve</code> 方法，並新增一個也有實作 <code>State</code> 的新結構體 <code>Published</code> 特徵。</p>
 <p>和 <code>request_review</code> 類似，如果我們對 <code>Draft</code> 呼叫 <code>approve</code> 方法，它不會有任何效果，因為它會回傳 <code>self</code>。當我們對 <code>PendingReview</code> 呼叫 <code>approve</code>，它會回傳一個新的結構體 <code>Published</code> box 實例。<code>Published</code> 也有實作 <code>State</code> 特徵，對於 <code>request_review</code> 方法與 <code>approve</code> 方法，它只會回傳自己，因為文章在這些情況下都應該維持 <code>Published</code> 狀態。</p>
@@ -536,10 +490,7 @@ impl State for Published {
 <p>然後我們呼叫 <code>unwrap</code> 方法，我們知道這絕對不會恐慌，因為我們知道當 <code>Post</code> 的方法完成執行時，它們會確保 <code>state</code> 永遠包含一個 <code>Some</code> 數值。這是我們在第九章的<a href="ch09-03-to-panic-or-not-to-panic.html#%E7%95%B6%E4%BD%A0%E7%9F%A5%E9%81%93%E7%9A%84%E6%AF%94%E7%B7%A8%E8%AD%AF%E5%99%A8%E9%82%84%E5%A4%9A%E7%9A%84%E6%99%82%E5%80%99">「當你知道的比編譯器還多的時候」</a><!-- ignore -->段落介紹過的其中一種情況。雖然編譯器不能理解，但我們知道永遠不可能會有 <code>None</code> 數值。</p>
 <p>此時當我們呼叫 <code>&amp;Box&lt;dyn State&gt;</code> 的 <code>content</code>，強制解引用（deref coercion）對 <code>&amp;</code> 與 <code>Box</code> 產生影響，讓 <code>content</code> 方法最終對有實作 <code>State</code> 特徵的型別呼叫。這代表我需要在 <code>State</code> 特徵定義加上 <code>content</code>，而這正是我們要填入依據狀態為何來回傳何種內容的地方，如範例 17-18 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span><span class="boring">pub struct Post {
+<pre><code class="language-rust noplayground"><span class="boring">pub struct Post {
 </span><span class="boring">    state: Option&lt;Box&lt;dyn State&gt;&gt;,
 </span><span class="boring">    content: String,
 </span><span class="boring">}
@@ -625,8 +576,7 @@ impl State for Published {
         &amp;post.content
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-18：在 <code>State</code> 特徵加上 <code>content</code> 方法</span></p>
 <p>我們對 <code>content</code> 方法加上預設實作來回傳一個空字串切片。這代表我們不需要在 <code>Draft</code> 與 <code>PendingReview</code> 結構體實作 <code>content</code>。<code>Published</code> 結構體會覆寫 <code>content</code> 方法並回傳 <code>post.content</code> 的數值。</p>
 <p>注意到我們在此方法需要生命週期詮釋，如我們在第十章所討論到的。我們取得 <code>post</code> 的引用作為引數並回傳 <code>post</code> 的部分引用，所以回傳引用的生命週期與 <code>post</code> 引數的生命週期有關聯。</p>
@@ -667,10 +617,7 @@ impl State for Published {
 </code></pre>
 <p>我們仍使用 <code>Post::new</code> 來建立新文章的草稿狀態以及能對文章內容新增文字的能力。但不同於在文章草稿的 <code>content</code> 方法中回傳空字串，我們這次選擇文章草稿不會實作 <code>content</code> 方法。這樣如果我們嘗試取得文章草稿內容時，我們會得到編譯錯誤告訴我們該方法不存在。如此一來，我們就不可能在生產環境意外顯示出文章草稿內容了，因為程式碼根本不會編譯過。範例 17-19 顯示了 <code>Post</code> 結構體與 <code>DraftPost</code> 結構體的定義，以及它們個別的方法：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub struct Post {
+<pre><code class="language-rust noplayground">pub struct Post {
     content: String,
 }
 
@@ -695,8 +642,7 @@ impl DraftPost {
         self.content.push_str(text);
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-19：<code>Post</code> 有 <code>content</code> 方法，而 <code>DraftPost</code> 則沒有 <code>content</code> 方法</span></p>
 <p><code>Post</code> 與 <code>DraftPost</code> 結構體都有個私有欄位 <code>content</code> 來儲存網誌文章文字。結構體不再有 <code>state</code> 欄位，因為我們將狀態的定義移到了結構體的型別中。<code>Post</code> 結構體就代表已發佈的文章，且其有個 <code>content</code> 方法來回傳 <code>content</code>。</p>
 <p>我們仍然有 <code>Post::new</code> 函式，但是它沒有回傳 <code>Post</code> 實例，而是回傳了 <code>DraftPost</code> 的實例。因為 <code>content</code> 是私有的，而且沒有任何函式回傳 <code>Post</code>，所以目前沒有任何辦法能建立 <code>Post</code> 的實例。</p>
@@ -704,10 +650,7 @@ impl DraftPost {
 <h4 id="透過不同型別的轉移來實作狀態轉換"><a class="header" href="#透過不同型別的轉移來實作狀態轉換">透過不同型別的轉移來實作狀態轉換</a></h4>
 <p>所以我們該怎麼取得發佈的文章呢？我們想要遵守執行的規則，文章草稿在審核並通過後才能夠發佈。在審核中的文章狀態應保持不顯示任何內容。讓我們新增另一個結構體 <code>PendingReviewPost</code> 來遵守這些約束吧。在 <code>DraftPost</code> 中訂一個會回傳 <code>PendingReviewPost</code> 的 <code>request_review</code> 方法，再對 <code>PendingReviewPost</code> 定義 <code>approve</code> 方法來回傳 <code>Post</code>，如範例 17-20 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span><span class="boring">pub struct Post {
+<pre><code class="language-rust noplayground"><span class="boring">pub struct Post {
 </span><span class="boring">    content: String,
 </span><span class="boring">}
 </span><span class="boring">
@@ -751,8 +694,7 @@ impl PendingReviewPost {
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 17-20：呼叫 <code>DraftPost</code> 的 <code>request_review</code> 來建立 <code>PendingReviewPost</code>，且其有個 <code>approve</code> 方法能將 <code>PendingReviewPost</code> 轉換成已發佈的 <code>Post</code></span></p>
 <p><code>request_review</code> 與 <code>approve</code> 方法都會取得 <code>self</code> 的所有權，因此會消耗 <code>DraftPost</code> 與 <code>PendingReviewPost</code> 實例，並分別轉換成 <code>PendingReviewPost</code> 與已發佈的 <code>Post</code>。這樣在我們呼叫 <code>request_review</code> 時，就不會有殘留的 <code>DraftPost</code> 實例，以此類推。<code>PendingReviewPost</code> 結構體也沒有定義 <code>content</code> 方法，所以嘗試讀取其內容會導致編譯錯誤，就如同 <code>DraftPost</code>。由於唯一能取得有 <code>content</code> 方法定義的已發佈 <code>Post</code> 是透過呼叫 <code>PendingReviewPost</code> 的 <code>approve</code> 方法，而唯一能取得 <code>PendingReviewPost</code> 的方法是呼叫 <code>DraftPost</code> 的 <code>request_review</code> 方法，我們現在將網誌文章工作流程寫進了型別系統中。</p>
 <p>但我們也得對 <code>main</code> 做些小修改。<code>request_review</code> 與 <code>approve</code> 方法會回傳新的實例，而不是修改它們所呼叫的結構體，所以我們需要加些 <code>let post =</code> 來遮蔽賦值來儲存回傳的實例。我們也無法判定草稿與審核中的文章內容是否是空字串，不過我們其實也不需要它們，我們不再能編譯嘗試讀取這些狀態文章內容的程式碼了。</p>
@@ -790,69 +732,39 @@ fn main() {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch17-02-trait-objects.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch18-00-patterns.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch17-02-trait-objects.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch18-00-patterns.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

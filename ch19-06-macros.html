@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>巨集 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -197,10 +165,7 @@
 <p>我們也可利用 <code>vec!</code> 巨集產生兩個整數的向量或是五個字串的 切片。因為不能預先得知這些值的數量，所以我們無法透過函式做到這件事。</p>
 <p>範例 19-28 展示了稍微簡化過的 <code>vec!</code> 巨集定義。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[macro_export]
+<pre><code class="language-rust noplayground">#[macro_export]
 macro_rules! vec {
     ( $( $x:expr ),* ) =&gt; {
         {
@@ -212,8 +177,7 @@ macro_rules! vec {
         }
     };
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 19-28：<code>vec!</code> 巨集定義簡化版</span></p>
 <blockquote>
 <p>注意：在標準函式庫中真實的 <code>vec!</code> 巨集定義有預先配置正確記憶體用量的程式碼，因為這段程式碼是一種最佳化手段，為了簡化範例，並無將之包含其中。</p>
@@ -235,7 +199,7 @@ macro_rules! vec {
 }
 </code></pre>
 <p>我們定義了一個巨集，接收任意數量任意型別的引數，並產生建立一個包含指定元素的向量的程式碼。</p>
-<p>有鑑於 <code>macro_rules!</code> 仍有些詭異的邊界情況（edge case），未來 Rust 會有第二類宣告式巨集，會具有相似的工作流程，但會修復這些邊界情況。在該更新到來過後，<code>macro_rules!</code> 會即期棄用（deprecate）。考量到這點，加上以事實來說大多數 Rust 程式設計師<strong>使用</strong>巨集多過<strong>撰寫</strong>巨集，所以 <code>macro_rules!</code> 相關討論就此打住，想理解更多有關撰寫巨集之事，可查閱線上文件或其他資源，例如<a href="https://danielkeep.github.io/tlborm/book/index.html">「The Little Book of Rust Macros」</a>。</p>
+<p>有鑑於 <code>macro_rules!</code> 仍有些詭異的邊界情況（edge case），未來 Rust 會有第二類宣告式巨集，會具有相似的工作流程，但會修復這些邊界情況。在該更新到來過後，<code>macro_rules!</code> 會即期棄用（deprecate）。考量到這點，加上以事實來說大多數 Rust 程式設計師<strong>使用</strong>巨集多過<strong>撰寫</strong>巨集，所以 <code>macro_rules!</code> 相關討論就此打住，想理解更多有關撰寫巨集之事，可查閱線上文件或其他資源，例如原作者 Daniel Keep 與後繼維護者 Lukas Wirth 所寫的<a href="https://veykril.github.io/tlborm/">「The Little Book of Rust Macros」</a>。</p>
 <h3 id="使用程序式巨集從屬性產生程式碼"><a class="header" href="#使用程序式巨集從屬性產生程式碼">使用程序式巨集從屬性產生程式碼</a></h3>
 <p>第二種巨集形式是<strong>程序式巨集</strong>，其行為更像是函式（也是一種程序）。程序式巨集接受一些程式碼作為輸入，操作這些程式碼，然後輸出一些程式碼。和宣告式巨集去匹配模式和取代程式碼的方式不同。</p>
 <p>三種程序式巨集（自訂 derive，類屬性、類函式）都有著相近的工作方式。</p>
@@ -269,14 +233,10 @@ fn main() {
 </code></pre>
 <p>接下來，我們會定義 <code>HelloMacro</code> 特徵與它的關聯函式：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub trait HelloMacro {
+<pre><code class="language-rust noplayground">pub trait HelloMacro {
     fn hello_macro();
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>我們有個特徵及其函式。至此，我們的 crate 使用者可以實作此特徵來達成他們想要的功能，例如：</p>
 <pre><code class="language-rust ignore">use hello_macro::HelloMacro;
 
@@ -300,8 +260,7 @@ fn main() {
 <p>由於我們的兩個 crate 高度關聯，所以會在 <code>hello_macro</code> crate 的目錄中建立一個程序式巨集 crate。若我們改變 <code>hello_macro</code> 中定義的特徵，就必須同時改變 <code>hello_macro_derive</code> 中的程序式巨集。這兩個 crate 必須各自發佈，且若程式設計師想要使用這些 crate，則必須將兩者都加入為依賴（dependency），並將之引入作用域。當然，我們也可以讓 <code>hello_macro</code> 將 <code>hello_macro_derive</code> 作為一個依賴並重新導出（re-export）該程序式巨集。然而，我們這樣組織專案的方式就是想提供當程式設計師不想要 <code>derive</code> 功能時，也可以直接使用 <code>hello_macro</code>。</p>
 <p>我們必須宣告 <code>hello_macro_derive</code> 為一個程序式巨集 crate。我們同時需要等會兒就會遇到的 <code>syn</code> 和 <code>quote</code> 這些 crate 的功能，所以先將他們加至依賴。至此，<code>hello_macro_derive</code> 的 <em>Cargo.toml</em> 會加入以下的程式碼：</p>
 <p><span class="filename">檔案名稱：hello_macro_derive/Cargo.toml</span></p>
-<pre><code class="language-toml">[lib]
-proc-macro = true
+<pre><code class="language-toml">proc-macro = true
 
 [dependencies]
 syn = &quot;1.0&quot;
@@ -390,8 +349,7 @@ pub fn hello_macro_derive(input: TokenStream) -&gt; TokenStream {
 <p>我們想要我們的程序式巨集對使用者標註的型別產生 <code>HelloMacro</code> 特徵的實作，這個標註的型別名稱可以從 <code>#name</code> 取得。這個特徵的實作有一個函式 <code>hello_macro</code>，函式本體包含我們想要的功能：印出 <code>你好，巨集，我叫作</code> 再加上被標註的型別的名稱。</p>
 <p><code>stringify!</code> 巨集是 Rust 內建的，會將一個 Rust 表達式，例如 <code>1 + 2</code>，在編譯期轉換成字串字面值（string literal），例如 <code>&quot;1 + 2&quot;</code>。這和 <code>format!</code> 或 <code>println!</code> 巨集會對表達式求值並將結果轉為 <code>String</code> 不同。因為輸入的 <code>#name</code> 可能是一個表達式，但要直接照字面印出來，所以我們選擇使用 <code>stringify!</code>。使用 <code>stringify!</code> 也可以節省在編譯器因為轉換 <code>#name</code> 成為字串字面量所需的空間配置。</p>
 <p>至此，<code>cargo build</code> 應該可以成功在 <code>hello_macro</code> 和 <code>hello_macro_derive</code> 完成。我們在範例 19-30 來玩玩這些 crate 看看他們如何實際作用！先在你的<strong>專案</strong>目錄下，透過 <code>cargo new pancakes</code> 建立一個新的二進制專案。我們必須將 <code>hello_macro</code> 和 <code>hello_macro_derive</code> 加入 <code>pancakes</code> 的 <em>Cargo.toml</em> 作為依賴。若你已經發佈自己的 <code>hello_macro</code> 和 <code>hello_macro_derive</code> 的版本到 <a href="https://crates.io/">crates.io</a>，他們就是普通的依賴；若無，你可以指定他們為 <code>path</code> 的依賴，如下：</p>
-<pre><code class="language-toml">[dependencies]
-hello_macro = { path = &quot;../hello_macro&quot; }
+<pre><code class="language-toml">hello_macro = { path = &quot;../hello_macro&quot; }
 hello_macro_derive = { path = &quot;../hello_macro/hello_macro_derive&quot; }
 </code></pre>
 <p>將這段程式碼放到範例 19-30 的 <em>src/main.rs</em> 並執行 <code>cargo run</code>，他應該會印出 <code>你好，巨集！我叫作鬆餅！</code>。這個由程序式巨集實作的 <code>HelloMacro</code> 特徵，不需要 <code>pancakes</code> 自行手動實作，而是透過 <code>#[derive(HelloMacro)]</code> 將特徵的實作加上去。</p>
@@ -432,69 +390,39 @@ pub fn sql(input: TokenStream) -&gt; TokenStream {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch19-05-advanced-functions-and-closures.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch20-00-final-project-a-web-server.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch19-05-advanced-functions-and-closures.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch20-00-final-project-a-web-server.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

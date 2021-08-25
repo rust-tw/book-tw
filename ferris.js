@@ -8,10 +8,6 @@ var ferrisTypes = [
     title: '此程式碼會恐慌！'
   },
   {
-    attr: 'unsafe',
-    title: '此程式碼區塊包含不安全的程式碼。'
-  },
-  {
     attr: 'not_desired_behavior',
     title: '此程式碼沒有產生預期的行為。'
   }

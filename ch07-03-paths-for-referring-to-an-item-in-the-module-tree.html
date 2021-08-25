@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>引用模組項目的路徑 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -207,18 +175,30 @@ error[E0603]: module `hosting` is private
  --&gt; src/lib.rs:9:28
   |
 9 |     crate::front_of_house::hosting::add_to_waitlist();
-  |                            ^^^^^^^
+  |                            ^^^^^^^ private module
+  |
+note: the module `hosting` is defined here
+ --&gt; src/lib.rs:2:5
+  |
+2 |     mod hosting {
+  |     ^^^^^^^^^^^
 
 error[E0603]: module `hosting` is private
   --&gt; src/lib.rs:12:21
    |
 12 |     front_of_house::hosting::add_to_waitlist();
-   |                     ^^^^^^^
+   |                     ^^^^^^^ private module
+   |
+note: the module `hosting` is defined here
+  --&gt; src/lib.rs:2:5
+   |
+2  |     mod hosting {
+   |     ^^^^^^^^^^^
 
 error: aborting due to 2 previous errors
 
 For more information about this error, try `rustc --explain E0603`.
-error: could not compile `restaurant`.
+error: could not compile `restaurant`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -252,18 +232,30 @@ error[E0603]: function `add_to_waitlist` is private
  --&gt; src/lib.rs:9:37
   |
 9 |     crate::front_of_house::hosting::add_to_waitlist();
-  |                                     ^^^^^^^^^^^^^^^
+  |                                     ^^^^^^^^^^^^^^^ private function
+  |
+note: the function `add_to_waitlist` is defined here
+ --&gt; src/lib.rs:3:9
+  |
+3 |         fn add_to_waitlist() {}
+  |         ^^^^^^^^^^^^^^^^^^^^
 
 error[E0603]: function `add_to_waitlist` is private
   --&gt; src/lib.rs:12:30
    |
 12 |     front_of_house::hosting::add_to_waitlist();
-   |                              ^^^^^^^^^^^^^^^
+   |                              ^^^^^^^^^^^^^^^ private function
+   |
+note: the function `add_to_waitlist` is defined here
+  --&gt; src/lib.rs:3:9
+   |
+3  |         fn add_to_waitlist() {}
+   |         ^^^^^^^^^^^^^^^^^^^^
 
 error: aborting due to 2 previous errors
 
 For more information about this error, try `rustc --explain E0603`.
-error: could not compile `restaurant`.
+error: could not compile `restaurant`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -272,7 +264,7 @@ To learn more, run the command again with --verbose.
 <p>範例 7-6 的錯誤訊息表示 <code>add_to_waitlist</code> 函式是私有的。隱私權規則如同模組一樣適用於結構體、枚舉、函式與方法。</p>
 <p>讓我們在 <code>add_to_waitlist</code> 的函式定義加上 <code>pub</code> 公開它吧，如範例 7-7 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">mod front_of_house {
+<pre><code class="language-rust noplayground test_harness">mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
     }
@@ -285,9 +277,7 @@ pub fn eat_at_restaurant() {
     // 相對路徑
     front_of_house::hosting::add_to_waitlist();
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-7：將 <code>mod hosting</code> 和 <code>fn add_to_waitlist</code> 都加上 <code>pub</code> 關鍵字，讓我們可以從 <code>eat_at_restaurant</code> 呼叫函式</span></p>
 <p>現在程式碼就能成功編譯了！讓我們看看絕對與相對路徑，以及再次檢查為何 <code>pub</code> 關鍵字是如何遵守隱私權規則，讓我們可以在 <code>add_to_waitlist</code> 取得這些路徑。</p>
 <p>在絕對路徑中，我們始於 <code>crate</code>，這是 crate 模組樹的跟。再來 <code>front_of_house</code> 模組被定義在 crate 源頭中，<code>front_of_house</code> 模組不是公開，但因為 <code>eat_at_restaurant</code> 函式被定義在與 <code>front_of_house</code> 同一層模組中（也就是 <code>eat_at_restaurant</code> 與 <code>front_of_house</code> 同輩（siblings）），我們可以從 <code>eat_at_restaurant</code> 引用 <code>front_of_house</code>。接下來是有 <code>pub</code> 標記的 <code>hosting</code> 模組，我們可以取得 <code>hosting</code> 的上層模組，所以我們可以取得 <code>hosting</code>。最後 <code>add_to_waitlist</code> 函式也有 <code>pub</code> 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！</p>
@@ -296,7 +286,7 @@ pub fn eat_at_restaurant() {
 <p>我們還可以在路徑開頭使用 <code>super</code> 來建構從上層模組出發的相對路徑。這就像在檔案系統中使用 <code>..</code> 作為路徑開頭一樣。不過為何我們想要這樣做呢？</p>
 <p>請考慮範例 7-8 的程式碼，這模擬了一個主廚修正一個錯誤的訂單，並親自提供給顧客的場景。函式 <code>fix_incorrect_order</code> 呼叫了函式 <code>serve_order</code>，不過這次是使用 <code>super</code> 來指定 <code>serve_order</code> 的路徑：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">fn serve_order() {}
+<pre><code class="language-rust noplayground test_harness">fn serve_order() {}
 
 mod back_of_house {
     fn fix_incorrect_order() {
@@ -306,18 +296,13 @@ mod back_of_house {
 
     fn cook_order() {}
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-8：使用 <code>super</code> 作為呼叫函式路徑的開頭</span></p>
 <p><code>fix_incorrect_order</code> 函式在 <code>back_of_house</code> 模組中，所以我們可以使用 <code>super</code> 前往 <code>back_of_house</code> 的上層模組，在此例的話就是源頭 <code>crate</code>。然後在此時我們就能找到 <code>serve_order</code>。成功！我們認定 <code>back_of_house</code> 模組與 <code>serve_order</code> 函式應該會維持這樣相同的關係，在我們要組織 crate 的模組樹時，它們理當一起被移動。因此我們使用 <code>super</code> 讓我們在未來程式碼被移動到不同模組時，我們不用更新太多程式路徑。</p>
 <h3 id="公開結構體與枚舉"><a class="header" href="#公開結構體與枚舉">公開結構體與枚舉</a></h3>
 <p>我們也可以使用 <code>pub</code> 來公開結構體與枚舉，但是我們有些額外細節要考慮到。如果我們在結構體定義之前加上 <code>pub</code> 的話，我們的確能公開結構體，但是結構體內的欄位仍然會是私有的。我們可以視情況決定每個欄位要不要公開。在範例 7-9 我們定義了一個公開的結構體 <code>back_of_house::Breakfast</code> 並公開欄位 <code>toast</code>，不過將欄位 <code>seasonal_fruit</code> 維持是私有的。這次範例模擬的情境是，餐廳顧客可以選擇早餐要點什麼類型的麵包，但是由主廚視庫存與當季食材來決定提供何種水果。餐廳提供的水果種類隨季節變化很快，所以顧客無法選擇或預先知道他們會拿到何種水果。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>mod back_of_house {
+<pre><code class="language-rust noplayground">mod back_of_house {
     pub struct Breakfast {
         pub toast: String,
         seasonal_fruit: String,
@@ -344,17 +329,13 @@ pub fn eat_at_restaurant() {
     // 我們無法擅自更改餐點搭配的季節水果
     // meal.seasonal_fruit = String::from(&quot;藍莓&quot;);
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-9：一個有些欄位公開而有些是私有欄位的結構體</span></p>
 <p>因為 <code>back_of_house::Breakfast</code> 結構體中的 <code>toast</code> 欄位是公開的，在 <code>eat_at_restaurant</code> 中我們可以加上句點來對 <code>toast</code> 欄位進行讀寫。注意我們不能在 <code>eat_at_restaurant</code> 使用 <code>seasonal_fruit</code> 欄位，因為它是私有的。請嘗試解開修改 <code>seasonal_fruit</code> 欄位數值的那行程式註解，看看你會獲得什麼錯誤！</p>
 <p>另外因為 <code>back_of_house::Breakfast</code> 擁有私有欄位，該結構體必須提供一個公開的關聯函式（associated function）才有辦法產生 <code>Breakfast</code> 的實例（我們在此例命名為 <code>summer</code>）。如果 <code>Breakfast</code> 沒有這樣的函式的話，我們就無法在 <code>eat_at_restaurant</code> 建立 <code>Breakfast</code> 的實例，因為我們無法在 <code>eat_at_restaurant</code> 設置私有欄位 <code>seasonal_fruit</code> 的數值。</p>
 <p>接下來，如果我們公開枚舉的話，那它所有的變體也都會公開。我們只需要在 <code>enum</code> 關鍵字之前加上 <code>pub</code> 就好，如範例 7-10 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>mod back_of_house {
+<pre><code class="language-rust noplayground">mod back_of_house {
     pub enum Appetizer {
         Soup,
         Salad,
@@ -365,8 +346,7 @@ pub fn eat_at_restaurant() {
     let order1 = back_of_house::Appetizer::Soup;
     let order2 = back_of_house::Appetizer::Salad;
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-10：公開枚舉會讓其所有變體也公開</span></p>
 <p>因為我們公開了 <code>Appetizer</code> 枚舉，我們可以在 <code>eat_at_restaurant</code> 使用 <code>Soup</code> 和 <code>Salad</code>。枚舉的變體沒有全部都公開的話，通常會讓枚舉很不好用。要用 <code>pub</code> 標註所有的枚舉變體都公開的話又很麻煩。所以公開枚舉的話，預設就會公開其變體。相反地，結構體不讓它的欄位全部都公開的話，通常反而比較實用。因此結構體欄位的通用原則是預設為私有，除非有 <code>pub</code> 標註。</p>
 <p>我們還有一個 <code>pub</code> 的使用情境還沒提到，也就是我們模組系統最後一項功能：<code>use</code> 關鍵字。我們接下來會先解釋 <code>use</code>，再來研究如何組合 <code>pub</code> 和 <code>use</code>。</p>
@@ -382,69 +362,39 @@ pub fn eat_at_restaurant() {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch07-02-defining-modules-to-control-scope-and-privacy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch07-02-defining-modules-to-control-scope-and-privacy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

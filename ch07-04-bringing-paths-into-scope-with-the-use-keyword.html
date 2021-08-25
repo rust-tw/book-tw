@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>透過 use 關鍵字引入路徑 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -176,7 +144,7 @@
 <code>hosting</code>。幸運的是，我們有簡化過程的辦法。我們可以使用 <code>use</code> 關鍵字將路徑引入作用域，然後就像它們是本地項目一樣來呼叫它們。</p>
 <p>在範例 7-11 中，我們引入了 <code>crate::front_of_house::hosting</code> 模組進 <code>eat_at_restaurant</code> 函式的作用域中，所以我們要呼叫函式 <code>add_to_waitlist</code> 的話我們只需要指明 <code>hosting::add_to_waitlist</code>。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">mod front_of_house {
+<pre><code class="language-rust noplayground test_harness">mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
     }
@@ -189,14 +157,12 @@ pub fn eat_at_restaurant() {
     hosting::add_to_waitlist();
     hosting::add_to_waitlist();
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-11：使用 <code>use</code> 將模組引入</span></p>
 <p>使用 <code>use</code> 將路徑引入作用域就像是在檔案系統中產生符號連結一樣（symbolic link）。在 crate 源頭加上 <code>use crate::front_of_house::hosting</code> 後，<code>hosting</code> 在作用域內就是個有效的名稱了。使用 <code>use</code> 的路徑也會檢查隱私權，就像其他路徑一樣。</p>
 <p>你也可以使用 <code>use</code> 加上相對路徑來引入項目。範例 7-12 就展示了如何指明相對路徑來達到與範例 7-11 一樣的結果。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">mod front_of_house {
+<pre><code class="language-rust noplayground test_harness">mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
     }
@@ -209,14 +175,12 @@ pub fn eat_at_restaurant() {
     hosting::add_to_waitlist();
     hosting::add_to_waitlist();
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-12：使用 <code>use</code> 與相對路徑將項目引入作用域</span></p>
 <h3 id="建立慣用的-use-路徑"><a class="header" href="#建立慣用的-use-路徑">建立慣用的 <code>use</code> 路徑</a></h3>
 <p>在範例 7-11 你可能會好奇為何我們指明 <code>use crate::front_of_house::hosting</code> 然後在 <code>eat_at_restaurant</code> 呼叫，而不是直接用 <code>use</code> 指明 <code>add_to_waitlist</code> 函式的整個路徑就好。像範例 7-13 這樣寫。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">mod front_of_house {
+<pre><code class="language-rust noplayground test_harness">mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
     }
@@ -229,11 +193,9 @@ pub fn eat_at_restaurant() {
     add_to_waitlist();
     add_to_waitlist();
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-13：使用 <code>use</code> 將 <code>add_to_waitlist</code> 函式引入作用域，但這較不符合習慣</span></p>
-<p>雖然範例 7-11 與範例 7-13 都能完成相同的任務，但是範例 7-11 使用 <code>use</code> 將函式引入作用域的方法比較符合習慣用法。使用 <code>use</code> 將函式的上層模組引入作用域，讓我們必須在呼叫函式時得指明對應模組。這樣清楚知道該函式並非本地定義的，同時一樣能簡化路徑。範例 7-13 的程式碼會不清楚 <code>add_to_waitlist</code> 是在哪定義的。</p>
+<p>雖然範例 7-11 與範例 7-13 都能完成相同的任務，但是範例 7-11 使用 <code>use</code> 將函式引入作用域的方法比較符合習慣用法。使用 <code>use</code> 將函式的上層模組引入作用域，讓我們必須在呼叫函式時得指明對應模組。在呼叫函式時指定上層模組能清楚地知道該函式並非本地定義的，同時一樣能簡化路徑。範例 7-13 的程式碼會不清楚 <code>add_to_waitlist</code> 是在哪定義的。</p>
 <p>另一方面，如果是要使用 <code>use</code> 引入結構體、枚舉或其他項目的話，直接指明完整路徑反而是符合習慣的方式。範例 7-14 顯示了將標準函式庫的 <code>HashMap</code> 引入二進制 crate 作用域的習慣用法。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::collections::HashMap;
@@ -247,10 +209,7 @@ fn main() {
 <p>此習慣沒什麼強硬的理由：就只是大家已經習慣這樣的用法來讀寫 Rust 的程式碼。</p>
 <p>這樣的習慣有個例外，那就是如果我們將兩個相同名稱的項目使用 <code>use</code> 陳述式引入作用域時，因為 Rust 不會允許。範例 7-15 展示了如何引入兩個同名但屬於不同模組的 <code>Result</code> 型別進作用域中並使用的方法。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use std::fmt;
+<pre><code class="language-rust noplayground">use std::fmt;
 use std::io;
 
 fn function1() -&gt; fmt::Result {
@@ -262,17 +221,13 @@ fn function2() -&gt; io::Result&lt;()&gt; {
     // --省略--
 <span class="boring">    Ok(())
 </span>}
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-15：要將兩個同名的型別引入相同作用域的話，必須使用它們所屬的模組</span></p>
 <p>如同你所見使用對應的模組可以分辨出是在使用哪個 <code>Result</code> 型別。如果我們直接指明 <code>use std::fmt::Result</code> 和 <code>use std::io::Result</code> 的話，我們會在同一個作用域中擁有兩個 <code>Result</code> 型別，這樣一來 Rust 就無法知道我們想用的 <code>Result</code> 是哪一個。</p>
 <h3 id="使用-as-關鍵字提供新名稱"><a class="header" href="#使用-as-關鍵字提供新名稱">使用 <code>as</code> 關鍵字提供新名稱</a></h3>
 <p>要在相同作用域中使用 <code>use</code> 引入兩個同名型別的話，還有另一個辦法。在路徑之後，我們可以用 <code>as</code> 指定一個該型別在本地的新名稱，或者說別名。範例 7-16 展示重寫了範例 7-15，將其中一個 <code>Result</code> 型別使用 <code>as</code> 重新命名。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use std::fmt::Result;
+<pre><code class="language-rust noplayground">use std::fmt::Result;
 use std::io::Result as IoResult;
 
 fn function1() -&gt; Result {
@@ -284,15 +239,14 @@ fn function2() -&gt; IoResult&lt;()&gt; {
     // --省略--
 <span class="boring">    Ok(())
 </span>}
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-16：使用 <code>as</code> 將型別引入作用域的同時重新命名</span></p>
 <p>在第二個 <code>use</code> 陳述式，我們選擇了將 <code>std::io::Result</code> 型別重新命名為 <code>IoResult</code>，這樣就不會和同樣引入作用域內 <code>std::fmt</code> 的 <code>Result</code> 有所衝突。範例 7-15 與 範例 7-16 都屬於習慣用法，你可以選擇你比較喜歡的方式！</p>
 <h3 id="使用-pub-use-重新匯出名稱"><a class="header" href="#使用-pub-use-重新匯出名稱">使用 <code>pub use</code> 重新匯出名稱</a></h3>
 <p>當我們使用 <code>use</code> 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 <code>pub</code> 和 <code>use</code>。這樣的技巧稱之為<strong>重新匯出（re-exporting）</strong>，因為我們將項目引入作用域，並同時公開給其他作用域引用。</p>
 <p>範例 7-17 將範例 7-11 在源頭模組中原本的 <code>use</code> 改成 <code>pub use</code>。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">mod front_of_house {
+<pre><code class="language-rust noplayground test_harness">mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
     }
@@ -305,9 +259,7 @@ pub fn eat_at_restaurant() {
     hosting::add_to_waitlist();
     hosting::add_to_waitlist();
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-17：使用 <code>pub use</code> 使名稱公開給任何程式的作用域中引用</span></p>
 <p>使用 <code>pub use</code> 可以讓外部程式碼以 <code>hosting::add_to_waitlist</code> 的方式來呼叫函式 <code>add_to_waitlist</code>。如果我們沒有指明 <code>pub use</code>，函式 <code>eat_at_restaurant</code> 仍可以在它的作用域呼叫 <code>hosting::add_to_waitlist</code>，但外部程式碼就無法利用這個新的路徑。</p>
 <p>當程式碼的內部結構與使用程式的開發者對於該領域所想像的結構不同時，重新匯出會很有用。我們再次用餐廳做比喻的話就像是，經營餐廳的人可能會想像餐廳是由「前台」與「後台」所組成，但光顧的顧客可能不會用這些術語來描繪餐廳的每個部分。使用 <code>pub use</code> 的話，我們可以用某種架構寫出程式碼，再以不同的架構對外公開。這樣讓我們的的函式庫可以完整的組織起來，且對開發函式庫的開發者與使用函式庫的開發者都提供友善的架構。</p>
@@ -319,8 +271,7 @@ pub fn eat_at_restaurant() {
 * ch14-03-cargo-workspaces.md
 -->
 <p><span class="filename">檔案名稱：Cargo.toml</span></p>
-<pre><code class="language-toml">[dependencies]
-rand = &quot;0.5.5&quot;
+<pre><code class="language-toml">rand = &quot;0.8.3&quot;
 </code></pre>
 <p>在 <em>Cargo.toml</em> 新增  <code>rand</code> 作為依賴函式庫會告訴 Cargo 要從 <a href="https://crates.io/">crates.io</a> 下載  <code>rand</code> 以及其他相關的依賴，讓我們可專案可以使用 <code>rand</code>。</p>
 <p>接下來要將 <code>rand</code> 的定義引入我們套件的作用域的話，我們加上一行 <code>use</code> 後面接著 crate 的名稱 <code>rand</code> 然後列出我們想要引入作用域的項目。回想一下在第二章<a href="ch02-00-guessing-game-tutorial.html#%E7%94%A2%E7%94%9F%E9%9A%A8%E6%A9%9F%E6%95%B8%E5%AD%97">「產生隨機數字」</a><!-- ignore -->的段落，我們將 <code>Rng</code> 特徵引入作用域中，並呼叫函式 <code>rand::thread_rng</code>：</p>
@@ -330,7 +281,7 @@ rand = &quot;0.5.5&quot;
 fn main() {
 <span class="boring">    println!(&quot;請猜測一個數字！&quot;);
 </span><span class="boring">
-</span>    let secret_number = rand::thread_rng().gen_range(1, 101);
+</span>    let secret_number = rand::thread_rng().gen_range(1..101);
 <span class="boring">
 </span><span class="boring">    println!(&quot;祕密數字為：{}&quot;, secret_number);
 </span><span class="boring">
@@ -366,7 +317,7 @@ use std::io;
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!(&quot;請猜測一個數字！&quot;);
 </span><span class="boring">
-</span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
+</span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1..101);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;祕密數字為：{}&quot;, secret_number);
 </span><span class="boring">
@@ -397,7 +348,7 @@ use std::{cmp::Ordering, io};
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!(&quot;請猜測一個數字！&quot;);
 </span><span class="boring">
-</span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1, 101);
+</span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1..101);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;祕密數字為：{}&quot;, secret_number);
 </span><span class="boring">
@@ -424,22 +375,14 @@ use std::{cmp::Ordering, io};
 <p>在較大的程式中，使用巢狀路徑將相同 crate 或相同模組中的許多項目引入作用域，可以大量減少 <code>use</code> 陳述式的數量！</p>
 <p>我們可以在路徑中的任何部分使用巢狀路徑，這在組合兩個享有相同子路徑的 <code>use</code> 陳述式時非常有用。舉例來說，範例 7-19 顯示了兩個 <code>use</code> 陳述式：一個將 <code>std::io</code> 引入作用域，另一個將 <code>std::io::Write</code> 引入作用域。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use std::io;
+<pre><code class="language-rust noplayground">use std::io;
 use std::io::Write;
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 7-19：兩個 <code>use</code> 陳述式且其中一個是另一個的子路徑</span></p>
 <p>這兩個路徑的相同部分是 <code>std::io</code>，這也是整個第一個路徑。要將這兩個路徑合為一個 <code>use</code> 陳述式的話，我們可以在巢狀路徑使用 <code>self</code>，如範例 7-20 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use std::io::{self, Write};
-<span class="boring">}
-</span></code></pre></pre>
+<pre><code class="language-rust noplayground">use std::io::{self, Write};
+</code></pre>
 <p><span class="caption">範例 7-20：組合範例 7-19 的路徑為一個 <code>use</code> 陳述式</span></p>
 <p>此行就會將 <code>std::io</code> 和 <code>std::io::Write</code> 引入作用域。</p>
 <h3 id="全域運算子"><a class="header" href="#全域運算子">全域運算子</a></h3>
@@ -464,69 +407,39 @@ use std::io::Write;
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch07-05-separating-modules-into-different-files.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch07-05-separating-modules-into-different-files.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

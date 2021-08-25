@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>正常關機與清理 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -261,12 +229,12 @@ error[E0507]: cannot move out of `worker.thread` which is behind a mutable refer
   --&gt; src/lib.rs:52:13
    |
 52 |             worker.thread.join().unwrap();
-   |             ^^^^^^^^^^^^^ move occurs because `worker.thread` has type `std::thread::JoinHandle&lt;()&gt;`, which does not implement the `Copy` trait
+   |             ^^^^^^^^^^^^^ move occurs because `worker.thread` has type `JoinHandle&lt;()&gt;`, which does not implement the `Copy` trait
 
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0507`.
-error: could not compile `hello`.
+error: could not compile `hello`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -351,11 +319,11 @@ To learn more, run the command again with --verbose.
 <p>現在讓我們再看看編譯器的結果中還有哪些地方需要修改。檢查此程式碼，我們會得到兩個錯誤：</p>
 <pre><code class="language-console">$ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
-error[E0599]: no method named `join` found for type `std::option::Option&lt;std::thread::JoinHandle&lt;()&gt;&gt;` in the current scope
+error[E0599]: no method named `join` found for enum `Option` in the current scope
   --&gt; src/lib.rs:52:27
    |
 52 |             worker.thread.join().unwrap();
-   |                           ^^^^ method not found in `std::option::Option&lt;std::thread::JoinHandle&lt;()&gt;&gt;`
+   |                           ^^^^ method not found in `Option&lt;JoinHandle&lt;()&gt;&gt;`
 
 error[E0308]: mismatched types
   --&gt; src/lib.rs:72:22
@@ -363,17 +331,17 @@ error[E0308]: mismatched types
 72 |         Worker { id, thread }
    |                      ^^^^^^
    |                      |
-   |                      expected enum `std::option::Option`, found struct `std::thread::JoinHandle`
+   |                      expected enum `Option`, found struct `JoinHandle`
    |                      help: try using a variant of the expected enum: `Some(thread)`
    |
-   = note: expected enum `std::option::Option&lt;std::thread::JoinHandle&lt;()&gt;&gt;`
-            found struct `std::thread::JoinHandle&lt;_&gt;`
+   = note: expected enum `Option&lt;JoinHandle&lt;()&gt;&gt;`
+            found struct `JoinHandle&lt;_&gt;`
 
 error: aborting due to 2 previous errors
 
 Some errors have detailed explanations: E0308, E0599.
 For more information about an error, try `rustc --explain E0308`.
-error: could not compile `hello`.
+error: could not compile `hello`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -546,7 +514,7 @@ To learn more, run the command again with --verbose.
 <p>有了以上的改變，我們的程式碼就能成功編譯且沒有任何警告。但壞消息是此程式碼並沒有如我們所預期地運作。關鍵邏輯位於 <code>Worker</code> 實例中執行緒執行的閉包，現在雖然我們有呼叫 <code>join</code>，但這無法關閉執行緒，因為它們會一直 <code>loop</code> 來尋找任務執行。如果我們嘗試以目前的 <code>drop</code> 實作釋放 <code>ThreadPool</code> 的話，主執行緒會被阻擋，一直等待第一個執行緒處理完成。</p>
 <p>要修正此問題，我們要修改執行緒，讓它們除了接收 <code>Job</code> 來執行以外，也要能收到告訴它們要停止接收並離開無限迴圈的信號。所以我們的通道將傳送以下兩種枚舉變體，而不再是 <code>Job</code> 實例。
 <span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use std::sync::mpsc;
+<pre><code class="language-rust noplayground"><span class="boring">use std::sync::mpsc;
 </span><span class="boring">use std::sync::Arc;
 </span><span class="boring">use std::sync::Mutex;
 </span><span class="boring">use std::thread;
@@ -630,9 +598,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><code>Message</code> 此枚舉可以是存有該執行緒要執行的 <code>Job</code> 的 <code>NewJob</code> 變體，或是通知執行緒離開其迴圈並停止的 <code>Terminate</code> 變體。</p>
 <p>我們需要調整通道來使用 <code>Message</code> 型別，而不是 <code>Job</code> 型別，如範例 20-23 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -879,17 +845,22 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">    let sleep = b&quot;GET /sleep HTTP/1.1\r\n&quot;;
 </span><span class="boring">
 </span><span class="boring">    let (status_line, filename) = if buffer.starts_with(get) {
-</span><span class="boring">        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
 </span><span class="boring">    } else if buffer.starts_with(sleep) {
 </span><span class="boring">        thread::sleep(Duration::from_secs(5));
-</span><span class="boring">        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
 </span><span class="boring">    } else {
-</span><span class="boring">        (&quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;, &quot;404.html&quot;)
+</span><span class="boring">        (&quot;HTTP/1.1 404 NOT FOUND&quot;, &quot;404.html&quot;)
 </span><span class="boring">    };
 </span><span class="boring">
 </span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
 </span><span class="boring">
-</span><span class="boring">    let response = format!(&quot;{}{}&quot;, status_line, contents);
+</span><span class="boring">    let response = format!(
+</span><span class="boring">        &quot;{}\r\nContent-Length: {}\r\n\r\n{}&quot;,
+</span><span class="boring">        status_line,
+</span><span class="boring">        contents.len(),
+</span><span class="boring">        contents
+</span><span class="boring">    );
 </span><span class="boring">
 </span><span class="boring">    stream.write(response.as_bytes()).unwrap();
 </span><span class="boring">    stream.flush().unwrap();
@@ -944,7 +915,7 @@ fn main() {
     let listener = TcpListener::bind(&quot;127.0.0.1:7878&quot;).unwrap();
     let pool = ThreadPool::new(4);
 
-    for stream in listener.incoming().take(2) {
+    for stream in listener.incoming() {
         let stream = stream.unwrap();
 
         pool.execute(|| {
@@ -963,24 +934,29 @@ fn handle_connection(mut stream: TcpStream) {
     let sleep = b&quot;GET /sleep HTTP/1.1\r\n&quot;;
 
     let (status_line, filename) = if buffer.starts_with(get) {
-        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
     } else if buffer.starts_with(sleep) {
         thread::sleep(Duration::from_secs(5));
-        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
     } else {
-        (&quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;, &quot;404.html&quot;)
+        (&quot;HTTP/1.1 404 NOT FOUND&quot;, &quot;404.html&quot;)
     };
 
     let contents = fs::read_to_string(filename).unwrap();
 
-    let response = format!(&quot;{}{}&quot;, status_line, contents);
+    let response = format!(
+        &quot;{}\r\nContent-Length: {}\r\n\r\n{}&quot;,
+        status_line,
+        contents.len(),
+        contents
+    );
 
     stream.write(response.as_bytes()).unwrap();
     stream.flush().unwrap();
 }
 </code></pre>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">use std::sync::mpsc;
+<pre><code class="language-rust noplayground">use std::sync::mpsc;
 use std::sync::Arc;
 use std::sync::Mutex;
 use std::thread;
@@ -1081,9 +1057,7 @@ impl Worker {
         }
     }
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p>我們還可以做更多事！如果你想繼續改善此專案的話，以下是些不錯的點子：</p>
 <ul>
 <li>對 <code>ThreadPool</code> 與其公開方法加上技術文件。</li>
@@ -1106,69 +1080,39 @@ impl Worker {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch20-02-multithreaded.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="appendix-00.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch20-02-multithreaded.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="appendix-00.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

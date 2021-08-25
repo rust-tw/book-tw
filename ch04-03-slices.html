@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>切片型別 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -225,7 +193,7 @@
 </span><span class="boring">fn main() {}
 </span></code></pre>
 <p>我們會在第十三章討論疊代器的細節。現在我們只需要知道 <code>iter</code> 是個能夠回傳集合中每個元素的方法，然後 <code>enumerate</code> 會將 <code>iter</code> 的結果包裝起來回傳成元組。<code>enumerate</code> 回傳的元組中的第一個元素是索引，第二個才是元素的引用。這樣比我們自己計算索引還來的方便。</p>
-<p>既然 <code>enumerate</code> 回傳的是元組，我們可以用模式配對來解構元組，就像在 Rust 其他地方使用的方式一樣。所以在 <code>for</code> 迴圈中，我們指定了一個模式讓 <code>i</code> 取得索引然後 <code>&amp;item</code> 取得元組中的位元組。因為我們從用 <code>.iter().enumerate()</code> 取得引用的，所以在模式中我們用的是 <code>&amp;</code> 來獲取。</p>
+<p>既然 <code>enumerate</code> 回傳的是元組，我們可以用模式配對來解構元組。我們會在第六章進一步解釋模式配對。所以在 <code>for</code> 迴圈中，我們指定了一個模式讓 <code>i</code> 取得索引然後 <code>&amp;item</code> 取得元組中的位元組。因為我們從用 <code>.iter().enumerate()</code> 取得引用的，所以在模式中我們用的是 <code>&amp;</code> 來獲取。</p>
 <p>在 <code>for</code> 迴圈裡面我們使用字串字面值的語法搜尋位元組是不是空格。如果我們找到空格的話，我們就回傳該位置。不然我們就用 <code>s.len()</code> 回傳整個字串的長度：</p>
 <pre><code class="language-rust ignore"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
 </span><span class="boring">    let bytes = s.as_bytes();
@@ -283,11 +251,11 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p>這和取得整個 <code>String</code> 的引用相似，但是加上了 <code>[0..5]</code>。所以與其引用整個 <code>String</code>，這個只引用了一部分的<code>String</code>。</p>
-<p>我們可以像這樣 <code>[起始索引..結束索引]</code> 用中括號加上一個範圍來建立切片。<code>起始索引</code> 是切片的第一個位置，而 <code>結束索引</code> 在索引結尾之後的位置（所以不包含此值）。在內部的切片資料結構會儲存起始位置，以及 <code>結束索引</code> 與 <code>起始索引</code> 相減後的長度。所以用 <code>let world = &amp;s[6..11];</code> 作為例子的話， <code>world</code> 就會是個切片，包含一個指標指向 <code>s</code> 第七個位元組和一個長度數值 <code>5</code>。</p>
+<p>我們可以像這樣 <code>[起始索引..結束索引]</code> 用中括號加上一個範圍來建立切片。<code>起始索引</code> 是切片的第一個位置，而 <code>結束索引</code> 在索引結尾之後的位置（所以不包含此值）。在內部的切片資料結構會儲存起始位置，以及 <code>結束索引</code> 與 <code>起始索引</code> 相減後的長度。所以用 <code>let world = &amp;s[6..11];</code> 作為例子的話， <code>world</code> 就會是個切片，包含一個指標指向索引爲 6 的位元組 <code>s</code> 和一個長度數值 <code>5</code>。</p>
 <p>圖示 4-6 就是此例的示意圖。</p>
-<img alt="world containing a pointer to the 6th byte of String s and a length 5" src="img/trpl04-06.svg" class="center" style="width: 50%;" />
+<img alt="world containing a pointer to the byte at index 6 of String s and a length 5" src="img/trpl04-06.svg" class="center" style="width: 50%;" />
 <p><span class="caption">圖示 4-6：指向部分 <code>String</code> 的字串切片</span></p>
-<p>要是你想用 Rust 指定範圍的語法 <code>..</code> 從第一個索引（也就是零）開始的話，你可以省略兩個句點之前的值。換句話說，以下兩個是相等的：</p>
+<p>要是你想用 Rust 指定範圍的語法 <code>..</code> 從索引零開始的話，你可以省略兩個句點之前的值。換句話說，以下兩個是相等的：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -388,11 +356,11 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0502`.
-error: could not compile `ownership`.
+error: could not compile `ownership`
 
 To learn more, run the command again with --verbose.
 </code></pre>
-<p>回憶一下借用規則，要是我們有不可變引用的話，我們就不能取得可變引用。因為 <code>clear</code> 會縮減 <code>String</code>，它必須是可變引用。這樣一來 Rust 就不允許，並讓編譯失敗。Rust 不僅讓我們的 API 更容易使用，還想辦法讓所有錯誤在編譯期就消除！</p>
+<p>回憶一下借用規則，要是我們有不可變引用的話，我們就不能取得可變引用。因為 <code>clear</code> 會縮減 <code>String</code>，它必須是可變引用。在呼叫 <code>clear</code> 之後的 <code>println!</code> 用到了 <code>word</code> 的引用，所以不可變引用在該處仍必須保持有效。Rust 不允許同時存在 <code>clear</code> 的可變引用與 <code>word</code> 的不可變引用，所以編譯會失敗。Rust 不僅讓我們的 API 更容易使用，還想辦法讓所有錯誤在編譯期就消除！</p>
 <h4 id="字串字面值就是切片"><a class="header" href="#字串字面值就是切片">字串字面值就是切片</a></h4>
 <p>回想一下我們講說字串字面值是怎麼存在二進制檔案的。現在既然我們已經知道切片，我們就能知道更清楚理解字串字面值：</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -422,12 +390,14 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">fn main() {
 </span><span class="boring">    let my_string = String::from(&quot;hello world&quot;);
 </span><span class="boring">
-</span><span class="boring">    // first_word 適用於 `String` 的切片
+</span><span class="boring">    // first_word 適用於 `String` 的切片，無論是部分或整體
+</span><span class="boring">    let word = first_word(&amp;my_string[0..6]);
 </span><span class="boring">    let word = first_word(&amp;my_string[..]);
 </span><span class="boring">
 </span><span class="boring">    let my_string_literal = &quot;hello world&quot;;
 </span><span class="boring">
-</span><span class="boring">    // first_word 適用於字串字面值
+</span><span class="boring">    // first_word 適用於字串字面值，無論是部分或整體
+</span><span class="boring">    let word = first_word(&amp;my_string_literal[0..6]);
 </span><span class="boring">    let word = first_word(&amp;my_string_literal[..]);
 </span><span class="boring">
 </span><span class="boring">    // 因為字串字面值本來就是切片
@@ -436,7 +406,7 @@ To learn more, run the command again with --verbose.
 </span><span class="boring">}
 </span></code></pre>
 <p><span class="caption">範例 4-9：使用字串切片作為參數 <code>s</code> 來改善函式 <code>first_word</code></span></p>
-<p>如果我們有字串字面值的話，我們可以直接傳遞。如果我們有 <code>String</code> 的話，我可以們傳遞整個 <code>String</code> 的切片。定義函式的參數為字串字面值而非 <code>String</code> 可以讓我們的 API 更通用且不會失去去任何功能：</p>
+<p>如果我們有字串字面值的話，我們可以直接傳遞。如果我們有 <code>String</code> 的話，我可以們傳遞整個 <code>String</code> 的切片或引用。這樣的彈性用到了<strong>強制解引用</strong>（deref coercion），這個功能我們會在第十五章的<a href="ch15-02-deref.html#%E5%87%BD%E5%BC%8F%E8%88%87%E6%96%B9%E6%B3%95%E7%9A%84%E9%9A%B1%E5%BC%8F%E5%BC%B7%E5%88%B6%E8%A7%A3%E5%BC%95%E7%94%A8">「函式與方法的隱式強制解引用」</a><!--ignore-->段落做介紹。定義函式的參數為字串字面值而非 <code>String</code> 可以讓我們的 API 更通用且不會失去去任何功能：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn first_word(s: &amp;str) -&gt; &amp;str {
 </span><span class="boring">    let bytes = s.as_bytes();
@@ -453,12 +423,14 @@ To learn more, run the command again with --verbose.
 </span>fn main() {
     let my_string = String::from(&quot;hello world&quot;);
 
-    // first_word 適用於 `String` 的切片
+    // first_word 適用於 `String` 的切片，無論是部分或整體
+    let word = first_word(&amp;my_string[0..6]);
     let word = first_word(&amp;my_string[..]);
 
     let my_string_literal = &quot;hello world&quot;;
 
-    // first_word 適用於字串字面值
+    // first_word 適用於字串字面值，無論是部分或整體
+    let word = first_word(&amp;my_string_literal[0..6]);
     let word = first_word(&amp;my_string_literal[..]);
 
     // 因為字串字面值本來就是切片
@@ -481,6 +453,8 @@ To learn more, run the command again with --verbose.
 </span>let a = [1, 2, 3, 4, 5];
 
 let slice = &amp;a[1..3];
+
+assert_eq!(slice, &amp;[2, 3]);
 <span class="boring">}
 </span></code></pre></pre>
 <p>此切片的型別為 <code>&amp;[i32]</code>，它和字串運作的方式一樣，儲存了切片的第一個元素以及總長度。你以後會對其他集合也使用這樣的切片。我們會在第八章討論這些集合的更多細節。</p>
@@ -499,69 +473,39 @@ let slice = &amp;a[1..3];
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch04-02-references-and-borrowing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch05-00-structs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch04-02-references-and-borrowing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch05-00-structs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

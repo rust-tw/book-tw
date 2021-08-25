@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>處理環境變數 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -176,7 +144,7 @@
 <h3 id="寫個不區分大小寫的-search-函式的失敗測試"><a class="header" href="#寫個不區分大小寫的-search-函式的失敗測試">寫個不區分大小寫的 <code>search</code> 函式的失敗測試</a></h3>
 <p>我們想新增個 <code>search_case_insensitive</code> 函式在環境變數啟用時呼叫它。我們將繼續遵守 TDD 流程，所以第一步一樣是先寫個會失敗的測試。我們會為新函式 <code>search_case_insensitive</code> 新增一個測試，並將舊測試從 <code>one_result</code> 改名為 <code>case_sensitive</code> 以便清楚兩個測試的差別，如範例 12-20 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use std::error::Error;
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
 </span><span class="boring">pub struct Config {
@@ -185,7 +153,7 @@
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Config {
-</span><span class="boring">    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
 </span><span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;引數不足&quot;);
 </span><span class="boring">        }
@@ -250,16 +218,14 @@ Trust me.&quot;;
         );
     }
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 12-20：為準備加入的不區分大小寫函式新增個失敗測試</span></p>
 <p>注意到我們也修改了舊測試 <code>contents</code>。我們新增了一行使用大寫 D 的 <code>&quot;Duct tape.&quot;</code>，當我們以區分大小寫來搜尋時，就不會符合要搜尋的 <code>&quot;duct&quot;</code>。這樣變更舊測試能確保我們沒有意外破壞我們已經實作好的區分大小寫的功能。此測試應該要能通過，並在我們實作不區分大小寫的搜尋時仍能繼續通過。</p>
 <p>新的不區分大小寫的搜尋測試使用 <code>&quot;rUsT&quot;</code> 來搜尋。在我們準備要加入的 <code>search_case_insensitive</code> 函式中，要搜尋的 <code>&quot;rUsT&quot;</code> 應該要能符合有大寫 R 的 <code>&quot;Rust:&quot;</code> 以及 <code>&quot;Trust me.&quot;</code> 這幾行，就算兩者都與搜尋字串有不同的大小寫。這是我們的失敗測試而且它還無法編譯，因為我們還沒有定義 <code>search_case_insensitive</code> 函式。歡迎自行加上一個永遠回傳空向量的骨架實作，就像我們在範例 12-16 所做的一樣，然後看看測試能不能編譯過並失敗。</p>
 <h3 id="實作-search_case_insensitive-函式"><a class="header" href="#實作-search_case_insensitive-函式">實作 <code>search_case_insensitive</code> 函式</a></h3>
 <p>範例 12-21 顯示的 <code>search_case_insensitive</code> 函式會與 <code>search</code> 函式幾乎一樣。唯一的不同在於我們將 <code>query</code> 與每個 <code>line</code> 都變成小寫，所以無論輸入引數是大寫還是小寫，當我們在檢查行數是否包含搜尋的字串時，它們都會是小寫。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use std::error::Error;
+<pre><code class="language-rust noplayground"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
 </span><span class="boring">
 </span><span class="boring">pub struct Config {
@@ -268,7 +234,7 @@ Trust me.&quot;;
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Config {
-</span><span class="boring">    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
 </span><span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;引數不足&quot;);
 </span><span class="boring">        }
@@ -349,9 +315,7 @@ Trust me.&quot;;
 </span><span class="boring">        );
 </span><span class="boring">    }
 </span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><span class="caption">範例 12-21：定義 <code>search_case_insensitive</code> 並在比較前將搜尋字串與行數均改為小寫</span></p>
 <p>首先我們將 <code>query</code> 字串變成小寫並儲存到同名的遮蔽變數中。我們必須呼叫對要搜尋的字串 <code>to_lowercase</code>，這樣無論使用者輸入的是 <code>&quot;rust&quot;</code>、<code>&quot;RUST&quot;</code>、<code>&quot;Rust&quot;</code> 或 <code>&quot;rUsT&quot;</code>，我們都會將字串視為 <code>&quot;rust&quot;</code> 並以此來不區分大小寫。雖然 <code>to_lowercase</code> 能處理基本的 Unicode，但它不會是 100% 準確的。如果我們是在寫真正的應用程式的話，我們需要處理更多條件，但在此段落是為了理解環境變數而非 Unicode，所以我們維持這樣寫就好。</p>
 <p>注意到 <code>query</code> 現在是個 <code>String</code> 而非字串切片，因為呼叫 <code>to_lowercase</code> 會建立新的資料而非引用現存的資料。假設要搜尋的字串是 <code>&quot;rUsT&quot;</code> 的話，該字串切片並沒有包含小寫的 <code>u</code> 或 <code>t</code> 能讓我們來使用，所以我們必須分配一個包含 <code>&quot;rust&quot;</code> 的新 <code>String</code>。現在當我們將 <code>query</code> 作為引數傳給 <code>contains</code> 方法時，我們需要加上「&amp;」，因為 <code>contains</code> 所定義的簽名接收的是一個字串切片。</p>
@@ -360,25 +324,25 @@ Trust me.&quot;;
 <pre><code class="language-console">$ cargo test
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
     Finished test [unoptimized + debuginfo] target(s) in 1.33s
-     Running target/debug/deps/minigrep-4672b652f7794785
+     Running unittests (target/debug/deps/minigrep-9cd200e5fac0fc94)
 
 running 2 tests
 test tests::case_insensitive ... ok
 test tests::case_sensitive ... ok
 
-test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-     Running target/debug/deps/minigrep-caf9dbee196c78b9
+     Running unittests (target/debug/deps/minigrep-9cd200e5fac0fc94)
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
    Doc-tests minigrep
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 </code></pre>
 <p>很好！測試通過。現在讓我們從 <code>run</code> 函式呼叫新的 <code>search_case_insensitive</code> 函式。首先，我們要在 <code>Config</code> 中新增一個配置選項來切換區分大小寫與不區分大小寫之間的搜尋。新增此欄位會造成編譯錯誤，因為我們還沒有初始化該欄位：</p>
@@ -393,7 +357,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 }
 <span class="boring">
 </span><span class="boring">impl Config {
-</span><span class="boring">    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
 </span><span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;引數不足&quot;);
 </span><span class="boring">        }
@@ -480,8 +444,6 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </span><span class="boring">        );
 </span><span class="boring">    }
 </span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
 </span></code></pre>
 <p>注意到我們新增了 <code>case_sensitive</code> 欄位並存有布林值。接著，我們需要 <code>run</code> 函式檢查 <code>case_sensitive</code> 欄位的數值並以此決定要呼叫 <code>search</code> 函式或是 <code>search_case_insensitive</code> 函式，如範例 12-22 所示。不過目前還無法編譯。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -495,7 +457,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Config {
-</span><span class="boring">    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
 </span><span class="boring">        if args.len() &lt; 3 {
 </span><span class="boring">            return Err(&quot;引數不足&quot;);
 </span><span class="boring">        }
@@ -582,13 +544,11 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </span><span class="boring">        );
 </span><span class="boring">    }
 </span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
 </span></code></pre>
 <p><span class="caption">範例 12-22：依據 <code>config.case_sensitive</code> 的數值來呼叫 <code>search</code> 或 <code>search_case_insensitive</code></span></p>
 <p>最後，我們需要檢查環境變數。處理環境變數的函式位於標準函式庫中的 <code>env</code> 模組中，所以我們可以在 <em>src/lib.rs</em> 最上方加上 <code>use std::env;</code> 來將該模組引入作用域。然後我們使用 <code>env</code> 模組中的 <code>var</code> 函式來檢查一個叫做 <code>CASE_INSENSITIVE</code> 的環境變數，如範例 12-23 所示。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">use std::env;
+<pre><code class="language-rust noplayground">use std::env;
 // --省略--
 
 <span class="boring">use std::error::Error;
@@ -601,7 +561,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Config {
-    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+    pub fn new(args: &amp;[String]) -&gt; Result&lt;Config, &amp;str&gt; {
         if args.len() &lt; 3 {
             return Err(&quot;引數不足&quot;);
         }
@@ -694,9 +654,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 </span><span class="boring">        );
 </span><span class="boring">    }
 </span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><span class="caption">範例 12-23：檢查環境變數 <code>CASE_INSENSITIVE</code></span></p>
 <p>我們在此建立了一個新的變數 <code>case_sensitive</code>。要設置其數值，我們可以呼叫 <code>env::var</code> 函式並傳入環境變數 <code>CASE_INSENSITIVE</code> 的名稱。<code>env::var</code> 函式會回傳 <code>Result</code>，如果有設置環境變數的話，這就會是包含環境變數數值的成功 <code>Ok</code>變體；如果環境變數沒有設置的話，這就會回傳 <code>Err</code> 變體。</p>
 <p>我們在 <code>Result</code> 使用 <code>is_err</code> 方法來檢查是否為錯誤，如果是的話就代表沒有設置，也意味著它<strong>該</strong>使用區分大小寫的搜尋。如果 <code>CASE_INSENSITIVE</code> 環境變數有設置成任何數值的話，<code>is_err</code> 會回傳否，所以程式就會進行不區分大小寫的搜尋。我們不在乎環境變數的<strong>數值</strong>，只在意它有沒有被設置而已，所以我們使用 <code>is_err</code> 來檢查而非使用 <code>unwrap</code>、<code>expect</code> 或其他任何我們看過的 <code>Result</code> 方法。</p>
@@ -745,69 +703,39 @@ To an admiring bog!
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch12-04-testing-the-librarys-functionality.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch12-06-writing-to-stderr-instead-of-stdout.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch12-04-testing-the-librarys-functionality.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch12-06-writing-to-stderr-instead-of-stdout.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>RefCell&lt;T&gt; 與內部可變性模式 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -213,7 +181,7 @@ error[E0596]: cannot borrow `x` as mutable, as it is not declared as mutable
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0596`.
-error: could not compile `borrowing`.
+error: could not compile `borrowing`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -225,10 +193,7 @@ To learn more, run the command again with --verbose.
 <p>以下是我們要測試的情境：我們建立一個函式庫來追蹤一個數值與最大值的差距，並依據該差距傳送訊息。舉例來說，此函式庫就能用來追蹤使用者允許呼叫 API 次數的上限。</p>
 <p>我們的函式庫提供的功能這只有追蹤與最大值的距離以及何時該傳送什麼訊息。使用函式庫的應用程式要提供傳送訊息的機制，應用程式可以將訊息存在應用程式內、傳送電子郵件、傳送文字訊息或其他等等。函式庫不需要知道細節，它只需要在意會有項目實作我們提供的 <code>Messenger</code> 特徵。範例 15-20 顯示了函式庫的程式碼：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub trait Messenger {
+<pre><code class="language-rust noplayground">pub trait Messenger {
     fn send(&amp;self, msg: &amp;str);
 }
 
@@ -266,10 +231,9 @@ where
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 15-20：追蹤某個值與最大值差距的函式庫並以此值的特定層級傳送警告</span></p>
-<p>此程式碼其中一個重點是 <code>Messenger</code> 特徵有個方法叫做 <code>send</code>，這會接收一個 <code>self</code> 的不可變引用與一串訊息文字。這就是我們的模擬物件所需的介面。另一個重點是我們想要測試 <code>LimitTracker</code> 中 <code>set_value</code> 方法的行為。我們可以改變傳給參數 <code>value</code> 的值，但是 <code>set_value</code> 沒有回傳任何東西好讓我們做判斷。我們希望如果我們透過某個實作 <code>Messenger</code> 的型別與特定數值 <code>max</code> 來建立 <code>LimitTracker</code> 時，傳送訊息者能被通知要傳遞合適的訊息。</p>
+<p>此程式碼其中一個重點是 <code>Messenger</code> 特徵有個方法叫做 <code>send</code>，這會接收一個 <code>self</code> 的不可變引用與一串訊息文字。此特徵就是我們的模擬物件所需實作的介面，讓我們能模擬和實際物件一樣的行爲。另一個重點是我們想要測試 <code>LimitTracker</code> 中 <code>set_value</code> 方法的行為。我們可以改變傳給參數 <code>value</code> 的值，但是 <code>set_value</code> 沒有回傳任何東西好讓我們做判斷。我們希望如果我們透過某個實作 <code>Messenger</code> 的型別與特定數值 <code>max</code> 來建立 <code>LimitTracker</code> 時，傳送訊息者能被通知要傳遞合適的訊息。</p>
 <p>我們需要有個模擬物件，而不是在呼叫 <code>send</code> 時真的傳送電子郵件或文字訊息，我們只想紀錄訊息被通知要傳送了。我們可以建立模擬物件的實例，以此建立 <code>LimitTracker</code>、呼叫 <code>LimitTracker</code> 的 <code>set_value</code>，並檢查模擬物件有我們預期的訊息。範例 15-21 展示一個嘗試實作此事的模擬物件，但借用檢查器卻不允許：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">pub trait Messenger {
@@ -348,27 +312,30 @@ mod tests {
 <p>此測試程式碼定義了一個結構體 <code>MockMessenger</code> 其有個 <code>sent_messages</code> 欄位並存有 <code>String</code> 數值的 <code>Vec</code> 來追蹤被通知要傳送的訊息。我們也定義了一個關聯函式 <code>new</code> 讓我們可以方便建立起始訊息列表為空的 <code>MockMessenger</code>。我們對 <code>MockMessenger</code> 實作 <code>Messenger</code> 特徵，這樣我們才能將 <code>MockMessenger</code> 交給 <code>LimitTracker</code>。在 <code>send</code> 方法的定義中，我們取得由參數傳遞的訊息，並存入 <code>MockMessenger</code> 的 <code>sent_messages</code> 列表中。</p>
 <p>在測試中，我們測試當 <code>LimitTracker</code> 被通知將 <code>value</code> 設為超過 <code>max</code> 數值 75% 的某個值。首先，我們建立新的 <code>MockMessenger</code>，其起始為一個空的訊息列表。然後我們建立一個新的 <code>LimitTracker</code> 並將 <code>MockMessenger</code> 的引用與一個 <code>max</code> 為 100 的數值賦值給它。我們用數值 80 來呼叫 <code>LimitTracker</code> 的 <code>set_value</code> 方法，此值會超過 100 的 75%。然後我們判定 <code>MockMessenger</code> 追蹤的訊息列表需要至少有一個訊息。</p>
 <p>但是此測試有個問題，如以下所示：</p>
-<pre><code class="language-text">$ cargo test
+<pre><code class="language-console">$ cargo test
    Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
 error[E0596]: cannot borrow `self.sent_messages` as mutable, as it is behind a `&amp;` reference
   --&gt; src/lib.rs:58:13
    |
-57 |         fn send(&amp;self, message: &amp;str) {
-   |                 ----- help: consider changing this to be a mutable reference: `&amp;mut self`
+2  |     fn send(&amp;self, msg: &amp;str);
+   |             ----- help: consider changing that to be a mutable reference: `&amp;mut self`
+...
 58 |             self.sent_messages.push(String::from(message));
    |             ^^^^^^^^^^^^^^^^^^ `self` is a `&amp;` reference, so the data it refers to cannot be borrowed as mutable
 
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0596`.
-error: could not compile `limit-tracker`.
+error: could not compile `limit-tracker`
 
 To learn more, run the command again with --verbose.
+warning: build failed, waiting for other jobs to finish...
+error: build failed
 </code></pre>
 <p>我們無法修改 <code>MockMessenger</code> 來追蹤訊息，因為 <code>send</code> 方法取得的是 <code>self</code> 的不可變引用。而我們也無法使用錯誤訊息中推薦使用的 <code>&amp;mut self</code>，因為 <code>send</code> 的簽名就會與 <code>Messenger</code> 特徵所定義的不相符（你可以試看看並觀察錯誤訊息）。</p>
-<p>這就是內部可變性能帶來幫助的場合！我們會將 <code>sent_messages</code> 存入 <code>RefCell&lt;T&gt;</code> 內，然後 <code>send</code> 訊息就也能夠進行修改存入訊息。範例 15-22 顯示了變更後的程式碼：</p>
+<p>這就是內部可變性能帶來幫助的場合！我們會將 <code>sent_messages</code> 存入 <code>RefCell&lt;T&gt;</code> 內，然後 <code>send</code> 方法就也能夠進行修改存入訊息。範例 15-22 顯示了變更後的程式碼：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">pub trait Messenger {
+<pre><code class="language-rust noplayground"><span class="boring">pub trait Messenger {
 </span><span class="boring">    fn send(&amp;self, msg: &amp;str);
 </span><span class="boring">}
 </span><span class="boring">
@@ -441,9 +408,7 @@ mod tests {
         assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
     }
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 15-22：在外部數值為不可變時，使用 <code>RefCell&lt;T&gt;</code> 來改變內部數值</span></p>
 <p><code>sent_messages</code> 欄位現在是型別 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> 而非 <code>Vec&lt;String&gt;</code>。在 <code>new</code> 函式中，我們用空的向量來建立新的 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code>。</p>
 <p>至於 <code>send</code> 方法的實作，第一個參數仍然是 <code>self</code> 的不可變借用，這就符合特徵所定義的。我們在 <code>self.sent_messages</code> 對 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> 呼叫 <code>borrow_mut</code> 來取得 <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> 內的可變引用數值，也就是向量。然後我們對向量的可變引用呼叫 <code>push</code> 來追蹤測試中的訊息。</p>
@@ -536,7 +501,7 @@ mod tests {
 <pre><code class="language-console">$ cargo test
    Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
     Finished test [unoptimized + debuginfo] target(s) in 0.91s
-     Running target/debug/deps/limit_tracker-d1b2637139dca6ca
+     Running unittests (target/debug/deps/limit_tracker-e599811fa246dbde)
 
 running 1 test
 test tests::it_sends_an_over_75_percent_warning_message ... FAILED
@@ -544,14 +509,14 @@ test tests::it_sends_an_over_75_percent_warning_message ... FAILED
 failures:
 
 ---- tests::it_sends_an_over_75_percent_warning_message stdout ----
-thread 'main' panicked at 'already borrowed: BorrowMutError', src/libcore/result.rs:1188:5
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
+thread 'main' panicked at 'already borrowed: BorrowMutError', src/lib.rs:60:53
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
     tests::it_sends_an_over_75_percent_warning_message
 
-test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 error: test failed, to rerun pass '--lib'
 </code></pre>
@@ -613,69 +578,39 @@ c 之後 = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch15-04-rc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch15-06-reference-cycles.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch15-04-rc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch15-06-reference-cycles.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

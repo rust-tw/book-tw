@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>建立單一執行緒的網頁伺服器 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -196,9 +164,9 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 20-1：監聽傳入的流並在收到流時顯示訊息</span></p>
-<p>透過 <code>TcpListener</code>，我們可以監聽 <code>127.0.0.1:7878</code> 位址上的 TCP 連線。在位址中，分號之前指的是代表你電腦自己的 IP 位址（每部電腦都一樣，這並不只是用於本書作者電腦的例子），然後 <code>7878</code> 是通訊埠（port）。我們選擇此通訊埠的原因有兩個：HTTP 通常會接受此通訊埠，而且在傳統電話的九宮格上輸入 7878 的話就是「rust」。</p>
+<p>透過 <code>TcpListener</code>，我們可以監聽 <code>127.0.0.1:7878</code> 位址上的 TCP 連線。在位址中，分號之前指的是代表你電腦自己的 IP 位址（每部電腦都一樣，這並不只是用於本書作者電腦的例子），然後 <code>7878</code> 是通訊埠（port）。我們選擇此通訊埠的原因有兩個：HTTP 通常不會佔用此通訊埠，而且在傳統電話的九宮格上輸入 7878 的話就是「rust」。</p>
 <p>在此情境中的 <code>bind</code> 函式與常見的 <code>new</code> 函式行為類似，這會回傳一個新的 <code>TcpListener</code> 實例。此函式會叫做 <code>bind</code> 的原因是因為在網際網路中，連接一個通訊埠並監聽就稱為「綁定（bind）通訊埠」。</p>
-<p><code>bind</code> 函式會回傳 <code>Result&lt;T, E&gt;</code>，也就是說綁定可能會失敗。舉例來說，連接通訊埠 80 需要管理員權限（非管理員使用者可以連接 1024 以上的通訊埠），所以如果我們不是管理員卻嘗試連接通訊埠 80 的話，綁定就不會成功。另一個例子是，如果執行同個程式碼兩次產生兩個實例，造成這兩個程式同時監聽同個通訊埠的話，綁定也不會成功。由於我們只會寫個用於學習目的的基本伺服器，我們不太需要擔心如何處理這些種類的錯誤。所以我如果遇到錯誤的話，我們採用 <code>unwrap</code> 來停止程式。</p>
+<p><code>bind</code> 函式會回傳 <code>Result&lt;T, E&gt;</code>，也就是說綁定可能會失敗。舉例來說，連接通訊埠 80 需要管理員權限（非管理員使用者可以連接 1023 以上的通訊埠），所以如果我們不是管理員卻嘗試連接通訊埠 80 的話，綁定就不會成功。另一個例子是，如果執行同個程式碼兩次產生兩個實例，造成這兩個程式同時監聽同個通訊埠的話，綁定也不會成功。由於我們只會寫個用於學習目的的基本伺服器，我們不太需要擔心如何處理這些種類的錯誤。所以我如果遇到錯誤的話，我們採用 <code>unwrap</code> 來停止程式。</p>
 <p><code>TcpListener</code> 的 <code>incoming</code> 方法會回傳一個疊代器，給予我們一連串的流（更準確的來說是 <code>TcpStream</code> 型別的流）。一個<strong>流</strong>代表的是客戶端與伺服器之間的開啟的連線。而<strong>連線</strong>（connection）指的是整個請求與回應的過程，這之中客戶端會連線至伺服器、伺服器會產生回應，然後伺服器會關閉連線。這樣一來，<code>TcpStream</code> 就能讀取自己的內容來看看客戶端傳送了什麼，然後讓我們能將我們的回應寫入流之中。整體來說，此 <code>for</code> 迴圈會依序遍歷每個連線，然後產生一系列的流讓我們能夠加以處理。</p>
 <p>目前我們處理流的方式包含呼叫 <code>unwrap</code>，這當流有任何錯誤時，就會結束我們的程式。如果沒有任何錯誤的話，程式就會顯示訊息。我們會在下個範例在成功的情況下加入更多功能。當客戶端連接伺服器時，我們可能會從 <code>incoming</code> 方法取得錯誤的原因是因為我們實際上不是在遍歷每個連線。反之，我們是在遍歷<strong>連線嘗試</strong>。連線不成功可能有很多原因，而其中許多都與作業系統有關。舉例來說，許多作業系統都會限制它們能支援的同時連線開啟次數，當新的連線超出此範圍時就會產生錯誤，直到有些連線被關閉為止。</p>
 <p>讓我們跑跑看此程式碼吧！在終端機呼叫 <code>cargo run</code> 然後在網頁瀏覽器載入 <em>127.0.0.1:7878</em>。瀏覽器應該會顯示一個像是「Connection reset」之類的錯誤訊息，因為伺服器目前還不會回傳任何資料。但是當你觀察終端機，在瀏覽器連接伺服器時，你應該會看到一些訊息顯示出來！</p>
@@ -450,10 +418,15 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">        stream.flush().unwrap();
 </span>    // --省略--
     } else {
-        let status_line = &quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;;
+        let status_line = &quot;HTTP/1.1 404 NOT FOUND&quot;;
         let contents = fs::read_to_string(&quot;404.html&quot;).unwrap();
 
-        let response = format!(&quot;{}{}&quot;, status_line, contents);
+        let response = format!(
+            &quot;{}\r\nContent-Length: {}\r\n\r\n{}&quot;,
+            status_line,
+            contents.len(),
+            contents
+        );
 
         stream.write(response.as_bytes()).unwrap();
         stream.flush().unwrap();
@@ -461,7 +434,7 @@ fn handle_connection(mut stream: TcpStream) {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 20-7：如果不是 <code>/</code> 的請求就回應狀態碼 404 與一個錯誤頁面</span></p>
-<p>我們在此的狀態行有狀態碼 404 與原因描述 <code>NOT FOUND</code>。我們仍然不會回傳標頭，但是回應的本體會是 HTML 檔案 <em>404.html</em>。你會需要在 <em>hello.html</em> 旁建立一個 <em>404.html</em> 檔案來作為錯誤頁面。同樣地，你可以使用任何你想使用的 HTML 或者使用範例 20-8 的 HTML 範本。</p>
+<p>我們在此的狀態行有狀態碼 404 與原因描述 <code>NOT FOUND</code>。回應的本體會是 <em>404.html</em> 檔案內的 HTML。你會需要在 <em>hello.html</em> 旁建立一個 <em>404.html</em> 檔案來作為錯誤頁面。同樣地，你可以使用任何你想使用的 HTML 或者使用範例 20-8 的 HTML 範本。</p>
 <p><span class="filename">檔案名稱：404.html</span></p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
@@ -506,14 +479,19 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">    let get = b&quot;GET / HTTP/1.1\r\n&quot;;
 </span><span class="boring">
 </span>    let (status_line, filename) = if buffer.starts_with(get) {
-        (&quot;HTTP/1.1 200 OK\r\n\r\n&quot;, &quot;hello.html&quot;)
+        (&quot;HTTP/1.1 200 OK&quot;, &quot;hello.html&quot;)
     } else {
-        (&quot;HTTP/1.1 404 NOT FOUND\r\n\r\n&quot;, &quot;404.html&quot;)
+        (&quot;HTTP/1.1 404 NOT FOUND&quot;, &quot;404.html&quot;)
     };
 
     let contents = fs::read_to_string(filename).unwrap();
 
-    let response = format!(&quot;{}{}&quot;, status_line, contents);
+    let response = format!(
+        &quot;{}\r\nContent-Length: {}\r\n\r\n{}&quot;,
+        status_line,
+        contents.len(),
+        contents
+    );
 
     stream.write(response.as_bytes()).unwrap();
     stream.flush().unwrap();
@@ -536,69 +514,39 @@ fn handle_connection(mut stream: TcpStream) {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch20-00-final-project-a-web-server.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch20-02-multithreaded.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch20-00-final-project-a-web-server.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch20-02-multithreaded.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

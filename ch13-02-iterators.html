@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>使用疊代器來處理一系列的項目 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -214,7 +182,7 @@
 <p><code>Iterator</code> 型別只要求實作者定義一個方法：<code>next</code> 方法會用 <code>Some</code> 依序回傳疊代器中的每個項目，並在疊代器結束時回傳 <code>None</code>。</p>
 <p>我們可以直接在疊代器呼叫 <code>next</code> 方法。範例 13-15 展示從向量建立的疊代器重複呼叫 <code>next</code> 每次會得到什麼數值。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#[cfg(test)]
+<pre><code class="language-rust noplayground"><span class="boring">#[cfg(test)]
 </span><span class="boring">mod tests {
 </span>    #[test]
     fn iterator_demonstration() {
@@ -228,9 +196,7 @@
         assert_eq!(v1_iter.next(), None);
     }
 <span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><span class="caption">範例 13-15：對疊代器呼叫 <code>next</code> 方法</span></p>
 <p>注意到 <code>v1_iter</code> 需要是可變的：在疊代器上呼叫 <code>next</code> 方法會改變疊代器內部用來紀錄序列位置的狀態。換句話說，此程式碼<strong>消耗</strong>或者說使用了疊代器。每次 <code>next</code> 的呼叫會從疊代器消耗一個項目。而我們不必在 <code>for</code> 迴圈指定 <code>v1_iter</code> 為可變是因為迴圈會取得 <code>v1_iter</code> 的所有權並在內部將其改為可變。</p>
 <p>另外還要注意的是我們從 <code>next</code> 呼叫取得的是向量中數值的不可變引用。<code>iter</code> 方法會從疊代器中產生不可變引用。如果我們想要一個取得 <code>v1</code> 所有權的疊代器，我們可以呼叫 <code>into_iter</code> 而非 <code>iter</code>。同樣地，如果我們想要遍歷可變引用，我們可以呼叫 <code>iter_mut</code> 而非 <code>iter</code>。</p>
@@ -238,7 +204,7 @@
 <p>標準函式庫提供的 <code>Iterator</code> 特徵有一些不同的預設實作方法，你可以查閱標準函式庫的 <code>Iterator</code> 特徵 API 技術文件來找到這些方法。其中有些方法就是在它們的定義呼叫 <code>next</code> 方法，這就是為何當你實作 <code>Iterator</code> 特徵時需要提供 <code>next</code> 方法的實作。</p>
 <p>會呼叫 <code>next</code> 的方法被稱之為<strong>消耗配接器（consuming adaptors）</strong>，因為呼叫它們會使用掉疊代器。其中一個例子就是方法 <code>sum</code>，這會取得疊代器的所有權並重複呼叫 <code>next</code> 來遍歷所有項目，因而消耗掉疊代器。隨著遍歷的過程中，他會將每個項目加到總計中，並在疊代完成時回傳總計數值。範例 13-16 展示了一個使用 <code>sum</code> 方法的測試：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#[cfg(test)]
+<pre><code class="language-rust noplayground"><span class="boring">#[cfg(test)]
 </span><span class="boring">mod tests {
 </span>    #[test]
     fn iterator_sum() {
@@ -251,9 +217,7 @@
         assert_eq!(total, 6);
     }
 <span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><span class="caption">範例 13-16：呼叫 <code>sum</code> 方法來取得疊代器中所有項目的總計數值</span></p>
 <p>我們在呼叫 <code>sum</code> 之後就不允許使用 <code>v1_iter</code> 因為 <code>sum</code> 取得了疊代器的所有權。</p>
 <h3 id="產生其他疊代器的方法"><a class="header" href="#產生其他疊代器的方法">產生其他疊代器的方法</a></h3>
@@ -270,7 +234,7 @@
 <p>我們獲得的警告如以下所示：</p>
 <pre><code class="language-console">$ cargo run
    Compiling iterators v0.1.0 (file:///projects/iterators)
-warning: unused `std::iter::Map` that must be used
+warning: unused `Map` that must be used
  --&gt; src/main.rs:4:5
   |
 4 |     v1.iter().map(|x| x + 1);
@@ -278,6 +242,8 @@ warning: unused `std::iter::Map` that must be used
   |
   = note: `#[warn(unused_must_use)]` on by default
   = note: iterators are lazy and do nothing unless consumed
+
+warning: 1 warning emitted
 
     Finished dev [unoptimized + debuginfo] target(s) in 0.47s
      Running `target/debug/iterators`
@@ -300,13 +266,13 @@ warning: unused `std::iter::Map` that must be used
 <p>現在我們介紹了疊代器，我們可以展示一個透過使用 <code>filter</code> 疊代配接器與閉包獲取它們環境的常見範例。疊代器中的 <code>filter</code> 方法會接受一個使用疊代器的每個項目並回傳布林值的閉包。如果閉包回傳 <code>true</code>，該數值就會被包含在 <code>filter</code> 產生的疊代器中；如果閉包回傳 <code>false</code>，該數值就保不會被包含在結果疊代器中。</p>
 <p>在範例 13-19 中我們使用 <code>filter</code> 與一個從它的環境獲取變數 <code>shoe_size</code> 的閉包來遍歷一個有 <code>Shoe</code> 結構體實例的集合。它會回傳只有符合指定大小的鞋子：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">#[derive(PartialEq, Debug)]
+<pre><code class="language-rust noplayground">#[derive(PartialEq, Debug)]
 struct Shoe {
     size: u32,
     style: String,
 }
 
-fn shoes_in_my_size(shoes: Vec&lt;Shoe&gt;, shoe_size: u32) -&gt; Vec&lt;Shoe&gt; {
+fn shoes_in_size(shoes: Vec&lt;Shoe&gt;, shoe_size: u32) -&gt; Vec&lt;Shoe&gt; {
     shoes.into_iter().filter(|s| s.size == shoe_size).collect()
 }
 
@@ -331,7 +297,7 @@ mod tests {
             },
         ];
 
-        let in_my_size = shoes_in_my_size(shoes, 10);
+        let in_my_size = shoes_in_size(shoes, 10);
 
         assert_eq!(
             in_my_size,
@@ -348,20 +314,18 @@ mod tests {
         );
     }
 }
-
-fn main() {}
-</code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 13-19：使用 <code>filter</code> 方法與一個獲取 <code>shoe_size</code> 的閉包</span></p>
-<p>函式 <code>shoes_in_my_size</code> 會取得鞋子向量的所有權以及一個鞋子大小作為參數。它會回傳只有符合指定大小的鞋子向量。</p>
-<p>在 <code>shoes_in_my_size</code> 的本體中，我們呼叫 <code>into_iter</code> 來建立一個會取得向量所有權的疊代器。然後我們呼叫 <code>filter</code> 來將該疊代器轉換成只包含閉包回傳為 <code>true</code> 的元素的新疊代器。</p>
+<p>函式 <code>shoes_in_size</code> 會取得鞋子向量的所有權以及一個鞋子大小作為參數。它會回傳只有符合指定大小的鞋子向量。</p>
+<p>在 <code>shoes_in_size</code> 的本體中，我們呼叫 <code>into_iter</code> 來建立一個會取得向量所有權的疊代器。然後我們呼叫 <code>filter</code> 來將該疊代器轉換成只包含閉包回傳為 <code>true</code> 的元素的新疊代器。</p>
 <p>閉包會從環境獲取 <code>shoe_size</code> 參數並比較每個鞋子數值的大小，讓只有符合大小的鞋子保留下來。最後呼叫 <code>collect</code> 來收集疊代器回傳的數值進一個函式會回傳的向量。</p>
-<p>此測試顯示了當我們呼叫 <code>shoes_in_my_size</code> 時，我們會得到我們指定相同大小的鞋子。</p>
+<p>此測試顯示了當我們呼叫 <code>shoes_in_size</code> 時，我們會得到我們指定相同大小的鞋子。</p>
 <h3 id="透過-iterator-特徵建立我們自己的疊代器"><a class="header" href="#透過-iterator-特徵建立我們自己的疊代器">透過 <code>Iterator</code> 特徵建立我們自己的疊代器</a></h3>
 <p>我們已經顯示了你可以對向量呼叫 <code>iter</code>、<code>into_iter</code> 或 <code>iter_mut</code> 來建立疊代器。你也可以從標準函式庫的其他集合型別產生疊代器，像是雜湊映射等等。你也可以透過對你自己的型別實作 <code>Iterator</code> 特徵來建立任何你所希望的疊代器。如同之前提到的，你唯一需要提供的方法定義就是 <code>next</code> 方法。一旦你完成，你就可以使用 <code>Iterator</code> 特徵提供的所有預設實作方法！</p>
 <p>作為展示，讓我們建立一個只會從 1 數到 5 的疊代器。首先，我們要建立個擁有一些數值的結構體。然後我們對此結構體實作 <code>Iterator</code> 特徵將它變成一個疊代器，並在實作中使用其值。</p>
 <p>範例 13-20 有個結構體 <code>Counter</code> 的定義以及能夠產生 <code>Counter</code> 實例的關聯函式 <code>new</code>：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust">struct Counter {
+<pre><code class="language-rust noplayground">struct Counter {
     count: u32,
 }
 
@@ -370,14 +334,12 @@ impl Counter {
         Counter { count: 0 }
     }
 }
-
-fn main() {}
-</code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 13-20：定義結構體 <code>Counter</code> 與關聯函式 <code>new</code>，這能建立一個初始值 <code>count</code> 為 0 的 <code>Counter</code> 結構體</span></p>
 <p><code>Counter</code> 結構體只有一個欄位 <code>count</code>，此欄位擁有一個 <code>u32</code> 數值來追蹤我們遍歷 1 到 5 的當前位置。<code>count</code> 欄位是私有的，因為我們希望 <code>Counter</code> 的實作會管理此數值。函式 <code>new</code> 強制建立新實例的行為永遠會從 <code>count</code> 欄位為 0 時開始。</p>
 <p>接下來我們對我們的 <code>Counter</code> 型別實作 <code>Iterator</code> 特徵，定義 <code>next</code> 方法本體來指定疊代器的使用行為，如範例 13-21 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct Counter {
+<pre><code class="language-rust noplayground"><span class="boring">struct Counter {
 </span><span class="boring">    count: u32,
 </span><span class="boring">}
 </span><span class="boring">
@@ -399,16 +361,14 @@ fn main() {}
         }
     }
 }
-<span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</code></pre>
 <p><span class="caption">範例 13-21：在我們的 <code>Counter</code> 結構體實作 <code>Iterator</code> 特徵</span></p>
 <p>我們將疊代器的關聯型別 <code>Item</code> 設為 <code>u32</code>，代表疊代器將會回傳 <code>u32</code> 數值。一樣先別擔心關聯型別，我們會在第十九章討論到。</p>
 <p>我們希望我們的疊代器對目前的狀態加 1，所以我們將 <code>count</code> 初始化為 0，這樣它就會先回傳 1。如果 <code>count</code> 的值小於 5，<code>next</code> 就會增加 <code>count</code> 的值並用 <code>Some</code> 回傳目前數值。一旦 <code>count</code> 等於 5，我們的疊代器就會停止增加 <code>count</code> 並永遠回傳傳 <code>None</code>。</p>
 <h4 id="使用-counter-疊代器的-next-方法"><a class="header" href="#使用-counter-疊代器的-next-方法">使用 <code>Counter</code> 疊代器的 <code>next</code> 方法</a></h4>
 <p>一旦我們實作了 <code>Iterator</code> 特徵，我們就有一個疊代器了！範例 13-22 的測試展示我們可以對我們的 <code>Counter</code> 結構體直接呼叫 <code>next</code> 方法來使用疊代器的功能，就像我們在範例 13-15 對向量建立的疊代器使用的方式一樣。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct Counter {
+<pre><code class="language-rust noplayground"><span class="boring">struct Counter {
 </span><span class="boring">    count: u32,
 </span><span class="boring">}
 </span><span class="boring">
@@ -447,16 +407,14 @@ fn main() {}
         assert_eq!(counter.next(), None);
     }
 <span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><span class="caption">範例 13-22：測試 <code>next</code> 方法實作的功能</span></p>
 <p>此測試建立了一個新的 <code>Counter</code> 實例給變數 <code>counter</code> 並重複呼叫 <code>next</code>，驗證我們實作的疊代器是否行為如我們預期的一樣：回傳數值 1 到 5。</p>
 <h4 id="使用其他-iterator-特徵方法"><a class="header" href="#使用其他-iterator-特徵方法">使用其他 <code>Iterator</code> 特徵方法</a></h4>
 <p>我們透過定義 <code>next</code> 方法來實作 <code>Iterator</code> 特徵，所以我們現在可使用在標準函式庫提供的 <code>Iterator</code> 特徵中所任何有預設實作的方法了，因為它們都使用到了 <code>next</code> 的方法功能。</p>
 <p>舉例來說，如果我們因為某些原因想要取得一個 <code>Counter</code> 實例的數值與另一個 <code>Counter</code> 實例去掉第一個值的數值來做配對、對每個配對相乘、保留結果可以被 3 整除的值，最後將所有結果數值相加，我們可以這樣寫，如範例 13-23 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct Counter {
+<pre><code class="language-rust noplayground"><span class="boring">struct Counter {
 </span><span class="boring">    count: u32,
 </span><span class="boring">}
 </span><span class="boring">
@@ -505,9 +463,7 @@ fn main() {}
         assert_eq!(18, sum);
     }
 <span class="boring">}
-</span><span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span></code></pre>
 <p><span class="caption">範例 13-23：對我們的 <code>Counter</code> 疊代器使用各式各樣的 <code>Iterator</code> 特徵方法</span></p>
 <p>注意到 <code>zip</code> 只會產生四個配對，理論上的 <code>(5, None)</code> 配對是不會產生出來的，因為 <code>zip</code> 會在它的其中一個輸入疊代器回傳 <code>None</code> 時就回傳 <code>None</code>。</p>
 <p>這些所有呼叫都是可行的，因為我們已經定義了 <code>next</code> 運作的行為，而標準函式庫會提供其他呼叫 <code>next</code> 方法的預設實作。</p>
@@ -523,69 +479,39 @@ fn main() {}
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch13-01-closures.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch13-03-improving-our-io-project.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch13-01-closures.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch13-03-improving-our-io-project.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>

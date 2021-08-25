@@ -4,51 +4,29 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>資料型別 - Rust 程式設計語言</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
         <link rel="stylesheet" href="ferris.css">
-        
         <link rel="stylesheet" href="theme/2018-edition.css">
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -107,7 +85,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -124,33 +101,26 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Rust 程式設計語言</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -158,8 +128,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -192,7 +160,7 @@ error[E0282]: type annotations needed
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0282`.
-error: could not compile `no_type_annotations`.
+error: could not compile `no_type_annotations`
 
 To learn more, run the command again with --verbose.
 </code></pre>
@@ -210,10 +178,10 @@ To learn more, run the command again with --verbose.
 <tr><td>128 位元</td><td><code>i128</code></td><td><code>u128</code></td></tr>
 <tr><td>系統架構</td><td><code>isize</code></td><td><code>usize</code></td></tr>
 </tbody></table>
-<p>每個變體都可以是帶號或非帶號的，並且都有明確的大小。<strong>帶號</strong>與<strong>非帶號</strong>的區別是數字能不能有負數，換句話說就是數字能否帶有正負符號，如果沒有的話那就只會出現正整數而已。就像在紙上寫數字一樣：當我們需要考慮符號時，我們就會在數字前面加上正負號；但如果我們只在意正整數的話，那它可以不帶符號。帶號數字是以<a href="https://zh.wikipedia.org/zh-tw/%E4%BA%8C%E8%A3%9C%E6%95%B8">二補數</a>的方式儲存。</p>
+<p>每個變體都可以是帶號或非帶號的，並且都有明確的大小。<strong>帶號</strong>與<strong>非帶號</strong>的區別是數字能不能有負數，換句話說就是數字能否帶有正負符號，如果沒有的話那就只會出現正整數而已。就像在紙上寫數字一樣：當我們需要考慮符號時，我們就會在數字前面加上正負號；但如果我們只在意正整數的話，那它可以不帶符號。帶號數字是以<a href="https://zh.wikipedia.org/zh-tw/%E4%BA%8C%E8%A3%9C%E6%95%B8">二補數</a><!-- ignore -->的方式儲存。</p>
 <p>每一帶號變體可以儲存的數字範圍包含從 -(2<sup>n - 1</sup>) 到 2<sup>n - 1</sup> - 1 以內的數字，<em>n</em> 就是該變體佔用的位元大小。所以一個 <code>i8</code> 可以儲存的數字範圍就是從 -(2<sup>7</sup>) 到 2<sup>7</sup> - 1，也就是 -128 到 127。而非帶號可以儲存的數字範圍則是從 0 到 2<sup>n</sup> - 1，所以 <code>u8</code> 可以儲存的範圍是從 0 到 2<sup>8</sup> - 1，也就是 0 到 255。</p>
 <p>另外，<code>isize</code> 與 <code>usize</code> 型別則是依據你程式運行的電腦架構來決定大小：如果你在 64 位元架構上的話就是 64 位元；如果你是 32 位元架構的話就是 32 位元。</p>
-<p>你可以用表格 3-2 列的格式來寫出整數字面值（literals）。注意除了位元組（byte）的方式以外，所有的數字字面值都允許在最後面加上型別，比如說 <code>57u8</code>。另外也可以加上底線 <code>_</code> 分隔方便閱讀，比如說 <code>1_000</code>。</p>
+<p>你可以用表格 3-2 列的格式來寫出整數字面值（literals）。能適用於數種數字型別的數字字面值都允許在最後面加上型別，比如說用 <code>57u8</code> 來指定型別。數字字面值也可以加上底線 <code>_</code> 分隔方便閱讀，比如說 <code>1_000</code> 其實就和指定 <code>1000</code> 的數值一樣。</p>
 <p><span class="caption">表格 3-2：Rust 中的整數字面值</span></p>
 <table><thead><tr><th>數字字面值</th><th>範例</th></tr></thead><tbody>
 <tr><td>十進制</td><td><code>98_222</code></td></tr>
@@ -222,11 +190,18 @@ To learn more, run the command again with --verbose.
 <tr><td>二進制</td><td><code>0b1111_0000</code></td></tr>
 <tr><td>位元組（僅限<code>u8</code>）</td><td><code>b'A'</code></td></tr>
 </tbody></table>
-<p>所以你該用哪些整數型別呢？如果你不確定的話，Rust 預設的型別通常就很好了，整數型別預設是 <code>i32</code>：此型別通常是最快的，甚至在 64 位元系統上也是。而你會用到 <code>isize</code> 或 <code>usize</code> 的主要時機是作為某些集合的索引。</p>
+<p>所以你該用哪些整數型別呢？如果你不確定的話，Rust 預設的型別是很好的起始點：整數型別預設是 <code>i32</code>。而你會用到 <code>isize</code> 或 <code>usize</code> 的主要時機是作為某些集合的索引。</p>
 <blockquote>
 <h5 id="整數溢位"><a class="header" href="#整數溢位">整數溢位</a></h5>
 <p>假設你有個變數型別是 <code>u8</code> 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生<strong>整數溢位</strong>。Rust 有一些有趣的規則來處理這項行為。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在執行時<strong>恐慌（panic）</strong>。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的<a href="ch09-01-unrecoverable-errors-with-panic.html">「對無法復原的錯誤使用 <code>panic!</code>」</a><!-- ignore -->段落討論更多造成恐慌的細節。</p>
-<p>當你是在發佈模式下用 <code>--release</code> 來編譯的話，Rust 則<strong>不會</strong>加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出<strong>二補數包裝</strong>的動作。簡單來說，超出最大值的數值可以被<strong>包裝</strong>成該型別的最低數值。以 <code>u8</code> 為例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行為仍然會被視為邏輯錯誤，如果你想要安全顯式表達這種行為的話，你可以使用標準函式庫的型別 <a href="https://doc.rust-lang.org/std/num/struct.Wrapping.html"><code>Wrapping</code></a>。</p>
+<p>當你是在發佈模式下用 <code>--release</code> 來編譯的話，Rust 則<strong>不會</strong>加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出<strong>二補數包裝</strong>的動作。簡單來說，超出最大值的數值可以被<strong>包裝</strong>成該型別的最低數值。以 <code>u8</code> 為例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行為仍然會被視為邏輯錯誤。</p>
+<p>要顯式處理可能的溢位的話，你可以使用以下標準函式庫中基本型別提供的一系列方法：</p>
+<ul>
+<li>將所有操作用 <code>wrapping_*</code> 方法包裝，像是 <code>wrapping_add</code></li>
+<li>使用 <code>checked_*</code> 方法，如果有溢位的話其會回傳 <code>None</code> 數值</li>
+<li>使用 <code>overflowing_*</code> 方法，其會回傳數值與一個布林值來顯示是否有溢位發生</li>
+<li>屬於 <code>saturating_*</code> ，讓數值溢位時保持在最小或最大值</li>
+</ul>
 </blockquote>
 <h4 id="浮點數型別"><a class="header" href="#浮點數型別">浮點數型別</a></h4>
 <p>Rust 還有針對有小數點的<strong>浮點數</strong>提供兩種基本型別：<code>f32</code> 和 <code>f64</code>，分別佔有 32 位元與 64 位元的大小。而預設的型別為 <code>f64</code>，因為現代的電腦處理的速度幾乎和 <code>f32</code> 一樣卻還能擁有更高的精準度。</p>
@@ -240,7 +215,7 @@ To learn more, run the command again with --verbose.
 </code></pre></pre>
 <p>浮點數是依照 IEEE-754 所定義的，<code>f32</code> 型別是單精度浮點數，而 <code>f64</code> 是倍精度浮點數。</p>
 <h4 id="數值運算"><a class="header" href="#數值運算">數值運算</a></h4>
-<p>Rust 支援你所有想得到的數值型別基本運算：加法、減法、乘法、除法和取餘。以下程式碼展示出如何在 <code>let</code> 陳述式使用這些運算：</p>
+<p>Rust 支援你所有想得到的數值型別基本運算：加法、減法、乘法、除法和取餘。整數除法會取最接進的下界數值。以下程式碼展示出如何在 <code>let</code> 陳述式使用這些運算：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     // 加法
@@ -254,12 +229,13 @@ To learn more, run the command again with --verbose.
 
     // 除法
     let quotient = 56.7 / 32.2;
+    let floored = 2 / 3; // 結果爲 0
 
     // 取餘
     let remainder = 43 % 5;
 }
 </code></pre></pre>
-<p>每一個陳述式中的表達式都使用了一個數學運算符號並計算出一個數值出來，賦值給該變數。附錄 B 有提供列表列出 Rust 所提供的所有運算子。</p>
+<p>每一個陳述式中的表達式都使用了一個數學運算符號並計算出一個數值出來，賦值給該變數。<a href="appendix-02-operators.html">附錄 B</a><!-- ignore --> 有提供列表列出 Rust 所提供的所有運算子。</p>
 <h4 id="布林型別"><a class="header" href="#布林型別">布林型別</a></h4>
 <p>如同其他多數程式語言一樣，Rust 中的布林型別有兩個可能的值：<code>true</code> 和 <code>false</code>。布林值的大小為一個位元組。要在 Rust 中定義布林型別的話用 <code>bool</code>，如範例所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -314,6 +290,7 @@ To learn more, run the command again with --verbose.
 }
 </code></pre></pre>
 <p>此程式建立了元組 <code>x</code>，然後用它們個別的索引產生新的變數。和多數程式語言一樣，元組的第一個索引是 0。</p>
+<p>沒有任何數值的元組 <code>()</code> 會是個只有一種數值的特殊型別，其值也寫作 <code>()</code>。此型別稱爲 <strong>單元型別</strong> 而其數值稱爲 <strong>單元數值</strong>。表達式要是沒有回傳任何數值的話，它們就會隱式回傳單元型別。</p>
 <h4 id="陣列型別"><a class="header" href="#陣列型別">陣列型別</a></h4>
 <p>另一種取得數個數值集合的方法是使用<strong>陣列</strong>。和元組不一樣的是，陣列中的每個型別必須是一樣的。Rust 中的陣列和一些其他語言的陣列會有點不同，因為 Rust 的陣列是固定長度的，就和元組一樣。</p>
 <p>在 Rust 中，陣列的寫法是將數值寫在中括號內，每個數值再用逗號區隔開來：</p>
@@ -348,7 +325,7 @@ To learn more, run the command again with --verbose.
 </span></code></pre></pre>
 <p>陣列 <code>a</code> 會包含 <code>5</code> 個元素，然後每個元素的初始化數值均為 <code>3</code>。這樣寫與 <code>let a = [3, 3, 3, 3, 3];</code> 的寫法一樣，但比較簡潔。</p>
 <h5 id="獲取陣列元素"><a class="header" href="#獲取陣列元素">獲取陣列元素</a></h5>
-<p>一個陣列是被分配在堆疊上的一整塊記憶體，你可以用索引來取得陣列的元素，比如：</p>
+<p>一個陣列是被分配在堆疊上且已知固定大小的一整塊記憶體，你可以用索引來取得陣列的元素，比如：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [1, 2, 3, 4, 5];
@@ -359,27 +336,45 @@ To learn more, run the command again with --verbose.
 </code></pre></pre>
 <p>在此範例中，變數 <code>first</code> 會得到數值 <code>1</code>，因為這是陣列索引 <code>[0]</code> 的數值。變數 <code>second</code> 則會從陣列索引 <code>[1]</code> 得到數值 <code>2</code>。</p>
 <h5 id="無效的陣列元素存取"><a class="header" href="#無效的陣列元素存取">無效的陣列元素存取</a></h5>
-<p>如果我們存取陣列之後的元素會發生什麼事呢？假設你修改範例成以下程式碼的話，雖然可以編譯通過但是在執行時則會出現錯誤：</p>
+<p>如果我們存取陣列之後的元素會發生什麼事呢？假設你修改成以下範例，這是改寫自第二章猜謎遊戲要從使用者取得陣列索引的程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
-<pre><code class="language-rust ignore panics">fn main() {
+<pre><code class="language-rust ignore panics">use std::io;
+
+fn main() {
     let a = [1, 2, 3, 4, 5];
-    let index = 10;
+
+    println!(&quot;請輸入陣列索引&quot;);
+
+    let mut index = String::new();
+
+    io::stdin()
+        .read_line(&amp;mut index)
+        .expect(&quot;讀行失敗&quot;);
+
+    let index: usize = index
+        .trim()
+        .parse()
+        .expect(&quot;輸入的索引並非數字&quot;);
 
     let element = a[index];
 
-    println!(&quot;元素的數值為：{}&quot;, element);
+    println!(
+        &quot;索引 {} 元素的數值爲：{}&quot;,
+        index, element
+    );
 }
 </code></pre>
-<p>使用 <code>cargo run</code> 執行程式會產生以下結果：</p>
-<pre><code class="language-console">$ cargo run
-   Compiling arrays v0.1.0 (file:///projects/arrays)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.31s
-     Running `target/debug/arrays`
-thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 10', src/main.rs:5:19
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
+<p>此程式碼能編譯成功。如果你透過 <code>cargo run</code> 執行此程式碼並輸入 0、1、2、3 或 4 的話，程式將會印出陣列索引對應的數值。但如果你輸入超出陣列長度的數值，你會看到像是這樣的輸出結果：</p>
+<!-- manual-regeneration
+cd listings/ch03-common-programming-concepts/no-listing-15-invalid-array-access
+cargo run
+10
+-->
+<pre><code class="language-console">thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 10', src/main.rs:19:19
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
-<p>編譯期間沒有產生任何錯誤，但程式會產生<strong>執行時</strong>（runtime）錯誤並無法正確離開。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。</p>
-<p>這是你第一個在實例中看到 Rust 安全原則給予的保障。在許多低階語言並不會提供這樣的檢查，所以當你提供不正確的索引時，無效的記憶體可能會被存取。Rust 會保護你免於這樣的錯誤風險，並立即離開程式，而不是允許記憶體存取並繼續。第九章將會討論更多有關 Rust 的錯誤處理方式。</p>
+<p>此程式會在使用無效數值進行索引操作時產生<strong>執行時</strong>（runtime）錯誤。程式會退出並回傳錯誤訊息，且不會執行最後的 <code>println!</code>。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。這樣的檢查必須發生在執行時，尤其是在此例，因爲編譯器無法知道之後的使用者將會輸入哪些數值。</p>
+<p>這是 Rust 記憶體安全原則給予的保障。在許多低階語言並不會提供這樣的檢查，所以當你提供不正確的索引時，無效的記憶體可能會被存取。Rust 會保護你免於這樣的錯誤風險，並立即離開程式，而不是允許記憶體存取並繼續。第九章將會討論更多有關 Rust 的錯誤處理方式。</p>
 <blockquote>
 <ul>
 <li>translators: [Ngô͘ Io̍k-ūi <a href="mailto:wusyong9104@gmail.com">wusyong9104@gmail.com</a>]</li>
@@ -392,69 +387,39 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="ch03-01-variables-and-mutability.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="ch03-03-how-functions-work.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="ch03-01-variables-and-mutability.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="ch03-03-how-functions-work.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
         <script type="text/javascript" src="ferris.js"></script>
-        
-
-        
-
     </body>
 </html>
