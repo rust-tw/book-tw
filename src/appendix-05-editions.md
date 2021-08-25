@@ -22,8 +22,4 @@ Rust 語言與編譯器有一個為其六週的發佈循環，這意味著使用
 
 這裡要澄清一點：大多數功能在所有版號中都能使用。開發者使用任何 Rust 版號都能繼續獲得新的穩定版本帶來的改善。然而有些情況下，主要是增加新的關鍵字的時候，有一些新功能可能就只有後期的版號才能使用。你想使用利用新功能的話，就得切換版號。
 
-想瞭解更多資訊的話，請查閱[*Edition Guide*](https://doc.rust-lang.org/stable/edition-guide/)，這是本涵蓋所有版號之間不同的書籍，並會解釋如何使用 `cargo fix` 來自動升級你的程式碼至新的版號。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-05-editions.md)
-> - updated: 2020-09-30
+想瞭解更多資訊的話，請查閱 [*Edition Guide*](https://doc.rust-lang.org/stable/edition-guide/)，這是本涵蓋所有版號之間不同的書籍，並會解釋如何使用 `cargo fix` 來自動升級你的程式碼至新的版號。

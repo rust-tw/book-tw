@@ -302,7 +302,3 @@ let add_one_v4 = |x|               x + 1  ;
 
 
 接下來為了講解閉包獲取環境的行為很適合用於函式參數的情形，讓我們移至下個主題：疊代器。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch13-01-closures.md)
-> - updated: 2020-09-17

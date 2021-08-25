@@ -119,7 +119,3 @@ To an admiring bog!
 有些程式允許同時使用引數**與**環境變數來配置。在這種情況下，程式會決定各種選項的優先層級。你想要練習的話，嘗試使用命令列引數與環境變數來控制不區分大小寫的選項。並在程式執行時，其中一個設置為區分大小寫，而另一個為不區分大小寫時，自行決定該優先使用命令列引數還是環境變數。
 
 `std::env` 模組還包含很多處理環境變數的實用功能，歡迎查閱其官方文件來瞭解有哪些可用。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-05-working-with-environment-variables.md)
-> - updated: 2020-10-03

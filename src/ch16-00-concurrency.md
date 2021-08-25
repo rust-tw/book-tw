@@ -14,7 +14,3 @@
 * **訊息傳遞**（Message-passing）並行提供通道（channels）在執行緒間傳遞訊息
 * **共享狀態**（Shared-state）並行提供多執行緒可以存取同一位置的資料
 * `Sync` 與 `Send` 特徵擴展 Rust 的並行保障至使用者定義的型別與標準函式庫的型別中
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch16-00-concurrency.md)
-> - updated: 2020-09-20

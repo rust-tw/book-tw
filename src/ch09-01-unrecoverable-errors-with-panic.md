@@ -93,7 +93,3 @@ note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose bac
 
 [to-panic-or-not-to-panic]:
 ch09-03-to-panic-or-not-to-panic.html#to-panic-or-not-to-panic
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch09-01-unrecoverable-errors-with-panic.md)
-> - updated: 2020-09-11

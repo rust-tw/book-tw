@@ -160,7 +160,3 @@ ch10-03-lifetime-syntax.html#透過生命週期驗證引用
 [ch10-lifetimes]: ch10-03-lifetime-syntax.html
 [ch3-iter]: ch03-05-control-flow.html#使用-for-遍歷集合
 [ch13-iterators]: ch13-02-iterators.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-04-testing-the-librarys-functionality.md)
-> - updated: 2020-10-02

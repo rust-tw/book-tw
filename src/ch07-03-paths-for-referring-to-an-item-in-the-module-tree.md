@@ -130,7 +130,3 @@ Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來
 我們還有一個 `pub` 的使用情境還沒提到，也就是我們模組系統最後一項功能：`use` 關鍵字。我們接下來會先解釋 `use`，再來研究如何組合 `pub` 和 `use`。
 
 [pub]: ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#使用-pub-關鍵字公開路徑
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
-> - updated: 2020-09-11

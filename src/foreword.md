@@ -13,7 +13,3 @@ Rust 破除了這些障礙，消除了以往的陷阱並提供友善全面的工
 本書充分體現了 Rust 賦予其使用者更多能力的潛力。其內容平易近人，不止致力於協助你提升 Rust 的知識，還能提升讓你身為程式設計師的整體信心。所以讓我們準備開始學習吧，歡迎加入 Rust 的社群！
 
 — Nicholas Matsakis 與 Aaron Turon
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/foreword.md)
-> - updated: 2020-10-03

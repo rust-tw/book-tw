@@ -213,7 +213,3 @@ assert_eq!(slice, &[2, 3]);
 
 [strings]: ch08-02-strings.html#storing-utf-8-encoded-text-with-strings
 [deref-coercions]: ch15-02-deref.html#函式與方法的隱式強制解引用
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch04-03-slices.md)
-> - updated: 2020-09-08

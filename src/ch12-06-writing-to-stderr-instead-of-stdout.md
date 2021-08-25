@@ -67,7 +67,3 @@ How dreary to be somebody!
 本章節回顧了你目前所學的一些重要概念，並介紹了如何在 Rust 中進行常見的 I/O 操作。透過使用命令列引數、檔案、環境變數與用來印出錯誤的 `eprintln!` 巨集，你現在已經準備好能寫出命令列應用程式了。透過使用前幾章的概念，你的程式的組織架構會非常穩固、資料都能有效率地儲存至適當的資料結構、完善地處理錯誤，並通過測試檢驗。
 
 接下來，我們要探討些 Rust 受到函式語言啟發的功能：閉包與疊代器。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-06-writing-to-stderr-instead-of-stdout.md)
-> - updated: 2020-10-03

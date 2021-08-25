@@ -19,7 +19,3 @@
 除此之外，我們還會涵蓋到**內部可變性**（interior mutability）模式，這讓不可變引用的型別能提供改變內部數值的 API。我們還會討論**引用循環**（reference cycles）為何會導致記憶體泄漏以及如何預防它們。
 
 讓我們開始吧！
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch15-00-smart-pointers.md)
-> - updated: 2020-09-19

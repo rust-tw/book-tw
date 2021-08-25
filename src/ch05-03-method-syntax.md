@@ -116,7 +116,3 @@ rect1 能容納 rect3 嗎？false
 結構體讓你可以自訂對你的領域有意義的型別。使用結構體的話，你可以讓每個資料部分與其他部分具有相關性，並為每個部分讓程式更好讀懂。方法讓你可以為你的結構體實例指定特定行為，然後關聯函式讓你可以在沒有實例的情況下，將特定功能置入結構體的命名空間。
 
 但是結構體並不是自訂型別的唯一方法：讓我們看下去 Rust 的枚舉功能，讓你的工具箱可以再多一項可以使用的工具。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [5c71aac](https://github.com/rust-lang/book/blob/5c71aac64380f74f34cd9a158cc2b1d9122b5ceb/src/ch05-03-method-syntax.md)
-> - updated: 2020-09-11

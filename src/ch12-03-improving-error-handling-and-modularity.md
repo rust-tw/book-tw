@@ -268,7 +268,3 @@ Rust 告訴我們程式碼忽略了 `Result` 數值且 `Result` 數值可能代�
 [ch9-result]: ch09-02-recoverable-errors-with-result.html
 [ch17]: ch17-00-oop.html
 [ch9-question-mark]: ch09-02-recoverable-errors-with-result.html#傳播錯誤的捷徑-運算子
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-03-improving-error-handling-and-modularity.md)
-> - updated: 2020-10-02

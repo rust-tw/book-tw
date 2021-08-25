@@ -194,7 +194,3 @@ help: to force the closure to take ownership of `v` (and any other referenced va
 Rust 的所有權規則再次拯救了我們！我們在範例 16-3 會得到錯誤是因為 Rust 是保守的，所以只會為執行緒借用 `v`，這代表主執行緒理論上可能會使產生的執行緒的引用無效化。透過告訴 Rust 將 `v` 的所有權移入產生的執行緒中，我們向 Rust 保證不會在主執行緒用到 `v`。如果我們用相同方式修改範例 16-4 的話，當我們嘗試在主執行緒使用 `v` 的話，我們就違反了所有權規則。`move` 關鍵字會覆蓋 Rust 保守的預設借用行為，且也不允許我們違反所有權規則。
 
 有了對執行緒與執行緒 API 的基本瞭解，讓我們看看我們可以透過執行緒**做些**什麼。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch16-01-threads.md)
-> - updated: 2020-09-21

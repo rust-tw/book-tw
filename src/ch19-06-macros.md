@@ -286,7 +286,3 @@ pub fn sql(input: TokenStream) -> TokenStream {
 呼！現在你的工具箱多了一些 Rust 特色功能，雖然不常用，但在特定情況下你會知道它們存在。我們介紹了許多複雜的主題，所以當你在錯誤訊息或是其他人的程式碼與它們相遇，你會有辦法辨認這些概念和語法。你可以將這章作為能引導找到解法的參考書。
 
 接下來，我們會動手做另一個專案，實際運用本書所講的一切。
-
-> - translators: [Weihang Lo <me@weihanglo.tw>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch19-06-macros.md)
-> - updated: 2020-09-20

@@ -88,7 +88,3 @@ Rust 語言也希望能支援其他許多使用者，這裡提及的只是一部
 產生本書的原始檔案可以在 [GitHub][book] 上找到。
 
 [book]: https://github.com/rust-tw/book-tw
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch00-00-introduction.md)
-> - updated: 2020-10-03

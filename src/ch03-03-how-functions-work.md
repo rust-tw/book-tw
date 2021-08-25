@@ -162,7 +162,3 @@ let x = 5;
 ```
 
 錯誤訊息「mismatched types」就告訴了我們此程式碼的核心問題。`plus_one` 的函式定義說它會回傳 `i32` 但是陳述式不會回傳任何數值。我們用單元型別 `()` 表示不會回傳任何值。因此沒有任何值被回傳，這和函式定義相牴觸，最後產生錯誤。在此輸出結果，Rust 提供了一道訊息來協助解決問題：它建議移除分號，這樣就能修正錯誤。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch03-03-how-functions-work.md)
-> - updated: 2020-09-05

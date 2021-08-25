@@ -81,7 +81,7 @@ $ cargo build
 此命令會產生一個執行檔 *target/debug/hello_cargo*（在 Windows 上則是 *target\debug\hello_cargo.exe*），而不是在你目前的目錄。你可以用以下命令運行執行檔：
 
 ```console
-$ ./target/debug/hello_cargo # or .\target\debug\hello_cargo.exe on Windows
+$ ./target/debug/hello_cargo # 在 Windows 上的話則是 .\target\debug\hello_cargo.exe
 Hello, world!
 ```
 
@@ -159,7 +159,3 @@ $ cargo build
 
 [installation]: ch01-01-installation.html#installation
 [appendix-e]: appendix-05-editions.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [a2e4bbf](https://github.com/rust-lang/book/blob/a2e4bbfdfbdb195bf134e5a53174d7d4ab027b1f/src/ch01-03-hello-cargo.md)
-> - updated: 2020-09-05

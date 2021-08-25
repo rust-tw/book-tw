@@ -117,7 +117,3 @@ $ cargo test -- --show-output
 ```
 
 透過控制哪些測試能執行，你能夠確保快速執行 `cargo test`。當你有時間能夠執行 `ignored` 的測試時，你可以執行 `cargo test -- --ignored` 來等待結果。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch11-02-running-tests.md)
-> - updated: 2020-09-17

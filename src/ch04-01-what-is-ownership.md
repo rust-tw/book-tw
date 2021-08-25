@@ -253,7 +253,3 @@ Rust 有個特別的標記叫做 `Copy` 特徵（trait）可以用在標記像�
 [method-syntax]: ch05-03-method-syntax.html#method-syntax
 [paths-module-tree]: ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html
 [drop]: https://doc.rust-lang.org/std/ops/trait.Drop.html#tymethod.drop
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [52b0d29](https://github.com/rust-lang/book/blob/52b0d291d2000dfebfd0ad470bdd11bb91985439/src/ch04-01-what-is-ownership.md)
-> - updated: 2020-09-08

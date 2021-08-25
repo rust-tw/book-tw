@@ -258,7 +258,3 @@ $ cargo run
 ch02-00-guessing-game-tutorial.html#將猜測的數字與祕密數字做比較
 [quitting-after-a-correct-guess]:
 ch02-00-guessing-game-tutorial.html#猜對後離開
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch03-05-control-flow.md)
-> - updated: 2020-09-07

@@ -47,7 +47,3 @@ Rust 會抱怨說在 `if let` 使用不可反駁的模式沒有任何意義：
 基於此原因，`match` 的分支必須是可反駁模式。除了最後一個分支因為要配對任何剩餘數值，所以會是不可反駁模式。Rust 允許我們在 `match` 只使用一個不可反駁模式的分支，不過這樣做並不是很實用，且可以直接用簡單的 `let` 陳述式取代。
 
 現在你知道哪裡能使用模式，以及可反駁與不可反駁模式的不同了。讓我們來涵蓋模式建立時可以使用的所有語法吧。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch18-02-refutability.md)
-> - updated: 2020-09-25

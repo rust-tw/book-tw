@@ -9,7 +9,7 @@ test tests::greeting_contains_name ... FAILED
 failures:
 
 ---- tests::greeting_contains_name stdout ----
-thread 'main' panicked at '打招呼時並沒有喊出名稱，其數值為 `Hello!`', src/lib.rs:12:9
+thread 'main' panicked at '打招呼時並沒有喊出名稱，其數值為 `哈囉！`', src/lib.rs:12:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 

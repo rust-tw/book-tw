@@ -194,7 +194,3 @@ pub trait Iterator {
 注意到 `zip` 只會產生四個配對，理論上的 `(5, None)` 配對是不會產生出來的，因為 `zip` 會在它的其中一個輸入疊代器回傳 `None` 時就回傳 `None`。
 
 這些所有呼叫都是可行的，因為我們已經定義了 `next` 運作的行為，而標準函式庫會提供其他呼叫 `next` 方法的預設實作。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch13-02-iterators.md)
-> - updated: 2020-09-18

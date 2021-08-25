@@ -24,7 +24,3 @@ $ cargo install ripgrep
 ```
 
 輸出的最後兩行顯示了二進制檔案的安裝位置與名稱，在 `ripgrep` 此例中就是 `rg`。如稍早提到的，只要你的 `$PATH` 有包含安裝目錄，你就可以執行 `rg --help` 並開始使用更快更鏽的搜尋檔案工具！
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-04-installing-binaries.md)
-> - updated: 2020-09-19

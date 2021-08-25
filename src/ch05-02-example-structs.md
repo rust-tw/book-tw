@@ -147,7 +147,3 @@ Rust **的確**有印出除錯資訊的功能，但是我們要針對我們的�
 [println]: https://doc.rust-lang.org/std/macro.println.html
 [dbg]: https://doc.rust-lang.org/std/macro.dbg.html
 [err]: ch12-06-writing-to-stderr-instead-of-stdout.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch05-02-example-structs.md)
-> - updated: 2020-09-10

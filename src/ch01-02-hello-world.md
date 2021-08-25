@@ -137,7 +137,3 @@ $ ./main # 在 Windows 上則是 .\main.exe
 在簡單的程式使用 `rustc` 來編譯不會有什麼問題，但當你的專案成長時，你將會需要管理所有選擇並讓程式碼易於分享。接下來我們將介紹 Cargo 這項工具給你，它將協助你寫出真正的 Rust 程式。
 
 [troubleshooting]: ch01-01-installation.html#疑難排除
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [fce7281](https://github.com/rust-lang/book/blob/fce7281061fd4b18a87075f43c17fc3168230a21/src/ch01-02-hello-world.md)
-> - updated: 2020-09-05

@@ -241,7 +241,3 @@ Rust 的全域變數稱做**靜態**變數。範例 19-9 展示了宣告並使�
 [可延展的並行與 `Sync` 及 `Send` 特徵]: ch16-04-extensible-concurrency-sync-and-send.html#可延展的並行與-sync-及-send-特徵
 [slice-型別]: ch04-03-slices.html#切片型別
 [參考手冊]: https://doc.rust-lang.org/reference/items/unions.html
-
-> - translators: [Weihang Lo <me@weihanglo.tw>]
-> - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch19-01-unsafe-rust.md)
-> - updated: 2020-09-12

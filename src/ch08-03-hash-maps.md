@@ -44,7 +44,7 @@
 
 我們之後就無法使用變數 `field_name` 和 `field_value`，因為它們的值已經透過呼叫 `insert` 被移入雜湊映射之中。
 
-如果我們插入雜湊映射的數值是引用的話，該值就不會被移動到雜湊映射之中。不過該值的引用就必須一直有效，至少直到該雜湊映射離開作用域為止。我們會在第十章的[“透過生命週期驗證引用”][validating-references-with-lifetimes]<!-- ignore -->段落討落更多細節。
+如果我們插入雜湊映射的數值是引用的話，該值就不會被移動到雜湊映射之中。不過該值的引用就必須一直有效，至少直到該雜湊映射離開作用域為止。我們會在第十章的[「透過生命週期驗證引用」][validating-references-with-lifetimes]<!-- ignore -->段落討落更多細節。
 
 ### 取得雜湊映射的數值
 
@@ -134,7 +134,3 @@
 [iterators]: ch13-02-iterators.html
 [validating-references-with-lifetimes]:
 ch10-03-lifetime-syntax.html#validating-references-with-lifetimes
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch08-03-hash-maps.md)
-> - updated: 2020-09-11

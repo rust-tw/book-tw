@@ -272,7 +272,3 @@ Rust 並沒有限制不同特徵之間不能有同名的方法，也沒有阻止
 [特徵-定義共享行為]: ch10-02-traits.html#特徵-定義共享行為
 [智慧指標取值]: ch15-02-deref.html#透過-deref-特徵將智慧指標視為一般引用
 [元組結構體]: ch05-01-defining-structs.html#使用無名稱欄位的元組結構體來建立不同型別
-
-> - translators: [Weihang Lo <me@weihanglo.tw>]
-> - commit: [1f8e2ec](https://github.com/rust-lang/book/blob/1f8e2ec392b1d261acebda3fa9d81ea3f18c7e40/src/ch19-03-advanced-traits.md)
-> - updated: 2020-09-16

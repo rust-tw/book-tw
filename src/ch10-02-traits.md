@@ -270,7 +270,3 @@ let s = 3.to_string();
 ch04-01-what-is-ownership.html#只在堆疊上的資料拷貝copy
 [using-trait-objects-that-allow-for-values-of-different-types]:
 ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch10-02-traits.md)
-> - updated: 2020-09-15

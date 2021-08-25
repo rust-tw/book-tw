@@ -11,7 +11,3 @@
 * 巨集（macro）：一種定義「在編譯期定義程式碼的程式碼」之方法
 
 這些 Rust 全功能特色適合所有人。一起來深究吧！
-
-> - translators: [Weihang Lo <me@weihanglo.tw>]
-> - commit: [10f8993](https://github.com/rust-lang/book/blob/10f89936b02dc366a2d0b34083b97cadda9e0ce4/src/ch19-00-advanced-features.md)
-> - updated: 2020-09-11

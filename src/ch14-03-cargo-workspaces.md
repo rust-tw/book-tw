@@ -289,7 +289,3 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 之後想嘗試練習的話，你可以在工作空間中在加上 `add-two` crate，方式和 `add-one` crate 類似！
 
 隨著你的專案成長，你可以考慮使用工作空間：拆成各個小部分比一整塊大程式還更容易閱讀。再者，如果需要經常同時修改的話，將 crate 放在同個工作空間中更易於彼此的協作。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-03-cargo-workspaces.md)
-> - updated: 2020-09-19

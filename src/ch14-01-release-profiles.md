@@ -48,7 +48,3 @@ opt-level = 1
 這樣就會覆蓋預設設定 `0`。現在當我們執行 `cargo build`，Cargo 就會使用 `dev` 設定檔的預設值以及我們自訂的 `opt-level`。因為我們將 `opt-level` 設為 `1`，Cargo 會比原本的預設進行更多優化，但沒有發佈建構那麼多。
 
 對於完整的設置選項與每個設定檔的預設列表，請查閱 [Cargo 的技術文件](https://doc.rust-lang.org/cargo/reference/profiles.html)。
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch14-01-release-profiles.md)
-> - updated: 2020-09-19

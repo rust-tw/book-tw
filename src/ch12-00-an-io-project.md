@@ -25,7 +25,3 @@ Rust 的速度、安全、單一二進制輸出與跨平台支援使其成為建
 [ch11]: ch11-00-testing.html
 [ch13]: ch13-00-functional-features.html
 [ch17]: ch17-00-oop.html
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch12-00-an-io-project.md)
-> - updated: 2020-10-02

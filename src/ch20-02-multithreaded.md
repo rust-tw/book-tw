@@ -392,7 +392,3 @@ ch19-04-advanced-types.html#透過型別別名建立型別同義詞
 [integer-types]: ch03-02-data-types.html#整數型別
 [storing-closures-using-generic-parameters-and-the-fn-traits]:
 ch13-01-closures.html#透過泛型參數與-fn-特徵儲存閉包
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch20-02-multithreaded.md)
-> - updated: 2020-10-02

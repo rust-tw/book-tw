@@ -144,7 +144,3 @@ let PATTERN = EXPRESSION;
 
 [ignoring-values-in-a-pattern]:
 ch18-03-pattern-syntax.html#忽略模式中的數值
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/ch18-01-all-the-places-for-patterns.md)
-> - updated: 2020-09-25

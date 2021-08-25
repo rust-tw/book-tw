@@ -192,7 +192,3 @@ Table B-4 顯示出現在泛型型別參數的符號。
 | `[type; len]` | 包含 `len` 個 `type` 的陣列字面值 |
 | `expr[expr]` | 集合索引，可超載（`Index`、`IndexMut`） |
 | `expr[..]`, `expr[a..]`, `expr[..b]`, `expr[a..b]` | 使用 `Range`、`RangeFrom`、`RangeTo` 或 `RangeFull` 作為「索引」來替代集合 slice 的集合索引 |
-
-> - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
-> - commit: [e5ed971](https://github.com/rust-lang/book/blob/e5ed97128302d5fa45dbac0e64426bc7649a558c/src/appendix-02-operators.md)
-> - updated: 2020-09-29

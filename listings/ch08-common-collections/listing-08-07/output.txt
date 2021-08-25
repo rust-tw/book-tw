@@ -10,7 +10,7 @@ error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immuta
   |     ^^^^^^^^^ mutable borrow occurs here
 7 | 
 8 |     println!("第一個元素為 {}", first);
-  |                                          ----- immutable borrow later used here
+  |                               ----- immutable borrow later used here
 
 error: aborting due to previous error
 
