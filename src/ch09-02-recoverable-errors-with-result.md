@@ -59,7 +59,7 @@ enum Result<T, E> {
 
 `match` 的另一個分支則負責處理我們從 `File::open` 中取得的 `Err` 數值。在此範例中，我們選擇呼叫 `panic!` 巨集。如果檔案 *hello.txt* 不存在我們當前的目錄的話，我們就會執行此程式碼，接著就會看到來自 `panic!` 巨集的輸出結果：
 
-```text
+```console
 {{#include ../listings/ch09-error-handling/listing-09-04/output.txt}}
 ```
 

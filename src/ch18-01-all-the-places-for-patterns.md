@@ -72,7 +72,7 @@ match VALUE {
 {{#include ../listings/ch18-patterns-and-matching/listing-18-03/output.txt}}
 ```
 
-我們使用 `enumerate` 方法來配接一個疊代器來產生一個數值與該數值在疊代器中的索引，並放入元組中。第一次呼叫 `enumerate` 會產生元組 `(0, 'a')`。當此數值配對到 `(index, value)` 模式時，`index` 會是 `0` 而 `value` 會是 `'a'`，並印出第一行的輸出。
+我們使用 `enumerate` 方法來配接一個疊代器來產生一個數值與該數值在疊代器中的索引，並放入元組中。第一個產生的數值爲元組 `(0, 'a')`。當此數值配對到 `(index, value)` 模式時，`index` 會是 `0` 而 `value` 會是 `'a'`，並印出第一行的輸出。
 
 ### `let` 陳述式
 

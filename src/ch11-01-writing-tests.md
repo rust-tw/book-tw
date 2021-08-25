@@ -28,8 +28,8 @@ $ cd adder
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-01/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-01/src/lib.rs}}
 ```
 
 <span class="caption">範例 11-1：透過 `cargo new` 自動產生的測試模組與函式</span>
@@ -60,8 +60,8 @@ Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之�
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-01-changing-test-name/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-01-changing-test-name/src/lib.rs}}
 ```
 
 然後再執行一次 `cargo test`，輸出會顯示 `exploration` 而非 `it_works`：
@@ -74,7 +74,7 @@ Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之�
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,panics
+```rust,panics,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-03/src/lib.rs:here}}
 ```
 
@@ -82,7 +82,7 @@ Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之�
 
 使用 `cargo test` 再執行一次測試，輸出結果應該會像範例 11-4 這樣，顯示出我們的 `exploration` 測試通過但 `another` 失敗。
 
-```text
+```console
 {{#include ../listings/ch11-writing-automated-tests/listing-11-03/output.txt}}
 ```
 
@@ -102,7 +102,7 @@ Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之�
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-05/src/lib.rs:here}}
 ```
 
@@ -112,7 +112,7 @@ Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之�
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-06/src/lib.rs:here}}
 ```
 
@@ -130,7 +130,7 @@ Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之�
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-02-adding-another-rectangle-test/src/lib.rs:here}}
 ```
 
@@ -142,7 +142,7 @@ Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之�
 
 兩個測試都過了！現在讓我們看看當我們在程式碼中引入程式錯誤的話，測試結果會為何。讓我們來改變 `can_hold` 方法的實作將比較時的大於符號改成小於符號：
 
-```rust,not_desired_behavior
+```rust,not_desired_behavior,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-03-introducing-a-bug/src/lib.rs:here}}
 ```
 
@@ -162,8 +162,8 @@ Cargo 會編譯並執行測試。在 `Compiling`、`Finished` 與 `Running` 之�
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-07/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-07/src/lib.rs}}
 ```
 
 <span class="caption">範例 11-7：使用 `assert_eq!` 巨集測試函式 `add_two`</span>
@@ -179,7 +179,7 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 
 讓我們在我們的程式碼引入個錯誤，看看使使用 `assert_eq!` 的測試失敗時看起來為何。變更函式 `add_two` 的實作改成加 `3`：
 
-```rust,not_desired_behavior
+```rust,not_desired_behavior,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-04-bug-in-add-two/src/lib.rs:here}}
 ```
 
@@ -205,15 +205,15 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-05-greeter/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-05-greeter/src/lib.rs}}
 ```
 
 此函式的要求還沒完全確定，而我們招呼開頭的文字 `哈囉` 很可能會在之後改變。我們決定當需求改變時，我們不想要得同時更新測試。所以我們不打算檢查 `greeting` 函式回傳的整個數值，我們只需要判定輸出有沒有包含輸入參數。
 
 讓我們將錯誤引進程式中吧，將 `greeting` 改成不會包含 `name` 然後看看測試會怎麼失敗：
 
-```rust,not_desired_behavior
+```rust,not_desired_behavior,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-06-greeter-with-bug/src/lib.rs:here}}
 ```
 
@@ -247,8 +247,8 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-08/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-08/src/lib.rs}}
 ```
 
 <span class="caption">範例 11-8：測試造成 `panic!` 的條件</span>
@@ -261,7 +261,7 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 
 看起來不錯！現在讓我們將錯誤引入程式碼中，移除會讓 `new` 函式在數值大於 100 會恐慌的程式碼：
 
-```rust,not_desired_behavior
+```rust,not_desired_behavior,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-08-guess-with-bug/src/lib.rs:here}}
 ```
 
@@ -277,7 +277,7 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/listing-11-09/src/lib.rs:here}}
 ```
 
@@ -303,8 +303,8 @@ tests::it_adds_two ... ok` 而 `ok` 就代表我們的測試通過了！
 
 目前為止，我們的測試在失敗時就會恐慌。我們也可以寫出使用 `Result<T, E>` 的測試！以下是範例 11-1 的測試，不過重寫成 `Result<T, E>` 的版本並回傳 `Err` 而非恐慌：
 
-```rust
-{{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-10-result-in-tests/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-10-result-in-tests/src/lib.rs}}
 ```
 
 `it_works` 函式現在有個回傳型別 `Result<(), String>`。在函式本體中，我們不再呼叫 `assert_eq!` 巨集，而是當測試成功時回傳 `Ok(())`，當程式失敗時回傳存有 `String` 的 `Err`。

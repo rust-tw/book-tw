@@ -57,7 +57,7 @@
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
-```rust,should_panic
+```rust,should_panic,noplayground
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-06/src/main.rs:here}}
 ```
 
@@ -83,7 +83,7 @@
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
-```rust,should_panic
+```rust,should_panic,noplayground
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-07/src/main.rs:here}}
 ```
 
@@ -137,7 +137,7 @@
 
 <span class="caption">範例 12-9：從 `Config::new` 回傳 `Result`</span>
 
-我們的 `new` 函式現在會回傳 `Result`，在成功時會有 `Config` 實例，而在錯誤時會有個 `&'static str`。回憶一下第十章中[「靜態生命週期」][the-static-lifetime]<!-- ignore -->的段落曾解釋 `&'static str` 是字串字面值的型別，這正是我們目前的錯誤訊息型別。
+我們的 `new` 函式現在會回傳 `Result`，在成功時會有 `Config` 實例，而在錯誤時會有個 `&str`。
 
 我們在 `new` 函式本體作出了兩項改變：不同於呼叫 `panic!`，當使用者沒有傳遞足夠引數時，我們現在會回傳 `Err` 數值。此外我們也將 `Config` 封裝進 `Ok` 作為回傳值。這些改變讓函式能符合其新的型別簽名。
 
@@ -155,7 +155,7 @@
 
 <span class="caption">範例 12-10：如果建立新的 `Config` 失敗時會用錯誤碼離開</span>
 
-在此範例中，我們使用一個還沒介紹過的方法 `unwrap_or_else`，這定義在標準函式庫的 `Result<T, E>` 中。使用 `unwrap_or_else` 讓我們能定義一些自訂的非 `panic!` 錯誤處理。如果 `Result` 數值為 `Ok`，此方法行為就類似於 `unwrap`，它會回傳`Ok` 所封裝的內部數值。然而，如果數值為 `Err` 的話，此方法會呼叫**閉包**（closure）內的程式碼，這會是由我們所定義的匿名函式並作為引數傳給 `unwrap_or_else`。我們會在[第十三章][ch13]<!-- ignore -->詳細介紹閉包。現在你只需要知道 `unwrap_or_else` 回傳遞 `Err` 的內部數值，在此例中就是我們在範例 12-9 新增的靜態字串 `引數不足`，將此數值傳遞給閉包中兩條直線之間的 `err` 引數。閉包內的程式碼就可以在執行時使用 `err` 數值。
+在此範例中，我們使用一個還沒詳細介紹的方法 `unwrap_or_else`，這定義在標準函式庫的 `Result<T, E>` 中。使用 `unwrap_or_else` 讓我們能定義一些自訂的非 `panic!` 錯誤處理。如果 `Result` 數值為 `Ok`，此方法行為就類似於 `unwrap`，它會回傳`Ok` 所封裝的內部數值。然而，如果數值為 `Err` 的話，此方法會呼叫**閉包**（closure）內的程式碼，這會是由我們所定義的匿名函式並作為引數傳給 `unwrap_or_else`。我們會在[第十三章][ch13]<!-- ignore -->詳細介紹閉包。現在你只需要知道 `unwrap_or_else` 回傳遞 `Err` 的內部數值，在此例中就是我們在範例 12-9 新增的靜態字串「引數不足」，將此數值傳遞給閉包中兩條直線之間的 `err` 引數。閉包內的程式碼就可以在執行時使用 `err` 數值。
 
 我們新增了一行 `use` 來將標準函式庫中的 `process` 引入作用域。在錯誤情形下要執行的閉包程式碼只有兩行：我們印出 `err` 數值並呼叫 `process::exit`。`process::exit` 函式會立即停止程式並回傳給予的數字來作為退出狀態碼。這與範例 12-8 我們使用 `panic!` 來處理的方式類似，但我們不再顯示多餘的輸出結果。讓我們試試看：
 
@@ -262,7 +262,6 @@ Rust 告訴我們程式碼忽略了 `Result` 數值且 `Result` 數值可能代�
 
 讓我們利用這個新的模組化優勢來進行些原本在就程式碼會很難處理的工作，但在新的程式碼會變得非常容易，那就是寫些測試！
 
-[the-static-lifetime]: ch10-03-lifetime-syntax.html#靜態生命週期
 [ch13]: ch13-00-functional-features.html
 [ch9-custom-types]: ch09-03-to-panic-or-not-to-panic.html#建立自訂型別來驗證
 [ch9-error-guidelines]: ch09-03-to-panic-or-not-to-panic.html#錯誤處理的指導原則

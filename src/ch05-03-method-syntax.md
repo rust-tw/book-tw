@@ -30,7 +30,7 @@
 >
 > 運作方式如下：當你呼叫方法像是 `object.something()` 時，Rust 會自動加上`&`、`&mut` 或 `*`，以便符合方法簽名。換句話說，以下範例是相同的：
 >
-<!-- CAN'T EXTRACT SEE BUG TODO -->
+> <!-- CAN'T EXTRACT SEE BUG https://github.com/rust-lang/mdBook/issues/1127 -->
 > ```rust
 > # #[derive(Debug,Copy,Clone)]
 > # struct Point {

@@ -64,7 +64,7 @@
 
 ### 使用推導特徵實現更多功能
 
-現在要是能夠在我們除錯程式時能夠印出 `Rectangle` 的實例並看到它所有的欄位數值就更好了。範例 5-11 嘗試使用我們之前章節提到的 `println!` 巨集，但是卻無法執行。
+現在要是能夠在我們除錯程式時能夠印出 `Rectangle` 的實例並看到它所有的欄位數值就更好了。範例 5-11 嘗試使用我們之前章節提到的 [`println!` 巨集][println]<!-- ignore -->，但是卻無法執行。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -124,11 +124,29 @@ Rust **的確**有印出除錯資訊的功能，但是我們要針對我們的�
 {{#include ../listings/ch05-using-structs-to-structure-related-data/output-only-02-pretty-debug/output.txt}}
 ```
 
-Rust 提供了一些特徵並讓我們可以用 `derive` 標記來為自定型別加入些實用的功能。這類的特徵與其行為都列在附錄 C。我們會在第十章介紹如何定義自定特徵，且如何實作這些特徵的自訂行為。
+另一種使用 `Debug` 格式印出數值的方式是使用 [`dbg!` 巨集][dbg] <!-- ignore -->。`dbg!` 巨集會拿走一個表達式的所有權，印出該 `dbg!` 巨集在程式碼中呼叫的檔案與行數，以及該表達式的數值結果，最後回傳該數值的所有權。呼叫 `dbg!` 巨集會顯示到標準錯誤終端串流（`stderr`），而不像 `println!` 是印到標準輸出終端串流（`stdout`）。我們會在第十二章的[「將錯誤訊息寫入標準錯誤而非標準輸出」][err]<!-- ignore -->段落進一步討論 `stderr` 與 `stdout`。以下的範例我們想印出賦值給 `width` 的數值，以及整個 `rect1` 結構體的數值： 
+
+```rust
+{{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/no-listing-05-dbg-macro/src/main.rs}}
+```
+
+我們在表達式 `30 * scale` 加上 `dbg!`，因爲 `dbg!` 會回傳表達式的數值所有權， `width` 將能取得和如果我們不加上 `dbg!` 時相同的數值。而我們不希望 `dbg!` 取走 `rect1` 的所有權，所以我們在下一個 `dbg!` 的呼叫使用引用。以下是此範例得到的輸出結果：
+
+```console
+{{#include ../listings/ch05-using-structs-to-structure-related-data/no-listing-05-dbg-macro/output.txt}}
+```
+
+我們可以看見第一個輸出結果來自 *src/main.rs* 第十行，也就是我們除錯表達式 `30 * scale` 的地方，其結果數值爲 60 （整數實作的 `Debug` 格式只會印出它們的數值）。而在 *src/main.rs* 第十四行所呼叫的 `dbg!` 則輸出 `&rect1` 的數值，也就是 `Rectangle` 的結構體。此輸出就會使用 `Rectangle` 實作的 `Debug` 漂亮格式。當你需要嘗試理解程式碼怎麼運作時，`dbg!` 巨集可以變得相當實用！
+
+除了 `Debug` 特徵之外，Rust 還提供了一些特徵能讓我們透過 `derive` 來使用並爲我們的自訂型別擴增實用的行爲。這些特徵與它們的行爲有列在[附錄 C][app-c]<!--ignore -->。我們會在第十章介紹如何實作這些特徵的自訂行爲，以及如何建立你自己的特徵。
 
 我們的函式 `area` 最後就非常清楚明白了，它只會計算長方形的面積。這樣的行為要是能夠緊貼著我們的 `Rectangle` 結構體，因為這樣一來它就不會相容於其他型別。讓我們看看我們如何繼續重構我們的程式碼，接下來我們可以將函式 `area` 轉換為 `Rectangle` 型別的**方法（method）**。
 
 [the-tuple-type]: ch03-02-data-types.html#元組型別
+[app-c]: appendix-03-derivable-traits.md
+[println]: https://doc.rust-lang.org/std/macro.println.html
+[dbg]: https://doc.rust-lang.org/std/macro.dbg.html
+[err]: ch12-06-writing-to-stderr-instead-of-stdout.html
 
 > - translators: [Ngô͘ Io̍k-ūi <wusyong9104@gmail.com>]
 > - commit: [d44317c](https://github.com/rust-lang/book/blob/d44317c3122b44fb713aba66cc295dee3453b24b/src/ch05-02-example-structs.md)

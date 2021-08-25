@@ -76,7 +76,7 @@ Rust 的標準函式庫還包含了其他種類的字串型別，像是 `OsStrin
 
 如果 `push_str` 方法會取得 `s2` 的所有權，我們就無法在最後一行印出其數值了。幸好這段程式碼是可以執行的！
 
-而 `push` 方法會取得一個字元作為參數並加到 `String` 上。範例 8-17 顯示了一個使用 `push` 方法將字母 *l* 加到 `String` 的程式碼。
+而 `push` 方法會取得一個字元作為參數並加到 `String` 上。範例 8-17 顯示了一個使用 `push` 方法將字母 "l" 加到 `String` 的程式碼。
 
 ```rust
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-17/src/main.rs:here}}
@@ -122,7 +122,7 @@ fn add(self, s: &str) -> String {
 {{#rustdoc_include ../listings/ch08-common-collections/no-listing-02-format/src/main.rs:here}}
 ```
 
-此程式碼一樣能設置 `s` 為 `tic-tac-toe`。`format!` 巨集運作的方式和 `println!` 一樣，但不會將輸出結果顯示在螢幕上，它做的是回傳內容的 `String`。使用 `format!` 的程式碼版本看起來比較好讀懂，而且不會取走任何參數的所有權。
+此程式碼一樣能設置 `s` 為 `tic-tac-toe`。`format!` 巨集運作的方式和 `println!` 一樣，但不會將輸出結果顯示在螢幕上，它做的是回傳內容的 `String`。使用 `format!` 的程式碼版本看起來比較好讀懂，而且 `format!` 產生的程式碼使用的是引用，所以此呼叫不會取走任何參數的所有權。
 
 ### 索引字串
 

@@ -1,6 +1,6 @@
 ## 比較效能：迴圈 vs. 疊代器
 
-為了決定該使用迴圈還是疊代器，你需要知道哪個 `search` 函式的版本比較快：是顯式 `for` 迴圈的版本，還是疊代器的版本。
+為了決定該使用迴圈還是疊代器，你需要知道哪個實作比較快：是顯式 `for` 迴圈的版本，還是疊代器的版本。
 
 我們可以透過讀取整本 Sir Arthur Conan Doyle 寫的 *The Adventures of Sherlock Holmes* 到 `String` 中並搜尋內容中的 *the* 來進行評測。以下為針對 `search` 函式使用 `for` 迴圈與使用疊代器的版本評測（benchmark）：
 

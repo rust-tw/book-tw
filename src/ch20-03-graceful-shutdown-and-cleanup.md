@@ -65,7 +65,7 @@
 要修正此問題，我們要修改執行緒，讓它們除了接收 `Job` 來執行以外，也要能收到告訴它們要停止接收並離開無限迴圈的信號。所以我們的通道將傳送以下兩種枚舉變體，而不再是 `Job` 實例。
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-07-define-message-enum/src/lib.rs:here}}
 ```
 
@@ -157,13 +157,13 @@ Shutting down worker 3
 <span class="filename">檔案名稱：src/bin/main.rs</span>
 
 ```rust,ignore
-{{#rustdoc_include ../listings/ch20-web-server/listing-20-25/src/bin/main.rs:all}}
+{{#rustdoc_include ../listings/ch20-web-server/no-listing-08-final-code/src/bin/main.rs}}
 ```
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
-{{#rustdoc_include ../listings/ch20-web-server/listing-20-25/src/lib.rs:here}}
+```rust,noplayground
+{{#rustdoc_include ../listings/ch20-web-server/no-listing-08-final-code/src/lib.rs}}
 ```
 
 我們還可以做更多事！如果你想繼續改善此專案的話，以下是些不錯的點子：

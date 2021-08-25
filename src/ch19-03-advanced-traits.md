@@ -10,7 +10,7 @@
 
 一個具有關聯型別的特徵之範例是標準函式庫提供的 `Iterator` 特徵。這例子中的關聯型別叫做 `Item`，表示一型別實作 `Iterator` 特徵時，會被迭代的那些值的型別。範例 19-12 展示了在第十三章[「`Iterator` 特徵與 `next` 方法」][iterator-特徵與-next-方法]一節提及的 `Iterator` 特徵定義：
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-12/src/lib.rs}}
 ```
 
@@ -30,7 +30,7 @@
 
 語法似乎和泛型很像，所以為什麼我們不使用泛型定義 `Iterator` 特徵，如範例 19-13 所示？
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-13/src/lib.rs}}
 ```
 
@@ -72,11 +72,11 @@ trait Add<Rhs=Self> {
 
 當我們對 `Point` 實作 `Add`，因為我們想要將兩個 `Point` 實例相加，所以用到預設的 `Rhs`。讓我們看一個實作 `Add` 的範例，如何不用預設值，轉而自訂 `Rhs`。
 
-有兩個結構體，`Millimeters` 與 `Meters`，分別儲存不同單位的值。我們想將毫米透過 `Add` 做好正確單位轉換來加至公尺，這可透過對 `Millimeters` 實作 `Add` 並將 `Rhs` 設為 `Meters` 達成，如範例 19-15。
+我們有兩個結構體，`Millimeters` 與 `Meters`，分別儲存不同單位的值。這樣在現有的型別簡單地封裝進另一個結構體的模式叫做**新型別模式（newtype pattern）**，我們會在[「使用新型別模式替外部型別實作外部特徵」][newtype]<!-- ignore -->段落做詳細介紹。我們想將毫米透過 `Add` 做好正確單位轉換來加至公尺，這可透過對 `Millimeters` 實作 `Add` 並將 `Rhs` 設為 `Meters` 達成，如範例 19-15。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-15/src/lib.rs}}
 ```
 
@@ -266,6 +266,7 @@ Rust 並沒有限制不同特徵之間不能有同名的方法，也沒有阻止
 
 現在，你知道如何將新型別模式與特徵相關聯，縱使不涉及特徵，新型別模式仍非常實用。接下來我們將目光轉移到其他與 Rust 型別系統互動的方法吧。
 
+[newtype]: #使用新型別模式替外部型別實作外部特徵
 [對型別實作特徵]: ch10-02-traits.html#為型別實作特徵
 [iterator-特徵與-next-方法]: ch13-02-iterators.html#iterator-特徵與-next-方法
 [特徵-定義共享行為]: ch10-02-traits.html#特徵-定義共享行為

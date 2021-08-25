@@ -25,13 +25,13 @@
 
 <span class="caption">範例 12-15：建立一個我們預期 `search` 函式該有的行為的失敗測試</span>
 
-此測試搜尋字串 `"duct"`。而要被搜尋的文字有三行，只有一行包含 `"duct"`。我們判定 `search` 函式回傳的數值只會包含我們預期的那一行。
+此測試搜尋字串 `"duct"`。而要被搜尋的文字有三行，只有一行包含 `"duct"`（在雙引號開頭後方的斜線會告訴 Rust 別在此字串內容開始處換行）。我們判定 `search` 函式回傳的數值只會包含我們預期的那一行。
 
 我們還無法執行此程式並觀察其失敗，因為測試還無法編譯，`search` 函式根本還不存在！所以現在我們要加上足夠的程式碼讓測試可以編譯並執行，而我們要加上的是 `search` 函式的定義並永遠回傳一個空的向量，如範例 12-16 所示。然後測試應該就能編譯並失敗，因為空向量並不符合包含 `"safe, fast, productive."` 此行的向量。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-16/src/lib.rs:here}}
 ```
 
@@ -77,7 +77,7 @@ Rust 有個實用的方法能逐步處理字串的每一行，這方法就叫 `l
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,ignore
+```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-17/src/lib.rs:here}}
 ```
 
@@ -92,7 +92,7 @@ Rust 有個實用的方法能逐步處理字串的每一行，這方法就叫 `l
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,ignore
+```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-18/src/lib.rs:here}}
 ```
 

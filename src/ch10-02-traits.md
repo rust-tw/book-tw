@@ -1,6 +1,6 @@
 ## 特徵：定義共同行為
 
-**特徵**（trait）會告訴 Rust 編譯器特定型別與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行為。我們可以使用特徵界限（trait bounds）來指定泛型為擁有特定行為的任意型別。
+**特徵**（trait）會告訴 Rust 編譯器特定型別與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行為。我們可以使用特徵界限（trait bounds）來指定泛型型別為擁有特定行為的任意型別。
 
 > 注意：特徵類似於其他語言常稱作**介面**（interfaces）的功能，但還是有些差異。
 
@@ -14,7 +14,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-12/src/lib.rs}}
 ```
 
@@ -32,7 +32,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-13/src/lib.rs:here}}
 ```
 
@@ -63,7 +63,7 @@ know, people」。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-14/src/lib.rs:here}}
 ```
 
@@ -83,7 +83,7 @@ know, people」。
 
 預設實作也能呼叫同特徵中的其他方法，就算那些方法沒有預設實作。這樣一來，特徵就可以提供一堆實用的功能，並要求實作者只需處理一小部分就好。舉例來說，我們可以定義 `Summary` 特徵，使其擁有一個必須要實作的`summarize_author` 方法，以及另一個擁有預設實作會呼叫 `summarize_author` 的方法：
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-03-default-impl-calls-other-methods/src/lib.rs:here}}
 ```
 
@@ -202,7 +202,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 
 現在你既然已經知道如何使用泛型型別參數來指定你想使用的行為，就讓我們回到範例 10-5 來使用泛型型別參數來修正 `largest` 函式的定義吧！上次我們試著執行此程式時，我們獲得這樣的錯誤：
 
-```text
+```console
 {{#include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-05/output.txt}}
 ```
 
@@ -232,7 +232,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 
 如果我們不想要限制函式 `largest` 只接受實作 `Copy` 特徵的型別，我們可以在 `T` 中改指定 `Clone` 而非 `Copy`。這樣當我們想要 `largest` 取得所有權，我們就可以克隆切片的數值。使用 `clone` 函式代表我們對於像是 `String` 這樣擁有堆積資料的型別，可能會產生更多堆積分配。而如果我們處理的資料很龐大的話，堆積分配的速度可能就會很慢。
 
-另一種實作 `largest` 的方法是我們可以來回傳切片中 `T` 數值的引用。如果我們將回傳型別改成 `&T` 而非 `T`，也就是改變函式本體來回傳引用的話，我們就不需要 `Clone` 或 `Copy` 特徵界限，也能避免堆積分配。請試著自己實作這個解決辦法看看吧！
+另一種實作 `largest` 的方法是我們可以來回傳切片中 `T` 數值的引用。如果我們將回傳型別改成 `&T` 而非 `T`，也就是改變函式本體來回傳引用的話，我們就不需要 `Clone` 或 `Copy` 特徵界限，也能避免堆積分配。請試著自己實作這個解決辦法看看吧！如果你卡在跟生命週期有關的錯誤的話，那就繼續閱讀下去，下一個段落「透過生命週期驗證引用」就會來解釋，不過要解決目前的這些挑戰還不需要用到生命週期。
 
 ### 透過特徵界限來選擇性實作方法
 
@@ -240,7 +240,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-16/src/lib.rs}}
 ```
 

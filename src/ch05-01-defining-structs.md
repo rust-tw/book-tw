@@ -86,7 +86,13 @@
 
 ### 無任何欄位的類單元結構體
 
-你也可以定義沒有任何欄位的結構體！這些叫做**類單元結構體（unit-like structs）**，因為它們的行為就很像 `()` 單元型別（unit type）。類單元結構體很適合用在當你要實作一個特徵（trait）或某種型別，但你沒有任何需要儲存在型別中的資料。我們會在第十章討論特徵。
+你也可以定義沒有任何欄位的結構體！這些叫做**類單元結構體（unit-like structs）**，因為它們的行為就很像我們在[「元組型別」][tuples]<!-- ignore -->段落討論過的單元型別（unit type）`()` 類似。類單元結構體很適合用在當你要實作一個特徵（trait）或某種型別，但你沒有任何需要儲存在型別中的資料。我們會在第十章討論特徵。以下的範例宣告並實例化一個類單元結構體叫做 `AlwaysEqual`：
+
+```rust
+{{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/no-listing-04-unit-like-structs/src/main.rs:here}}
+```
+
+我們使用 `struct` 關鍵字定義我們想要的名稱 `AlwaysEqual`，然後加上分號就好，不必再加任何括號！這樣我們就能一樣用 `subject` 變數取得一個 `AlwaysEqual` 的實例：直接使用我們定義的名稱，不用加任何括號。想像一下我們可以針對此型別的實例實作與其他型別實例相同的行爲，像是爲了測試回傳已知的結果。我們不需要任何資料就能實作該行爲！你能在第十章看到如何定義特徵（trait）並對任何型別實作它們，這也包含類單元結構體。
 
 > ### 結構體資料的所有權
 >
@@ -125,18 +131,31 @@
 >  --> src/main.rs:2:15
 >   |
 > 2 |     username: &str,
->   |               ^ expected lifetime parameter
+>   |               ^ expected named lifetime parameter
+>   |
+> help: consider introducing a named lifetime parameter
+>   |
+> 1 | struct User<'a> {
+> 2 |     username: &'a str,
+>   |
 >
 > error[E0106]: missing lifetime specifier
 >  --> src/main.rs:3:12
 >   |
 > 3 |     email: &str,
->   |            ^ expected lifetime parameter
+>   |            ^ expected named lifetime parameter
+>   |
+> help: consider introducing a named lifetime parameter
+>   |
+> 1 | struct User<'a> {
+> 2 |     username: &str,
+> 3 |     email: &'a str,
+>   |
 >
 > error: aborting due to 2 previous errors
 >
 > For more information about this error, try `rustc --explain E0106`.
-> error: could not compile `structs`.
+> error: could not compile `structs`
 >
 > To learn more, run the command again with --verbose.
 > ```

@@ -2,9 +2,9 @@
 
 我們提及 Rust 的型別系統有諸多特色，不過尚未深入討論。本章將從一般角度切入討論新型別（newtype）並檢驗為何作為型別來說，新型別非常好用。再來，接續看看型別別名（type alias）這個類似新型別但語意上不盡相同的特色。我們也會探討 `!` 型別與動態大小型別（dynamically sized type）。
 
-> 注意：接下來一節假定你已閱讀前面的章節 [「使用新型別模式替外部型別實作外部特徵」][使用新型別模式]。
-
 ### 透過新型別模式達成型別安全與抽象
+
+> 注意：接下來一節假定你已閱讀前面的章節 [「使用新型別模式替外部型別實作外部特徵」][使用新型別模式]。
 
 目前為止，我們討論過的任務中，新型別模式皆游刃有餘，包括靜態強制不讓值被混淆，同時能表示該值的單位。在範例 19-15 可以見到如何善用新型別表示該值的單位：回憶一下，`Millimeters` 與 `Meters` 將 `u32` 的值封裝在新型別內，若我們寫了一個函式需要型別為 `Millimeters` 的參數，我們不可能編譯出一支可以誤傳 `Meters` 型別或 `u32` 來呼叫這個函式的程式。
 
@@ -54,19 +54,19 @@ Box<dyn Fn() + Send + 'static>
 
 型別別名同樣十分常用在 `Result<T, E>` 來減少重複。試想標準函式庫的 `std::io` 模組，輸入輸出（I/O）操作通常會藉由回傳 `Result<T, E>` 來處理失敗的操作。標準函式庫有個 `std::io::Error` 結構體來表示所有可能的 I/O 錯誤。許多在 `std::io` 內的函式會回傳 `E` 為 `std::io::Error` 的 `Result<T, E>` ，例如這些 `Write` 特徵下的函式：
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-05-write-trait/src/lib.rs}}
 ```
 
 這些 `Result<..., Error`> 不斷重複，有鑑於此，`std::io` 宣告了這個型別的別名：
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-06-result-alias/src/lib.rs:here}}
 ```
 
 由於這個宣告是在 `std::io` 模組內，因此我們可直接使用完全限定的別名 `std::io::Result<T>`，實際上就是 `E` 預先填入 `std::io::Error` 的 `Result<T, E>`。最終，`Write` 特徵的函式簽名就會長得這樣：
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-06-result-alias/src/lib.rs:there}}
 ```
 
@@ -76,7 +76,7 @@ Box<dyn Fn() + Send + 'static>
 
 Rust 有一個特殊的型別叫做 `!`，由於它沒有任何值，在型別理論的行話中又稱為**空型別**（empty type）。不過我們更喜歡稱之為**永不型別**（never type），因為當一個函式永遠不會回傳，永不型別將會替代原本的回傳型別。這裡來個範例:
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-07-never-type/src/lib.rs:here}}
 ```
 
@@ -157,7 +157,7 @@ Rust 必須知道該配置多少記憶體給特定型別之值，且所有該型
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-14-generic-maybe-sized/src/lib.rs}}
 ```
 
-`?Sized` 特徵界限與 `Sized` 特徵界限的效果相反：可以解讀為「`T` 可能是或不是 `Sized`」。這個語法只能用在 `Sized`，不適用於其他特徵。
+`?Sized` 特徵界限代表「`T` 可能是或不是 `Sized`」，而此詮釋會覆蓋原本預設泛型型別必須在編譯期就已知大小。`?Trait` 的語法與語義只能用在 `Sized`，不適用於其他特徵。
 
 也請注意，我們將參數 `t` 的型別由 `T` 轉為 `&T`，是因為這個型別可能不是 `Sized`，所以我們需要將它放在指標之後才能使用之，而在這例子中，我們選擇將它放在引用之後。
 接下來，我們會聊聊函式和閉包！

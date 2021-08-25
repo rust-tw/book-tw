@@ -90,7 +90,7 @@ enum IpAddr {
 此枚舉有四個不同型別的變體：
 
 * `Quit` 沒有包含任何資料。
-* `Move` 包含了一個匿名結構體
+* `Move` 包含了和結構體一樣的名稱欄位。
 * `Write` 包含了一個 `String`。
 * `ChangeColor` 包含了三個 `i32`。
 
@@ -132,8 +132,8 @@ enum IpAddr {
 
 ```rust
 enum Option<T> {
-    Some(T),
     None,
+    Some(T),
 }
 ```
 

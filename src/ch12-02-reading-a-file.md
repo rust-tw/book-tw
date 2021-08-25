@@ -14,7 +14,7 @@
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
-```rust,should_panic
+```rust,should_panic,noplayground
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-04/src/main.rs:here}}
 ```
 

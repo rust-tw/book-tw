@@ -103,7 +103,10 @@ after doing automatic regeneration, look at listings/ch15-smart-pointers/listing
 -->
 
 ```text
-  = help: insert indirection (e.g., a `Box`, `Rc`, or `&`) at some point to make `List` representable
+help: insert some indirection (e.g., a `Box`, `Rc`, or `&`) to make `List` representable
+  |
+2 |     Cons(i32, Box<List>),
+  |               ^^^^    ^
 ```
 
 在此建議中，「indirection」代表與其直接儲存數值，我們可以變更資料結構，間接儲存指向數值的指標。

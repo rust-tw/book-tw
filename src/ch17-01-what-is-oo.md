@@ -18,7 +18,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch17-oop/listing-17-01/src/lib.rs}}
 ```
 
@@ -29,7 +29,7 @@ collection</span>
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch17-oop/listing-17-02/src/lib.rs:here}}
 ```
 

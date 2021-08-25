@@ -36,9 +36,7 @@ Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情
 {{#include ../listings/ch15-smart-pointers/listing-15-26/output.txt}}
 ```
 
-在我們變更列表 `a` 來指向 `b` 後，`a` 和 `b` 的 `Rc<List>` 實例引用計數都是 2。在 `main` 結束後，Rust 會先嘗試釋放 `b`，讓 `b` 的 `Rc<List>` 實例計數減一。
-
-然而，因為 `a` 仍然引用 `b` 的 `Rc<List>`，該 `Rc<List>` 的計數會是 1 而非 0，所以 `Rc<List>` 在堆積上的記憶體不會被釋放。記憶體會永遠維持在那並保持計數為 1。為了視覺化引用循環，我們用圖示 15-4 表示。
+在我們變更列表 `a` 來指向 `b` 後，`a` 和 `b` 的 `Rc<List>` 實例引用計數都是 2。在 `main` 結束後，Rust 會釋放 `b`，讓 `Rc<List>` 實例計數從 2 減到 1。此時堆積上 `Rc<List>` 的記憶體還不會被釋放，因爲引用計數還有 1，而非 0。然後 Rust 釋放 `a`，讓 `a` 的 `Rc<List>` 實例也從 2 減到 1。此實例的記憶體也不會被釋放，因爲另一個 `Rc<List>` 的實例仍然引用著它。列表分配的記憶體會永遠不被釋放。為了視覺化引用循環，我們用圖示 15-4 表示。
 
 <img alt="Reference cycle of lists" src="img/trpl15-04.svg" class="center" />
 

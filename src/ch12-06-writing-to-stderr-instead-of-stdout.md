@@ -38,7 +38,7 @@ $ cargo run > output.txt
 
 將 `println!` 變更成 `eprintln!` 之後，讓我們以相同方式再執行程式一次，沒有任何引數並用 `>` 重新導向標準輸出：
 
-```text
+```console
 $ cargo run > output.txt
 解析引數時出現問題：引數不足
 ```
