@@ -112,7 +112,7 @@ Rust **的確**有印出除錯資訊的功能，但是我們要針對我們的�
 
 <span class="caption">範例 5-12：加上推導（derive） `Debug` 特徵的標記並印出 `Rectangle` 實例的格式化資訊</span>
 
-現在當我們執行程式，我們不會在得到錯誤了，而且我們可以看到格式化後的輸出結果：
+現在當我們執行程式，我們不會再得到錯誤了，而且我們可以看到格式化後的輸出結果：
 
 ```console
 {{#include ../listings/ch05-using-structs-to-structure-related-data/listing-05-12/output.txt}}
