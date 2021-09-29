@@ -297,7 +297,7 @@ fn main() {
     let integer_and_float = Point { x: 5, y: 4.0 };
 }
 </code></pre></pre>
-<p><span class="caption">範例 10-8：<code>Point&lt;T, U&gt;</code> 擁有兩個泛型惜別，所以 <code>x</code> 和 <code>y</code> 可以有不同的型別數值</span></p>
+<p><span class="caption">範例 10-8：<code>Point&lt;T, U&gt;</code> 擁有兩個泛型型別，所以 <code>x</code> 和 <code>y</code> 可以有不同的型別數值</span></p>
 <p>現在這些所有的 <code>Point</code> 實例都是允許的了！你要在定義中使用多少泛型型別參數都沒問題，但用太多的話會讓你的程式碼難以閱讀。當你的程式碼需要使用大量泛型的話，通常代表你的程式碼需要重新組織成更小的元件。</p>
 <h3 id="在枚舉中定義"><a class="header" href="#在枚舉中定義">在枚舉中定義</a></h3>
 <p>如同結構體一樣，我們可以定義枚舉讓它們的變體擁有泛型資料型別。讓我們看看我們在第六章標準函式庫提供的 <code>Option&lt;T&gt;</code> 枚舉：</p>
