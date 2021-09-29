@@ -84,7 +84,7 @@ fn largest<T>(list: &[T]) -> T {
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-08/src/main.rs}}
 ```
 
-<span class="caption">範例 10-8：`Point<T, U>` 擁有兩個泛型惜別，所以 `x` 和 `y` 可以有不同的型別數值</span>
+<span class="caption">範例 10-8：`Point<T, U>` 擁有兩個泛型型別，所以 `x` 和 `y` 可以有不同的型別數值</span>
 
 現在這些所有的 `Point` 實例都是允許的了！你要在定義中使用多少泛型型別參數都沒問題，但用太多的話會讓你的程式碼難以閱讀。當你的程式碼需要使用大量泛型的話，通常代表你的程式碼需要重新組織成更小的元件。
 
