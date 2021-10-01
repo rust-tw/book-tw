@@ -13817,7 +13817,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 16-8：在主執行緒取得數值「hi」並顯示出來</span></p>
-<p>通道的接收端有兩個實用的方法：<code>recv</code> 與 <code>try_recv</code>。我們使用 <code>recv</code> 作為<strong>接收</strong>（receive）的縮寫，這位阻擋主執行緒的運行並等待直到通道有訊息傳入。一旦有數值傳遞，<code>recv</code> 會就以此回傳 <code>Result&lt;T, E&gt;</code>。當通道的發送端關閉時，<code>recv</code> 會回傳錯誤來通知不會再有任何數值出現了。</p>
+<p>通道的接收端有兩個實用的方法：<code>recv</code> 與 <code>try_recv</code>。我們使用 <code>recv</code> 作為<strong>接收</strong>（receive）的縮寫，這會阻擋主執行緒的運行並等待直到通道有訊息傳入。一旦有數值傳遞，<code>recv</code> 會就以此回傳 <code>Result&lt;T, E&gt;</code>。當通道的發送端關閉時，<code>recv</code> 會回傳錯誤來通知不會再有任何數值出現了。</p>
 <p><code>try_recv</code> 方法則不會阻擋，而是會立即回傳 <code>Result&lt;T, E&gt;</code>。如果有數值的話，就會是存有訊息的 <code>Ok</code> 數值，如果尚未有任何數值的話，就會是 <code>Err</code> 數值。<code>try_recv</code> 適用於如果此執行緒在等待訊息的同時有其他事要做的情形。我們可以寫個迴圈來時不時呼叫 <code>try_recv</code>，當有數值時處理訊息，不然的話就先做點其他事直到再次檢查為止。</p>
 <p>我們出於方便考量在此例使用 <code>recv</code>，我們的主執行緒除了等待訊息以外沒有其他事好做，所以阻擋主執行緒是合理的。</p>
 <p>當我們執行範例 16-8 的程式碼，我們會看到主執行緒印出的數值：</p>
