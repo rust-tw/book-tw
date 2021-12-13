@@ -330,7 +330,7 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>Result</code> 枚舉有兩個泛型型別 <code>T</code> 和 <code>E</code> 且有兩個變體：<code>Ok</code> 擁有型別 <code>T</code> 的數值；而 <code>Err</code> 擁有型別 <code>E</code> 的數值。這樣的定義讓我們很方便能表達 <code>Result</code> 枚舉可能擁有一個成功的數值（返回型別 <code>T</code> 的數值）或失敗的數值（回傳型別為 <code>E</code> 的錯誤值）。事實上這就是我們在範例 9-3 開啟檔案的方式，當我們成功開啟檔案時的 <code>T</code> 就會是型別 <code>std::fs::File</code>，然後當開啟檔案會發生問題時 <code>E</code> 就會是型別 <code>std::io::Error</code>。</p>
-<p>當你發現你的程式碼有許多結構體或枚舉都只有儲存的值有所不同時，你可以使用泛型行別來避免重複。</p>
+<p>當你發現你的程式碼有許多結構體或枚舉都只有儲存的值有所不同時，你可以使用泛型型別來避免重複。</p>
 <h3 id="在方法中定義"><a class="header" href="#在方法中定義">在方法中定義</a></h3>
 <p>我們可以對結構體或枚舉定義方法（如第五章所述）並也可以使用泛型型別來定義。範例 10-9 展示了我們在範例 10-6 定義的結構體 <code>Point&lt;T&gt;</code> 並實作了一個叫做 <code>x</code> 的方法。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
