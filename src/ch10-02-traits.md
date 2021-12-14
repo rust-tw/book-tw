@@ -53,7 +53,7 @@ know, people」。
 
 實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說我們可以對自訂型別像是 `Tweet` 來實作標準函式庫的 `Display` 特徵來為我們 crate `aggregator` 增加更多功能。因為 `Tweet` 位於我們的 `aggregator` crate 裡面。我們也可以在我們的 crate `aggregator` 內對 `Vec<T>` 實作 `Summary`。因為特徵 `Summary` 也位於我們的 `aggregator` crate 裡面。
 
-但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 `aggregator` crate 裡面對 `Vec<T>` 實作 `Display` 特徵。因為 `Display` 與 `Vec<T>` 都定義在標準函式庫中，並沒有在我們 `aggregator` crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因為上一代（parent）型別不存這在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。
+但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 `aggregator` crate 裡面對 `Vec<T>` 實作 `Display` 特徵。因為 `Display` 與 `Vec<T>` 都定義在標準函式庫中，並沒有在我們 `aggregator` crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因為上一代（parent）型別不存在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。
 
 ### 預設實作
 
@@ -93,7 +93,7 @@ know, people」。
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-03-default-impl-calls-other-methods/src/lib.rs:impl}}
 ```
 
-在我們定義 `summarize_author` 之後，我們可以在結構體 `Tweet` 的實例呼叫 `summarize`，然後 `summarize` 的預設實作會呼叫我們提供的 `summarize_author`。因為我們已經定義了`summarize_author`，且 `Summary` 特徵有提供 `summarize` 方法的預設實作，所以我們不必在寫任何程式碼。
+在我們定義 `summarize_author` 之後，我們可以在結構體 `Tweet` 的實例呼叫 `summarize`，然後 `summarize` 的預設實作會呼叫我們提供的 `summarize_author`。因為我們已經定義了`summarize_author`，且 `Summary` 特徵有提供 `summarize` 方法的預設實作，所以我們不必再寫任何程式碼。
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-03-default-impl-calls-other-methods/src/main.rs:here}}
