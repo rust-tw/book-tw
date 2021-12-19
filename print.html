@@ -12548,7 +12548,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p><code>(*m)</code> 會將 <code>MyBox&lt;String&gt;</code> 解引用成 <code>String</code>，然後 <code>&amp;</code> 和 <code>[..]</code> 會從 <code>String</code> 中取得等於整個字串的字串切片，這就符合 <code>hello</code> 的簽名。沒有強制解引用的程式碼就難以閱讀、寫入或是理解，因為有太多的符號參雜其中。強制解引用能讓 Rust 自動幫我們做這些轉換。</p>
 <p>當某型別有定義 <code>Deref</code> 特徵時，Rust 會分析該型別並重複使用 <code>Deref::deref</code> 直到能取得與參數型別相符的引用。<code>Deref::deref</code> 需要呼叫的次數會在編譯時期插入，所以使用強制解引用沒有任何的執行時開銷！</p>
 <h3 id="強制解引用如何處理可變性"><a class="header" href="#強制解引用如何處理可變性">強制解引用如何處理可變性</a></h3>
-<p>類似於你如何使用 the <code>Deref</code> 特徵來覆蓋不可變引用的 <code>*</code> 運算子，你也可以使用 <code>DerefMut</code> 特徵來覆蓋可變引用的 <code>*</code> 運算子。</p>
+<p>類似於你使用 <code>Deref</code> 特徵來覆蓋不可變引用的 <code>*</code> 運算子的方式，你也可以使用 <code>DerefMut</code> 特徵來覆蓋可變引用的 <code>*</code> 運算子。</p>
 <p>當 Rust 發現型別與特徵實作符合以下三種情況時，它就會進行強制解引用：</p>
 <ul>
 <li>從 <code>&amp;T</code> 到 <code>&amp;U</code> 且 <code>T: Deref&lt;Target=U&gt;</code></li>
