@@ -8459,7 +8459,7 @@ To an admiring bog!
 <h3 id="分開二進制專案的任務"><a class="header" href="#分開二進制專案的任務">分開二進制專案的任務</a></h3>
 <p><code>main</code> 函式負責多數任務的組織分配問題在許多二進制專案中都很常見。所以 Rust 社群開發出了一種流程，這在當 <code>main</code> 開始變大時，能作為分開二進制程式中任務的指導原則。此流程有以下步驟：</p>
 <ul>
-<li>將你的程式分成 <em>main.rs</em> 與 a <em>lib.rs</em> 並將程式邏輯放到 <em>lib.rs</em>。</li>
+<li>將你的程式分成 <em>main.rs</em> 與 <em>lib.rs</em> 並將程式邏輯放到 <em>lib.rs</em>。</li>
 <li>只要你的命令列解析邏輯很小，它可以留在 <em>main.rs</em>。</li>
 <li>當命令行解析邏輯變得複雜時，就將其從 <em>main.rs</em> 移至 <em>lib.rs</em>。</li>
 </ul>
