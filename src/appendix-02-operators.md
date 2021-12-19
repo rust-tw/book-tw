@@ -172,7 +172,7 @@ Table B-4 顯示出現在泛型型別參數的符號。
 | `expr(expr, ...)` | 函式呼叫表達式，也用來初始化元組 `struct` 與元組 `enum` 變體 |
 | `expr.0`, `expr.1`, etc. | 元組索引 |
 
-表 B-9 顯在大括號使用到的地方。
+表 B-9 顯示大括號使用到的地方。
 
 <span class="caption">表 B-9：大括號</span>
 
