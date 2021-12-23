@@ -158,7 +158,7 @@
 <h3 id="測試函式剖析"><a class="header" href="#測試函式剖析">測試函式剖析</a></h3>
 <p>最簡單的形式來看，測試在 Rust 中就是附有 <code>test</code> 屬性的函式。屬性（Attributes）是一種關於某段 Rust 程式碼的詮釋資料（metadata），其中一個例子是我們在第五章使用的 <code>derive</code> 屬性。要將一個函式轉換成測試函式，在 <code>fn</code> 前一行加上 <code>#[test]</code> 即可。當你用 <code>cargo test</code> 命令來執行你的測試時，Rust 會建構一個測試執行檔並執行標有 <code>test</code> 屬性的程式，並回報每個測試函式是否通過或失敗。</p>
 <p>當我們用 Cargo 建立新的函式庫專案時，同時會自動建立一個擁有測試函式的測試模組。此模組能協助我們開始寫測試，讓你不必在每次建立新專案時，尋找特定結構體與測試函式的語法。你可以新增多少測試函式與多少測試模組都沒問題！</p>
-<p>我們將會透過實驗測試產生的樣板而非實際測試任何程式碼，來探索測試如何運作的每個環節。然後我們會寫些現實世界會寫得測試，呼叫我們寫的程式碼並判定其行為是否正確。</p>
+<p>我們將會透過實驗測試產生的樣板而非實際測試任何程式碼，來探索測試如何運作的每個環節。然後我們會寫些現實世界會寫的測試，呼叫我們寫的程式碼並判定其行為是否正確。</p>
 <p>讓我們建立個函式庫專案叫做 <code>adder</code>：</p>
 <pre><code class="language-console">$ cargo new adder --lib
      Created library `adder` project
@@ -228,7 +228,7 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 </code></pre>
-<p>讓我們在加上另一個測試，不過這次我們要讓測試失敗！測試會在測試函式恐慌時失敗，每個測試會跑在新的執行緒（thread）上，然後當主執行緒看到測試執行緒死亡時，就會將該測試標記為失敗的。我們有在第九章提及引發恐慌最簡單的辦法，那就是呼叫 <code>panic!</code> 巨集。將它寫入新的測試 <code>another</code> 中，所以你在 <em>src/lib.rs</em> 的檔案中會看到向範例 11-3 這樣。</p>
+<p>讓我們再加上另一個測試，不過這次我們要讓測試失敗！測試會在測試函式恐慌時失敗，每個測試會跑在新的執行緒（thread）上，然後當主執行緒看到測試執行緒死亡時，就會將該測試標記為失敗的。我們有在第九章提及引發恐慌最簡單的辦法，那就是呼叫 <code>panic!</code> 巨集。將它寫入新的測試 <code>another</code> 中，所以你在 <em>src/lib.rs</em> 的檔案中會看到向範例 11-3 這樣。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust panics noplayground">#[cfg(test)]
 mod tests {
