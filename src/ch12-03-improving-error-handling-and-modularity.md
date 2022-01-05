@@ -99,7 +99,7 @@
 {{#include ../listings/ch12-an-io-project/listing-12-07/output.txt}}
 ```
 
-`index out of bounds: the len is 1 but the index is 1` 這行是給程式設計師看得錯誤訊息。這無法協助我們的終端使用者理解發生了什麼事以及他們開怎麼處理。讓我們來修正吧。
+`index out of bounds: the len is 1 but the index is 1` 這行是給程式設計師看的錯誤訊息。這無法協助我們的終端使用者理解發生了什麼事以及他們開怎麼處理。讓我們來修正吧。
 
 #### 改善錯誤訊息
 
