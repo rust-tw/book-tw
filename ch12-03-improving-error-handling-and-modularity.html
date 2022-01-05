@@ -299,7 +299,7 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
 thread 'main' panicked at 'index out of bounds: the len is 1 but the index is 1', src/main.rs:27:21
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
-<p><code>index out of bounds: the len is 1 but the index is 1</code> 這行是給程式設計師看得錯誤訊息。這無法協助我們的終端使用者理解發生了什麼事以及他們開怎麼處理。讓我們來修正吧。</p>
+<p><code>index out of bounds: the len is 1 but the index is 1</code> 這行是給程式設計師看的錯誤訊息。這無法協助我們的終端使用者理解發生了什麼事以及他們開怎麼處理。讓我們來修正吧。</p>
 <h4 id="改善錯誤訊息"><a class="header" href="#改善錯誤訊息">改善錯誤訊息</a></h4>
 <p>在範例 12-8 中，我們在 <code>new</code> 函式加上了一項檢查來驗證 slice 是否夠長，接著才會取得索引 1 和 2。如果 slice 不夠長的話，程式就會恐慌並顯示比 <code>indexout of bounds</code> 還清楚的錯誤訊息。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
