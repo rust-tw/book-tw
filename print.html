@@ -8,7 +8,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -92,7 +92,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -12795,7 +12795,7 @@ c 離開作用域後的計數 = 2
 </ul>
 <p>對於引用與 <code>Box&lt;T&gt;</code>，借用規則會在編譯期強制檢測。對於 <code>RefCell&lt;T&gt;</code>，這些規則會在<strong>執行時</strong>才強制執行。對於引用來說，如果你打破這些規則，你會得到編譯錯誤。而對 <code>RefCell&lt;T&gt;</code> 來說，如果你打破這些規則，你的程式會恐慌並離開。</p>
 <p>在編譯時期檢查借用規則的優勢在於錯誤能在開發過程及早獲取，而且這對執行時的效能沒有任何影響，因為所有的分析都預先完成了。基於這些原因，在編譯時檢查借用規則在大多數情形都是最佳選擇，這也是為何這是 Rust 預設設置的原因。</p>
-<p>在執行時檢查借用規則的優勢則在於能允許一些特定記憶體安全的場合，而這些原本是不被編譯時檢查所允許的。像 Rust 編譯器這種靜態分析本質上是保守的。有些程式碼特性是無法透過分析程式碼檢測出的，最註明的範例就是停機問題（Halting Problem），這超出本書的範疇，但是是個有趣的研究議題。</p>
+<p>在執行時檢查借用規則的優勢則在於能允許一些特定記憶體安全的場合，而這些原本是不被編譯時檢查所允許的。像 Rust 編譯器這種靜態分析本質上是保守的。有些程式碼特性是無法透過分析程式碼檢測出的，最著名的範例就是停機問題（Halting Problem），這超出本書的範疇，但是是個有趣的研究議題。</p>
 <p>因為有些分析是不可能的，如果 Rust 編譯器無法確定程式碼是否符合所有權規則，它可能會拒絕一支正確的程式，所以由此觀點來看能知道 Rust 編譯器是保守的。如果 Rust 接受不正確的程式，使用者就無法信任 Rust 帶來的保障。然而如果 Rust 拒絕正確的程式，對程式設計師就會很不方便，但沒有任何嚴重的災難會發生。<code>RefCell&lt;T&gt;</code> 型別就適用於當你確定你的程式碼有遵循借用規則，但是編譯器無法理解並保證的時候。</p>
 <p>類似於 <code>Rc&lt;T&gt;</code>，<code>RefCell&lt;T&gt;</code> 也只能用於單一執行緒（single-threaded）的場合，所以如果你嘗試用在多執行緒上的話就會出現編譯時錯誤。我們會在第十六章討論如何在多執行緒程式擁有 <code>RefCell&lt;T&gt;</code> 的功能。</p>
 <p>以下是何時選擇 <code>Box&lt;T&gt;</code>、<code>Rc&lt;T&gt;</code> 或 <code>RefCell&lt;T&gt;</code> 的理由:</p>
