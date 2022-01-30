@@ -1,6 +1,7 @@
 [book]
 title = "Rust 程式設計語言"
 author = "Steve Klabnik and Carol Nichols, with Contributions from the Rust Community"
+language = "zh"
 
 [output.html]
 additional-css = ["ferris.css", "theme/2018-edition.css"]
