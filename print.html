@@ -11119,7 +11119,7 @@ impl Counter {
 <p>當時我們說先不用擔心 <code>clone</code> 呼叫帶來的效率問題，因為我們會在之後移除它們。現在正是絕佳時機！</p>
 <p>我們在此需要 <code>clone</code> 的原因為我們的參數 <code>args</code> 是擁有 <code>String</code> 元素的切片，但是 <code>new</code> 函式並不擁有 <code>args</code>。要回傳 <code>Config</code> 實例的所有權，我們必須克隆數值給 <code>Config</code> 的 <code>query</code> 與 <code>filename</code> 欄位，<code>Config</code> 實例才能擁有其值。</p>
 <p>有了我們新學到的疊代器，我們可以改變 <code>new</code> 函式來取得疊代器的所有權來作為引數，而非借用切片。我們會來使用疊代器的功能，而不是檢查切片長度並索引特定位置。這能讓 <code>Config::new</code> 函式的意圖更清楚，因為疊代器會存取數值。</p>
-<p>一旦 <code>Config::new</code> 取得疊代器的所有權並不在使用借用的索引動作，我們就可以從疊代器中移動 <code>String</code> 的數值至 <code>Config</code> 而非呼叫 <code>clone</code> 來產生新的分配。</p>
+<p>一旦 <code>Config::new</code> 取得疊代器的所有權並不再使用借用的索引動作，我們就可以從疊代器中移動 <code>String</code> 的數值至 <code>Config</code> 而非呼叫 <code>clone</code> 來產生新的分配。</p>
 <h4 id="直接使用回傳的疊代器"><a class="header" href="#直接使用回傳的疊代器">直接使用回傳的疊代器</a></h4>
 <p>請開啟你的 I/O 專案下的 <em>src/main.rs</em> 檔案，這應該會看起來像這樣：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
