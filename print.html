@@ -10086,7 +10086,7 @@ How dreary to be somebody!
 <div style="break-before: page; page-break-before: always;"></div><h2 id="函式語言功能疊代器與閉包-1"><a class="header" href="#函式語言功能疊代器與閉包-1">函式語言功能：疊代器與閉包</a></h2>
 <p>Rust 的閉包（closures）是個你能賦值給變數或作為其他函式引數的匿名函式。你可以在某處建立閉包，然後在不同的地方呼叫閉包並執行它。而且不像函式，閉包可以從它們所定義的作用域中獲取數值。我們將會解釋這些閉包功能如何允許程式碼重用以及自訂行為。</p>
 <h3 id="透過閉包建立抽象行為"><a class="header" href="#透過閉包建立抽象行為">透過閉包建立抽象行為</a></h3>
-<p>讓我們處理一個範例是當儲存閉包並在之後才執行是很實況的情況。在過程中，我們會討論到閉包語法、型別推導以及特徵。</p>
+<p>我們的下一個範例──儲存閉包並在之後才執行──是很實用的情況。在過程中，我們會討論到閉包語法、型別推導以及特徵。</p>
 <p>讓我們考慮以下假設情境：我們在一家新創公司上班並正在推出一支會產生自訂重訓方案的應用程式。其後端就是用 Rust 寫的，且產生重訓方案的演算法有很多因素要考量，像是使用者的年齡、身高體重指數、健身喜好、最近鍛鍊的項目以及他們指定的重訓強度。此例中實際使用的演算法並不重要，重要的是此運算會花費數秒鐘。我們只想要在我們需要時呼叫此演算法並只會呼叫一次，讓使用者不會等待太久。</p>
 <p>我們會模擬這個假設的演算法為函式 <code>simulated_expensive_calculation</code>，如範例 13-1 所示，他會印出 <code>緩慢計算中...</code>、等待兩秒鐘，然後回傳我們傳入的數值。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -10173,8 +10173,8 @@ fn simulated_expensive_calculation(intensity: u32) -&gt; u32 {
 <p><span class="caption">範例 13-3：依據輸入印出重訓方案並呼叫函式 <code>simulated_expensive_calculation</code> 的業務邏輯</span></p>
 <p>範例 13-3 的程式碼會多次呼叫計算緩慢的函式。第一個 <code>if</code> 區塊會呼叫 <code>simulated_expensive_calculation</code> 兩次，然後在 <code>else</code> 區塊內的 <code>if</code> 不會呼叫它，然後第二個 <code>else</code> 會呼叫它一次。</p>
 <p><code>generate_workout</code> 函式預期的行為是先檢查使用者想要低強度的重訓方案（也就是強度低於 25）或者高強度的方案（大於等於 25）。</p>
-<p>低強度重訓方案會依據我們麼體的複雜演算法來建議一些伏地挺身和仰臥起坐。</p>
-<p>如果使用者想要高強度重用，就會有額外的邏輯：如果應用程式產生的隨機數字是 3 的話，應用程式會建議休息並多喝水；如果不是的話，使用者會依據複雜演算法得到數分鐘的跑步訓練。</p>
+<p>低強度重訓方案會依據我們模擬的複雜演算法來建議伏地挺身和仰臥起坐的次數。</p>
+<p>如果使用者想要高強度的重訓，就會有額外的邏輯：如果應用程式產生的隨機數字是 3 的話，應用程式會建議休息並多喝水；如果不是的話，使用者會依據複雜演算法得到數分鐘的跑步訓練。</p>
 <p>此程式碼能夠應付業務邏輯了，但是假設未來資料科學團隊決定要求我們需要更改我們呼叫 <code>simulated_expensive_calculation</code> 函式的方式。為了簡化這些更新步驟，我們想要重構此程式碼好讓 <code>simulated_expensive_calculation</code> 只會呼叫一次。同時我們也想要去掉我們目前呼叫兩次的多餘程式碼，我們不希望再對此程序加上更多的函式呼叫。也就是說，我們不希望在沒有需要取得結果時呼叫程式碼，且我們希望它只會被呼叫一次。</p>
 <h4 id="透過函式重構"><a class="header" href="#透過函式重構">透過函式重構</a></h4>
 <p>我們可以用許多方式重構此重訓程式。首先我們先將重複呼叫 <code>simulated_expensive_calculation</code> 的地方改成變數，如範例 13-4 所示。</p>
@@ -10634,7 +10634,7 @@ To learn more, run the command again with --verbose.
 <p>當你建立閉包時，Rust 會依據閉包如何使用環境的數值來推導該使用何種特徵。所有的閉包都會實作 <code>FnOnce</code> 因為它們都可以至少被呼叫一次。不會移動獲取變數的閉包還會實作 <code>FnMut</code>，最後不需要向獲取變數取得可變引用的閉包會再實作 <code>Fn</code>。在範例 13-12 中，<code>equal_to_x</code> 閉包會取得 <code>x</code> 的不可變借用（所以 <code>equal_to_x</code> 擁有 <code>Fn</code> 特徵），因為閉包本體只會讀取 <code>x</code> 數值。</p>
 <p>如果你希望強制閉包會取得周圍環境數值的所有權，你可以在參數列表前使用 <code>move</code> 關鍵字。此技巧在要將閉包傳給新的執行緒以便將資料移動到新執行緒時會很實用。</p>
 <blockquote>
-<p>注意：就算 <code>move</code> 閉包透過移動獲取變數，它們仍可能會實作成 <code>Fn</code> 或 <code>FnMut</code>。這是因爲閉包型別會實作哪種特徵，是有該閉包如何處理其獲取的變數來決定，而不是它如何獲取的。<code>move</code> 關鍵字只會處理後者的行爲。</p>
+<p>注意：就算 <code>move</code> 閉包透過移動獲取變數，它們仍可能會實作成 <code>Fn</code> 或 <code>FnMut</code>。這是因爲閉包型別會實作哪種特徵，是由該閉包如何處理其獲取的變數來決定，而不是它如何獲取的。<code>move</code> 關鍵字只會處理後者的行爲。</p>
 </blockquote>
 <p>當我們在第十六章討論並行的時候，我們會遇到更多 <code>move</code> 閉包的範例。現在的話可以先看看範例 13-12 怎麼使用 <code>move</code> 關鍵字到閉包定義中 ，並使用向量而非整數，因為整數可以被拷貝而不是移動。注意此程式還不能編譯過。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
