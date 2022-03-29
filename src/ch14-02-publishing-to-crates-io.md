@@ -55,7 +55,7 @@ test src/lib.rs - add_one (line 5) ... ok
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
 ```
 
-現在如果我們變更函式或範例使其內的 `assert_eq!` 會恐慌並再次執行 `cargo test` 的話，我們會看到技術文件測試能互獲取錯誤，告訴我們範例與程式碼已經不同不了！
+現在如果我們變更函式或範例使其內的 `assert_eq!` 會恐慌並再次執行 `cargo test` 的話，我們會看到技術文件測試能互相獲取錯誤，告訴我們範例與程式碼已經不同不了！
 
 #### 包含項目結構的註解
 
@@ -147,7 +147,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 如果你有許多巢狀模組（nested modules）的話，在頂層透過 `pub use` 重新匯出型別可以大大提升使用 crate 的體驗。
 
-提供實用的公開 API 架構更像是一門藝術而不只是科學，而你可以一步步來尋找最適合使用者的 API 架構。使用 `pub use` 可以給你更多組織 crate 內部架構的彈性，並將內部架構與你要呈現給使用者的介面互相解偶（decouple）。你可以觀察一些你安裝過的程式碼，看看它嗎的內部架構是不是不同於它們的公開 API。
+提供實用的公開 API 架構更像是一門藝術而不只是科學，而你可以一步步來尋找最適合使用者的 API 架構。使用 `pub use` 可以給你更多組織 crate 內部架構的彈性，並將內部架構與你要呈現給使用者的介面互相解偶（decouple）。你可以觀察一些你安裝過的程式碼，看看它們的內部架構是不是不同於它們的公開 API。
 
 ### 設定 Crates.io 帳號
 
