@@ -1,59 +1,29 @@
 name: Rust Book
 
 on:
-    push:
-        branches:
-            - zh_tw
+  push:
+    branches:
+    - zh_tw
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v2
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
 
-            # Install Rust package manager
-            #
-            - name: Install cargo
-              uses: actions-rs/toolchain@v1
-              with:
-                toolchain: stable
-                profile: minimal
+    - name: Install mdbook
+      run: |
+        mkdir mdbook
+        curl -Lf https://github.com/rust-lang/mdBook/releases/download/v0.4.15/mdbook-v0.4.15-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=./mdbook
+        echo `pwd`/mdbook >> $GITHUB_PATH
 
-            # Cache installation assets
-            #
-            - name: Cache cargo registry
-              uses: actions/cache@v1
-              with:
-                path: ~/.cargo/registry
-                key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-            - name: Cache cargo index
-              uses: actions/cache@v1
-              with:
-                  path: ~/.cargo/git
-                  key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
-            - name: Cache cargo build
-              uses: actions/cache@v1
-              with:
-                  path: target
-                  key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+    - name: Generate book
+      run: mdbook build
 
-            # Install mdbook and requirements
-            #
-            - name: Install mdbook
-              uses: actions-rs/cargo@v1
-              with:
-                  command: install
-                  args: mdbook
-
-            - name: Generate summary
-              run: mdbook build
-
-            # HTML publication as Github Page
-            #
-            - name: Publish HTML
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./book
-
+    # HTML publication as Github Page
+    - name: Publish HTML
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./book
