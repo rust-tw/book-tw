@@ -8,6 +8,6 @@ Rust 的標準函式庫提供一些非常實用的資料結構稱之為**集合�
 
 想瞭解更多標準函式庫提供的集合種類的話，歡迎查閱[技術文件][collections]。
 
-[collections]: https://doc.rust-lang.org/std/collections/index.html
-
 我們將討論如何建立與更新向量、字串與雜湊映射，以及它們的所長。
+
+[collections]: https://doc.rust-lang.org/std/collections/index.html

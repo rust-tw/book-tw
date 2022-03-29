@@ -49,7 +49,7 @@ $ cargo new adder
 
 ### 在工作空間中建立第二個套件
 
-接下來讓我們在工作空間中建立另一個套件成員 `add-one`。請修改頂層 *Cargo.toml* 來指定 *add-one* 的路徑到 `members` 列表中：
+接下來讓我們在工作空間中建立另一個套件成員 `add_one`。請修改頂層 *Cargo.toml* 來指定 *add_one* 的路徑到 `members` 列表中：
 
 <span class="filename">檔案名稱：Cargo.toml</span>
 
@@ -57,18 +57,18 @@ $ cargo new adder
 {{#include ../listings/ch14-more-about-cargo/no-listing-02-workspace-with-two-crates/add/Cargo.toml}}
 ```
 
-然後產生新的函式庫 crate `add-one`：
+然後產生新的函式庫 crate `add_one`：
 
 <!-- manual-regeneration
-cd listings/ch14-more-about-cargo/output-only-02-add-one/add
-rm -rf add-one
-cargo new add-one --lib
+cd listings/ch14-more-about-cargo/output-only-02-add_one/add
+rm -rf add_one
+cargo new add_one --lib
 copy output below
 -->
 
 ```console
-$ cargo new add-one --lib
-     Created library `add-one` package
+$ cargo new add_one --lib
+     Created library `add_one` package
 ```
 
 *add* 目錄現在應該要擁有這些目錄與檔案：
@@ -76,7 +76,7 @@ $ cargo new add-one --lib
 ```text
 ├── Cargo.lock
 ├── Cargo.toml
-├── add-one
+├── add_one
 │   ├── Cargo.toml
 │   └── src
 │       └── lib.rs
@@ -87,15 +87,15 @@ $ cargo new add-one --lib
 └── target
 ```
 
-在 *add-one/src/lib.rs* 檔案中，讓我們加上一個函式 `add_one`：
+在 *add_one/src/lib.rs* 檔案中，讓我們加上一個函式 `add_one`：
 
-<span class="filename">檔案名稱：add-one/src/lib.rs</span>
+<span class="filename">檔案名稱：add_one/src/lib.rs</span>
 
 ```rust,noplayground
-{{#rustdoc_include ../listings/ch14-more-about-cargo/no-listing-02-workspace-with-two-crates/add/add-one/src/lib.rs}}
+{{#rustdoc_include ../listings/ch14-more-about-cargo/no-listing-02-workspace-with-two-crates/add/add_one/src/lib.rs}}
 ```
 
-現在在我們在工作空間中有另一個套件了，我們可以讓我們 `adder` 套件的執行檔依賴擁有函式庫的 `add-one` 套件。首先，我們需要將 `add-one` 的路徑依賴加到 *adder/Cargo.toml*。
+現在在我們在工作空間中有另一個套件了，我們可以讓我們 `adder` 套件的執行檔依賴擁有函式庫的 `add_one` 套件。首先，我們需要將 `add_one` 的路徑依賴加到 *adder/Cargo.toml*。
 
 <span class="filename">檔案名稱：adder/Cargo.toml</span>
 
@@ -105,7 +105,7 @@ $ cargo new add-one --lib
 
 Cargo 不會假設工作空間下的 crate 會彼此依賴，我們我們要指定 crate 彼此之間依賴的關係。
 
-接著讓我們在 `adder` 內使用 `add-one` crate 的 `add_one` 函式。開啟 *adder/src/main.rs* 檔案並在最上方加上 `use` 來將 `add-one` 函式庫引入作用域。然後變更 `main` 函式來呼叫 `add_one` 函式，如範例14-7 所示。
+接著讓我們在 `adder` 內使用 `add_one` crate 的 `add_one` 函式。開啟 *adder/src/main.rs* 檔案並在最上方加上 `use` 來將 `add_one` 函式庫引入作用域。然後變更 `main` 函式來呼叫 `add_one` 函式，如範例14-7 所示。
 
 <span class="filename">檔案名稱：adder/src/main.rs</span>
 
@@ -113,7 +113,7 @@ Cargo 不會假設工作空間下的 crate 會彼此依賴，我們我們要指�
 {{#rustdoc_include ../listings/ch14-more-about-cargo/listing-14-07/add/adder/src/main.rs}}
 ```
 
-<span class="caption">範例 14-7：在 `adder` crate 中使 `add-one` 函式庫 crate</span>
+<span class="caption">範例 14-7：在 `adder` crate 中使 `add_one` 函式庫 crate</span>
 
 讓我們在頂層的 *add* 目錄執行 `cargo build` 來建構工作空間吧！
 
@@ -125,7 +125,7 @@ copy output below; the output updating script doesn't handle subdirectories in p
 
 ```console
 $ cargo build
-   Compiling add-one v0.1.0 (file:///projects/add/add-one)
+   Compiling add_one v0.1.0 (file:///projects/add/add_one)
    Compiling adder v0.1.0 (file:///projects/add/adder)
     Finished dev [unoptimized + debuginfo] target(s) in 0.68s
 ```
@@ -145,11 +145,11 @@ $ cargo run -p adder
 你好，世界！10 加一會是 11！
 ```
 
-這就會執行 *adder/src/main.rs* 的程式碼，其依賴於 `add-one` crate。
+這就會執行 *adder/src/main.rs* 的程式碼，其依賴於 `add_one` crate。
 
 #### 在工作空間中依賴外部套件
 
-注意到工作空間只有在頂層有一個 *Cargo.lock* 檔案，而不是在每個 crate 目錄都有一個 *Cargo.lock*。這確保所有的 crate 都對所有的依賴使用相同的版本。如果我們加了 `rand` 套件到 *adder/Cargo.toml* 與 *add-one/Cargo.toml* 檔案中，Cargo 會將兩者的版本解析為同一個 `rand` 版本並記錄到同個 *Cargo.lock* 中。確保工作空間所有 crate 都會使用相同依賴代表工作空間中的 crate 永遠都彼此相容。讓我們將 `rand` crate 加到 *add-one/Cargo.toml* 檔案的 `[dependencies]` 段落中，使 `add-one` crate 可以使用 `rand` crate：
+注意到工作空間只有在頂層有一個 *Cargo.lock* 檔案，而不是在每個 crate 目錄都有一個 *Cargo.lock*。這確保所有的 crate 都對所有的依賴使用相同的版本。如果我們加了 `rand` 套件到 *adder/Cargo.toml* 與 *add_one/Cargo.toml* 檔案中，Cargo 會將兩者的版本解析為同一個 `rand` 版本並記錄到同個 *Cargo.lock* 中。確保工作空間所有 crate 都會使用相同依賴代表工作空間中的 crate 永遠都彼此相容。讓我們將 `rand` crate 加到 *add_one/Cargo.toml* 檔案的 `[dependencies]` 段落中，使 `add_one` crate 可以使用 `rand` crate：
 
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -157,13 +157,13 @@ $ cargo run -p adder
 * ch07-04-bringing-paths-into-scope-with-the-use-keyword.md
 -->
 
-<span class="filename">檔案名稱：add-one/Cargo.toml</span>
+<span class="filename">檔案名稱：add_one/Cargo.toml</span>
 
 ```toml
-{{#include ../listings/ch14-more-about-cargo/no-listing-03-workspace-with-external-dependency/add/add-one/Cargo.toml:7:8}}
+{{#include ../listings/ch14-more-about-cargo/no-listing-03-workspace-with-external-dependency/add/add_one/Cargo.toml:7:8}}
 ```
 
-我們現在就可以將 `use rand;` 加到 *add-one/src/lib.rs* 檔案中，接著在 *add* 目錄下執行 `cargo build` 來建構整個工作空間就會引入並編譯 `rand` crate。我們會得到一個警告，因爲我們還沒有開始使用引入作用域的 `rand`：
+我們現在就可以將 `use rand;` 加到 *add_one/src/lib.rs* 檔案中，接著在 *add* 目錄下執行 `cargo build` 來建構整個工作空間就會引入並編譯 `rand` crate。我們會得到一個警告，因爲我們還沒有開始使用引入作用域的 `rand`：
 
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/no-listing-03-workspace-with-external-dependency/add
@@ -177,9 +177,9 @@ $ cargo build
   Downloaded rand v0.8.3
    --省略--
    Compiling rand v0.8.3
-   Compiling add-one v0.1.0 (file:///projects/add/add-one)
+   Compiling add_one v0.1.0 (file:///projects/add/add_one)
 warning: unused import: `rand`
- --> add-one/src/lib.rs:1:5
+ --> add_one/src/lib.rs:1:5
   |
 1 | use rand;
   |     ^^^^
@@ -191,7 +191,7 @@ warning: 1 warning emitted
     Finished dev [unoptimized + debuginfo] target(s) in 10.18s
 ```
 
-頂層的 *Cargo.lock* 現在就包含 `add-one` 有 `rand` 作為依賴的資訊。不過就算我們能在工作空間的某處使用 `rand`，並不代表我們可以在工作空間的其他 crate 中使用它，除非它們的 *Cargo.toml* 也加上了 `rand`。舉例來說，如果我們將 `use rand;` 加到 *adder/src/main.rs* 檔案中想讓 `adder` 套件也使用的話，我們就會得到錯誤：
+頂層的 *Cargo.lock* 現在就包含 `add_one` 有 `rand` 作為依賴的資訊。不過就算我們能在工作空間的某處使用 `rand`，並不代表我們可以在工作空間的其他 crate 中使用它，除非它們的 *Cargo.toml* 也加上了 `rand`。舉例來說，如果我們將 `use rand;` 加到 *adder/src/main.rs* 檔案中想讓 `adder` 套件也使用的話，我們就會得到錯誤：
 
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/output-only-03-use-rand/add
@@ -216,10 +216,10 @@ error[E0432]: unresolved import `rand`
 
 讓我們再進一步加入一個測試函式 `add_one::add_one` 到 `add_one` crate 之中：
 
-<span class="filename">檔案名稱：add-one/src/lib.rs</span>
+<span class="filename">檔案名稱：add_one/src/lib.rs</span>
 
 ```rust,noplayground
-{{#rustdoc_include ../listings/ch14-more-about-cargo/no-listing-04-workspace-with-tests/add/add-one/src/lib.rs}}
+{{#rustdoc_include ../listings/ch14-more-about-cargo/no-listing-04-workspace-with-tests/add/add_one/src/lib.rs}}
 ```
 
 現在在頂層的 *add* 目錄執行 `cargo test`：
@@ -232,7 +232,7 @@ copy output below; the output updating script doesn't handle subdirectories in p
 
 ```console
 $ cargo test
-   Compiling add-one v0.1.0 (file:///projects/add/add-one)
+   Compiling add_one v0.1.0 (file:///projects/add/add_one)
    Compiling adder v0.1.0 (file:///projects/add/adder)
     Finished test [unoptimized + debuginfo] target(s) in 0.27s
      Running target/debug/deps/add_one-f0253159197f7841
@@ -248,25 +248,25 @@ running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-   Doc-tests add-one
+   Doc-tests add_one
 
 running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
 
-輸出的第一個段落顯示了 `add-one` crate 中的 `it_works` 測試通過。下一個段落顯示 `adder` crate 沒有任何測試，然後最後一個段落顯示 `add-one` 中沒有任何技術文件測試。在像工作空間這樣的架構下執行 `cargo test` 就會執行工作空間內的所有 crate 測試。
+輸出的第一個段落顯示了 `add_one` crate 中的 `it_works` 測試通過。下一個段落顯示 `adder` crate 沒有任何測試，然後最後一個段落顯示 `add_one` 中沒有任何技術文件測試。在像工作空間這樣的架構下執行 `cargo test` 就會執行工作空間內的所有 crate 測試。
 
 我們也可以在頂層目錄使用 `-p` 並指定我們想測試的 crate 名稱來測試工作空間中特定的 crate：
 
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/no-listing-04-workspace-with-tests/add
-cargo test -p add-one
+cargo test -p add_one
 copy output below; the output updating script doesn't handle subdirectories in paths properly
 -->
 
 ```console
-$ cargo test -p add-one
+$ cargo test -p add_one
     Finished test [unoptimized + debuginfo] target(s) in 0.00s
      Running target/debug/deps/add_one-b3235fea9a156f74
 
@@ -275,17 +275,17 @@ test tests::it_works ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-   Doc-tests add-one
+   Doc-tests add_one
 
 running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
 
-此輸出顯示 `cargo test` 只執行了 `add-one` crate 的測試並沒有執行 `adder` crate 的測試。
+此輸出顯示 `cargo test` 只執行了 `add_one` crate 的測試並沒有執行 `adder` crate 的測試。
 
 如果你想要發佈工作空間的 crate 到 [crates.io](https://crates.io/)，工作空間中的每個 crate 必須分別獨自發佈。`cargo publish` 命令並沒有 `--all` 或是 `-p` 之類的選項，所以你必須移動到每個 crate 的目錄並執行 `cargo publish`，這樣工作空間中的每個 crate 才會發佈出去。
 
-之後想嘗試練習的話，你可以在工作空間中在加上 `add-two` crate，方式和 `add-one` crate 類似！
+之後想嘗試練習的話，你可以在工作空間中在加上 `add_two` crate，方式和 `add_one` crate 類似！
 
 隨著你的專案成長，你可以考慮使用工作空間：拆成各個小部分比一整塊大程式還更容易閱讀。再者，如果需要經常同時修改的話，將 crate 放在同個工作空間中更易於彼此的協作。

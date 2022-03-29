@@ -51,8 +51,6 @@
 
 另外一個告訴我們還有改善空間的地方是 `parse_config` 名稱中的 `config`，這指示我們回傳的兩個數值是相關的，且都是配置數值的一部分。我們現在沒有確實表達出這樣的資料結構，而只有將兩個數值組合成一個元組而已，我們可以將這兩個數值存入一個結構體，並對每個結構體欄位給予有意義的名稱。這樣做能讓未來的維護者可以清楚知道這些數值的不同與關聯，以及它們的用途。
 
-> 注意：當使用複雜型別會比較理想時，卻仍使用原始數值的反模式（anti-pattern）被稱之為**原始型別偏執（primitive obsession）**。
-
 範例 12-6 改善了 `parse_config` 函式。
 
 <span class="filename">檔案名稱：src/main.rs</span>
@@ -113,7 +111,7 @@
 
 <span class="caption">範例 12-8：新增對引數數量的檢查</span>
 
-此程式碼類似於我們在[範例 9-10 寫的 `Guess::new` 函式][ch9-custom-types]<!-- ignore -->，在那裡當 `value` 超出有效數值的範圍時，我們就呼叫 `panic!`。然而在此我們不是檢查數值的範圍，而是檢查 `args` 的長度是否至少為 3，然後函式剩餘的段落都能在假設此條件成立情況下正常執行。如果 `args` 的項目數量少於三的話，此條件會為真，然後我們就會立即呼叫 `panic!` 巨集來結束程式。
+此程式碼類似於我們在[範例 9-13 寫的 `Guess::new` 函式][ch9-custom-types]<!-- ignore -->，在那裡當 `value` 超出有效數值的範圍時，我們就呼叫 `panic!`。然而在此我們不是檢查數值的範圍，而是檢查 `args` 的長度是否至少為 3，然後函式剩餘的段落都能在假設此條件成立情況下正常執行。如果 `args` 的項目數量少於三的話，此條件會為真，然後我們就會立即呼叫 `panic!` 巨集來結束程式。
 
 在 `new` 多了這些額外的程式碼之後，讓我們不用任何引數再次執行程式，來看看錯誤訊息為何：
 
@@ -121,7 +119,7 @@
 {{#include ../listings/ch12-an-io-project/listing-12-08/output.txt}}
 ```
 
-這樣的輸出就好多了，我們現在有個合理的錯誤訊息。然而我們還是顯示了一些額外資訊給使用者。也許在此使用範例 9-10 的技巧並不是最好的選擇，如同[第九章所提及的][ch9-error-guidelines]<!-- ignore -->，`panic!` 的呼叫比較屬於程式設計問題，而不是使用問題。我們可以改使用第九章的其他技巧，像是[回傳 `Result`][ch9-result]<!-- ignore -->來表達是成功還是失敗。
+這樣的輸出就好多了，我們現在有個合理的錯誤訊息。然而我們還是顯示了一些額外資訊給使用者。也許在此使用範例 9-13 的技巧並不是最好的選擇，如同[第九章所提及的][ch9-error-guidelines]<!-- ignore -->，`panic!` 的呼叫比較屬於程式設計問題，而不是使用問題。我們可以改使用第九章的其他技巧，像是[回傳 `Result`][ch9-result]<!-- ignore -->來表達是成功還是失敗。
 
 #### 從 `new` 回傳 `Result` 而非呼叫 `panic!`
 
@@ -131,13 +129,13 @@
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
-```rust,ignore
+```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-09/src/main.rs:here}}
 ```
 
 <span class="caption">範例 12-9：從 `Config::new` 回傳 `Result`</span>
 
-我們的 `new` 函式現在會回傳 `Result`，在成功時會有 `Config` 實例，而在錯誤時會有個 `&str`。
+我們的 `new` 函式現在會回傳 `Result`，在成功時會有 `Config` 實例，而在錯誤時會有個 `&'static str`。我們的錯誤值永遠會是有 `'static` 生命週期的字串字面值。
 
 我們在 `new` 函式本體作出了兩項改變：不同於呼叫 `panic!`，當使用者沒有傳遞足夠引數時，我們現在會回傳 `Err` 數值。此外我們也將 `Config` 封裝進 `Ok` 作為回傳值。這些改變讓函式能符合其新的型別簽名。
 
@@ -238,7 +236,7 @@ Rust 告訴我們程式碼忽略了 `Result` 數值且 `Result` 數值可能代�
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,ignore
+```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-13/src/lib.rs:here}}
 ```
 

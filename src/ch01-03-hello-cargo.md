@@ -37,7 +37,7 @@ $ cd hello_cargo
 [package]
 name = "hello_cargo"
 version = "0.1.0"
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 ```

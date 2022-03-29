@@ -10,7 +10,7 @@
 
 舉例來說，如果我們有數個結構體各自擁有不同種類與不同數量的文字：結構體 `NewsArticle` 儲存特定地點的新聞故事，然後 `Tweet` 則有最多 280 字元的內容，且有個欄位來判斷是全新的推文、轉推或其他推文的回覆。
 
-我們想要建立個多媒體資料庫來顯示可能存在 `NewsArticle` 或 `Tweet` 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們需要呼叫該實例的 `summarize` 方法來索取總結。範例 10-12 顯示了表達此行為的 `Summary` 特徵定義。
+我們想要建立個多媒體資料庫來顯示可能存在 `NewsArticle` 或 `Tweet` 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們會呼叫該實例的 `summarize` 方法來索取總結。範例 10-12 顯示了表達此行為的 `Summary` 特徵定義。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -20,7 +20,7 @@
 
 <span class="caption">範例 10-12：`Summary` 特徵包含 `summarize` 方法所定義的行為</span>
 
-我們在此使用 `trait` 關鍵字定義一個特徵，其名稱為 `Summary`。在大括號中，我們宣告方法簽名來描述有實作此特徵的型別行為，在此例就是 `fn summarize(&self) -> String`。
+我們在此使用 `trait` 關鍵字定義一個特徵，其名稱為 `Summary`。我們也將特徵宣告成 `pub` 所以其他會依賴此函式庫的 crate 也能用到此特徵，我們之後會在看到其他範例。在大括號中，我們宣告方法簽名來描述有實作此特徵的型別行為，在此例就是 `fn summarize(&self) -> String`。
 
 在方法簽名之後，我們並沒有加上大括號提供實作細節，而是使用分號。每個有實作此特徵的型別必須提供其自訂行為的方法本體。編譯器會強制要求任何有 `Summary` 特徵的型別都要有定義相同簽名的 `summarize` 方法。
 
@@ -28,7 +28,7 @@
 
 ### 為型別實作特徵
 
-現在我們已經用 `Summary` 特徵定義了所需的行為。我們可以在我們多媒體資料庫的型別中實作它。範例 10-13 顯示了 `NewsArticle` 結構體實作 `Summary` 特徵的方式，其使用頭條、作者、位置來建立 `summerize` 的回傳值。至於結構體 `Tweet`，我們使用使用者名稱加上整個推文的文字來定義 `summarize`，因為推文的內容長度已經被限制在 280 個字元以內了。
+現在我們已經用 `Summary` 特徵定義了所需的方法簽名。我們可以在我們多媒體資料庫的型別中實作它。範例 10-13 顯示了 `NewsArticle` 結構體實作 `Summary` 特徵的方式，其使用頭條、作者、位置來建立 `summerize` 的回傳值。至於結構體 `Tweet`，我們使用使用者名稱加上整個推文的文字來定義 `summarize`，因為推文的內容長度已經被限制在 280 個字元以內了。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -40,18 +40,17 @@
 
 為一個型別實作一個特徵類似於實作一般的方法。不同的地方在於在 `impl` 之後我們加上的是想要實作的特徵，然後在用 `for` 關鍵字加上我們想要實作特徵的型別名稱。在 `impl` 的區塊內我們置入該特徵所定義的方法簽名，我們使用大括號並填入方法本體來為對特定型別實作出特徵方法的指定行為。
 
-在實作完後，我們就能像呼叫正常方法一樣，來呼叫 `NewsArticle` 和 `Tweet` 實例的方法，如以下所示：
+現在，我們就能像呼叫正常方法一樣，來呼叫 `NewsArticle` 和 `Tweet` 實例的方法，如以下所示：
+現在函式庫已經對 `NewsArticle` 和 `Tweet` 實作 `Summary` 特徵了，crate 的使用者能像我們平常呼叫方法那樣，對 `NewsArticle` 和 `Tweet` 的實例呼叫特徵方法。唯一的不同是特徵也必須加入作用域中，各型別才能使用額外的特徵方法。以下的範例展示執行檔 crate 如何使用我們的 `aggregator` 函式庫 crate：
 
 ```rust,ignore
-{{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-01-calling-trait-method/src/main.rs:here}}
+{{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-01-calling-trait-method/src/main.rs}}
 ```
 
 此程式碼會印出「1 則新推文：horse_ebooks: of course, as you probably already
 know, people」。
 
-注意到因為我們將範例 10-13 的 `Summary` 特徵、`NewsArticle` 和 `Tweet` 型別都定義在 *lib.rs* ，所以它們都在同個作用域下。如果我們說此 *lib.rs* 對應的 crate 叫做 `aggregator`，然後有人想要使用我們 crate 的功能來對他們函式庫作用域中定義的結構體實作 `Summary` 特徵的話。他們會需要將該特徵引入作用域，可以像這樣指定 `use aggregator::Summary;`，如此一來就能對他們的型別實作 `Summary`。`Summary` 特徵一樣也必須是公開的才能讓其他 crate 使用。這就是為何我們在範例 10-12 的 `trait` 前面就加上 `pub` 關鍵字。
-
-實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說我們可以對自訂型別像是 `Tweet` 來實作標準函式庫的 `Display` 特徵來為我們 crate `aggregator` 增加更多功能。因為 `Tweet` 位於我們的 `aggregator` crate 裡面。我們也可以在我們的 crate `aggregator` 內對 `Vec<T>` 實作 `Summary`。因為特徵 `Summary` 也位於我們的 `aggregator` crate 裡面。
+其他依賴 `aggregator` 函式庫的 crate 也能將 `Summary` 特徵引入作用域並對他們自己的型別實作這個特徵。不過實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說，我們可以對自訂型別像是 `Tweet` 來實作標準函式庫的 `Display` 特徵來為我們 crate `aggregator` 增加更多功能。因為 `Tweet` 位於我們的 `aggregator` crate 裡面。我們也可以在我們的 crate `aggregator` 內對 `Vec<T>` 實作 `Summary`。因為特徵 `Summary` 也位於我們的 `aggregator` crate 裡面。
 
 但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 `aggregator` crate 裡面對 `Vec<T>` 實作 `Display` 特徵。因為 `Display` 與 `Vec<T>` 都定義在標準函式庫中，並沒有在我們 `aggregator` crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因為上一代（parent）型別不存在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。
 
@@ -236,7 +235,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 
 ### 透過特徵界限來選擇性實作方法
 
-在有使用泛型型別參數 `impl` 區塊中使用特徵界限，我們可以選擇性地對有實作特定特徵的型別來實作方法。舉例來說，範例 10-16 的 `Pair<T>` 只有在其內部型別 `T` 有實作能夠做比較的 `PartialOrd` 特徵以及能夠顯示在螢幕的 `Display` 特徵的話，才會實作 `cmp_display` 方法。
+在有使用泛型型別參數 `impl` 區塊中使用特徵界限，我們可以選擇性地對有實作特定特徵的型別來實作方法。舉例來說，範例 10-16 的 `Pair<T>` 對所有 `T` 實作了 `new` 函式來回傳新的 `Pair<T>` 實例（回想一下第五章的[「定義方法」][methods]<!-- ignore -->段落，`Self` 是 `impl` 區塊內的型別別名，在此例就是 `Pair<T>`）。但在下一個 `impl` 區塊中，只有在其內部型別 `T` 有實作能夠做比較的 `PartialOrd` 特徵**以及**能夠顯示在螢幕的 `Display` 特徵的話，才會實作 `cmp_display` 方法。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -270,3 +269,4 @@ let s = 3.to_string();
 ch04-01-what-is-ownership.html#只在堆疊上的資料拷貝copy
 [using-trait-objects-that-allow-for-values-of-different-types]:
 ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
+[methods]: ch05-03-method-syntax.html#定義方法

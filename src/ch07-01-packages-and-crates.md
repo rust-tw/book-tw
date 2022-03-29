@@ -19,7 +19,7 @@ main.rs
 當我們輸入命令時，Cargo 會建立一個 *Cargo.toml* 檔案並以此作為套件依據。查看 *Cargo.toml* 的內容時，你會發現沒有提到 *src/main.rs*，這是因為 Cargo 遵循一個常規，也就是 *src/main.rs* 就是與套件同名的
 二進制 crate 的 crate 源頭。同樣地，Cargo 也會知道如果套件目錄包含 *src/lib.rs*的話，則該套件就會包含與套件同名的函式庫 crate。Cargo 會將 crate 源頭檔案傳遞給 `rustc` 來建構函式庫或二進制執行檔。
 
-我們在此的套件只有包含 *src/main.rs* 代表它只有一個同名的二進制 crate 叫做 `my-project`。如果套件包含 *src/main.rs* 與 *src/lib.rs* 的話，它就有兩個 crate：一個函式庫與一個二進制執行檔，兩者都與套件同名。一個套件可以有多個二進制 crate，只要將檔案放在 *src/bin* 目錄底下就好，每個檔案會被視為獨立的二進制 crate。
+我們在此的套件只有包含 *src/main.rs* 代表它只有一個同名的二進制 crate 叫做 `my-project`。如果套件包含 *src/main.rs* 與 *src/lib.rs* 的話，它就有兩個 crate：一個二進制執行檔與一個函式庫，兩者都與套件同名。一個套件可以有多個二進制 crate，只要將檔案放在 *src/bin* 目錄底下就好，每個檔案會被視為獨立的二進制 crate。
 
 Crate 會將相關的程式碼組織在一個作用域內，好讓其能易於分享給其他專案。舉例來說，我們在[第二章][rand]<!-- ignore -->使用到的 `rand` crate 就提供了產生隨機數值的功能。我們可以將 `rand` crate 引入我們的專案，讓我們可以在我們的專案使用這項功能。所有 `rand` crate 提供的功能都可以透過 crate 的名稱 `rand` 來索取。
 
