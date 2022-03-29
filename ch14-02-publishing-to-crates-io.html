@@ -187,7 +187,7 @@ test src/lib.rs - add_one (line 5) ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
 </code></pre>
-<p>現在如果我們變更函式或範例使其內的 <code>assert_eq!</code> 會恐慌並再次執行 <code>cargo test</code> 的話，我們會看到技術文件測試能互獲取錯誤，告訴我們範例與程式碼已經不同不了！</p>
+<p>現在如果我們變更函式或範例使其內的 <code>assert_eq!</code> 會恐慌並再次執行 <code>cargo test</code> 的話，我們會看到技術文件測試能互相獲取錯誤，告訴我們範例與程式碼已經不同不了！</p>
 <h4 id="包含項目結構的註解"><a class="header" href="#包含項目結構的註解">包含項目結構的註解</a></h4>
 <p>還有另一種技術文件註解的風格為 <code>//!</code>，這是對其包含該註解的項目所加上的技術文件，而不是對註解後的項目所加上的技術文件。我通常將此技術文件註解用於 crate 源頭檔（通常為 <em>src/lib.rs</em>）或模組來對整個 crate 或模組加上技術文件。</p>
 <p>舉例來說，如果我們希望能加上技術文件來描述包含 <code>add_one</code> 函式的 <code>my_crate</code> 目的，我們可以用  <code>//!</code> 在 <em>src/lib.rs</em> 檔案開頭加上技術文件註解，如範例 14-2 所示：</p>
@@ -329,7 +329,7 @@ fn main() {
 </code></pre>
 <p><span class="caption">範例 14-6：使用從 <code>art</code> crate 重新匯出項目的程式</span></p>
 <p>如果你有許多巢狀模組（nested modules）的話，在頂層透過 <code>pub use</code> 重新匯出型別可以大大提升使用 crate 的體驗。</p>
-<p>提供實用的公開 API 架構更像是一門藝術而不只是科學，而你可以一步步來尋找最適合使用者的 API 架構。使用 <code>pub use</code> 可以給你更多組織 crate 內部架構的彈性，並將內部架構與你要呈現給使用者的介面互相解偶（decouple）。你可以觀察一些你安裝過的程式碼，看看它嗎的內部架構是不是不同於它們的公開 API。</p>
+<p>提供實用的公開 API 架構更像是一門藝術而不只是科學，而你可以一步步來尋找最適合使用者的 API 架構。使用 <code>pub use</code> 可以給你更多組織 crate 內部架構的彈性，並將內部架構與你要呈現給使用者的介面互相解偶（decouple）。你可以觀察一些你安裝過的程式碼，看看它們的內部架構是不是不同於它們的公開 API。</p>
 <h3 id="設定-cratesio-帳號"><a class="header" href="#設定-cratesio-帳號">設定 Crates.io 帳號</a></h3>
 <p>在你可以發佈任何 crate 之前，你需要建立一個 <a href="https://crates.io/">crates.io</a><!-- ignore --> 的帳號並取得一個 API token。請前往 <a href="https://crates.io/">crates.io</a><!-- ignore --> 的首頁並透過 GitHub 帳號來登入（GitHub 目前是必要的，但未來可能會支援其他建立帳號的方式）一旦你登入好了之後，到你的帳號設定 <a href="https://crates.io/me/">https://crates.io/me/</a><!-- ignore --> 並索取你的 API key，然後用這個 API key 來執行  <code>cargo login</code> 命令，如以下所示：</p>
 <pre><code class="language-console">$ cargo login abcdefghijklmnopqrstuvwxyz012345
