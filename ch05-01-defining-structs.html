@@ -4,10 +4,7 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>定義與實例化結構體 - Rust 程式設計語言</title>
-
-
         <!-- Custom HTML head -->
-        
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,11 +16,9 @@
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
         <link rel="stylesheet" href="css/print.css" media="print">
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="fonts/fonts.css">
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
@@ -32,7 +27,6 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
         <link rel="stylesheet" href="theme/2018-edition.css">
-
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -91,7 +85,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -121,7 +115,6 @@
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-
                     </div>
                 </div>
 
@@ -135,7 +128,6 @@
                         </ul>
                     </div>
                 </div>
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -327,7 +319,7 @@
 <p>我們使用 <code>struct</code> 關鍵字定義我們想要的名稱 <code>AlwaysEqual</code>，然後加上分號就好，不必再加任何括號！這樣我們就能一樣用 <code>subject</code> 變數取得一個 <code>AlwaysEqual</code> 的實例：直接使用我們定義的名稱，不用加任何括號。想像一下我們可以針對此型別的實例實作與其他型別實例相同的行爲，像是爲了測試回傳已知的結果。我們不需要任何資料就能實作該行爲！你能在第十章看到如何定義特徵（trait）並對任何型別實作它們，這也包含類單元結構體。</p>
 <blockquote>
 <h3 id="結構體資料的所有權"><a class="header" href="#結構體資料的所有權">結構體資料的所有權</a></h3>
-<p>在範例 5-1 的 <code>User</code> 結構體定義中，我們使用了擁有所有權的 <code>String</code> 型別，而不是 <code>&amp;str</code> 字串切片型別。這邊是故意這樣選擇的，因為我們希望解構體的實例可以擁有它所有的資料，並在整個結構體都有效時資料也是有效的。</p>
+<p>在範例 5-1 的 <code>User</code> 結構體定義中，我們使用了擁有所有權的 <code>String</code> 型別，而不是 <code>&amp;str</code> 字串切片型別。這邊是故意這樣選擇的，因為我們希望結構體的實例可以擁有它所有的資料，並在整個結構體都有效時資料也是有效的。</p>
 <p>要在結構體中儲存別人擁有的資料引用是可行的，但這會用到<strong>生命週期（lifetimes）</strong>，我們在第十章才會談到。生命週期能確保資料引用在結構體存在期間都是有效的。要是你沒有使用生命週期來用結構體儲存引用的話，會如以下出錯：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <!-- CAN'T EXTRACT SEE https://github.com/rust-lang/mdBook/issues/1127 -->
@@ -398,11 +390,9 @@ add `> ` before every line -->
                             <a rel="prev" href="ch05-00-structs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-
                             <a rel="next" href="ch05-02-example-structs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
@@ -412,7 +402,6 @@ add `> ` before every line -->
                     <a rel="prev" href="ch05-00-structs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-
                     <a rel="next" href="ch05-02-example-structs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
@@ -420,25 +409,17 @@ add `> ` before every line -->
 
         </div>
 
-
-
-
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-
-
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
         <script type="text/javascript" src="ferris.js"></script>
-
-
     </body>
 </html>

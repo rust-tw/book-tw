@@ -4,10 +4,7 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>透過重構來改善模組性與錯誤處理 - Rust 程式設計語言</title>
-
-
         <!-- Custom HTML head -->
-        
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,11 +16,9 @@
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
         <link rel="stylesheet" href="css/print.css" media="print">
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="fonts/fonts.css">
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
@@ -32,7 +27,6 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
         <link rel="stylesheet" href="theme/2018-edition.css">
-
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -91,7 +85,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -121,7 +115,6 @@
                         <a href="https://github.com/rust-tw/book-tw" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-
                     </div>
                 </div>
 
@@ -135,7 +128,6 @@
                         </ul>
                     </div>
                 </div>
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -556,7 +548,7 @@ fn run(config: Config) {
 <p>我們在此做了三項明顯的修改。首先，我們改變了 <code>run</code> 函式的回傳型別為 <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code>，此函式之前回傳的是單元型別 <code>()</code>，而它現在仍作為 <code>Ok</code> 條件內的數值。</p>
 <p>對於錯誤型別，我們使用<strong>特徵物件（trait object）</strong> <code>Box&lt;dyn Error&gt;</code>（然後我們在最上方透過 <code>use</code> 陳述式來將 <code>std::error::Error</code> 引入作用域）。我們會在<a href="ch17-00-oop.html">第十七章</a><!-- ignore -->討論特徵物件。現在你只需要知道 <code>Box&lt;dyn Error&gt;</code> 代表函式會回傳有實作 <code>Error</code> 特徵的型別，但我們不必指定回傳值的明確型別。這增加了回傳錯誤數值的彈性，其在不同錯誤情形中可能有不同的型別。<code>dyn</code> 關鍵字是「動態（dynamic）」的縮寫。</p>
 <p>再來，我們移出了 <code>expect</code> 的呼叫並改為<a href="ch09-02-recoverable-errors-with-result.html#%E5%82%B3%E6%92%AD%E9%8C%AF%E8%AA%A4%E7%9A%84%E6%8D%B7%E5%BE%91-%E9%81%8B%E7%AE%97%E5%AD%90">第九章</a><!-- ignore -->所介紹的 <code>?</code> 運算子。所以與其對錯誤 <code>panic!</code>，<code>?</code> 會回傳當前函式的錯誤數值，並交由呼叫者處理。</p>
-<p>第三，<code>run</code> 函式現在成功時會回傳 <code>Ok</code> 數值。我們在 <code>run</code> 函式簽名中的成功型別為 <code>()</code>，這意味著我們需要將單元型別封裝進 <code>Ok</code> 數值。<code>Ok(())</code> 這樣的語法一開始看可能會覺得有點奇怪，但這樣子使用 <code>()</code> 的確符合慣例，說明我們呼叫 <code>run</code> 只是會了它的副作用，它不會回傳我們需要的數值。</p>
+<p>第三，<code>run</code> 函式現在成功時會回傳 <code>Ok</code> 數值。我們在 <code>run</code> 函式簽名中的成功型別為 <code>()</code>，這意味著我們需要將單元型別封裝進 <code>Ok</code> 數值。<code>Ok(())</code> 這樣的語法一開始看可能會覺得有點奇怪，但這樣子使用 <code>()</code> 的確符合慣例，說明我們呼叫 <code>run</code> 只是為了它的副作用，它不會回傳我們需要的數值。</p>
 <p>當你執行此程式時，它雖然能編譯但會顯示一個警告：</p>
 <pre><code class="language-console">$ cargo run the poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -727,11 +719,9 @@ fn main() {
                             <a rel="prev" href="ch12-02-reading-a-file.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-
                             <a rel="next" href="ch12-04-testing-the-librarys-functionality.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
@@ -741,7 +731,6 @@ fn main() {
                     <a rel="prev" href="ch12-02-reading-a-file.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-
                     <a rel="next" href="ch12-04-testing-the-librarys-functionality.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
@@ -749,25 +738,17 @@ fn main() {
 
         </div>
 
-
-
-
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-
-
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
         <script type="text/javascript" src="ferris.js"></script>
-
-
     </body>
 </html>
