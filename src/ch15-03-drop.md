@@ -6,7 +6,7 @@
 
 透過實作 `Drop` 特徵我們可以指定當數值離開作用域時要執行的程式碼。`Drop` 特徵會要求我們實作一個方法叫做 `drop`，這會取得 `self` 的可變引用。為了觀察 Rust 何時會呼叫 `drop`，讓我們先用 `println!` 陳述式實作 `drop`。
 
-範例 15-14 的結構體 `CustomSmartPointer` 只有一個功能那就是在實例離開作用域時印出 `Dropping CustomSmartPointer!`。此範例能夠展示 Rust 何時會執行 `drop` 函式。
+範例 15-14 的結構體 `CustomSmartPointer` 只有一個功能，那就是在實例離開作用域時印出 `Dropping CustomSmartPointer!`。此範例能夠展示 Rust 何時會執行 `drop` 函式。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
