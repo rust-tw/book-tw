@@ -12467,7 +12467,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <h3 id="函式與方法的隱式強制解引用"><a class="header" href="#函式與方法的隱式強制解引用">函式與方法的隱式強制解引用</a></h3>
 <p>*<em>強制解引用</em>（Deref coercion）是一個 Rust 針對函式或方法的引數的便利設計。強制解引用只適用於有實作 <code>Deref</code> 特徵的型別。強制解引用會將一個型別轉換成另一個型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>&amp;str</code>。當我們將某個特定型別數值的引用作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
 <p>Rust 會加入強制解引用的原因是因為程式設計師在寫函式與方法呼叫時，就不必加上許多顯式引用 <code>&amp;</code> 與解引用 <code>*</code>。強制解引用還讓我們可以寫出能同時用於引用或智慧指標的程式碼。</p>
-<p>為了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 有個函式定義且有個字串切片作為參數：</p>
+<p>為了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 中定義的函式使用字串切片作為參數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn hello(name: &amp;str) {
     println!(&quot;Hello, {}!&quot;, name);
@@ -12547,7 +12547,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <li>從 <code>&amp;mut T</code> 到 <code>&amp;mut U</code> 且 <code>T: DerefMut&lt;Target=U&gt;</code></li>
 <li>從 <code>&amp;mut T</code> 到 <code>&amp;U</code> 且 <code>T: Deref&lt;Target=U&gt;</code></li>
 </ul>
-<p>前兩個除了可變性之外是相同的。第一個情況表示如果你有個 <code>&amp;T</code> 且 <code>T</code> 有實作 <code>Deref</code> 到某個型別 <code>U</code>，你就可以直接得到 <code>&amp;U</code>。第二種情況指的的則是對可變引用的強制解引用。</p>
+<p>前兩個除了可變性之外是相同的。第一個情況表示如果你有個 <code>&amp;T</code> 且 <code>T</code> 有實作 <code>Deref</code> 到某個型別 <code>U</code>，你就可以直接得到 <code>&amp;U</code>。第二種情況指的則是對可變引用的強制解引用。</p>
 <p>第三種情況比較棘手：Rust 也能強制將可變引用轉為一個不可變引用。但反過來是<strong>不可行</strong>的：不可變引用永遠不可能強制解引用成可變引用。由於借用規則，如果你有個可變引用，該可變引用必須是該資料的唯一引用（不然程式無法編譯）。轉換可變引用成不可變引用不會破壞借用規則。轉換不可變引用成可變引用的話，就需要此不可變引用是該資料的唯一引用，但借用規則無法做擔保。因此 Rust 無法將不可變引用轉換成可變引用。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="透過-drop-特徵執行清除程式碼"><a class="header" href="#透過-drop-特徵執行清除程式碼">透過 <code>Drop</code> 特徵執行清除程式碼</a></h2>
 <p>第二個對智慧指標模式很重要的特徵是 <code>Drop</code>，這讓你能自訂數值離開作用域時的行為。你可以對任何型別實作 <code>Drop</code> 特徵，然後你指定的程式碼就能用來釋放像是檔案或網路連線等資源。我們在智慧指標的章節介紹 <code>Drop</code> 的原因是因為 <code>Drop</code> 特徵的功能幾乎永遠會在實作智慧指標時用到。舉例來說，當 <code>Box&lt;T&gt;</code> 離開作用域時，它會釋放該 box 在堆積上指向的記憶體空間。</p>
