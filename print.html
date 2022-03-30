@@ -12553,7 +12553,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p>第二個對智慧指標模式很重要的特徵是 <code>Drop</code>，這讓你能自訂數值離開作用域時的行為。你可以對任何型別實作 <code>Drop</code> 特徵，然後你指定的程式碼就能用來釋放像是檔案或網路連線等資源。我們在智慧指標的章節介紹 <code>Drop</code> 的原因是因為 <code>Drop</code> 特徵的功能幾乎永遠會在實作智慧指標時用到。舉例來說，當 <code>Box&lt;T&gt;</code> 離開作用域時，它會釋放該 box 在堆積上指向的記憶體空間。</p>
 <p>在某些語言中，當程式設計師使用完智慧指標的實例後，每次都得呼叫釋放記憶體與資源的程式碼。如果他們忘記的話，系統可能就會過載並崩潰。在 Rust 中你可以對數值離開作用域時指定一些程式碼，然後編譯器就會自動插入此程式碼。所以你就不用每次在特定型別實例使用完時，在程式的每個地方都寫上清理程式碼。而且你還不會泄漏資源！</p>
 <p>透過實作 <code>Drop</code> 特徵我們可以指定當數值離開作用域時要執行的程式碼。<code>Drop</code> 特徵會要求我們實作一個方法叫做 <code>drop</code>，這會取得 <code>self</code> 的可變引用。為了觀察 Rust 何時會呼叫 <code>drop</code>，讓我們先用 <code>println!</code> 陳述式實作 <code>drop</code>。</p>
-<p>範例 15-14 的結構體 <code>CustomSmartPointer</code> 只有一個功能那就是在實例離開作用域時印出 <code>Dropping CustomSmartPointer!</code>。此範例能夠展示 Rust 何時會執行 <code>drop</code> 函式。</p>
+<p>範例 15-14 的結構體 <code>CustomSmartPointer</code> 只有一個功能，那就是在實例離開作用域時印出 <code>Dropping CustomSmartPointer!</code>。此範例能夠展示 Rust 何時會執行 <code>drop</code> 函式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct CustomSmartPointer {
     data: String,
