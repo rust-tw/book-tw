@@ -12172,14 +12172,14 @@ cargo install something you don't have, copy relevant output below
 <div style="break-before: page; page-break-before: always;"></div><h1 id="智慧指標"><a class="header" href="#智慧指標">智慧指標</a></h1>
 <p><strong>指標</strong>（pointer）是一個將變數儲存記憶體位址的通用概念。此位址引用，或者說是「指向」一些其他資料。Rust 中最常見的指標種類就是第四章介紹的引用（reference）。引用以 <code>&amp;</code> 符號作為指示並借用它們指向的數值。它們除了引用資料以外，沒有其他的特殊能力。此外，它們也沒有任何額外開銷，所以這是我們最常使用到的指標種類。</p>
 <p>另一方面，<strong>智慧指標</strong>（Smart pointers）是個不止會有像是指標的行為，還會包含擁有的詮釋資料與能力。智慧指標的概念並不是 Rust 獨有的，智慧指標起源於 C++ 且也都存在於其他語言。在 Rust 中，定義在標準函式庫中的不同智慧指標不止能引用，還具備更多的功能。其中一個我們會在本章會探索到的就是<strong>引用計數</strong>（reference counting）智慧指標型別。此指標允許一個資料可以有多個擁有者，並追蹤擁有者的數量，當沒有任何擁有者時，就清除資料。</p>
-<p>在 Rust 中，我們有所有權與借用的概念，所以引用與智慧指標之間還有有一項差別。引用是只有借用資料的指標，但智慧指標在很多時候都<strong>擁有</strong>它們指向的資料。</p>
+<p>在 Rust 中，我們有所有權與借用的概念，所以引用與智慧指標之間還有一項差別。引用是只有借用資料的指標，但智慧指標在很多時候都<strong>擁有</strong>它們指向的資料。</p>
 <p>我們已經在本書中遇過一些智慧指標了，像是第八章的 <code>String</code> 和 <code>Vec&lt;T&gt;</code>，雖然當時我們沒有稱呼它們為智慧指標。這些型別都算是智慧指標，因為它們都擁有一些記憶體並允許你操控它們。它們也有詮釋資料（像是容量）以及額外的能力或保障（像是 <code>String</code> 確保其資料永遠是有效的 UTF-8）。</p>
 <p>智慧指標通常都使用結構體實作。要區分智慧指標與一般結構體的差別為智慧指標會實作 <code>Deref</code> 與 <code>Drop</code> 特徵。<code>Deref</code> 特徵允許智慧指標結構體的實例表現的像是引用一樣，讓你可以寫出能用在引用與智慧指標的程式碼。<code>Drop</code> 特徵允許你自訂當智慧指標實例離開作用域時要執行的程式碼。在本章節我們會討論這兩個特徵並解釋為何它們對智慧指標很重要。</p>
 <p>有鑑於智慧指標在 Rust 是個常用的通用設計模式，本章不會涵蓋每一個現有的智慧指標。許多函式庫也都會提供它們自己的智慧指標，你甚至能寫個你自己的。我們會提及標準函式庫中最常用到的智慧指標：</p>
 <ul>
 <li><code>Box&lt;T&gt;</code> 將數值分配到堆積上</li>
 <li><code>Rc&lt;T&gt;</code>, 引用計數型別來允許資料能有數個擁有者</li>
-<li><code>Ref&lt;T&gt;</code> 與 <code>RefMut&lt;T&gt;</code> 透過 <code>RefCell&lt;T&gt;</code> 來取得，這是在執行時而非編譯時強制執行借用規則的型別</li>
+<li>透過 <code>RefCell&lt;T&gt;</code> 來存取 <code>Ref&lt;T&gt;</code> 與 <code>RefMut&lt;T&gt;</code> ，這是在執行時而非編譯時強制執行借用規則的型別</li>
 </ul>
 <p>除此之外，我們還會涵蓋到<strong>內部可變性</strong>（interior mutability）模式，這讓不可變引用的型別能提供改變內部數值的 API。我們還會討論<strong>引用循環</strong>（reference cycles）為何會導致記憶體泄漏以及如何預防它們。</p>
 <p>讓我們開始吧！</p>
