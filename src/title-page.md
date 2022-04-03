@@ -12,4 +12,4 @@
 [editions]: appendix-05-editions.html
 [nsprust]: https://nostarch.com/rust
 
-> - commit: [e8200d2](https://github.com/rust-lang/book/commit/a4efcd52c4c1788192b2c245bfbbb2b61ecb1831)
+> - commit: [a4efcd5](https://github.com/rust-lang/book/commit/a4efcd52c4c1788192b2c245bfbbb2b61ecb1831)
