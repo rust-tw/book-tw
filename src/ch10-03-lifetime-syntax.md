@@ -316,7 +316,7 @@ let s: &'static str = "我有靜態生命週期。";
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-11-generics-traits-and-lifetimes/src/main.rs:here}}
 ```
 
-這是範例 10-22 會回傳兩個字串切片較長者的 `longest` 函式。不過現在它有個額外的參數 `ann`，使用的是泛型型別 `T`，它可以是任何在 `where` 中所指定有實作 `Display` 特徵的型別。此額外參數會在 `{}` 的地方印出來，這正是為何 `Display` 的特徵界線是必須的。因為生命週期也是一種泛型，生命週期參數 `'a` 與泛型型別參數 `T` 都宣告在函式名稱後的尖括號內。
+這是範例 10-22 會回傳兩個字串切片較長者的 `longest` 函式。不過現在它有個額外的參數 `ann`，使用的是泛型型別 `T`，它可以是任何在 `where` 中所指定有實作 `Display` 特徵的型別。此額外參數會在 `{}` 的地方印出來，這正是為何 `Display` 的特徵界限是必須的。因為生命週期也是一種泛型，生命週期參數 `'a` 與泛型型別參數 `T` 都宣告在函式名稱後的尖括號內。
 
 ## 總結
 

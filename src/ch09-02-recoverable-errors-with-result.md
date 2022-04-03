@@ -147,7 +147,7 @@ don't want to include it for rustdoc testing purposes. -->
 
 此函式還能再更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 `Result<String, io::Error>`。這代表此函式回傳的型別為 `Result<T, E>`，而泛型型別 `T` 已經指明為實際型別 `String` 然後泛型型別 `E` 也已經指明為實際型別 `io::Error`。如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 `String` 的 `Ok` 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含相關問題發生資訊的 `io::Error` 實例的 `Err` 數值。我們選擇 `io::Error` 作為函式的回傳值是因為它正是 `File::open` 函式和 `read_to_string` 方法失敗時的回傳的錯誤型別。
 
-函式本體從呼叫 `File::open` 開始，然後我們使用 `match` 回傳 `Result` 數值，就和範例 9-4 的 `match` 類似。如果 `File::open` 成功的話，變數 `file` 中的檔案控制代碼賦值給可變變數 `f` 並讓函式繼續執行下去。但在 `Err` 的情形時，與其呼叫 `panic!`，我們使用 `return` 關鍵字來讓函式提早回傳，並將 `File::open` 的錯誤值，也就是模式中的變數 e，作為此函式的錯誤值回傳給呼叫的程式碼。
+函式本體從呼叫 `File::open` 開始，然後我們使用 `match` 回傳 `Result` 數值，就和範例 9-4 的 `match` 類似。如果 `File::open` 成功的話，變數 `file` 中的檔案控制代碼賦值給可變變數 `f` 並讓函式繼續執行下去。但在 `Err` 的情形時，與其呼叫 `panic!`，我們使用 `return` 關鍵字來讓函式提早回傳，並將 `File::open` 的錯誤值，也就是模式中的變數 `e`，作為此函式的錯誤值回傳給呼叫的程式碼。
 
 所以如果我們在 `f` 有拿到檔案控制代碼的話，接著函式就會在變數 `s` 建立新的 `String` 並對檔案控制代碼 `f` 呼叫 `read_to_string` 方法來讀取檔案內容至 `s`。`read_to_string` 也會回傳 `Result` 因為它也可能失敗，就算 `File::open` 是執行成功的。所以我們需要另一個 `match` 來處理該 `Result`，如果 `read_to_string` 成功的話，我們的函式就是成功的，然後在 `Ok` 回傳 `s` 中該檔案的使用者名稱。如果 `read_to_string` 失敗的話，我們就像處理 `File::open` 的 `match` 一樣回傳錯誤值。不過我們不需要顯式寫出 `return`，因為這是函式中的最後一個表達式。
 

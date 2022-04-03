@@ -104,7 +104,7 @@ let mut banana = 5; // 可變的
 
 讓我們回到猜謎遊戲程式，你現在就知道 `let mut guess` 會產生一個可變變數叫做 `guess`。等號（`=`）告訴 Rust 我們現在想綁定某個值給變數，而等號的另一邊就是要綁定給 `guess` 的數值，也就是呼叫 `String::new` 的結果，這是一個回傳新的 `String` 實例（instance）的函式。[`String`][string]<!-- ignore --> 是個標準函式庫提供的字串型別，這是可增長的 UTF-8 編碼文字。
 
-`::new` 中的 `::` 語法代表 `new` 是 `String` 型別的關聯函式。**關聯函式（associated function）**是針對型別實作的函式，在此例中就是 `String`。此 `new` 函式建立一個新的空字串。你會在許多型別中找到 `new` 函式，因為這是函式建立某種新數值的常見名稱。
+`::new` 中的 `::` 語法代表 `new` 是 `String` 型別的關聯函式。**關聯函式（associated function）** 是針對型別實作的函式，在此例中就是 `String`。此 `new` 函式建立一個新的空字串。你會在許多型別中找到 `new` 函式，因為這是函式建立某種新數值的常見名稱。
 
 總結來說， `let mut guess = String::new();` 這行會建立一個可變變數，且目前會得到一個新的空 `String` 實例。
 
@@ -297,7 +297,7 @@ $ cargo update
     Updating rand v0.8.3 -> v0.8.4
 ```
 
-Cargo 會忽略 `0.9.0` 的發布版本。此時你也會注意到 *Cargo.lock* 檔案中的變更，指出你現在使用的 `rand` crate 版本為 `0.8.4`。如果你想使用 `rand` 版本 `0.9.0` 或任何版本 `0.9.x` 系列，你需要升級 *Cargo.toml* 檔案，如以下所示：
+Cargo 會忽略 `0.9.0` 的發布版本。此時你也會注意到 *Cargo.lock* 檔案中的變更，指出你現在使用的 `rand` crate 版本為 `0.8.4`。如果你想使用 `rand` 版本 `0.9.0` 或任何版本 `0.9.x` 系列更新 *Cargo.toml* 檔案，如以下所示：
 
 ```toml
 [dependencies]
@@ -311,7 +311,7 @@ rand = "0.9.0"
 
 ### 產生隨機數字
 
-讓我們開始使用 `rand` 吧！下一步是更新 *src/main.rs*，如範例 2-3 所示。
+讓我們開始使用 `rand` 產生數字來猜吧！下一步是更新 *src/main.rs*，如範例 2-3 所示。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -374,7 +374,7 @@ $ cargo run
 
 <span class="caption">範例 2-4：處理比較兩個數字後的可能數值</span>
 
-首先我們加上另一個 `use` 陳述式，這將 `std::cmp::Ordering` 型別從標準函式庫引入作用域中。`Ordering` 是另一個枚舉，擁有的變體為 `Less`、`Greater` 與 `Equal`。當你比較兩個數值時會有三種結果。
+首先我們加上另一個 `use` 陳述式，這將 `std::cmp::Ordering` 型別從標準函式庫引入作用域中。`Ordering` 是另一個枚舉，擁有的變體為 `Less`、`Greater` 與 `Equal`。這些是當你比較兩個數值時的三種可能結果。
 
 然後我們在底下加上五行程式碼來使用 `Ordering` 型別。`cmp` 方法會比較兩個數值，並能在任何可以比較的數值中進行呼叫。其取一個引用至任何你想做比較的數值，在此例中就是將 `guess` 與 `secret_number` 做比較。然後它會回傳我們透過 `use` 陳述式引入作用域的 `Ordering` 枚舉其中一個變體。我們使用 [`match`][match]<!-- ignore --> 表達式來依據透過 `guess` 與 `secret_number` 呼叫 `cmp` 回傳的 `Ordering` 變體來決定下一步要做什麼。
 

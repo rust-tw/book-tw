@@ -38,7 +38,7 @@
 
 函式參數名稱與結構體欄位名稱相同是非常合理的，但是要重複寫 `email` 和 `username` 的欄位名稱與變數就有點冗長了。如果結構體有更多欄位的話，重複寫這些名稱就顯得有些煩人了。幸運的是，我們的確有更方便的語法！
 
-<a id="using-the-field-init-shorthand-when-variables-and-fields-have-the-same-name"></a>
+<a id="當變數與欄位名稱相同時使用欄位初始化簡寫語法"></a>
 ### 用欄位初始化簡寫語法
 
 由於範例 5-4 的參數名稱與結構體欄位名稱相同，我們可以使用**欄位初始化簡寫**（field init shorthand）語法來重寫 `build_user`，讓它的結果相同但不必重複寫出 `email` 和 `username`，如範例 5-5 所示。

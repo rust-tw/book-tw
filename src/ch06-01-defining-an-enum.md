@@ -143,7 +143,7 @@ enum Option<T> {
 ```
 
 
-`some_number` 的型別是 `Option<i32>`，而 `some_string` 的型別是，兩者是不同的型別。Rust 可以推導出這些型別，因為我們已經在 `Some` 變體指定數值。至於 `absent_number` 的話，Rust 需要我們寫出完整的 `Option` 型別，因為編譯器無法從 `None` 推導出相對應的 `Some` 變體會持有哪種型別。我們在這裡告訴 Rust 我們 `absent_number` 所指的型別為 `Option<i32>`。
+`some_number` 的型別是 `Option<i32>`，而 `some_string` 的型別是 `Option<&str>`，兩者是不同的型別。Rust 可以推導出這些型別，因為我們已經在 `Some` 變體指定數值。至於 `absent_number` 的話，Rust 需要我們寫出完整的 `Option` 型別，因為編譯器無法從 `None` 推導出相對應的 `Some` 變體會持有哪種型別。我們在這裡告訴 Rust 我們 `absent_number` 所指的型別為 `Option<i32>`。
 
 當我們有 `Some` 值時，我們會知道數值是存在的而且就位於 `Some` 內。當我們有 `None` 值時，在某種意義上它代表該值是空的，我們沒有有效的數值。所以為何 `Option<T>` 會比用空值來得好呢？
 
