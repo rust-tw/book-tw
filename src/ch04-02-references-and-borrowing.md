@@ -1,8 +1,6 @@
 ## 引用與借用
 
-我們在範例 4-5 使用元組的問題在於，我們必須回傳 `String` 給呼叫的函式，我們才能繼續在呼叫 `calculate_length` 之後繼續使用 `String`，因為 `String` 會被傳入 `calculate_length`。
-
-以下是我們定義並使用 `calculate_length` 時，在參數改用引用物件而非取得所有權的程式碼：
+我們在範例 4-5 使用元組的問題在於，我們必須回傳 `String` 給呼叫的函式，我們才能繼續在呼叫 `calculate_length` 之後繼續使用 `String`，因為 `String` 會被傳入 `calculate_length`。不過我們其實可以提供個 `String` 數值的引用。**引用（references）** 就像是指向某個地址的指標，我們可以追蹤存取到該處儲存的資訊，而該地址仍被其他變數所擁有。和指標不一樣的是，引用保證所指向的特定型別的數值一定是有效的。以下是我們定義並使用 `calculate_length` 時，在參數改用引用物件而非取得所有權的程式碼：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -10,7 +8,7 @@
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-07-reference/src/main.rs:all}}
 ```
 
-首先你會注意到原先變數宣告與函式回傳值會用到元組的地方都被更改了。再來注意到我們傳遞的是 `&s1` 給 `calculate_length`，然後在定義時我們是取 `&String` 而非 `String`。這些「&」符號就是**引用（references）**，它們允許你不必獲取所有權來引用它。以下用圖示 4-5 示意。 
+首先你會注意到原先變數宣告與函式回傳值會用到元組的地方都被更改了。再來注意到我們傳遞的是 `&s1` 給 `calculate_length`，然後在定義時我們是取 `&String` 而非 `String`。這些「&」符號就是**引用**，它們允許你不必獲取所有權來引用它。以下用圖示 4-5 示意。 
 
 <img alt="&String s pointing at String s1" src="img/trpl04-05.svg" class="center" />
 
@@ -32,9 +30,9 @@
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-08-reference-with-annotations/src/main.rs:here}}
 ```
 
-變數 `s` 有效的作用域和任何函式參數的作用域一樣，但當引用不再使用時，我們不會丟棄任何它指向的資料，因為我們沒有所有權。當函式使用引用作為參數而非實際數值時，我們不需要回傳數值來還所有權，因為我們不曾擁有過。
+變數 `s` 有效的作用域和任何函式參數的作用域一樣，但當引用不再使用時，引用所指向的數值不會被丟棄，因為我們沒有所有權。當函式使用引用作為參數而非實際數值時，我們不需要回傳數值來還所有權，因為我們不曾擁有過。
 
-我們會稱呼建立引用這樣的動作叫做**借用（borrowing）**。就像現實世界一樣，如果有人擁有每項東西，他可以借用給你。當你使用完後，你就還給他。
+我們會稱呼建立引用這樣的動作叫做**借用（borrowing）**。就像現實世界一樣，如果有人擁有每項東西，他可以借用給你。當你使用完後，你就還給他。你並不擁有它。
 
 所以要是我們嘗試修改我們借用的東西會如何呢？請試試範例 4-6 的程式碼。直接劇透你：它執行不了的！
 
@@ -56,7 +54,7 @@
 
 ### 可變引用
 
-我們可以修正這項錯誤，只要在範例 4-6 做一些小修改就好：
+我們可以修正範例 4-6 的程式碼，讓我們可以變更借用的數值。我們可以加一點小修改，改用**可變引用**就好：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -66,7 +64,7 @@
 
 首先我們將 `s` 加上了 `mut`，然後我們在呼叫 `change` 函式的地方建立了一個可變引用 `&mut s`，然後更新函式的簽章成 `some_string: &mut String` 來接收這個可變引用。這樣能清楚表達 ` change` 函式會改變它借用的引用。
 
-但是可變引用有個很大的限制：同一時間中對一個特定資料只能有一個可變引用。所以以下程式碼就會失敗：
+可變引用有個很大的限制：同一時間中對一個特定資料只能有一個可變引用。所以嘗試建立兩個 `s` 的可變引用的話就會失敗，如以下範例所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -82,15 +80,13 @@
 
 此錯誤表示此程式碼是無效的，因爲我們無法同時可變借用 `s` 超過一次。第一次可變借用在 `r1` 且必須持續到它在 `println!` 用完爲止，但在其產生到使用之間，我們嘗試建立了另一個借用了與 `r1` 相同資料的可變借用 `r2`。
 
-這項防止同時間對相同資料進行多重可變引用的限制允許了可變行為，但是同時也受到一定程度的約束。這通常是新 Rustaceans 遭受挫折的地方，因為多數語言都會任你去改變其值。
-
-這項限制的好處是 Rust 可以在編譯時期就防止資料競爭（data races）。**資料競爭**和競爭條件（race condition）類似，它會由以下三種行為引發：
+這項防止同時間對相同資料進行多重可變引用的限制允許了可變行為，但是同時也受到一定程度的約束。這通常是新 Rustaceans 遭受挫折的地方，因為多數語言都會任你去改變其值。這項限制的好處是 Rust 可以在編譯時期就防止資料競爭（data races）。**資料競爭**和競爭條件（race condition）類似，它會由以下三種行為引發：
 
 * 同時有兩個以上的指標存取同個資料。
 * 至少有一個指標在寫入資料。
 * 沒有針對資料的同步存取機制。
 
-資料競爭會造成未定義行為（undefined behavior），而且在執行時你通常是很難診斷並修正的。Rust 能夠阻止這樣的問題發生，因為它不會讓有資料競爭的程式碼編譯通過！
+資料競爭會造成未定義行為（undefined behavior），而且在執行時你通常是很難診斷並修正的。Rust 能夠阻止這樣的問題發生，不讓有資料競爭的程式碼編譯通過！
 
 如往常一樣，我們可以用大括號來建立一個新的作用域來允許多個可變引用，只要不是同時擁有就好：
 
@@ -98,7 +94,7 @@
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-11-muts-in-separate-scopes/src/main.rs:here}}
 ```
 
-類似的規則也存在於可變引用和不可變引用的組合中，以下程式碼就會產生錯誤：
+Rust 對於可變引用和不可變引用的組合中也實施著類似的規則，以下程式碼就會產生錯誤：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-12-immutable-and-mutable-not-allowed/src/main.rs:here}}
@@ -110,15 +106,15 @@
 {{#include ../listings/ch04-understanding-ownership/no-listing-12-immutable-and-mutable-not-allowed/output.txt}}
 ```
 
-哇！看來我們**也不可以**在擁有不可變引用的同時擁有可變引用。擁有不可變引用的使用者可不希望有人暗地裡突然改變了值！不過數個不可變引用是沒問題的，因為所有在讀取資料的人都無法影響其他人閱讀資料。
+哇！看來我們**也不可以**擁有不可變引用的同時擁有可變引用。擁有不可變引用的使用者可不希望有人暗地裡突然改變了值！不過數個不可變引用是沒問題的，因為所有在讀取資料的人都無法影響其他人閱讀資料。
 
 請注意引用的作用域始於它被宣告的地方，一直到它最後一次引用被使用為止。舉例來說以下程式就可以編譯，因為不可變引用最後一次的使用（`println!`）在可變引用宣告之前：
 
-```rust,edition2018
+```rust,edition2021
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-13-reference-scope-ends/src/main.rs:here}}
 ```
 
-不可變引用 `r1` 和 `r2` 的作用域在 `println!` 之後結束。這是它們最後一次使用到的地方，也就是在宣告可變引用 `r3` 之前。它們的作用域沒有重疊，所以程式碼是允許的。編譯器這樣能辨別出引用何時在作用域之前不再被使用的能力叫做 Non-Lexical Lifetimes （NLL），你可以在[版號指南][nll]中瞭解更多資訊。
+不可變引用 `r1` 和 `r2` 的作用域在 `println!` 之後結束。這是它們最後一次使用到的地方，也就是在宣告可變引用 `r3` 之前。它們的作用域沒有重疊，所以程式碼是允許的。編譯器這樣能辨別出引用何時在作用域之前不再被使用的能力叫做 **Non-Lexical Lifetimes** （NLL），你可以在[版號指南][nll]中瞭解更多資訊。
 
 雖然借用錯誤有時是令人沮喪的，但請記得這是 Rust 編譯器希望提前（在編譯時而非執行時）指出潛在程式錯誤並告訴你問題的源頭在哪。這樣你就不必親自追蹤為何你的資料跟你預期的不一樣。
 
@@ -144,7 +140,7 @@
 
 ```text
 this function's return type contains a borrowed value, but there is no value
-for it to be borrowed from.
+for it to be borrowed from
 ```
 
 讓我們進一步看看我們的 `dangle` 程式碼每一步發生了什麼：

@@ -317,9 +317,7 @@ src/main.rs:23     match guess.cmp(&secret_number) {
                                    ^~~~~~~~~~~~~~
 src/main.rs:23:21: 23:35 help: run `rustc --explain E0308` to see a detailed explanation
 src/main.rs:23:21: 23:35 note: expected type `&std::string::String`
-src/main.rs:23:21: 23:35 note:    found type `&_`
-error: aborting due to previous error
-Could not compile `guessing_game`.
+src/main.rs:23:21: 23:35 note:    found type `&_`Could not compile `guessing_game`.
 ```
 "###
             .to_string();

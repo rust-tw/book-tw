@@ -32,7 +32,7 @@
 
 - [枚舉與模式配對](ch06-00-enums.md)
     - [定義枚舉](ch06-01-defining-an-enum.md)
-    - [`match` 控制流運算子](ch06-02-match.md)
+    - [`match` 控制流建構子](ch06-02-match.md)
     - [透過 `if let` 簡化控制流](ch06-03-if-let.md)
 
 ## 基本 Rust 概念

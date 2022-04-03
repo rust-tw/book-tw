@@ -36,7 +36,7 @@
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
-```rust,ignore
+```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-25/src/main.rs:here}}
 ```
 
@@ -48,15 +48,13 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,ignore
+```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch13-functional-features/listing-13-26/src/lib.rs:here}}
 ```
 
 <span class="caption">範例 13-26：更新 `Config::new` 的簽名來接收疊代器</span>
 
 標準函式庫技術文件顯示 `env::args` 函式回傳的疊代器型別為 `std::env::Args`。我們更新了 `Config::new` 函式的簽名，讓參數 `args` 的型別為 `std::env::Args` 而非 `&[String]`。因為我們取得了 `args` 的所有權，而且我們需要將 `args` 成為可變的讓我們可以疊代它，所以我們將關鍵字 `mut` 加到 `args` 的參數指定使其成為可變的。
-
-我們還需要指定錯誤型別的字串切片只能是 `'static` 生命週期。因爲我們只會回傳字串字面值，當我們在參數中有引用時，回傳型別的引用就有可能會取得和參數引用一樣的生命週期。我們在第十章討論到的[「生命週期省略」][lifetime-elision]段落就適用於此，所以我們才不需要詮釋 `&str` 的生命週期。但現在 `args` 改變了，所以不再適用生命週期省略的規則，所以我們必須指定 `'static` 生命週期。
 
 #### 使用 `Iterator` 特徵方法而非索引
 
@@ -99,5 +97,3 @@
 接下來的邏輯問題是在你自己的程式碼中你應該與為何要使用哪種風格呢：是要原本範例 13-28 的程式碼，還是範例 13-29 使用疊代器的版本呢？大多數的 Rust 程式設計師傾向於使用疊代器。一開始的確會有點難上手，不過一旦你熟悉各種疊代配接器與它們的用途後，疊代器就會很好理解了。不同於用迴圈迂迴處理每一步並建構新的向量，疊代器能更專注在迴圈的高階抽象上。這能抽象出常見的程式碼，並能更容易看出程式碼中的重點部位，比如疊代器中每個元素要過濾的條件。
 
 但是這兩種實作真的完全相等嗎？你的直覺可能會假設低階的迴圈可能更快些。讓我們來討論效能吧。
-
-[lifetime-elision]: ch10-03-lifetime-syntax.html#生命週期省略

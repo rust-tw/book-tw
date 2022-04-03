@@ -138,21 +138,16 @@ fn main() {
 
 [clippy]: https://github.com/rust-lang/rust-clippy
 
-### 使用 Rust Language Server 整合 IDE
+### 使用 `rust-analyzer` 整合 IDE
 
-為了協助 IDE 的整合，Rust 專案有發佈 **Rust Language Server**（`rls`）。此工具會與 [Language Server Protocol][lsp] 溝通，這是 IDE 與程式語言彼此溝通的協定規格。`rls` 可用於各種不同的客戶端，像是 [Visual Studio Code 的 Rust 插件][vscode]。
+為了協助 IDE 的整合，Rust 專案有發佈 **Rust Language Server**（`rls`）。此工具會與 [Language Server Protocol][lsp] 溝通，來提供許多與編譯器相關的協助，這是 IDE 與程式語言彼此溝通的協定規格。`rust-analyzer` 可用於各種不同的客戶端，像是 [Visual Studio Code 的 Rust analyzer 插件][vscode]。
 
 [lsp]: http://langserver.org/
-[vscode]: https://marketplace.visualstudio.com/items?itemName=rust-lang.rust
+[vscode]: https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer
 
-要安裝 `rls` 的話，輸入以下命令：
+前往 `rust-analyzer` 專案的 [首頁][rust-analyzer] 可以了解更多安裝方法，讓你所使用的 IDE 也能獲得 Language Server 的支援。這樣你的 IDE 就能獲得許多功能像是：自動補全、跳至定義與顯示錯誤等等。
 
-```console
-$ rustup component add rls
-```
+若想了解更多關於 `rust-analyzer` 的資訊，請參考[它的技術文件][rust-analyzer-manual]。
 
-然後在你指定的 IDE 安裝 language server 對應的支援，你就能獲得許多功能，像是自動補全、跳至定義以及行內錯誤顯示等等。
-
-關於更多 `rls` 的資訊，請查閱[它的技術文件][rls]。
-
-[rls]: https://github.com/rust-lang/rls
+[rust-analyzer]: https://rust-analyzer.github.io
+[rust-analyzer-manual]: https://rust-analyzer.github.io/manual.html

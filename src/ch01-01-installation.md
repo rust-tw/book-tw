@@ -2,9 +2,9 @@
 
 第一步是安裝 Rust，我們將會透過 `rustup` 安裝 Rust，這是個管理 Rust 版本及相關工具的命令列工具。你將會需要網路連線才能下載。
 
-> 注意：如果你基於某些原因不想使用 `rustup` 的話，請前往 [Rust 其他安裝方法的頁面][install]尋求其他選項。
+> 注意：如果你基於某些原因不想使用 `rustup` 的話，請前往 [Rust 其他安裝方法的頁面][otherinstall]尋求其他選項。
 
-[install]: https://forge.rust-lang.org/infra/other-installation-methods.html
+[otherinstall]: https://forge.rust-lang.org/infra/other-installation-methods.html
 
 以下步驟將會安裝最新的穩定版 Rust 編譯器。Rust 的穩定性能確保本書的所有範例在更新的 Rust 版本仍然能繼續編譯出來。輸出的結果可能會在不同版本間而有些微的差異，因為 Rust 時常會改善錯誤與警告訊息。換句話說，任何你所安裝的最新穩定版 Rust 都應該能夠正常運行本書的內容。
 

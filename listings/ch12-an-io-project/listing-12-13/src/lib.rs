@@ -8,7 +8,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: &[String]) -> Result<Config, &str> {
+    pub fn new(args: &[String]) -> Result<Config, &'static str> {
         // --省略--
         // ANCHOR_END: here
         if args.len() < 3 {

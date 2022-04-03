@@ -11,9 +11,5 @@ error[E0283]: type annotations needed
    |
    = note: cannot satisfy `_: Animal`
 
-error: aborting due to previous error
-
 For more information about this error, try `rustc --explain E0283`.
-error: could not compile `traits-example`
-
-To learn more, run the command again with --verbose.
+error: could not compile `traits-example` due to previous error

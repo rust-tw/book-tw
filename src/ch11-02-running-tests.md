@@ -116,4 +116,4 @@ $ cargo test -- --show-output
 {{#include ../listings/ch11-writing-automated-tests/output-only-04-running-ignored/output.txt}}
 ```
 
-透過控制哪些測試能執行，你能夠確保快速執行 `cargo test`。當你有時間能夠執行 `ignored` 的測試時，你可以執行 `cargo test -- --ignored` 來等待結果。
+透過控制哪些測試能執行，你能夠確保快速執行 `cargo test`。當你有時間能夠執行 `ignored` 的測試時，你可以執行 `cargo test -- --ignored` 來等待結果。如果你想執行所有程式，無論他們是不是被忽略的話，你可以執行 `cargo test -- --include-ignored`。
