@@ -13127,7 +13127,7 @@ c 之後 = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
 <p>此技巧是不是很厲害！透過使用 <code>RefCell&lt;T&gt;</code>，我們可以得到一個外部是不可變的 <code>List</code> 數值，但是我們可以使用 <code>RefCell&lt;T&gt;</code> 提供的方法來取得其內部可變性，讓我們可以在我們想要時改變我們的資料。執行時的借用規則檢查能防止資料競爭，並在某些場合犧牲一點速度來換取資料結構的彈性。</p>
 <p>標準函式庫也提供了其他具有內部可變性的型別。像是 <code>Cell&lt;T&gt;</code>，這類似 <code>RefCell&lt;T&gt;</code> 但不同於給予內部數值的引用，<code>Cell&lt;T&gt;</code> 的數值會被拷貝出去。還有 <code>Mutex&lt;T&gt;</code> 能提供跨執行緒安全的內部可變性，我們會在第十六章討論如何使用它。歡迎查閱標準函式庫的計數文件來瞭解這些型別之間的細節差異。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="引用循環會導致記憶體泄漏"><a class="header" href="#引用循環會導致記憶體泄漏">引用循環會導致記憶體泄漏</a></h2>
-<p>Rust 的記憶體安全保障讓意外產生永遠不會清除的記憶體的情況（通稱為<strong>記憶體泄漏／memory leak</strong>）難以發生，但這並不是絕對不可能。Rust 不保障完全避免記憶體泄漏，對 Rust 來說記憶體泄漏是記憶體安全的。我們可以透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 觀察到 Rust 仍會產生記憶體泄漏，產生引用循環是有可能的，這會導致記憶體泄漏，因為循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
+<p>意外情況下，執行程式時可能會產生永遠不會被清除的記憶體（通稱為<strong>記憶體泄漏／memory leak</strong>）。Rust 的記憶體安全性雖然可以保證令這種情況難以發生，但並非絕不可能。雖然 Rust 在編譯時可以保證做到禁止資料競爭（<strong>data races</strong>），但它無法保證完全避免記憶體泄漏，這是因為對 Rust 來說，記憶體泄漏是屬於安全範疇內的（<strong>memory safe</strong>)。透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> ，我們能觀察到 Rust 允許使用者自行產生記憶體泄漏：因為使用者可以產生兩個引用並互相參照，造成一個循環。這種情況下會導致記憶體泄漏，因為循環中的引用計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
 <h3 id="產生引用循環"><a class="header" href="#產生引用循環">產生引用循環</a></h3>
 <p>讓我們看看引用循環是怎麼發生的，以及如何避免它。我們從範例 15-25 的 <code>List</code> 枚舉定義與一個 <code>tail</code> 方法開始：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -13418,7 +13418,7 @@ children: RefCell { value: [] } }] } })
 <p>如果我們嘗試在作用域結束後取得 <code>leaf</code> 的父節點，我們會再次獲得 <code>None</code>。在程式的最後，<code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 強計數為 1 且弱計數為 0，因為變數 <code>leaf</code> 現在是 <code>Rc&lt;Node&gt;</code> 唯一的引用。</p>
 <p>所有管理計數與數值釋放都已經實作在 <code>Rc&lt;T&gt;</code> 與 <code>Weak&lt;T&gt;</code>，它們都有 <code>Drop</code> 特的實作。在 <code>Node</code> 的定義中指定子節點對父節點的關係應為 <code>Weak&lt;T&gt;</code> 引用，讓你能夠將父節點與子節點彼此關聯，且不必擔心產生引用循環與記憶體泄漏。</p>
 <h2 id="總結-14"><a class="header" href="#總結-14">總結</a></h2>
-<p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設引用所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料分配到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的引用數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，其會在執行時強制檢測借用規則，而非編譯時。</p>
+<p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設引用所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料分配到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的引用數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，它會在執行時強制檢測借用規則，而非編譯時。</p>
 <p>我們也討論了 <code>Deref</code> 與 <code>Drop</code> 特徵，這些對智慧指標提供了許多功能。我們探討了引用循環可能會導致記憶體泄漏以及如何使用 <code>Weak&lt;T&gt;</code> 避免它們。</p>
 <p>如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱<a href="https://doc.rust-lang.org/nomicon/">「The Rustonomicon」</a>來學習更多實用資訊。</p>
 <p>接下來，我們將討論 Rust 的並行性。你還會再學到一些新的智慧指標。</p>
