@@ -8816,7 +8816,7 @@ fn run(config: Config) {
 <p><span class="caption">範例 12-12：變更 <code>run</code> 函式來回傳 <code>Result</code></span></p>
 <p>我們在此做了三項明顯的修改。首先，我們改變了 <code>run</code> 函式的回傳型別為 <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code>，此函式之前回傳的是單元型別 <code>()</code>，而它現在仍作為 <code>Ok</code> 條件內的數值。</p>
 <p>對於錯誤型別，我們使用<strong>特徵物件（trait object）</strong> <code>Box&lt;dyn Error&gt;</code>（然後我們在最上方透過 <code>use</code> 陳述式來將 <code>std::error::Error</code> 引入作用域）。我們會在<a href="ch17-00-oop.html">第十七章</a><!-- ignore -->討論特徵物件。現在你只需要知道 <code>Box&lt;dyn Error&gt;</code> 代表函式會回傳有實作 <code>Error</code> 特徵的型別，但我們不必指定回傳值的明確型別。這增加了回傳錯誤數值的彈性，其在不同錯誤情形中可能有不同的型別。<code>dyn</code> 關鍵字是「動態（dynamic）」的縮寫。</p>
-<p>再來，我們移出了 <code>expect</code> 的呼叫並改為<a href="ch09-02-recoverable-errors-with-result.html#%E5%82%B3%E6%92%AD%E9%8C%AF%E8%AA%A4%E7%9A%84%E6%8D%B7%E5%BE%91-%E9%81%8B%E7%AE%97%E5%AD%90">第九章</a><!-- ignore -->所介紹的 <code>?</code> 運算子。所以與其對錯誤 <code>panic!</code>，<code>?</code> 會回傳當前函式的錯誤數值，並交由呼叫者處理。</p>
+<p>再來，我們移除了 <code>expect</code> 的呼叫並改為<a href="ch09-02-recoverable-errors-with-result.html#%E5%82%B3%E6%92%AD%E9%8C%AF%E8%AA%A4%E7%9A%84%E6%8D%B7%E5%BE%91-%E9%81%8B%E7%AE%97%E5%AD%90">第九章</a><!-- ignore -->所介紹的 <code>?</code> 運算子。所以與其對錯誤 <code>panic!</code>，<code>?</code> 會回傳當前函式的錯誤數值，並交由呼叫者處理。</p>
 <p>第三，<code>run</code> 函式現在成功時會回傳 <code>Ok</code> 數值。我們在 <code>run</code> 函式簽名中的成功型別為 <code>()</code>，這意味著我們需要將單元型別封裝進 <code>Ok</code> 數值。<code>Ok(())</code> 這樣的語法一開始看可能會覺得有點奇怪，但這樣子使用 <code>()</code> 的確符合慣例，說明我們呼叫 <code>run</code> 只是為了它的副作用，它不會回傳我們需要的數值。</p>
 <p>當你執行此程式時，它雖然能編譯但會顯示一個警告：</p>
 <pre><code class="language-console">$ cargo run the poem.txt
