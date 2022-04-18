@@ -70,7 +70,7 @@ pub trait Iterator {
 
 <span class="caption">範例 13-16：呼叫 `sum` 方法來取得疊代器中所有項目的總計數值</span>
 
-我們在呼叫 `sum` 之後就不允許使用 `v1_iter` 因為 `sum` 取得了疊代器的所有權。
+我們呼叫 `sum` 之後就不再被允許使用 `v1_iter` 了，因為 `sum` 取得了疊代器的所有權。
 
 ### 產生其他疊代器的方法
 
