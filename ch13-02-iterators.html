@@ -219,7 +219,7 @@
 <span class="boring">}
 </span></code></pre>
 <p><span class="caption">範例 13-16：呼叫 <code>sum</code> 方法來取得疊代器中所有項目的總計數值</span></p>
-<p>我們在呼叫 <code>sum</code> 之後就不允許使用 <code>v1_iter</code> 因為 <code>sum</code> 取得了疊代器的所有權。</p>
+<p>我們呼叫 <code>sum</code> 之後就不再被允許使用 <code>v1_iter</code> 了，因為 <code>sum</code> 取得了疊代器的所有權。</p>
 <h3 id="產生其他疊代器的方法"><a class="header" href="#產生其他疊代器的方法">產生其他疊代器的方法</a></h3>
 <p>而其他定義在 <code>Iterator</code> 特徵的方法則叫做<strong>疊代配接器（iterator adaptors）</strong>，它們能讓你變更疊代器成其他種類的疊代器。你可以串接數個疊代配接器的呼叫來組織一系列複雜的動作並仍能保持閱讀性。不過因為所有的疊代器都是惰性的，你需要呼叫一個消耗配接器方法來取得疊代配接器呼叫的結果。</p>
 <p>範例 13-17 呼叫了疊代器的疊代配接器方法 <code>map</code>，這可以取得一個閉包來對每個項目進行處理以產生一個新的疊代器。閉包會將向量中的每個項目加 1 來產生新的疊代器。不過此程式碼會產生一個警告：</p>
