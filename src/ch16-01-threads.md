@@ -185,7 +185,7 @@ help: to force the closure to take ownership of `v` (and any other referenced va
 
 <span class="caption">範例 16-5：使用 `move` 關鍵字強制閉包取得它所使用數值的所有權</span>
 
-如果我們在主執行緒會呼叫 `drop` 的範例 16-4 使用 `move` 閉包會發生什麼事呢？`move` 能修正這樣的情況嗎？不幸的是，不行。我們會得到不同的錯誤，因為範例 16-4 想做的事情會因為不同原因而不被允許。如果我們對閉包加上了 `move`，我們會將 `v` 移入閉包環境，然後我們就無法在主執行緒對它呼叫 `drop` 了。我們會得到另一個編譯錯誤：
+如果我們在主執行緒會呼叫 `drop` 的範例 16-4 使用 `move` 閉包會發生什麼事呢？`move` 能修正這樣的情況嗎？不幸的是，不行。我們會得到不同的錯誤，因為範例 16-4 想做的事情會因為不同原因而不被允許。如果我們對閉包加上了 `move`，我們將會把 `v` 移入閉包環境，而且在主執行緒將無法再對它呼叫 `drop` 了。我們會得到另一個編譯錯誤：
 
 ```console
 {{#include ../listings/ch16-fearless-concurrency/output-only-01-move-drop/output.txt}}
