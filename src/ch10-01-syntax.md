@@ -76,7 +76,7 @@ fn largest<T>(list: &[T]) -> T {
 {{#include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-07/output.txt}}
 ```
 
-要將結構體 `Point` 的 `x` 與 `y` 定義成擁有不同型別確仍然是泛型的話，我們可以使用多個泛型型別參數。舉例來說，在範例 10-8 我們改變了 `Point` 的定義為擁有兩個泛型型別 `T` 與 `U`，`x` 擁有型別 `T` 而 `y` 擁有型別 `U`。
+要將結構體 `Point` 的 `x` 與 `y` 定義成擁有不同型別卻仍然是泛型的話，我們可以使用多個泛型型別參數。舉例來說，在範例 10-8 我們改變了 `Point` 的定義為擁有兩個泛型型別 `T` 與 `U`，`x` 擁有型別 `T` 而 `y` 擁有型別 `U`。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -99,7 +99,7 @@ enum Option<T> {
 }
 ```
 
-此定義現在對你來說應該就說的通了。如同你所看到的 `Option<T>` 枚舉有個泛型型別參數 `T` 以及兩個變體：`Some` 擁有型別 `T` 的數值；而 `None` 則是不具任何數值的變體。使用 `Option<T>` 枚舉我們可以表達出一個可能擁有的數值這樣的抽象概念。而且因為 `Option<T>` 是泛型，不管可能的數值型別為何，我們都能使用此抽象。
+此定義現在對你來說應該就說得通了。如同你所看到的 `Option<T>` 枚舉有個泛型型別參數 `T` 以及兩個變體：`Some` 擁有型別 `T` 的數值；而 `None` 則是不具任何數值的變體。使用 `Option<T>` 枚舉我們可以表達出一個可能擁有的數值這樣的抽象概念。而且因為 `Option<T>` 是泛型，不管可能的數值型別為何，我們都能使用此抽象。
 
 枚舉也能有數個泛型型別。我們在第九章所使用枚舉 `Result` 的定義就是個例子：
 
@@ -124,7 +124,7 @@ enum Result<T, E> {
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-09/src/main.rs}}
 ```
 
-<span class="caption">範例 10-9：在 `Point<T>` 結構體實作一個方法叫叫做 `x`，其會回傳 `x` 欄位中型別為 `T` 的引用</span>
+<span class="caption">範例 10-9：在 `Point<T>` 結構體實作一個方法叫做 `x`，其會回傳 `x` 欄位中型別為 `T` 的引用</span>
 
 我們在這 `Point<T>` 定義了一個方法叫做 `x` 並回傳欄位 `x` 的資料引用。
 
