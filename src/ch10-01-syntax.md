@@ -124,7 +124,7 @@ enum Result<T, E> {
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-09/src/main.rs}}
 ```
 
-<span class="caption">範例 10-9：在 `Point<T>` 結構體實作一個方法叫叫做 `x`，其會回傳 `x` 欄位中型別為 `T` 的引用</span>
+<span class="caption">範例 10-9：在 `Point<T>` 結構體實作一個方法叫做 `x`，其會回傳 `x` 欄位中型別為 `T` 的引用</span>
 
 我們在這 `Point<T>` 定義了一個方法叫做 `x` 並回傳欄位 `x` 的資料引用。
 
