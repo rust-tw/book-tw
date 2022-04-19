@@ -168,7 +168,7 @@
 <p>cons 函式的概念在往後成了常見的函式語言術語：「將 <em>x</em> cons 到 <em>y</em>」通常代表的是建立一個新的容器實例，將元素 <em>x</em> 置於此容器的開頭，而後方則是連接到容器 <em>y</em>。</p>
 <p>每個 cons list 的項目都包含兩個元素：目前項目的數值與下一個項目。列表中的最後一個項目只會包含一個數值叫做 <code>Nil</code>，並不會再連接下一個項目。cons list 透過遞迴呼叫 <code>cons</code> 函式來產生。表示遞迴終止條件的名稱為 <code>Nil</code>。注意這和第六章提到的「null」或「nil」的概念不全然相同，這些代表的是無效或空缺的數值。</p>
 <p>雖然函式程式設計語言很常使用 cons lists，但在 Rust 中 cons lists 卻不是常見的資料結構。大多數當你在 Rust 需要項目列表時，<code>Vec&lt;T&gt;</code> 會是比較好的選擇。而其他時候夠複雜的遞迴資料型別<strong>確實</strong>在各種特殊情形會很實用，不過先從 cons list 開始的話，我們可以專注探討 box 如何讓我們定義遞迴資料型別。</p>
-<p>範例 15-2 包含了 cons list 的枚舉定義。注意到此程式碼還不能編譯過，因為 <code>List</code> 型別並沒有以已知大小，我們接下來會繼續說明。</p>
+<p>範例 15-2 包含了 cons list 的枚舉定義。注意到此程式碼還不能編譯過，因為 <code>List</code> 型別並沒有已知的大小，我們接下來會繼續說明。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">enum List {
     Cons(i32, List),

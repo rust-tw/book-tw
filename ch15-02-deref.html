@@ -316,7 +316,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-12：利用強制解引用透過 <code>MyBox&lt;String&gt;</code> 數值的引用來呼叫 <code>hello</code></span></p>
-<p>我們在此使用 <code>&amp;m</code> 作為引數來呼叫函式 <code>hello</code>，這是 <code>MyBox&lt;String&gt;</code> 數值的引用。因為我們在範例 15-10 有對 <code>MyBox&lt;T&gt;</code> 實作 <code>Deref</code> 特徵，Rust 可以呼叫 <code>deref</code> 將 <code>&amp;MyBox&lt;String&gt;</code> 變成 <code>&amp;String</code>。標準函式庫對 <code>String</code> 也有實作 <code>Deref</code> 並會回傳字串切片，這可以在 <code>Deref</code> 的 API 技術文件中看到。所以 Rust 會在呼叫 <code>deref</code> 一次來將 <code>&amp;String</code> 變成 <code>&amp;str</code>，這樣就符合函式 <code>hello</code> 的定義了。</p>
+<p>我們在此使用 <code>&amp;m</code> 作為引數來呼叫函式 <code>hello</code>，這是 <code>MyBox&lt;String&gt;</code> 數值的引用。因為我們在範例 15-10 有對 <code>MyBox&lt;T&gt;</code> 實作 <code>Deref</code> 特徵，Rust 可以呼叫 <code>deref</code> 將 <code>&amp;MyBox&lt;String&gt;</code> 變成 <code>&amp;String</code>。標準函式庫對 <code>String</code> 也有實作 <code>Deref</code> 並會回傳字串切片，這可以在 <code>Deref</code> 的 API 技術文件中看到。所以 Rust 會再呼叫 <code>deref</code> 一次來將 <code>&amp;String</code> 變成 <code>&amp;str</code>，這樣就符合函式 <code>hello</code> 的定義了。</p>
 <p>如果 Rust 沒有實作強制解引用的話，我們就得用範例 15-13 的方式才能辦到範例 15-12 使用型別 <code>&amp;MyBox&lt;String&gt;</code> 的數值來呼叫 <code>hello</code> 的動作。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">use std::ops::Deref;

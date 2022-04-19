@@ -236,9 +236,9 @@ error[E0382]: borrow of moved value: `val`
 For more information about this error, try `rustc --explain E0382`.
 error: could not compile `message-passing` due to previous error
 </code></pre>
-<p>我們的並行錯誤產生了一個編譯時錯誤。<code>send</code> 函式會取走其參數的所有權，並當數值移動時，接收端會在取得其所有權。這能阻止我們在傳送數值過後不小心再次使用其值，所有權系統會檢查一切是否符合規則。</p>
+<p>我們的並行錯誤產生了一個編譯時錯誤。<code>send</code> 函式會取走其參數的所有權，並當數值移動時，接收端會再取得其所有權。這能阻止我們在傳送數值過後不小心再次使用其值，所有權系統會檢查一切是否符合規則。</p>
 <h3 id="傳送多重數值並觀察接收者等待"><a class="header" href="#傳送多重數值並觀察接收者等待">傳送多重數值並觀察接收者等待</a></h3>
-<p>範例 16-8 的程式碼可以編譯通過並執行，但它並沒有清楚表達出兩個不同的執行緒正透過通道彼此溝通。在範例 16-10 中我們做了些修改來證明範例 16-8 的程式有正確執行，產生的執行緒先在會傳送數個訊息並在每個訊息間暫停個一秒鐘。</p>
+<p>範例 16-8 的程式碼可以編譯通過並執行，但它並沒有清楚表達出兩個不同的執行緒正透過通道彼此溝通。在範例 16-10 中我們做了些修改來證明範例 16-8 的程式有正確執行，產生的執行緒現在會傳送數個訊息，並在每個訊息間暫停個一秒鐘。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust noplayground">use std::sync::mpsc;
 use std::thread;
