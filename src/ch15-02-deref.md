@@ -132,7 +132,7 @@ Rust 會加入強制解引用的原因是因為程式設計師在寫函式與方
 
 <span class="caption">範例 15-12：利用強制解引用透過 `MyBox<String>` 數值的引用來呼叫 `hello`</span>
 
-我們在此使用 `&m` 作為引數來呼叫函式 `hello`，這是 `MyBox<String>` 數值的引用。因為我們在範例 15-10 有對 `MyBox<T>` 實作 `Deref` 特徵，Rust 可以呼叫 `deref` 將 `&MyBox<String>` 變成 `&String`。標準函式庫對 `String` 也有實作 `Deref` 並會回傳字串切片，這可以在 `Deref` 的 API 技術文件中看到。所以 Rust 會在呼叫 `deref` 一次來將 `&String` 變成 `&str`，這樣就符合函式 `hello` 的定義了。
+我們在此使用 `&m` 作為引數來呼叫函式 `hello`，這是 `MyBox<String>` 數值的引用。因為我們在範例 15-10 有對 `MyBox<T>` 實作 `Deref` 特徵，Rust 可以呼叫 `deref` 將 `&MyBox<String>` 變成 `&String`。標準函式庫對 `String` 也有實作 `Deref` 並會回傳字串切片，這可以在 `Deref` 的 API 技術文件中看到。所以 Rust 會再呼叫 `deref` 一次來將 `&String` 變成 `&str`，這樣就符合函式 `hello` 的定義了。
 
 如果 Rust 沒有實作強制解引用的話，我們就得用範例 15-13 的方式才能辦到範例 15-12 使用型別 `&MyBox<String>` 的數值來呼叫 `hello` 的動作。
 
