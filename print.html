@@ -6029,7 +6029,7 @@ error[E0308]: mismatched types
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `chapter10` due to previous error
 </code></pre>
-<p>要將結構體 <code>Point</code> 的 <code>x</code> 與 <code>y</code> 定義成擁有不同型別確仍然是泛型的話，我們可以使用多個泛型型別參數。舉例來說，在範例 10-8 我們改變了 <code>Point</code> 的定義為擁有兩個泛型型別 <code>T</code> 與 <code>U</code>，<code>x</code> 擁有型別 <code>T</code> 而 <code>y</code> 擁有型別 <code>U</code>。</p>
+<p>要將結構體 <code>Point</code> 的 <code>x</code> 與 <code>y</code> 定義成擁有不同型別卻仍然是泛型的話，我們可以使用多個泛型型別參數。舉例來說，在範例 10-8 我們改變了 <code>Point</code> 的定義為擁有兩個泛型型別 <code>T</code> 與 <code>U</code>，<code>x</code> 擁有型別 <code>T</code> 而 <code>y</code> 擁有型別 <code>U</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;T, U&gt; {
     x: T,
@@ -6055,7 +6055,7 @@ fn main() {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>此定義現在對你來說應該就說的通了。如同你所看到的 <code>Option&lt;T&gt;</code> 枚舉有個泛型型別參數 <code>T</code> 以及兩個變體：<code>Some</code> 擁有型別 <code>T</code> 的數值；而 <code>None</code> 則是不具任何數值的變體。使用 <code>Option&lt;T&gt;</code> 枚舉我們可以表達出一個可能擁有的數值這樣的抽象概念。而且因為 <code>Option&lt;T&gt;</code> 是泛型，不管可能的數值型別為何，我們都能使用此抽象。</p>
+<p>此定義現在對你來說應該就說得通了。如同你所看到的 <code>Option&lt;T&gt;</code> 枚舉有個泛型型別參數 <code>T</code> 以及兩個變體：<code>Some</code> 擁有型別 <code>T</code> 的數值；而 <code>None</code> 則是不具任何數值的變體。使用 <code>Option&lt;T&gt;</code> 枚舉我們可以表達出一個可能擁有的數值這樣的抽象概念。而且因為 <code>Option&lt;T&gt;</code> 是泛型，不管可能的數值型別為何，我們都能使用此抽象。</p>
 <p>枚舉也能有數個泛型型別。我們在第九章所使用枚舉 <code>Result</code> 的定義就是個例子：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -6088,7 +6088,7 @@ fn main() {
     println!(&quot;p.x = {}&quot;, p.x());
 }
 </code></pre></pre>
-<p><span class="caption">範例 10-9：在 <code>Point&lt;T&gt;</code> 結構體實作一個方法叫叫做 <code>x</code>，其會回傳 <code>x</code> 欄位中型別為 <code>T</code> 的引用</span></p>
+<p><span class="caption">範例 10-9：在 <code>Point&lt;T&gt;</code> 結構體實作一個方法叫做 <code>x</code>，其會回傳 <code>x</code> 欄位中型別為 <code>T</code> 的引用</span></p>
 <p>我們在這 <code>Point&lt;T&gt;</code> 定義了一個方法叫做 <code>x</code> 並回傳欄位 <code>x</code> 的資料引用。</p>
 <p>注意到我們需要在 <code>impl</code> 宣告 <code>T</code>，這樣才代表我們指的是在型別 <code>Point&lt;T&gt;</code> 實作方法。在 <code>impl</code> 之後宣告泛型型別 <code>T</code>，Rust 可以識別出 <code>Point</code> 尖括號內的型別為泛型型別而非實際型別。由於這是再次重新宣告泛型，我們其實可以選用不同的泛型參數名稱，而不用和結構體定義的泛型參數一樣，不過通常使用相同名稱還是比較常見。無論該泛型型別最終會是何種實際型別，任何方法在有宣告泛型型別的 <code>impl</code>內，都會被定義成適用於各種型別實例。 </p>
 <p>另一種選項是我們在定義方法時，可以對泛型型別加上些限制。舉例來說，我們可以只針對 <code>Point&lt;f32&gt;</code> 的實例來實作方法，而非適用於任何泛型型別的 <code>Point&lt;T&gt;</code> 實例。在範例 10-10 我們使用了實例型別 <code>f32</code> 而沒有在 <code>impl</code> 宣告任何型別。</p>
