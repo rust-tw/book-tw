@@ -362,7 +362,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 16-5：使用 <code>move</code> 關鍵字強制閉包取得它所使用數值的所有權</span></p>
-<p>如果我們使用 <code>move</code> 閉包的話，只執行緒會呼叫 <code>drop</code> 的範例 16-4 會發生什麼事呢？<code>move</code> 能修正這樣的情況嗎？不幸的是，不行。我們會得到不同的錯誤，因為範例 16-4 想做的事情會因為不同原因而不被允許。如果我們對閉包加上了 <code>move</code>，我們會將 <code>v</code> 移入閉包環境，然後我們就無法在主執行緒對它呼叫 <code>drop</code>了。我們會得到另一個編譯錯誤：</p>
+<p>如果我們在範例 16-45 對主執行緒的 <code>drop</code> 呼叫前使用 <code>move</code> 閉包會發生什麼事呢？<code>move</code> 能修正這樣的情況嗎？很不幸的，不行。我們會得到不同的錯誤，因為範例 16-4 想做的事情會因為不同原因而不被允許。如果我們對閉包加上了 <code>move</code>，我們將會把 <code>v</code> 移入閉包環境，而在主執行緒將無法再對它呼叫 <code>drop</code> 了。我們會得到另一個編譯錯誤：</p>
 <pre><code class="language-console">$ cargo run
    Compiling threads v0.1.0 (file:///projects/threads)
 error[E0382]: use of moved value: `v`
