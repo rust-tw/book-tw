@@ -626,7 +626,7 @@ let mut banana = 5; // 可變的
 </code></pre>
 <p>但是這麼長通常會很難閱讀，最好還是能夠分段。當你透過 <code>.method_name()</code> 語法呼叫方法時，通常換行來寫並加上縮排，來拆開一串很長的程式碼會比較好閱讀。現在讓我們來討論這行在做什麼。</p>
 <p>如稍早提過的，<code>read_line</code> 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 <a href="https://doc.rust-lang.org/std/io/type.Result.html"><code>io::Result</code></a><!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 <code>Result</code>，這包含泛型（generic）<a href="https://doc.rust-lang.org/std/result/enum.Result.html"><code>Result</code></a><!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 <code>io::Result</code>。<code>Result</code> 型別是種<a href="ch06-00-enums.html"><strong>枚舉（enumerations）</strong></a><!-- ignore -->，常稱為 <em>enums</em>。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之為枚舉的<strong>變體（variants）</strong>。枚舉通常會搭配 <code>match</code> 來使用，這能方便地依照枚舉的變體數值條件，來執行不同的程式碼。</p>
-<p>第六章會更詳細地介紹枚舉，這些 <code>Result</code> 型別的目的是要編碼錯誤處理資訊。。</p>
+<p>第六章會更詳細地介紹枚舉，這些 <code>Result</code> 型別的目的是要編碼錯誤處理資訊。</p>
 <p><code>Result</code> 的變體有 <code>Ok</code> 和 <code>Err</code>。<code>Ok</code> 變體指的是該動作成功完成，且 <code>Ok</code> 內部會包含成功產生的數值。而 <code>Err</code> 變體代表動作失敗，且 <code>Err</code> 會包含該動作如何與為何會失敗的資訊。</p>
 <p><code>Result</code> 型別的數值與任何型別的數值一樣，它們都有定義些方法。<code>io::Result</code> 的實例有 <a href="https://doc.rust-lang.org/std/result/enum.Result.html#method.expect"><code>expect</code> 方法</a><!-- ignore --> 讓你能呼叫。如果此 <code>io::Result</code> 實例數值為 <code>Err</code> 的話，<code>expect</code> 會讓程式當機並顯示作為引數傳給 <code>expect</code> 的訊息。如果 <code>read_line</code> 回傳 <code>Err</code> 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 <code>io::Result</code> 實例數值為 <code>Ok</code> 的話，<code>expect</code> 會接收 <code>Ok</code> 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值將為使用者輸入進標準輸入介面的位元組數字。</p>
 <p>如果你沒有呼叫 <code>expect</code>，程式仍能編譯，但你會收到一個警告：</p>
