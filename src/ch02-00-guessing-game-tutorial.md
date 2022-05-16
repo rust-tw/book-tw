@@ -140,7 +140,7 @@ io::stdin().read_line(&mut guess).expect("讀取行數失敗");
 
 如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 [`io::Result`][ioresult]<!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 `Result`，這包含泛型（generic）[`Result`][result]<!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 `io::Result`。`Result` 型別是種[**枚舉（enumerations）**][enums]<!-- ignore -->，常稱為 *enums*。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之為枚舉的**變體（variants）**。枚舉通常會搭配 `match` 來使用，這能方便地依照枚舉的變體數值條件，來執行不同的程式碼。
 
-第六章會更詳細地介紹枚舉，這些 `Result` 型別的目的是要編碼錯誤處理資訊。。
+第六章會更詳細地介紹枚舉，這些 `Result` 型別的目的是要編碼錯誤處理資訊。
 
 `Result` 的變體有 `Ok` 和 `Err`。`Ok` 變體指的是該動作成功完成，且 `Ok` 內部會包含成功產生的數值。而 `Err` 變體代表動作失敗，且 `Err` 會包含該動作如何與為何會失敗的資訊。
 
@@ -404,7 +404,7 @@ $ cargo run
 let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
 ```
 
-我們建立了一個變數叫做 `guess`。小等一下，程式不是已經有個變數叫做 `guess`了嗎？的確是的，但 Rust 允許我們**遮蔽**（shadow）之前的 `guess` 數值成新的數值。遮蔽讓我們可以重複使用 `guess` 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 `guess_str` 和 `guess`。我們會在第三章更詳細地解釋此概念，現在這邊只需要知道這常拿來將一個數值的型別轉換成另一個型別。
+我們建立了一個變數叫做 `guess`。稍等一下，程式不是已經有個變數叫做 `guess`了嗎？的確是的，但 Rust 允許我們**遮蔽**（shadow）之前的 `guess` 數值成新的數值。遮蔽讓我們可以重複使用 `guess` 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 `guess_str` 和 `guess`。我們會在第三章更詳細地解釋此概念，現在這邊只需要知道這常拿來將一個數值的型別轉換成另一個型別。
 
 我們將此新的變數綁定給 `guess.trim().parse()` 表達式。表達式中的 `guess` 指的是原本儲存字串輸入的 `guess`。`String` 中的 `trim` 方法會去除開頭與結尾的任何空白字元，我們一定要這樣做才能將字串與 `u32` 作比較，因為它只會包含數字字元。使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 `read_line` 並輸入他們的猜測數字，這樣會加上一個換行字元。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，`guess` 看起來會像這樣：`5\n`。`\n` 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果（在 Windows 按下 <span class="keystroke">enter</span> 的結果會是回車和換行 `\r\n`）。`trim` 方法能去除 `\n` 或 `\r\n`，讓結果只會是 `5`。
 
