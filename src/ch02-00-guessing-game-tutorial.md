@@ -140,7 +140,7 @@ io::stdin().read_line(&mut guess).expect("讀取行數失敗");
 
 如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 [`io::Result`][ioresult]<!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 `Result`，這包含泛型（generic）[`Result`][result]<!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 `io::Result`。`Result` 型別是種[**枚舉（enumerations）**][enums]<!-- ignore -->，常稱為 *enums*。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之為枚舉的**變體（variants）**。枚舉通常會搭配 `match` 來使用，這能方便地依照枚舉的變體數值條件，來執行不同的程式碼。
 
-第六章會更詳細地介紹枚舉，這些 `Result` 型別的目的是要編碼錯誤處理資訊。。
+第六章會更詳細地介紹枚舉，這些 `Result` 型別的目的是要編碼錯誤處理資訊。
 
 `Result` 的變體有 `Ok` 和 `Err`。`Ok` 變體指的是該動作成功完成，且 `Ok` 內部會包含成功產生的數值。而 `Err` 變體代表動作失敗，且 `Err` 會包含該動作如何與為何會失敗的資訊。
 
