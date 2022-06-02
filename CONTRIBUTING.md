@@ -36,5 +36,5 @@ updated: YYYY-MMM-DD
 
 歡迎開啟 issue 或 pull request 來協助幫忙！
 
-[pulls]: https://github.com/rust-lang.tw/rfcs/pulls
+[pulls]: https://github.com/rust-tw/rfcs/pulls
 [terms]: https://rust-lang.tw/book-tw/appendix-08-terminology.html
