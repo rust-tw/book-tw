@@ -106,7 +106,7 @@ Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了
 使用枚舉的話，我們可以針對特定數值作特別的動作，而對其他所有數值採取預設動作。想像一下我們正在做款骰子遊戲，如果你骰出 3 的話，你的角色就動不了，但是可以拿頂酷炫的帽子。如果你骰出 7 你的角色就損失那頂帽子。至於其他的數值，你的角色就按照那個數值在遊戲桌上移動步數。以下是用 `match` 實作出的邏輯，骰子的結果並非隨機數而是寫死的，且所有邏輯對應的函式本體都是空的，因為實際去實作並非本範例的重點：
 
 ```rust
-{{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-15-binding-catchall/src/main.rs:here}}
+{{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-15-underscore-placeholder/src/main.rs:here}}
 ```
 
 在前兩個分支中的模式分別為數值 3 和 7。至於最後一個涵蓋其他可能數值的分支，我們用變數 `other` 作為模式。在 `other` 分支執行的程式碼會將該變數傳入函式 `move_player` 中。
