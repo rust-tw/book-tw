@@ -4059,10 +4059,17 @@ error: could not compile `enums` due to previous error
 <p>Rust 發現我們沒有考慮到所有可能條件，而且還知道我們少了哪些模式！Rust 中的配對必須是<strong>徹底</strong>（<em>exhaustive</em>）的：我們必須列舉出所有可能的情形，程式碼才能夠被視為有效。尤其是在 <code>Option&lt;T&gt;</code> 的情況下，當 Rust 防止我們忘記處理 <code>None</code> 的情形時，它也使我們免於以為擁有一個有效實際上卻是空的值。因此要造成之前提過的十億美元級錯誤在這邊基本上是不可能的。</p>
 <h3 id="catch-all-模式與-_-佔位符"><a class="header" href="#catch-all-模式與-_-佔位符">Catch-all 模式與 <code>_</code> 佔位符</a></h3>
 <p>使用枚舉的話，我們可以針對特定數值作特別的動作，而對其他所有數值採取預設動作。想像一下我們正在做款骰子遊戲，如果你骰出 3 的話，你的角色就動不了，但是可以拿頂酷炫的帽子。如果你骰出 7 你的角色就損失那頂帽子。至於其他的數值，你的角色就按照那個數值在遊戲桌上移動步數。以下是用 <code>match</code> 實作出的邏輯，骰子的結果並非隨機數而是寫死的，且所有邏輯對應的函式本體都是空的，因為實際去實作並非本範例的重點：</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>{{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/no-listing-15-binding-catchall/src/main.rs:here}}
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let dice_roll = 9;
+    match dice_roll {
+        3 =&gt; add_fancy_hat(),
+        7 =&gt; remove_fancy_hat(),
+        other =&gt; move_player(other),
+    }
+
+    fn add_fancy_hat() {}
+    fn remove_fancy_hat() {}
+    fn move_player(num_spaces: u8) {}
 <span class="boring">}
 </span></code></pre></pre>
 <p>在前兩個分支中的模式分別為數值 3 和 7。至於最後一個涵蓋其他可能數值的分支，我們用變數 <code>other</code> 作為模式。在 <code>other</code> 分支執行的程式碼會將該變數傳入函式 <code>move_player</code> 中。</p>
