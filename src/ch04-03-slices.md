@@ -114,7 +114,7 @@ let slice = &s[..];
 > 注意：字串切片的索引範圍必須是有效的 UTF-8 字元界限。如果你嘗試從一個多位元組字元（multibyte character）中產生字串切片，你的程式就會回傳錯誤。為了方便介紹字串切片，本章只使用了 ASCII 字元而已。
 我們會在第八章的[「使用 String 儲存 UTF-8 編碼的文字」][strings]<!-- ignore -->做更詳盡的討論。
 
-有了這些資訊，讓我們用切片來重寫 `first_word` 吧。對於「字串字面值」的的回傳型別我們會寫 `&str`：
+有了這些資訊，讓我們用切片來重寫 `first_word` 吧。對於「字串切片」的回傳型別我們會寫 `&str`：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -174,8 +174,7 @@ fn first_word(s: &String) -> &str {
 
 <span class="caption">範例 4-9：使用字串切片作為參數 `s` 來改善函式 `first_word`</span>
 
-如果我們有字串字面值的話，我們可以直接傳遞。如果我們有 `String` 的話，我可以們傳遞整個 `String` 的切片或引用。這樣的彈性用到了**強制解引用**（deref coercion），這個功能我們會在第十五章的[「函式與方法的隱式強制解引用」][deref-coercions]<!--ignore-->段落做介紹。定義函式的參數為字串字面值而非 `String` 可以讓我們的 API 更通用且不會失去去任何功能：
-
+如果我們有字串切片的話，我們可以直接傳遞。如果我們有 `String` 的話，我可以們傳遞整個 `String` 的切片或引用。這樣的彈性用到了**強制解引用**（deref coercion），這個功能我們會在第十五章的[「函式與方法的隱式強制解引用」][deref-coercions]<!--ignore-->段落做介紹。定義函式的參數為字串切片而非 `String` 可以讓我們的 API 更通用且不會失去去任何功能：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
