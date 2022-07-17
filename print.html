@@ -2782,7 +2782,7 @@ let slice = &amp;s[..];
 <p>注意：字串切片的索引範圍必須是有效的 UTF-8 字元界限。如果你嘗試從一個多位元組字元（multibyte character）中產生字串切片，你的程式就會回傳錯誤。為了方便介紹字串切片，本章只使用了 ASCII 字元而已。
 我們會在第八章的<a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">「使用 String 儲存 UTF-8 編碼的文字」</a><!-- ignore -->做更詳盡的討論。</p>
 </blockquote>
-<p>有了這些資訊，讓我們用切片來重寫 <code>first_word</code> 吧。對於「字串字面值」的的回傳型別我們會寫 <code>&amp;str</code>：</p>
+<p>有了這些資訊，讓我們用切片來重寫 <code>first_word</code> 吧。對於「字串切片」的回傳型別我們會寫 <code>&amp;str</code>：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;String) -&gt; &amp;str {
     let bytes = s.as_bytes();
@@ -2891,7 +2891,7 @@ error: could not compile `ownership` due to previous error
 </span><span class="boring">}
 </span></code></pre>
 <p><span class="caption">範例 4-9：使用字串切片作為參數 <code>s</code> 來改善函式 <code>first_word</code></span></p>
-<p>如果我們有字串字面值的話，我們可以直接傳遞。如果我們有 <code>String</code> 的話，我可以們傳遞整個 <code>String</code> 的切片或引用。這樣的彈性用到了<strong>強制解引用</strong>（deref coercion），這個功能我們會在第十五章的<a href="ch15-02-deref.html#%E5%87%BD%E5%BC%8F%E8%88%87%E6%96%B9%E6%B3%95%E7%9A%84%E9%9A%B1%E5%BC%8F%E5%BC%B7%E5%88%B6%E8%A7%A3%E5%BC%95%E7%94%A8">「函式與方法的隱式強制解引用」</a><!--ignore-->段落做介紹。定義函式的參數為字串字面值而非 <code>String</code> 可以讓我們的 API 更通用且不會失去去任何功能：</p>
+<p>如果我們有字串切片的話，我們可以直接傳遞。如果我們有 <code>String</code> 的話，我可以們傳遞整個 <code>String</code> 的切片或引用。這樣的彈性用到了<strong>強制解引用</strong>（deref coercion），這個功能我們會在第十五章的<a href="ch15-02-deref.html#%E5%87%BD%E5%BC%8F%E8%88%87%E6%96%B9%E6%B3%95%E7%9A%84%E9%9A%B1%E5%BC%8F%E5%BC%B7%E5%88%B6%E8%A7%A3%E5%BC%95%E7%94%A8">「函式與方法的隱式強制解引用」</a><!--ignore-->段落做介紹。定義函式的參數為字串切片而非 <code>String</code> 可以讓我們的 API 更通用且不會失去去任何功能：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn first_word(s: &amp;str) -&gt; &amp;str {
 </span><span class="boring">    let bytes = s.as_bytes();
