@@ -47,6 +47,7 @@ diverging functions    | 發散函式                      | 不回傳值的函�
 edition                | 版號                          |
 enumerate              | 枚舉                          | 參考：[維基百科][enumerate]
 equality               | 等式                          |
+ergonomics             | 人因工程                      |  參考：[RFC 0198 PR][ergonomics]
 executable             | 執行檔                        |
 expression             | 表達式                        |
 expression-oriented    | 表達式導向                    |
@@ -68,6 +69,7 @@ iterative              | 疊代                          | 參考：[維基百�
 iterator               | 疊代器                        | 參考：[維基百科][iterator]
 immutable              | 不可變                        | 參考：[維基百科][immutable]
 inheritance            | 繼承　                        |
+join                   | 會合                          | 意旨 threads 的會合，參考：[RFC 3151 PR][join]
 keyword                | 關鍵字                        |
 language feature       | 語言特徵                      | 參考：[中華民國資訊學會][language feature]
 library                | 函式庫                        | 參考：[維基百科][library]
@@ -157,6 +159,7 @@ zero-cost abstractions | 無成本抽象化                  |
 [constant]: https://zh.wikipedia.org/zh-tw/%E5%B8%B8%E6%95%B0
 [dangling pointer]: https://zh.wikipedia.org/zh-tw/%E8%BF%B7%E9%80%94%E6%8C%87%E9%92%88
 [enumerate]: https://zh.wikipedia.org/zh-tw/%E6%9E%9A%E4%B8%BE
+[ergonomics]: https://github.com/rust-tw/rfcs-tw/pull/19#discussion_r888110986
 [handle]: https://zh.wikipedia.org/zh-tw/%E5%8F%A5%E6%9F%84
 [handle_2]: https://msdn.microsoft.com/zh-tw/library/yk97tc08.aspx
 [heap]: https://zh.wikipedia.org/zh-tw/%E5%A0%86_(%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
@@ -168,6 +171,7 @@ zero-cost abstractions | 無成本抽象化                  |
 [iterative]: https://zh.wikipedia.org/zh-tw/%E8%BF%AD%E4%BB%A3
 [iterator]: https://zh.wikipedia.org/zh-tw/%E8%BF%AD%E4%BB%A3%E5%99%A8
 [immutable]: https://zh.wikipedia.org/zh-tw/%E4%B8%8D%E5%8F%AF%E8%AE%8A%E7%89%A9%E4%BB%B6
+[join]: https://github.com/rust-tw/rfcs-tw/pull/23#issuecomment-1177922394
 [language feature]: http://www.iicm.org.tw/term/termb_L.htm
 [library]: https://zh.wikipedia.org/zh-tw/%E5%87%BD%E5%BC%8F%E5%BA%AB
 [linker]: https://zh.wikipedia.org/zh-tw/%E9%93%BE%E6%8E%A5%E5%99%A8
