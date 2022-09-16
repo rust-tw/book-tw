@@ -18,7 +18,7 @@ fn main() {
     };
 
     if rect1.width() {
-        println!("長方形的寬度不非為零，而是 {}", rect1.width);
+        println!("長方形的寬度不為零，而是 {}", rect1.width);
     }
 }
 // ANCHOR_END: here
