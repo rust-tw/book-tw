@@ -112,7 +112,7 @@
 ```
 
 
-在 *Cargo.toml* 新增  `rand` 作為依賴函式庫會告訴 Cargo 要從 [crates.io](https://crates.io/) 下載  `rand` 以及其他相關的依賴，讓我們可專案可以使用 `rand`。
+在 *Cargo.toml* 新增  `rand` 作為依賴函式庫會告訴 Cargo 要從 [crates.io](https://crates.io/) 下載  `rand` 以及其他相關的依賴，讓我們的專案可以使用 `rand`。
 
 接下來要將 `rand` 的定義引入我們套件的作用域的話，我們加上一行 `use` 後面接著 crate 的名稱 `rand` 然後列出我們想要引入作用域的項目。回想一下在第二章[「產生隨機數字」][rand]<!-- ignore -->的段落，我們將 `Rng` 特徵引入作用域中，並呼叫函式 `rand::thread_rng`：
 
