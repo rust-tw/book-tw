@@ -79,7 +79,7 @@ Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來
 
 現在程式碼就能成功編譯了！讓我們看看絕對與相對路徑，以及再次檢查為何 `pub` 關鍵字是如何遵守隱私權規則，讓我們可以在 `add_to_waitlist` 取得這些路徑。
 
-在絕對路徑中，我們始於 `crate`，這是 crate 模組樹的跟。再來 `front_of_house` 模組被定義在 crate 源頭中，`front_of_house` 模組不是公開，但因為 `eat_at_restaurant` 函式被定義在與 `front_of_house` 同一層模組中（也就是 `eat_at_restaurant` 與 `front_of_house` 同輩（siblings）），我們可以從 `eat_at_restaurant` 引用 `front_of_house`。接下來是有 `pub` 標記的 `hosting` 模組，我們可以取得 `hosting` 的上層模組，所以我們可以取得 `hosting`。最後 `add_to_waitlist` 函式也有 `pub` 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！
+在絕對路徑中，我們始於 `crate`，這是 crate 模組樹的根。再來 `front_of_house` 模組被定義在 crate 源頭中，`front_of_house` 模組不是公開，但因為 `eat_at_restaurant` 函式被定義在與 `front_of_house` 同一層模組中（也就是 `eat_at_restaurant` 與 `front_of_house` 同輩（siblings）），我們可以從 `eat_at_restaurant` 引用 `front_of_house`。接下來是有 `pub` 標記的 `hosting` 模組，我們可以取得 `hosting` 的上層模組，所以我們可以取得 `hosting`。最後 `add_to_waitlist` 函式也有 `pub` 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！
 
 而在相對路徑中，基本邏輯與絕對路徑一樣，不過第一步有點不同。我們不是從 crate 源頭開始，路徑是從 `front_of_house` 開始。`front_of_house` 與 `eat_at_restaurant` 被定義在同一層模組中，所以從 `eat_at_restaurant` 開始定義的相對路徑是有效的。再來因為 `hosting` 與 `add_to_waitlist` 都有 `pub` 標記，其餘的路徑也都是可以進入的，所以此函式呼叫也是有效的！
 
