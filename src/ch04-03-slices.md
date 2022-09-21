@@ -174,7 +174,7 @@ fn first_word(s: &String) -> &str {
 
 <span class="caption">範例 4-9：使用字串切片作為參數 `s` 來改善函式 `first_word`</span>
 
-如果我們有字串切片的話，我們可以直接傳遞。如果我們有 `String` 的話，我可以們傳遞整個 `String` 的切片或引用。這樣的彈性用到了**強制解引用**（deref coercion），這個功能我們會在第十五章的[「函式與方法的隱式強制解引用」][deref-coercions]<!--ignore-->段落做介紹。定義函式的參數為字串切片而非 `String` 可以讓我們的 API 更通用且不會失去去任何功能：
+如果我們有字串切片的話，我們可以直接傳遞。如果我們有 `String` 的話，我可以們傳遞整個 `String` 的切片或引用。這樣的彈性用到了**強制解引用**（deref coercion），這個功能我們會在第十五章的[「函式與方法的隱式強制解引用」][deref-coercions]<!--ignore-->段落做介紹。定義函式的參數為字串切片而非 `String` 可以讓我們的 API 更通用且不會失去任何功能：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -190,7 +190,7 @@ fn first_word(s: &String) -> &str {
 let a = [1, 2, 3, 4, 5];
 ```
 
-就像我們引用一部分的字串一樣，我們可以這樣引用一部分的字串：
+就像我們引用一部分的字串一樣，我們可以這樣引用一部分的陣列：
 
 ```rust
 let a = [1, 2, 3, 4, 5];

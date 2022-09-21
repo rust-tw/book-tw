@@ -55,7 +55,7 @@ enum Result<T, E> {
 
 和 `Option` 枚舉一樣，`Result` 枚舉與其變體都會透過 prelude 引入作用域，所以我們不需要指明 `Result::`，可以直接在 `match` 的分支中使用 `Ok` 和 `Err` 變體。
 
-我們在此告訴 Rust 結果是 `Ok` 的話，就回傳 `Ok` 變體中內部的 `file`，然後我們就可以將檔案控制代碼賦值給變數 `f`。在 `match` 之後，我們就可以適用檔案控制代碼來讀寫。
+我們在此告訴 Rust 結果是 `Ok` 的話，就回傳 `Ok` 變體中內部的 `file`，然後我們就可以將檔案控制代碼賦值給變數 `f`。在 `match` 之後，我們就可以使用檔案控制代碼來讀寫。
 
 `match` 的另一個分支則負責處理我們從 `File::open` 中取得的 `Err` 數值。在此範例中，我們選擇呼叫 `panic!` 巨集。如果檔案 *hello.txt* 不存在我們當前的目錄的話，我們就會執行此程式碼，接著就會看到來自 `panic!` 巨集的輸出結果：
 
@@ -227,7 +227,7 @@ don't want to include it for rustdoc testing purposes. -->
 {{#include ../listings/ch09-error-handling/listing-09-10/output.txt}}
 ```
 
-此錯誤告訴我們只能在回傳型別為 `Result` 或 `Option` 或其他有實作 `FromResidual` 的型別的函式才能使用 `?` 運算子。要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成 `Result<T, E>`。另一種則是依照可能的情境使用 `match` 或 `Result<T, E>` 其中一中方法來處理 `Result<T, E>`。
+此錯誤告訴我們只能在回傳型別為 `Result` 或 `Option` 或其他有實作 `FromResidual` 的型別的函式才能使用 `?` 運算子。要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成 `Result<T, E>`。另一種則是依照可能的情境使用 `match` 或 `Result<T, E>` 其中一種方法來處理 `Result<T, E>`。
 
 錯誤訊息還提到了 `?` 也能用在 `Option<T>` 的數值。就像 `?` 能用在 `Result`一樣，你只能在有回傳 `Option` 的函式中，對 `Option` 的值使用 `?`。在 `Option<T>` 呼叫 `?` 的行為與在 `Result<T, E>` 上呼叫類似：如果數值為　`None`，`None` 就會在函式該處被提早回傳；如果數值為 `Some`，`Some` 中的值就會是表達式的結果數值，且程式會繼續執行下去。以下範例 9-11 的函式會尋找給予文字的第一行中最後一個字元：
 
