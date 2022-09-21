@@ -183,7 +183,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </span><span class="boring">    println!(&quot;'{}' 的長度為 {}。&quot;, s1, len);
 </span><span class="boring">}
 </span><span class="boring">
-</span>fn calculate_length(s: &amp;String) -&gt; usize { // s 個 String 的引用
+</span>fn calculate_length(s: &amp;String) -&gt; usize { // s 是個 String 的引用
     s.len()
 } // s 在此離開作用域，但因為它沒有它所指向的資料的所有權
   // 沒有任何動作發生

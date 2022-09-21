@@ -203,7 +203,7 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 9-4：使用 <code>match</code> 表達式來處理回傳的 <code>Result</code> 變體</span></p>
 <p>和 <code>Option</code> 枚舉一樣，<code>Result</code> 枚舉與其變體都會透過 prelude 引入作用域，所以我們不需要指明 <code>Result::</code>，可以直接在 <code>match</code> 的分支中使用 <code>Ok</code> 和 <code>Err</code> 變體。</p>
-<p>我們在此告訴 Rust 結果是 <code>Ok</code> 的話，就回傳 <code>Ok</code> 變體中內部的 <code>file</code>，然後我們就可以將檔案控制代碼賦值給變數 <code>f</code>。在 <code>match</code> 之後，我們就可以適用檔案控制代碼來讀寫。</p>
+<p>我們在此告訴 Rust 結果是 <code>Ok</code> 的話，就回傳 <code>Ok</code> 變體中內部的 <code>file</code>，然後我們就可以將檔案控制代碼賦值給變數 <code>f</code>。在 <code>match</code> 之後，我們就可以使用檔案控制代碼來讀寫。</p>
 <p><code>match</code> 的另一個分支則負責處理我們從 <code>File::open</code> 中取得的 <code>Err</code> 數值。在此範例中，我們選擇呼叫 <code>panic!</code> 巨集。如果檔案 <em>hello.txt</em> 不存在我們當前的目錄的話，我們就會執行此程式碼，接著就會看到來自 <code>panic!</code> 巨集的輸出結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling error-handling v0.1.0 (file:///projects/error-handling)
@@ -414,7 +414,7 @@ error[E0277]: the `?` operator can only be used in a function that returns `Resu
 For more information about this error, try `rustc --explain E0277`.
 error: could not compile `error-handling` due to previous error
 </code></pre>
-<p>此錯誤告訴我們只能在回傳型別為 <code>Result</code> 或 <code>Option</code> 或其他有實作 <code>FromResidual</code> 的型別的函式才能使用 <code>?</code> 運算子。要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成 <code>Result&lt;T, E&gt;</code>。另一種則是依照可能的情境使用 <code>match</code> 或 <code>Result&lt;T, E&gt;</code> 其中一中方法來處理 <code>Result&lt;T, E&gt;</code>。</p>
+<p>此錯誤告訴我們只能在回傳型別為 <code>Result</code> 或 <code>Option</code> 或其他有實作 <code>FromResidual</code> 的型別的函式才能使用 <code>?</code> 運算子。要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成 <code>Result&lt;T, E&gt;</code>。另一種則是依照可能的情境使用 <code>match</code> 或 <code>Result&lt;T, E&gt;</code> 其中一種方法來處理 <code>Result&lt;T, E&gt;</code>。</p>
 <p>錯誤訊息還提到了 <code>?</code> 也能用在 <code>Option&lt;T&gt;</code> 的數值。就像 <code>?</code> 能用在 <code>Result</code>一樣，你只能在有回傳 <code>Option</code> 的函式中，對 <code>Option</code> 的值使用 <code>?</code>。在 <code>Option&lt;T&gt;</code> 呼叫 <code>?</code> 的行為與在 <code>Result&lt;T, E&gt;</code> 上呼叫類似：如果數值為　<code>None</code>，<code>None</code> 就會在函式該處被提早回傳；如果數值為 <code>Some</code>，<code>Some</code> 中的值就會是表達式的結果數值，且程式會繼續執行下去。以下範例 9-11 的函式會尋找給予文字的第一行中最後一個字元：</p>
 <pre><pre class="playground"><code class="language-rust">fn last_char_of_first_line(text: &amp;str) -&gt; Option&lt;char&gt; {
     text.lines().next()?.chars().last()

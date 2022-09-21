@@ -211,7 +211,7 @@ error: could not compile `no_type_annotations` due to previous error
 </code></pre></pre>
 <p>浮點數是依照 IEEE-754 所定義的，<code>f32</code> 型別是單精度浮點數，而 <code>f64</code> 是倍精度浮點數。</p>
 <h4 id="數值運算"><a class="header" href="#數值運算">數值運算</a></h4>
-<p>Rust 支援你所有想得到的數值型別基本運算：加法、減法、乘法、除法和取餘。整數除法會取最接進的下界數值。以下程式碼展示出如何在 <code>let</code> 陳述式使用這些運算：</p>
+<p>Rust 支援你所有想得到的數值型別基本運算：加法、減法、乘法、除法和取餘。整數除法會取最接近的下界數值。以下程式碼展示出如何在 <code>let</code> 陳述式使用這些運算：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     // 加法

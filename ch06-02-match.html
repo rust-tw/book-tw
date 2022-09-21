@@ -166,7 +166,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 <p>接下來是 <code>match</code> 的分支，每個分支有兩個部分：一個模式以及對應的程式碼。這邊第一個分支的模式是 <code>Coin::Penny</code> 然後 <code>=&gt;</code> 會將模式與要執行的程式碼分開來，而在此例的程式碼就只是個 <code>1</code>。每個分支之間由逗號區隔開來。</p>
 <p>當 <code>match</code> 表達式執行時，他會將計算的數據結果依序與每個分支的模式做比較。如果有模式配對到該值的話，其對應的程式碼就會執行。如果該模式與數值不符的話，就繼續執行下一個分支，就像硬幣分類機器。</p>
 <p>每個分支對應的程式碼都是表達式，然後在配對到的分支中表達式的數值結果就會是整個 <code>match</code> 表達式的回傳值。</p>
-<p>如果配對分支的程式碼很短的話，我們通常就不會用到的大括號，像是範例 6-3 每個分支就只回傳一個數值。如果你想要在配對分支執行多行程式碼的話，你就必須用大括號。舉例來說，以下程式會在每次配對到 <code>Coin::Penny</code> 時印出「幸運幣！」再回傳程式碼區塊最後的數值 <code>1</code>：</p>
+<p>如果配對分支的程式碼很短的話，我們通常就不會用到大括號，像是範例 6-3 每個分支就只回傳一個數值。如果你想要在配對分支執行多行程式碼的話，你就必須用大括號。舉例來說，以下程式會在每次配對到 <code>Coin::Penny</code> 時印出「幸運幣！」再回傳程式碼區塊最後的數值 <code>1</code>：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum Coin {
 </span><span class="boring">    Penny,
 </span><span class="boring">    Nickel,
@@ -367,7 +367,7 @@ error: could not compile `enums` due to previous error
 <span class="boring">}
 </span></code></pre></pre>
 <p>此範例一樣也滿足徹底的要求，因為我們在最後的分支顯式地忽略其他所有數值，我們沒有遺漏任何值。</p>
-<p>如果我們再改一次遊戲規則，改成如果你骰道除了 3 與 7 以外，不會有任何事發生的話，我們可以用單元數值（我們在<a href="ch03-02-data-types.html#%E5%85%83%E7%B5%84%E5%9E%8B%E5%88%A5">元組型別</a><!-- ignore -->段落提到的空元組）作為 <code>_</code> 的程式碼： </p>
+<p>如果我們再改一次遊戲規則，改成如果你骰到除了 3 與 7 以外，不會有任何事發生的話，我們可以用單元數值（我們在<a href="ch03-02-data-types.html#%E5%85%83%E7%B5%84%E5%9E%8B%E5%88%A5">元組型別</a><!-- ignore -->段落提到的空元組）作為 <code>_</code> 的程式碼： </p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let dice_roll = 9;
     match dice_roll {

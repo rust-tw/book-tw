@@ -273,7 +273,7 @@ pub fn eat_at_restaurant() {
 <p><span class="filename">檔案名稱：Cargo.toml</span></p>
 <pre><code class="language-toml">rand = &quot;0.8.3&quot;
 </code></pre>
-<p>在 <em>Cargo.toml</em> 新增  <code>rand</code> 作為依賴函式庫會告訴 Cargo 要從 <a href="https://crates.io/">crates.io</a> 下載  <code>rand</code> 以及其他相關的依賴，讓我們可專案可以使用 <code>rand</code>。</p>
+<p>在 <em>Cargo.toml</em> 新增  <code>rand</code> 作為依賴函式庫會告訴 Cargo 要從 <a href="https://crates.io/">crates.io</a> 下載  <code>rand</code> 以及其他相關的依賴，讓我們的專案可以使用 <code>rand</code>。</p>
 <p>接下來要將 <code>rand</code> 的定義引入我們套件的作用域的話，我們加上一行 <code>use</code> 後面接著 crate 的名稱 <code>rand</code> 然後列出我們想要引入作用域的項目。回想一下在第二章<a href="ch02-00-guessing-game-tutorial.html#%E7%94%A2%E7%94%9F%E9%9A%A8%E6%A9%9F%E6%95%B8%E5%AD%97">「產生隨機數字」</a><!-- ignore -->的段落，我們將 <code>Rng</code> 特徵引入作用域中，並呼叫函式 <code>rand::thread_rng</code>：</p>
 <pre><code class="language-rust ignore"><span class="boring">use std::io;
 </span>use rand::Rng;
