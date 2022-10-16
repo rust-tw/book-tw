@@ -286,7 +286,7 @@ fn longest<'a, 'b>(x: &'a str, y: &'b str) -> &str {
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-10-lifetimes-on-methods/src/main.rs:1st}}
 ```
 
-生命週期參數宣告在 `impl` 之後，而且也要在型別名稱之後加上。但是我們不必在 `self` 的引用加上生命週期詮釋，因為其適用於第一個省略規則。
+我們必須在 `impl` 之後宣告生命週期參數，並在型別名稱後使用該生命週期。但是我們不必在 `self` 的引用加上生命週期詮釋，因為其適用於第一個省略規則。
 
 以下是第三個生命週期省略規則適用的地方：
 
