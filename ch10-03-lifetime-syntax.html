@@ -514,7 +514,7 @@ fn main() {
 </span><span class="boring">    };
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>生命週期參數宣告在 <code>impl</code> 之後，而且也要在型別名稱之後加上。但是我們不必在 <code>self</code> 的引用加上生命週期詮釋，因為其適用於第一個省略規則。</p>
+<p>我們必須在 <code>impl</code> 之後宣告生命週期參數，並在型別名稱後使用該生命週期。但是我們不必在 <code>self</code> 的引用加上生命週期詮釋，因為其適用於第一個省略規則。</p>
 <p>以下是第三個生命週期省略規則適用的地方：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct ImportantExcerpt&lt;'a&gt; {
 </span><span class="boring">    part: &amp;'a str,

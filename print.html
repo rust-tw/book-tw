@@ -6097,7 +6097,7 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 10-9：在 <code>Point&lt;T&gt;</code> 結構體實作一個方法叫做 <code>x</code>，其會回傳 <code>x</code> 欄位中型別為 <code>T</code> 的引用</span></p>
 <p>我們在這 <code>Point&lt;T&gt;</code> 定義了一個方法叫做 <code>x</code> 並回傳欄位 <code>x</code> 的資料引用。</p>
-<p>注意到我們需要在 <code>impl</code> 宣告 <code>T</code>，這樣才代表我們指的是在型別 <code>Point&lt;T&gt;</code> 實作方法。在 <code>impl</code> 之後宣告泛型型別 <code>T</code>，Rust 可以識別出 <code>Point</code> 尖括號內的型別為泛型型別而非實際型別。由於這是再次重新宣告泛型，我們其實可以選用不同的泛型參數名稱，而不用和結構體定義的泛型參數一樣，不過通常使用相同名稱還是比較常見。無論該泛型型別最終會是何種實際型別，任何方法在有宣告泛型型別的 <code>impl</code>內，都會被定義成適用於各種型別實例。 </p>
+<p>注意到我們需要在 <code>impl</code> 宣告 <code>T</code>，才有 <code>T</code> 可以用來標明我們在替型別 <code>Point&lt;T&gt;</code> 實作其方法。在 <code>impl</code> 之後宣告泛型型別 <code>T</code>，Rust 可以識別出 <code>Point</code> 尖括號內的型別為泛型型別而非實際型別。由於這是再次重新宣告泛型，我們其實可以選用不同的泛型參數名稱，而不用和結構體定義的泛型參數一樣，不過通常使用相同名稱還是比較常見。無論該泛型型別最終會是何種實際型別，任何方法在有宣告泛型型別的 <code>impl</code>內，都會被定義成適用於各種型別實例。 </p>
 <p>另一種選項是我們在定義方法時，可以對泛型型別加上些限制。舉例來說，我們可以只針對 <code>Point&lt;f32&gt;</code> 的實例來實作方法，而非適用於任何泛型型別的 <code>Point&lt;T&gt;</code> 實例。在範例 10-10 我們使用了實例型別 <code>f32</code> 而沒有在 <code>impl</code> 宣告任何型別。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Point&lt;T&gt; {
@@ -6677,19 +6677,19 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 }
 </code></pre>
 <p><span class="caption">範例 10-16：依據特徵界限來選擇性地在泛型型別實作方法</span></p>
-<p>我們還可以對有實作其他特徵的型別選擇性地來實作特徵。對滿足特徵界限的型別實作特徵會稱之為<strong>毯子實作（blanket implementations）</strong>，這被廣泛地用在 Rust 標準函式庫中。舉例來說，標準函式庫會對任何有實作 <code>Display</code> 特徵的型別實作 <code>ToString</code>。標準函式庫中的 <code>impl</code> 區塊會有類似這樣的程式碼：</p>
+<p>我們還可以對有實作其他特徵的型別選擇性地來實作特徵。對滿足特徵界限的型別實作特徵會稱之為<strong>全面實作（blanket implementations）</strong>，這被廣泛地用在 Rust 標準函式庫中。舉例來說，標準函式庫會對任何有實作 <code>Display</code> 特徵的型別實作 <code>ToString</code>。標準函式庫中的 <code>impl</code> 區塊會有類似這樣的程式碼：</p>
 <pre><code class="language-rust ignore">impl&lt;T: Display&gt; ToString for T {
     // --省略--
 }
 </code></pre>
-<p>因為標準函式庫有此毯子實作，我們可以在任何有實作 <code>Display</code> 特徵的型別呼叫 <code>ToString</code> 特徵的 <code>to_string</code> 方法。舉例來說，我們可以像這樣將整數轉變成對應的 <code>String</code> 數值，因為整數有實作 <code>Display</code>：</p>
+<p>因為標準函式庫有此全面實作，我們可以在任何有實作 <code>Display</code> 特徵的型別呼叫 <code>ToString</code> 特徵的 <code>to_string</code> 方法。舉例來說，我們可以像這樣將整數轉變成對應的 <code>String</code> 數值，因為整數有實作 <code>Display</code>：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = 3.to_string();
 <span class="boring">}
 </span></code></pre></pre>
-<p>毯子實作在特徵技術文件的「Implementors」段落有做說明。</p>
+<p>全面實作在特徵技術文件的「Implementors」段落有做說明。</p>
 <p>特徵與特徵界限讓我們能使用泛型型別參數來減少重複的程式碼的同時，告訴編譯器該泛型型別該擁有何種行為。編譯器可以利用特徵界限資訊來檢查程式碼提供的實際型別有沒有符合特定行為。在動態語言中，我們要是呼叫一個該型別沒有的方法的話，我們會在執行時才發生錯誤。但是 Rust 將此錯誤移到編譯期間，讓我們必須在程式能夠執行之前確保有修正此問題。除此之外，我們還不用寫在執行時檢查此行為的程式碼，因為我們已經在編譯時就檢查了。這麼做我們可以在不失去泛型彈性的情況下，提升效能。</p>
 <p>另一種我們已經看過的泛型為<strong>生命週期（lifetimes）</strong>。不同於確保一個型別有沒有我們要的行為，生命週期確保我們在需要引用的時候，它們都是有效的。讓我們來看看生命週期是怎麼做到的。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="透過生命週期驗證引用"><a class="header" href="#透過生命週期驗證引用">透過生命週期驗證引用</a></h2>
@@ -7067,7 +7067,7 @@ fn main() {
 </span><span class="boring">    };
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>生命週期參數宣告在 <code>impl</code> 之後，而且也要在型別名稱之後加上。但是我們不必在 <code>self</code> 的引用加上生命週期詮釋，因為其適用於第一個省略規則。</p>
+<p>我們必須在 <code>impl</code> 之後宣告生命週期參數，並在型別名稱後使用該生命週期。但是我們不必在 <code>self</code> 的引用加上生命週期詮釋，因為其適用於第一個省略規則。</p>
 <p>以下是第三個生命週期省略規則適用的地方：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct ImportantExcerpt&lt;'a&gt; {
 </span><span class="boring">    part: &amp;'a str,
