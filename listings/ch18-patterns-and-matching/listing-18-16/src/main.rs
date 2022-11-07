@@ -14,14 +14,12 @@ fn main() {
     let msg = Message::ChangeColor(Color::Hsv(0, 160, 255));
 
     match msg {
-        Message::ChangeColor(Color::Rgb(r, g, b)) => println!(
-            "變更顏色為紅色 {}、綠色 {} 與藍色 {}",
-            r, g, b
-        ),
-        Message::ChangeColor(Color::Hsv(h, s, v)) => println!(
-            "變更顏色為色相 {}、飽和度 {} 與明度 {}",
-            h, s, v
-        ),
+        Message::ChangeColor(Color::Rgb(r, g, b)) => {
+            println!("變更顏色為紅色 {r}、綠色 {g} 與藍色 {b}");
+        }
+        Message::ChangeColor(Color::Hsv(h, s, v)) => {
+            println!("變更顏色為色相 {h}、飽和度 {s} 與明度 {v}");
+        }
         _ => (),
     }
 }

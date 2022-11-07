@@ -1,9 +1,14 @@
 fn main() {
     // ANCHOR: here
-    {
-        let v = vec![1, 2, 3, 4];
+    let v = vec![1, 2, 3, 4, 5];
 
-        // 使用 v 做些事情
-    } // <- v 在此離開作用域並釋放
-      // ANCHOR_END: here
+    let third: &i32 = &v[2];
+    println!("第三個元素是 {third}");
+
+    let third: Option<&i32> = v.get(2);
+    match third {
+        Some(third) => println!("第三個元素是 {third}"),
+        None => println!("第三個元素並不存在。"),
+    }
+    // ANCHOR_END: here
 }

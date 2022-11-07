@@ -4,8 +4,8 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     let query = &args[1];
-    let filename = &args[2];
+    let file_path = &args[2];
 
     println!("搜尋 {}", query);
-    println!("目標檔案為 {}", filename);
+    println!("目標檔案為 {}", file_path);
 }

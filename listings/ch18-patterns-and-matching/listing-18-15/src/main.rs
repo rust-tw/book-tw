@@ -10,18 +10,14 @@ fn main() {
 
     match msg {
         Message::Quit => {
-            println!("Quit 變體沒有資料能解構。")
+            println!("Quit 變體沒有資料能解構。");
         }
         Message::Move { x, y } => {
-            println!(
-                "Move 往 x 的方向為 {} 且往 y 的方向為 {}",
-                x, y
-            );
+            println!("Move 往 x 的方向為 {x} 且往 y 的方向為 {y}");
         }
-        Message::Write(text) => println!("文字訊息：{}", text),
-        Message::ChangeColor(r, g, b) => println!(
-            "變更顏色為紅色 {}、綠色 {} 與藍色 {}",
-            r, g, b
-        ),
+        Message::Write(text) => println!("文字訊息：{text}"),
+        Message::ChangeColor(r, g, b) => {
+            println!("變更顏色為紅色 {r}、綠色 {g} 與藍色 {b}")
+        }
     }
 }

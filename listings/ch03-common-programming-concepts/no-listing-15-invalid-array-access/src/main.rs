@@ -19,7 +19,6 @@ fn main() {
     let element = a[index];
 
     println!(
-        "索引 {} 元素的數值爲：{}",
-        index, element
+        "索引 {index} 元素的數值爲：{element}"
     );
 }

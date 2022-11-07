@@ -1,15 +1,48 @@
+#[derive(PartialEq, Debug)]
+struct Shoe {
+    size: u32,
+    style: String,
+}
+
+fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
+    shoes.into_iter().filter(|s| s.size == shoe_size).collect()
+}
+
 #[cfg(test)]
 mod tests {
-    // ANCHOR: here
+    use super::*;
+
     #[test]
-    fn iterator_sum() {
-        let v1 = vec![1, 2, 3];
+    fn filters_by_size() {
+        let shoes = vec![
+            Shoe {
+                size: 10,
+                style: String::from("運動鞋"),
+            },
+            Shoe {
+                size: 13,
+                style: String::from("涼鞋"),
+            },
+            Shoe {
+                size: 10,
+                style: String::from("靴子"),
+            },
+        ];
 
-        let v1_iter = v1.iter();
+        let in_my_size = shoes_in_size(shoes, 10);
 
-        let total: i32 = v1_iter.sum();
-
-        assert_eq!(total, 6);
+        assert_eq!(
+            in_my_size,
+            vec![
+                Shoe {
+                    size: 10,
+                    style: String::from("運動鞋")
+                },
+                Shoe {
+                    size: 10,
+                    style: String::from("靴子")
+                },
+            ]
+        );
     }
-    // ANCHOR_END: here
 }

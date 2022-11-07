@@ -1,19 +1,11 @@
-// ANCHOR: here
-fn main() {
-    let string1 = String::from("很長的長字串");
-    let result;
-    {
-        let string2 = String::from("xyz");
-        result = longest(string1.as_str(), string2.as_str());
-    }
-    println!("最長的字串為 {}", result);
+struct ImportantExcerpt<'a> {
+    part: &'a str,
 }
-// ANCHOR_END: here
 
-fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
-    if x.len() > y.len() {
-        x
-    } else {
-        y
-    }
+fn main() {
+    let novel = String::from("Call me Ishmael. Some years ago...");
+    let first_sentence = novel.split('.').next().expect("無法找到 '.'");
+    let i = ImportantExcerpt {
+        part: first_sentence,
+    };
 }

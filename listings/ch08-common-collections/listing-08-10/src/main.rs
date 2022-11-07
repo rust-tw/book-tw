@@ -1,15 +1,9 @@
 fn main() {
     // ANCHOR: here
-    enum SpreadsheetCell {
-        Int(i32),
-        Float(f64),
-        Text(String),
-    }
+    {
+        let v = vec![1, 2, 3, 4];
 
-    let row = vec![
-        SpreadsheetCell::Int(3),
-        SpreadsheetCell::Text(String::from("藍色")),
-        SpreadsheetCell::Float(10.12),
-    ];
-    // ANCHOR_END: here
+        // 使用 v 做些事情
+    } // <- v 在此離開作用域並釋放
+      // ANCHOR_END: here
 }
