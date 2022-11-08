@@ -150,7 +150,7 @@ io::stdin().read_line(&mut guess).expect("讀取行數失敗");
 
 但是這麼長通常會很難閱讀，最好還是能夠分段。當你透過 `.method_name()` 語法呼叫方法時，通常換行來寫並加上縮排，來拆開一串很長的程式碼會比較好閱讀。現在讓我們來討論這行在做什麼。
 
-如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個 `Result` 數值。[`Result`][iesult]<!-- ignore --> 是種[**枚舉（enumerations）**][enums]<!-- ignore -->，常稱為 *enums*。枚舉是種可能有數種狀態其中之一的型別，而每種可能的狀態我們稱之為枚舉的**變體（variants）**。
+如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個 `Result` 數值。[`Result`][result]<!-- ignore --> 是種[**枚舉（enumerations）**][enums]<!-- ignore -->，常稱為 *enums*。枚舉是種可能有數種狀態其中之一的型別，而每種可能的狀態我們稱之為枚舉的**變體（variants）**。
 
 [第六章][enums]<!-- ignore -->會更詳細地介紹枚舉，這些 `Result` 型別的目的是要編碼錯誤處理資訊。
 
