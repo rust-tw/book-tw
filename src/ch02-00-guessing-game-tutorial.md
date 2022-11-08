@@ -1,6 +1,6 @@
 # 設計猜謎遊戲程式
 
-讓我們親自動手一同完成一項專案來開始上手 Rust 吧！本章節會介紹一些常見 Rust 概念，展示如何在實際程式中使用它們。你會學到 `let`、`match`、方法、關聯函式、使用外部 crate 以及更多等等！我們會在之後的章節更詳細地探討這些概念。在本章中，你會先練習基礎概念。
+讓我們親自動手一同完成一項專案來開始上手 Rust 吧！本章節會介紹一些常見 Rust 概念，展示如何在實際程式中使用它們。你會學到 `let`、`match`、方法、關聯函式、外部 crate 以及更多等等！我們會在之後的章節更詳細地探討這些概念。在本章中，你會練習到基礎概念。
 
 我們會實作個經典新手程式問題：猜謎遊戲。它的運作方式如下：程式會產生 1 到 100 之間的隨機整數。接著它會通知玩家猜一個數字。在輸入猜測數字之後，程式會回應猜測的數字太低或太高。如果猜對的話，遊戲就會顯示祝賀訊息並關閉。
 
@@ -16,6 +16,15 @@ $ cd guessing_game
 第一道命令 `cargo new` 會接收專案名稱（`guessing_game`）作為引數（argument）。第二道命令會將目錄移至新專案中。
 
 檢查看看產生的 *Cargo.toml* 檔案：
+
+<!-- manual-regeneration
+cd listings/ch02-guessing-game-tutorial
+rm -rf no-listing-01-cargo-new
+cargo new no-listing-01-cargo-new --name guessing_game
+cd no-listing-01-cargo-new
+cargo run > output.txt 2>&1
+cd ../../..
+-->
 
 <span class="filename">檔案名稱：Cargo.toml</span>
 
@@ -93,7 +102,7 @@ $ cd guessing_game
 let apples = 5;
 ```
 
-這行建立了一個新的變數叫做 `apple` 並將數值 5 綁定給它。在 Rust 中，變數預設是不可變的（immutable）。我們會在第三章的[「變數與可變性」][variables-and-mutability]<!-- ignore -->段落討論此概念。要讓變數成為可變的話，我們可以在變數名稱前面加上 `mut`：
+這行建立了一個新的變數叫做 `apple` 並將數值 5 綁定給它。在 Rust 中，變數預設是不可變的（immutable），也就是一旦我們給予變數一個數值，該數值就不會被改變。我們會在第三章的[「變數與可變性」][variables-and-mutability]<!-- ignore -->段落討論此概念。要讓變數成為可變的話，我們可以在變數名稱前面加上 `mut`：
 
 ```rust,ignore
 let apple = 5; // 不可變的
@@ -122,9 +131,12 @@ let mut banana = 5; // 可變的
 
 `&` 說明此引數是個**引用（reference）**，這讓程式中的多個部分可以取得此資料內容，但不需要每次都得複製資料到記憶體中。引用是個複雜的概念，而 Rust 其中一項主要優勢就是能夠輕鬆又安全地使用引用。你現在還不用知道一堆細節才能完成程式。現在你只需要知道引用和變數一樣，預設都是不可變的。因此你必須寫 `&mut guess` 而不是 `&guess` 才能讓它成為可變的。（第四章會再全面詳細解釋引用。）
 
-### 使用 `Result` 型別處理可能的錯誤
+<!-- Old heading. Do not remove or links may break. -->
+<a id="handling-potential-failure-with-the-result-type"></a>
 
-我們要繼續處理這段程式碼。雖然我們已經討論到第三行了，這仍然是這段單一邏輯程式碼中的一部分。接下來的部分是此方法：
+### 使用 `Result` 處理可能的錯誤
+
+我們要繼續處理這段程式碼。我們已經討論到第三行了，不過這仍然是這段單一邏輯程式碼中的一部分。接下來的部分是此方法：
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:expect}}
@@ -138,13 +150,13 @@ io::stdin().read_line(&mut guess).expect("讀取行數失敗");
 
 但是這麼長通常會很難閱讀，最好還是能夠分段。當你透過 `.method_name()` 語法呼叫方法時，通常換行來寫並加上縮排，來拆開一串很長的程式碼會比較好閱讀。現在讓我們來討論這行在做什麼。
 
-如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個數值，在此例中就是 [`io::Result`][ioresult]<!-- ignore -->。在 Rust 標準函式庫中有一系列的型別都叫做 `Result`，這包含泛型（generic）[`Result`][result]<!-- ignore -->以及每個子模組（submodule）中的特別版本，像是 `io::Result`。`Result` 型別是種[**枚舉（enumerations）**][enums]<!-- ignore -->，常稱為 *enums*。枚舉是種擁有固定集合數值的型別，而這些數值會被稱之為枚舉的**變體（variants）**。枚舉通常會搭配 `match` 來使用，這能方便地依照枚舉的變體數值條件，來執行不同的程式碼。
+如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個 `Result` 數值。[`Result`][iesult]<!-- ignore --> 是種[**枚舉（enumerations）**][enums]<!-- ignore -->，常稱為 *enums*。枚舉是種可能有數種狀態其中之一的型別，而每種可能的狀態我們稱之為枚舉的**變體（variants）**。
 
-第六章會更詳細地介紹枚舉，這些 `Result` 型別的目的是要編碼錯誤處理資訊。
+[第六章][enums]<!-- ignore -->會更詳細地介紹枚舉，這些 `Result` 型別的目的是要編碼錯誤處理資訊。
 
 `Result` 的變體有 `Ok` 和 `Err`。`Ok` 變體指的是該動作成功完成，且 `Ok` 內部會包含成功產生的數值。而 `Err` 變體代表動作失敗，且 `Err` 會包含該動作如何與為何會失敗的資訊。
 
-`Result` 型別的數值與任何型別的數值一樣，它們都有定義些方法。`io::Result` 的實例有 [`expect` 方法][expect]<!-- ignore --> 讓你能呼叫。如果此 `io::Result` 實例數值為 `Err` 的話，`expect` 會讓程式當機並顯示作為引數傳給 `expect` 的訊息。如果 `read_line` 回傳 `Err` 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 `io::Result` 實例數值為 `Ok` 的話，`expect` 會接收 `Ok` 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值將為使用者輸入進標準輸入介面的位元組數字。
+`Result` 型別的數值與任何型別的數值一樣，它們都有定義些方法。`Result` 的實例有 [`expect` 方法][expect]<!-- ignore --> 讓你能呼叫。如果此 `Result` 實例數值為 `Err` 的話，`expect` 會讓程式當機並顯示作為引數傳給 `expect` 的訊息。如果 `read_line` 回傳 `Err` 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 `io::Result` 實例數值為 `Ok` 的話，`expect` 會接收 `Ok` 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值將為使用者輸入進標準輸入介面的位元組數字。
 
 如果你沒有呼叫 `expect`，程式仍能編譯，但你會收到一個警告：
 
@@ -164,16 +176,16 @@ Rust 警告你沒有使用 `read_line` 回傳的 `Result` 數值，這意味著�
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:print_guess}}
 ```
 
-此行會印出存有使用者輸入的字串。其中的大括號 `{}` 是個佔位符（placeholder）：將 `{}` 想成是個小蟹鉗會夾住某個數值。你可以使用大括號印出一個以上的數值，第一個大括號會是格式化字串之後列出的第一個數值，第二個大括號會是第二個數值，以此類推。要呼叫 `println!` 來印數多個數值會如以下所示：
+此行會印出存有使用者輸入的字串。其中的大括號 `{}` 是個佔位符（placeholder）：將 `{}` 想成是個小蟹鉗會夾住某個數值。當要印出變數的數值時，變數名稱可以放進括號內。當要印出表達式運算出的結果時，則先將空括號放進要格式化的字串，然後在字串後用逗號以相同的順序列出要印出的表達式列表。用 `println!` 同時印出變數與表達式結果的話會如以下所示：
 
 ```rust
 let x = 5;
 let y = 10;
 
-println!("x = {} 而且 y = {}", x, y);
+println!("x = {ｘ} 而且 y + 2 = {}", y + 2);
 ```
 
-此程式碼會印出 `x = 5 而且 y = 10`。
+此程式碼會印出 `x = 5 而且 y = 12`。
 
 ### 測試第一個部分
 
@@ -206,7 +218,7 @@ $ cargo run
 
 所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於**二進制（binary） crate**，也就會是個執行檔。而 `rand` crate 屬於**函式庫（library） crate**，這會包含讓其他程式能夠使用的程式碼。
 
-Cargo 協調外部 crate 的功能正是它的亮點。在我們可以使用 `rand` 來寫程式碼前，我們需要修改 *Cargo.toml* 檔案來包含 `rand` crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 `[dependencies]` 標頭（header）段落中最後一行下面。記得確認 `rand` 指定的版本數字與我們相同，不然此教學的範例程式碼可能不會運行成功。
+Cargo 協調外部 crate 的功能正是它的亮點。在我們可以使用 `rand` 來寫程式碼前，我們需要修改 *Cargo.toml* 檔案來包含 `rand` crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 `[dependencies]` 標頭（header）段落中最後一行下面。記得確認 `rand` 指定的版本數字與我們相同，不然此教學的範例程式碼可能不會運行成功：
 
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -217,42 +229,45 @@ Cargo 協調外部 crate 的功能正是它的亮點。在我們可以使用 `ra
 <span class="filename">檔案名稱：Cargo.toml</span>
 
 ```toml
-{{#include ../listings/ch02-guessing-game-tutorial/listing-02-02/Cargo.toml:9:}}
+{{#include ../listings/ch02-guessing-game-tutorial/listing-02-02/Cargo.toml:8:}}
 ```
 
-在 *Cargo.toml* 檔案中，標頭以下的所有內容都是該段落的一部分，一直到下個段落出現為止。`[dependencies]` 段落是告訴 Cargo 此專案要依賴哪些 crate，以及那些 crate 的版本為何。在此例中，我們透過語意化版本 `0.8.3` 來指定 `rand` crate。Cargo 能夠理解[語意化版本（Semantic Versioning）][semver]<!-- ignore -->，有時也被稱之為 *SemVer*，這是一種定義版本數字的標準。數字 `0.8.3` 其實是 `^0.8.3` 的縮寫，這代表任何至少爲 `0.8.3` 且低於 `0.9.0` 版本。Cargo 將這些版本提供的公開 API 視爲是與版本 `0.8.3` 相容的，這樣的規格讓你能在本章節取得最新的 patch 發佈版本程式碼。任何 `0.9.0` 以上的版本就不會保證提供以下範例所使用的相同 API。
+在 *Cargo.toml* 檔案中，標頭以下的所有內容都是該段落的一部分，一直到下個段落出現為止。`[dependencies]` 段落是告訴 Cargo 此專案要依賴哪些 crate，以及那些 crate 的版本為何。在此例中，我們透過語意化版本 `0.8.5` 來指定 `rand` crate。Cargo 能夠理解[語意化版本（Semantic Versioning）][semver]<!-- ignore -->，有時也被稱之為 *SemVer*，這是一種定義版本數字的標準。數字 `0.8.5` 其實是 `^0.8.5` 的縮寫，這代表任何至少爲 `0.8.5` 且低於 `0.9.0` 版本。
+
+Cargo 將這些版本提供的公開 API 視爲是與版本 `0.8.5` 相容的，這樣的規格讓你能在本章節取得最新的 patch 發佈版本程式碼。任何 `0.9.0` 以上的版本就不會保證提供以下範例所使用的相同 API。
 
 現在，在不改變任何程式碼的情況下，讓我們建構（build）專案吧，如範例 2-2 所示。
 
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/listing-02-02/
+rm Cargo.lock
 cargo clean
 cargo build -->
 
 ```console
 $ cargo build
     Updating crates.io index
-  Downloaded rand v0.8.3
-  Downloaded libc v0.2.86
-  Downloaded getrandom v0.2.2
+  Downloaded rand v0.8.5
+  Downloaded libc v0.2.127
+  Downloaded getrandom v0.2.7
   Downloaded cfg-if v1.0.0
-  Downloaded ppv-lite86 v0.2.10
-  Downloaded rand_chacha v0.3.0
-  Downloaded rand_core v0.6.2
-   Compiling rand_core v0.6.2
-   Compiling libc v0.2.86
-   Compiling getrandom v0.2.2
+  Downloaded ppv-lite86 v0.2.16
+  Downloaded rand_chacha v0.3.1
+  Downloaded rand_core v0.6.3
+   Compiling libc v0.2.127
+   Compiling getrandom v0.2.7
    Compiling cfg-if v1.0.0
-   Compiling ppv-lite86 v0.2.10
-   Compiling rand_chacha v0.3.0
-   Compiling rand v0.8.3
+   Compiling ppv-lite86 v0.2.16
+   Compiling rand_core v0.6.3
+   Compiling rand_chacha v0.3.1
+   Compiling rand v0.8.5
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
     Finished dev [unoptimized + debuginfo] target(s) in 2.53s
 ```
 
 <span class="caption">範例 2-2：在新增 rand crate 作為依賴後，執行 `cargo build` 的輸出</span>
 
-你可能會看到不同的版本數字（但多虧有 SemVer，它們都會與程式碼相容！）、不同的行數（依照作業系統可能會不同）以及每行順序可能會不相同。
+你可能會看到不同的版本數字（但多虧有 SemVer，它們都會與程式碼相容！）和不同的行數（依照作業系統可能會不同）以及每行順序可能會不相同。
 
 當我們匯入了外部依賴，Cargo 會從 *registry* 取得所有 crate 的最新版本訊息，這是份 [Crates.io][cratesio] 的資料副本。Crates.io 是個讓 Rust 生態系統中的每個人都能發佈它們的開源 Rust 專案並讓其他人使用的地方。
 
@@ -277,13 +292,13 @@ $ cargo build
 
 #### 透過 *Cargo.lock* 檔案確保建構可以重現
 
-Cargo 有個機制能確保任何人或你在任何時候重新建構程式碼時，都能產生相同結果。舉例來說，要是下一週 `rand` crate 發佈了版本 0.8.4 且該版本包含重大程式錯誤更新，卻也有個會破壞你的程式碼的回歸（regression）問題，這時會發生什麼事呢？為了處理這樣的狀況，Rust 會在你第一次執行 `cargo build` 時建立個 *Cargo.lock* 檔案，它會位於 *guessing_game* 目錄中。
+Cargo 有個機制能確保任何人或你在任何時候重新建構程式碼時，都能產生相同結果。舉例來說，要是下一週 `rand` crate 發佈了版本 0.8.6 且該版本包含重大程式錯誤更新，卻也有個會破壞你的程式碼的回歸（regression）問題，這時會發生什麼事呢？為了處理這樣的狀況，Rust 會在你第一次執行 `cargo build` 時建立個 *Cargo.lock* 檔案，它會位於 *guessing_game* 目錄中。
 
-當你第一次建構專案時，Cargo 會決定出符合情境的依賴函式庫版本，然後將它們寫入 *Cargo.lock* 檔案中。當你在未來建構專案時，Cargo 會看到 *Cargo.lock* 的存在並使用其指定的版本，而非重新再次決定該用哪些版本。這讓你有個能自動重現的建構方案。換句話說，你的專案仍會繼續使用 `0.8.3` 直到你顯式升級為止，這都多虧了 *Cargo.lock* 檔案。
+當你第一次建構專案時，Cargo 會決定出符合情境的依賴函式庫版本，然後將它們寫入 *Cargo.lock* 檔案中。當你在未來建構專案時，Cargo 會看到 *Cargo.lock* 的存在並使用其指定的版本，而非重新再次決定該用哪些版本。這讓你有個能自動重現的建構方案。換句話說，你的專案仍會繼續使用 0.8.5 直到你顯式升級為止，這都多虧了 *Cargo.lock* 檔案。由於 *Cargo.lock* 對於重現建構非常重要，所以通常它會和其他程式碼一同上傳到專案的版本控制源頭。
 
 #### 升級 Crate 來取得新版本
 
-當你**真的**想升級 crate 時，Cargo 有提供個命令 `update`，這會忽略 *Cargo.lock* 檔案並依據 *Cargo.toml* 指定的規格決定所有合適的最新版本。如果成功的話，Cargo 會將這些版本寫入 *Cargo.lock* 檔案中。不然的話，Cargo 預設只會尋找大於 `0.8.3` 且小於 `0.9.0` 的版本。如果 `rand` 有發佈兩個新版本 `0.8.4` 和 `0.9.0`，當你輸入 `cargo update` 時，你會看到以下結果：
+當你**真的**想升級 crate 時，Cargo 有提供個命令 `update`，這會忽略 *Cargo.lock* 檔案並依據 *Cargo.toml* 指定的規格決定所有合適的最新版本。如果成功的話，Cargo 會將這些版本寫入 *Cargo.lock* 檔案中。不然的話，Cargo 預設只會尋找大於 0.8.5 且小於 0.9.0 的版本。如果 `rand` 有發佈兩個新版本 0.8.6 和 0.9.0，當你輸入 `cargo update` 時，你會看到以下結果：
 
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/listing-02-02/
@@ -294,10 +309,10 @@ as a guide to creating the hypothetical output shown here -->
 ```console
 $ cargo update
     Updating crates.io index
-    Updating rand v0.8.3 -> v0.8.4
+    Updating rand v0.8.5 -> v0.8.6
 ```
 
-Cargo 會忽略 `0.9.0` 的發布版本。此時你也會注意到 *Cargo.lock* 檔案中的變更，指出你現在使用的 `rand` crate 版本為 `0.8.4`。如果你想使用 `rand` 版本 `0.9.0` 或任何版本 `0.9.x` 系列更新 *Cargo.toml* 檔案，如以下所示：
+Cargo 會忽略 0.9.0 的發布版本。此時你也會注意到 *Cargo.lock* 檔案中的變更，指出你現在使用的 `rand` crate 版本為 0.8.6。如果你想使用 `rand` 版本 0.9.0 或任何版本 0.9.*x* 系列更新 *Cargo.toml* 檔案，如以下所示：
 
 ```toml
 [dependencies]
@@ -321,9 +336,9 @@ rand = "0.9.0"
 
 <span class="caption">範例 2-3：新增程式碼來產生隨機數字</span>
 
-首先我們加上 `use` 這行：`use rand::Rng`。`Rng` 特徵（trait）定義了隨機數字產生器實作的方法，所以此特徵必須引入作用域，我們才能使用這些方法。第十章會詳細解釋特徵。
+首先我們加上 `use` 這行：`use rand::Rng;`。`Rng` 特徵（trait）定義了隨機數字產生器實作的方法，所以此特徵必須引入作用域，我們才能使用這些方法。第十章會詳細解釋特徵。
 
-接著，我們在中間加上兩行。我們在第一行呼叫的 `rand::thread_rng` 函式會回傳我們要使用的特定隨機數字產生器：這會位於目前執行緒（thread）並由作業系統提供種子（seed）。然後我們對隨機數字產生器呼叫 `gen_range` 方法。此方法由 `Rng` 特徵所定義，而我們則是用 `use rand::Rng` 陳述式將此特徵引入作用域中。`gen_range` 方法接收一個範圍表達式作為引數並產生一個在此範圍之間的隨機數字。我們所使用的範圍表達式的格式爲 `start..end`。這個範圍會包含下限但不會包含上限，所以我們需要指定 `1..101` 來索取 1 到 100 之間的數字。不然的話，我們可以傳入 `1..=100` 這樣的範圍，這也是相同的意思。
+接著，我們在中間加上兩行。我們在第一行呼叫的 `rand::thread_rng` 函式會回傳我們要使用的特定隨機數字產生器：這會位於目前執行緒（thread）並由作業系統提供種子（seed）。然後我們對隨機數字產生器呼叫 `gen_range` 方法。此方法由 `Rng` 特徵所定義，而我們則是用 `use rand::Rng;` 陳述式將此特徵引入作用域中。`gen_range` 方法接收一個範圍表達式作為引數並產生一個在此範圍之間的隨機數字。我們所使用的範圍表達式的格式爲 `start..=end`。這個範圍會包含下限和上限，所以我們需要指定 `1..=100` 來索取 1 到 100 之間的數字。
 
 > 注意：你不可能憑空就知道該使用 crate 中的哪些特徵或是呼叫哪些方法與函式，所以每個 crate 都會提供技術文件解釋如何使用它。Cargo 另一大亮點就是執行 `cargo doc --open` 命令就能建構所有本地端依賴函式庫的技術文件，並在你的瀏覽器中開啟。舉例來說，如果你對 `rand` crate 的其他功能有興趣的話，你可以執行 `cargo doc --open` 然後點擊左側邊欄的 `rand`。
 
@@ -380,9 +395,16 @@ $ cargo run
 
 `match` 表達式由**分支**（arms）所組成。分支包含一個能被配對的**模式**（pattern）以及對應的程式碼，這在當 `match` 的數值能與該分支的模式配對時就能執行。Rust 會用 `match` 得到的數值依序遍歷每個分支中的模式。`match` 結構與模式是 Rust 中非常強大的特色，能讓你表達各種程式碼可能會遇上的情形，並確保你有將它們全部處理完。這些特色功能會在第六章與第十八章分別討論其細節。
 
-讓我們看看在此例中使用的 `match` 表達式。假設使用者猜測的數字是 50 而這次隨機產生的祕密數字是 38。當程式碼比較 50 與 38 時，`cmp` 方法會回傳 `Ordering::Greater`，因為 50 大於 38。`match` 表達式會取得 `Ordering::Greater` 數值並開始檢查每個分支的模式。它會先查看第一個分支的模式 `Ordering::Less` 並看出數值 `Ordering::Greater` 無法與 `Ordering::Less` 配對，所以它忽略該分支的程式碼，並移到下一個分支。而下個分支的模式 `Ordering::Greater` 能配對到 `Ordering::Greater`！所以該分支對應的程式碼就會執行並印出 `太大了！` 到螢幕上。最後 `match` 表達式就會結束，因為在此情境中它已經不需要再查看最後一個分支。
+讓我們看看在此例中使用的 `match` 表達式。假設使用者猜測的數字是 50 而這次隨機產生的祕密數字是 38。
+
+當程式碼比較 50 與 38 時，`cmp` 方法會回傳 `Ordering::Greater`，因為 50 大於 38。`match` 表達式會取得 `Ordering::Greater` 數值並開始檢查每個分支的模式。它會先查看第一個分支的模式 `Ordering::Less` 並看出數值 `Ordering::Greater` 無法與 `Ordering::Less` 配對，所以它忽略該分支的程式碼，並移到下一個分支。而下個分支的模式 `Ordering::Greater` 能配對到 `Ordering::Greater`！所以該分支對應的程式碼就會執行並印出 `太大了！` 到螢幕上。最後 `match` 表達式就會在第一次成功配對就結束，所以在此情境中它不需要再查看最後一個分支。
 
 然而範例 2-4 的程式碼還無法編譯，讓我們嘗試看看：
+
+<!--
+The error numbers in this output should be that of the code **WITHOUT** the
+anchor or snip comments
+-->
 
 ```console
 {{#include ../listings/ch02-guessing-game-tutorial/listing-02-04/output.txt}}
@@ -404,15 +426,17 @@ $ cargo run
 let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
 ```
 
-我們建立了一個變數叫做 `guess`。小等一下，程式不是已經有個變數叫做 `guess`了嗎？的確是的，但 Rust 允許我們**遮蔽**（shadow）之前的 `guess` 數值成新的數值。遮蔽讓我們可以重複使用 `guess` 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 `guess_str` 和 `guess`。我們會在第三章更詳細地解釋此概念，現在這邊只需要知道這常拿來將一個數值的型別轉換成另一個型別。
+我們建立了一個變數叫做 `guess`。小等一下，程式不是已經有個變數叫做 `guess`了嗎？的確是的，但 Rust 允許我們遮蔽之前的 `guess` 數值成新的數值。**遮蔽**（Shadowing）讓我們可以重複使用 `guess` 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 `guess_str` 和 `guess`。我們會在[第三章][shadowing]<!-- ignore -->更詳細地解釋此概念，現在這邊只需要知道這常拿來將一個數值的型別轉換成另一個型別。
 
 我們將此新的變數綁定給 `guess.trim().parse()` 表達式。表達式中的 `guess` 指的是原本儲存字串輸入的 `guess`。`String` 中的 `trim` 方法會去除開頭與結尾的任何空白字元，我們一定要這樣做才能將字串與 `u32` 作比較，因為它只會包含數字字元。使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 `read_line` 並輸入他們的猜測數字，這樣會加上一個換行字元。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，`guess` 看起來會像這樣：`5\n`。`\n` 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果（在 Windows 按下 <span class="keystroke">enter</span> 的結果會是回車和換行 `\r\n`）。`trim` 方法能去除 `\n` 或 `\r\n`，讓結果只會是 `5`。
 
-而[字串中的 `parse` 方法][parse]<!-- ignore -->會解析字串成某種數字。因為此方法可以解析成各種數字型別，我們需要使用 `let guess: u32` 來告訴 Rust 我們想使用的確切數字型別。`guess` 後面的分號（`:`）告訴 Rust 我們會詮釋此變數的型別。Rust 有些內建的數字型別，這裡的 `u32` 是個非帶號（unsigned）的 32 位元整數。對於不大的正整數來說，這是不錯的預設選擇。你會在第三章學到其他數字型別。除此之外，在此範例程式中的 `u32` 詮釋與 `secret_number` 的比較意味著 Rust 也會將 `secret_number` 推斷成 `u32`。所以現在會有兩個相同型別的數值能做比較了！
+而[字串中的 `parse` 方法][parse]<!-- ignore -->會轉換字串成其他型別。我們在此用它將字串轉換成數字，我們需要使用 `let guess: u32` 來告訴 Rust 我們想使用的確切數字型別。`guess` 後面的分號（`:`）告訴 Rust 我們會詮釋此變數的型別。Rust 有些內建的數字型別，這裡的 `u32` 是個非帶號（unsigned）的 32 位元整數。對於不大的正整數來說，這是不錯的預設選擇。你會在[第三章][integers]<!-- ignore -->學到其他數字型別。
 
-`parse` 的呼叫很容易造成錯誤，因為它只適用於邏輯上能轉換成數字的字元。舉例來說，如果字串包含 `A👍%` 的話，就不可能轉換成數字。因為它可能會失敗，`parse` 方法回傳的是 `Result` 型別，就和 `read_line` 方法一樣（在之前的[「使用 `Result` 型別處理可能的錯誤」](#使用-result-型別處理可能的錯誤)<!-- ignore -->段落提及）。我們也會用相同的方式來處理此 `Result`，也就是呼叫 `expect` 方法。如果 `parse` 回傳 `Result` 的 `Err` 變體的話，由於它無法從字串建立數字，`expect` 的呼叫會讓遊戲當掉並顯示我們給予的訊息。如果 `parse` 能成功將字串轉成數字，它將會回傳 `Result` 的 `Ok` 變體，而 `expect` 將會回傳 `Ok` 的內部數值。
+除此之外，在此範例程式中的 `u32` 詮釋與 `secret_number` 的比較意味著 Rust 也會將 `secret_number` 推斷成 `u32`。所以現在會有兩個相同型別的數值能做比較了！
 
-現在讓我們執行程式！
+`parse` 的呼叫很容易造成錯誤，因為它只適用於邏輯上能轉換成數字的字元。舉例來說，如果字串包含 `A👍%` 的話，就不可能轉換成數字。因為它可能會失敗，`parse` 方法回傳的是 `Result` 型別，就和 `read_line` 方法一樣（在之前的[「使用 `Result` 處理可能的錯誤」](#使用-result-處理可能的錯誤)<!-- ignore -->段落提及）。我們也會用相同的方式來處理此 `Result`，也就是呼叫 `expect` 方法。如果 `parse` 回傳 `Result` 的 `Err` 變體的話，由於它無法從字串建立數字，`expect` 的呼叫會讓遊戲當掉並顯示我們給予的訊息。如果 `parse` 能成功將字串轉成數字，它將會回傳 `Result` 的 `Ok` 變體，而 `expect` 將會回傳 `Ok` 的內部數值。
+
+現在讓我們執行程式：
 
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/no-listing-03-convert-string-to-number/
@@ -561,9 +585,9 @@ foo
 
 <span class="caption">範例 2-6：完整的猜謎遊戲程式碼</span>
 
-## 總結
-
 此時此刻，你已經完成了猜謎遊戲。恭喜你！
+
+## 總結
 
 此專案讓你能動手實踐並親自體驗許多 Rust 的新概念：`let`、`match`、函式、外部 crate 的使用以及更多等等。在接下來陸續的章節，你將深入學習這些概念。第三章會涵蓋多數程式設計語言都有的概念，像是變數、資料型別與函式，以及如何在 Rust 中使用它們。第四章會探索所有權（ownership），這是 Rust 與其他語言最不同的特色。第五章會討論結構體（structs）與方法語法，而第六章會解釋枚舉。
 
@@ -585,4 +609,6 @@ ch03-01-variables-and-mutability.html#variables-and-mutability
 [doccargo]: http://doc.crates.io
 [doccratesio]: http://doc.crates.io/crates-io.html
 [match]: ch06-02-match.html
+[shadowing]: ch03-01-variables-and-mutability.html#shadowing
 [parse]: https://doc.rust-lang.org/std/primitive.str.html#method.parse
+[integers]: ch03-02-data-types.html#integer-types

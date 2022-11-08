@@ -2,7 +2,7 @@
 
 Cargo 是 Rust 的建構系統與套件管理工具。大部分的 Rustaceans 都會用此工具來管理他們的專案，因為 Cargo 能幫你處理很多任務，像是建構你的程式碼、下載你程式碼所需要的依賴函式庫並建構它們。我們常簡稱程式碼所需要用到的函式庫為**依賴（dependencies）**。
 
-簡單的 Rust 程式像是我們目前所寫的不會有任何依賴。所以當我們用 Cargo 建構「Hello, world!」專案時，Cargo 只會用到建構程式碼的那部分。隨著你寫的 Rust 程式越來越複雜，你將會加入一些依賴函式庫來幫助你。而如果你使用 Cargo 的話，加入這些依賴就會簡單很多。
+簡單的 Rust 程式像是我們目前所寫的不會有任何依賴。當我們用 Cargo 建構「Hello, world!」專案時，Cargo 只會用到建構程式碼的那部分。隨著你寫的 Rust 程式越來越複雜，你將會加入一些依賴函式庫來幫助你。而如果你使用 Cargo 的話，加入這些依賴就會簡單很多。
 
 既然大多數的 Rust 專案都是用 Cargo，所以接下來本書也將假設你也使用 Cargo。Cargo 在你使用[「安裝教學」][installation]<!-- ignore -->的官方安裝連結來安裝 Rust 時就已經連同安裝好了。如果你是用其他方式下載 Rust 的話，想要檢查 Cargo 有沒有下載好可以透過你的終端機輸入：
 
@@ -21,7 +21,7 @@ $ cargo new hello_cargo
 $ cd hello_cargo
 ```
 
-第一道命令會建立一個新的目錄叫做 *hello_cargo*。我們將我們的專案命名為 *hello_cargo*，然後 Cargo 就會產生相同名稱的目錄並產生所需的檔案。
+第一道命令會建立一個新的目錄與專案叫做 *hello_cargo*。我們將我們的專案命名為 *hello_cargo*，然後 Cargo 就會產生相同名稱的目錄並產生所需的檔案。
 
 進入 *hello_cargo* 然後顯示檔案的話，你會看到 Cargo 產生了兩個檔案和一個目錄： *Cargo.toml* 檔案以及一個 *src* 目錄，其內包含一個 *main.rs* 檔案。
 
@@ -39,12 +39,14 @@ name = "hello_cargo"
 version = "0.1.0"
 edition = "2021"
 
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
 [dependencies]
 ```
 
 <span class="caption">範例 1-2：用 `cargo new` 產生的 *Cargo.toml*</span>
 
-此檔案用的是 [*TOML*](https://toml.io)<!-- ignore -->（*Tom’s Obvious, Minimal Language*）格式，這是 Cargo 配置文件的格式。
+此檔案用的是 [*TOML*][toml]<!-- ignore -->（*Tom’s Obvious, Minimal Language*）格式，這是 Cargo 配置文件的格式。
 
 第一行的 `[package]` 是一個段落（section）標題，說明以下的陳述式（statement）會配置這個套件。隨著我們加入更多資訊到此文件，我們也會加上更多段落。
 
@@ -62,7 +64,7 @@ fn main() {
 }
 ```
 
-Cargo 預設會為你產生一個「Hello, world!」程式，就像我們範例 1-1 寫的一樣！目前我們之前寫的專案與 Cargo 產生的程式碼不同的地方在於 Cargo 將程式碼放在 *src* 目錄底下，而且我們還有一個 *Cargo.toml* 配置文件在根目錄。
+Cargo 預設會為你產生一個「Hello, world!」程式，就像我們範例 1-1 寫的一樣！目前我們寫的專案與 Cargo 產生的程式碼不同的地方在於 Cargo 將程式碼放在 *src* 目錄底下，而且我們還有一個 *Cargo.toml* 配置文件在根目錄。
 
 Cargo 預期你的原始檔案都會放在 *src* 目錄底下。專案的根目錄是用來放 README 檔案、授權條款、配置檔案以及其他與你的程式碼不相關的檔案。使用 Cargo 能夠幫助你組織你的專案，讓一切井然有序。
 
@@ -78,7 +80,7 @@ $ cargo build
     Finished dev [unoptimized + debuginfo] target(s) in 2.85 secs
 ```
 
-此命令會產生一個執行檔 *target/debug/hello_cargo*（在 Windows 上則是 *target\debug\hello_cargo.exe*），而不是在你目前的目錄。你可以用以下命令運行執行檔：
+此命令會產生一個執行檔 *target/debug/hello_cargo*（在 Windows 上則是 *target\debug\hello_cargo.exe*），而不是在你目前的目錄。因為預設的建構會是 debug build，Cargo 會將執行檔放進名為 *debug* 的目錄。你可以用以下命令運行執行檔：
 
 ```console
 $ ./target/debug/hello_cargo # 在 Windows 上的話則是 .\target\debug\hello_cargo.exe
@@ -96,7 +98,9 @@ $ cargo run
 Hello, world!
 ```
 
-請注意到這次輸出的結果我們沒有看到 Cargo 有在編譯 `hello_cargo` 的跡象，這是因為 Cargo 可以知道檔案完全沒被更改過，所以它選擇直接執行二進制檔案。如果你有變更你的原始碼的話，Cargo 才會在執行前重新建構專案，你才會看到這樣的輸出結果：
+使用 `cargo run` 通常比執行 `cargo build` 然後使用執行檔的完整路徑還要方便，所以多數開發者通常都直接用 `cargo run`。
+
+請注意到這次輸出的結果我們沒有看到 Cargo 有在編譯 `hello_cargo` 的跡象，這是因為 Cargo 可以知道檔案完全沒被更改過，所以它不用重新建構可以選擇直接執行執行檔。如果你有變更你的原始碼的話，Cargo 才會在執行前重新建構專案，你才會看到這樣的輸出結果：
 
 ```console
 $ cargo run
@@ -114,10 +118,11 @@ $ cargo check
     Finished dev [unoptimized + debuginfo] target(s) in 0.32 secs
 ```
 
-為何你會不想要產生執行檔呢？這是因為 `cargo check` 省略了產生執行檔的步驟，所以它執行的速度比 `cargo build` 還來的快。如果你在寫程式時需要持續檢查的話，使用 `cargo check` 可以加快整體過程！所以許多 Rustaceans 都會在寫程式的過程中時不時執行 `cargo check` 來確保它能編譯。最後當他們準備好要使用執行檔時，才會用 `cargo build`。
+為何你會不想要產生執行檔呢？這是因為 `cargo check` 省略了產生執行檔的步驟，所以它執行的速度比 `cargo build` 還來的快。如果你在寫程式時需要持續檢查的話，使用 `cargo check` 可以加快整體過程，讓你知道你的專案是否還在編譯中！所以許多 Rustaceans 都會在寫程式的過程中時不時執行 `cargo check` 來確保它能編譯。最後當他們準備好要使用執行檔時，才會用 `cargo build`。
 
 讓我們來回顧我們目前學到的 Cargo 內容：
 
+* 我們可以用 `cargo new` 產生專案。
 * 我們可以用 `cargo build` 建構專案。
 * 我們可以用 `cargo run` 同時建構並執行專案。
 * 我們可以用 `cargo check` 建構專案來檢查錯誤，但不會產生執行檔。
@@ -131,7 +136,7 @@ $ cargo check
 
 ### 將 Cargo 視為常規
 
-雖然在簡單的專案下，Cargo 比起只使用 `rustc` 的確沒辦法突顯出什麼價值。但是當你的程式變得越來越複雜時，它將證明它的用途。在擁有一堆 crate 的龐大專案下，讓 Cargo 來協調你的專案會來的簡單許多。
+雖然在簡單的專案下，Cargo 比起只使用 `rustc` 的確沒辦法突顯出什麼價值。但是當你的程式變得越來越複雜時，它將證明它的用途。當程式成長到好幾個檔案或需要依賴項目時，讓 Cargo 來協調你的專案會來的簡單許多。
 
 儘管 `hello_cargo` 是個小專案，但它使用了你未來的 Rust 生涯中真實情況下會用到的工具。事實上，所有存在的專案，你幾乎都可以用以下命令完成：使用 Git 下載專案、移至專案目錄然後建構完成。
 
@@ -141,9 +146,7 @@ $ cd someproject
 $ cargo build
 ```
 
-有關 Cargo 的更多資訊，請查看它的[技術文件]。
-
-[技術文件]: https://doc.rust-lang.org/cargo/
+有關 Cargo 的更多資訊，請查看它的[技術文件][cargo]。
 
 ## 總結
 
@@ -158,4 +161,6 @@ $ cargo build
 接下來是時候來建立一個更實際的程式來熟悉 Rust 程式碼的讀寫了。所以在第二章我們將寫出一支猜謎遊戲的程式。如果你想直接學習 Rust 的常見程式設計概念的話，你可直接閱讀第三章，之後再回來看第二章。
 
 [installation]: ch01-01-installation.html#installation
+[toml]: https://toml.io
 [appendix-e]: appendix-05-editions.html
+[cargo]: https://doc.rust-lang.org/cargo/

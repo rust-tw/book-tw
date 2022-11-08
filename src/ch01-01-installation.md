@@ -4,8 +4,6 @@
 
 > 注意：如果你基於某些原因不想使用 `rustup` 的話，請前往 [Rust 其他安裝方法的頁面][otherinstall]尋求其他選項。
 
-[otherinstall]: https://forge.rust-lang.org/infra/other-installation-methods.html
-
 以下步驟將會安裝最新的穩定版 Rust 編譯器。Rust 的穩定性能確保本書的所有範例在更新的 Rust 版本仍然能繼續編譯出來。輸出的結果可能會在不同版本間而有些微的差異，因為 Rust 時常會改善錯誤與警告訊息。換句話說，任何你所安裝的最新穩定版 Rust 都應該能夠正常運行本書的內容。
 
 > ### 命令列標記
@@ -17,7 +15,7 @@
 如果你使用的是 Linux 或 macOS，請開啟終端機然後輸入以下命令：
 
 ```console
-$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+$ curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh
 ```
 
 這道命令會下載一支腳本然後開始安裝 `rustup` 工具，接著安裝最新的穩定版 Rust。下載過程中可能會要求你輸入你的密碼。如果下載成功的話，將會出現以下內容：
@@ -26,7 +24,7 @@ $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 Rust is installed now. Great!
 ```
 
-你還會需要一個連結器（linker）來讓 Rust 將編譯好的輸出資料整理到一個檔案內。通常你很可能已經有安裝了，但如果你遇到連結器相關的錯誤時，這代表你需要安裝一個 C 編譯器，因爲它通常都會帶有一個的連結器。有個 C 編譯器通常也很實用，因爲一些常見的 Rust 套件也會依賴於 C 而需要一個 C 編譯器。
+你還會需要一個**連結器（linker）**來讓 Rust 將編譯好的輸出資料整理到一個檔案內。通常你很可能已經有安裝了，但如果你遇到連結器相關的錯誤時，這代表你需要安裝一個 C 編譯器，因爲它通常都會帶有一個的連結器。有個 C 編譯器通常也很實用，因爲一些常見的 Rust 套件也會依賴於 C 而需要一個 C 編譯器。
 
 在 macOS 上，你可以輸入以下命令來安裝 C 編譯器：
 
@@ -39,26 +37,15 @@ Linux 使用者的話則需要依據他們的發行版文件來安裝 GCC 或 Cl
 
 ### 在 Windows 上安裝 `rustup`
 
-在 Windows 上請前往[下載頁面][install-windows]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求說你還需要 C++ build tools for Visual Studio 2013 或更新的版本。取得這項工具最簡單的辦法是下載 [Build Tools for Visual Studio][visualstudio]。當你被問到要安裝哪些項目時，請確認有選擇「C++ build tools」，而且有包含 Windows 10 SDK 和英文語言包套件。
+在 Windows 上請前往[下載頁面][install-windows]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求說你還需要 C++ build tools for Visual Studio 2013 或更新的版本。
 
-[install-windows]: https://www.rust-lang.org/zh-TW/tools/install
-[visualstudio]: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+要取得 build tools 的話，你需要安裝 [Visual Studio 2022][visualstudio]。當你被問到要安裝哪些時，請記得包含：
+
+* “Desktop Development with C++”
+* The Windows 10 or 11 SDK
+* The English language pack component（以及其他你想選擇的語言包）
 
 本書接下來使用的命令都相容於 *cmd.exe* 和 PowerShell。如果有特別不同的地方，我們會解釋該怎麼使用。
-
-### 更新與解除安裝
-
-當你透過 `rustup` 安裝完 Rust 後，要更新到最新版本的方法非常簡單。在你的 shell 中執行以下更新腳本即可：
-
-```console
-$ rustup update
-```
-
-要解除安裝 Rust 與 `rustup` 的話，則在 shell 輸入以下解除安裝腳本：
-
-```console
-$ rustup self uninstall
-```
 
 ### 疑難排除
 
@@ -74,14 +61,49 @@ $ rustc --version
 rustc x.y.z (abcabcabc yyyy-mm-dd)
 ```
 
-如果你看到這則訊息代表你成功安裝 Rust 了！如果你沒有看到且你是在 Windows 上的話，請檢查 Rust 是否在你的 `%PATH%` 系統變數裡。如果都正確無誤，但還是無法執行 Rust 的話，你可以前往一些地方尋求協助。最簡單的辦法是前往[官方 Rust Discord][discord] 的 #beginners 頻道詢問。在那裡你可以與其他 Rustaceans（這是我們常用稱呼自己取的暱稱）交談並取得協助。另外也有其他不錯的資源像是[使用者討論區][users] 和 [Stack Overflow][stackoverflow]。正體中文社群的話可以前往 rust-lang.tw，底下有 Facebook 或 Telegram 的連結一樣可以尋求協助。
+如果你看到這則訊息代表你成功安裝 Rust 了！如果你沒有看到的話，請如下檢查 Rust 是否在你的 `%PATH%` 系統變數裡。
 
-[discord]: https://discord.gg/rust-lang
-[users]: https://users.rust-lang.org/
-[stackoverflow]: https://stackoverflow.com/questions/tagged/rust
+在 Windows CMD 中請使用：
+
+```console
+> echo %PATH%
+```
+
+在 PowerShell 中請使用：
+
+```powershell
+> echo $env:Path
+```
+
+在 Linux 和 macOS 的話請使用：
+
+```console
+$ echo $PATH
+```
+
+如果都正確無誤，但還是無法執行 Rust 的話，你可以前往一些地方尋求協助。請前往[社群頁面][community]聯絡其他 Rustaceans（這是我們常用稱呼自己取的暱稱）交談並取得協助。
+
+### 更新與解除安裝
+
+當你透過 `rustup` 安裝完 Rust 後，要更新到最新版本的方法非常簡單。在你的 shell 中執行以下更新腳本即可：
+
+```console
+$ rustup update
+```
+
+要解除安裝 Rust 與 `rustup` 的話，則在 shell 輸入以下解除安裝腳本：
+
+```console
+$ rustup self uninstall
+```
 
 ### 本地端技術文件
 
 安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 `rustup doc` 就可以用你的瀏覽器開啟本地文件。
 
 每當有任何型別或函式出現而你卻不清楚如何使用時，你就可以閱讀應用程式介面（API）技術文件來理解！
+
+[otherinstall]: https://forge.rust-lang.org/infra/other-installation-methods.html
+[install]: https://www.rust-lang.org/tools/install
+[visualstudio]: https://visualstudio.microsoft.com/downloads/
+[community]: https://www.rust-lang.org/community
