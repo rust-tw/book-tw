@@ -20,7 +20,7 @@
     - [註解](ch03-04-comments.md)
     - [控制流程](ch03-05-control-flow.md)
 
-- [理解所有權](ch04-00-understanding-ownership.md)
+<!-- - [理解所有權](ch04-00-understanding-ownership.md)
     - [什麼是所有權？](ch04-01-what-is-ownership.md)
     - [引用與借用](ch04-02-references-and-borrowing.md)
     - [切片型別](ch04-03-slices.md)
@@ -133,4 +133,4 @@
     - [E - 版號](appendix-05-editions.md)
     - [F - 本書的翻譯本](appendix-06-translation.md)
     - [G - Rust 的開發流程與「夜版 Rust」](appendix-07-nightly-rust.md)
-    - [H - 中英術語對照表](appendix-08-terminology.md)
+    - [H - 中英術語對照表](appendix-08-terminology.md) -->

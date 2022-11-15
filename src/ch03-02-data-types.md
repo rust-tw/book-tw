@@ -8,7 +8,7 @@
 let guess: u32 = "42".parse().expect("這不是數字！");
 ```
 
-如果我們沒有加上型別詮釋的話，Rust 將會顯示以下錯誤訊息。這表示編譯器需要我們給予更多資訊才能夠知道我們想用何種型別：
+如果我們沒有像上列程式碼這樣加上型別詮釋 `: u32` 的話，Rust 將會顯示以下錯誤訊息。這表示編譯器需要我們給予更多資訊才能夠知道我們想用何種型別：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/output-only-01-no-type-annotations/output.txt}}
@@ -35,7 +35,7 @@ let guess: u32 = "42".parse().expect("這不是數字！");
 | 128 位元 | `i128`  | `u128`   |
 | 系統架構 | `isize` | `usize`  |
 
-每個變體都可以是帶號或非帶號的，並且都有明確的大小。**帶號**與**非帶號**的區別是數字能不能有負數，換句話說就是數字能否帶有正負符號，如果沒有的話那就只會出現正整數而已。就像在紙上寫數字一樣：當我們需要考慮符號時，我們就會在數字前面加上正負號；但如果我們只在意正整數的話，那它可以不帶符號。帶號數字是以[二補數](https://zh.wikipedia.org/zh-tw/%E4%BA%8C%E8%A3%9C%E6%95%B8)<!-- ignore -->的方式儲存。
+每個變體都可以是帶號或非帶號的，並且都有明確的大小。**帶號**與**非帶號**的區別是數字能不能有負數，換句話說就是數字能否帶有正負符號，如果沒有的話那就只會出現正整數而已。就像在紙上寫數字一樣：當我們需要考慮符號時，我們就會在數字前面加上正負號；但如果我們只在意正整數的話，那它可以不帶符號。帶號數字是以[二補數][twos-complement]<!-- ignore -->的方式儲存。
 
 每一帶號變體可以儲存的數字範圍包含從 -(2<sup>n - 1</sup>) 到 2<sup>n - 1</sup> - 1 以內的數字，*n* 就是該變體佔用的位元大小。所以一個 `i8` 可以儲存的數字範圍就是從 -(2<sup>7</sup>) 到 2<sup>7</sup> - 1，也就是 -128 到 127。而非帶號可以儲存的數字範圍則是從 0 到 2<sup>n</sup> - 1，所以 `u8` 可以儲存的範圍是從 0 到 2<sup>8</sup> - 1，也就是 0 到 255。
 
@@ -63,10 +63,10 @@ let guess: u32 = "42".parse().expect("這不是數字！");
 >
 > 要顯式處理可能的溢位的話，你可以使用以下標準函式庫中基本型別提供的一系列方法：
 >
-> - 將所有操作用 `wrapping_*` 方法包裝，像是 `wrapping_add`
-> - 使用 `checked_*` 方法，如果有溢位的話其會回傳 `None` 數值
-> - 使用 `overflowing_*` 方法，其會回傳數值與一個布林值來顯示是否有溢位發生
-> - 屬於 `saturating_*` ，讓數值溢位時保持在最小或最大值
+> * 將所有操作用 `wrapping_*` 方法包裝，像是 `wrapping_add`。
+> * 使用 `checked_*` 方法，如果有溢位的話其會回傳 `None` 數值。
+> * 使用 `overflowing_*` 方法，其會回傳數值與一個布林值來顯示是否有溢位發生。
+> * 屬於 `saturating_*` ，讓數值溢位時保持在最小或最大值。
 
 #### 浮點數型別
 
@@ -122,9 +122,9 @@ Rust 的 `char` 型別是最基本的字母型別，以下程式碼顯示了使�
 
 **複合型別**可以組合數個數值為一個型別，Rust 有兩個基本複合型別：元組（tuples）和陣列（arrays）。
 
-#### 元組型別
+#### 元組（Tuple）型別
 
-元組是個將許多不同型別的數值合成一個複合型別的常見方法。元組擁有固定長度：一旦宣告好後，它們就無法增長或縮減。
+**元組**是個將許多不同型別的數值合成一個複合型別的常見方法。元組擁有固定長度：一旦宣告好後，它們就無法增長或縮減。
 
 我們建立一個元組的方法是寫一個用括號囊括起來的數值列表，每個值再用逗號分隔開來。元組的每一格都是一個獨立型別，不同數值不必是相同型別。以下範例我們也加上了型別詮釋，平時不一定要加上：
 
@@ -152,9 +152,9 @@ Rust 的 `char` 型別是最基本的字母型別，以下程式碼顯示了使�
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-12-tuple-indexing/src/main.rs}}
 ```
 
-此程式建立了元組 `x`，然後用它們個別的索引產生新的變數。和多數程式語言一樣，元組的第一個索引是 0。
+此程式建立了元組 `x`，然後用它們個別的索引來存取元組的元素。和多數程式語言一樣，元組的第一個索引是 0。
 
-沒有任何數值的元組 `()` 會是個只有一種數值的特殊型別，其值也寫作 `()`。此型別稱爲 **單元型別** 而其數值稱爲 **單元數值**。表達式要是沒有回傳任何數值的話，它們就會隱式回傳單元型別。
+沒有任何數值的元組有一種特殊的名稱叫做**單元型別（Unit）**，其數值與型別都寫作 `()`，通常代表一個空的數值或空的回傳型別。表達式要是沒有回傳任何數值的話，它們就會隱式回傳單元型別。
 
 #### 陣列型別
 
@@ -168,7 +168,7 @@ Rust 的 `char` 型別是最基本的字母型別，以下程式碼顯示了使�
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-13-arrays/src/main.rs}}
 ```
 
-當你想要你的資料被分配在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在[第四章][stack-and-heap]<!-- ignore -->討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素時也是。所以陣列不像向量（vector）型別那麼有彈性，向量是標準函式庫提供的集合型別，類似於陣列但**允許**變更長度大小。如果你不確定該用陣列或向量的話，通常你應該用向量就好。[第八章][vectors]<!-- ignore -->將會討論更多向量的細節。
+當你想要你的資料被分配在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在[第四章][stack-and-heap]<!-- ignore -->討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素時也是。所以陣列不像向量（vector）型別那麼有彈性，**向量**是標準函式庫提供的集合型別，類似於陣列但**允許**變更長度大小。如果你不確定該用陣列或向量的話，通常你應該用向量就好。[第八章][vectors]<!-- ignore -->將會討論更多向量的細節。
 
 不過如果你知道元素的多寡不會變的話，陣列就是個不錯的選擇。舉例來說，如果你想在程式中使用月份的話，你可能就會選擇用陣列宣告，因為永遠只會有 12 個月份：
 
@@ -216,7 +216,7 @@ let a = [3; 5];
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-15-invalid-array-access/src/main.rs}}
 ```
 
-此程式碼能編譯成功。如果你透過 `cargo run` 執行此程式碼並輸入 0、1、2、3 或 4 的話，程式將會印出陣列索引對應的數值。但如果你輸入超出陣列長度的數值，你會看到像是這樣的輸出結果：
+此程式碼能編譯成功。如果你透過 `cargo run` 執行此程式碼並輸入 `0`、`1`、`2`、`3` 或 `4`  的話，程式將會印出陣列索引對應的數值。但如果你輸入超出陣列長度的數值，像是 `10` 的話，你會看到像是這樣的輸出結果：
 
 <!-- manual-regeneration
 cd listings/ch03-common-programming-concepts/no-listing-15-invalid-array-access
@@ -231,14 +231,14 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 此程式會在使用無效數值進行索引操作時產生**執行時**（runtime）錯誤。程式會退出並回傳錯誤訊息，且不會執行最後的 `println!`。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。這樣的檢查必須發生在執行時，尤其是在此例，因爲編譯器無法知道之後的使用者將會輸入哪些數值。
 
-這是 Rust 記憶體安全原則給予的保障。在許多低階語言並不會提供這樣的檢查，所以當你提供不正確的索引時，無效的記憶體可能會被存取。Rust 會保護你免於這樣的錯誤風險，並立即離開程式，而不是允許記憶體存取並繼續。第九章將會討論更多有關 Rust 的錯誤處理方式。
+這是 Rust 記憶體安全原則給予的保障。在許多低階語言並不會提供這樣的檢查，所以當你提供不正確的索引時，無效的記憶體可能會被存取。Rust 會保護你免於這樣的錯誤風險，並立即離開程式，而不是允許記憶體存取並繼續。第九章將會討論更多有關 Rust 的錯誤處理方式以及如何讓你寫出易讀且安全的程式碼，而不會恐慌或造成無效的記憶體存取。
 
 [comparing-the-guess-to-the-secret-number]:
 ch02-00-guessing-game-tutorial.html#將猜測的數字與祕密數字做比較
+[twos-complement]: https://en.wikipedia.org/wiki/Two%27s_complement
 [control-flow]: ch03-05-control-flow.html#control-flow
 [strings]: ch08-02-strings.html#storing-utf-8-encoded-text-with-strings
 [stack-and-heap]: ch04-01-what-is-ownership.html#the-stack-and-the-heap
 [vectors]: ch08-01-vectors.html
 [unrecoverable-errors-with-panic]: ch09-01-unrecoverable-errors-with-panic.html
-[wrapping]: https://doc.rust-lang.org/std/num/struct.Wrapping.html
 [appendix_b]: appendix-02-operators.md
