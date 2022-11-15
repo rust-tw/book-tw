@@ -2,9 +2,9 @@
 
 大多數的錯誤沒有嚴重到需要讓整個程式停止執行。有時候當函式失敗時，你是可以輕易理解並作出反應的。舉例來說，如果你嘗試開啟一個檔案，但該動作卻因為沒有該檔案而失敗的話，你可能會想要建立檔案，而不是終止程序。
 
-回憶一下第二章的[「使用 `Result` 型別處理可能的錯誤」][handle_failure]<!-- ignore -->提到 `Result` 枚舉的定義有兩個變體 `Ok` 和 `Err`，如以下所示：
+回憶一下第二章的[「使用 `Result` 型別可能的錯誤」][handle_failure]<!-- ignore -->提到 `Result` 枚舉的定義有兩個變體 `Ok` 和 `Err`，如以下所示：
 
-[handle_failure]: ch02-00-guessing-game-tutorial.html#使用-result-型別處理可能的錯誤
+[handle_failure]: ch02-00-guessing-game-tutorial.html#使用-result-處理可能的錯誤
 
 ```rust
 enum Result<T, E> {

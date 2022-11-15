@@ -19,12 +19,12 @@
     - [函式](ch03-03-how-functions-work.md)
     - [註解](ch03-04-comments.md)
     - [控制流程](ch03-05-control-flow.md)
-
-<!-- - [理解所有權](ch04-00-understanding-ownership.md)
+- [理解所有權](ch04-00-understanding-ownership.md)
     - [什麼是所有權？](ch04-01-what-is-ownership.md)
     - [引用與借用](ch04-02-references-and-borrowing.md)
     - [切片型別](ch04-03-slices.md)
 
+<!-- 
 - [透過結構體組織相關資料](ch05-00-structs.md)
     - [定義與實例化結構體](ch05-01-defining-structs.md)
     - [使用結構體的程式範例](ch05-02-example-structs.md)
@@ -124,7 +124,7 @@
     - [建立單一執行緒的網頁伺服器](ch20-01-single-threaded.md)
     - [將單一執行緒伺服器轉換為多執行緒伺服器](ch20-02-multithreaded.md)
     - [正常關機與清理](ch20-03-graceful-shutdown-and-cleanup.md)
-
+-->
 - [附錄](appendix-00.md)
     - [A - 關鍵字](appendix-01-keywords.md)
     - [B - 運算子與符號](appendix-02-operators.md)
@@ -133,4 +133,4 @@
     - [E - 版號](appendix-05-editions.md)
     - [F - 本書的翻譯本](appendix-06-translation.md)
     - [G - Rust 的開發流程與「夜版 Rust」](appendix-07-nightly-rust.md)
-    - [H - 中英術語對照表](appendix-08-terminology.md) -->
+    - [H - 中英術語對照表](appendix-08-terminology.md)

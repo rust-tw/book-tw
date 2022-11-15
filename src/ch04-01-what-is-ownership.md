@@ -14,11 +14,11 @@
 >
 > 堆疊與堆積都是提供程式碼在執行時能夠使用的記憶體部分，但他們組成的方式卻不一樣。堆疊會按照它取得數值的順序依序存放它們，並以相反的順序移除數值。這通常稱為**後進先出（last in, first out）**。你可以把堆疊想成是盤子，當你要加入更多盤子，你會將它們疊在最上面。如果你要取走盤子的話，你也是從最上方拿走。想要從底部或中間，插入或拿走盤子都是不可行的！當我們要新增資料時，我們會稱呼為**推入堆疊（pushing onto the stack）**，而移除資料則是叫做**彈出堆疊（popping off the stack）**。所有在堆疊上的資料都必須是已知固定大小。在編譯時屬於未知或可能變更大小的資料必須儲存在堆積。
 >
-> 堆積就比較沒有組織，當你要將資料放入堆積，你得要求一定大小的空間。記憶體分配器（memory allocator）會找到一塊夠大的空位，標記為已佔用，然後回傳一個**指標（pointer）**，指著該位置的位址。這樣的過程稱為**在堆積上分配（allocating on the heap）**，或者有時直接簡稱為**分配**（allocating）就好。將數值放入堆疊不會被視為是在分配。因為指標是固定已知的大小，所以你可以存在堆疊上。但當你要存取實際資料時，你就得去透過指標取得資料。你可以想像成是一個餐廳。當你進入餐廳時，你會告訴服務員你的團體有多少人，他就會將你們帶到足夠人數的餐桌。如果你的團體有人晚到的話，他們可以直接詢問你坐在哪而找到你。
+> 堆積就比較沒有組織，當你要將資料放入堆積，你得要求一定大小的空間。記憶體分配器（memory allocator）會找到一塊夠大的空位，標記為已佔用，然後回傳一個**指標（pointer）**，指著該位置的位址。這樣的過程稱為**在堆積上分配（allocating on the heap）**，或者有時直接簡稱為**分配**（allocating）就好（將數值放入堆疊不會被視為是在分配）。因為指標是固定已知的大小，所以你可以存在堆疊上。但當你要存取實際資料時，你就得去透過指標取得資料。你可以想像成是一個餐廳。當你進入餐廳時，你會告訴服務員你的團體有多少人，他就會將你們帶到足夠人數的餐桌。如果你的團體有人晚到的話，他們可以直接詢問你坐在哪而找到你。
 >
 > 將資料推入堆疊會比在堆積上分配還來的快，因為分配器不需要去搜尋哪邊才能存入新資料，其位置永遠在堆疊最上方。相對的，堆積就需要比較多步驟，分配器必須先找到一個夠大的空位來儲存資料，然後作下紀錄為下次分配做準備。
 >
-> 在堆積上取得資料也比在堆疊上取得來得慢，因為你需要用追蹤指標才找的到。現代的處理器如果在記憶體間跳轉越少的話速度就越快。讓我們繼續用餐廳做比喻，想像伺服器就是在餐廳為數個餐桌點餐。最有效率的點餐方式就是依照餐桌順序輪流點餐。如果幫餐桌 A 點了餐之後跑到餐桌 B 點，又跑回到 A 然後又跑到 B 的話，可以想像這是個浪費時間的過程。同樣的道理，處理器在處理任務時，如果處理的資料相鄰很近（就如同存在堆疊）的話，當然比相鄰很遠（如同存在堆積）來得快。要在堆積分配大量的空間同樣也很花時間。
+> 在堆積上取得資料也比在堆疊上取得來得慢，因為你需要用追蹤指標才找的到。現代的處理器如果在記憶體間跳轉越少的話速度就越快。讓我們繼續用餐廳做比喻，想像伺服器就是在餐廳為數個餐桌點餐。最有效率的點餐方式就是依照餐桌順序輪流點餐。如果幫餐桌 A 點了餐之後跑到餐桌 B 點，又跑回到 A 然後又跑到 B 的話，可以想像這是個浪費時間的過程。同樣的道理，處理器在處理任務時，如果處理的資料相鄰很近（就如同存在堆疊）的話，當然比相鄰很遠（如同存在堆積）來得快。
 >
 > 當你的程式碼呼叫函式時，傳遞給函式的數值（可能包含指向堆積上資料的指標）與函式區域變數會被推入堆疊。當函式結束時，這些數值就會被彈出。
 >
@@ -28,7 +28,7 @@
 
 首先，讓我們先看看所有權規則。當我們在解釋說明時，請記得這些規則：
 
-* Rust 中每個數值都會有一個變數作為它的**擁有者（owner）**。
+* Rust 中每個數值都有個**擁有者（owner）**。
 * 同時間只能有一個擁有者。
 * 當擁有者離開作用域時，數值就會被丟棄。
 
@@ -52,8 +52,8 @@ let s = "hello";
 
 換句話說，這裡有兩個重要的時間點：
 
-* 當 `s` **進入作用域**時，它是有效的。
-* 它持續被視為有效直到它**離開作用域**為止。
+* 當 `s` **進入**作用域時，它是有效的。
+* 它持續被視為有效直到它**離開**作用域為止。
 
 目前為止，變數何時有效與作用域的關係都還跟其他程式語言相似。現在我們要以此基礎來介紹 `String` 型別
 
@@ -126,7 +126,11 @@ Rust 選擇了一條不同的道路：當記憶體在擁有它的變數離開作
 
 請看看圖示 4-1 來瞭解 `String` 底下的架構到底長什麼樣子。一個 `String` 由三個部分組成，如圖中左側所示：一個指向儲存字串內容記憶體的指標、它的長度和它的容量。這些資料是儲存在堆疊上的，但圖右的內容則是儲存在堆積上。
 
-<img alt="String in memory" src="img/trpl04-01.svg" class="center" style="width: 50%;" />
+<img alt="Two tables: the first table contains the representation of s1 on the
+stack, consisting of its length (5), capacity (5), and a pointer to the first
+value in the second table. The second table contains the representation of the
+string data on the heap, byte by byte." src="img/trpl04-01.svg" class="center"
+style="width: 50%;" />
 
 <span class="caption">圖示 4-1：將數值 `"hello"` 賦值給 `s1` 的 `String` 記憶體結構</span>
 
@@ -134,19 +138,23 @@ Rust 選擇了一條不同的道路：當記憶體在擁有它的變數離開作
 
 當我們將 `s1` 賦值給 `s2`，`String` 的資料會被拷貝，不過我們拷貝的是堆疊上的指標、長度和容量。我們不會拷貝指標指向的堆積資料。資料以記憶體結構表示的方式會如圖示 4-2 表示。
 
-<img alt="s1 and s2 pointing to the same value" src="img/trpl04-02.svg" class="center" style="width: 50%;" />
+<img alt="Three tables: tables s1 and s2 representing those strings on the
+stack, respectively, and both pointing to the same string data on the heap."
+src="img/trpl04-02.svg" class="center" style="width: 50%;" />
 
 <span class="caption">圖示 4-2：`s2` 擁有一份 `s1` 的指標、長度和容量的記憶體結構</span>
 
 所以實際上的結構**不會**長的像圖示 4-3 這樣，如果 Rust 也會拷貝堆積資料的話，才會看起來像這樣。如果 Rust 這麼做的話，`s2 = s1` 的動作花費會變得非常昂貴。當堆積上的資料非常龐大時，對執行時的性能影響是非常顯著的。
 
-<img alt="s1 and s2 to two places" src="img/trpl04-03.svg" class="center" style="width: 50%;" />
+<img alt="Four tables: two tables representing the stack data for s1 and s2,
+and each points to its own copy of string data on the heap."
+src="img/trpl04-03.svg" class="center" style="width: 50%;" />
 
 <span class="caption">圖示 4-3：如果 Rust 也會拷貝堆積資料，`s2 = s1` 可能會長得樣子</span>
 
 稍早我們提到當變數離開作用域時，Rust 會自動呼叫 `drop` 函式並清理該變數在堆積上的資料。但圖示 4-2 顯示兩個資料指標都指向相同位置，這會造成一個問題。當 `s2` 與 `s1` 都離開作用域時，它們都會嘗試釋放相同的記憶體。這被稱呼為**雙重釋放**（double free）錯誤，也是我們之前提過的錯誤之一。釋放記憶體兩次可能會導致記憶體損壞，進而造成安全漏洞。
 
-為了保障記憶體安全，在此情況中 Rust 還會再做一件重要的事。在 `let s2 = s1` 之後，Rust 就不再將 `s1` 視爲有效。因此當 `s1` 離開作用域時，Rust 不需要釋放任何東西。請看看如果在 `s2` 建立之後繼續使用 `s1` 會發生什麼事，以下程式就執行不了：
+為了保障記憶體安全，在此情況中 Rust 還會再做一件重要的事。在 `let s2 = s1;` 之後，Rust 就不再將 `s1` 視爲有效。因此當 `s1` 離開作用域時，Rust 不需要釋放任何東西。請看看如果在 `s2` 建立之後繼續使用 `s1` 會發生什麼事，以下程式就執行不了：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-04-cant-use-after-move/src/main.rs:here}}
@@ -160,7 +168,11 @@ Rust 選擇了一條不同的道路：當記憶體在擁有它的變數離開作
 
 如果你在其他語言聽過**淺拷貝（shallow copy）**和**深拷貝（deep copy）**這樣的詞，拷貝指標、長度和容量而沒有拷貝實際內容這樣的概念應該就相近於淺拷貝。但因為 Rust 同時又無效化第一個變數，我們不會叫此為淺拷貝，而是稱此動作為**移動（move）**。在此範例我們會稱 `s1` **被移動**到 `s2`，所以實際上發生的事長得像圖示 4-4 這樣。
 
-<img alt="s1 moved to s2" src="img/trpl04-04.svg" class="center" style="width: 50%;" />
+<img alt="Three tables: tables s1 and s2 representing those strings on the
+stack, respectively, and both pointing to the same string data on the heap.
+Table s1 is grayed out be-cause s1 is no longer valid; only s2 can be used to
+access the heap data." src="img/trpl04-04.svg" class="center" style="width:
+50%;" />
 
 <span class="caption">圖示 4-4：`s1` 無效後的記憶體結構</span>
 
@@ -194,7 +206,9 @@ Rust 選擇了一條不同的道路：當記憶體在擁有它的變數離開作
 
 原因是因為像整數這樣的型別在編譯時是已知大小，所以只會存在在堆疊上。所以要拷貝一份實際數值的話是很快的。這也讓我們沒有任何理由要讓 `x` 在 `y` 建立後被無效化。換句話說，這邊沒有所謂淺拷貝與深拷貝的差別。所以這邊呼叫 `clone` 的話不會與平常的淺拷貝有啥不一樣，我們可以保持這樣就好。
 
-Rust 有個特別的標記叫做 `Copy` 特徵（trait）可以用在標記像整數這樣存在堆疊上的型別（我們會在第十章討論什麼是特徵）。如果一個型別有 `Copy` 特徵的話，一個變數在賦值給其他變數後仍然會是有效的。如果一個型別有實作（implement）`Drop` 特徵的話，Rust 不會允許我們讓此型別擁有 `Copy` 特徵。如果我們對某個型別在數值離開作用域時，需要在做特別處理的話，我們對此型別標註 `Copy` 特徵會在編譯時期產生錯誤。想要瞭解如何為你的型別實作 `Copy` 特徵的話，請參考附錄 C [「可推導的特徵」][derivable-traits]<!-- ignore -->。
+Rust 有個特別的標記叫做 `Copy` 特徵（trait）可以用在標記像整數這樣存在堆疊上的型別（我們會在[第十章][traits]<!-- ignore -->討論什麼是特徵）。如果一個型別有 `Copy` 特徵的話，一個變數在賦值給其他變數後仍然會是有效的。
+
+如果一個型別有實作（implement）`Drop` 特徵的話，Rust 不會允許我們讓此型別擁有 `Copy` 特徵。如果我們對某個型別在數值離開作用域時，需要在做特別處理的話，我們對此型別標註 `Copy` 特徵會在編譯時期產生錯誤。想要瞭解如何為你的型別實作 `Copy` 特徵的話，請參考附錄 C [「可推導的特徵」][derivable-traits]<!-- ignore -->。
 
 所以哪些型別有實作 `Copy` 特徵呢？你可以閱讀技術文件來知道哪些型別有，但基本原則是任何簡單地純量數值都可以實作 `Copy`，且不需要分配記憶體或任何形式資源的型別也有實作 `Copy`。以下是一些有實作 `Copy` 的型別：
 
@@ -206,7 +220,7 @@ Rust 有個特別的標記叫做 `Copy` 特徵（trait）可以用在標記像�
 
 ### 所有權與函式
 
-傳遞數值給函式這樣的語義和賦值給變數是類似的。傳遞變數給函式會是移動或拷貝，就像賦值一樣。範例 4-3 說明了變數如何進入且離開作用域。
+傳遞數值給函式的方式和賦值給變數是類似的。傳遞變數給函式會是移動或拷貝，就像賦值一樣。範例 4-3 說明了變數如何進入且離開作用域。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -248,6 +262,7 @@ Rust 能讓我們使用元組回傳多個數值，如範例 4-5 所示。
 
 [data-types]: ch03-02-data-types.html#data-types
 [ch8]: ch08-02-strings.html
+[traits]: ch10-02-traits.html
 [derivable-traits]: appendix-03-derivable-traits.html
 [method-syntax]: ch05-03-method-syntax.html#method-syntax
 [paths-module-tree]: ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html
