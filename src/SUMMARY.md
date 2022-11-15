@@ -24,7 +24,6 @@
     - [引用與借用](ch04-02-references-and-borrowing.md)
     - [切片型別](ch04-03-slices.md)
 
-<!-- 
 - [透過結構體組織相關資料](ch05-00-structs.md)
     - [定義與實例化結構體](ch05-01-defining-structs.md)
     - [使用結構體的程式範例](ch05-02-example-structs.md)
@@ -43,7 +42,7 @@
     - [引用模組項目的路徑](ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
     - [透過 `use` 關鍵字引入路徑](ch07-04-bringing-paths-into-scope-with-the-use-keyword.md)
     - [將模組拆成不同檔案](ch07-05-separating-modules-into-different-files.md)
-
+<!-- 
 - [常見集合](ch08-00-common-collections.md)
     - [透過向量儲存列表](ch08-01-vectors.md)
     - [透過字串儲存 UTF-8 編碼的文字](ch08-02-strings.md)
