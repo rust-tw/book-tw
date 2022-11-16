@@ -42,12 +42,12 @@
     - [引用模組項目的路徑](ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
     - [透過 `use` 關鍵字引入路徑](ch07-04-bringing-paths-into-scope-with-the-use-keyword.md)
     - [將模組拆成不同檔案](ch07-05-separating-modules-into-different-files.md)
-<!-- 
+
 - [常見集合](ch08-00-common-collections.md)
     - [透過向量儲存列表](ch08-01-vectors.md)
     - [透過字串儲存 UTF-8 編碼的文字](ch08-02-strings.md)
     - [透過雜湊映射儲存鍵值配對](ch08-03-hash-maps.md)
-
+<!-- 
 - [錯誤處理](ch09-00-error-handling.md)
     - [`panic!` 與無法復原的錯誤](ch09-01-unrecoverable-errors-with-panic.md)
     - [`Result` 與可復原的錯誤](ch09-02-recoverable-errors-with-result.md)
