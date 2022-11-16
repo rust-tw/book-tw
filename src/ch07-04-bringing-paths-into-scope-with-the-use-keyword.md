@@ -1,7 +1,6 @@
 ## 透過 `use` 關鍵字引入路徑
 
-我們目前呼叫函式的路徑都很冗長、重複且不方便。舉例來說範例 7-7 我們在考慮要使用絕對或相對路徑來呼叫 `add_to_waitlist` 函式時，每次想要呼叫 `add_to_waitlist` 我們都得指明 `front_of_house` 以及
-`hosting`。幸運的是，我們有簡化過程的辦法。我們可以使用 `use` 關鍵字將路徑引入作用域，然後就像它們是本地項目一樣來呼叫它們。
+要是每次都得寫出呼叫函式的路徑的話是很冗長、重複且不方便的。舉例來說範例 7-7 我們在考慮要使用絕對或相對路徑來呼叫 `add_to_waitlist` 函式時，每次想要呼叫 `add_to_waitlist` 我們都得指明 `front_of_house` 以及 `hosting`。幸運的是，我們有簡化過程的辦法：我們可以用 `use` 關鍵字建立路徑的捷徑，然後在作用域內透過更短的名稱來使用。
 
 在範例 7-11 中，我們引入了 `crate::front_of_house::hosting` 模組進 `eat_at_restaurant` 函式的作用域中，所以我們要呼叫函式 `add_to_waitlist` 的話我們只需要指明 `hosting::add_to_waitlist`。
 
@@ -15,15 +14,23 @@
 
 使用 `use` 將路徑引入作用域就像是在檔案系統中產生符號連結一樣（symbolic link）。在 crate 源頭加上 `use crate::front_of_house::hosting` 後，`hosting` 在作用域內就是個有效的名稱了。使用 `use` 的路徑也會檢查隱私權，就像其他路徑一樣。
 
-你也可以使用 `use` 加上相對路徑來引入項目。範例 7-12 就展示了如何指明相對路徑來達到與範例 7-11 一樣的結果。
+注意到 `use` 只會在它所位在的特定作用域內建立捷徑。範例 7-12 將 `eat_at_restaurant` 移入子模組 `customer`，這樣就會與 `use` 陳述式的作用域不同，所以其函式本體將無法編譯。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,noplayground,test_harness
+```rust,noplayground,test_harness,does_not_compile,ignore
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-12/src/lib.rs}}
 ```
 
-<span class="caption">範例 7-12：使用 `use` 與相對路徑將項目引入作用域</span>
+<span class="caption">範例 7-12：`use` 陳述式只適用於所在的作用域</span>
+
+編譯器錯誤顯示了該捷徑無法用在 `customer` 模組內：
+
+```console
+{{#include ../listings/ch07-managing-growing-projects/listing-07-12/output.txt}}
+```
+
+你會發現還有另外一個警告說明 `use` 在它的作用域中並沒有被用到！要解決此問題的話，我們可以將 `use` 也移動到 `customer` 模組內，或是在`customer` 子模組透過 `super::hosting` 引用上層模組的捷徑。
 
 ### 建立慣用的 `use` 路徑
 
@@ -65,7 +72,7 @@
 
 ### 使用 `as` 關鍵字提供新名稱
 
-要在相同作用域中使用 `use` 引入兩個同名型別的話，還有另一個辦法。在路徑之後，我們可以用 `as` 指定一個該型別在本地的新名稱，或者說別名。範例 7-16 展示重寫了範例 7-15，將其中一個 `Result` 型別使用 `as` 重新命名。
+要在相同作用域中使用 `use` 引入兩個同名型別的話，還有另一個辦法。在路徑之後，我們可以用 `as` 指定一個該型別在本地的新名稱，或者說**別名**（alias）。範例 7-16 展示重寫了範例 7-15，將其中一個 `Result` 型別使用 `as` 重新命名。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -91,9 +98,9 @@
 
 <span class="caption">範例 7-17：使用 `pub use` 使名稱公開給任何程式的作用域中引用</span>
 
-使用 `pub use` 可以讓外部程式碼以 `hosting::add_to_waitlist` 的方式來呼叫函式 `add_to_waitlist`。如果我們沒有指明 `pub use`，函式 `eat_at_restaurant` 仍可以在它的作用域呼叫 `hosting::add_to_waitlist`，但外部程式碼就無法利用這個新的路徑。
+在此之前，外部程式碼會需要透過 `restaurant::front_of_house::hosting::add_to_waitlist()` 這樣的路徑才能呼叫 `add_to_waitlist`。現在 `pub use` 從源頭模組重新匯出了 `hosting` 模組，外部程式碼現在可以使用 `restaurant::hosting::add_to_waitlist()` 這樣的路徑就好。
 
-當程式碼的內部結構與使用程式的開發者對於該領域所想像的結構不同時，重新匯出會很有用。我們再次用餐廳做比喻的話就像是，經營餐廳的人可能會想像餐廳是由「前台」與「後台」所組成，但光顧的顧客可能不會用這些術語來描繪餐廳的每個部分。使用 `pub use` 的話，我們可以用某種架構寫出程式碼，再以不同的架構對外公開。這樣讓我們的的函式庫可以完整的組織起來，且對開發函式庫的開發者與使用函式庫的開發者都提供友善的架構。
+當程式碼的內部結構與使用程式的開發者對於該領域所想像的結構不同時，重新匯出會很有用。我們再次用餐廳做比喻的話就像是，經營餐廳的人可能會想像餐廳是由「前台」與「後台」所組成，但光顧的顧客可能不會用這些術語來描繪餐廳的每個部分。使用 `pub use` 的話，我們可以用某種架構寫出程式碼，再以不同的架構對外公開。這樣讓我們的的函式庫可以完整的組織起來，且對開發函式庫的開發者與使用函式庫的開發者都提供友善的架構。我們會在第十四章的[「透過 `pub use` 匯出理想的公開 API」][ch14-pub-use]<!-- ignore -->段落再看看另一個 `pub use` 的範例並了解它會如何影響 crate 的技術文件。
 
 ### 使用外部套件
 
@@ -122,7 +129,7 @@
 
 Rust 社群成員在 [crates.io](https://crates.io/) 發佈了不少套件可供使用，要將這些套件引入到你的套件的步驟是一樣的。在你的套件的 *Cargo.toml* 檔案列出它們，然後使用 `use` 將這些 crate 內的項目引入作用域中。
 
-請注意到標準函式庫（`std`）對於我們的套件來說也是一個外部 crate。由於標準函式庫會跟著 Rust 語言發佈，所以我們不需要更改 *Cargo.toml* 來包含 `std`。但是我們仍然需使用 `use` 來將它的項目引入我們套件的作用域中。舉例來說，要使用 `HashMap` 我們可以這樣寫：
+請注意到標準函式庫 `std` 對於我們的套件來說也是一個外部 crate。由於標準函式庫會跟著 Rust 語言發佈，所以我們不需要更改 *Cargo.toml* 來包含 `std`。但是我們仍然需使用 `use` 來將它的項目引入我們套件的作用域中。舉例來說，要使用 `HashMap` 我們可以這樣寫：
 
 ```rust
 use std::collections::HashMap;
@@ -186,5 +193,6 @@ use std::collections::*;
 
 全域運算子很常用在 `tests` 模組下，將所有東西引入測試中。我們會在第十一章的[「如何寫測試」][writing-tests]<!-- ignore -->段落來討論。全域運算子也常拿來用在 prelude 模式中，你可以查閱[標準函式庫的技術文件](https://doc.rust-lang.org/std/prelude/index.html#other-preludes)<!-- ignore -->來瞭解此模式的更多資訊。
 
+[ch14-pub-use]: ch14-02-publishing-to-crates-io.html#透過-pub-use-匯出理想的公開-api
 [rand]: ch02-00-guessing-game-tutorial.html#產生隨機數字
 [writing-tests]: ch11-01-writing-tests.html#how-to-write-tests

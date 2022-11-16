@@ -104,7 +104,7 @@ pub fn some_name(input: TokenStream) -> TokenStream {
 
 ### 如何撰寫自訂的 `derive` 巨集
 
-我們建立一個 `hello_macro` crate，並定義 `HelloMacro` 特徵與它的 `hello_macro` 關聯函式。我們提供一個程序式巨集，讓使用者透過 `#[derive(HelloMacro)]` 標註它們的型別，來獲得預設的 `hello_macro` 函式的實作，而不需要使用者替每個型別手動實作 `HelloMacro` 特徵。這個預設的函式實作會印出 `你好，巨集，我叫作型別名稱！`，其中 `型別名稱` 是實作特徵那個型別的名字。換句話說，就是我們會寫出一個 crate，讓其他程式設計師用我們的 crate，以範例 19-30 的方式來寫程式。
+我們建立一個 `hello_macro` crate，並定義 `HelloMacro` 特徵與它的 `hello_macro` 關聯函式。我們提供一個程序式巨集，讓使用者透過 `#[derive(HelloMacro)]` 標註它們的型別，來獲得預設的 `hello_macro` 函式的實作，而不需要使用者替每個型別手動實作 `HelloMacro` 特徵。這個預設的函式實作會印出 `你好，巨集，我叫做型別名稱！`，其中 `型別名稱` 是實作特徵那個型別的名字。換句話說，就是我們會寫出一個 crate，讓其他程式設計師用我們的 crate，以範例 19-30 的方式來寫程式。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -114,7 +114,7 @@ pub fn some_name(input: TokenStream) -> TokenStream {
 
 <span class="caption">範例 19-30：使用者使用我們的程序式巨集時，能夠寫出的程式碼</span>
 
-當我們完成後，這段程式碼會印出 `你好，巨集！我叫作鬆餅！`。第一步，先建立一個新的函式庫 crate：
+當我們完成後，這段程式碼會印出 `你好，巨集！我叫做鬆餅！`。第一步，先建立一個新的函式庫 crate：
 
 ```console
 $ cargo new hello_macro --lib
@@ -226,7 +226,7 @@ DeriveInput {
 
 [quote-docs]: https://docs.rs/quote
 
-我們想要我們的程序式巨集對使用者標註的型別產生 `HelloMacro` 特徵的實作，這個標註的型別名稱可以從 `#name` 取得。這個特徵的實作有一個函式 `hello_macro`，函式本體包含我們想要的功能：印出 `你好，巨集，我叫作` 再加上被標註的型別的名稱。
+我們想要我們的程序式巨集對使用者標註的型別產生 `HelloMacro` 特徵的實作，這個標註的型別名稱可以從 `#name` 取得。這個特徵的實作有一個函式 `hello_macro`，函式本體包含我們想要的功能：印出 `你好，巨集，我叫做` 再加上被標註的型別的名稱。
 
 `stringify!` 巨集是 Rust 內建的，會將一個 Rust 表達式，例如 `1 + 2`，在編譯期轉換成字串字面值（string literal），例如 `"1 + 2"`。這和 `format!` 或 `println!` 巨集會對表達式求值並將結果轉為 `String` 不同。因為輸入的 `#name` 可能是一個表達式，但要直接照字面印出來，所以我們選擇使用 `stringify!`。使用 `stringify!` 也可以節省在編譯器因為轉換 `#name` 成為字串字面量所需的空間配置。
 
@@ -236,7 +236,7 @@ DeriveInput {
 {{#include ../listings/ch19-advanced-features/no-listing-21-pancakes/pancakes/Cargo.toml:7:9}}
 ```
 
-將這段程式碼放到範例 19-30 的 *src/main.rs* 並執行 `cargo run`，他應該會印出 `你好，巨集！我叫作鬆餅！`。這個由程序式巨集實作的 `HelloMacro` 特徵，不需要 `pancakes` 自行手動實作，而是透過 `#[derive(HelloMacro)]` 將特徵的實作加上去。
+將這段程式碼放到範例 19-30 的 *src/main.rs* 並執行 `cargo run`，他應該會印出 `你好，巨集！我叫做鬆餅！`。這個由程序式巨集實作的 `HelloMacro` 特徵，不需要 `pancakes` 自行手動實作，而是透過 `#[derive(HelloMacro)]` 將特徵的實作加上去。
 
 接著，一起來探索其他種類的程序式巨集和自訂 derive 巨集有何不同。
 
