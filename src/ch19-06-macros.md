@@ -230,7 +230,7 @@ DeriveInput {
 
 `stringify!` 巨集是 Rust 內建的，會將一個 Rust 表達式，例如 `1 + 2`，在編譯期轉換成字串字面值（string literal），例如 `"1 + 2"`。這和 `format!` 或 `println!` 巨集會對表達式求值並將結果轉為 `String` 不同。因為輸入的 `#name` 可能是一個表達式，但要直接照字面印出來，所以我們選擇使用 `stringify!`。使用 `stringify!` 也可以節省在編譯器因為轉換 `#name` 成為字串字面量所需的空間配置。
 
-至此，`cargo build` 應該可以成功在 `hello_macro` 和 `hello_macro_derive` 完成。我們在範例 19-30 來玩玩這些 crate 看看他們如何實際作用！先在你的**專案**目錄下，透過 `cargo new pancakes` 建立一個新的二進制專案。我們必須將 `hello_macro` 和 `hello_macro_derive` 加入 `pancakes` 的 *Cargo.toml* 作為依賴。若你已經發佈自己的 `hello_macro` 和 `hello_macro_derive` 的版本到 [crates.io](https://crates.io/)，他們就是普通的依賴；若無，你可以指定他們為 `path` 的依賴，如下：
+至此，`cargo build` 應該可以成功在 `hello_macro` 和 `hello_macro_derive` 完成。我們在範例 19-30 來玩玩這些 crate 看看他們如何實際作用！先在你的**專案**目錄下，透過 `cargo new pancakes` 建立一個新的執行檔專案。我們必須將 `hello_macro` 和 `hello_macro_derive` 加入 `pancakes` 的 *Cargo.toml* 作為依賴。若你已經發佈自己的 `hello_macro` 和 `hello_macro_derive` 的版本到 [crates.io](https://crates.io/)，他們就是普通的依賴；若無，你可以指定他們為 `path` 的依賴，如下：
 
 ```toml
 {{#include ../listings/ch19-advanced-features/no-listing-21-pancakes/pancakes/Cargo.toml:7:9}}

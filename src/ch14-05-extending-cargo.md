@@ -1,6 +1,6 @@
 ## 透過自訂命令來擴展 Cargo 的功能
 
-Cargo 的設計能讓你在不用修改 Cargo 的情況下擴展新的子命令。如果你 `$PATH` 中有任何叫做 `cargo-something` 的二進制檔案，你就可以用像是執行 Cargo 子命令的方式 `cargo something` 來執行它。像這樣的自訂命令在你執行 `cargo --list` 時也會顯示出來。能夠透過 `cargo install` 來安裝擴展插件並有如內建 Cargo 工具般來執行使用是 Cargo 設計上的一大方便優勢！
+Cargo 的設計能讓你在不用修改 Cargo 的情況下擴展新的子命令。如果你 `$PATH` 中有任何叫做 `cargo-something` 的執行檔，你就可以用像是執行 Cargo 子命令的方式 `cargo something` 來執行它。像這樣的自訂命令在你執行 `cargo --list` 時也會顯示出來。能夠透過 `cargo install` 來安裝擴展插件並有如內建 Cargo 工具般來執行使用是 Cargo 設計上的一大方便優勢！
 
 ## 總結
 

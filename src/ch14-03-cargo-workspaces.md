@@ -1,17 +1,17 @@
 ## Cargo 工作空間
 
-在第十二章中，我們建立的套件包含一個二進制執行檔 crate 與一個函式庫 crate。隨著專案開發，你可能會發現函式庫 crate 變得越來越大，而你可能會想要將套件拆成數個函式庫 crate。針對這種情形，Cargo 提供了一個功能叫做**工作空間**（workspaces）能來幫助管理並開發數個相關的套件。
+在第十二章中，我們建立的套件包含一個執行檔 crate 與一個函式庫 crate。隨著專案開發，你可能會發現函式庫 crate 變得越來越大，而你可能會想要將套件拆成數個函式庫 crate。針對這種情形，Cargo 提供了一個功能叫做**工作空間**（workspaces）能來幫助管理並開發數個相關的套件。
 
 ### 建立工作空間
 
-**工作空間**是一系列的共享相同 *Cargo.lock* 與輸出目錄的套件。讓我們建立個使用工作空間的專案，我們會使用簡單的程式碼，好讓我們能專注在工作空間的架構上。組織工作空間的架構有很多種方式，我們會顯示其中一種常見的方式。我們的工作空間將會包含一個二進制執行檔與兩個函式庫。執行檔會提供主要功能，並依賴其他兩個函式庫。其中一個函式庫會提供函式 `add_one`，而另一個函式庫會提供函式 `add_two`。這三個 crate 會包含在相同的工作空間中，我們先從建立工作空間的目錄開始：
+**工作空間**是一系列的共享相同 *Cargo.lock* 與輸出目錄的套件。讓我們建立個使用工作空間的專案，我們會使用簡單的程式碼，好讓我們能專注在工作空間的架構上。組織工作空間的架構有很多種方式，我們會顯示其中一種常見的方式。我們的工作空間將會包含一個執行檔與兩個函式庫。執行檔會提供主要功能，並依賴其他兩個函式庫。其中一個函式庫會提供函式 `add_one`，而另一個函式庫會提供函式 `add_two`。這三個 crate 會包含在相同的工作空間中，我們先從建立工作空間的目錄開始：
 
 ```console
 $ mkdir add
 $ cd add
 ```
 
-接著在 *add* 目錄中，我們建立會設置整個工作空間的 *Cargo.toml* 檔案。此檔案不會有 `[package]` 段落或是我們在其他 *Cargo.toml* 檔案看過的詮釋資料。反之，他會使用一個 `[workspace]` 段落作為起始，讓我們可以透過指定二進制 crate 的套件路徑來將它加到工作空間的成員中。在此例中，我們的路徑是 *adder*：
+接著在 *add* 目錄中，我們建立會設置整個工作空間的 *Cargo.toml* 檔案。此檔案不會有 `[package]` 段落或是我們在其他 *Cargo.toml* 檔案看過的詮釋資料。反之，他會使用一個 `[workspace]` 段落作為起始，讓我們可以透過指定執行檔 crate 的套件路徑來將它加到工作空間的成員中。在此例中，我們的路徑是 *adder*：
 
 <span class="filename">檔案名稱：Cargo.toml</span>
 
@@ -19,7 +19,7 @@ $ cd add
 {{#include ../listings/ch14-more-about-cargo/no-listing-01-workspace-with-adder-crate/add/Cargo.toml}}
 ```
 
-接下來我們會在 *add* 目錄下執行 `cargo new` 來建立 `adder` 二進制 crate：
+接下來我們會在 *add* 目錄下執行 `cargo new` 來建立 `adder` 執行檔 crate：
 
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/output-only-01-adder-crate/add
@@ -130,7 +130,7 @@ $ cargo build
     Finished dev [unoptimized + debuginfo] target(s) in 0.68s
 ```
 
-要執行 *add* 目錄的二進制 crate，我們可以透過 `-p` 加上套件名稱使用 `cargo run` 來執行我們想要在工作空間中指定的套件：
+要執行 *add* 目錄的執行檔 crate，我們可以透過 `-p` 加上套件名稱使用 `cargo run` 來執行我們想要在工作空間中指定的套件：
 
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/listing-14-07/add

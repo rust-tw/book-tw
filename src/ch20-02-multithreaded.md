@@ -72,7 +72,7 @@
 {{#include ../listings/ch20-web-server/listing-20-12/output.txt}}
 ```
 
-很好！此錯誤告訴我們需要一個 `ThreadPool` 型別或模組，所以現在就讓我們來建立一個。我們的 `ThreadPool` 實作會與網頁伺服器相互獨立，所以讓我們將 `hello` crate 從二進制 crate 轉換成函式庫 crate 來存放我們的 `ThreadPool` 實作。這樣在我們切換成函式庫 crate 之後，我們就能夠將分出來的執行緒池函式庫用在其他我們想使用執行緒池的地方，而不僅僅是作為網頁請求所用。
+很好！此錯誤告訴我們需要一個 `ThreadPool` 型別或模組，所以現在就讓我們來建立一個。我們的 `ThreadPool` 實作會與網頁伺服器相互獨立，所以讓我們將 `hello` crate 從執行檔 crate 轉換成函式庫 crate 來存放我們的 `ThreadPool` 實作。這樣在我們切換成函式庫 crate 之後，我們就能夠將分出來的執行緒池函式庫用在其他我們想使用執行緒池的地方，而不僅僅是作為網頁請求所用。
 
 建立一個包含以下內容的 *src/lib.rs*，這是我們現在所能寫出最簡單的 `ThreadPool` 結構體定義了：
 
@@ -82,7 +82,7 @@
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-01-define-threadpool-struct/src/lib.rs}}
 ```
 
-然後建立一個新的目錄 *src/bin*，將 *src/main.rs* 的二進制 crate 移至 *src/bin/main.rs*。這樣會讓函式庫 crate 成為 *hello* 目錄中的主要 crate，我們仍能使用 `cargo run` 執行 *src/bin/main.rs* 中的二進制執行檔。在移動 *main.rs* 檔案後，編輯它使其引入函式庫 crate 並將 `ThreadPool` 引入作用域，請將以下程式碼加在 *src/bin/main.rs* 的最上方：
+然後建立一個新的目錄 *src/bin*，將 *src/main.rs* 的執行檔 crate 移至 *src/bin/main.rs*。這樣會讓函式庫 crate 成為 *hello* 目錄中的主要 crate，我們仍能使用 `cargo run` 執行 *src/bin/main.rs* 中的執行檔。在移動 *main.rs* 檔案後，編輯它使其引入函式庫 crate 並將 `ThreadPool` 引入作用域，請將以下程式碼加在 *src/bin/main.rs* 的最上方：
 
 <span class="filename">檔案名稱：src/bin/main.rs</span>
 

@@ -83,7 +83,7 @@
     - [透過發佈設定檔自訂建構](ch14-01-release-profiles.md)
     - [發佈 Crate 到 Crates.io](ch14-02-publishing-to-crates-io.md)
     - [Cargo 工作空間](ch14-03-cargo-workspaces.md)
-    - [透過 `cargo install` 從 Crates.io 安裝二進制執行檔](ch14-04-installing-binaries.md)
+    - [透過 `cargo install` 從 Crates.io 安裝執行檔](ch14-04-installing-binaries.md)
     - [透過自訂命命來擴展 Cargo 的功能](ch14-05-extending-cargo.md)
 
 - [智慧指標](ch15-00-smart-pointers.md)

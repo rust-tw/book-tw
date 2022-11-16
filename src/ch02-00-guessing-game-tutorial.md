@@ -213,7 +213,7 @@ $ cargo run
 
 ### 使用 Crate 來取得更多功能
 
-所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於**二進制（binary） crate**，也就會是個執行檔。而 `rand` crate 屬於**函式庫（library） crate**，這會包含讓其他程式能夠使用的程式碼。
+所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於**執行檔（binary） crate**，也就會是個執行檔。而 `rand` crate 屬於**函式庫（library） crate**，這會包含讓其他程式能夠使用的程式碼。
 
 Cargo 協調外部 crate 的功能正是它的亮點。在我們可以使用 `rand` 來寫程式碼前，我們需要修改 *Cargo.toml* 檔案來包含 `rand` crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 `[dependencies]` 標頭（header）段落中最後一行下面。記得確認 `rand` 指定的版本數字與我們相同，不然此教學的範例程式碼可能不會運行成功：
 
