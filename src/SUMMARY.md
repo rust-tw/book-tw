@@ -52,12 +52,12 @@
     - [`panic!` 與無法復原的錯誤](ch09-01-unrecoverable-errors-with-panic.md)
     - [`Result` 與可復原的錯誤](ch09-02-recoverable-errors-with-result.md)
     - [要 `panic!` 還是不要 `panic!`](ch09-03-to-panic-or-not-to-panic.md)
-<!-- 
+
 - [泛型型別、特徵與生命週期](ch10-00-generics.md)
     - [泛型資料型別](ch10-01-syntax.md)
     - [特徵：定義共同行為](ch10-02-traits.md)
     - [透過生命週期驗證引用](ch10-03-lifetime-syntax.md)
-
+<!-- 
 - [編寫自動化測試](ch11-00-testing.md)
     - [如何寫測試](ch11-01-writing-tests.md)
     - [控制程式如何執行](ch11-02-running-tests.md)
