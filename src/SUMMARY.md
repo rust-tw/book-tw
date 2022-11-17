@@ -57,12 +57,12 @@
     - [泛型資料型別](ch10-01-syntax.md)
     - [特徵：定義共同行為](ch10-02-traits.md)
     - [透過生命週期驗證引用](ch10-03-lifetime-syntax.md)
-<!-- 
+
 - [編寫自動化測試](ch11-00-testing.md)
     - [如何寫測試](ch11-01-writing-tests.md)
     - [控制程式如何執行](ch11-02-running-tests.md)
     - [測試組織架構](ch11-03-test-organization.md)
-
+<!-- 
 - [I/O 專案：建立一個命令列程式](ch12-00-an-io-project.md)
     - [接受命令列引數](ch12-01-accepting-command-line-arguments.md)
     - [讀取檔案](ch12-02-reading-a-file.md)
