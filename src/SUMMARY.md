@@ -62,7 +62,7 @@
     - [如何寫測試](ch11-01-writing-tests.md)
     - [控制程式如何執行](ch11-02-running-tests.md)
     - [測試組織架構](ch11-03-test-organization.md)
-<!-- 
+
 - [I/O 專案：建立一個命令列程式](ch12-00-an-io-project.md)
     - [接受命令列引數](ch12-01-accepting-command-line-arguments.md)
     - [讀取檔案](ch12-02-reading-a-file.md)
@@ -72,7 +72,7 @@
     - [將錯誤訊息寫入標準錯誤而非標準輸出](ch12-06-writing-to-stderr-instead-of-stdout.md)
 
 ## 以 Rust 思維思考
-
+<!-- 
 - [函式語言功能：疊代器與閉包](ch13-00-functional-features.md)
     - [閉包：獲取其環境的匿名函式](ch13-01-closures.md)
     - [使用疊代器來處理一系列的項目](ch13-02-iterators.md)
