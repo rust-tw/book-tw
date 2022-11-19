@@ -85,7 +85,7 @@
     - [Cargo 工作空間](ch14-03-cargo-workspaces.md)
     - [透過 `cargo install` 安裝執行檔](ch14-04-installing-binaries.md)
     - [透過自訂命命來擴展 Cargo 的功能](ch14-05-extending-cargo.md)
-<!--
+
 - [智慧指標](ch15-00-smart-pointers.md)
     - [使用 `Box<T>` 指向堆積上的資料](ch15-01-box.md)
     - [透過 `Deref` 特徵將智慧指標視為一般引用](ch15-02-deref.md)
@@ -99,7 +99,7 @@
     - [使用訊息傳遞在執行緒間傳送資料](ch16-02-message-passing.md)
     - [共享狀態並行](ch16-03-shared-state.md)
     - [透過 `Sync` 與 `Send` 特徵擴展並行性](ch16-04-extensible-concurrency-sync-and-send.md)
-
+<!--
 - [Rust 的物件導向程式設計特色](ch17-00-oop.md)
     - [物件導向語言的特色](ch17-01-what-is-oo.md)
     - [允許不同型別數值的特徵物件](ch17-02-trait-objects.md)
