@@ -78,14 +78,14 @@
     - [使用疊代器來處理一系列的項目](ch13-02-iterators.md)
     - [改善我們的 I/O 專案](ch13-03-improving-our-io-project.md)
     - [比較效能：迴圈 vs. 疊代器](ch13-04-performance.md)
-<!-- 
+ 
 - [更多關於 Cargo 與 Crates.io 的內容](ch14-00-more-about-cargo.md)
     - [透過發佈設定檔自訂建構](ch14-01-release-profiles.md)
     - [發佈 Crate 到 Crates.io](ch14-02-publishing-to-crates-io.md)
     - [Cargo 工作空間](ch14-03-cargo-workspaces.md)
-    - [透過 `cargo install` 從 Crates.io 安裝執行檔](ch14-04-installing-binaries.md)
+    - [透過 `cargo install` 安裝執行檔](ch14-04-installing-binaries.md)
     - [透過自訂命命來擴展 Cargo 的功能](ch14-05-extending-cargo.md)
-
+<!--
 - [智慧指標](ch15-00-smart-pointers.md)
     - [使用 `Box<T>` 指向堆積上的資料](ch15-01-box.md)
     - [透過 `Deref` 特徵將智慧指標視為一般引用](ch15-02-deref.md)
