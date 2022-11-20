@@ -50,11 +50,9 @@ let v: Vec<u32> = vec![1, 2, 3];
 
 這個 `vec!` 本體的結構和 `match` 表達式的結構相似。這裡我們有一個 match 分支，帶著模式 `( $( $x:expr ),* )`，並接著 `=>` 後面與該模式相關聯的程式碼區塊。這個分支是此巨集唯一一個模式，所以只有一個合法匹配方式；任何其他模式都會產生錯誤。更複雜的巨集會有多於一個分支。
 
-合法的巨集定義模式語法和在第十八章的模式語法並不相同，巨集的模式並不跟值比較，而是與 Rust 程式碼的結構相互匹配。在範例 19-28 我們會走過一次這些模式的意義，至於完整的巨集模式語法，請閱讀[參考手冊]。
+合法的巨集定義模式語法和在第十八章的模式語法並不相同，巨集的模式並不跟值比較，而是與 Rust 程式碼的結構相互匹配。在範例 19-28 我們會走過一次這些模式的意義，至於完整的巨集模式語法，請閱讀 [Rust 參考手冊]。
 
-[參考手冊]: https://doc.rust-lang.org/reference/macros-by-example.html
-
-首先，一對括號包圍整個模式。在括號後面的錢字號（`$`）捕獲了在括號內匹配該模式的值，用來取代該段程式碼。在 `$()` 內的 `$x:expr` 會匹配任意 Rust 表達式，並給這個表達式一個 `$x` 名。
+首先，我們用一對括號包圍整個模式。我們使用錢字號（`$`）在巨集系統定義一個變數，該變數將包含與模式匹配的 Rust 程式碼。採用錢字號清楚展現它並非尋常的 Rust 變數，而是巨集變數。再來就是一對括號，用以捕獲與括號內的模式匹配之值，以替換為程式碼。在 `$()` 內的 `$x:expr` 會匹配任意 Rust 表達式，並賦予表達式一個 `$x` 名稱。
 
 在 `$()` 後的逗號代表字面上的逗號分隔，可以選擇性地在匹配 `$()` 內的程式碼後出現。而 `*` 這指明，這個模式可以匹配零至多個在 `*` 之前的東西。
 
@@ -74,17 +72,13 @@ let v: Vec<u32> = vec![1, 2, 3];
 
 我們定義了一個巨集，接收任意數量任意型別的引數，並產生建立一個包含指定元素的向量的程式碼。
 
-有鑑於 `macro_rules!` 仍有些詭異的邊界情況（edge case），未來 Rust 會有第二類宣告式巨集，會具有相似的工作流程，但會修復這些邊界情況。在該更新到來過後，`macro_rules!` 會即期棄用（deprecate）。考量到這點，加上以事實來說大多數 Rust 程式設計師**使用**巨集多過**撰寫**巨集，所以 `macro_rules!` 相關討論就此打住，想理解更多有關撰寫巨集之事，可查閱線上文件或其他資源，例如原作者 Daniel Keep 與後繼維護者 Lukas Wirth 所寫的[「The Little Book of Rust Macros」][tlborm]。
-
-[tlborm]: https://veykril.github.io/tlborm/
+想理解更多有關撰寫巨集之事，可查閱線上文件或其他資源，例如原作者 Daniel Keep 與後繼維護者 Lukas Wirth 所寫的[「The Little Book of Rust Macros」][tlborm]。
 
 ### 使用程序式巨集從屬性產生程式碼
 
-第二種巨集形式是**程序式巨集**，其行為更像是函式（也是一種程序）。程序式巨集接受一些程式碼作為輸入，操作這些程式碼，然後輸出一些程式碼。和宣告式巨集去匹配模式和取代程式碼的方式不同。
+第二種巨集形式是**程序式巨集**，其行為更像是函式（也是一種程序）。程序式巨集接受一些程式碼作為輸入，操作這些程式碼，然後輸出一些程式碼。和宣告式巨集去匹配模式和取代程式碼的方式不同。三種程序式巨集（自訂 derive，類屬性、類函式）都有著相近的工作方式。
 
-三種程序式巨集（自訂 derive，類屬性、類函式）都有著相近的工作方式。
-
-當建立一個程序式巨集時，該巨集必須放置在自己特殊的一種 crate 中。會這種是因為一些複雜的技術問題，我們希望在未來消弭這個情況。使用程序式巨集看起來就像範例 19-29，其中 `some_attribute` 是一個用來代表特定巨集的佔位符。
+當建立一個程序式巨集時，該巨集必須放置在自己特殊的一種 crate 中。會這種是因為一些複雜的技術問題，我們希望在未來消弭這個情況。範例 19-29 我們展示了如何定義程序式巨集，其中 `some_attribute` 是一個用來代表特定巨集的佔位符。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -96,7 +90,7 @@ pub fn some_name(input: TokenStream) -> TokenStream {
 }
 ```
 
-<span class="caption">範例 19-29：使用程序式巨集</span>
+<span class="caption">範例 19-29：定義一個程序式巨集</span>
 
 這個函式定義一個程序式巨集，接受輸入 `TokenStream`，並輸出 `TokenStream`。`TokenStream` 型別定義在 `proc_macro` crate 中，這個 crate 包含在 Rust 中，可以表示一連串的標記，這就是巨集的核心：巨集替來自輸入的 `TokenStream` 搽脂抹粉，而巨集產生的程式碼就是輸出的 `TokenStream`。上面例子中這個函式附加了一個屬性，指定我們要產生哪個程序式巨集。在同一個 crate 中我們可以使用多個不同的程序式巨集。
 
@@ -104,7 +98,7 @@ pub fn some_name(input: TokenStream) -> TokenStream {
 
 ### 如何撰寫自訂的 `derive` 巨集
 
-我們建立一個 `hello_macro` crate，並定義 `HelloMacro` 特徵與它的 `hello_macro` 關聯函式。我們提供一個程序式巨集，讓使用者透過 `#[derive(HelloMacro)]` 標註它們的型別，來獲得預設的 `hello_macro` 函式的實作，而不需要使用者替每個型別手動實作 `HelloMacro` 特徵。這個預設的函式實作會印出 `你好，巨集，我叫做型別名稱！`，其中 `型別名稱` 是實作特徵那個型別的名字。換句話說，就是我們會寫出一個 crate，讓其他程式設計師用我們的 crate，以範例 19-30 的方式來寫程式。
+我們建立一個 `hello_macro` crate，並定義 `HelloMacro` 特徵與它的 `hello_macro` 關聯函式。我們提供一個程序式巨集，讓 crate 的使用者透過 `#[derive(HelloMacro)]` 標註它們的型別，來獲得預設的 `hello_macro` 函式的實作，而不需要使用者替每個型別手動實作 `HelloMacro` 特徵。這個預設的函式實作會印出 `你好，巨集，我叫做型別名稱！`，其中 `型別名稱` 是實作特徵那個型別的名字。換句話說，就是我們會寫出一個 crate，讓其他程式設計師用我們的 crate，以範例 19-30 的方式來寫程式。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -168,9 +162,6 @@ $ cargo new hello_macro_derive --lib
 
 我們導入了三個新 crate：`proc_macro`，[`syn`] 和 [`quote`]。`proc_macro` 包含在 Rust 裡面，所以我們不需要將之加入 *Cargo.toml*。`proc_macro` crate 就是編譯器的 API，提供從我們的程式碼讀取和操作 Rust 程式碼。
 
-[`syn`]: https://crates.io/crates/syn
-[`quote`]: https://crates.io/crates/quote
-
 `syn` crate 負責從字串解析 Rust 程式碼，轉成我們可以操作的資料結構。而 `qoute` crate 則將 `syn` 的資料結構轉回 Rust 程式碼。撰寫完整的Rust 程式碼解析器並不是容易的工作，而這些 crate 讓解析任何 Rust 程式碼更為簡便。
 
 當使用者在一個型別上指定 `#[derive(HelloMacro)]`，`hello_macro_derive` 函式就會被呼叫，這是由於我們使用 `proc_macro_derive` 和指定的 `HelloMacro` 名稱來標註 `hello_macro_derive` 函式，而其中的 `HelloMacro` 是我們的特徵名稱。以上就是大多數程序式巨集遵守的慣例。
@@ -201,9 +192,6 @@ DeriveInput {
 
 這些結構體的欄位展示了解析過後的 Rust 程式碼是一個結構體，帶著 `ident`（識別字 identifier）。這裡其他結構體的欄位都在描述 Rust 程式碼，更多資訊請參考 [`syn` 有關 `DeriveInput` 的文件][syn-docs]。
 
-[syn-docs]: https://docs.rs/syn/1.0/syn/struct.DeriveInput.html
-
-
 我們很快就進入定義 `impl_hello_macro` 函式的環節，這個函式協助打造我們想要的新 Rust 程式碼。再動手做之前，注意我們的 derive 巨集輸出也是一個 `TokenStream`。回傳的 `TokenStream` 會添加到我們的 crate 使用者撰寫的程式碼中，因此，當他們編譯他們的 crate 時，會從我們提供的修編過的 `TokenStream` 中取得額外功能。
 
 也許你注意到我們對 `hello_macro_derive` 呼叫 `unwrap` 讓 `sync::parse` 函式失敗時恐慌。由於我們需要符合 `proc_macro_derive` 程序式巨集的 API 定義，回傳一個 `TokenStream` 而非 `Result`，所以我們的程序式巨集必須在錯誤時恐慌。這裡使用 `unwrap` 是為了簡化範例，在正式環境程式碼中，你應該透過 `panic!` 或 `expect` 提供更特定的錯誤訊息，告知什麼出錯了。
@@ -223,8 +211,6 @@ DeriveInput {
 `quote!` 巨集提供我們定義想要回傳的 Rust 程式碼。編譯器期望接收到不同於 `quote!` 巨集執行後直接輸出的結果，所以我們需要將結果轉換為一個 `TokenStream`。我們透過呼叫 `into` 方法達成，這個方法會消耗中介碼（intermediate representation）並回傳一個型別為 `TokenStream` 之值。
 
 `quote!` 巨集也提供非常炫的模板機制：我們可以輸入 `#name`，而 `quote!` 會以變數 `name` 值取而代之。我們甚至可以做一些類似普通巨集的重複工作。閱讀 [`quote` crate 的文件][quote-docs]以獲得完整的介紹。
-
-[quote-docs]: https://docs.rs/quote
 
 我們想要我們的程序式巨集對使用者標註的型別產生 `HelloMacro` 特徵的實作，這個標註的型別名稱可以從 `#name` 取得。這個特徵的實作有一個函式 `hello_macro`，函式本體包含我們想要的功能：印出 `你好，巨集，我叫做` 再加上被標註的型別的名稱。
 
@@ -266,8 +252,6 @@ pub fn route(attr: TokenStream, item: TokenStream) -> TokenStream {
 
 舉個例子，一個 `sql!` 類函式巨集可能會被這樣呼叫：
 
-[宣告式巨集]: #使用-macro_rules-宣告式巨集做普通的超程式設計
-
 ```rust,ignore
 let sql = sql!(SELECT * FROM posts WHERE id=1);
 ```
@@ -286,3 +270,11 @@ pub fn sql(input: TokenStream) -> TokenStream {
 呼！現在你的工具箱多了一些 Rust 特色功能，雖然不常用，但在特定情況下你會知道它們存在。我們介紹了許多複雜的主題，所以當你在錯誤訊息或是其他人的程式碼與它們相遇，你會有辦法辨認這些概念和語法。你可以將這章作為能引導找到解法的參考書。
 
 接下來，我們會動手做另一個專案，實際運用本書所講的一切。
+
+[Rust 參考手冊]: https://doc.rust-lang.org/reference/macros-by-example.html
+[tlborm]: https://veykril.github.io/tlborm/
+[`syn`]: https://crates.io/crates/syn
+[`quote`]: https://crates.io/crates/quote
+[syn-docs]: https://docs.rs/syn/1.0/syn/struct.DeriveInput.html
+[quote-docs]: https://docs.rs/quote
+[宣告式巨集]: #使用-macro_rules-宣告式巨集做普通的超程式設計
