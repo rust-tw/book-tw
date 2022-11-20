@@ -8,9 +8,7 @@ pub struct ThreadPool {
     workers: Vec<Worker>,
     sender: Option<mpsc::Sender<Job>>,
 }
-
 // --省略--
-
 // ANCHOR_END: here
 
 type Job = Box<dyn FnOnce() + Send + 'static>;
@@ -42,7 +40,7 @@ impl ThreadPool {
             workers.push(Worker::new(id, Arc::clone(&receiver)));
         }
 
-        // ANCHOR_END: here
+        // ANCHOR: here
         ThreadPool {
             workers,
             sender: Some(sender),
@@ -59,9 +57,6 @@ impl ThreadPool {
     }
 }
 
-// --省略--
-
-// ANCHOR_END: here
 impl Drop for ThreadPool {
     fn drop(&mut self) {
         drop(self.sender.take());

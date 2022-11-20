@@ -2,7 +2,7 @@
 
 範例 20-20 的程式碼能如我們所預期地使用執行緒池來同時回應多重請求。我們有看到些警告說 `workers`、`id` 與 `thread` 欄位沒有被直接使用，這提醒我們尚未清理所有內容。當我們使用比較不優雅的 <span class="keystroke">ctrl-c</span> 方式來中斷主執行緒時，所有其他執行緒也會立即停止，不管它們是否正在處理請求。
 
-現在我們要實作 `Drop` 特徵來對池中的每個執行緒呼叫 `join`，讓它們能在關閉前把任務處理完畢。然後我們要實作個方式來告訴執行緒它們該停止接收新的請求並關閉。為了觀察此程式碼的實際運作，我們會修改伺服器讓它在正常關機（graceful shutdown）前，只接收兩個請求。
+接著我們要實作 `Drop` 特徵來對池中的每個執行緒呼叫 `join`，讓它們能在關閉前把任務處理完畢。然後我們要實作個方式來告訴執行緒它們該停止接收新的請求並關閉。為了觀察此程式碼的實際運作，我們會修改伺服器讓它在正常關機（graceful shutdown）前，只接收兩個請求。
 
 ###  對 `ThreadPool` 實作 `Drop` 特徵
 
@@ -44,7 +44,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,ignore
+```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-05-fix-worker-new/src/lib.rs:here}}
 ```
 
@@ -52,7 +52,7 @@
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,ignore
+```rust,ignore,not_desired_behavior
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-06-fix-threadpool-drop/src/lib.rs:here}}
 ```
 
@@ -62,49 +62,34 @@
 
 有了以上的改變，我們的程式碼就能成功編譯且沒有任何警告。但壞消息是此程式碼並沒有如我們所預期地運作。關鍵邏輯位於 `Worker` 實例中執行緒執行的閉包，現在雖然我們有呼叫 `join`，但這無法關閉執行緒，因為它們會一直 `loop` 來尋找任務執行。如果我們嘗試以目前的 `drop` 實作釋放 `ThreadPool` 的話，主執行緒會被阻擋，一直等待第一個執行緒處理完成。
 
-要修正此問題，我們要修改執行緒，讓它們除了接收 `Job` 來執行以外，也要能收到告訴它們要停止接收並離開無限迴圈的信號。所以我們的通道將傳送以下兩種枚舉變體，而不再是 `Job` 實例。
-<span class="filename">檔案名稱：src/lib.rs</span>
+要修正此問題，我們要修改 `ThreadPool` `drop` 的實作以及 `Worker` 內的一些程式碼。
 
-```rust,noplayground
-{{#rustdoc_include ../listings/ch20-web-server/no-listing-07-define-message-enum/src/lib.rs:here}}
-```
-
-`Message` 此枚舉可以是存有該執行緒要執行的 `Job` 的 `NewJob` 變體，或是通知執行緒離開其迴圈並停止的 `Terminate` 變體。
-
-我們需要調整通道來使用 `Message` 型別，而不是 `Job` 型別，如範例 20-23 所示。
+首先我們先將 `ThreadPool` `drop` 的實作改成在執行緒完成前就顯式釋放 `sender`。範例 20-23 展示了 `ThreadPool` 顯式釋放 `sender`。我們使用處理執行緒時一樣的 `Option` 與 `take` 技巧來將 `sender` 移出 `ThreadPool`：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,ignore
+```rust,ignore,noplayground,not_desired_behavior
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-23/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 20-23：傳送與接收 `Message` 數值，且如果 `Worker` 收到 `Message::Terminate` 時就會離開迴圈</span>
+<span class="caption">範例 20-23：在工作者執行緒加入回來前顯式釋放 `sender`</span>
 
-為了改用 `Message` 枚舉，我們有兩個地方得將 `Job` 改成 `Message`：`ThreadPool` 的定義與 `Worker::new` 的簽名。`ThreadPool` 的 `execute` 方法需要傳送封裝成 `Message::NewJob` 的任務。然後在 `Worker::new` 中，也就是取得 `Message` 的通道接收端中，如果收到 `NewJob` 變體的話，其就會處理任務；而如果收到 `Terminate` 變體的話，執行緒就會打破迴圈。
-
-有了這些改變，程式碼就能編譯並繼續以範例 20-20 之後的行為來執行。但我們會得到一個警告，因為我們還沒建立任何 `Terminate` 變體的訊息。讓我們來修正此警告，如範例 20-24 所示來改變 `Drop` 的實作。
+釋放 `sender` 會關閉通道，也就代表沒有任何訊息會再被傳送。工作者在無限迴圈呼叫的 `recv` 會回傳錯誤。在範例 20-24 中，我們改變 `Worker` 的迴圈來處理該狀況並正常退出迴圈，也就是說 `ThreadPool` `drop` 的實作呼叫 `join` 時，執行緒就會工作完成。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
-```rust,ignore
+```rust,ignore,noplayground
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-24/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 20-24：在對每個工作者執行緒呼叫 `join` 之前，傳送 `Message::Terminate` 給工作者</span>
-
-我們現在會遍歷工作者們兩次，一次是傳送 `Terminate` 訊息給每個工作者，另一次是對每個工作者執行緒呼叫 `join`。如果我們嘗試在同個迴圈中傳送訊息並立即呼叫 `join` 的話，我們無法保證在當前疊代中的工作者就是從通道中取得訊息的工作者。
-
-為了更好理解為何我們需要兩個分開的迴圈，想像一個情境中有兩個工作者。如果我們用一個迴圈來遍歷每個工作者，在第一次疊代中會有個關機訊息傳至通道，並對第一個工作者執行緒呼叫 `join`。如果第一個工作者正在忙於處理請求的話，第二個工作者就會從通道取得關機訊息並關閉。這樣會變成持續等待第一個工作者關閉，但是它永遠不會關閉，因為是第二個執行緒取得關機訊息的。死結（deadlock）就發生了！
-
-為了預防此情形，我們首先在一個迴圈中對通道傳送所有的 `Terminate` 訊息，然後我們在另一個迴圈才將所有的執行緒加回來。每個工作者一旦收到關機訊息後，就會停止從通道中接收訊息。所以我們可以確定如果我們發送與執行緒數量相當的關機訊息的話，每個工作者都會在其執行緒被呼叫 `join` 前收到關機訊息。
+<span class="caption">範例 20-24：當 `recv` 回傳錯誤時就顯式退出回圈</span>
 
 要實際看到此程式碼的運作情形，讓我們修改 `main` 來在正常關閉伺服器前，只接收兩個請求，如範例 20-25 所示。
 
 <span class="filename">檔案名稱：src/bin/main.rs</span>
 
 ```rust,ignore
-{{#rustdoc_include ../listings/ch20-web-server/listing-20-25/src/bin/main.rs:here}}
+{{#rustdoc_include ../listings/ch20-web-server/listing-20-25/src/main.rs:here}}
 ```
 
 <span class="caption">範例 20-25：在處理兩個請求後，離開迴圈並關閉伺服器</span>
@@ -130,40 +115,38 @@ Can't automate because the output depends on making requests
 $ cargo run
    Compiling hello v0.1.0 (file:///projects/hello)
     Finished dev [unoptimized + debuginfo] target(s) in 1.0s
-     Running `target/debug/main`
+     Running `target/debug/hello`
 Worker 0 got a job; executing.
-Worker 3 got a job; executing.
 Shutting down.
-Sending terminate message to all workers.
-Shutting down all workers.
 Shutting down worker 0
-Worker 1 was told to terminate.
-Worker 2 was told to terminate.
-Worker 0 was told to terminate.
-Worker 3 was told to terminate.
+Worker 3 got a job; executing.
+Worker 1 disconnected; shutting down.
+Worker 2 disconnected; shutting down.
+Worker 3 disconnected; shutting down.
+Worker 0 disconnected; shutting down.
 Shutting down worker 1
 Shutting down worker 2
 Shutting down worker 3
 ```
 
-你可能會看到不同順序的工作者與訊息輸出。我們可以從訊息中看到此程式碼如何執行的，工作者 0 與 3 獲得前兩個請求。然後對於第三個請求，伺服器會停止接受連線。當 `ThreadPool` 在 `main` 結尾離開作用域時，它 `Drop` 的實作就會生效，然後執行緒池告訴所有工作者關閉。當工作者看到關機訊息時，它們就會印出訊息，然後執行緒池會呼叫 `join` 來關閉每個工作者的執行緒。
+你可能會看到不同順序的工作者與訊息輸出。我們可以從訊息中看到此程式碼如何執行的，工作者 0 與 3 獲得前兩個請求。在第二個請求之後，伺服器會停止接受連線。然後在工作者 3 開始工作之前，`ThreadPool` 的 `Drop` 實作就會執行。釋放 `sender` 會將所有工作者斷線並告訴它們關閉。每個工作者在斷線時都印出訊息，然後執行緒池會呼叫 `join` 來等待每個工作者的執行緒完成。
 
-此特定執行方式中有個有趣的地方值得注意：`ThreadPool` 傳送關機訊息至通道，且在任何工作者收到訊息前，我們就已經著將工作者 0 加入回來。工作者 0 此時尚未收到關機訊息，所以主執行緒會被擋住並等待工作者 0 完成。同一時間，每個工作者會開始收到關機訊息。當工作者 0 完成時，主執行緒會等待剩下的工作者完成任務。屆時，它們都會收到關機訊息並能夠關閉。
+此特定執行方式中有個有趣的地方值得注意：在 `ThreadPool` 釋放 `sender` 然後任何工作者收到錯誤之前，我們嘗試將工作者 0 加入回來。工作者 0 尚未從 `recv` 收到錯誤，所以主執行緒會被擋住並等待工作者 0 完成。同一時間，工作者 3 收到一份工作但所有執行緒都收到錯誤。當工作者 0 完成時，主執行緒會等待剩下的工作者完成任務。屆時，它們都會退出它們的迴圈並能夠關閉。
 
 恭喜！我們的專案完成了，我們有個基礎的網頁瀏覽器，其使用執行緒池來做非同步回應。我們能夠對伺服器正常關機，並清理池中所有的執行緒。
 
 以下是完整的程式碼參考：
 
-<span class="filename">檔案名稱：src/bin/main.rs</span>
+<span class="filename">檔案名稱：src/main.rs</span>
 
 ```rust,ignore
-{{#rustdoc_include ../listings/ch20-web-server/no-listing-08-final-code/src/bin/main.rs}}
+{{#rustdoc_include ../listings/ch20-web-server/no-listing-07-final-code/src/main.rs}}
 ```
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
 ```rust,noplayground
-{{#rustdoc_include ../listings/ch20-web-server/no-listing-08-final-code/src/lib.rs}}
+{{#rustdoc_include ../listings/ch20-web-server/no-listing-07-final-code/src/lib.rs}}
 ```
 
 我們還可以做更多事！如果你想繼續改善此專案的話，以下是些不錯的點子：
