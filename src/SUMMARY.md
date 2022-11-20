@@ -99,12 +99,12 @@
     - [使用訊息傳遞在執行緒間傳送資料](ch16-02-message-passing.md)
     - [共享狀態並行](ch16-03-shared-state.md)
     - [透過 `Sync` 與 `Send` 特徵擴展並行性](ch16-04-extensible-concurrency-sync-and-send.md)
-<!--
+
 - [Rust 的物件導向程式設計特色](ch17-00-oop.md)
     - [物件導向語言的特色](ch17-01-what-is-oo.md)
     - [允許不同型別數值的特徵物件](ch17-02-trait-objects.md)
     - [實作物件導向設計模式](ch17-03-oo-design-patterns.md)
-
+<!--
 ## 進階主題
 
 - [模式與配對](ch18-00-patterns.md)
