@@ -141,7 +141,7 @@ fn main() {
 
 ### 使用 `rust-analyzer` 整合 IDE
 
-為了協助 IDE 的整合，Rust 社群推薦使用 [`rust-analyzer`][rust-analyzer]<!-- ignore -->。此工具會與 [Language Server Protocol][lsp] 溝通，來提供許多與編譯器相關的協助，這是 IDE 與程式語言彼此溝通的協定規格。`rust-analyzer` 可用於各種不同的客戶端，像是 [Visual Studio Code 的 Rust analyzer 插件][vscode]。
+為了協助 IDE 的整合，Rust 社群推薦使用 [`rust-analyzer`][rust-analyzer]<!-- ignore -->。此工具會與 [Language Server Protocol][lsp] 溝通，來提供許多與編譯器相關的協助，這是 IDE 與程式語言彼此溝通的協定規格。`rust-analyzer` 可用於各種不同的客戶端，像是 [Visual Studio Code 的 Rust analyzer 外掛][vscode]。
 
 [lsp]: http://langserver.org/
 [vscode]: https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer
