@@ -104,7 +104,7 @@
     - [物件導向語言的特色](ch17-01-what-is-oo.md)
     - [允許不同型別數值的特徵物件](ch17-02-trait-objects.md)
     - [實作物件導向設計模式](ch17-03-oo-design-patterns.md)
-<!--
+
 ## 進階主題
 
 - [模式與配對](ch18-00-patterns.md)
@@ -118,7 +118,7 @@
     - [進階型別](ch19-04-advanced-types.md)
     - [進階函式與閉包](ch19-05-advanced-functions-and-closures.md)
     - [巨集](ch19-06-macros.md)
-
+<!--
 - [最終專案：建立多執行緒網頁伺服器](ch20-00-final-project-a-web-server.md)
     - [建立單一執行緒的網頁伺服器](ch20-01-single-threaded.md)
     - [將單一執行緒伺服器轉換為多執行緒伺服器](ch20-02-multithreaded.md)
