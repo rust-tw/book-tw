@@ -137,7 +137,7 @@ variables              | 變數                          |
 variant                | 變體                          |
 vector                 | 向量                          |
 view                   | 視圖                          | 參考：[維基百科][view]
-wildcard               | 通配符                        |
+wildcard               | 萬用字元                      |
 workspaces             | 工作空間                      |
 zero-cost abstractions | 無成本抽象化                  |
 
