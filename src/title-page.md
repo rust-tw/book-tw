@@ -15,4 +15,6 @@
 [nsprust]: https://nostarch.com/rust
 [translations]: appendix-06-translation.html
 
+> **🚨 想要更有互動的學習體驗？來嘗試不同的 Rust Book，賣點有：隨堂測驗、重點提示、視覺化呈現，更多都在** <https://rust-book.cs.brown.edu>
+
 > - commit: [3f64052](https://github.com/rust-lang/book/commit/3f64052c048c6def93b94a2b514ee88bba918744)

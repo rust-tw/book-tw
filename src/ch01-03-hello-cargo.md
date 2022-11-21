@@ -98,7 +98,7 @@ $ cargo run
 Hello, world!
 ```
 
-使用 `cargo run` 通常比執行 `cargo build` 然後使用執行檔的完整路徑還要方便，所以多數開發者通常都直接用 `cargo run`。
+使用 `cargo run` 通常比執行 `cargo build` 然後使用執行檔的完整路徑還要方便，所以多數開發者通常都直接使用 `cargo run`。
 
 請注意到這次輸出的結果我們沒有看到 Cargo 有在編譯 `hello_cargo` 的跡象，這是因為 Cargo 可以知道檔案完全沒被更改過，所以它不用重新建構可以選擇直接執行執行檔。如果你有變更你的原始碼的話，Cargo 才會在執行前重新建構專案，你才會看到這樣的輸出結果：
 

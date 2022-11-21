@@ -82,7 +82,7 @@
 {{#rustdoc_include ../listings/ch20-web-server/listing-20-24/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 20-24：當 `recv` 回傳錯誤時就顯式退出回圈</span>
+<span class="caption">範例 20-24：當 `recv` 回傳錯誤時就顯式退出迴圈</span>
 
 要實際看到此程式碼的運作情形，讓我們修改 `main` 來在正常關閉伺服器前，只接收兩個請求，如範例 20-25 所示。
 

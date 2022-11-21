@@ -67,7 +67,7 @@ match x {
 
 ### `for` 迴圈
 
-在 `for` 迴圈中，`for` 關鍵字之後的數值就是莫。舉例來說 在 `for x in y` 中 `x` 就是模式範例 18-3 展示了如何在 `for` 迴圈使用模式來解構或拆開一個 `for` 迴圈中的元組。
+在 `for` 迴圈中，`for` 關鍵字之後的數值就是模式。舉例來說，在 `for x in y` 中 `x` 就是模式範例 18-3 展示了如何在 `for` 迴圈使用模式來解構或拆開一個 `for` 迴圈中的元組。
 
 ```rust
 {{#rustdoc_include ../listings/ch18-patterns-and-matching/listing-18-03/src/main.rs:here}}
