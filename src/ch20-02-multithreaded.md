@@ -108,7 +108,7 @@
 
 我們選擇 `usize` 作為參數 `size` 的型別，因為我們知道負數對執行緒數量來說沒有任何意義。我們也知道 4 會作為執行緒集合的元素個數，這正是使用 `usize` 型別的原因，如同第三章[「整數型別」][integer-types]<!-- ignore -->段落所講的。
 
-讓我們在檢查程式碼一次：
+讓我們再檢查程式碼一次：
 
 ```console
 {{#include ../listings/ch20-web-server/no-listing-02-impl-threadpool-new/output.txt}}
