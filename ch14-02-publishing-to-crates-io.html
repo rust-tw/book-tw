@@ -187,7 +187,7 @@ test src/lib.rs - add_one (line 5) ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
 </code></pre>
-<p>現在如果我們變更函式或範例使其內的 <code>assert_eq!</code> 會恐慌並再次執行 <code>cargo test</code> 的話，我們會看到技術文件測試能互相獲取錯誤，告訴我們範例與程式碼已經不同不了！</p>
+<p>現在如果我們變更函式或範例使其內的 <code>assert_eq!</code> 會恐慌並再次執行 <code>cargo test</code> 的話，我們會看到技術文件測試能互相獲取錯誤，告訴我們範例與程式碼已經不同步了！</p>
 <h4 id="包含項目結構的註解"><a class="header" href="#包含項目結構的註解">包含項目結構的註解</a></h4>
 <p>還有另一種技術文件註解的風格為 <code>//!</code>，這是對其包含該註解的項目所加上的技術文件，而不是對註解後的項目所加上的技術文件。我通常將此技術文件註解用於 crate 源頭檔（通常為 <em>src/lib.rs</em>）或模組來對整個 crate 或模組加上技術文件。</p>
 <p>舉例來說，如果我們希望能加上技術文件來描述包含 <code>add_one</code> 函式的 <code>my_crate</code> 目的，我們可以用  <code>//!</code> 在 <em>src/lib.rs</em> 檔案開頭加上技術文件註解，如範例 14-2 所示：</p>
