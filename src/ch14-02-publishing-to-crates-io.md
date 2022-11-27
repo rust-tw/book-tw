@@ -55,7 +55,7 @@ test src/lib.rs - add_one (line 5) ... ok
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
 ```
 
-現在如果我們變更函式或範例使其內的 `assert_eq!` 會恐慌並再次執行 `cargo test` 的話，我們會看到技術文件測試能互相獲取錯誤，告訴我們範例與程式碼已經不同不了！
+現在如果我們變更函式或範例使其內的 `assert_eq!` 會恐慌並再次執行 `cargo test` 的話，我們會看到技術文件測試能互相獲取錯誤，告訴我們範例與程式碼已經不同步了！
 
 #### 包含項目結構的註解
 
