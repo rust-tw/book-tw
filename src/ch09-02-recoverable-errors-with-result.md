@@ -141,7 +141,7 @@ code: 2, kind: NotFound, message: "No such file or directory" }',
 src/main.rs:5:10
 ```
 
-在生產環境等級的程式碼，大多數 Rustaceans 會選擇 `expect` 而不是 `unwrap`，這樣能在出錯時提供更多資訊，告訴我們為何該動作預期永遠是成功的。這樣一來就算你的假設證明是錯誤的，你都能夠在除錯時有足夠的資訊來理解。
+在正式環境等級的程式碼，大多數 Rustaceans 會選擇 `expect` 而不是 `unwrap`，這樣能在出錯時提供更多資訊，告訴我們為何預期該動作永遠成功。這樣一來就算你的假設證明錯誤，你都能夠在除錯時有足夠的資訊來理解。
 
 ### 傳播錯誤
 
@@ -267,7 +267,7 @@ don't want to include it for rustdoc testing purposes. -->
 
 請注意你可以在有回傳 `Result` 的函式對 `Result` 的值使用 `?` 運算子，你可以在有回傳 `Option` 的函式對 `Option` 的值使用 `?` 運算子，但你無法混合使用。`?` 運算子無法自動轉換 `Result` 與 `Option` 之間的值。在這種狀況下會需要顯式表達，`Result` 的話有提供 `ok` 方法，`Option` 的話有提供 `ok_or` 方法。
 
-目前為止，所有我們使用過的 `main` 函式都是回傳 `()`。`main` 是個特別的函式，因為它是可執行程式的入口點與出口點，而要讓程式可預期執行的話，它的回傳型別就得要有些限制。
+目前為止，所有我們使用過的 `main` 函式都是回傳 `()`。`main` 是個特別的函式，因為它是可執行程式的進入點與出口點，而要讓程式可預期執行的話，它的回傳型別就得要有些限制。
 
 幸運的是 `main` 也可以回傳 `Result<(), E>`。範例 9-12 取自範例 9-10，不過我們更改 `main` 的回傳型別為`Result<(), Box<dyn Error>>`，並在結尾的回傳數值加上 `Ok(())`。這樣的程式碼是能編譯的：
 
@@ -279,7 +279,7 @@ don't want to include it for rustdoc testing purposes. -->
 
 `Box<dyn Error>` 型別使用了**特徵物件**（trait object）我們會在第十七章的[「允許不同型別數值的特徵物件」][trait-objects]<!-- ignore -->討論到。現在你可以將 `Box<dyn Error>` 視為它是「任何種類的錯誤」。在有 `Box<dyn Error>` 錯誤型別的 `main` 函式中的 `Result` 使用 `?` 是允許的，因為現在 `Err` 數值可以被提早回傳。盡管此 `main` 函式本的只會回傳錯誤型別 `std::io::Error`，但有了 `Box<dyn Error>` 的話，此簽名就能允許其他錯誤型別加入 `main` 本體中。
 
-當 `main` 函式回傳 `Result<(), E>` 時，如果 `main` 回傳 `Ok(())` 的話，執行檔就會用 `0` 退出；如果 `main` 回傳 `Err` 數值的話，就會用非零數值退出。用 C 語言寫的執行檔在退出時會回傳整數：程式成功退出的話會回傳整數 `0`，而程式退出錯誤的話則會回傳不是 `0` 的其他整數。而 Rust 執行檔也遵循兼容這項規則。
+當 `main` 函式回傳 `Result<(), E>` 時，如果 `main` 回傳 `Ok(())` 的話，執行檔就會用 `0` 退出；如果 `main` 回傳 `Err` 數值的話，就會用非零數值退出。用 C 語言寫的執行檔在退出時會回傳整數：程式成功退出的話會回傳整數 `0`，而程式退出錯誤的話則會回傳不是 `0` 的其他整數。而 Rust 執行檔也遵循相容這項規則。
 
 `main` 函式可以回傳任何有實作 [`std::process::Termination`][termination]<!-- ignore --> 特徵的型別，該特徵包含了一個函式 `report` 來回傳 `ExitCode`。你可以查閱標準函式庫技術文件來了解如何對你的型別實作 `Termination` 特徵。
 

@@ -8,4 +8,4 @@
 * 從 [crates.io](https://crates.io/)<!-- ignore --> 安裝執行檔
 * 使用自訂命令擴展 Cargo 的功能
 
-Cargo 能做的事還不止本章會介紹到的功能，所以想要知道它所有功能的話，歡迎查閱[它的技術文件](https://doc.rust-lang.org/cargo/)。
+Cargo 能做的事比本章會介紹到的功能還多，所以想要知道它所有功能的話，歡迎查閱[它的技術文件](https://doc.rust-lang.org/cargo/)。

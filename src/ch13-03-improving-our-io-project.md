@@ -32,7 +32,7 @@
 {{#rustdoc_include ../listings/ch13-functional-features/listing-12-24-reproduced/src/main.rs:ch13}}
 ```
 
-我們首先會改變範例 12-24 的 `main` 函式開頭段落成範例 13-18 的程式碼。這在我們更新 `Config::build` 之前都還無法編譯。
+我們首先會改變範例 12-24 的 `main` 函式開頭段落成範例 13-18 這段使用疊代器的程式碼。這在我們更新 `Config::build` 之前都還無法編譯。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
