@@ -5,9 +5,8 @@ fn main() {
     let mut scores = HashMap::new();
 
     scores.insert(String::from("藍隊"), 10);
-    scores.insert(String::from("黃隊"), 50);
+    scores.insert(String::from("藍隊"), 25);
 
-    let team_name = String::from("藍隊");
-    let score = scores.get(&team_name);
+    println!("{:?}", scores);
     // ANCHOR_END: here
 }

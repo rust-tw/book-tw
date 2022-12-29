@@ -5,10 +5,10 @@ fn main() {
 
     match x {
         Some(50) => println!("取得 50"),
-        Some(y) => println!("配對成功，y = {:?}", y),
+        Some(y) => println!("配對成功，y = {y}"),
         _ => println!("預設情形，x = {:?}", x),
     }
 
-    println!("最後結果：x = {:?}, y = {:?}", x, y);
+    println!("最後結果：x = {:?}, y = {y}", x);
     // ANCHOR_END: here
 }

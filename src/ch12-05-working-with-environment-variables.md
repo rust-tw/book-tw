@@ -4,7 +4,7 @@
 
 ### 寫個不區分大小寫的 `search` 函式的失敗測試
 
-我們想新增個 `search_case_insensitive` 函式在環境變數啟用時呼叫它。我們將繼續遵守 TDD 流程，所以第一步一樣是先寫個會失敗的測試。我們會為新函式 `search_case_insensitive` 新增一個測試，並將舊測試從 `one_result` 改名為 `case_sensitive` 以便清楚兩個測試的差別，如範例 12-20 所示。
+我們首先新增個 `search_case_insensitive` 函式在環境變數有數值時呼叫它。我們將繼續遵守 TDD 流程，所以第一步一樣是先寫個會失敗的測試。我們會為新函式 `search_case_insensitive` 新增一個測試，並將舊測試從 `one_result` 改名為 `case_sensitive` 以便清楚兩個測試的差別，如範例 12-20 所示。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -34,7 +34,7 @@
 
 注意到 `query` 現在是個 `String` 而非字串切片，因為呼叫 `to_lowercase` 會建立新的資料而非引用現存的資料。假設要搜尋的字串是 `"rUsT"` 的話，該字串切片並沒有包含小寫的 `u` 或 `t` 能讓我們來使用，所以我們必須分配一個包含 `"rust"` 的新 `String`。現在當我們將 `query` 作為引數傳給 `contains` 方法時，我們需要加上「&」，因為 `contains` 所定義的簽名接收的是一個字串切片。
 
-接著，在我們檢查是否包含小寫的 `query` 前，我們對每個 `line` 加上 `to_lowercase` 的呼叫。現在我們將 `line` 和 `query` 都轉換成小寫了。我們可以不區分大小寫來找到符合的行數。
+接著，我們對每個 `line` 加上 `to_lowercase` 的呼叫。現在我們將 `line` 和 `query` 都轉換成小寫了。我們可以不區分大小寫來找到符合的行數。
 
 讓我們來看看實作是否能通過測試：
 
@@ -50,7 +50,7 @@
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-22/src/lib.rs:here}}
 ```
 
-注意到我們新增了 `case_sensitive` 欄位並存有布林值。接著，我們需要 `run` 函式檢查 `case_sensitive` 欄位的數值並以此決定要呼叫 `search` 函式或是 `search_case_insensitive` 函式，如範例 12-22 所示。不過目前還無法編譯。
+注意到我們新增了 `ignore_case` 欄位並存有布林值。接著，我們需要 `run` 函式檢查 `ignore_case` 欄位的數值並以此決定要呼叫 `search` 函式或是 `search_case_insensitive` 函式，如範例 12-22 所示。不過目前還無法編譯。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -58,9 +58,9 @@
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-22/src/lib.rs:there}}
 ```
 
-<span class="caption">範例 12-22：依據 `config.case_sensitive` 的數值來呼叫 `search` 或 `search_case_insensitive`</span>
+<span class="caption">範例 12-22：依據 `config.ignore_case` 的數值來呼叫 `search` 或 `search_case_insensitive`</span>
 
-最後，我們需要檢查環境變數。處理環境變數的函式位於標準函式庫中的 `env` 模組中，所以我們可以在 *src/lib.rs* 最上方加上 `use std::env;` 來將該模組引入作用域。然後我們使用 `env` 模組中的 `var` 函式來檢查一個叫做 `CASE_INSENSITIVE` 的環境變數，如範例 12-23 所示。
+最後，我們需要檢查環境變數。處理環境變數的函式位於標準函式庫中的 `env` 模組中，所以我們在 *src/lib.rs* 最上方加上 `use std::env;` 來將該模組引入作用域。然後我們使用 `env` 模組中的 `var` 函式來檢查一個叫做 `IGNORE_CASE` 的環境變數有沒有設任何數值，如範例 12-23 所示。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -68,13 +68,13 @@
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-23/src/lib.rs:here}}
 ```
 
-<span class="caption">範例 12-23：檢查環境變數 `CASE_INSENSITIVE`</span>
+<span class="caption">範例 12-23：檢查環境變數 `IGNORE_CASE`</span>
 
-我們在此建立了一個新的變數 `case_sensitive`。要設置其數值，我們可以呼叫 `env::var` 函式並傳入環境變數 `CASE_INSENSITIVE` 的名稱。`env::var` 函式會回傳 `Result`，如果有設置環境變數的話，這就會是包含環境變數數值的成功 `Ok`變體；如果環境變數沒有設置的話，這就會回傳 `Err` 變體。
+我們在此建立了一個新的變數 `ignore_case`。要設置其數值，我們可以呼叫 `env::var` 函式並傳入環境變數 `IGNORE_CASE` 的名稱。`env::var` 函式會回傳 `Result`，如果有設置環境變數的話，這就會是包含環境變數數值的成功 `Ok`變體；如果環境變數沒有設置的話，這就會回傳 `Err` 變體。
 
-我們在 `Result` 使用 `is_err` 方法來檢查是否為錯誤，如果是的話就代表沒有設置，也意味著它**該**使用區分大小寫的搜尋。如果 `CASE_INSENSITIVE` 環境變數有設置成任何數值的話，`is_err` 會回傳否，所以程式就會進行不區分大小寫的搜尋。我們不在乎環境變數的**數值**，只在意它有沒有被設置而已，所以我們使用 `is_err` 來檢查而非使用 `unwrap`、`expect` 或其他任何我們看過的 `Result` 方法。
+我們在 `Result` 使用 `is_ok` 方法來檢查環境變數是否有設置，也就是程式是否該使用區分大小寫的搜尋。如果 `IGNORE_CASE` 環境變數沒有設置任何數值的話，`is_ok` 會回傳否，所以程式就會進行區分大小寫的搜尋。我們不在乎環境變數的**數值**，只在意它有沒有被設置而已，所以我們使用 `is_ok` 來檢查而非使用 `unwrap`、`expect` 或其他任何我們看過的 `Result` 方法。
 
-我們將變數  `case_sensitive` 的數值傳給 `Config` 實例，讓 `run` 函式可以讀取該數值並決定該呼叫 `search` 還是 `search_case_insensitive`，如範例 12-22 所實作的一樣。
+我們將變數 `ignore_case` 的數值傳給 `Config` 實例，讓 `run` 函式可以讀取該數值並決定該呼叫 `search_case_insensitive` 還是 `search`，如範例 12-22 所實作的一樣。
 
 讓我們試看看吧！首先，我們先不設置環境變數並執行程式來搜尋 `to`，任何包含小寫單字「to」的行數都應要符合：
 
@@ -82,32 +82,33 @@
 {{#include ../listings/ch12-an-io-project/listing-12-23/output.txt}}
 ```
 
-看起來運作仍十分正常！現在，讓我們設置 `CASE_INSENSITIVE` 為 `1` 並執行程式來搜尋相同的字串 `to`。
+看起來運作仍十分正常！現在，讓我們設置 `IGNORE_CASE` 為 `1` 並執行程式來搜尋相同的字串 `to`。
+
+```console
+$ IGNORE_CASE=1 cargo run -- to poem.txt
+```
 
 如果你使用的是 PowerShell，你需要將設置變數與執行程式分為不同的命令：
 
 ```console
-PS> $Env:CASE_INSENSITIVE=1; cargo run to poem.txt
+PS> $Env:IGNORE_CASE=1; cargo run -- to poem.txt
 ```
 
-這會在你的 shell session 中設置 `CASE_INSENSITIVE`。它可以透過 `Remove-Item` cmdlet 來取消設置：
+這會在你的 shell session 中設置 `IGNORE_CASE`。它可以透過 `Remove-Item` cmdlet 來取消設置：
 
 ```console
-PS> Remove-Item Env:CASE_INSENSITIVE
+PS> Remove-Item Env:IGNORE_CASE
 ```
 
 我們應該會得到包含可能有大寫的「to」的行數：
 
 <!-- manual-regeneration
 cd listings/ch12-an-io-project/listing-12-23
-CASE_INSENSITIVE=1 cargo run to poem.txt
+IGNORE_CASE=1 cargo run -- to poem.txt
 can't extract because of the environment variable
 -->
 
 ```console
-$ CASE_INSENSITIVE=1 cargo run to poem.txt
-    Finished dev [unoptimized + debuginfo] target(s) in 0.0s
-     Running `target/debug/minigrep to poem.txt`
 Are you nobody, too?
 How dreary to be somebody!
 To tell your name the livelong day
@@ -116,6 +117,6 @@ To an admiring bog!
 
 太好了，我們也取得了包含「To」的行數！我們的 `minigrep` 程式現在可以進行不區分大小寫的搜尋並以環境變數配置。現在你知道如何使用命令列引數或環境變數來管理設置選項了。
 
-有些程式允許同時使用引數**與**環境變數來配置。在這種情況下，程式會決定各種選項的優先層級。你想要練習的話，嘗試使用命令列引數與環境變數來控制不區分大小寫的選項。並在程式執行時，其中一個設置為區分大小寫，而另一個為不區分大小寫時，自行決定該優先使用命令列引數還是環境變數。
+有些程式允許同時使用引數**與**環境變數來配置。在這種情況下，程式會決定各種選項的優先層級。你想要練習的話，嘗試使用命令列引數與環境變數來控制區分大小寫的選項。並在程式執行時，其中一個設置為區分大小寫，而另一個為不區分大小寫時，自行決定該優先使用命令列引數還是環境變數。
 
 `std::env` 模組還包含很多處理環境變數的實用功能，歡迎查閱其官方文件來瞭解有哪些可用。

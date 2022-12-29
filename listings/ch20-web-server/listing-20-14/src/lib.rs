@@ -30,7 +30,6 @@ impl ThreadPool {
 
     // --省略--
     // ANCHOR_END: here
-
     pub fn execute<F>(&self, f: F)
     where
         F: FnOnce() + Send + 'static,

@@ -1,5 +1,3 @@
-extern crate proc_macro;
-
 use proc_macro::TokenStream;
 use quote::quote;
 use syn;
@@ -19,7 +17,7 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
     let gen = quote! {
         impl HelloMacro for #name {
             fn hello_macro() {
-                println!("你好，巨集，我叫作{}！", stringify!(#name));
+                println!("你好，巨集，我叫做{}！", stringify!(#name));
             }
         }
     };

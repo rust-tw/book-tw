@@ -4,7 +4,7 @@ fn main() {
     let age: Result<u8, _> = "34".parse();
 
     if let Some(color) = favorite_color {
-        println!("使用你最喜歡的顏色{}作為背景", color);
+        println!("使用你最喜歡的顏色{color}作為背景");
     } else if is_tuesday {
         println!("星期二就用綠色！");
     } else if let Ok(age) = age {

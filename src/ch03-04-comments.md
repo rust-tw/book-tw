@@ -32,4 +32,6 @@
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-25-comments-above-line/src/main.rs}}
 ```
 
-Rust 還有另一種註解：技術文件註解。我們會在第十四章的「發佈 Crate 到 Crates.io」段落提到它。
+Rust 還有另一種註解：技術文件註解。我們會在第十四章的[「發佈 Crate 到 Crates.io」][publishing]<!-- ignore -->段落提到它。
+
+[publishing]: ch14-02-publishing-to-crates-io.html

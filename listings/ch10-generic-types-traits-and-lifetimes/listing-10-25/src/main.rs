@@ -1,11 +1,29 @@
-struct ImportantExcerpt<'a> {
-    part: &'a str,
+// ANCHOR: here
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
 }
+// ANCHOR_END: here
 
 fn main() {
-    let novel = String::from("叫我以實瑪利。多年以前...");
-    let first_sentence = novel.split('.').next().expect("找不到'.'");
-    let i = ImportantExcerpt {
-        part: first_sentence,
-    };
+    let my_string = String::from("hello world");
+
+    // first_word 能用在`String` 的切片
+    let word = first_word(&my_string[..]);
+
+    let my_string_literal = "hello world";
+
+    // first_word 能用在字串字面值
+    let word = first_word(&my_string_literal[..]);
+
+    // 因為字串字面值已經是字串切片了
+    // 所以也可以不用加上字串語法！
+    let word = first_word(my_string_literal);
 }

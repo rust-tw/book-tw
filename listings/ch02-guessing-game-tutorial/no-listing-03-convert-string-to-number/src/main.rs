@@ -5,9 +5,9 @@ use std::io;
 fn main() {
     println!("請猜測一個數字！");
 
-    let secret_number = rand::thread_rng().gen_range(1..101);
+    let secret_number = rand::thread_rng().gen_range(1..=100);
 
-    println!("祕密數字為：{}", secret_number);
+    println!("祕密數字為：{secret_number}");
 
     println!("請輸入你的猜測數字。");
 
@@ -22,7 +22,7 @@ fn main() {
 
     let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
 
-    println!("你的猜測數字：{}", guess);
+    println!("你的猜測數字：{guess}");
 
     match guess.cmp(&secret_number) {
         Ordering::Less => println!("太小了！"),

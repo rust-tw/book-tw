@@ -2,7 +2,7 @@
 
 **切片（slice）** 讓你可以引用一串集合中的元素序列，而並非引用整個集合。切片也算是某種類型的引用，所以它沒有所有權。
 
-以下是個小小的程式問題：寫一支接收字串的函式並回傳第一個找到的單字，如果函式沒有在字串找到空格的話，就代表整個字串就是一個單字，所以就回傳整個字串。
+以下是個小小的程式問題：寫一支函式接收一串用空格分開單字的字串，並回傳第一個找到的單字，如果函式沒有在字串找到空格的話，就代表整個字串就是一個單字，所以就回傳整個字串。
 
 我們先來想看看不使用切片的話，以下函式的簽名會長怎樣。這有助於我們理解切片想解決什麼問題：
 
@@ -20,7 +20,7 @@ fn first_word(s: &String) -> ?
 
 <span class="caption">範例 4-7：函式 `first_word` 回傳參數 `String` 第一個單字最後的索引</span>
 
-因為我們需要遍歷 `String` 的每個元素並檢查該值是否為空格，我們要用 `as_bytes` 方法將 `String` 轉換成一個位元組陣列：
+因為我們需要遍歷 `String` 的每個元素並檢查該值是否為空格，我們要用 `as_bytes` 方法將 `String` 轉換成一個位元組陣列。
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:as_bytes}}
@@ -36,7 +36,7 @@ fn first_word(s: &String) -> ?
 
 既然 `enumerate` 回傳的是元組，我們可以用模式配對來解構元組。我們會在[第六章][ch6]<!-- ignore -->進一步解釋模式配對。所以在 `for` 迴圈中，我們指定了一個模式讓 `i` 取得索引然後 `&item` 取得元組中的位元組。因為我們從用 `.iter().enumerate()` 取得引用的，所以在模式中我們用的是 `&` 來獲取。
 
-在 `for` 迴圈裡面我們使用字串字面值的語法搜尋位元組是不是空格。如果我們找到空格的話，我們就回傳該位置。不然我們就用 `s.len()` 回傳整個字串的長度：
+在 `for` 迴圈裡面我們使用字串字面值的語法搜尋位元組是不是空格。如果我們找到空格的話，我們就回傳該位置。不然我們就用 `s.len()` 回傳整個字串的長度。
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:inside_for}}
@@ -76,11 +76,15 @@ fn second_word(s: &String) -> (usize, usize) {
 
 圖示 4-6 就是此例的示意圖。
 
-<img alt="world containing a pointer to the byte at index 6 of String s and a length 5" src="img/trpl04-06.svg" class="center" style="width: 50%;" />
+<img alt="Three tables: a table representing the stack data of s, which points
+to the byte at index 0 in a table of the string data &quot;hello world&quot; on
+the heap. The third table rep-resents the stack data of the slice world, which
+has a length value of 5 and points to byte 6 of the heap data table."
+src="img/trpl04-06.svg" class="center" style="width: 50%;" />
 
 <span class="caption">圖示 4-6：指向部分 `String` 的字串切片</span>
 
-要是你想用 Rust 指定範圍的語法 `..` 從索引零開始的話，你可以省略兩個句點之前的值。換句話說，以下兩個是相等的：
+要是你想用 Rust 指定範圍的語法 `..` 從索引 0 開始的話，你可以省略兩個句點之前的值。換句話說，以下兩個是相等的：
 
 ```rust
 let s = String::from("hello");
@@ -148,15 +152,15 @@ fn second_word(s: &String) -> &str {
 
 回憶一下借用規則，要是我們有不可變引用的話，我們就不能取得可變引用。因為 `clear` 會縮減 `String`，它必須是可變引用。在呼叫 `clear` 之後的 `println!` 用到了 `word` 的引用，所以不可變引用在該處仍必須保持有效。Rust 不允許同時存在 `clear` 的可變引用與 `word` 的不可變引用，所以編譯會失敗。Rust 不僅讓我們的 API 更容易使用，還想辦法讓所有錯誤在編譯期就消除！
 
-#### 字串字面值就是切片
+#### 字串字面值作為切片
 
-回想一下我們講說字串字面值是怎麼存在二進制檔案的。現在既然我們已經知道切片，我們就能知道更清楚理解字串字面值：
+回想一下我們講說字串字面值是怎麼存在執行檔的。現在既然我們已經知道切片，我們就能知道更清楚理解字串字面值：
 
 ```rust
 let s = "Hello, world!";
 ```
 
-此處 `s` 的型別是 `&str`：它是指向二進制檔案某部份的切片。這也是為何字串字面值是不可變的，`&str` 是個不可變引用。
+此處 `s` 的型別是 `&str`：它是指向執行檔某部份的切片。這也是為何字串字面值是不可變的，`&str` 是個不可變引用。
 
 #### 字串切片作為參數
 
@@ -174,7 +178,9 @@ fn first_word(s: &String) -> &str {
 
 <span class="caption">範例 4-9：使用字串切片作為參數 `s` 來改善函式 `first_word`</span>
 
-如果我們有字串切片的話，我們可以直接傳遞。如果我們有 `String` 的話，我可以們傳遞整個 `String` 的切片或引用。這樣的彈性用到了**強制解引用**（deref coercion），這個功能我們會在第十五章的[「函式與方法的隱式強制解引用」][deref-coercions]<!--ignore-->段落做介紹。定義函式的參數為字串切片而非 `String` 可以讓我們的 API 更通用且不會失去任何功能：
+如果我們有字串切片的話，我們可以直接傳遞。如果我們有 `String` 的話，我可以們傳遞整個 `String` 的切片或引用。這樣的彈性用到了**強制解引用**（deref coercion），這個功能我們會在第十五章的[「函式與方法的隱式強制解引用」][deref-coercions]<!--ignore-->段落做介紹。
+
+定義函式的參數為字串切片而非 `String` 可以讓我們的 API 更通用且不會失去任何功能：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 

@@ -1,0 +1,6 @@
+$ cargo r
+   Compiling shirt-company v0.1.0 (file:///projects/shirt-company) 
+    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/debug/shirt-company`
+偏好 Some(Red) 的使用者獲得 Red
+偏好 None 的使用者獲得 Blue

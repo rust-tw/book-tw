@@ -1,6 +1,8 @@
 ## 引用與借用
 
-我們在範例 4-5 使用元組的問題在於，我們必須回傳 `String` 給呼叫的函式，我們才能繼續在呼叫 `calculate_length` 之後繼續使用 `String`，因為 `String` 會被傳入 `calculate_length`。不過我們其實可以提供個 `String` 數值的引用。**引用（references）** 就像是指向某個地址的指標，我們可以追蹤存取到該處儲存的資訊，而該地址仍被其他變數所擁有。和指標不一樣的是，引用保證所指向的特定型別的數值一定是有效的。以下是我們定義並使用 `calculate_length` 時，在參數改用引用物件而非取得所有權的程式碼：
+我們在範例 4-5 使用元組的問題在於，我們必須回傳 `String` 給呼叫的函式，我們才能繼續在呼叫 `calculate_length` 之後繼續使用 `String`，因為 `String` 會被傳入 `calculate_length`。不過我們其實可以提供個 `String` 數值的引用。**引用（references）** 就像是指向某個地址的指標，我們可以追蹤存取到該處儲存的資訊，而該地址仍被其他變數所擁有。和指標不一樣的是，引用保證所指向的特定型別的數值一定是有效的。
+
+以下是我們定義並使用 `calculate_length` 時，在參數改用引用物件而非取得所有權的程式碼：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -10,7 +12,9 @@
 
 首先你會注意到原先變數宣告與函式回傳值會用到元組的地方都被更改了。再來注意到我們傳遞的是 `&s1` 給 `calculate_length`，然後在定義時我們是取 `&String` 而非 `String`。這些「&」符號就是**引用**，它們允許你不必獲取所有權來引用它。以下用圖示 4-5 示意。 
 
-<img alt="&String s pointing at String s1" src="img/trpl04-05.svg" class="center" />
+<img alt="Three tables: the table for s contains only a pointer to the table
+for s1. The table for s1 contains the stack data for s1 and points to the
+string data on the heap." src="img/trpl04-05.svg" class="center" />
 
 <span class="caption">圖示 4-5：顯示 `&String s` 指向 `String s1` 的示意圖</span>
 
@@ -64,7 +68,7 @@
 
 首先我們將 `s` 加上了 `mut`，然後我們在呼叫 `change` 函式的地方建立了一個可變引用 `&mut s`，然後更新函式的簽章成 `some_string: &mut String` 來接收這個可變引用。這樣能清楚表達 ` change` 函式會改變它借用的引用。
 
-可變引用有個很大的限制：同一時間中對一個特定資料只能有一個可變引用。所以嘗試建立兩個 `s` 的可變引用的話就會失敗，如以下範例所示：
+可變引用有個很大的限制：如果你有一個數值的可變引用，你就無法再對該數值有其他任何引用。所以嘗試建立兩個 `s` 的可變引用的話就會失敗，如以下範例所示：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -106,7 +110,9 @@ Rust 對於可變引用和不可變引用的組合中也實施著類似的規則
 {{#include ../listings/ch04-understanding-ownership/no-listing-12-immutable-and-mutable-not-allowed/output.txt}}
 ```
 
-哇！看來我們**也不可以**擁有不可變引用的同時擁有可變引用。擁有不可變引用的使用者可不希望有人暗地裡突然改變了值！不過數個不可變引用是沒問題的，因為所有在讀取資料的人都無法影響其他人閱讀資料。
+哇！看來我們**也不可以**擁有不可變引用的同時擁有可變引用。
+
+擁有不可變引用的使用者可不希望有人暗地裡突然改變了值！不過數個不可變引用是沒問題的，因為所有在讀取資料的人都無法影響其他人閱讀資料。
 
 請注意引用的作用域始於它被宣告的地方，一直到它最後一次引用被使用為止。舉例來說以下程式就可以編譯，因為不可變引用最後一次的使用（`println!`）在可變引用宣告之前：
 
@@ -114,7 +120,7 @@ Rust 對於可變引用和不可變引用的組合中也實施著類似的規則
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-13-reference-scope-ends/src/main.rs:here}}
 ```
 
-不可變引用 `r1` 和 `r2` 的作用域在 `println!` 之後結束。這是它們最後一次使用到的地方，也就是在宣告可變引用 `r3` 之前。它們的作用域沒有重疊，所以程式碼是允許的。編譯器這樣能辨別出引用何時在作用域之前不再被使用的能力叫做 **Non-Lexical Lifetimes** （NLL），你可以在[版號指南][nll]中瞭解更多資訊。
+不可變引用 `r1` 和 `r2` 的作用域在 `println!` 之後結束。這是它們最後一次使用到的地方，也就是在宣告可變引用 `r3` 之前。它們的作用域沒有重疊，所以程式碼是允許的：編譯器能辨別出引用何時在作用域之前不再被使用。
 
 雖然借用錯誤有時是令人沮喪的，但請記得這是 Rust 編譯器希望提前（在編譯時而非執行時）指出潛在程式錯誤並告訴你問題的源頭在哪。這樣你就不必親自追蹤為何你的資料跟你預期的不一樣。
 
@@ -169,5 +175,3 @@ for it to be borrowed from
 * 引用必須永遠有效。
 
 接下來我們要來看看一個不太一樣的引用型別：切片（slices）。
-
-[nll]: https://doc.rust-lang.org/edition-guide/rust-2018/ownership-and-lifetimes/non-lexical-lifetimes.html

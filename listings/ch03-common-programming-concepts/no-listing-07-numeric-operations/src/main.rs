@@ -10,7 +10,7 @@ fn main() {
 
     // 除法
     let quotient = 56.7 / 32.2;
-    let floored = 2 / 3; // 結果爲 0
+    let truncated = -5 / 3; // 結果爲 -1
 
     // 取餘
     let remainder = 43 % 5;
