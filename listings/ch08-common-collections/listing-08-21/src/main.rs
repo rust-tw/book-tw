@@ -2,10 +2,12 @@ fn main() {
     // ANCHOR: here
     use std::collections::HashMap;
 
-    let teams = vec![String::from("藍隊"), String::from("黃隊")];
-    let initial_scores = vec![10, 50];
+    let mut scores = HashMap::new();
 
-    let mut scores: HashMap<_, _> =
-        teams.into_iter().zip(initial_scores.into_iter()).collect();
+    scores.insert(String::from("藍隊"), 10);
+    scores.insert(String::from("黃隊"), 50);
+
+    let team_name = String::from("藍隊");
+    let score = scores.get(&team_name).copied().unwrap_or(0);
     // ANCHOR_END: here
 }

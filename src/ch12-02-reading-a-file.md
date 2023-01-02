@@ -1,6 +1,6 @@
 ## 讀取檔案
 
-現在我們要加上能夠讀取 `filename` 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能讓我們測試，要確保 `minigrep` 執行無誤的最佳檔案範本就是文字文件，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 *poem.txt*，然後輸入此詩 「I’m Nobody! Who are you?」
+現在我們要加上能夠讀取 `file_path` 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能讓我們測試，我們可以建立一個文字檔，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 *poem.txt*，然後輸入此詩 「I’m Nobody! Who are you?」
 
 <span class="filename">檔案名稱：poem.txt</span>
 
@@ -22,7 +22,7 @@
 
 首先，我們加上另一個 `use` 陳述式來將標準函式庫中的另一個相關部分引入：我們需要 `std::fs` 來處理檔案。
 
-在 `main` 中，我們加上新的陳述式：`fs::read_to_string` 會接收 `filename`、開啟該檔案並回傳檔案內容的 `Result<String>`。
+在 `main` 中，我們加上新的陳述式：`fs::read_to_string` 會接收 `file_path`、開啟該檔案並回傳檔案內容的 `Result<String>`。
 
 在陳述式之後，我們再次加上暫時的 `println!` 陳述式來在讀取檔案之後，顯示 `contents` 的數值，讓我們能檢查程式目前運作無誤。
 

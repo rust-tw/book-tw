@@ -4,6 +4,7 @@ pub struct Guess {
 
 // ANCHOR: here
 // --省略--
+
 impl Guess {
     pub fn new(value: i32) -> Guess {
         if value < 1 {
@@ -27,7 +28,7 @@ mod tests {
     use super::*;
 
     #[test]
-    #[should_panic(expected = "猜測數字必須小於等於 100")]
+    #[should_panic(expected = "小於等於 100")]
     fn greater_than_100() {
         Guess::new(200);
     }

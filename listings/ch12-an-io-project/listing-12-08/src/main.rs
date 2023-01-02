@@ -7,17 +7,17 @@ fn main() {
     let config = Config::new(&args);
 
     println!("搜尋 {}", config.query);
-    println!("目標檔案為 {}", config.filename);
+    println!("目標檔案為 {}", config.file_path);
 
-    let contents = fs::read_to_string(config.filename)
-        .expect("讀取檔案時發生了錯誤");
+    let contents = fs::read_to_string(config.file_path)
+        .expect("應該要能夠讀取檔案");
 
-    println!("文字內容：\n{}", contents);
+    println!("文字內容：\n{contents}");
 }
 
 struct Config {
     query: String,
-    filename: String,
+    file_path: String,
 }
 
 impl Config {
@@ -31,8 +31,8 @@ impl Config {
         // ANCHOR_END: here
 
         let query = args[1].clone();
-        let filename = args[2].clone();
+        let file_path = args[2].clone();
 
-        Config { query, filename }
+        Config { query, file_path }
     }
 }

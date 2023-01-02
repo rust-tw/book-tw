@@ -4,7 +4,7 @@
 
 當一個變數是不可變的，只要有數值綁定在一個名字上，你就無法改變其值。為了方便說明，讓我們使用 `cargo new variables` 在 *projects* 目錄下產生一個新專案叫做 *variables*。
 
-再來在你的 *variables* 目錄下開啟 *src/main.rs* 然後覆蓋程式碼為以下內容。這是段還無法編譯的程式碼，我們先來看看不可變的錯誤訊息：
+再來在你的 *variables* 目錄下開啟 *src/main.rs* 然後覆蓋程式碼為以下內容。這是段還無法編譯的程式碼：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -12,7 +12,7 @@
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-01-variables-are-immutable/src/main.rs}}
 ```
 
-儲存然後使用 `cargo run` 執行程式。你應該會收到一則錯誤訊息，如下所示：
+儲存然後使用 `cargo run` 執行程式。你應該會收到一則有關於不可變的錯誤訊息，如下所示：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-01-variables-are-immutable/output.txt}}
@@ -20,11 +20,11 @@
 
 此範例顯示了編譯器如何協助你找到你程式碼的錯誤。雖然看到編譯器錯誤訊息總是令人感到沮喪，但這通常是為了讓你知道你的程式無法安全地完成你想讓它完成的任務。它們**不代表**你不是個優秀的程式設計師！有經驗的 Rustaceans 時常會與編譯器錯誤訊息打交道。
 
-這則錯誤訊息表示錯誤發生的原因：「cannot assign twice to immutable variable `x`」，因為你嘗試第二次賦值給 `x` 變數。
+你得到的錯誤訊息說明「cannot assign twice to immutable variable `x`」，因為你嘗試第二次賦值給 `x` 變數。
 
 當我們嘗試改變一個原先設計為不可變的變數時，能夠產生編譯時錯誤是很重要的。因為這樣的情況很容易導致程式錯誤。如果我們有一部分的程式碼在執行時認為某個數值絕對不會改變，但另一部分的程式碼卻更改了其值，那麼這就有可能讓前一部分的程式碼就可能以無法預測的方式運行。這樣的程式錯誤的起因是很難追蹤的，尤其是當第二部分的程式碼**偶而**才會改變其值。Rust 編譯器會保證當你宣告一個數值不會被改變時，它就絕對不會被改變。這樣你就不需要去追蹤該值可能會被改變，讓你的程式碼更容易推導。
 
-但同時可變性也是非常有用的，能讓程式碼變得更好寫。變數只有預設是不可變的，就如同第二章一樣你可以在變數名稱前面加上 `mut` 讓它們可以成為可變的。加上 `mut` 也向未來的讀取者表明了其他部分的程式碼將會改變此變數的數值。
+但同時可變性也是非常有用的，能讓程式碼變得更好寫。雖然變數預設是不可變的，但就如同[第二章][storing-values-with-variables]<!-- ignore -->一樣你可以在變數名稱前面加上 `mut` 讓它們可以成為可變的。加上 `mut` 也向未來的讀取者表明了其他部分的程式碼將會改變此變數的數值。
 
 舉例來說，讓我們改變 *src/main.rs*  成以下程式碼：
 
@@ -40,7 +40,7 @@
 {{#include ../listings/ch03-common-programming-concepts/no-listing-02-adding-mut/output.txt}}
 ```
 
-當使用 `mut` 時，我們可以將 `x` 的數值從 `5` 改變為 `6`。這樣除了防止程式錯誤以外，這還有很多權衡取捨。舉例來說，當你擁有一個大型資料結構時，變更其值通常會比複製然後返回重新分配的實例還來的快。不過在比較小的資料結構，用函式程式語言的風格產生新的實例會比較容易思考，所以損失一些效能會比損失閱讀性來得好。
+當使用 `mut` 時，我們可以將 `x` 的數值從 `5` 改變為 `6`。何時使用可變性的決定權在你手上，你可以依照特定場合做出你認為最佳的選擇。
 
 ### 常數
 
@@ -66,7 +66,7 @@ const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 
 ### 遮蔽（Shadowing）
 
-如同你在猜謎遊戲教學所看到的，在[第二章][comparing-the-guess-to-the-secret-number]<!-- ignore -->你可以用之前的變數再次宣告新的變數。Rustaceans 會說第一個變數被第二個變數所**遮蔽**了，這代表該變數被使用時會拿到第二個變數的數值。我們可以用 `let` 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：
+如同你在猜謎遊戲教學所看到的，在[第二章][comparing-the-guess-to-the-secret-number]<!-- ignore -->你可以用之前的變數再次宣告新的變數。Rustaceans 會說第一個變數被第二個變數所**遮蔽**了，這代表當你使用該變數名稱時，編譯器會看到的是第二個變數的數值。第二個變數會遮蔽第一個變數，佔據變數名稱的使用權，直到它自己也被遮蔽或是離開作用域。我們可以用 `let` 關鍵字來重複宣告相同的變數名稱來遮蔽一個變數：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -74,7 +74,7 @@ const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-03-shadowing/src/main.rs}}
 ```
 
-此程式首先將 `x` 給予 `5`，然後它用 `let x =` 遮蔽了 `x` 變數取代了原本的變數變為 `6`。然後內部範圍內，第三次的 `let` 陳述式一樣遮蔽了 `x` 讓它將原本的值乘與 `2`，讓 `x` 數值為 `12`。當該範圍結束時，內部的遮蔽也結束，所以 `x` 就回到原本的 `6`。當我們運行此程式時，就會輸出以下結果：
+此程式首先將 `x` 給予 `5`，然後它重複用 `let x =` 建立一個新變數 `x`，取代了原本的數值並加上 `1`，所以以 `x` 的數值變為 `6`。然後在接下來括號的內部範圍內，第三次的 `let` 陳述式一樣遮蔽了 `x` 讓它將原本的值乘與 `2`，讓 `x` 數值為 `12`。當該範圍結束時，內部的遮蔽也結束，所以 `x` 就回到原本的 `6`。當我們運行此程式時，就會輸出以下結果：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-03-shadowing/output.txt}}

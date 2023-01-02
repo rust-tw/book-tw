@@ -4,7 +4,7 @@ fn main() {
 
     match numbers {
         (first, _, third, _, fifth) => {
-            println!("一些數字{}、{}、{}", first, third, fifth)
+            println!("一些數字：{first}、{third}、{fifth}")
         }
     }
     // ANCHOR_END: here

@@ -1,6 +1,6 @@
 ## 測試組織架構
 
-如同本章開頭提到的，測試是個複雜的領域，不同的人可能使用不同的術語與組織架構。Rust 社群將測試分為兩大分類術語：**單元測試（unit tests）**和**整合測試（integration tests）**。單元測試比較小且較專注，傾向在隔離環境中一次只測試一個模組，且能夠測試私有介面。整合測試對於你的函式庫來說是個完全外部的程式碼，所以會如其他外部程式碼一樣使用你的程式碼，只能使用公開介面且每個測試可能會有數個模組。
+如同本章開頭提到的，測試是個複雜的領域，不同的人可能使用不同的術語與組織架構。Rust 社群將測試分為兩大分類術語：單元測試和整合測試。**單元測試**（unit tests）比較小且較專注，傾向在隔離環境中一次只測試一個模組，且能夠測試私有介面。**整合測試**（integration tests）對於你的函式庫來說是個完全外部的程式碼，所以會如其他外部程式碼一樣使用你的程式碼，只能使用公開介面且每個測試可能會有數個模組。
 
 這兩種測試都很重要，且能確保函式庫每個部分能在分別或一起執行的情況下，如你預期的方式運作。
 
@@ -42,9 +42,21 @@
 
 #### *tests* 目錄
 
-我們在專案目錄最上層在 *src* 旁建立一個 *tests* 目錄。Cargo 知道要從此目錄來尋找整合測試。我們接著就可以在此目錄建立多少個測試都沒問題，Cargo會編譯每個檔案成獨立的 crate。
+我們在專案目錄最上層在 *src* 旁建立一個 *tests* 目錄。Cargo 知道要從此目錄來尋找整合測試。我們接著就可以建立多少個測試都沒問題，Cargo會編譯每個檔案成獨立的 crate。
 
-讓我們來建立一個整合測試，將範例 11-12 的程式碼保留在 *src/lib.rs* 檔案中，然後建立一個 *tests* 目錄、一個叫做 *tests/integration_test.rs* 的檔案並輸入範例 11-13 的程式碼。
+讓我們來建立一個整合測試，將範例 11-12 的程式碼保留在 *src/lib.rs* 檔案中，然後建立一個 *tests* 目錄、一個叫做 *tests/integration_test.rs* 的檔案。你的目錄架構應該要長的像這樣：
+
+```text
+adder
+├── Cargo.lock
+├── Cargo.toml
+├── src
+│   └── lib.rs
+└── tests
+    └── integration_test.rs
+```
+
+請在 *tests/integration_test.rs* 輸入範例 11-13 的程式碼：
 
 <span class="filename">檔案名稱：tests/integration_test.rs</span>
 
@@ -54,7 +66,7 @@
 
 <span class="caption">範例 11-13：`adder` crate 中函式的整合測試</span>
 
-我們在程式最上方加了 `use adder`，這在單元測試是不需要的。這裡要用到的原因是因為 `tests` 目錄的每個檔案都是獨立的 crate，所以我們需要將函式庫引入每個測試 crate 的作用域中。
+`tests` 目錄的每個檔案都是獨立的 crate，所以我們需要將函式庫引入每個測試 crate 的作用域中。因此我們在程式最上方加了 `use adder`，這在單元測試是不需要的。
 
 我們不用對 *tests/integration_test.rs* 的任何程式碼詮釋 `#[cfg(test)]`。Cargo 會特別對待 `tests` 目錄並只在我們執行 `cargo test` 時，編譯此目錄的檔案。現在請執行 `cargo test`：
 
@@ -62,11 +74,13 @@
 {{#include ../listings/ch11-writing-automated-tests/listing-11-13/output.txt}}
 ```
 
-輸出結果中有三個段落，包含單元測試、整合測試與技術文件測試。第一個段落的單元測試與我們看過的相同：每行會是每個單元測試（在此例是我們在範例 11-12 寫得 `internal`）最後附上單元測試的總結。
+輸出結果中有三個段落，包含單元測試、整合測試與技術文件測試。要是有個段落的任何一個測試失敗的話，接下來的段落就不會執行。舉例來說，如果單元測試失敗了，我們就不會看到整合測試與技術文件測試的輸出，因為它們只會在所有單元測試都通過之後才會執行。
 
-整合測試段落從 `Running target/debug/deps/integration_test-1082c4b063a8fbe6` 開始（最後的雜湊值（hash）可能會與你的輸出不同），接著每行會是每個整合測試的測試函式，最後在 `Doc-tests adder` 段落開始前的那一行則是整合測試的總結結果。
+第一個段落的單元測試與我們看過的相同：每行會是每個單元測試（在此例是我們在範例 11-12 寫得 `internal`）最後附上單元測試的總結。
 
-當我們加入更多單元測試時，單元測試段落就會顯示更多結果。同樣地當我們將更多測試函式加入整合測試檔案內的話，該整合測試段落就會顯示更多結果。每個整合測試檔案會有自己的段落，如果如果我們在 *tests* 目錄加入更多檔案的話，就會出現更多整合測試段落。
+整合測試段落從 `Running tests/integration_test.rs` 開始，接著每行會是每個整合測試的測試函式，最後在 `Doc-tests adder` 段落開始前的那一行則是整合測試的總結結果。
+
+每個整合測試檔案會有自己的段落，如果如果我們在 *tests* 目錄加入更多檔案的話，就會出現更多整合測試段落。
 
 我們一樣能用測試函式的名稱來作為 `cargo test` 的引數，來執行特定整合測試。要執行特定整合測試檔案內的所有測試，可以用 `--test` 作為 `cargo test` 的引數並加上檔案名稱：
 
@@ -78,15 +92,13 @@
 
 #### 整合測試的子模組
 
-隨著你加入的整合測試越多，你可能會想要在 *tests* 目錄下產生更多檔案來協助組織它們。舉例來說，你以用測試函式測試的功能來組織它們。如同稍早提到的，*tests*  目錄下的每個檔案都會編譯成自己獨立的 crate。
-
-將每個整合測試檔案視為獨立的 crate 有助於建立不同的作用域，這就像是使用者使用你的 crate 的可能環境。然而這也代表 *tests* 目錄的檔案不會和 *src* 的檔案行為一樣，也就是你在第七章學到如何拆開程式碼成模組與檔案的部分。
+隨著你加入的整合測試越多，你可能會想要在 *tests* 目錄下產生更多檔案來協助組織它們。舉例來說，你以用測試函式測試的功能來組織它們。如同稍早提到的，*tests*  目錄下的每個檔案都會編譯成自己獨立的 crate，這有助於建立不同的作用域，這就像是使用者使用你的 crate 的可能環境。然而這也代表 *tests* 目錄的檔案不會和 *src* 的檔案行為一樣，也就是你在第七章學到如何拆開程式碼成模組與檔案的部分。
 
 當你希望擁有一些能協助數個整合測試檔案的輔助函式，並遵循第七章的[「將模組拆成不同檔案」][separating-modules-into-files]<!-- ignore -->段落來提取它們到一個通用模組時，你就會發現 *tests* 目錄下的檔案行為是不同的。舉例來說，我們建立了 *tests/common.rs* 並寫了一個函式 `setup`，然後我們希望 `setup` 能被不同測試檔案的數個測試函式呼叫：
 
 <span class="filename">檔案名稱：tests/common.rs</span>
 
-```rust
+```rust,noplayground
 {{#rustdoc_include ../listings/ch11-writing-automated-tests/no-listing-12-shared-test-code-problem/tests/common.rs}}
 ```
 
@@ -98,7 +110,20 @@
 
 讓 `common` 出現在測試結果並顯示 `running 0 tests` 並不是我們想做的事。我們只是想要分享一些程式碼給其他整合測試檔案而已。
 
-要防止 `common` 出現在測試輸出，我們不該建立 *tests/common.rs*，而是要建立 *tests/common/mod.rs*。這是另一個 Rust 知道的常用命名手段。這樣命名檔案的話會告訴 Rust 不要將 `common` 模組視為整合測試檔案。當我們將 `setup` 函式程式碼移到 *tests/common/mod.rs* 並刪除 *tests/common.rs* 檔案時，原本的段落就不會再出現在測試輸出。*tests* 目錄下子目錄的檔案不會被編譯成獨立 crate 或在測試輸出顯示段落。
+要防止 `common` 出現在測試輸出，我們不該建立 *tests/common.rs*，而是要建立 *tests/common/mod.rs*。專案目錄現在應該要長的像這樣：
+
+```text
+├── Cargo.lock
+├── Cargo.toml
+├── src
+│   └── lib.rs
+└── tests
+    ├── common
+    │   └── mod.rs
+    └── integration_test.rs
+```
+
+這是另一個 Rust 知道的舊版命名形式，我們在第七章的[「其他種的檔案路徑」][alt-paths]<!-- ignore -->段落有提過。這樣命名檔案的話會告訴 Rust 不要將 `common` 模組視為整合測試檔案。當我們將 `setup` 函式程式碼移到 *tests/common/mod.rs* 並刪除 *tests/common.rs* 檔案時，原本的段落就不會再出現在測試輸出。*tests* 目錄下子目錄的檔案不會被編譯成獨立 crate 或在測試輸出顯示段落。
 
 在我們建立 *tests/common/mod.rs* 之後，我們可以將它以模組的形式用在任何整合測試檔案中。以下是在 *tests/integration_test.rs* 的 `it_adds_two` 測試中呼叫函式 `setup` 的範例：
 
@@ -110,11 +135,11 @@
 
 注意到 `mod common;` 的宣告與我們在範例 7-21 說明的模組宣告方式一樣。然而後在測試函式中，我們就可以呼叫函式 `common::setup()`。
 
-#### 二進制執行檔 Crate 的整合測試
+#### 執行檔 Crate 的整合測試
 
-如果我們的專案是只包含 *src/main.rs* 檔案的二進制執行檔 crate 而沒有 *src/lib.rs* 檔案的話，我們無法在 *tests* 目錄下建立整合測試，也無法將 *src/main.rs* 檔案中定義的函式透過 `use` 陳述式引入作用域。只有函式庫 crate 能公開函式給其他 crate 使用，二進制 crate 只用於獨自執行。
+如果我們的專案是只包含 *src/main.rs* 檔案的執行檔 crate 而沒有 *src/lib.rs* 檔案的話，我們無法在 *tests* 目錄下建立整合測試，也無法將 *src/main.rs* 檔案中定義的函式透過 `use` 陳述式引入作用域。只有函式庫 crate 能公開函式給其他 crate 使用，執行檔 crate 只用於獨自執行。
 
-這也是為何 Rust 專案為二進制執行檔提供直白的 *src/main.rs* 檔案並允許呼叫 *src/lib.rs* 檔案中的邏輯程式碼。使用這樣子的架構的話，整合測試**可以**透過 `use` 來測試函式庫 crate，並讓重點功能可以公開使用。如果重點功能可以運作的話，那 *src/main.rs* 檔案中剩下的程式碼部分也能夠如期執行，而這一小部分就不必特定做測試。
+這也是為何 Rust 專案為執行檔提供直白的 *src/main.rs* 檔案並允許呼叫 *src/lib.rs* 檔案中的邏輯程式碼。使用這樣子的架構的話，整合測試**可以**透過 `use` 來測試函式庫 crate，並讓重點功能可以公開使用。如果重點功能可以運作的話，那 *src/main.rs* 檔案中剩下的程式碼部分也能夠如期執行，而這一小部分就不必特定做測試。
 
 ## 總結
 
@@ -125,3 +150,4 @@ Rust 的測試功能提供了判定程式碼怎樣才算正常運作的方法，
 [paths]: ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html
 [separating-modules-into-files]:
 ch07-05-separating-modules-into-different-files.html
+[alt-paths]: ch07-05-separating-modules-into-different-files.html#其他種的檔案路徑

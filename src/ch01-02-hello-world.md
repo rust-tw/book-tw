@@ -1,8 +1,8 @@
 ## Hello, World!
 
-現在你已經安裝好 Rust，讓我們開始來寫你的第一支 Rust 程式吧。當我們學習一門新的語言時，有一個習慣是寫一支印出「Hello, world!」到螢幕上的小程式，此章節將教你做一樣的事！
+現在你已經安裝好 Rust，是時候開始寫你的第一支 Rust 程式。當我們學習一門新的語言時，有一個習慣是寫一支印出「Hello, world!」到螢幕上的小程式，此章節將教你做一樣的事！
 
-> 注意：本書將假設你已經知道命令列最基本的使用方法。Rust 對於你的編輯器、工具以及程式碼位於何處沒有特殊的要求，所以如果你更傾向於使用整合開發環境（IDE）的話，請儘管使用你最愛的 IDE。許多 IDE 都已經針對 Rust 提供某種程度的支援，請查看你所使用的 IDE 技術文件以瞭解詳情。最近，Rust 團隊正在積極專注在提升 IDE 的支援，而且進展十分迅速出色！
+> 注意：本書將假設你已經知道命令列最基本的使用方法。Rust 對於你的編輯器、工具以及程式碼位於何處沒有特殊的要求，所以如果你更傾向於使用整合開發環境（IDE）的話，請儘管使用你最愛的 IDE。許多 IDE 都已經針對 Rust 提供某種程度的支援，請查看你所使用的 IDE 技術文件以瞭解詳情。Rust 團隊正透過 ``rust-analyzer`` 積極提升 IDE 的支援，請查 [附錄 D][devtools]<!-- ignore --> 來了解更多細節。
 
 ### 建立專案目錄
 
@@ -30,7 +30,7 @@ $ cd hello_world
 
 ### 編寫並執行 Rust 程式
 
-接著，請產生一個全新原始碼檔案並命名為 *main.rs*。Rust 的文件檔案都會以 *.rs* 副檔名稱作為結尾。如果你用到不只一個單字的話，請用底線區隔開來。比方說，請使用 *hello_world.rs* 而不是 *helloworld.rs*。
+接著，請產生一個全新原始碼檔案並命名為 *main.rs*。Rust 的文件檔案都會以 *.rs* 副檔名稱作為結尾。如果你用到不只一個單字的話，慣例上是用底線區隔開來。比方說，請使用 *hello_world.rs* 而不是 *helloworld.rs*。
 
 現在請開啟 *main.rs* 檔案然而後輸入範例 1-1 中的程式碼。
 
@@ -44,7 +44,7 @@ fn main() {
 
 <span class="caption">範例 1-1：印出「Hello, world!」的程式</span>
 
-儲存檔案然後回到你的終端機螢幕。在 Linux 或 macOS 上，請輸入以下命令來編譯並執行檔案：
+儲存檔案然後回到你的專案目錄底下 *~/projects/hello_world*。在 Linux 或 macOS 上，請輸入以下命令來編譯並執行檔案：
 
 ```console
 $ rustc main.rs
@@ -66,7 +66,7 @@ Hello, world!
 
 ### 分析這支 Rust 程式
 
-讓我們來仔細瞧瞧你的「Hello, world!」程式實際上發生了什麼事。這是第一塊拼圖：
+讓我們來仔細瞧瞧你的「Hello, world!」程式。這是第一塊拼圖：
 
 ```rust
 fn main() {
@@ -74,13 +74,13 @@ fn main() {
 }
 ```
 
-這幾行在 Rust 中定義了一個函式。`main` 是一個特別的函式：它是每個可執行的 Rust 程式永遠第一個執行的程式碼。第一行宣告了一個函式 `main`，它沒有參數也不回傳任何東西。如果有參數的話，它們會被加進括號 `()` 內。
+這幾行定義了一個 `main` 函式。`main` 是一個特別的函式：它是每個可執行的 Rust 程式永遠第一個執行的程式碼。第一行宣告了一個函式 `main`，它沒有參數也不回傳任何東西。如果有參數的話，它們會被加進括號 `()` 內。
 
-再來，請注意到函式本體被囊括在大括號 `{}` 內，Rust 要求所有函式都用大括號包起來。一般來說，良好的程式碼風格會要求將前大括號置於宣告函式的同一行，並用一個空格區隔開來。
+函式本體被囊括在大括號 `{}` 內，Rust 要求所有函式都用大括號包起來。一般來說，良好的程式碼風格會要求將前大括號置於宣告函式的同一行，並用一個空格區隔開來。
 
-如果你想要在不同 Rust 專案之間統一標準風格的話，`rustfmt` 可以格式化你的程式成特定的風格。Rust 團隊計劃最終將此工具納入標準 Rust 發行版中，就像 `rustc` 一樣。所以依照你閱讀此書的時間點，它很可能已經安裝到你的電腦上了！請查看線上技術文件以瞭解詳情。
+> 如果你想要在不同 Rust 專案之間統一標準風格的話，`rustfmt` 可以格式化你的程式成特定的風格（更多 `rustfmt` 資訊請詳見[附錄 D][devtools]<!-- ignore -->）。Rust 團隊已經將此工具納入標準 Rust 發行版中，就像 `rustc` 一樣，它應該已經安裝到你的電腦上了！
 
-在 `main` 函式內有以下程式碼：
+在 `main` 函式本體中有以下程式碼：
 
 ```rust
     println!("Hello, world!");
@@ -108,14 +108,14 @@ $ rustc main.rs
 
 如果你已經有 C 或 C++ 的背景，你應該就會發現這和 `gcc` 或 `clang` 非常相似。編譯成功後，Rust 編譯器會輸出一個二進制執行檔（binary executable）。
 
-在 Linux、macOS 和 Windows 上的 PowerShell，你可以在你的 shell 輸入 `ls` 來查看你的執行檔。在 Linux 和 macOS，你會看到兩個檔案。而在 Windows 上的 PowerShell，你會和使用 CMD 一樣看到三個檔案。
+在 Linux、macOS 和 Windows 上的 PowerShell，你可以在你的 shell 輸入 `ls` 來查看你的執行檔：
 
 ```console
 $ ls
 main  main.rs
 ```
 
-在 Windows 上的 CMD，你需要輸入：
+在 Linux 和 macOS，你會看到兩個檔案。而在 Windows 上的 PowerShell，你會和使用 CMD 一樣看到三個檔案。在 Windows 上的 CMD，你需要輸入：
 
 ```cmd
 > dir /B %= /B 選項代表只顯示檔案名稱 =%
@@ -130,10 +130,11 @@ main.rs
 $ ./main # 在 Windows 上則是 .\main.exe
 ```
 
-如果 *main.rs* 正是你的「Hello, world!」程式，這命令就會顯示 `Hello, world!` 到你的終端機。
+如果你的 *main.rs* 正是你的「Hello, world!」程式，這命令就會顯示 `Hello, world!` 到你的終端機。
 
 如果你比較熟悉動態語言，像是 Ruby、Python 或 JavaScript，你可能會比較不習慣將編譯與執行程式分為兩個不同的步驟。Rust 是一門**預先編譯**（ahead-of-time compiled）的語言，代表你可以編譯完成後將執行檔送到其他地方，然後他們就算沒有安裝 Rust 一樣可以執行起來。但如果你給某個人 *.rb*、*.py* 或 *.js* 檔案，他們就需要 Ruby、Python 或 Javascript 分別都有安裝好。當然你在這些語言只需要一行命令就可以執行，在語言設計中這一切都只是取捨。
 
 在簡單的程式使用 `rustc` 來編譯不會有什麼問題，但當你的專案成長時，你將會需要管理所有選擇並讓程式碼易於分享。接下來我們將介紹 Cargo 這項工具給你，它將協助你寫出真正的 Rust 程式。
 
 [troubleshooting]: ch01-01-installation.html#疑難排除
+[devtools]: appendix-04-useful-development-tools.md

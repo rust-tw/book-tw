@@ -1,5 +1,6 @@
 use std::fs::File;
 
 fn main() {
-    let f = File::open("hello.txt").expect("開啟 hello.txt 失敗");
+    let greeting_file = File::open("hello.txt")
+        .expect("hello.txt 應該要存在此專案中");
 }

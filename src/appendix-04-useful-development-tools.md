@@ -46,7 +46,7 @@ $ cargo build
 warning: unused variable: `i`
  --> src/main.rs:4:9
   |
-4 |     for i in 1..100 {
+4 |     for i in 0..100 {
   |         ^ help: consider using `_i` instead
   |
   = note: #[warn(unused_variables)] on by default
@@ -112,17 +112,18 @@ fn main() {
 對此專案執行 `cargo clippy` 會顯示以下錯誤：
 
 ```text
-error: approximate value of `f{32, 64}::consts::PI` found. Consider using it directly
+error: approximate value of `f{32, 64}::consts::PI` found
  --> src/main.rs:2:13
   |
 2 |     let x = 3.1415;
   |             ^^^^^^
   |
-  = note: #[deny(clippy::approx_constant)] on by default
-  = help: for further information visit https://rust-lang-nursery.github.io/rust-clippy/master/index.html#approx_constant
+  = note: `#[deny(clippy::approx_constant)]` on by default
+  = help: consider using the constant directly
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#approx_constant
 ```
 
-此錯誤告訴你 Rust 有對該常數提供更精準的定義，如果改使用此定義的話，你的程式會更準確。你可以將你的程式碼改使用 `PI` 常數。以下程式碼就不會透過 Clippy 獲得任何錯誤或警告：
+此錯誤告訴你 Rust 已經有個更精準的 `PI` 常數定義，如果改使用此定義的話，你的程式會更準確。你可以將你的程式碼改使用 `PI` 常數。以下程式碼就不會透過 Clippy 獲得任何錯誤或警告：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -140,14 +141,11 @@ fn main() {
 
 ### 使用 `rust-analyzer` 整合 IDE
 
-為了協助 IDE 的整合，Rust 專案有發佈 **Rust Language Server**（`rls`）。此工具會與 [Language Server Protocol][lsp] 溝通，來提供許多與編譯器相關的協助，這是 IDE 與程式語言彼此溝通的協定規格。`rust-analyzer` 可用於各種不同的客戶端，像是 [Visual Studio Code 的 Rust analyzer 插件][vscode]。
+為了協助 IDE 的整合，Rust 社群推薦使用 [`rust-analyzer`][rust-analyzer]<!-- ignore -->。此工具會與 [Language Server Protocol][lsp] 溝通，來提供許多與編譯器相關的協助，這是 IDE 與程式語言彼此溝通的協定規格。`rust-analyzer` 可用於各種不同的客戶端，像是 [Visual Studio Code 的 Rust analyzer 外掛][vscode]。
 
 [lsp]: http://langserver.org/
-[vscode]: https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer
+[vscode]: https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer
 
-前往 `rust-analyzer` 專案的 [首頁][rust-analyzer] 可以了解更多安裝方法，讓你所使用的 IDE 也能獲得 Language Server 的支援。這樣你的 IDE 就能獲得許多功能像是：自動補全、跳至定義與顯示錯誤等等。
-
-若想了解更多關於 `rust-analyzer` 的資訊，請參考[它的技術文件][rust-analyzer-manual]。
+前往 `rust-analyzer` 專案的[首頁][rust-analyzer]<!-- ignore -->可以了解更多安裝方法，讓你所使用的 IDE 也能獲得 Language Server 的支援。這樣你的 IDE 就能獲得許多功能像是：自動補全、跳至定義與顯示錯誤等等。
 
 [rust-analyzer]: https://rust-analyzer.github.io
-[rust-analyzer-manual]: https://rust-analyzer.github.io/manual.html

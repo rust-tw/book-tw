@@ -1,6 +1,6 @@
 ## 允許不同型別數值的特徵物件
 
-在第八章中，我們提及向量其中一項限制是它儲存的元素只能有一種型別。我們在範例 8-10 提出一個替代方案，那就是我們定義 `SpreadsheetCell` 枚舉且其變體能存有整數、浮點數與文字。這讓我們可以對每個元素儲存不同的型別，且向量仍能代表元素的集合。當我們的可變換的項目有固定的型別集合，而且我們在編譯程式碼時就知道的話，這的確是完美的解決方案。
+在第八章中，我們提及向量其中一項限制是它儲存的元素只能有一種型別。我們在範例 8-9 提出一個替代方案，那就是我們定義 `SpreadsheetCell` 枚舉且其變體能存有整數、浮點數與文字。這讓我們可以對每個元素儲存不同的型別，且向量仍能代表元素的集合。當我們的可變換的項目有固定的型別集合，而且我們在編譯程式碼時就知道的話，這的確是完美的解決方案。
 
 然而，有時我們會希望函式庫的使用者能夠在特定的情形下擴展型別的集合。為了展示我們如何達成，我們來建立個圖形使用者介面（graphical user interface, GUI）工具範例來遍歷一個項目列表，呼叫其內每個項目的 `draw` 方法將其顯示在螢幕上，這是 GUI 工具常見的技巧。我們會建立個函式庫 crate 叫做 `gui`，這會包含 GUI 函式庫的結構體。此 crate 可能會包含一些人們會使用到的型別，像是 `Button` 或 `TextField`。除此之外，`gui` 使用者也能夠建立他們自己的型別來顯示出來。舉例來說，有些開發者可以加上 `Image` 而其他人可能會加上 `SelectBox`。
 
@@ -70,7 +70,7 @@
 
 <span class="caption">範例 17-7：結構體 `Button` 實作了 `Draw` 特徵</span>
 
-在 `Button` 中的 `width`、`height` 與 `label` 欄位會與其他元件不同，像是 `TextField` 可能就會有前面所有的欄位在加上 `placeholder` 欄位。每個我們想在螢幕上顯示的型別都會實作 `Draw` 特徵，但在 `draw` 方法會使用不同程式碼來定義如何印出該特定型別，像是這裡的 `Button` 型別（不包含實際 GUI 程式碼，因為這超出本章範疇）。舉例來說，`Button` 可能會有額外的 `impl` 區塊來包含使用者點擊按鈕時該如何反應的方法。這種方法就不適用於 `TextField`。
+在 `Button` 中的 `width`、`height` 與 `label` 欄位會與其他元件不同，像是 `TextField` 可能就會有前面所有的欄位在加上 `placeholder` 欄位。每個我們想在螢幕上顯示的型別都會實作 `Draw` 特徵，但在 `draw` 方法會使用不同程式碼來定義如何印出該特定型別，像是這裡的 `Button` 型別（不包含實際 GUI 程式碼）。舉例來說，`Button` 可能會有額外的 `impl` 區塊來包含使用者點擊按鈕時該如何反應的方法。這種方法就不適用於 `TextField`。
 
 如果有人想用我們的函式庫來實作個 `SelectBox` 結構體並擁有 `width`、`height` 與 `options` 欄位的話，他們也可以對 `SelectBox` 實作 `Draw` 特徵，如範例 17-8 所示：
 
@@ -122,42 +122,6 @@
 
 當我們使用特徵物件時，Rust 必須使用動態調度。編譯器無法知道使用特徵物件的程式碼會使用到的所有型別為何，所以它會不知道該呼叫哪個型別的哪個實作方法。取而代之的是，Rust 在執行時會使用特徵物件內部的指標來知道該呼叫哪個方法。這樣尋找的動作會產生靜態調度所沒有的執行時開銷。動態調度也讓編譯器無法選擇內聯（inline）方法的程式碼，這樣會因而阻止一些優化。不過我們的確對範例 17-5 的程式碼增加了額外的彈性，並能夠支援範例 17-9，所以這是個權衡取捨。
 
-### 特徵物件要求物件安全
-
-特徵物件只能使用**物件安全**（object-safe）的特徵。Rust 會有一些複雜的規則來檢測其屬性以確保特徵物件安全，不過實際上，我們只需要在意兩條規則。如果特徵定義的所有方法遵守以下屬性的話，該特徵就是物件安全的：
-
-* 回傳值不是 `Self`。
-* 沒有泛型型別參數。
-
-`Self` 關鍵字是我們所實作特徵或方法的型別的別名。特徵物件必須是物件安全的，因為一旦你使用特徵物件後，Rust 就無法知道實作該特徵的型別為何。如果特徵方法回傳實際 `Self` 型別，但特徵物件忘記 `Self` 的確切型別的話，該方法不可能有辦法使用原本的實際型別。同理對於泛型型別參數來說，當特徵被使用到時，其就會填入實際的型別參數，實際型別變成了實作特徵的型別的一部分。當型別被使用的特徵物件遺忘時，就無從得知該填素何種泛型型別參數。
-
-標準函式庫中其中一個不是物件安全的特徵範例是 `Clone` 特徵。`Clone` 特徵中的 `clone` 方法簽名長得像這樣：
-
-```rust
-pub trait Clone {
-    fn clone(&self) -> Self;
-}
-```
-
-`String` 型別有實作 `Clone` 特徵，而當我們呼叫 `String` 實例的 `clone` 方法時，我們會取得 `String` 的實例。同樣地，如果我們呼叫 `Vec<T>` 的 `clone`，我們就會得到 `Vec<T>` 的實例。`clone` 的簽名需要知道 `Self` 的實際型別為何，因為這是它的回傳型別。
-
-當你嘗試違反特徵物件的物件安全規則時，編譯器會提醒警告你。舉例來說，假設我們嘗試實作範例 17-4 的 `Screen` 結構體為改儲存實作 `Clone` 特徵的型別而非 `Draw` 特徵，如以下所示：
-
-```rust,ignore,does_not_compile
-{{#rustdoc_include ../listings/ch17-oop/no-listing-01-trait-object-of-clone/src/lib.rs}}
-```
-
-我們就會得到此錯誤：
-
-```console
-{{#include ../listings/ch17-oop/no-listing-01-trait-object-of-clone/output.txt}}
-```
-
-此錯誤表示你不能這樣在特徵物件使用此特徵。如果你對物件安全的細節有興趣的話，歡迎查閱 [Rust RFC 255] 或[參考手冊][object-safety-reference]的物件安全段落。
-
-[Rust RFC 255]: https://github.com/rust-lang/rfcs/blob/master/text/0255-object-safety.md
-
 [performance-of-code-using-generics]:
 ch10-01-syntax.html#使用泛型的程式碼效能
 [dynamically-sized]: ch19-04-advanced-types.html#動態大小型別與-sized-特徵
-[object-safety-reference]: https://doc.rust-lang.org/stable/reference/items/traits.html#object-safety

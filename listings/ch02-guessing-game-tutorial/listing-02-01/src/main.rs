@@ -25,7 +25,7 @@ fn main() {
     // ANCHOR_END: expect
 
     // ANCHOR: print_guess
-    println!("你的猜測數字：{}", guess);
+    println!("你的猜測數字：{guess}");
     // ANCHOR_END: print_guess
 }
 // ANCHOR: all
