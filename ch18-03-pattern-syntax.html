@@ -352,7 +352,7 @@ fn main() {
 <h3 id="忽略模式中的數值"><a class="header" href="#忽略模式中的數值">忽略模式中的數值</a></h3>
 <p>你已經看過有時候在模式中忽略數值是很實用的，像是在 <code>match</code> 中的最後一個分支能捕獲所有剩餘用不到的可能數值。模式有一些方式可以忽略所有或部分數值：使用（你已經看過的） <code>_</code> 模式、在其他模式使用 <code>_</code> 模式、在名稱前加上底線，或是使用 <code>..</code> 來忽略剩餘部分的數值。讓我們來探討如何與為何要使用這些模式吧。</p>
 <h4 id="透過-_-忽略整個數值"><a class="header" href="#透過-_-忽略整個數值">透過 <code>_</code> 忽略整個數值</a></h4>
-<p>我們使用底線在來作為通配符（wildcard）模式，這會配對任何數值，但不會綁定其值。雖然底線 <code>_</code> 模式特別適合作為 <code>match</code> 表達式最後一個分支，但我們可以將它用在任何模式中，包含函式參數，如範例 18-17 所示。</p>
+<p>我們使用底線在來作為萬用字元（wildcard）模式，這會配對任何數值，但不會綁定其值。雖然底線 <code>_</code> 模式特別適合作為 <code>match</code> 表達式最後一個分支，但我們可以將它用在任何模式中，包含函式參數，如範例 18-17 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn foo(_: i32, y: i32) {
     println!(&quot;此程式碼只使用了參數 y：{}&quot;, y);
