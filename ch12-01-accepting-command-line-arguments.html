@@ -205,7 +205,7 @@ fn main() {
 <p><span class="caption">範例 12-2：建立變數來儲存搜尋引數與檔案路徑引數</span></p>
 <p>如我們印出向量時所看到的，向量的第一個數值 <code>args[0]</code> 會是程式名稱，所以我們從引數 <code>1</code> 開始。<code>minigrep</code> 接收的第一個引數會是我們要搜尋的字串，所以我們將第一個引數的引用賦值給變數 <code>query</code>。第二個引數會是檔案路徑，所以我們將第二個引數的引用賦值給 <code>file_path</code>。</p>
 <p>我們暫時印出這些變數的數值來證明程式碼運作無誤。讓我們用引數 <code>test</code> 與 <code>sample.txt</code> 來再次執行程式：</p>
-<pre><code class="language-console">$ cargo run test -- sample.txt
+<pre><code class="language-console">$ cargo run -- test sample.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
     Finished dev [unoptimized + debuginfo] target(s) in 0.0s
      Running `target/debug/minigrep test sample.txt`
