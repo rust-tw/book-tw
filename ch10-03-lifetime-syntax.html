@@ -145,17 +145,17 @@
 <p>詮釋生命週期在大多數的程式語言中都沒有這個概念，所以這段可能會有點讓你覺得陌生。雖然我們不會在此章涵蓋所有生命週期的內容，但是我們會講些你可能遇到生命週期的常見場景，好讓你更加熟悉這個概念。</p>
 <h3 id="透過生命週期預防迷途引用"><a class="header" href="#透過生命週期預防迷途引用">透過生命週期預防迷途引用</a></h3>
 <p>生命週期最主要的目的就是要預防<strong>迷途引用</strong>（dangling references），其會導致程式引用到其他資料，而非它原本想要的引用。請看一下範例 10-16 的程式，它有一個外部作用域與內部作用域。</p>
-<pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
-</span><span class="boring">    let r;
-</span><span class="boring">
-</span><span class="boring">    {
-</span><span class="boring">        let x = 5;
-</span><span class="boring">        r = &amp;x;
-</span><span class="boring">    }
-</span><span class="boring">
-</span><span class="boring">    println!(&quot;r: {}&quot;, r);
-</span><span class="boring">}
-</span></code></pre>
+<pre><code class="language-rust ignore does_not_compile">fn main() {
+    let r;
+
+    {
+        let x = 5;
+        r = &amp;x;
+    }
+
+    println!(&quot;r: {}&quot;, r);
+}
+</code></pre>
 <p><span class="caption">範例 10-16：嘗試使用其值已經離開作用域的引用</span></p>
 <blockquote>
 <p>注意：範例 10-16、10-17 與 10-23 宣告變數時都沒有給予初始數值，所以變數名稱可以存在於外部作用域。乍看之下這似乎違反 Rust 不存在空值的原則。但是如果我們嘗試在賦值前使用變數的話，我們就會獲得編譯期錯誤，這證明 Rust 的確不允許空值。</p>
