@@ -10576,7 +10576,7 @@ warning: `iterators` (bin &quot;iterators&quot;) generated 1 warning
 <p>你可以透過疊代配接器串連多重呼叫，在進行一連串複雜運算的同時，仍保持良好的閱讀性。但因為所有的疊代器都是惰性的，你必須呼叫能消耗配接器的方法來取得疊代配接器的結果。</p>
 <h3 id="使用閉包獲取它們的環境"><a class="header" href="#使用閉包獲取它們的環境">使用閉包獲取它們的環境</a></h3>
 <p>許多疊代配接器都會拿閉包作為引數，而通常我們向疊代配接器指定的閉包引數都能獲取它們周圍的環境。</p>
-<p>在以下例子中，我們要使用 <code>filter</code> 方法來取得閉包。閉包會取的疊代器的每個項目並回傳布林值。如果閉包回傳 <code>true</code>，該數值就會被包含在 <code>filter</code> 產生的疊代器中；如果閉包回傳 <code>false</code>，該數值就保不會被包含在結果疊代器中。</p>
+<p>在以下例子中，我們要使用 <code>filter</code> 方法來取得閉包。閉包會取的疊代器的每個項目並回傳布林值。如果閉包回傳 <code>true</code>，該數值就會被包含在 <code>filter</code> 產生的疊代器中；如果閉包回傳 <code>false</code>，該數值就不會被包含在結果疊代器中。</p>
 <p>在範例 13-16 中我們使用 <code>filter</code> 與一個從它的環境獲取變數 <code>shoe_size</code> 的閉包來遍歷一個有 <code>Shoe</code> 結構體實例的集合。它會回傳只有符合指定大小的鞋子：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust noplayground">#[derive(PartialEq, Debug)]
