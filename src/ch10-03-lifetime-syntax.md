@@ -11,7 +11,7 @@
 生命週期最主要的目的就是要預防**迷途引用**（dangling references），其會導致程式引用到其他資料，而非它原本想要的引用。請看一下範例 10-16 的程式，它有一個外部作用域與內部作用域。
 
 ```rust,ignore,does_not_compile
-{{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-16/src/main.rs:here}}
+{{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-16/src/main.rs}}
 ```
 
 <span class="caption">範例 10-16：嘗試使用其值已經離開作用域的引用</span>
