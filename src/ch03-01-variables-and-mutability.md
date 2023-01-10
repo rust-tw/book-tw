@@ -74,7 +74,7 @@ const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-03-shadowing/src/main.rs}}
 ```
 
-此程式首先將 `x` 給予 `5`，然後它重複用 `let x =` 建立一個新變數 `x`，取代了原本的數值並加上 `1`，所以以 `x` 的數值變為 `6`。然後在接下來括號的內部範圍內，第三次的 `let` 陳述式一樣遮蔽了 `x` 讓它將原本的值乘與 `2`，讓 `x` 數值為 `12`。當該範圍結束時，內部的遮蔽也結束，所以 `x` 就回到原本的 `6`。當我們運行此程式時，就會輸出以下結果：
+此程式首先將 `x` 給予 `5`，然後它重複用 `let x =` 建立一個新變數 `x`，取代了原本的數值並加上 `1`，所以 `x` 的數值變為 `6`。然後在接下來括號的內部範圍內，第三次的 `let` 陳述式一樣遮蔽了 `x` 讓它將原本的值乘與 `2`，讓 `x` 數值為 `12`。當該範圍結束時，內部的遮蔽也結束，所以 `x` 就回到原本的 `6`。當我們運行此程式時，就會輸出以下結果：
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-03-shadowing/output.txt}}
