@@ -221,7 +221,7 @@ x 的數值為：6
     println!(&quot;x 的數值為：{x}&quot;);
 }
 </code></pre></pre>
-<p>此程式首先將 <code>x</code> 給予 <code>5</code>，然後它重複用 <code>let x =</code> 建立一個新變數 <code>x</code>，取代了原本的數值並加上 <code>1</code>，所以以 <code>x</code> 的數值變為 <code>6</code>。然後在接下來括號的內部範圍內，第三次的 <code>let</code> 陳述式一樣遮蔽了 <code>x</code> 讓它將原本的值乘與 <code>2</code>，讓 <code>x</code> 數值為 <code>12</code>。當該範圍結束時，內部的遮蔽也結束，所以 <code>x</code> 就回到原本的 <code>6</code>。當我們運行此程式時，就會輸出以下結果：</p>
+<p>此程式首先將 <code>x</code> 給予 <code>5</code>，然後它重複用 <code>let x =</code> 建立一個新變數 <code>x</code>，取代了原本的數值並加上 <code>1</code>，所以 <code>x</code> 的數值變為 <code>6</code>。然後在接下來括號的內部範圍內，第三次的 <code>let</code> 陳述式一樣遮蔽了 <code>x</code> 讓它將原本的值乘與 <code>2</code>，讓 <code>x</code> 數值為 <code>12</code>。當該範圍結束時，內部的遮蔽也結束，所以 <code>x</code> 就回到原本的 <code>6</code>。當我們運行此程式時，就會輸出以下結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling variables v0.1.0 (file:///projects/variables)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
