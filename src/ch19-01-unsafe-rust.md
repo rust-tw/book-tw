@@ -77,7 +77,7 @@ Rust 擁有另一個不安全的自我的另一理由是電腦硬體本質上就
 
 第二種需要不安全區塊的操作是呼叫不安全函式。不安全函式與方法外觀看起來與正常函式及方法並無二致，僅在整個函式定義前多了額外的 `unsafe` 。`unsafe` 關鍵字在此脈絡下是指此函式在呼叫時必須遵守某些要求，因為 Rust 無法保證我們能達成這項要求。當我們在一個 `unsafe` 區塊內呼叫一個 `unsafe` 函式，意味著我們已閱讀此函式的文件，而且有責任遵守此函式的使用條款。
 
-這裡有個不安全函式叫做 `dangerous`，函式本體內無任何東西:
+這裡有個不安全函式叫做 `dangerous`，函式本體內無任何東西：
 
 ```rust
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-01-unsafe-fn/src/main.rs:here}}

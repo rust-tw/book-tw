@@ -162,7 +162,7 @@ $ cargo new hello_macro_derive --lib
 
 我們導入了三個新 crate：`proc_macro`，[`syn`] 和 [`quote`]。`proc_macro` 包含在 Rust 裡面，所以我們不需要將之加入 *Cargo.toml*。`proc_macro` crate 就是編譯器的 API，提供從我們的程式碼讀取和操作 Rust 程式碼。
 
-`syn` crate 負責從字串解析 Rust 程式碼，轉成我們可以操作的資料結構。而 `qoute` crate 則將 `syn` 的資料結構轉回 Rust 程式碼。撰寫完整的Rust 程式碼解析器並不是容易的工作，而這些 crate 讓解析任何 Rust 程式碼更為簡便。
+`syn` crate 負責從字串解析 Rust 程式碼，轉成我們可以操作的資料結構。而 `qoute` crate 則將 `syn` 的資料結構轉回 Rust 程式碼。撰寫完整的 Rust 程式碼解析器並不是容易的工作，而這些 crate 讓解析任何 Rust 程式碼更為簡便。
 
 當使用者在一個型別上指定 `#[derive(HelloMacro)]`，`hello_macro_derive` 函式就會被呼叫，這是由於我們使用 `proc_macro_derive` 和指定的 `HelloMacro` 名稱來標註 `hello_macro_derive` 函式，而其中的 `HelloMacro` 是我們的特徵名稱。以上就是大多數程序式巨集遵守的慣例。
 

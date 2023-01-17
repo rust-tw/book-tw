@@ -26,7 +26,7 @@
 
 <span class="caption">範例 15-26：透過兩個彼此指向對方的 `List` 數值來產生引用循環</span>
 
-我們在變數 `a` 建立了一個 `Rc<List>` 實例的 `List` 數值並持有 `5, Nil` 初始列表的 。我們然後在變數  `b` 建立另一個 `Rc<List>` 實例的 `List` 數值並持有數值 10 與指向的列表 `a`。
+我們在變數 `a` 建立了一個 `Rc<List>` 實例的 `List` 數值並持有 `5, Nil` 初始列表的。我們然後在變數  `b` 建立另一個 `Rc<List>` 實例的 `List` 數值並持有數值 10 與指向的列表 `a`。
 
 我們將 `a` 修改為指向 `b` 而非 `Nil` 來產生循環。我們透過使用 `tail` 方法來取得 `a` 的 `RefCell<Rc<List>>` 引用，並放入變數 `link` 中。然後我們對 `RefCell<Rc<List>>` 使用 `borrow_mut` 方法來改變 `Rc<List>` 的值，從數值 `Nil` 改成 `b` 的 `Rc<List>`。
 

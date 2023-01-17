@@ -10,7 +10,7 @@
 {{#rustdoc_include ../listings/ch08-common-collections/listing-08-01/src/main.rs:here}}
 ```
 
-<span class="caption">範例 8-1建立一個儲存數值型別為 `i32` 的空向量</span>
+<span class="caption">範例 8-1 建立一個儲存數值型別為 `i32` 的空向量</span>
 
 注意到我們在此加了型別詮釋。因為我們沒有對此向量插入任何數值，Rust 不知道我們想儲存什麼類型的元素。這是一項重點，向量是用泛型（generics）實作，我們會在第十章說明如何為你自己的型別使用泛型。現在我們只需要知道標準函式庫提供的 `Vec<T>` 型別可以持有任意型別，然後當特定向量要持有特定型別時，我們可以在尖括號內指定該型別。在範例 8-1，我們告訴 Rust 在 `v` 中的 `Vec<T>` 會持有 `i32` 型別的元素。
 
