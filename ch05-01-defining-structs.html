@@ -153,7 +153,7 @@
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 5-1：<code>User</code> 結構體定義</span></p>
-<p>要在我們定義後使用該結構體，我們可以指定每個欄位的實際數值來建立結構體的<strong>實例（instance）</strong>。要建立實例的話，我們先寫出結構體的名稱再加上大括號，裡面會包含數個 「key: value」的配對。<code>key</code> 是每個欄位的名稱，而 <code>value</code> 就是你想給予欄位的數值。欄位的順序可以不用和定義結構體時的順序一樣。換句話說，結構體的定義比較像是型別的通用樣板，然後實例會依據此樣板插入特定資料來將產生型別的數值。比如說，我們可以像範例 5-2 這樣宣告一個特定使用者。</p>
+<p>要在我們定義後使用該結構體，我們可以指定每個欄位的實際數值來建立結構體的<strong>實例（instance）</strong>。要建立實例的話，我們先寫出結構體的名稱再加上大括號，裡面會包含數個「key: value」的配對。<code>key</code> 是每個欄位的名稱，而 <code>value</code> 就是你想給予欄位的數值。欄位的順序可以不用和定義結構體時的順序一樣。換句話說，結構體的定義比較像是型別的通用樣板，然後實例會依據此樣板插入特定資料來將產生型別的數值。比如說，我們可以像範例 5-2 這樣宣告一個特定使用者。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    active: bool,

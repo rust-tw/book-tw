@@ -160,7 +160,7 @@
 <p>還有一個特定模式 <code>_</code> 可以獲取任意可能情況，但它不會綁定到變數中，所以它也很常用在最後的配對分支。舉例來說，<code>_</code> 模式就很適合用來忽略任何沒指明的數值。我們會在本章之後的 <a href="ch18-03-pattern-syntax.html#%E5%BF%BD%E7%95%A5%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84%E6%95%B8%E5%80%BC">「忽略模式中的數值」</a><!-- ignore -->段落談到更多 <code>_</code> 的細節。</p>
 <h3 id="if-let-條件表達式"><a class="header" href="#if-let-條件表達式"><code>if let</code> 條件表達式</a></h3>
 <p>在第六章中我們介紹了如何使用 <code>if let</code> 表達式，它等同於只配對一種情況的 <code>match</code> 表達式，主要作為更簡潔的語法。此外，<code>if let</code> 可以再加上 <code>else</code> 來包含如果 <code>if let</code> 模式不符的話能執行的程式碼。</p>
-<p>範例 18-1 展示了我們能夠混合並配對 <code>if let</code>、<code>else if</code> 與 <code>else if let</code> 表達式。這樣做可以比 <code>match</code> 表達式還來得有彈性，因為 <code>match</code> 只能有一個數值與模式們配對。另外， Rust 也不需要 <code>if let</code>、<code>else if</code> 與 <code>else if let</code> 分支之間的條件彼此要有關聯。</p>
+<p>範例 18-1 展示了我們能夠混合並配對 <code>if let</code>、<code>else if</code> 與 <code>else if let</code> 表達式。這樣做可以比 <code>match</code> 表達式還來得有彈性，因為 <code>match</code> 只能有一個數值與模式們配對。另外，Rust 也不需要 <code>if let</code>、<code>else if</code> 與 <code>else if let</code> 分支之間的條件彼此要有關聯。</p>
 <p>範例 18-1 的程式碼依據一系列的條件檢查來決定背景顏色該為何。在此例中，我們建立一個寫死的變數數值，在實際程式中應該會由使用者輸入。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {

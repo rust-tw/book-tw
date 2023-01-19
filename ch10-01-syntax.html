@@ -363,7 +363,7 @@ fn main() {
 </span></code></pre></pre>
 <p><span class="caption">範例 10-10：一個只適用於擁有泛型 <code>T</code> 結構體其中的特定實際型別的 <code>impl</code> 區塊</span></p>
 <p>此程式碼代表 <code>Point&lt;f32&gt;</code> 會有個方法 <code>distance_from_origin</code>，其他 <code>Point&lt;T&gt;</code> 只要 <code>T</code> 不是型別 <code>f32</code> 的實例都不會定義此方法。此方法測量我們的點距離座標 (0.0, 0.0) 有多遠並使用只有浮點數型別能使用的數學運算。</p>
-<p>在結構體定義中的泛型型別參數不會總是和結構體方法簽名中的相同。舉例來說，範例 10-11 在 <code>Point</code> 結構體中使用泛型型別 <code>X1</code> 和 <code>Y1</code>，但在 <code>mixup</code> 方法中就使用 <code>X2</code> <code>Y2</code> 以便清楚辨別。該方法用 <code>self</code> <code>Point</code> 的 <code>x</code> 值（型別為 <code>X1</code>）與參數傳進來的 <code>Point</code>　的 <code>y</code> 值（型別為 <code>Y2</code>）來建立新的 <code>Point</code> 實例。</p>
+<p>在結構體定義中的泛型型別參數不會總是和結構體方法簽名中的相同。舉例來說，範例 10-11 在 <code>Point</code> 結構體中使用泛型型別 <code>X1</code> 和 <code>Y1</code>，但在 <code>mixup</code> 方法中就使用 <code>X2</code> <code>Y2</code> 以便清楚辨別。該方法用 <code>self</code> <code>Point</code> 的 <code>x</code> 值（型別為 <code>X1</code>）與參數傳進來的 <code>Point</code> 的 <code>y</code> 值（型別為 <code>Y2</code>）來建立新的 <code>Point</code> 實例。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;X1, Y1&gt; {
     x: X1,

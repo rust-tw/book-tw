@@ -704,7 +704,7 @@ warning: `guessing_game` (bin &quot;guessing_game&quot;) generated 1 warning
 </span>let x = 5;
 let y = 10;
 
-println!(&quot;x = {ｘ} 而且 y + 2 = {}&quot;, y + 2);
+println!(&quot;x = {x} 而且 y + 2 = {}&quot;, y + 2);
 <span class="boring">}
 </span></code></pre></pre>
 <p>此程式碼會印出 <code>x = 5 而且 y = 12</code>。</p>
@@ -728,7 +728,7 @@ input 6 -->
 <h2 id="產生祕密數字"><a class="header" href="#產生祕密數字">產生祕密數字</a></h2>
 <p>接下來，我們要產生一個能讓使用者猜看看的祕密數字。祕密數字每次都要不同，這樣遊戲才值得多玩幾次。讓我們使用 1 到 100 之間的隨機數字，這樣遊戲才不會太困難。Rust 的標準函式庫並不包含產生隨機數字的功能。然而，Rust 團隊有提供個 <a href="https://crates.io/crates/rand"><code>rand</code> crate</a>。</p>
 <h3 id="使用-crate-來取得更多功能"><a class="header" href="#使用-crate-來取得更多功能">使用 Crate 來取得更多功能</a></h3>
-<p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<strong>執行檔（binary） crate</strong>，也就會是個執行檔。而 <code>rand</code> crate 屬於<strong>函式庫（library） crate</strong>，這會包含讓其他程式能夠使用的程式碼。</p>
+<p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<strong>執行檔（binary）crate</strong>，也就會是個執行檔。而 <code>rand</code> crate 屬於<strong>函式庫（library）crate</strong>，這會包含讓其他程式能夠使用的程式碼。</p>
 <p>Cargo 協調外部 crate 的功能正是它的亮點。在我們可以使用 <code>rand</code> 來寫程式碼前，我們需要修改 <em>Cargo.toml</em> 檔案來包含 <code>rand</code> crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 <code>[dependencies]</code> 標頭（header）段落中最後一行下面。記得確認 <code>rand</code> 指定的版本數字與我們相同，不然此教學的範例程式碼可能不會運行成功：</p>
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -799,7 +799,7 @@ as a guide to creating the hypothetical output shown here -->
 <pre><code class="language-toml">[dependencies]
 rand = &quot;0.9.0&quot;
 </code></pre>
-<p>下次你執行 <code>cargo build</code> 時，Cargo 將會更新 crate registry ，並依據你指定的新版本來重新評估 <code>rand</code> 的確切版本。</p>
+<p>下次你執行 <code>cargo build</code> 時，Cargo 將會更新 crate registry，並依據你指定的新版本來重新評估 <code>rand</code> 的確切版本。</p>
 <p><a href="http://doc.crates.io">Cargo</a><!-- ignore --> 與<a href="http://doc.crates.io/crates-io.html">其生態系統</a><!-- ignore -->還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。</p>
 <h3 id="產生隨機數字"><a class="header" href="#產生隨機數字">產生隨機數字</a></h3>
 <p>讓我們開始使用 <code>rand</code> 產生數字來猜吧！下一步是更新 <em>src/main.rs</em>，如範例 2-3 所示。</p>
@@ -920,7 +920,7 @@ note: associated function defined here
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `guessing_game` due to previous error
 </code></pre>
-<p>錯誤的關鍵表示<strong>型別無法配對（mismatched types）</strong>。Rust 有個強力的靜態型別系統，但它也提供了型別推斷。當我們寫 <code>let mut guess = String::new()</code> 時，Rust 能夠推斷出 <code>guess</code> 應該要是 <code>String</code> 讓我們不必親自寫出型別。另一方面，<code>secret_number</code> 則是個數字型別。以下是一些在 Rust 中可以包含數字 1 到 100 的數字型別：32 位元數字 <code>i32</code>、非帶號（unsigned） 32 位元數字 <code>u32</code>、64 位元數字 <code>i64</code>，以及更多等等。Rust 預設的數字型別為 <code>i32</code>，這就是 <code>secret_number</code> 的型別，除非你特地加上型別詮釋，Rust 才會推斷成不同的數字型別。此錯誤原因是因為 Rust 無法比較將字串與數字型別做比較。</p>
+<p>錯誤的關鍵表示<strong>型別無法配對（mismatched types）</strong>。Rust 有個強力的靜態型別系統，但它也提供了型別推斷。當我們寫 <code>let mut guess = String::new()</code> 時，Rust 能夠推斷出 <code>guess</code> 應該要是 <code>String</code> 讓我們不必親自寫出型別。另一方面，<code>secret_number</code> 則是個數字型別。以下是一些在 Rust 中可以包含數字 1 到 100 的數字型別：32 位元數字 <code>i32</code>、非帶號（unsigned）32 位元數字 <code>u32</code>、64 位元數字 <code>i64</code>，以及更多等等。Rust 預設的數字型別為 <code>i32</code>，這就是 <code>secret_number</code> 的型別，除非你特地加上型別詮釋，Rust 才會推斷成不同的數字型別。此錯誤原因是因為 Rust 無法比較將字串與數字型別做比較。</p>
 <p>所以我們要將程式從輸入讀取的 <code>String</code> 轉換成真正的數字型別，讓我們可以將其與祕密數字做比較。我們可以在 <code>main</code> 函式本體加上另一行程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
@@ -2220,7 +2220,7 @@ End count = 2
                                        // s 不再有效
 <span class="boring">}
 </span></code></pre></pre>
-<p>當 <code>s</code> 離開作用域時，我們就可以很自然地將 <code>String</code> 所需要的記憶體釋放回分配器。 當變數離開作用域時，Rust 會幫我們呼叫一個特殊函式。此函式叫做 <a href="https://doc.rust-lang.org/std/ops/trait.Drop.html#tymethod.drop"><code>drop</code></a><!-- ignore -->，在這裡當時 <code>String</code> 的作者就可以寫入釋放記憶體的程式碼。Rust 會在大括號結束時自動呼叫 <code>drop</code>。</p>
+<p>當 <code>s</code> 離開作用域時，我們就可以很自然地將 <code>String</code> 所需要的記憶體釋放回分配器。當變數離開作用域時，Rust 會幫我們呼叫一個特殊函式。此函式叫做 <a href="https://doc.rust-lang.org/std/ops/trait.Drop.html#tymethod.drop"><code>drop</code></a><!-- ignore -->，在這裡當時 <code>String</code> 的作者就可以寫入釋放記憶體的程式碼。Rust 會在大括號結束時自動呼叫 <code>drop</code>。</p>
 <blockquote>
 <p>注意：在 C++，這樣在項目生命週期結束時釋放資源的模式，有時被稱為<strong>資源取得即初始化（Resource Acquisition Is Initialization, RAII）</strong>。如果你已經用過 RAII 的模式，那麼你應該就會很熟悉 Rust 的 <code>drop</code> 函式。</p>
 </blockquote>
@@ -2999,7 +2999,7 @@ assert_eq!(slice, &amp;[2, 3]);
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
 <p><span class="caption">範例 5-1：<code>User</code> 結構體定義</span></p>
-<p>要在我們定義後使用該結構體，我們可以指定每個欄位的實際數值來建立結構體的<strong>實例（instance）</strong>。要建立實例的話，我們先寫出結構體的名稱再加上大括號，裡面會包含數個 「key: value」的配對。<code>key</code> 是每個欄位的名稱，而 <code>value</code> 就是你想給予欄位的數值。欄位的順序可以不用和定義結構體時的順序一樣。換句話說，結構體的定義比較像是型別的通用樣板，然後實例會依據此樣板插入特定資料來將產生型別的數值。比如說，我們可以像範例 5-2 這樣宣告一個特定使用者。</p>
+<p>要在我們定義後使用該結構體，我們可以指定每個欄位的實際數值來建立結構體的<strong>實例（instance）</strong>。要建立實例的話，我們先寫出結構體的名稱再加上大括號，裡面會包含數個「key: value」的配對。<code>key</code> 是每個欄位的名稱，而 <code>value</code> 就是你想給予欄位的數值。欄位的順序可以不用和定義結構體時的順序一樣。換句話說，結構體的定義比較像是型別的通用樣板，然後實例會依據此樣板插入特定資料來將產生型別的數值。比如說，我們可以像範例 5-2 這樣宣告一個特定使用者。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
@@ -3462,7 +3462,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 5-13：在 <code>Rectangle</code> 中定義 <code>area</code> 方法</span></p>
-<p>要定義 <code>Rectangle</code> 中的方法，我們先為 <code>Rectangle</code> 加個 <code>impl</code>（implementation） 區塊來開始。所有在此區塊的內容都跟 <code>Rectangle</code> 型別有關。再來將 <code>area</code> 移入 <code>impl</code> 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 <code>self</code>。在 <code>main</code> 中我們原先使用 <code>rect1</code> 作為引數呼叫的 <code>area</code>，可以改成使用<strong>方法語法</strong>（method syntax）來呼叫 <code>Rectangle</code> 的 <code>area</code> 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。</p>
+<p>要定義 <code>Rectangle</code> 中的方法，我們先為 <code>Rectangle</code> 加個 <code>impl</code>（implementation）區塊來開始。所有在此區塊的內容都跟 <code>Rectangle</code> 型別有關。再來將 <code>area</code> 移入 <code>impl</code> 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 <code>self</code>。在 <code>main</code> 中我們原先使用 <code>rect1</code> 作為引數呼叫的 <code>area</code>，可以改成使用<strong>方法語法</strong>（method syntax）來呼叫 <code>Rectangle</code> 的 <code>area</code> 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。</p>
 <p>在 <code>area</code> 的簽名中，我們使用 <code>&amp;self</code> 而非 <code>rectangle: &amp;Rectangle</code>。<code>&amp;self</code> 是 <code>self: &amp;Self</code> 的簡寫。在一個 <code>impl</code> 區塊內，<code>Self</code> 型別是該 <code>impl</code> 區塊要實作型別的別名。方法必須有個叫做 <code>self</code> 的 <code>Self</code> 型別作為它們的第一個參數，所以 Rust 讓你在寫第一個參數時能直接簡寫成 <code>self</code>。注意到我們在 <code>self</code> 縮寫的前面仍使用 <code>&amp;</code>，已表示此方法是借用 <code>Self</code> 的實例，就像我們在 <code>rectangle: &amp;Rectangle</code> 做的一樣。就和其他參數一樣，方法可以選擇拿走 <code>self</code> 的所有權、像我們這裡借用不可變的 <code>self</code> 或是借用可變的 <code>self</code>。</p>
 <p>我們之所以選擇 <code>&amp;self</code> 的原因和我們在之前函式版本的 <code>&amp;Rectangle</code> 一樣，我們不想取得所有權，只想讀取結構體的資料，而非寫入它。如果我們想要透過方法改變實例的數值的話，我們會使用 <code>&amp;mut self</code> 作為第一個參數。而只使用 <code>self</code> 取得所有權的方法更是非常少見，這種使用技巧通常是為了想改變 <code>self</code> 成你想要的樣子，並且希望能避免原本被改變的實例繼續被呼叫。</p>
 <p>使用方法而非函式最大的原因是，除了可以使用方法語法而不必在方法簽名重複 <code>self</code> 的型別之外，其更具組織性。我們將所有一個型別所能做的事都放入 <code>impl</code> 區塊中了，而不必讓未來的使用者在茫茫函式庫中尋找 <code>Rectangle</code> 的功能。</p>
@@ -3911,7 +3911,7 @@ For more information about this error, try `rustc --explain E0277`.
 error: could not compile `enums` due to previous error
 </code></pre>
 <p>這樣其實很好！此錯誤訊息事實上指的是 Rust 不知道如何將 <code>i8</code> 與 <code>Option&lt;i8&gt;</code> 相加，因為它們是不同的型別。當我們在 Rust 中有個型別像是 <code>i8</code>，編譯器將會確保我們永遠會擁有有效數值。我們可以很放心地使用該值，而不必檢查是不是空的。我們只有在使用 <code>Option&lt;i8&gt;</code> （或者任何其他要使用的型別）時才需要去擔心會不會沒有值。然後編譯器會確保我們在使用該值前，有處理過該有的條件。</p>
-<p>換句話說，你必須將 <code>Option&lt;T&gt;</code> 轉換為 <code>T</code> 你才能對 <code>T</code> 做運算。 這通常就能幫助我們抓到空值最常見的問題：認為某值不為空，但它其實就是空值。</p>
+<p>換句話說，你必須將 <code>Option&lt;T&gt;</code> 轉換為 <code>T</code> 你才能對 <code>T</code> 做運算。這通常就能幫助我們抓到空值最常見的問題：認為某值不為空，但它其實就是空值。</p>
 <p>消除掉非空值是否正確的風險，可以讓你對你寫的程式碼更有信心。要讓一個值變成可能為空的話，你必須顯式建立成對應型別的 <code>Option&lt;T&gt;</code>。然後當你要使用該值時，你就得顯式處理數值是否為空的條件。只要一個數值的型別不是 <code>Option&lt;T&gt;</code>，你就<strong>可以</strong>安全地認定該值不為空。這是 Rust 刻意考慮的設計決定，限制無所不在的空值，並增強 Rust 程式碼的安全性。</p>
 <p>所以當我們有一個數值型別 <code>Option&lt;T&gt;</code>，我們要怎麼從 <code>Some</code> 變體取出 <code>T</code>，好讓我們可以使用該值呢？<code>Option&lt;T&gt;</code> 枚舉有大量實用的方法可以在不同的場合下使用。你可以在<a href="https://doc.rust-lang.org/std/option/enum.Option.html">它的技術文件</a><!-- ignore -->查閱。更加熟悉 <code>Option&lt;T&gt;</code> 的方法十分益於你接下來的 Rust 旅程。</p>
 <p>整體來說，要使用 <code>Option&lt;T&gt;</code> 數值的話，你要讓程式碼可以處理每個變體。你會希望有一些程式碼只會在當我們有 <code>Some(T)</code> 時執行，然後這些程式碼允許使用內部的 <code>T</code>。你會希望有另一部分的程式碼能在只有 <code>None</code> 時執行，且這些程式碼不會拿到有效的 <code>T</code> 數值。<code>match</code> 表達式正是處理此枚舉行為的控制流結構：它會針對不同的枚舉變體執行不同的程式碼，而且程式碼可以使用配對到的數值資料。</p>
@@ -3967,7 +3967,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </span></code></pre></pre>
 <h3 id="綁定數值的模式"><a class="header" href="#綁定數值的模式">綁定數值的模式</a></h3>
 <p>另一項配對分支的實用功能是它們可以綁定配對模式中部分的數值，這讓我們可以取出枚舉變體中的數值。</p>
-<p>舉例來說，讓我們改變我們其中一個枚舉變體成擁有資料。從 1999 年到 2008 年，美國在鑄造 25 美分硬幣時，其中一側會有 50 個州不同的設計。不過其他的硬幣就沒有這樣的設計，只有 25 美分會有特殊值而已。我們可以改變我們的 <code>enum</code> 中的 <code>Quarter</code> 變體成儲存 <code>UsState</code> 數值，如範例 6-4所示。</p>
+<p>舉例來說，讓我們改變我們其中一個枚舉變體成擁有資料。從 1999 年到 2008 年，美國在鑄造 25 美分硬幣時，其中一側會有 50 個州不同的設計。不過其他的硬幣就沒有這樣的設計，只有 25 美分會有特殊值而已。我們可以改變我們的 <code>enum</code> 中的 <code>Quarter</code> 變體成儲存 <code>UsState</code> 數值，如範例 6-4 所示。</p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)] // 這讓我們可以顯示每個州
 enum UsState {
     Alabama,
@@ -4251,15 +4251,15 @@ error: could not compile `enums` due to previous error
 <ul>
 <li><strong>套件（Package）：</strong> 讓你建構、測試並分享 crate 的 Cargo 功能</li>
 <li><strong>Crates：</strong> 產生函式庫或執行檔的模組集合</li>
-<li><strong>模組（Modules） 與 use：</strong> 讓你控制組織、作用域與路徑的隱私權</li>
+<li><strong>模組（Modules）與 use：</strong> 讓你控制組織、作用域與路徑的隱私權</li>
 <li><strong>路徑（Paths）:</strong> 對一個項目的命名方式，像是一個結構體、函式或模組</li>
 </ul>
 <p>在本章節中，我們會涵蓋所有這些功能，討論它們如何互動，並解釋如何使用它們來管理作用域。在讀完後，你應該就會對模組系統有紮實的認知，並能夠對作用域的使用駕輕就熟！</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="套件與-crates"><a class="header" href="#套件與-crates">套件與 Crates</a></h2>
 <p>首先我們要介紹的第一個模組系統部分為套件與 crates。</p>
 <p>一個 <em>crate</em> 是 Rust 編譯器同個時間內視為程式碼的最小單位。就算你執行的是 <code>rustc</code> 而非 <code>cargo</code>，然後傳入單一源碼檔案（就像我們在第一章的「編寫並執行 Rust 程式」那樣），編譯器會將該檔案視為一個 crate。Crate 能包含模組，而模組可以在其他檔案中定義然後同時與 crate 一起編譯，我們會在接下來的段落看到。</p>
-<p>一個 crate 可以有兩種形式：執行檔 crate 或函式庫 crate。<strong>執行檔（Binary） crate</strong> 是種你能編譯成執行檔並執行的程式，像是命令列程式或伺服器。這種 crate 需要有一個函式 <code>main</code> 來定義執行檔執行時該做什麼事。目前我們建立的所有 crate 都是執行檔 crate。</p>
-<p><strong>函式庫（Library） crate</strong> 則不會有 <code>main</code> 函式，而且它們也不會編譯成執行檔。這種 crate 定義的功能用來分享給多重專案使用。舉例來說，我們在<a href="ch02-00-guessing-game-tutorial.html#%E7%94%A2%E7%94%9F%E9%9A%A8%E6%A9%9F%E6%95%B8%E5%AD%97">第二章</a><!-- ignore -->用到的 <code>rand</code> crate 就提供了產生隨機數值的功能。當大多數的 Rustacean 講到「crate」時，他們其實指的是函式庫 crate，所以他們講到「crate」時相當於就是在講其他程式語言概念中的「函式庫」。</p>
+<p>一個 crate 可以有兩種形式：執行檔 crate 或函式庫 crate。<strong>執行檔（Binary）crate</strong> 是種你能編譯成執行檔並執行的程式，像是命令列程式或伺服器。這種 crate 需要有一個函式 <code>main</code> 來定義執行檔執行時該做什麼事。目前我們建立的所有 crate 都是執行檔 crate。</p>
+<p><strong>函式庫（Library）crate</strong> 則不會有 <code>main</code> 函式，而且它們也不會編譯成執行檔。這種 crate 定義的功能用來分享給多重專案使用。舉例來說，我們在<a href="ch02-00-guessing-game-tutorial.html#%E7%94%A2%E7%94%9F%E9%9A%A8%E6%A9%9F%E6%95%B8%E5%AD%97">第二章</a><!-- ignore -->用到的 <code>rand</code> crate 就提供了產生隨機數值的功能。當大多數的 Rustacean 講到「crate」時，他們其實指的是函式庫 crate，所以他們講到「crate」時相當於就是在講其他程式語言概念中的「函式庫」。</p>
 <p><strong>crate 的源頭</strong>會是一個原始檔案，讓 Rust 的編譯器可以作為起始點並組織 crate 模組的地方（我們會在<a href="ch07-02-defining-modules-to-control-scope-and-privacy.html">「定義模組來控制作用域與隱私權」</a><!-- ignore -->的段落更加解釋模組）。</p>
 <p><strong>套件</strong>（package）則是提供一系列功能的一或數個 crate。一個套件會包含一個 <em>Cargo.toml</em> 檔案來解釋如何建構那些 crate。Cargo 本身其實就是個套件，包含了你已經用來建構程式碼的命令列工具。Cargo 套件還包含執行檔 crate 需要依賴的函式庫 crate。其他專案可以依賴 Cargo 函式庫來使用與 Cargo 命令列工具用到的相同邏輯功能。</p>
 <p>一個套件能依照你的喜好擁有數個執行檔 crate，但最多只能有一個函式庫 crate。而一個套件至少要有一個 crate，無論是函式庫或執行檔 crate。</p>
@@ -4917,7 +4917,7 @@ pub fn eat_at_restaurant() {
 </span>    let v: Vec&lt;i32&gt; = Vec::new();
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-1建立一個儲存數值型別為 <code>i32</code> 的空向量</span></p>
+<p><span class="caption">範例 8-1 建立一個儲存數值型別為 <code>i32</code> 的空向量</span></p>
 <p>注意到我們在此加了型別詮釋。因為我們沒有對此向量插入任何數值，Rust 不知道我們想儲存什麼類型的元素。這是一項重點，向量是用泛型（generics）實作，我們會在第十章說明如何為你自己的型別使用泛型。現在我們只需要知道標準函式庫提供的 <code>Vec&lt;T&gt;</code> 型別可以持有任意型別，然後當特定向量要持有特定型別時，我們可以在尖括號內指定該型別。在範例 8-1，我們告訴 Rust 在 <code>v</code> 中的 <code>Vec&lt;T&gt;</code> 會持有 <code>i32</code> 型別的元素。</p>
 <p>不過通常你在建立 <code>Vec&lt;T&gt;</code> 時只需要給予初始數值，Rust 就能推導出你想儲存的數值型別，所以你不太常會需要指明型別詮釋。Rust 還提供了 <code>vec!</code> 巨集讓我們能方便地建立一個新的向量並取得你提供的數值。在範例 8-2 中，我們建立了一個新的 <code>Vec&lt;i32&gt;</code> 並擁有數值 <code>1</code>、<code>2</code> 和 <code>3</code>。整數型別為 <code>i32</code> 是因為這是預設整數型別，如同我們在第三章的<a href="ch03-02-data-types.html#data-types">「資料型別」</a><!-- ignore --> 段落提到的一樣。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -5448,7 +5448,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p>Rust 將錯誤分成兩大類：<strong>可復原的</strong>（recoverable）和<strong>不可復原的</strong>（unrecoverable）錯誤。像是<strong>找不到檔案</strong>這種可復原的錯誤，我們通常很可能只想回報問題給使用者並重試。而不可復原的錯誤就會是程式錯誤的跡象，像是嘗試取得陣列結尾之後的位置。</p>
 <p>許多語言不會區分這兩種錯誤，並以相同的方式處理，使用像是例外（exceptions）這樣統一的機制處理。Rust 沒有例外處理機制，取而代之的是它對可復原的錯誤提供 <code>Result&lt;T, E&gt;</code> 型別，對不可復原的錯誤使用 <code>panic!</code> 將程式停止執行。本章節會先介紹 <code>panic!</code> 再來討論 <code>Result&lt;T, E&gt;</code> 數值的回傳。除此之外，我們也將探討何時該從錯誤中復原，何時該選擇停止程式。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="對無法復原的錯誤使用-panic"><a class="header" href="#對無法復原的錯誤使用-panic">對無法復原的錯誤使用 <code>panic!</code></a></h2>
-<p>有時候壞事就是會發生在你的程式中，這本來就是你沒辦法全部避免的。在這種情況，Rust 有提供 <code>panic!</code> 巨集。在實際情況下我們有兩種方式可以造成恐慌：做出確定會讓程式碼恐慌的動作（像是存取陣列範圍外的元素），或是直接呼叫　<code>panic!</code> 巨集。在這兩種狀況下，我們都對程式造成了恐慌。這些恐慌預設會印出程式出錯的訊息，展開並清理堆疊，然後離開程式。再加上環境變數的話，你還可以讓 Rust 顯示恐慌時呼叫的堆疊，讓你能更簡單地追蹤恐慌的源頭。</p>
+<p>有時候壞事就是會發生在你的程式中，這本來就是你沒辦法全部避免的。在這種情況，Rust 有提供 <code>panic!</code> 巨集。在實際情況下我們有兩種方式可以造成恐慌：做出確定會讓程式碼恐慌的動作（像是存取陣列範圍外的元素），或是直接呼叫 <code>panic!</code> 巨集。在這兩種狀況下，我們都對程式造成了恐慌。這些恐慌預設會印出程式出錯的訊息，展開並清理堆疊，然後離開程式。再加上環境變數的話，你還可以讓 Rust 顯示恐慌時呼叫的堆疊，讓你能更簡單地追蹤恐慌的源頭。</p>
 <blockquote>
 <h3 id="恐慌時該解開堆疊還是直接終止"><a class="header" href="#恐慌時該解開堆疊還是直接終止">恐慌時該解開堆疊還是直接終止</a></h3>
 <p>當恐慌（panic）發生時，程式預設會開始做<strong>解開</strong>（unwind）堆疊的動作，這代表 Rust 會回溯整個堆疊，並清理每個它遇到的函式資料。但是這樣回溯並清理的動作很花力氣。另一種方式是直接<strong>終止</strong>（abort）程式而不清理，程式使用的記憶體會需要由作業系統來清理。</p>
@@ -5789,7 +5789,7 @@ error: could not compile `error-handling` due to previous error
 </code></pre>
 <p>此錯誤告訴我們只能在回傳型別為 <code>Result</code> 或 <code>Option</code> 或其他有實作 <code>FromResidual</code> 的型別的函式才能使用 <code>?</code> 運算子。</p>
 <p>要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成與 <code>?</code> 運算子兼容的型別。另一種則是依照可能的情境使用 <code>match</code> 或 <code>Result&lt;T, E&gt;</code> 其中一種方法來處理 <code>Result&lt;T, E&gt;</code>。</p>
-<p>錯誤訊息還提到了 <code>?</code> 也能用在 <code>Option&lt;T&gt;</code> 的數值。就像 <code>?</code> 能用在 <code>Result</code>一樣，你只能在有回傳 <code>Option</code> 的函式中，對 <code>Option</code> 的值使用 <code>?</code>。在 <code>Option&lt;T&gt;</code> 呼叫 <code>?</code> 的行為與在 <code>Result&lt;T, E&gt;</code> 上呼叫類似：如果數值為　<code>None</code>，<code>None</code> 就會在函式該處被提早回傳；如果數值為 <code>Some</code>，<code>Some</code> 中的值就會是表達式的結果數值，且程式會繼續執行下去。以下範例 9-11 的函式會尋找給予文字的第一行中最後一個字元：</p>
+<p>錯誤訊息還提到了 <code>?</code> 也能用在 <code>Option&lt;T&gt;</code> 的數值。就像 <code>?</code> 能用在 <code>Result</code>一樣，你只能在有回傳 <code>Option</code> 的函式中，對 <code>Option</code> 的值使用 <code>?</code>。在 <code>Option&lt;T&gt;</code> 呼叫 <code>?</code> 的行為與在 <code>Result&lt;T, E&gt;</code> 上呼叫類似：如果數值為 <code>None</code>，<code>None</code> 就會在函式該處被提早回傳；如果數值為 <code>Some</code>，<code>Some</code> 中的值就會是表達式的結果數值，且程式會繼續執行下去。以下範例 9-11 的函式會尋找給予文字的第一行中最後一個字元：</p>
 <pre><pre class="playground"><code class="language-rust">fn last_char_of_first_line(text: &amp;str) -&gt; Option&lt;char&gt; {
     text.lines().next()?.chars().last()
 }
@@ -5850,7 +5850,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 <li>你所使用的型別沒有適合的方式能夠處理此嚴重狀態。我們會在第十七章的<a href="ch17-03-oo-design-patterns.html#%E5%AE%9A%E7%BE%A9%E7%8B%80%E6%85%8B%E8%88%87%E8%A1%8C%E7%82%BA%E6%88%90%E5%9E%8B%E5%88%A5">「定義狀態與行為成型別」</a><!-- ignore -->段落用範例解釋我們指的是什麼。</li>
 </ul>
 <p>如果有人呼叫了你的程式碼卻傳遞了不合理的數值，如果可以的話最好的辦法是回傳個錯誤，這樣函式庫的使用者可以決定在該情況下該如何處理。不過要是繼續執行下去可能會造成危險或不安全的話，最好的辦法是呼叫 <code>panic!</code> 並警告使用函式庫的人他們程式碼錯誤發生的位置，好讓他們在開發時就能修正。同樣地，<code>panic!</code> 也適合用於如果你呼叫了你無法掌控的外部程式碼，然後它回傳了你無法修正的無效狀態。</p>
-<p>不過如果失敗是可預期的，回傳 <code>Result</code> 就會比呼叫 <code>panic!</code> 來得好。類似的例子有，語法分析器 （parser）收到格式錯誤的資訊，或是 HTTP 請求回傳了一個狀態，告訴你已經達到請求上限了。在這樣的案例，回傳 <code>Result</code> 代表失敗是預期有時會發生的，而且呼叫者必須決定如何處理。</p>
+<p>不過如果失敗是可預期的，回傳 <code>Result</code> 就會比呼叫 <code>panic!</code> 來得好。類似的例子有，語法分析器（parser）收到格式錯誤的資訊，或是 HTTP 請求回傳了一個狀態，告訴你已經達到請求上限了。在這樣的案例，回傳 <code>Result</code> 代表失敗是預期有時會發生的，而且呼叫者必須決定如何處理。</p>
 <p>當你的程式碼可能會因為進行運算時輸入無效數值，而造成使用者安危的話，你的程式需要先驗證該數值，如果數值無效的話就要恐慌。這是基於安全原則，嘗試對無效資料做運算的話可能會導致你的程式碼產生漏洞。這也是標準函式庫在你嘗試取得超出界限的記憶體存取會呼叫 <code>panic!</code> 的主要原因。嘗試取得不屬於當前資料結構的記憶體是常見的安全問題。函式通常都會訂下一些<strong>合約（contracts）</strong>，它們的行為只有在輸入資料符合特定要求時才帶有保障。當違反合約時恐慌是十分合理的，因為違反合約就代表這是呼叫者的錯誤，這不是你的程式碼該主動處理的錯誤。事實上，呼叫者也沒有任何合理的理由來復原這樣的錯誤。函式的合約應該要寫在函式的技術文件中解釋，尤其是違反時會恐慌的情況。</p>
 <p>然而要在你的函式寫一大堆錯誤檢查有時是很冗長且麻煩的。幸運的是你可以利用 Rust 的型別系統（以及編譯器的型別檢查）來幫你完成檢驗。如果你的函式用特定型別作為參數的話，你就可以認定你的程式邏輯是編輯器已經幫你確保你拿到的數值是有效的。舉例來說，如果你有個一型別而非 <code>Option</code> 的話，你的程式就會預期取得<strong>某個值</strong>而不是<strong>沒拿到值</strong>。你的程式就不必處理 <code>Some</code> 和 <code>None</code> 這兩個變體情形，它只會有一種情況並絕對會拿到數值。要是有人沒有傳遞任何值給你的函式會根本無法編譯，所以你的函式就不需要在執行時做檢查。另一個例子是使用非帶號整數像是 <code>u32</code> 來確保參數不會是負數。</p>
 <h3 id="建立自訂型別來驗證"><a class="header" href="#建立自訂型別來驗證">建立自訂型別來驗證</a></h3>
@@ -6254,7 +6254,7 @@ fn main() {
 </span></code></pre></pre>
 <p><span class="caption">範例 10-10：一個只適用於擁有泛型 <code>T</code> 結構體其中的特定實際型別的 <code>impl</code> 區塊</span></p>
 <p>此程式碼代表 <code>Point&lt;f32&gt;</code> 會有個方法 <code>distance_from_origin</code>，其他 <code>Point&lt;T&gt;</code> 只要 <code>T</code> 不是型別 <code>f32</code> 的實例都不會定義此方法。此方法測量我們的點距離座標 (0.0, 0.0) 有多遠並使用只有浮點數型別能使用的數學運算。</p>
-<p>在結構體定義中的泛型型別參數不會總是和結構體方法簽名中的相同。舉例來說，範例 10-11 在 <code>Point</code> 結構體中使用泛型型別 <code>X1</code> 和 <code>Y1</code>，但在 <code>mixup</code> 方法中就使用 <code>X2</code> <code>Y2</code> 以便清楚辨別。該方法用 <code>self</code> <code>Point</code> 的 <code>x</code> 值（型別為 <code>X1</code>）與參數傳進來的 <code>Point</code>　的 <code>y</code> 值（型別為 <code>Y2</code>）來建立新的 <code>Point</code> 實例。</p>
+<p>在結構體定義中的泛型型別參數不會總是和結構體方法簽名中的相同。舉例來說，範例 10-11 在 <code>Point</code> 結構體中使用泛型型別 <code>X1</code> 和 <code>Y1</code>，但在 <code>mixup</code> 方法中就使用 <code>X2</code> <code>Y2</code> 以便清楚辨別。該方法用 <code>self</code> <code>Point</code> 的 <code>x</code> 值（型別為 <code>X1</code>）與參數傳進來的 <code>Point</code> 的 <code>y</code> 值（型別為 <code>Y2</code>）來建立新的 <code>Point</code> 實例。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Point&lt;X1, Y1&gt; {
     x: X1,
@@ -6381,8 +6381,7 @@ fn main() {
     println!(&quot;1 則新推文：{}&quot;, tweet.summarize());
 }
 </code></pre>
-<p>此程式碼會印出「1 則新推文：horse_ebooks: of course, as you probably already
-know, people」。</p>
+<p>此程式碼會印出「1 則新推文：horse_ebooks: of course, as you probably alreadyknow, people」。</p>
 <p>其他依賴 <code>aggregator</code> 函式庫的 crate 也能將 <code>Summary</code> 特徵引入作用域並對他們自己的型別實作 <code>Summary</code> 特徵。不過實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說，我們可以對自訂型別像是 <code>Tweet</code> 來實作標準函式庫的 <code>Display</code> 特徵來為我們 crate <code>aggregator</code> 增加更多功能。因為 <code>Tweet</code> 位於我們的 <code>aggregator</code> crate 裡面。我們也可以在我們的 crate <code>aggregator</code> 內對 <code>Vec&lt;T&gt;</code> 實作 <code>Summary</code>。因為特徵 <code>Summary</code> 也位於我們的 <code>aggregator</code> crate 裡面。</p>
 <p>但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 <code>aggregator</code> crate 裡面對 <code>Vec&lt;T&gt;</code> 實作 <code>Display</code> 特徵。因為 <code>Display</code> 與 <code>Vec&lt;T&gt;</code> 都定義在標準函式庫中，並沒有在我們 <code>aggregator</code> crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因為上一代（parent）型別不存在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。</p>
 <h3 id="預設實作"><a class="header" href="#預設實作">預設實作</a></h3>
@@ -7059,7 +7058,7 @@ fn main() {
 <p>你可以看出來第二個規則並不適用，因為我們有不止一個輸入生命週期。而第三個也不適用，因為 <code>longest</code> 是函式而非方法，其參數不會有 <code>self</code> 。遍歷這三個規則下來，我們仍然無法推斷出回傳型別的生命週期。這就是為何我們嘗試編譯範例 10-20 的程式碼會出錯的原因：編譯器遍歷生命週期省略規則，但仍然無法推導出簽名中所有引用的生命週期。</p>
 <p>因為第三個規則僅適用於方法簽名，我們接下來就會看看這種情況時的生命週期，看看為何第三個規則讓我們不必常常在方法簽名詮釋生命週期。</p>
 <h3 id="在方法定義中的生命週期詮釋"><a class="header" href="#在方法定義中的生命週期詮釋">在方法定義中的生命週期詮釋</a></h3>
-<p>當我們在有生命週期的結構體上實作方法時，其語法類似於我們在範例 10-11 中泛型型別參數的語法。 宣告並使用生命週期參數的地方會依據它們是否與結構體欄位或方法參數與回傳值相關。</p>
+<p>當我們在有生命週期的結構體上實作方法時，其語法類似於我們在範例 10-11 中泛型型別參數的語法。宣告並使用生命週期參數的地方會依據它們是否與結構體欄位或方法參數與回傳值相關。</p>
 <p>結構體欄位的生命週期永遠需要宣告在 <code>impl</code> 關鍵字後方以及結構體名稱後方，因為這些生命週期是結構體型別的一部分。</p>
 <p>在 <code>impl</code> 區塊中方法簽名的引用可能會與結構體欄位的引用生命週期綁定，或者它們可能是互相獨立的。除此之外，生命週期省略規則常常可以省略方法簽名中的生命週期詮釋。讓我們看看範例 10-24 定義過的 <code>ImportantExcerpt</code> 來作為範例。</p>
 <p>首先我們使用一個方叫做 <code>level</code> 其參數只有 <code>self</code> 的引用而回傳值是 <code>i32</code>，這不是任何引用：</p>
@@ -7511,7 +7510,7 @@ test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; 
 error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>我們的測試抓到了錯誤！因為 <code>larger.width</code> 是 8 而 <code>smaller.width</code> 是 5，<code>can_hold</code> 比較寬度時現在會回傳 <code>false</code>，因為 8 沒有比 5 小。</p>
-<h3 id="透過-assert_eq-與-assert_ne-macros測試相等"><a class="header" href="#透過-assert_eq-與-assert_ne-macros測試相等">透過 <code>assert_eq!</code> 與 <code>assert_ne!</code> Macros測試相等</a></h3>
+<h3 id="透過-assert_eq-與-assert_ne-macros-測試相等"><a class="header" href="#透過-assert_eq-與-assert_ne-macros-測試相等">透過 <code>assert_eq!</code> 與 <code>assert_ne!</code> Macros 測試相等</a></h3>
 <p>有一種常見驗證程式的方式是將程式碼的結果與你預期程式碼會回傳的數值做測試，檢查它們是否相等。你可以使用 <code>assert!</code> 巨集並傳入使用 <code>==</code> 運算子的表達式來辦到。不過這種測試方法是很常見的，所以標準函式庫提供了一對巨集 <code>assert_eq!</code> 與 <code>assert_ne!</code> 來讓你能更方便地測試。這兩個巨集分別比較兩個引數是否相等或不相等。如果判定失敗的話，它們還會印出兩個數值，讓我們能清楚看到<strong>為何</strong>測試失敗。相對地，<code>assert!</code> 巨集只會說明它在 <code>==</code> 表達式中取得 <code>false</code> 值，而不會告訴你導致 <code>false</code> 的那兩個值。</p>
 <p>在範例 11-7 中，我們寫了個函式叫做 <code>add_two</code> 並對參數加上 <code>2</code>，然後我們使用 <code>assert_eq!</code> 巨集來測試此函式。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -8191,7 +8190,7 @@ mod tests {
 <h3 id="整合測試"><a class="header" href="#整合測試">整合測試</a></h3>
 <p>在 Rust 中，整合測試對你的函式庫來說是完全外部的程式。它們使用你的函式庫的方式與其他程式碼一樣，所以它們只能呼叫屬於函式庫中公開 API 的函式。它們的目的是要測試你的函式庫屬個部分一起運作時有沒有正確無誤。單獨運作無誤的程式碼單元可能會在整合時出現問題，所以整合測試的程式碼的涵蓋率也很重要。要建立整合測試，你需要先有個 <em>tests</em> 目錄。</p>
 <h4 id="tests-目錄"><a class="header" href="#tests-目錄"><em>tests</em> 目錄</a></h4>
-<p>我們在專案目錄最上層在 <em>src</em> 旁建立一個 <em>tests</em> 目錄。Cargo 知道要從此目錄來尋找整合測試。我們接著就可以建立多少個測試都沒問題，Cargo會編譯每個檔案成獨立的 crate。</p>
+<p>我們在專案目錄最上層在 <em>src</em> 旁建立一個 <em>tests</em> 目錄。Cargo 知道要從此目錄來尋找整合測試。我們接著就可以建立多少個測試都沒問題，Cargo 會編譯每個檔案成獨立的 crate。</p>
 <p>讓我們來建立一個整合測試，將範例 11-12 的程式碼保留在 <em>src/lib.rs</em> 檔案中，然後建立一個 <em>tests</em> 目錄、一個叫做 <em>tests/integration_test.rs</em> 的檔案。你的目錄架構應該要長的像這樣：</p>
 <pre><code class="language-text">adder
 ├── Cargo.lock
@@ -8413,7 +8412,7 @@ fn main() {
 </code></pre>
 <p>很好，程式能執行！我們想要的引數數值都有儲存至正確的變數中。之後我們會對特定潛在錯誤的情形來加上一些錯誤處理，像是當使用者沒有提供引數的情況。現在我們先忽略這樣的情況，並開始加上讀取檔案的功能。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="讀取檔案"><a class="header" href="#讀取檔案">讀取檔案</a></h2>
-<p>現在我們要加上能夠讀取 <code>file_path</code> 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能讓我們測試，我們可以建立一個文字檔，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 <em>poem.txt</em>，然後輸入此詩 「I’m Nobody! Who are you?」</p>
+<p>現在我們要加上能夠讀取 <code>file_path</code> 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能讓我們測試，我們可以建立一個文字檔，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 <em>poem.txt</em>，然後輸入此詩「I’m Nobody! Who are you?」</p>
 <p><span class="filename">檔案名稱：poem.txt</span></p>
 <pre><code class="language-text">I'm nobody! Who are you?
 Are you nobody, too?
@@ -11585,7 +11584,7 @@ copy output below
 │       └── main.rs
 └── target
 </code></pre>
-<p>工作空間在頂層有一個 <em>target</em> 目錄用來儲存編譯結果。<code>adder</code> 套件不會有自己的 <em>target</em> 目錄。就算我們在 <em>adder</em> 目錄底下執行 <code>cargo build</code>，編譯結果仍然會在 <em>add/target</em> 底下而非 <em>add/adder/target</em>。Cargo 之所以這樣組織工作空間的 <em>target</em> 目錄是因為工作空間的 crate 是會彼此互相依賴的。 如果每個 crate 都有自己的 <em>target</em> 目錄，每個 crate 就得重新編譯工作空間中的其他每個 crate 才能將編譯結果放入它們自己的 <em>target</em> 目錄。共享 <em>target</em> 目錄的話，crate 可以避免不必要的重新建構。</p>
+<p>工作空間在頂層有一個 <em>target</em> 目錄用來儲存編譯結果。<code>adder</code> 套件不會有自己的 <em>target</em> 目錄。就算我們在 <em>adder</em> 目錄底下執行 <code>cargo build</code>，編譯結果仍然會在 <em>add/target</em> 底下而非 <em>add/adder/target</em>。Cargo 之所以這樣組織工作空間的 <em>target</em> 目錄是因為工作空間的 crate 是會彼此互相依賴的。如果每個 crate 都有自己的 <em>target</em> 目錄，每個 crate 就得重新編譯工作空間中的其他每個 crate 才能將編譯結果放入它們自己的 <em>target</em> 目錄。共享 <em>target</em> 目錄的話，crate 可以避免不必要的重新建構。</p>
 <h3 id="在工作空間中建立第二個套件"><a class="header" href="#在工作空間中建立第二個套件">在工作空間中建立第二個套件</a></h3>
 <p>接下來讓我們在工作空間中建立另一個套件成員 <code>add_one</code>。請修改頂層 <em>Cargo.toml</em> 來指定 <em>add_one</em> 的路徑到 <code>members</code> 列表中：</p>
 <p><span class="filename">檔案名稱：Cargo.toml</span></p>
@@ -11631,7 +11630,7 @@ copy output below
 add_one = { path = &quot;../add_one&quot; }
 </code></pre>
 <p>Cargo 不會假設工作空間下的 crate 會彼此依賴，我們我們要指定彼此之間依賴的關係。</p>
-<p>接著讓我們在 <code>adder</code> 內使用 <code>add_one</code> crate 的 <code>add_one</code> 函式。開啟 <em>adder/src/main.rs</em> 檔案並在最上方加上 <code>use</code> 來將 <code>add_one</code> 函式庫引入作用域。然後變更 <code>main</code> 函式來呼叫 <code>add_one</code> 函式，如範例14-7 所示。</p>
+<p>接著讓我們在 <code>adder</code> 內使用 <code>add_one</code> crate 的 <code>add_one</code> 函式。開啟 <em>adder/src/main.rs</em> 檔案並在最上方加上 <code>use</code> 來將 <code>add_one</code> 函式庫引入作用域。然後變更 <code>main</code> 函式來呼叫 <code>add_one</code> 函式，如範例 14-7 所示。</p>
 <p><span class="filename">檔案名稱：adder/src/main.rs</span></p>
 <pre><code class="language-rust ignore">use add_one;
 
@@ -12414,7 +12413,7 @@ c 離開作用域後的計數 = 2
 <p>在執行時檢查借用規則的優勢則在於能允許一些特定記憶體安全的場合，而這些原本是不被編譯時檢查所允許的。像 Rust 編譯器這種靜態分析本質上是保守的。有些程式碼特性是無法透過分析程式碼檢測出的，最著名的範例就是停機問題（Halting Problem），這超出本書的範疇，但是是個有趣的研究議題。</p>
 <p>因為有些分析是不可能的，如果 Rust 編譯器無法確定程式碼是否符合所有權規則，它可能會拒絕一支正確的程式，所以由此觀點來看能知道 Rust 編譯器是保守的。如果 Rust 接受不正確的程式，使用者就無法信任 Rust 帶來的保障。然而如果 Rust 拒絕正確的程式，對程式設計師就會很不方便，但沒有任何嚴重的災難會發生。<code>RefCell&lt;T&gt;</code> 型別就適用於當你確定你的程式碼有遵循借用規則，但是編譯器無法理解並保證的時候。</p>
 <p>類似於 <code>Rc&lt;T&gt;</code>，<code>RefCell&lt;T&gt;</code> 也只能用於單一執行緒（single-threaded）的場合，所以如果你嘗試用在多執行緒上的話就會出現編譯時錯誤。我們會在第十六章討論如何在多執行緒程式擁有 <code>RefCell&lt;T&gt;</code> 的功能。</p>
-<p>以下是何時選擇 <code>Box&lt;T&gt;</code>、<code>Rc&lt;T&gt;</code> 或 <code>RefCell&lt;T&gt;</code> 的理由:</p>
+<p>以下是何時選擇 <code>Box&lt;T&gt;</code>、<code>Rc&lt;T&gt;</code> 或 <code>RefCell&lt;T&gt;</code> 的理由：</p>
 <ul>
 <li><code>Rc&lt;T&gt;</code> 讓數個擁有者能共享相同資料；<code>Box&lt;T&gt;</code> 與 <code>RefCell&lt;T&gt;</code> 只能有一個擁有者。</li>
 <li><code>Box&lt;T&gt;</code> 能有不可變或可變的借用並在編譯時檢查；<code>Rc&lt;T&gt;</code> 則只能有不可變借用並在編譯時檢查：<code>RefCell&lt;T&gt;</code> 能有不可變或可變借用但是在執行時檢查。</li>
@@ -12669,7 +12668,7 @@ mod tests {
 <h4 id="透過-refcellt-在執行時追蹤借用"><a class="header" href="#透過-refcellt-在執行時追蹤借用">透過 <code>RefCell&lt;T&gt;</code> 在執行時追蹤借用</a></h4>
 <p>當建立不可變與可變引用時，我們分別使用 <code>&amp;</code> 和 <code>&amp;mut</code> 語法。而對於 <code>RefCell&lt;T&gt;</code> 的話，我們使用 <code>borrow</code> 和 <code>borrow_mut</code> 方法，這是 <code>RefCell&lt;T&gt;</code> 所提供的安全 API 之一。<code>borrow</code> 方法回傳一個智慧指標型別 <code>Ref&lt;T&gt;</code>，而 <code>borrow_mut</code> 回傳智慧指標型別 <code>RefMut&lt;T&gt;</code>。這兩個型別都有實作 <code>Deref</code>，所以我們可以像一般引用來對待它們。</p>
 <p><code>RefCell&lt;T&gt;</code> 會追蹤當前有多少 <code>Ref&lt;T&gt;</code> 和 <code>RefMut&lt;T&gt;</code> 智慧指標存在。每次我們呼叫 <code>borrow</code> 時，<code>RefCell&lt;T&gt;</code> 會增加不可變借用計數。當 <code>Ref&lt;T&gt;</code> 離開作用域時，不可變借用計數就會減一。就和編譯時借用規則一樣，<code>RefCell&lt;T&gt;</code> 讓我們同一時間要麼只能有一個可變引用，要麼可以有數個不可變引用。</p>
-<p>如果我們嘗試違反這些規則，我們不會像引用那樣得到編譯器錯誤，<code>RefCell&lt;T&gt;</code> 的實作會在執行時恐慌。 範例 15-23 修改了範例 15-22 的 <code>send</code> 實作。我們故意嘗試在同個作用域下建立兩個可變引用，來說明 <code>RefCell&lt;T&gt;</code> 會不允許我們在執行時這樣做。</p>
+<p>如果我們嘗試違反這些規則，我們不會像引用那樣得到編譯器錯誤，<code>RefCell&lt;T&gt;</code> 的實作會在執行時恐慌。範例 15-23 修改了範例 15-22 的 <code>send</code> 實作。我們故意嘗試在同個作用域下建立兩個可變引用，來說明 <code>RefCell&lt;T&gt;</code> 會不允許我們在執行時這樣做。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore panics"><span class="boring">pub trait Messenger {
 </span><span class="boring">    fn send(&amp;self, msg: &amp;str);
@@ -12891,7 +12890,7 @@ fn main() {}
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-26：透過兩個彼此指向對方的 <code>List</code> 數值來產生引用循環</span></p>
-<p>我們在變數 <code>a</code> 建立了一個 <code>Rc&lt;List&gt;</code> 實例的 <code>List</code> 數值並持有 <code>5, Nil</code> 初始列表的 。我們然後在變數  <code>b</code> 建立另一個 <code>Rc&lt;List&gt;</code> 實例的 <code>List</code> 數值並持有數值 10 與指向的列表 <code>a</code>。</p>
+<p>我們在變數 <code>a</code> 建立了一個 <code>Rc&lt;List&gt;</code> 實例的 <code>List</code> 數值並持有 <code>5, Nil</code> 初始列表的。我們然後在變數  <code>b</code> 建立另一個 <code>Rc&lt;List&gt;</code> 實例的 <code>List</code> 數值並持有數值 10 與指向的列表 <code>a</code>。</p>
 <p>我們將 <code>a</code> 修改為指向 <code>b</code> 而非 <code>Nil</code> 來產生循環。我們透過使用 <code>tail</code> 方法來取得 <code>a</code> 的 <code>RefCell&lt;Rc&lt;List&gt;&gt;</code> 引用，並放入變數 <code>link</code> 中。然後我們對 <code>RefCell&lt;Rc&lt;List&gt;&gt;</code> 使用 <code>borrow_mut</code> 方法來改變 <code>Rc&lt;List&gt;</code> 的值，從數值 <code>Nil</code> 改成 <code>b</code> 的 <code>Rc&lt;List&gt;</code>。</p>
 <p>當我們執行此程式並維持將最後一行的 <code>println!</code> 註解掉的話，我們會得到以下輸出：</p>
 <pre><code class="language-console">$ cargo run
@@ -13258,7 +13257,7 @@ changes in the compiler -->
 </code></pre>
 <p>像這樣將 <code>join</code> 呼叫置於何處的小細節，會影響你的執行緒會不會同時運行。</p>
 <h3 id="透過執行緒使用-move-閉包"><a class="header" href="#透過執行緒使用-move-閉包">透過執行緒使用 <code>move</code> 閉包</a></h3>
-<p>我們通常會使用 <code>thread::spawn</code> 時都會搭配有 <code>move</code> 關鍵字的閉包，因為該閉包能獲取周圍環境的數值，轉移那些數值的所有權到另一個執行緒中。 在第十三章的<a href="ch13-01-closures.html#%E7%8D%B2%E5%8F%96%E5%BC%95%E7%94%A8%E6%88%96%E7%A7%BB%E5%8B%95%E6%89%80%E6%9C%89%E6%AC%8A">「獲取引用或移動所有權」</a><!-- ignore-->段落我們討論過閉包如何運用 <code>move</code>。現在我們會來專注在 <code>move</code> 與 <code>thread::spawn</code> 之間如何互動。</p>
+<p>我們通常會使用 <code>thread::spawn</code> 時都會搭配有 <code>move</code> 關鍵字的閉包，因為該閉包能獲取周圍環境的數值，轉移那些數值的所有權到另一個執行緒中。在第十三章的<a href="ch13-01-closures.html#%E7%8D%B2%E5%8F%96%E5%BC%95%E7%94%A8%E6%88%96%E7%A7%BB%E5%8B%95%E6%89%80%E6%9C%89%E6%AC%8A">「獲取引用或移動所有權」</a><!-- ignore-->段落我們討論過閉包如何運用 <code>move</code>。現在我們會來專注在 <code>move</code> 與 <code>thread::spawn</code> 之間如何互動。</p>
 <p>在第十三章中，我們提到我們可以在閉包參數列表前使用 <code>move</code> 關鍵字來強制閉包取得其從環境獲取數值的所有權。此技巧在建立新的執行緒特別有用，讓我們可以從一個執行緒轉移數值所有權到另一個執行緒。</p>
 <p>注意到範例 16-1 中我們傳入 <code>thread::spawn</code> 的閉包沒有任何引數，我們在產生的執行緒程式碼內沒有使用主執行緒的任何資料。要在產生的執行緒中使用主執行緒的資料的話，產生的執行緒閉包必須獲取它所需的資料。範例 16-3 嘗試在主執行緒建立一個向量並在產生的執行緒使用它。不過這目前無法執行，你會在稍後知道原因。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -13756,7 +13755,7 @@ changes in the compiler -->
 <p>如果你只是想做單純的數值運算，其實標準函式庫提供的 <a href="https://doc.rust-lang.org/std/sync/atomic/index.html"><code>std::sync::atomic</code></a><!-- ignore --> 模組會比 <code>Mutex&lt;T&gt;</code> 型別來來得簡單。這些型別對原生型別提供安全、並行且原子性的順取。我們在此例對原生型別使用 <code>Mutex&lt;T&gt;</code>，是因為我們想解釋 <code>Mutex&lt;T&gt;</code> 是如何運作的。</p>
 <h3 id="refcelltrct-與-mutextarct-之間的相似度"><a class="header" href="#refcelltrct-與-mutextarct-之間的相似度"><code>RefCell&lt;T&gt;</code>/<code>Rc&lt;T&gt;</code> 與 <code>Mutex&lt;T&gt;</code>/<code>Arc&lt;T&gt;</code> 之間的相似度</a></h3>
 <p>你可能已經注意到 <code>counter</code> 是不可變的，但我們卻可以取得數值其內部的可變引用，這代表 <code>Mutex&lt;T&gt;</code> 有提供內部可變性，就像 <code>Cell</code> 家族一樣。我們在第十五章也以相同的方式使用 <code>RefCell&lt;T&gt;</code> 來讓我們能改變 <code>Rc&lt;T&gt;</code> 內部的數值，而在此我們使用 <code>Mutex&lt;T&gt;</code> 改變 <code>Arc&lt;T&gt;</code> 內部的內容。</p>
-<p>另一個值得注意的細節是當你使用 <code>Mutex&lt;T&gt;</code> 時，Rust 無法避免所有種類的邏輯錯誤。 回憶一下第十五章使用 <code>Rc&lt;T&gt;</code> 時會有可能產生引用循環的風險，兩個 <code>Rc&lt;T&gt;</code> 數值可能會彼此引用，造成記憶體泄漏。同樣地，<code>Mutex&lt;T&gt;</code> 有產生<strong>死結</strong>（deadlocks）的風險。這會發生在當有個動作需要鎖定兩個資源，而有兩個執行緒分別擁有其中一個鎖，導致它們永遠都在等待彼此。如果你對此有興趣的話，歡迎嘗試建立一個有死結的 Rust 程式，然後研究看看任何語言中避免的互斥鎖死結的策略，並嘗試實作它們在 Rust 中。標準函式庫中 <code>Mutex&lt;T&gt;</code> 與 <code>MutexGuard</code> 的 API 技術文件可以提供些實用資訊。</p>
+<p>另一個值得注意的細節是當你使用 <code>Mutex&lt;T&gt;</code> 時，Rust 無法避免所有種類的邏輯錯誤。回憶一下第十五章使用 <code>Rc&lt;T&gt;</code> 時會有可能產生引用循環的風險，兩個 <code>Rc&lt;T&gt;</code> 數值可能會彼此引用，造成記憶體泄漏。同樣地，<code>Mutex&lt;T&gt;</code> 有產生<strong>死結</strong>（deadlocks）的風險。這會發生在當有個動作需要鎖定兩個資源，而有兩個執行緒分別擁有其中一個鎖，導致它們永遠都在等待彼此。如果你對此有興趣的話，歡迎嘗試建立一個有死結的 Rust 程式，然後研究看看任何語言中避免的互斥鎖死結的策略，並嘗試實作它們在 Rust 中。標準函式庫中 <code>Mutex&lt;T&gt;</code> 與 <code>MutexGuard</code> 的 API 技術文件可以提供些實用資訊。</p>
 <p>接下來在本章結尾我們會來討論 <code>Send</code> 與 <code>Sync</code> 特徵以及我們如何在自訂型別中使用它們。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="可延展的並行與-sync-及-send-特徵"><a class="header" href="#可延展的並行與-sync-及-send-特徵">可延展的並行與 <code>Sync</code> 及 <code>Send</code> 特徵</a></h2>
 <p>有一個有趣的點是 Rust 語言提供的並行功能並<strong>沒有很多</strong>。本章節討論到的並行功能幾乎都來自於標準函式庫，並不是語言本身。你能處理並行的選項並不限於語言或標準函式庫，你可以寫出你自己的並行功能或使用其他人提供的。</p>
@@ -13917,7 +13916,7 @@ where
 </code></pre>
 <p><span class="caption">範例 17-6：<code>Screen</code> 結構體的另種實作方式，它的方法 <code>run</code> 則使用泛型與特徵界限</span></p>
 <p>這樣我們會限制 <code>Screen</code> 實例必須擁有一串全是 <code>Button</code> 型別或全是 <code>TextField</code> 型別的列表。如果你只會有同型別的集合，使用泛型與特徵界限的確是比較合適的，因為其定義就會在編譯時單態化為使用實際型別。</p>
-<p>另一方面，透過使用特徵物件的方法，<code>Screen</code> 實例就能有個同時包含 <code>Box&lt;Button&gt;</code> 與 <code>Box&lt;TextField&gt;</code> 的 <code>Vec&lt;T&gt;</code>。 讓我們看看這如何辦到的，然後我們會討論其對執行時效能的影響。</p>
+<p>另一方面，透過使用特徵物件的方法，<code>Screen</code> 實例就能有個同時包含 <code>Box&lt;Button&gt;</code> 與 <code>Box&lt;TextField&gt;</code> 的 <code>Vec&lt;T&gt;</code>。讓我們看看這如何辦到的，然後我們會討論其對執行時效能的影響。</p>
 <h3 id="實作特徵"><a class="header" href="#實作特徵">實作特徵</a></h3>
 <p>現在我們來加上一些有實作 <code>Draw</code> 特徵的型別。我們會提供 <code>Button</code> 型別。再次重申 GUI 函式庫的實際實作超出了本書的範疇，所以 <code>draw</code> 的本體不會有任何有意義的實作。為了想像該實作會像是什麼，<code>Button</code> 型別可能會有欄位 <code>width</code>、<code>height</code> 與 <code>label</code>，如範例 17-7 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -14668,7 +14667,7 @@ fn main() {
 <p>還有一個特定模式 <code>_</code> 可以獲取任意可能情況，但它不會綁定到變數中，所以它也很常用在最後的配對分支。舉例來說，<code>_</code> 模式就很適合用來忽略任何沒指明的數值。我們會在本章之後的 <a href="ch18-03-pattern-syntax.html#%E5%BF%BD%E7%95%A5%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84%E6%95%B8%E5%80%BC">「忽略模式中的數值」</a><!-- ignore -->段落談到更多 <code>_</code> 的細節。</p>
 <h3 id="if-let-條件表達式"><a class="header" href="#if-let-條件表達式"><code>if let</code> 條件表達式</a></h3>
 <p>在第六章中我們介紹了如何使用 <code>if let</code> 表達式，它等同於只配對一種情況的 <code>match</code> 表達式，主要作為更簡潔的語法。此外，<code>if let</code> 可以再加上 <code>else</code> 來包含如果 <code>if let</code> 模式不符的話能執行的程式碼。</p>
-<p>範例 18-1 展示了我們能夠混合並配對 <code>if let</code>、<code>else if</code> 與 <code>else if let</code> 表達式。這樣做可以比 <code>match</code> 表達式還來得有彈性，因為 <code>match</code> 只能有一個數值與模式們配對。另外， Rust 也不需要 <code>if let</code>、<code>else if</code> 與 <code>else if let</code> 分支之間的條件彼此要有關聯。</p>
+<p>範例 18-1 展示了我們能夠混合並配對 <code>if let</code>、<code>else if</code> 與 <code>else if let</code> 表達式。這樣做可以比 <code>match</code> 表達式還來得有彈性，因為 <code>match</code> 只能有一個數值與模式們配對。另外，Rust 也不需要 <code>if let</code>、<code>else if</code> 與 <code>else if let</code> 分支之間的條件彼此要有關聯。</p>
 <p>範例 18-1 的程式碼依據一系列的條件檢查來決定背景顏色該為何。在此例中，我們建立一個寫死的變數數值，在實際程式中應該會由使用者輸入。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -14982,7 +14981,7 @@ fn main() {
 <p><span class="caption">範例 18-13：使用結構體欄位簡寫來解構結構體欄位</span></p>
 <p>此程式碼建立了變數 <code>x</code> 與 <code>y</code> 並配對到變數 <code>p</code> 的 <code>x</code> 與 <code>y</code> 欄位。結果就是變數 <code>x</code> 與 <code>y</code> 會包含 <code>p</code> 結構體中的數值。</p>
 <p>我們也可以將字面值數值作為結構體模式中的一部分，而不用建立所有欄位的變數。這樣做我們可以在解構一些欄位成變數時，測試其他欄位是否有特定數值。</p>
-<p>在範例 18-14 的 <code>match</code> 表達式將 <code>Point</code> 的數值分成三種情況：位於 <code>x</code> 軸的點（也就是 <code>y = 0</code>）、位於 <code>y</code> 軸的點（<code>x = 0</code>） 或不在任何軸的點。</p>
+<p>在範例 18-14 的 <code>match</code> 表達式將 <code>Point</code> 的數值分成三種情況：位於 <code>x</code> 軸的點（也就是 <code>y = 0</code>）、位於 <code>y</code> 軸的點（<code>x = 0</code>）或不在任何軸的點。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Point {
 </span><span class="boring">    x: i32,
@@ -15001,11 +15000,11 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 18-14：解構並配對模式中的字面值數值</span></p>
 <p>第一個分支透過指定 <code>y</code> 欄位配對字面值為 <code>0</code> 來配對任何在 <code>x</code> 軸上的點。此模式仍然會建立變數 <code>x</code> 能讓我們在此分支的程式碼中使用。</p>
-<p>同樣地，第二個分支透過指定 <code>x</code> 欄位配對字面值為 <code>0</code> 來配對任何在 <code>y</code> 軸上的點，並建立擁有 <code>y</code> 欄位數值的變數 <code>y</code>。 第三個分支沒有指定任何字面值，所以它能配對任何其他 <code>Point</code> 並建立 <code>x</code> 與 <code>y</code> 欄位對應的變數。</p>
+<p>同樣地，第二個分支透過指定 <code>x</code> 欄位配對字面值為 <code>0</code> 來配對任何在 <code>y</code> 軸上的點，並建立擁有 <code>y</code> 欄位數值的變數 <code>y</code>。第三個分支沒有指定任何字面值，所以它能配對任何其他 <code>Point</code> 並建立 <code>x</code> 與 <code>y</code> 欄位對應的變數。</p>
 <p>在此例中，數值 <code>p</code> 會配對到第二個分支，因為其 <code>x</code> 為 0，所以此程式碼會印出 <code>位於 y 軸的 7</code>。</p>
 <p>回想一下 <code>match</code> 表達式在找到第一個符合的配對模式之後就會停止檢查分支，所以就算 <code>Point { x: 0, y: 0}</code> 真的在 <code>x</code> 軸與 <code>y</code> 軸，此程式碼也只會印出 <code>On the x axis at 0</code>。</p>
 <h4 id="解構枚舉"><a class="header" href="#解構枚舉">解構枚舉</a></h4>
-<p>我們已經在本書中之前的章節就解構過枚舉（比如第六章的範例 6-5）。 但我們還沒談到的細節是解構枚舉的模式必須與枚舉定義中其所儲存的資料相符。作為示範，我們在範例 18-15 中使用範例 6-2 的 <code>Message</code> 枚舉並寫一個 <code>match</code> 來提供會解構每個內部數值的模式。</p>
+<p>我們已經在本書中之前的章節就解構過枚舉（比如第六章的範例 6-5）。但我們還沒談到的細節是解構枚舉的模式必須與枚舉定義中其所儲存的資料相符。作為示範，我們在範例 18-15 中使用範例 6-2 的 <code>Message</code> 枚舉並寫一個 <code>match</code> 來提供會解構每個內部數值的模式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum Message {
     Quit,
@@ -15381,7 +15380,7 @@ error: could not compile `patterns` due to previous error
 <p>既然有這些危險，為什麼你還要用裸指標呢？一個主要用例是與 C 程式碼介接，你將會在下一節<a href="ch19-01-unsafe-rust.html#%E5%91%BC%E5%8F%AB%E4%B8%8D%E5%AE%89%E5%85%A8%E5%87%BD%E5%BC%8F%E6%88%96%E6%96%B9%E6%B3%95">「呼叫不安全函式或方法」</a>讀到。另一個用例是在借用檢查器不理解之處建立一層安全抽象。我們將會介紹不安全函式，再探討一個使用到不安全程式碼的安全抽象範例。</p>
 <h3 id="呼叫不安全函式或方法"><a class="header" href="#呼叫不安全函式或方法">呼叫不安全函式或方法</a></h3>
 <p>第二種需要不安全區塊的操作是呼叫不安全函式。不安全函式與方法外觀看起來與正常函式及方法並無二致，僅在整個函式定義前多了額外的 <code>unsafe</code> 。<code>unsafe</code> 關鍵字在此脈絡下是指此函式在呼叫時必須遵守某些要求，因為 Rust 無法保證我們能達成這項要求。當我們在一個 <code>unsafe</code> 區塊內呼叫一個 <code>unsafe</code> 函式，意味著我們已閱讀此函式的文件，而且有責任遵守此函式的使用條款。</p>
-<p>這裡有個不安全函式叫做 <code>dangerous</code>，函式本體內無任何東西:</p>
+<p>這裡有個不安全函式叫做 <code>dangerous</code>，函式本體內無任何東西：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    unsafe fn dangerous() {}
 
@@ -15688,7 +15687,7 @@ impl Add&lt;Meters&gt; for Millimeters {
     }
 }
 </code></pre>
-<p><span class="caption">範例 19-15：藉由替 <code>Millimeters</code> 實作 <code>Add</code> 特徵，使 <code>Millimeters</code> 可與 <code>Meters</code> 相加Point</span></p>
+<p><span class="caption">範例 19-15：藉由替 <code>Millimeters</code> 實作 <code>Add</code> 特徵，使 <code>Millimeters</code> 可與 <code>Meters</code> 相加 Point</span></p>
 <p>欲相加 <code>Millimeters</code> 與 <code>Meters</code>，先將 <code>Rhs</code> 型別參數指定為 <code>impl Add&lt;Meters&gt;</code>，替代預設的 <code>Self</code>。</p>
 <p>你會在下列兩種情況下使用預設型別參數：</p>
 <ul>
@@ -16174,7 +16173,7 @@ pub trait Write {
 </code></pre>
 <p>型別別名有助於兩個面向：讓程式碼更容易撰寫，<strong>且</strong>對所有 <code>std::io</code> 提供一致的介面。因為它僅僅是別名，所以就是一個 <code>Result&lt;T, E&gt;</code> 而已，這意味著我們能使用任何可與 <code>Result&lt;T, E&gt;</code> 互動的方法，以及使用類似 <code>?</code> 運算子這種特殊語法。</p>
 <h3 id="永不回傳的永不型別"><a class="header" href="#永不回傳的永不型別">永不回傳的永不型別</a></h3>
-<p>Rust 有一個特殊的型別叫做 <code>!</code>，由於它沒有任何值，在型別理論的行話中又稱為<strong>空型別</strong>（empty type）。不過我們更喜歡稱之為<strong>永不型別</strong>（never type），因為當一個函式永遠不會回傳，永不型別將會替代原本的回傳型別。這裡來個範例:</p>
+<p>Rust 有一個特殊的型別叫做 <code>!</code>，由於它沒有任何值，在型別理論的行話中又稱為<strong>空型別</strong>（empty type）。不過我們更喜歡稱之為<strong>永不型別</strong>（never type），因為當一個函式永遠不會回傳，永不型別將會替代原本的回傳型別。這裡來個範例：</p>
 <pre><code class="language-rust noplayground">fn bar() -&gt; ! {
     // --省略--
 <span class="boring">    panic!();
@@ -16266,7 +16265,7 @@ pub trait Write {
 </span></code></pre>
 <p>這裡迴圈永不結束，所以 <code>!</code> 就是迴圈表達式的值。但當我們有一個 <code>break</code> 時，這就不成立了，因為迴圈會在抵達 <code>break</code> 時終止。</p>
 <h3 id="動態大小型別與-sized-特徵"><a class="header" href="#動態大小型別與-sized-特徵">動態大小型別與 <code>Sized</code> 特徵</a></h3>
-<p>Rust 需要了解其型別的特定細節，例如需替特定型別之值分配多少空間。這導致型別系統有令人困惑的小地方：即是<strong>動態大小型別</strong>（dynamically sized type）的概念。 有時稱為 <em>DST</em> 或<strong>不定大小（unsize）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
+<p>Rust 需要了解其型別的特定細節，例如需替特定型別之值分配多少空間。這導致型別系統有令人困惑的小地方：即是<strong>動態大小型別</strong>（dynamically sized type）的概念。有時稱為 <em>DST</em> 或<strong>不定大小（unsize）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
 <p>讓我們深入研究一個貫穿全書到處使用的動態大小型別 <code>str</code> 的細節。你沒看錯，不是 <code>&amp;str</code> 而是 <code>str</code> 本身就是 DST。在執行期前我們無從得知字串多長，也就表示無法建立一個型別為 <code>str</code> 的變數，更不能將 <code>str</code> 型別作為引數。試想以下不能執行的程式碼：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1: str = &quot;Hello there!&quot;;
@@ -16317,7 +16316,7 @@ fn main() {
 <p><span class="caption">範例 19-27：藉由 <code>fn</code> 型別接收函式指標引數</span></p>
 <p>這段程式碼會印出 <code>答案是：12</code>。我們可以指定 <code>do_twice</code> 的參數 <code>f</code> 是一個需要一個 <code>i32</code> 當參數的 <code>fn</code>，並會回傳 <code>i32</code>。接下來我們在 <code>do_twice</code> 內呼叫 <code>f</code>。在 <code>main</code> 中，我們就可將 <code>add_one</code> 函式作為 <code>do_twice</code> 第一個引數。</p>
 <p>和閉包不同的是，<code>fn</code> 不是特徵而是一個型別，所以我們可以直接將 <code>fn</code> 作為參數型別，而不需要宣告一個以 <code>Fn</code> 特徵作為特徵限制的泛型型別參數。</p>
-<p>函式指標將 三個閉包特徵（<code>Fn</code>、<code>FnMut</code>、<code>FnOnce</code>）通通實作了， 意思是在預期要傳入閉包之處，你一定可以將函式指標作為引數傳進去。最佳的做法是寫一個同時使用泛型型別和其中一個閉包特徵的函式，這樣無論是函式還是閉包，你的函式全都可以接收。</p>
+<p>函式指標將 三個閉包特徵（<code>Fn</code>、<code>FnMut</code>、<code>FnOnce</code>）通通實作了，意思是在預期要傳入閉包之處，你一定可以將函式指標作為引數傳進去。最佳的做法是寫一個同時使用泛型型別和其中一個閉包特徵的函式，這樣無論是函式還是閉包，你的函式全都可以接收。</p>
 <p>也就是說，有個你只會想接收 <code>fn</code> 但不要閉包的例子，就是當你在與外部那些沒有閉包的程式碼打交道的時候，比如 C 可以接收函式作為引數，但 C 並沒有閉包。</p>
 <p>讓我們來看一下標準函式庫中 <code>Iterator</code> 特徵提供的 <code>map</code> 的用法，<code>map</code> 就是可以用行內閉包（closure defined inline）或一個命名函式（named function）的例子。欲將數字的向量轉換成字串的向量，我們可以使用閉包，例如：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -16522,7 +16521,7 @@ pub fn hello_macro_derive(input: TokenStream) -&gt; TokenStream {
 <p><span class="caption">範例 19-31：若要產生 Rust 程式碼，絕大部分程序式巨集 crate 都必須包含這段程式碼</span></p>
 <p>留意到了嗎，我們將程式碼函式拆分，其中 <code>hello_macro_derive</code> 函式負責解析 <code>TokenStream</code>，而 <code>impl_hello_macro</code> 函式則用來轉換語法樹（syntax tree），這讓撰寫程序式巨集更為方便。外面這個函式的程式碼（在這例子是 <code>hello_macro_derive</code>）在每個你遇見或建立的程序式巨集裡看起來都幾乎一模一樣。而在裡面的函式（在這個例子是 <code>impl_hello_macro</code>）的本體則根據不同程序式巨集的目的而有所不同。</p>
 <p>我們導入了三個新 crate：<code>proc_macro</code>，<a href="https://crates.io/crates/syn"><code>syn</code></a> 和 <a href="https://crates.io/crates/quote"><code>quote</code></a>。<code>proc_macro</code> 包含在 Rust 裡面，所以我們不需要將之加入 <em>Cargo.toml</em>。<code>proc_macro</code> crate 就是編譯器的 API，提供從我們的程式碼讀取和操作 Rust 程式碼。</p>
-<p><code>syn</code> crate 負責從字串解析 Rust 程式碼，轉成我們可以操作的資料結構。而 <code>qoute</code> crate 則將 <code>syn</code> 的資料結構轉回 Rust 程式碼。撰寫完整的Rust 程式碼解析器並不是容易的工作，而這些 crate 讓解析任何 Rust 程式碼更為簡便。</p>
+<p><code>syn</code> crate 負責從字串解析 Rust 程式碼，轉成我們可以操作的資料結構。而 <code>qoute</code> crate 則將 <code>syn</code> 的資料結構轉回 Rust 程式碼。撰寫完整的 Rust 程式碼解析器並不是容易的工作，而這些 crate 讓解析任何 Rust 程式碼更為簡便。</p>
 <p>當使用者在一個型別上指定 <code>#[derive(HelloMacro)]</code>，<code>hello_macro_derive</code> 函式就會被呼叫，這是由於我們使用 <code>proc_macro_derive</code> 和指定的 <code>HelloMacro</code> 名稱來標註 <code>hello_macro_derive</code> 函式，而其中的 <code>HelloMacro</code> 是我們的特徵名稱。以上就是大多數程序式巨集遵守的慣例。</p>
 <p><code>hello_macro_derive</code> 函式會先將輸入 <code>input</code> 的 <code>TokenStream</code> 轉換成一個我們可以翻譯並執行操作的資料結構，這就是 <code>syn</code> 參與的部分，<code>syn</code> 的 <code>parse</code> 函式需要一個 <code>TokenStream</code> 並回傳一個 <code>DeriveInput</code> 結構體，代表解析過後的 Rust 程式碼。範例 19-32 展示了解析完 <code>struct Pancakes</code> 字串後所得的 <code>DeriveInput</code> 的部分：</p>
 <pre><code class="language-rust ignore">DeriveInput {
@@ -16997,7 +16996,7 @@ fn handle_connection(mut stream: TcpStream) {
 <div style="break-before: page; page-break-before: always;"></div><h2 id="將單一執行緒伺服器轉換為多執行緒伺服器"><a class="header" href="#將單一執行緒伺服器轉換為多執行緒伺服器">將單一執行緒伺服器轉換為多執行緒伺服器</a></h2>
 <p>現在的伺服器會依序處理請求，代表它處理完第一個連線之前，都無法處理第二個連線。如果伺服器收到越來越多請求，這樣的連續處理方式會變得越來越沒效率。如果伺服器收到一個會花很久時間才能處理完成的請求，之後的請求都得等待這個長時間的請求完成才行，就算新的請求能很快處理完成也是如此。我們需要修正此問題，但首先讓我們先觀察此問題怎麼發生的。</p>
 <h3 id="對目前伺服器實作模擬緩慢的請求"><a class="header" href="#對目前伺服器實作模擬緩慢的請求">對目前伺服器實作模擬緩慢的請求</a></h3>
-<p>我們來觀察看看處理緩慢的請求如何影響我們目前伺服器實作中的其他請求。範例 20-10實作了處理 <code>/sleep</code> 的請求，其在回應前讓伺服器沉睡 5 秒鐘來模擬緩慢的回應。</p>
+<p>我們來觀察看看處理緩慢的請求如何影響我們目前伺服器實作中的其他請求。範例 20-10 實作了處理 <code>/sleep</code> 的請求，其在回應前讓伺服器沉睡 5 秒鐘來模擬緩慢的回應。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run">use std::{
     fs,
@@ -17151,7 +17150,7 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">}
 </span></code></pre>
 <p><span class="caption">範例 20-12：我們理想的 <code>ThreadPool</code> 介面</span></p>
-<p>我們使用 <code>ThreadPool::new</code> 來建立新的執行緒池且有個可設置的執行緒數量參數，在此例中設為四。然後在 <code>for</code> 迴圈中 ，<code>pool.execute</code> 的介面類似於 <code>thread::spawn</code>，其會接收一個執行緒池執行在每個流中的閉包。我們需要實作 <code>pool.execute</code>，使其能接收閉包並傳給池中的執行緒來執行。此程式碼還不能編譯，但是我們接下來能試著讓編譯器引導我們如何修正。</p>
+<p>我們使用 <code>ThreadPool::new</code> 來建立新的執行緒池且有個可設置的執行緒數量參數，在此例中設為四。然後在 <code>for</code> 迴圈中，<code>pool.execute</code> 的介面類似於 <code>thread::spawn</code>，其會接收一個執行緒池執行在每個流中的閉包。我們需要實作 <code>pool.execute</code>，使其能接收閉包並傳給池中的執行緒來執行。此程式碼還不能編譯，但是我們接下來能試著讓編譯器引導我們如何修正。</p>
 <h4 id="透過編譯器驅動開發建立-threadpool"><a class="header" href="#透過編譯器驅動開發建立-threadpool">透過編譯器驅動開發建立 <code>ThreadPool</code></a></h4>
 <p>將範例 20-12 的變更寫入 <em>src/main.rs</em>，然後讓我們從 <code>cargo check</code> 產生的編譯器錯誤來引導我們的開發吧。以下是我們第一個收到的錯誤：</p>
 <pre><code class="language-console">$ cargo check
@@ -19016,7 +19015,7 @@ fn main() {
 <h3 id="用於比較順序的-partialord-與-ord"><a class="header" href="#用於比較順序的-partialord-與-ord">用於比較順序的 <code>PartialOrd</code> 與 <code>Ord</code></a></h3>
 <p><code>PartialOrd</code> 特徵讓你比較型別實例排序的順序。有實作 <code>PartialOrd</code> 的型別能夠使用 <code>&lt;</code>、<code>&gt;</code>、<code>&lt;=</code> 與 <code>&gt;=</code> 運算子。你只能在有實作 <code>PartialEq</code> 的型別實作 <code>PartialOrd</code> 特徵。</p>
 <p>推導 <code>PartialOrd</code> 會實作 <code>partial_cmp</code> 方法，這會回傳一個 <code>Option&lt;Ordering&gt;</code>，當給予的數值無法產生任何順序的話就會是 <code>None</code>。其中一個儘管該型別大多數數值都能比較時，但仍有機會無法產生順序的範例就是非數（not-a-number, <code>NaN</code>）浮點數數值。對任意浮點數與 <code>NaN</code> 浮點數數值呼叫 <code>partial_cmp</code> 的話就會回傳 <code>None</code>。</p>
-<p>當在結構體推導時，<code>PartialOrd</code> compare會比較兩個實例，並從結構體定義的欄位順序來依序比較每個欄位的數值。而在枚舉推導時，在枚舉定義中較早宣告的枚舉變體會比之後的變體還小。</p>
+<p>當在結構體推導時，<code>PartialOrd</code> compare 會比較兩個實例，並從結構體定義的欄位順序來依序比較每個欄位的數值。而在枚舉推導時，在枚舉定義中較早宣告的枚舉變體會比之後的變體還小。</p>
 <p>舉例來說，<code>rand</code> crate 中的 <code>gen_range</code> 方法就必須要有 <code>PartialOrd</code> 特徵，該方法會在指定的範圍內產生隨機數值。</p>
 <p><code>Ord</code> 特徵能讓你知道指定型別的任意兩個數值存在著順序。<code>Ord</code> 特徵實作了 <code>cmp</code> 方法，這會回傳 <code>Ordering</code> 而不只是 <code>Option&lt;Ordering&gt;</code>，因為其永遠會有有效的順序。你只能在有實作 <code>PartialOrd</code> 與 <code>Eq</code>（而 <code>Eq</code> 需要 <code>PartialEq</code>）的特徵實作 <code>Ord</code> 特徵。在結構體與枚舉推導時，<code>cmp</code> 的行為會與 <code>PartialOrd</code> 推導的 <code>partial_cmp</code> 行為一致。</p>
 <p>其中一個需要 <code>Ord</code> 的範例就是當 <code>BTreeSet&lt;T&gt;</code> 要儲存數值的時候，這是一個依據數值排序順序儲存資料的資料結構。</p>
@@ -19138,7 +19137,7 @@ fn main() {
 <li>對非使用者來說，新的版號意味著有一些新的重大進展，讓 Rust 可能值得再看一次。</li>
 <li>對於開發 Rust 的人來說，新的版號提供整個專案的一個集結點。</li>
 </ul>
-<p>在本書撰寫時，Rust 已經有三個版號： Rust 2015 、 Rust 2018 與 Rust 2021。本書使用的是 Rust 2021 版號的慣用寫法。</p>
+<p>在本書撰寫時，Rust 已經有三個版號：Rust 2015、Rust 2018 與 Rust 2021。本書使用的是 Rust 2021 版號的慣用寫法。</p>
 <p><em>Cargo.toml</em> 中的 <code>edition</code> 指的是編譯器該對你的程式碼使用何種版號。如果沒有指定的話，Rust 會以向下相容作為考量而是使用 <code>2015</code>。</p>
 <p>每個專案都能選擇一種版號而不只是使用預設的 2015 版號。版號會包含無法相容的變更，像是包含新的關鍵字使得程式碼中的標識符衝突。然而，除非你親自改變版號，不然就算你更新 Rust 編譯器的版本，你的程式碼依然能夠編譯通過。</p>
 <p>所有的 Rust 編譯器版本會支援在其編譯器發佈之前的任何版號，而且可以連結任何支援版號的 crate。版號變更只會影響編譯器初始解析程式碼的方式而已。因此，如果你使用 Rust 2015 但你其中一個依賴使用 Rust 2018 的話，你的專案仍然能編譯並使用該依賴函式庫。相對地，當你的專案使用 Rust 2018 而有依賴使用 Rust 2015 的話依然是如此。</p>
@@ -19309,7 +19308,7 @@ $ rustup override set nightly
 <tr><td>iterative</td><td>疊代</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%BF%AD%E4%BB%A3">維基百科</a></td></tr>
 <tr><td>iterator</td><td>疊代器</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%BF%AD%E4%BB%A3%E5%99%A8">維基百科</a></td></tr>
 <tr><td>immutable</td><td>不可變</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E4%B8%8D%E5%8F%AF%E8%AE%8A%E7%89%A9%E4%BB%B6">維基百科</a></td></tr>
-<tr><td>inheritance</td><td>繼承　</td><td></td></tr>
+<tr><td>inheritance</td><td>繼承</td><td></td></tr>
 <tr><td>join</td><td>會合</td><td>意旨 threads 的會合，參考：<a href="https://github.com/rust-tw/rfcs-tw/pull/23#issuecomment-1177922394">RFC 3151 PR</a></td></tr>
 <tr><td>keyword</td><td>關鍵字</td><td></td></tr>
 <tr><td>language feature</td><td>語言特徵</td><td>參考：<a href="http://www.iicm.org.tw/term/termb_L.htm">中華民國資訊學會</a></td></tr>

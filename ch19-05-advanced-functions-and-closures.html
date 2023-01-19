@@ -162,7 +162,7 @@ fn main() {
 <p><span class="caption">範例 19-27：藉由 <code>fn</code> 型別接收函式指標引數</span></p>
 <p>這段程式碼會印出 <code>答案是：12</code>。我們可以指定 <code>do_twice</code> 的參數 <code>f</code> 是一個需要一個 <code>i32</code> 當參數的 <code>fn</code>，並會回傳 <code>i32</code>。接下來我們在 <code>do_twice</code> 內呼叫 <code>f</code>。在 <code>main</code> 中，我們就可將 <code>add_one</code> 函式作為 <code>do_twice</code> 第一個引數。</p>
 <p>和閉包不同的是，<code>fn</code> 不是特徵而是一個型別，所以我們可以直接將 <code>fn</code> 作為參數型別，而不需要宣告一個以 <code>Fn</code> 特徵作為特徵限制的泛型型別參數。</p>
-<p>函式指標將 三個閉包特徵（<code>Fn</code>、<code>FnMut</code>、<code>FnOnce</code>）通通實作了， 意思是在預期要傳入閉包之處，你一定可以將函式指標作為引數傳進去。最佳的做法是寫一個同時使用泛型型別和其中一個閉包特徵的函式，這樣無論是函式還是閉包，你的函式全都可以接收。</p>
+<p>函式指標將 三個閉包特徵（<code>Fn</code>、<code>FnMut</code>、<code>FnOnce</code>）通通實作了，意思是在預期要傳入閉包之處，你一定可以將函式指標作為引數傳進去。最佳的做法是寫一個同時使用泛型型別和其中一個閉包特徵的函式，這樣無論是函式還是閉包，你的函式全都可以接收。</p>
 <p>也就是說，有個你只會想接收 <code>fn</code> 但不要閉包的例子，就是當你在與外部那些沒有閉包的程式碼打交道的時候，比如 C 可以接收函式作為引數，但 C 並沒有閉包。</p>
 <p>讓我們來看一下標準函式庫中 <code>Iterator</code> 特徵提供的 <code>map</code> 的用法，<code>map</code> 就是可以用行內閉包（closure defined inline）或一個命名函式（named function）的例子。欲將數字的向量轉換成字串的向量，我們可以使用閉包，例如：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {

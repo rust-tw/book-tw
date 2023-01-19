@@ -213,7 +213,7 @@ fn main() {}
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-26：透過兩個彼此指向對方的 <code>List</code> 數值來產生引用循環</span></p>
-<p>我們在變數 <code>a</code> 建立了一個 <code>Rc&lt;List&gt;</code> 實例的 <code>List</code> 數值並持有 <code>5, Nil</code> 初始列表的 。我們然後在變數  <code>b</code> 建立另一個 <code>Rc&lt;List&gt;</code> 實例的 <code>List</code> 數值並持有數值 10 與指向的列表 <code>a</code>。</p>
+<p>我們在變數 <code>a</code> 建立了一個 <code>Rc&lt;List&gt;</code> 實例的 <code>List</code> 數值並持有 <code>5, Nil</code> 初始列表的。我們然後在變數  <code>b</code> 建立另一個 <code>Rc&lt;List&gt;</code> 實例的 <code>List</code> 數值並持有數值 10 與指向的列表 <code>a</code>。</p>
 <p>我們將 <code>a</code> 修改為指向 <code>b</code> 而非 <code>Nil</code> 來產生循環。我們透過使用 <code>tail</code> 方法來取得 <code>a</code> 的 <code>RefCell&lt;Rc&lt;List&gt;&gt;</code> 引用，並放入變數 <code>link</code> 中。然後我們對 <code>RefCell&lt;Rc&lt;List&gt;&gt;</code> 使用 <code>borrow_mut</code> 方法來改變 <code>Rc&lt;List&gt;</code> 的值，從數值 <code>Nil</code> 改成 <code>b</code> 的 <code>Rc&lt;List&gt;</code>。</p>
 <p>當我們執行此程式並維持將最後一行的 <code>println!</code> 註解掉的話，我們會得到以下輸出：</p>
 <pre><code class="language-console">$ cargo run

@@ -207,7 +207,7 @@ where
 </code></pre>
 <p><span class="caption">範例 17-6：<code>Screen</code> 結構體的另種實作方式，它的方法 <code>run</code> 則使用泛型與特徵界限</span></p>
 <p>這樣我們會限制 <code>Screen</code> 實例必須擁有一串全是 <code>Button</code> 型別或全是 <code>TextField</code> 型別的列表。如果你只會有同型別的集合，使用泛型與特徵界限的確是比較合適的，因為其定義就會在編譯時單態化為使用實際型別。</p>
-<p>另一方面，透過使用特徵物件的方法，<code>Screen</code> 實例就能有個同時包含 <code>Box&lt;Button&gt;</code> 與 <code>Box&lt;TextField&gt;</code> 的 <code>Vec&lt;T&gt;</code>。 讓我們看看這如何辦到的，然後我們會討論其對執行時效能的影響。</p>
+<p>另一方面，透過使用特徵物件的方法，<code>Screen</code> 實例就能有個同時包含 <code>Box&lt;Button&gt;</code> 與 <code>Box&lt;TextField&gt;</code> 的 <code>Vec&lt;T&gt;</code>。讓我們看看這如何辦到的，然後我們會討論其對執行時效能的影響。</p>
 <h3 id="實作特徵"><a class="header" href="#實作特徵">實作特徵</a></h3>
 <p>現在我們來加上一些有實作 <code>Draw</code> 特徵的型別。我們會提供 <code>Button</code> 型別。再次重申 GUI 函式庫的實際實作超出了本書的範疇，所以 <code>draw</code> 的本體不會有任何有意義的實作。為了想像該實作會像是什麼，<code>Button</code> 型別可能會有欄位 <code>width</code>、<code>height</code> 與 <code>label</code>，如範例 17-7 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>

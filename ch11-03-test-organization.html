@@ -184,7 +184,7 @@ mod tests {
 <h3 id="整合測試"><a class="header" href="#整合測試">整合測試</a></h3>
 <p>在 Rust 中，整合測試對你的函式庫來說是完全外部的程式。它們使用你的函式庫的方式與其他程式碼一樣，所以它們只能呼叫屬於函式庫中公開 API 的函式。它們的目的是要測試你的函式庫屬個部分一起運作時有沒有正確無誤。單獨運作無誤的程式碼單元可能會在整合時出現問題，所以整合測試的程式碼的涵蓋率也很重要。要建立整合測試，你需要先有個 <em>tests</em> 目錄。</p>
 <h4 id="tests-目錄"><a class="header" href="#tests-目錄"><em>tests</em> 目錄</a></h4>
-<p>我們在專案目錄最上層在 <em>src</em> 旁建立一個 <em>tests</em> 目錄。Cargo 知道要從此目錄來尋找整合測試。我們接著就可以建立多少個測試都沒問題，Cargo會編譯每個檔案成獨立的 crate。</p>
+<p>我們在專案目錄最上層在 <em>src</em> 旁建立一個 <em>tests</em> 目錄。Cargo 知道要從此目錄來尋找整合測試。我們接著就可以建立多少個測試都沒問題，Cargo 會編譯每個檔案成獨立的 crate。</p>
 <p>讓我們來建立一個整合測試，將範例 11-12 的程式碼保留在 <em>src/lib.rs</em> 檔案中，然後建立一個 <em>tests</em> 目錄、一個叫做 <em>tests/integration_test.rs</em> 的檔案。你的目錄架構應該要長的像這樣：</p>
 <pre><code class="language-text">adder
 ├── Cargo.lock

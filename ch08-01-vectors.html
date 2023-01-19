@@ -147,7 +147,7 @@
 </span>    let v: Vec&lt;i32&gt; = Vec::new();
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">範例 8-1建立一個儲存數值型別為 <code>i32</code> 的空向量</span></p>
+<p><span class="caption">範例 8-1 建立一個儲存數值型別為 <code>i32</code> 的空向量</span></p>
 <p>注意到我們在此加了型別詮釋。因為我們沒有對此向量插入任何數值，Rust 不知道我們想儲存什麼類型的元素。這是一項重點，向量是用泛型（generics）實作，我們會在第十章說明如何為你自己的型別使用泛型。現在我們只需要知道標準函式庫提供的 <code>Vec&lt;T&gt;</code> 型別可以持有任意型別，然後當特定向量要持有特定型別時，我們可以在尖括號內指定該型別。在範例 8-1，我們告訴 Rust 在 <code>v</code> 中的 <code>Vec&lt;T&gt;</code> 會持有 <code>i32</code> 型別的元素。</p>
 <p>不過通常你在建立 <code>Vec&lt;T&gt;</code> 時只需要給予初始數值，Rust 就能推導出你想儲存的數值型別，所以你不太常會需要指明型別詮釋。Rust 還提供了 <code>vec!</code> 巨集讓我們能方便地建立一個新的向量並取得你提供的數值。在範例 8-2 中，我們建立了一個新的 <code>Vec&lt;i32&gt;</code> 並擁有數值 <code>1</code>、<code>2</code> 和 <code>3</code>。整數型別為 <code>i32</code> 是因為這是預設整數型別，如同我們在第三章的<a href="ch03-02-data-types.html#data-types">「資料型別」</a><!-- ignore --> 段落提到的一樣。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {

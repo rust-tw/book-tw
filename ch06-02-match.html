@@ -191,7 +191,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </span></code></pre></pre>
 <h3 id="綁定數值的模式"><a class="header" href="#綁定數值的模式">綁定數值的模式</a></h3>
 <p>另一項配對分支的實用功能是它們可以綁定配對模式中部分的數值，這讓我們可以取出枚舉變體中的數值。</p>
-<p>舉例來說，讓我們改變我們其中一個枚舉變體成擁有資料。從 1999 年到 2008 年，美國在鑄造 25 美分硬幣時，其中一側會有 50 個州不同的設計。不過其他的硬幣就沒有這樣的設計，只有 25 美分會有特殊值而已。我們可以改變我們的 <code>enum</code> 中的 <code>Quarter</code> 變體成儲存 <code>UsState</code> 數值，如範例 6-4所示。</p>
+<p>舉例來說，讓我們改變我們其中一個枚舉變體成擁有資料。從 1999 年到 2008 年，美國在鑄造 25 美分硬幣時，其中一側會有 50 個州不同的設計。不過其他的硬幣就沒有這樣的設計，只有 25 美分會有特殊值而已。我們可以改變我們的 <code>enum</code> 中的 <code>Quarter</code> 變體成儲存 <code>UsState</code> 數值，如範例 6-4 所示。</p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)] // 這讓我們可以顯示每個州
 enum UsState {
     Alabama,

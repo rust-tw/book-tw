@@ -142,7 +142,7 @@
                         <h2 id="將單一執行緒伺服器轉換為多執行緒伺服器"><a class="header" href="#將單一執行緒伺服器轉換為多執行緒伺服器">將單一執行緒伺服器轉換為多執行緒伺服器</a></h2>
 <p>現在的伺服器會依序處理請求，代表它處理完第一個連線之前，都無法處理第二個連線。如果伺服器收到越來越多請求，這樣的連續處理方式會變得越來越沒效率。如果伺服器收到一個會花很久時間才能處理完成的請求，之後的請求都得等待這個長時間的請求完成才行，就算新的請求能很快處理完成也是如此。我們需要修正此問題，但首先讓我們先觀察此問題怎麼發生的。</p>
 <h3 id="對目前伺服器實作模擬緩慢的請求"><a class="header" href="#對目前伺服器實作模擬緩慢的請求">對目前伺服器實作模擬緩慢的請求</a></h3>
-<p>我們來觀察看看處理緩慢的請求如何影響我們目前伺服器實作中的其他請求。範例 20-10實作了處理 <code>/sleep</code> 的請求，其在回應前讓伺服器沉睡 5 秒鐘來模擬緩慢的回應。</p>
+<p>我們來觀察看看處理緩慢的請求如何影響我們目前伺服器實作中的其他請求。範例 20-10 實作了處理 <code>/sleep</code> 的請求，其在回應前讓伺服器沉睡 5 秒鐘來模擬緩慢的回應。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust no_run">use std::{
     fs,
@@ -296,7 +296,7 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">}
 </span></code></pre>
 <p><span class="caption">範例 20-12：我們理想的 <code>ThreadPool</code> 介面</span></p>
-<p>我們使用 <code>ThreadPool::new</code> 來建立新的執行緒池且有個可設置的執行緒數量參數，在此例中設為四。然後在 <code>for</code> 迴圈中 ，<code>pool.execute</code> 的介面類似於 <code>thread::spawn</code>，其會接收一個執行緒池執行在每個流中的閉包。我們需要實作 <code>pool.execute</code>，使其能接收閉包並傳給池中的執行緒來執行。此程式碼還不能編譯，但是我們接下來能試著讓編譯器引導我們如何修正。</p>
+<p>我們使用 <code>ThreadPool::new</code> 來建立新的執行緒池且有個可設置的執行緒數量參數，在此例中設為四。然後在 <code>for</code> 迴圈中，<code>pool.execute</code> 的介面類似於 <code>thread::spawn</code>，其會接收一個執行緒池執行在每個流中的閉包。我們需要實作 <code>pool.execute</code>，使其能接收閉包並傳給池中的執行緒來執行。此程式碼還不能編譯，但是我們接下來能試著讓編譯器引導我們如何修正。</p>
 <h4 id="透過編譯器驅動開發建立-threadpool"><a class="header" href="#透過編譯器驅動開發建立-threadpool">透過編譯器驅動開發建立 <code>ThreadPool</code></a></h4>
 <p>將範例 20-12 的變更寫入 <em>src/main.rs</em>，然後讓我們從 <code>cargo check</code> 產生的編譯器錯誤來引導我們的開發吧。以下是我們第一個收到的錯誤：</p>
 <pre><code class="language-console">$ cargo check

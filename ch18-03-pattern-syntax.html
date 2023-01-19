@@ -252,7 +252,7 @@ fn main() {
 <p><span class="caption">範例 18-13：使用結構體欄位簡寫來解構結構體欄位</span></p>
 <p>此程式碼建立了變數 <code>x</code> 與 <code>y</code> 並配對到變數 <code>p</code> 的 <code>x</code> 與 <code>y</code> 欄位。結果就是變數 <code>x</code> 與 <code>y</code> 會包含 <code>p</code> 結構體中的數值。</p>
 <p>我們也可以將字面值數值作為結構體模式中的一部分，而不用建立所有欄位的變數。這樣做我們可以在解構一些欄位成變數時，測試其他欄位是否有特定數值。</p>
-<p>在範例 18-14 的 <code>match</code> 表達式將 <code>Point</code> 的數值分成三種情況：位於 <code>x</code> 軸的點（也就是 <code>y = 0</code>）、位於 <code>y</code> 軸的點（<code>x = 0</code>） 或不在任何軸的點。</p>
+<p>在範例 18-14 的 <code>match</code> 表達式將 <code>Point</code> 的數值分成三種情況：位於 <code>x</code> 軸的點（也就是 <code>y = 0</code>）、位於 <code>y</code> 軸的點（<code>x = 0</code>）或不在任何軸的點。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Point {
 </span><span class="boring">    x: i32,
@@ -271,11 +271,11 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 18-14：解構並配對模式中的字面值數值</span></p>
 <p>第一個分支透過指定 <code>y</code> 欄位配對字面值為 <code>0</code> 來配對任何在 <code>x</code> 軸上的點。此模式仍然會建立變數 <code>x</code> 能讓我們在此分支的程式碼中使用。</p>
-<p>同樣地，第二個分支透過指定 <code>x</code> 欄位配對字面值為 <code>0</code> 來配對任何在 <code>y</code> 軸上的點，並建立擁有 <code>y</code> 欄位數值的變數 <code>y</code>。 第三個分支沒有指定任何字面值，所以它能配對任何其他 <code>Point</code> 並建立 <code>x</code> 與 <code>y</code> 欄位對應的變數。</p>
+<p>同樣地，第二個分支透過指定 <code>x</code> 欄位配對字面值為 <code>0</code> 來配對任何在 <code>y</code> 軸上的點，並建立擁有 <code>y</code> 欄位數值的變數 <code>y</code>。第三個分支沒有指定任何字面值，所以它能配對任何其他 <code>Point</code> 並建立 <code>x</code> 與 <code>y</code> 欄位對應的變數。</p>
 <p>在此例中，數值 <code>p</code> 會配對到第二個分支，因為其 <code>x</code> 為 0，所以此程式碼會印出 <code>位於 y 軸的 7</code>。</p>
 <p>回想一下 <code>match</code> 表達式在找到第一個符合的配對模式之後就會停止檢查分支，所以就算 <code>Point { x: 0, y: 0}</code> 真的在 <code>x</code> 軸與 <code>y</code> 軸，此程式碼也只會印出 <code>On the x axis at 0</code>。</p>
 <h4 id="解構枚舉"><a class="header" href="#解構枚舉">解構枚舉</a></h4>
-<p>我們已經在本書中之前的章節就解構過枚舉（比如第六章的範例 6-5）。 但我們還沒談到的細節是解構枚舉的模式必須與枚舉定義中其所儲存的資料相符。作為示範，我們在範例 18-15 中使用範例 6-2 的 <code>Message</code> 枚舉並寫一個 <code>match</code> 來提供會解構每個內部數值的模式。</p>
+<p>我們已經在本書中之前的章節就解構過枚舉（比如第六章的範例 6-5）。但我們還沒談到的細節是解構枚舉的模式必須與枚舉定義中其所儲存的資料相符。作為示範，我們在範例 18-15 中使用範例 6-2 的 <code>Message</code> 枚舉並寫一個 <code>match</code> 來提供會解構每個內部數值的模式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum Message {
     Quit,

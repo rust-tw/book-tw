@@ -376,7 +376,7 @@ warning: `guessing_game` (bin &quot;guessing_game&quot;) generated 1 warning
 </span>let x = 5;
 let y = 10;
 
-println!(&quot;x = {ｘ} 而且 y + 2 = {}&quot;, y + 2);
+println!(&quot;x = {x} 而且 y + 2 = {}&quot;, y + 2);
 <span class="boring">}
 </span></code></pre></pre>
 <p>此程式碼會印出 <code>x = 5 而且 y = 12</code>。</p>
@@ -400,7 +400,7 @@ input 6 -->
 <h2 id="產生祕密數字"><a class="header" href="#產生祕密數字">產生祕密數字</a></h2>
 <p>接下來，我們要產生一個能讓使用者猜看看的祕密數字。祕密數字每次都要不同，這樣遊戲才值得多玩幾次。讓我們使用 1 到 100 之間的隨機數字，這樣遊戲才不會太困難。Rust 的標準函式庫並不包含產生隨機數字的功能。然而，Rust 團隊有提供個 <a href="https://crates.io/crates/rand"><code>rand</code> crate</a>。</p>
 <h3 id="使用-crate-來取得更多功能"><a class="header" href="#使用-crate-來取得更多功能">使用 Crate 來取得更多功能</a></h3>
-<p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<strong>執行檔（binary） crate</strong>，也就會是個執行檔。而 <code>rand</code> crate 屬於<strong>函式庫（library） crate</strong>，這會包含讓其他程式能夠使用的程式碼。</p>
+<p>所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於<strong>執行檔（binary）crate</strong>，也就會是個執行檔。而 <code>rand</code> crate 屬於<strong>函式庫（library）crate</strong>，這會包含讓其他程式能夠使用的程式碼。</p>
 <p>Cargo 協調外部 crate 的功能正是它的亮點。在我們可以使用 <code>rand</code> 來寫程式碼前，我們需要修改 <em>Cargo.toml</em> 檔案來包含 <code>rand</code> crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 <code>[dependencies]</code> 標頭（header）段落中最後一行下面。記得確認 <code>rand</code> 指定的版本數字與我們相同，不然此教學的範例程式碼可能不會運行成功：</p>
 <!-- When updating the version of `rand` used, also update the version of
 `rand` used in these files so they all match:
@@ -471,7 +471,7 @@ as a guide to creating the hypothetical output shown here -->
 <pre><code class="language-toml">[dependencies]
 rand = &quot;0.9.0&quot;
 </code></pre>
-<p>下次你執行 <code>cargo build</code> 時，Cargo 將會更新 crate registry ，並依據你指定的新版本來重新評估 <code>rand</code> 的確切版本。</p>
+<p>下次你執行 <code>cargo build</code> 時，Cargo 將會更新 crate registry，並依據你指定的新版本來重新評估 <code>rand</code> 的確切版本。</p>
 <p><a href="http://doc.crates.io">Cargo</a><!-- ignore --> 與<a href="http://doc.crates.io/crates-io.html">其生態系統</a><!-- ignore -->還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。</p>
 <h3 id="產生隨機數字"><a class="header" href="#產生隨機數字">產生隨機數字</a></h3>
 <p>讓我們開始使用 <code>rand</code> 產生數字來猜吧！下一步是更新 <em>src/main.rs</em>，如範例 2-3 所示。</p>
@@ -592,7 +592,7 @@ note: associated function defined here
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `guessing_game` due to previous error
 </code></pre>
-<p>錯誤的關鍵表示<strong>型別無法配對（mismatched types）</strong>。Rust 有個強力的靜態型別系統，但它也提供了型別推斷。當我們寫 <code>let mut guess = String::new()</code> 時，Rust 能夠推斷出 <code>guess</code> 應該要是 <code>String</code> 讓我們不必親自寫出型別。另一方面，<code>secret_number</code> 則是個數字型別。以下是一些在 Rust 中可以包含數字 1 到 100 的數字型別：32 位元數字 <code>i32</code>、非帶號（unsigned） 32 位元數字 <code>u32</code>、64 位元數字 <code>i64</code>，以及更多等等。Rust 預設的數字型別為 <code>i32</code>，這就是 <code>secret_number</code> 的型別，除非你特地加上型別詮釋，Rust 才會推斷成不同的數字型別。此錯誤原因是因為 Rust 無法比較將字串與數字型別做比較。</p>
+<p>錯誤的關鍵表示<strong>型別無法配對（mismatched types）</strong>。Rust 有個強力的靜態型別系統，但它也提供了型別推斷。當我們寫 <code>let mut guess = String::new()</code> 時，Rust 能夠推斷出 <code>guess</code> 應該要是 <code>String</code> 讓我們不必親自寫出型別。另一方面，<code>secret_number</code> 則是個數字型別。以下是一些在 Rust 中可以包含數字 1 到 100 的數字型別：32 位元數字 <code>i32</code>、非帶號（unsigned）32 位元數字 <code>u32</code>、64 位元數字 <code>i64</code>，以及更多等等。Rust 預設的數字型別為 <code>i32</code>，這就是 <code>secret_number</code> 的型別，除非你特地加上型別詮釋，Rust 才會推斷成不同的數字型別。此錯誤原因是因為 Rust 無法比較將字串與數字型別做比較。</p>
 <p>所以我們要將程式從輸入讀取的 <code>String</code> 轉換成真正的數字型別，讓我們可以將其與祕密數字做比較。我們可以在 <code>main</code> 函式本體加上另一行程式碼：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;

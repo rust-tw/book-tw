@@ -483,7 +483,7 @@ test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; 
 error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>我們的測試抓到了錯誤！因為 <code>larger.width</code> 是 8 而 <code>smaller.width</code> 是 5，<code>can_hold</code> 比較寬度時現在會回傳 <code>false</code>，因為 8 沒有比 5 小。</p>
-<h3 id="透過-assert_eq-與-assert_ne-macros測試相等"><a class="header" href="#透過-assert_eq-與-assert_ne-macros測試相等">透過 <code>assert_eq!</code> 與 <code>assert_ne!</code> Macros測試相等</a></h3>
+<h3 id="透過-assert_eq-與-assert_ne-macros-測試相等"><a class="header" href="#透過-assert_eq-與-assert_ne-macros-測試相等">透過 <code>assert_eq!</code> 與 <code>assert_ne!</code> Macros 測試相等</a></h3>
 <p>有一種常見驗證程式的方式是將程式碼的結果與你預期程式碼會回傳的數值做測試，檢查它們是否相等。你可以使用 <code>assert!</code> 巨集並傳入使用 <code>==</code> 運算子的表達式來辦到。不過這種測試方法是很常見的，所以標準函式庫提供了一對巨集 <code>assert_eq!</code> 與 <code>assert_ne!</code> 來讓你能更方便地測試。這兩個巨集分別比較兩個引數是否相等或不相等。如果判定失敗的話，它們還會印出兩個數值，讓我們能清楚看到<strong>為何</strong>測試失敗。相對地，<code>assert!</code> 巨集只會說明它在 <code>==</code> 表達式中取得 <code>false</code> 值，而不會告訴你導致 <code>false</code> 的那兩個值。</p>
 <p>在範例 11-7 中，我們寫了個函式叫做 <code>add_two</code> 並對參數加上 <code>2</code>，然後我們使用 <code>assert_eq!</code> 巨集來測試此函式。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>

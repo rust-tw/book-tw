@@ -173,7 +173,7 @@ copy output below
 │       └── main.rs
 └── target
 </code></pre>
-<p>工作空間在頂層有一個 <em>target</em> 目錄用來儲存編譯結果。<code>adder</code> 套件不會有自己的 <em>target</em> 目錄。就算我們在 <em>adder</em> 目錄底下執行 <code>cargo build</code>，編譯結果仍然會在 <em>add/target</em> 底下而非 <em>add/adder/target</em>。Cargo 之所以這樣組織工作空間的 <em>target</em> 目錄是因為工作空間的 crate 是會彼此互相依賴的。 如果每個 crate 都有自己的 <em>target</em> 目錄，每個 crate 就得重新編譯工作空間中的其他每個 crate 才能將編譯結果放入它們自己的 <em>target</em> 目錄。共享 <em>target</em> 目錄的話，crate 可以避免不必要的重新建構。</p>
+<p>工作空間在頂層有一個 <em>target</em> 目錄用來儲存編譯結果。<code>adder</code> 套件不會有自己的 <em>target</em> 目錄。就算我們在 <em>adder</em> 目錄底下執行 <code>cargo build</code>，編譯結果仍然會在 <em>add/target</em> 底下而非 <em>add/adder/target</em>。Cargo 之所以這樣組織工作空間的 <em>target</em> 目錄是因為工作空間的 crate 是會彼此互相依賴的。如果每個 crate 都有自己的 <em>target</em> 目錄，每個 crate 就得重新編譯工作空間中的其他每個 crate 才能將編譯結果放入它們自己的 <em>target</em> 目錄。共享 <em>target</em> 目錄的話，crate 可以避免不必要的重新建構。</p>
 <h3 id="在工作空間中建立第二個套件"><a class="header" href="#在工作空間中建立第二個套件">在工作空間中建立第二個套件</a></h3>
 <p>接下來讓我們在工作空間中建立另一個套件成員 <code>add_one</code>。請修改頂層 <em>Cargo.toml</em> 來指定 <em>add_one</em> 的路徑到 <code>members</code> 列表中：</p>
 <p><span class="filename">檔案名稱：Cargo.toml</span></p>
@@ -219,7 +219,7 @@ copy output below
 add_one = { path = &quot;../add_one&quot; }
 </code></pre>
 <p>Cargo 不會假設工作空間下的 crate 會彼此依賴，我們我們要指定彼此之間依賴的關係。</p>
-<p>接著讓我們在 <code>adder</code> 內使用 <code>add_one</code> crate 的 <code>add_one</code> 函式。開啟 <em>adder/src/main.rs</em> 檔案並在最上方加上 <code>use</code> 來將 <code>add_one</code> 函式庫引入作用域。然後變更 <code>main</code> 函式來呼叫 <code>add_one</code> 函式，如範例14-7 所示。</p>
+<p>接著讓我們在 <code>adder</code> 內使用 <code>add_one</code> crate 的 <code>add_one</code> 函式。開啟 <em>adder/src/main.rs</em> 檔案並在最上方加上 <code>use</code> 來將 <code>add_one</code> 函式庫引入作用域。然後變更 <code>main</code> 函式來呼叫 <code>add_one</code> 函式，如範例 14-7 所示。</p>
 <p><span class="filename">檔案名稱：adder/src/main.rs</span></p>
 <pre><code class="language-rust ignore">use add_one;
 

@@ -393,7 +393,7 @@ For more information about this error, try `rustc --explain E0277`.
 error: could not compile `enums` due to previous error
 </code></pre>
 <p>這樣其實很好！此錯誤訊息事實上指的是 Rust 不知道如何將 <code>i8</code> 與 <code>Option&lt;i8&gt;</code> 相加，因為它們是不同的型別。當我們在 Rust 中有個型別像是 <code>i8</code>，編譯器將會確保我們永遠會擁有有效數值。我們可以很放心地使用該值，而不必檢查是不是空的。我們只有在使用 <code>Option&lt;i8&gt;</code> （或者任何其他要使用的型別）時才需要去擔心會不會沒有值。然後編譯器會確保我們在使用該值前，有處理過該有的條件。</p>
-<p>換句話說，你必須將 <code>Option&lt;T&gt;</code> 轉換為 <code>T</code> 你才能對 <code>T</code> 做運算。 這通常就能幫助我們抓到空值最常見的問題：認為某值不為空，但它其實就是空值。</p>
+<p>換句話說，你必須將 <code>Option&lt;T&gt;</code> 轉換為 <code>T</code> 你才能對 <code>T</code> 做運算。這通常就能幫助我們抓到空值最常見的問題：認為某值不為空，但它其實就是空值。</p>
 <p>消除掉非空值是否正確的風險，可以讓你對你寫的程式碼更有信心。要讓一個值變成可能為空的話，你必須顯式建立成對應型別的 <code>Option&lt;T&gt;</code>。然後當你要使用該值時，你就得顯式處理數值是否為空的條件。只要一個數值的型別不是 <code>Option&lt;T&gt;</code>，你就<strong>可以</strong>安全地認定該值不為空。這是 Rust 刻意考慮的設計決定，限制無所不在的空值，並增強 Rust 程式碼的安全性。</p>
 <p>所以當我們有一個數值型別 <code>Option&lt;T&gt;</code>，我們要怎麼從 <code>Some</code> 變體取出 <code>T</code>，好讓我們可以使用該值呢？<code>Option&lt;T&gt;</code> 枚舉有大量實用的方法可以在不同的場合下使用。你可以在<a href="https://doc.rust-lang.org/std/option/enum.Option.html">它的技術文件</a><!-- ignore -->查閱。更加熟悉 <code>Option&lt;T&gt;</code> 的方法十分益於你接下來的 Rust 旅程。</p>
 <p>整體來說，要使用 <code>Option&lt;T&gt;</code> 數值的話，你要讓程式碼可以處理每個變體。你會希望有一些程式碼只會在當我們有 <code>Some(T)</code> 時執行，然後這些程式碼允許使用內部的 <code>T</code>。你會希望有另一部分的程式碼能在只有 <code>None</code> 時執行，且這些程式碼不會拿到有效的 <code>T</code> 數值。<code>match</code> 表達式正是處理此枚舉行為的控制流結構：它會針對不同的枚舉變體執行不同的程式碼，而且程式碼可以使用配對到的數值資料。</p>

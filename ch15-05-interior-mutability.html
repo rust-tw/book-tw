@@ -154,7 +154,7 @@
 <p>在執行時檢查借用規則的優勢則在於能允許一些特定記憶體安全的場合，而這些原本是不被編譯時檢查所允許的。像 Rust 編譯器這種靜態分析本質上是保守的。有些程式碼特性是無法透過分析程式碼檢測出的，最著名的範例就是停機問題（Halting Problem），這超出本書的範疇，但是是個有趣的研究議題。</p>
 <p>因為有些分析是不可能的，如果 Rust 編譯器無法確定程式碼是否符合所有權規則，它可能會拒絕一支正確的程式，所以由此觀點來看能知道 Rust 編譯器是保守的。如果 Rust 接受不正確的程式，使用者就無法信任 Rust 帶來的保障。然而如果 Rust 拒絕正確的程式，對程式設計師就會很不方便，但沒有任何嚴重的災難會發生。<code>RefCell&lt;T&gt;</code> 型別就適用於當你確定你的程式碼有遵循借用規則，但是編譯器無法理解並保證的時候。</p>
 <p>類似於 <code>Rc&lt;T&gt;</code>，<code>RefCell&lt;T&gt;</code> 也只能用於單一執行緒（single-threaded）的場合，所以如果你嘗試用在多執行緒上的話就會出現編譯時錯誤。我們會在第十六章討論如何在多執行緒程式擁有 <code>RefCell&lt;T&gt;</code> 的功能。</p>
-<p>以下是何時選擇 <code>Box&lt;T&gt;</code>、<code>Rc&lt;T&gt;</code> 或 <code>RefCell&lt;T&gt;</code> 的理由:</p>
+<p>以下是何時選擇 <code>Box&lt;T&gt;</code>、<code>Rc&lt;T&gt;</code> 或 <code>RefCell&lt;T&gt;</code> 的理由：</p>
 <ul>
 <li><code>Rc&lt;T&gt;</code> 讓數個擁有者能共享相同資料；<code>Box&lt;T&gt;</code> 與 <code>RefCell&lt;T&gt;</code> 只能有一個擁有者。</li>
 <li><code>Box&lt;T&gt;</code> 能有不可變或可變的借用並在編譯時檢查；<code>Rc&lt;T&gt;</code> 則只能有不可變借用並在編譯時檢查：<code>RefCell&lt;T&gt;</code> 能有不可變或可變借用但是在執行時檢查。</li>
@@ -409,7 +409,7 @@ mod tests {
 <h4 id="透過-refcellt-在執行時追蹤借用"><a class="header" href="#透過-refcellt-在執行時追蹤借用">透過 <code>RefCell&lt;T&gt;</code> 在執行時追蹤借用</a></h4>
 <p>當建立不可變與可變引用時，我們分別使用 <code>&amp;</code> 和 <code>&amp;mut</code> 語法。而對於 <code>RefCell&lt;T&gt;</code> 的話，我們使用 <code>borrow</code> 和 <code>borrow_mut</code> 方法，這是 <code>RefCell&lt;T&gt;</code> 所提供的安全 API 之一。<code>borrow</code> 方法回傳一個智慧指標型別 <code>Ref&lt;T&gt;</code>，而 <code>borrow_mut</code> 回傳智慧指標型別 <code>RefMut&lt;T&gt;</code>。這兩個型別都有實作 <code>Deref</code>，所以我們可以像一般引用來對待它們。</p>
 <p><code>RefCell&lt;T&gt;</code> 會追蹤當前有多少 <code>Ref&lt;T&gt;</code> 和 <code>RefMut&lt;T&gt;</code> 智慧指標存在。每次我們呼叫 <code>borrow</code> 時，<code>RefCell&lt;T&gt;</code> 會增加不可變借用計數。當 <code>Ref&lt;T&gt;</code> 離開作用域時，不可變借用計數就會減一。就和編譯時借用規則一樣，<code>RefCell&lt;T&gt;</code> 讓我們同一時間要麼只能有一個可變引用，要麼可以有數個不可變引用。</p>
-<p>如果我們嘗試違反這些規則，我們不會像引用那樣得到編譯器錯誤，<code>RefCell&lt;T&gt;</code> 的實作會在執行時恐慌。 範例 15-23 修改了範例 15-22 的 <code>send</code> 實作。我們故意嘗試在同個作用域下建立兩個可變引用，來說明 <code>RefCell&lt;T&gt;</code> 會不允許我們在執行時這樣做。</p>
+<p>如果我們嘗試違反這些規則，我們不會像引用那樣得到編譯器錯誤，<code>RefCell&lt;T&gt;</code> 的實作會在執行時恐慌。範例 15-23 修改了範例 15-22 的 <code>send</code> 實作。我們故意嘗試在同個作用域下建立兩個可變引用，來說明 <code>RefCell&lt;T&gt;</code> 會不允許我們在執行時這樣做。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore panics"><span class="boring">pub trait Messenger {
 </span><span class="boring">    fn send(&amp;self, msg: &amp;str);

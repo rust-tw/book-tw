@@ -224,7 +224,7 @@
                                        // s 不再有效
 <span class="boring">}
 </span></code></pre></pre>
-<p>當 <code>s</code> 離開作用域時，我們就可以很自然地將 <code>String</code> 所需要的記憶體釋放回分配器。 當變數離開作用域時，Rust 會幫我們呼叫一個特殊函式。此函式叫做 <a href="https://doc.rust-lang.org/std/ops/trait.Drop.html#tymethod.drop"><code>drop</code></a><!-- ignore -->，在這裡當時 <code>String</code> 的作者就可以寫入釋放記憶體的程式碼。Rust 會在大括號結束時自動呼叫 <code>drop</code>。</p>
+<p>當 <code>s</code> 離開作用域時，我們就可以很自然地將 <code>String</code> 所需要的記憶體釋放回分配器。當變數離開作用域時，Rust 會幫我們呼叫一個特殊函式。此函式叫做 <a href="https://doc.rust-lang.org/std/ops/trait.Drop.html#tymethod.drop"><code>drop</code></a><!-- ignore -->，在這裡當時 <code>String</code> 的作者就可以寫入釋放記憶體的程式碼。Rust 會在大括號結束時自動呼叫 <code>drop</code>。</p>
 <blockquote>
 <p>注意：在 C++，這樣在項目生命週期結束時釋放資源的模式，有時被稱為<strong>資源取得即初始化（Resource Acquisition Is Initialization, RAII）</strong>。如果你已經用過 RAII 的模式，那麼你應該就會很熟悉 Rust 的 <code>drop</code> 函式。</p>
 </blockquote>

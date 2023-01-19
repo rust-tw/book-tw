@@ -246,7 +246,7 @@ pub trait Write {
 </code></pre>
 <p>型別別名有助於兩個面向：讓程式碼更容易撰寫，<strong>且</strong>對所有 <code>std::io</code> 提供一致的介面。因為它僅僅是別名，所以就是一個 <code>Result&lt;T, E&gt;</code> 而已，這意味著我們能使用任何可與 <code>Result&lt;T, E&gt;</code> 互動的方法，以及使用類似 <code>?</code> 運算子這種特殊語法。</p>
 <h3 id="永不回傳的永不型別"><a class="header" href="#永不回傳的永不型別">永不回傳的永不型別</a></h3>
-<p>Rust 有一個特殊的型別叫做 <code>!</code>，由於它沒有任何值，在型別理論的行話中又稱為<strong>空型別</strong>（empty type）。不過我們更喜歡稱之為<strong>永不型別</strong>（never type），因為當一個函式永遠不會回傳，永不型別將會替代原本的回傳型別。這裡來個範例:</p>
+<p>Rust 有一個特殊的型別叫做 <code>!</code>，由於它沒有任何值，在型別理論的行話中又稱為<strong>空型別</strong>（empty type）。不過我們更喜歡稱之為<strong>永不型別</strong>（never type），因為當一個函式永遠不會回傳，永不型別將會替代原本的回傳型別。這裡來個範例：</p>
 <pre><code class="language-rust noplayground">fn bar() -&gt; ! {
     // --省略--
 <span class="boring">    panic!();
@@ -338,7 +338,7 @@ pub trait Write {
 </span></code></pre>
 <p>這裡迴圈永不結束，所以 <code>!</code> 就是迴圈表達式的值。但當我們有一個 <code>break</code> 時，這就不成立了，因為迴圈會在抵達 <code>break</code> 時終止。</p>
 <h3 id="動態大小型別與-sized-特徵"><a class="header" href="#動態大小型別與-sized-特徵">動態大小型別與 <code>Sized</code> 特徵</a></h3>
-<p>Rust 需要了解其型別的特定細節，例如需替特定型別之值分配多少空間。這導致型別系統有令人困惑的小地方：即是<strong>動態大小型別</strong>（dynamically sized type）的概念。 有時稱為 <em>DST</em> 或<strong>不定大小（unsize）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
+<p>Rust 需要了解其型別的特定細節，例如需替特定型別之值分配多少空間。這導致型別系統有令人困惑的小地方：即是<strong>動態大小型別</strong>（dynamically sized type）的概念。有時稱為 <em>DST</em> 或<strong>不定大小（unsize）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
 <p>讓我們深入研究一個貫穿全書到處使用的動態大小型別 <code>str</code> 的細節。你沒看錯，不是 <code>&amp;str</code> 而是 <code>str</code> 本身就是 DST。在執行期前我們無從得知字串多長，也就表示無法建立一個型別為 <code>str</code> 的變數，更不能將 <code>str</code> 型別作為引數。試想以下不能執行的程式碼：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1: str = &quot;Hello there!&quot;;

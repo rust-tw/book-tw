@@ -270,7 +270,7 @@ changes in the compiler -->
 </code></pre>
 <p>像這樣將 <code>join</code> 呼叫置於何處的小細節，會影響你的執行緒會不會同時運行。</p>
 <h3 id="透過執行緒使用-move-閉包"><a class="header" href="#透過執行緒使用-move-閉包">透過執行緒使用 <code>move</code> 閉包</a></h3>
-<p>我們通常會使用 <code>thread::spawn</code> 時都會搭配有 <code>move</code> 關鍵字的閉包，因為該閉包能獲取周圍環境的數值，轉移那些數值的所有權到另一個執行緒中。 在第十三章的<a href="ch13-01-closures.html#%E7%8D%B2%E5%8F%96%E5%BC%95%E7%94%A8%E6%88%96%E7%A7%BB%E5%8B%95%E6%89%80%E6%9C%89%E6%AC%8A">「獲取引用或移動所有權」</a><!-- ignore-->段落我們討論過閉包如何運用 <code>move</code>。現在我們會來專注在 <code>move</code> 與 <code>thread::spawn</code> 之間如何互動。</p>
+<p>我們通常會使用 <code>thread::spawn</code> 時都會搭配有 <code>move</code> 關鍵字的閉包，因為該閉包能獲取周圍環境的數值，轉移那些數值的所有權到另一個執行緒中。在第十三章的<a href="ch13-01-closures.html#%E7%8D%B2%E5%8F%96%E5%BC%95%E7%94%A8%E6%88%96%E7%A7%BB%E5%8B%95%E6%89%80%E6%9C%89%E6%AC%8A">「獲取引用或移動所有權」</a><!-- ignore-->段落我們討論過閉包如何運用 <code>move</code>。現在我們會來專注在 <code>move</code> 與 <code>thread::spawn</code> 之間如何互動。</p>
 <p>在第十三章中，我們提到我們可以在閉包參數列表前使用 <code>move</code> 關鍵字來強制閉包取得其從環境獲取數值的所有權。此技巧在建立新的執行緒特別有用，讓我們可以從一個執行緒轉移數值所有權到另一個執行緒。</p>
 <p>注意到範例 16-1 中我們傳入 <code>thread::spawn</code> 的閉包沒有任何引數，我們在產生的執行緒程式碼內沒有使用主執行緒的任何資料。要在產生的執行緒中使用主執行緒的資料的話，產生的執行緒閉包必須獲取它所需的資料。範例 16-3 嘗試在主執行緒建立一個向量並在產生的執行緒使用它。不過這目前無法執行，你會在稍後知道原因。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
