@@ -14,7 +14,7 @@
 
 <span class="caption">範例 5-13：在 `Rectangle` 中定義 `area` 方法</span>
 
-要定義 `Rectangle` 中的方法，我們先為 `Rectangle` 加個 `impl`（implementation） 區塊來開始。所有在此區塊的內容都跟 `Rectangle` 型別有關。再來將 `area` 移入 `impl` 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 `self`。在 `main` 中我們原先使用 `rect1` 作為引數呼叫的 `area`，可以改成使用**方法語法**（method syntax）來呼叫 `Rectangle` 的 `area` 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。
+要定義 `Rectangle` 中的方法，我們先為 `Rectangle` 加個 `impl`（implementation）區塊來開始。所有在此區塊的內容都跟 `Rectangle` 型別有關。再來將 `area` 移入 `impl` 的大括號中，並將簽名中的第一個參數（在此例中是唯一一個）與其本體中用到的地方改成 `self`。在 `main` 中我們原先使用 `rect1` 作為引數呼叫的 `area`，可以改成使用**方法語法**（method syntax）來呼叫 `Rectangle` 的 `area` 方法。方法語法在實例後面呼叫，我們在其之後加上句點、方法名稱、括號然後任何所需的引數。
 
 在 `area` 的簽名中，我們使用 `&self` 而非 `rectangle: &Rectangle`。`&self` 是 `self: &Self` 的簡寫。在一個 `impl` 區塊內，`Self` 型別是該 `impl` 區塊要實作型別的別名。方法必須有個叫做 `self` 的 `Self` 型別作為它們的第一個參數，所以 Rust 讓你在寫第一個參數時能直接簡寫成 `self`。注意到我們在 `self` 縮寫的前面仍使用 `&`，已表示此方法是借用 `Self` 的實例，就像我們在 `rectangle: &Rectangle` 做的一樣。就和其他參數一樣，方法可以選擇拿走 `self` 的所有權、像我們這裡借用不可變的 `self` 或是借用可變的 `self`。
 

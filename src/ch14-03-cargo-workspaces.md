@@ -45,7 +45,7 @@ $ cargo new adder
 └── target
 ```
 
-工作空間在頂層有一個 *target* 目錄用來儲存編譯結果。`adder` 套件不會有自己的 *target* 目錄。就算我們在 *adder* 目錄底下執行 `cargo build`，編譯結果仍然會在 *add/target* 底下而非 *add/adder/target*。Cargo 之所以這樣組織工作空間的 *target* 目錄是因為工作空間的 crate 是會彼此互相依賴的。 如果每個 crate 都有自己的 *target* 目錄，每個 crate 就得重新編譯工作空間中的其他每個 crate 才能將編譯結果放入它們自己的 *target* 目錄。共享 *target* 目錄的話，crate 可以避免不必要的重新建構。
+工作空間在頂層有一個 *target* 目錄用來儲存編譯結果。`adder` 套件不會有自己的 *target* 目錄。就算我們在 *adder* 目錄底下執行 `cargo build`，編譯結果仍然會在 *add/target* 底下而非 *add/adder/target*。Cargo 之所以這樣組織工作空間的 *target* 目錄是因為工作空間的 crate 是會彼此互相依賴的。如果每個 crate 都有自己的 *target* 目錄，每個 crate 就得重新編譯工作空間中的其他每個 crate 才能將編譯結果放入它們自己的 *target* 目錄。共享 *target* 目錄的話，crate 可以避免不必要的重新建構。
 
 ### 在工作空間中建立第二個套件
 
@@ -105,7 +105,7 @@ $ cargo new add_one --lib
 
 Cargo 不會假設工作空間下的 crate 會彼此依賴，我們我們要指定彼此之間依賴的關係。
 
-接著讓我們在 `adder` 內使用 `add_one` crate 的 `add_one` 函式。開啟 *adder/src/main.rs* 檔案並在最上方加上 `use` 來將 `add_one` 函式庫引入作用域。然後變更 `main` 函式來呼叫 `add_one` 函式，如範例14-7 所示。
+接著讓我們在 `adder` 內使用 `add_one` crate 的 `add_one` 函式。開啟 *adder/src/main.rs* 檔案並在最上方加上 `use` 來將 `add_one` 函式庫引入作用域。然後變更 `main` 函式來呼叫 `add_one` 函式，如範例 14-7 所示。
 
 <span class="filename">檔案名稱：adder/src/main.rs</span>
 

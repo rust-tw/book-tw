@@ -80,7 +80,7 @@ trait Add<Rhs=Self> {
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-15/src/lib.rs}}
 ```
 
-<span class="caption">範例 19-15：藉由替 `Millimeters` 實作 `Add` 特徵，使 `Millimeters` 可與 `Meters` 相加Point</span>
+<span class="caption">範例 19-15：藉由替 `Millimeters` 實作 `Add` 特徵，使 `Millimeters` 可與 `Meters` 相加 Point</span>
 
 欲相加 `Millimeters` 與 `Meters`，先將 `Rhs` 型別參數指定為 `impl Add<Meters>`，替代預設的 `Self`。
 

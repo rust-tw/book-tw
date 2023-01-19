@@ -1,6 +1,6 @@
 ## 讀取檔案
 
-現在我們要加上能夠讀取 `file_path` 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能讓我們測試，我們可以建立一個文字檔，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 *poem.txt*，然後輸入此詩 「I’m Nobody! Who are you?」
+現在我們要加上能夠讀取 `file_path` 中命令列引數指定的檔案功能。首先我們需要有個檔案範本能讓我們測試，我們可以建立一個文字檔，其中由數行重複的單字組成少量文字。範例 12-3 Emily Dickinson 的詩就是不錯的選擇！在專案根目錄建立一個檔案叫做 *poem.txt*，然後輸入此詩「I’m Nobody! Who are you?」
 
 <span class="filename">檔案名稱：poem.txt</span>
 

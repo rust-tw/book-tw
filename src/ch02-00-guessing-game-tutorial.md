@@ -179,7 +179,7 @@ Rust 警告你沒有使用 `read_line` 回傳的 `Result` 數值，這意味著�
 let x = 5;
 let y = 10;
 
-println!("x = {ｘ} 而且 y + 2 = {}", y + 2);
+println!("x = {x} 而且 y + 2 = {}", y + 2);
 ```
 
 此程式碼會印出 `x = 5 而且 y = 12`。
@@ -213,7 +213,7 @@ $ cargo run
 
 ### 使用 Crate 來取得更多功能
 
-所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於**執行檔（binary） crate**，也就會是個執行檔。而 `rand` crate 屬於**函式庫（library） crate**，這會包含讓其他程式能夠使用的程式碼。
+所謂的 crate 是一個 Rust 原始碼檔案的集合。我們正在寫的專案屬於**執行檔（binary）crate**，也就會是個執行檔。而 `rand` crate 屬於**函式庫（library）crate**，這會包含讓其他程式能夠使用的程式碼。
 
 Cargo 協調外部 crate 的功能正是它的亮點。在我們可以使用 `rand` 來寫程式碼前，我們需要修改 *Cargo.toml* 檔案來包含 `rand` crate 作為依賴函式庫（dependency）。開啟該檔案然後將以下行數加到 Cargo 自動產生的 `[dependencies]` 標頭（header）段落中最後一行下面。記得確認 `rand` 指定的版本數字與我們相同，不然此教學的範例程式碼可能不會運行成功：
 
@@ -316,7 +316,7 @@ Cargo 會忽略 0.9.0 的發布版本。此時你也會注意到 *Cargo.lock* �
 rand = "0.9.0"
 ```
 
-下次你執行 `cargo build` 時，Cargo 將會更新 crate registry ，並依據你指定的新版本來重新評估 `rand` 的確切版本。
+下次你執行 `cargo build` 時，Cargo 將會更新 crate registry，並依據你指定的新版本來重新評估 `rand` 的確切版本。
 
 
 [Cargo][doccargo]<!-- ignore --> 與[其生態系統][doccratesio]<!-- ignore -->還有很多內容可以介紹，我們會在第十四章討論它們。但現在你只需要知道這些就好。Cargo 讓重複使用函式庫變得非常容易，讓 Rustaceans 可以組合許多套件寫出簡潔的專案。
@@ -407,7 +407,7 @@ anchor or snip comments
 {{#include ../listings/ch02-guessing-game-tutorial/listing-02-04/output.txt}}
 ```
 
-錯誤的關鍵表示**型別無法配對（mismatched types）**。Rust 有個強力的靜態型別系統，但它也提供了型別推斷。當我們寫 `let mut guess = String::new()` 時，Rust 能夠推斷出 `guess` 應該要是 `String` 讓我們不必親自寫出型別。另一方面，`secret_number` 則是個數字型別。以下是一些在 Rust 中可以包含數字 1 到 100 的數字型別：32 位元數字 `i32`、非帶號（unsigned） 32 位元數字 `u32`、64 位元數字 `i64`，以及更多等等。Rust 預設的數字型別為 `i32`，這就是 `secret_number` 的型別，除非你特地加上型別詮釋，Rust 才會推斷成不同的數字型別。此錯誤原因是因為 Rust 無法比較將字串與數字型別做比較。
+錯誤的關鍵表示**型別無法配對（mismatched types）**。Rust 有個強力的靜態型別系統，但它也提供了型別推斷。當我們寫 `let mut guess = String::new()` 時，Rust 能夠推斷出 `guess` 應該要是 `String` 讓我們不必親自寫出型別。另一方面，`secret_number` 則是個數字型別。以下是一些在 Rust 中可以包含數字 1 到 100 的數字型別：32 位元數字 `i32`、非帶號（unsigned）32 位元數字 `u32`、64 位元數字 `i64`，以及更多等等。Rust 預設的數字型別為 `i32`，這就是 `secret_number` 的型別，除非你特地加上型別詮釋，Rust 才會推斷成不同的數字型別。此錯誤原因是因為 Rust 無法比較將字串與數字型別做比較。
 
 所以我們要將程式從輸入讀取的 `String` 轉換成真正的數字型別，讓我們可以將其與祕密數字做比較。我們可以在 `main` 函式本體加上另一行程式碼：
 

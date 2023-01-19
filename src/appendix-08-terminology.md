@@ -68,7 +68,7 @@ instance               | 實體                          |
 iterative              | 疊代                          | 參考：[維基百科][iterative]
 iterator               | 疊代器                        | 參考：[維基百科][iterator]
 immutable              | 不可變                        | 參考：[維基百科][immutable]
-inheritance            | 繼承　                        |
+inheritance            | 繼承                         |
 join                   | 會合                          | 意旨 threads 的會合，參考：[RFC 3151 PR][join]
 keyword                | 關鍵字                        |
 language feature       | 語言特徵                      | 參考：[中華民國資訊學會][language feature]

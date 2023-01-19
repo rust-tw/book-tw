@@ -98,7 +98,7 @@ Rust 選擇了一條不同的道路：當記憶體在擁有它的變數離開作
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-02-string-scope/src/main.rs:here}}
 ```
 
-當 `s` 離開作用域時，我們就可以很自然地將 `String` 所需要的記憶體釋放回分配器。 當變數離開作用域時，Rust 會幫我們呼叫一個特殊函式。此函式叫做 [`drop`][drop]<!-- ignore -->，在這裡當時 `String` 的作者就可以寫入釋放記憶體的程式碼。Rust 會在大括號結束時自動呼叫 `drop`。
+當 `s` 離開作用域時，我們就可以很自然地將 `String` 所需要的記憶體釋放回分配器。當變數離開作用域時，Rust 會幫我們呼叫一個特殊函式。此函式叫做 [`drop`][drop]<!-- ignore -->，在這裡當時 `String` 的作者就可以寫入釋放記憶體的程式碼。Rust 會在大括號結束時自動呼叫 `drop`。
 
 > 注意：在 C++，這樣在項目生命週期結束時釋放資源的模式，有時被稱為**資源取得即初始化（Resource Acquisition Is Initialization, RAII）**。如果你已經用過 RAII 的模式，那麼你應該就會很熟悉 Rust 的 `drop` 函式。
 
