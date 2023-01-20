@@ -2320,7 +2320,7 @@ access the heap data." src="img/trpl04-04.svg" class="center" style="width:
 <p>但這段程式碼似乎和我們剛學的互相矛盾：我們沒有呼叫 <code>clone</code>，但 <code>x</code> 卻仍是有效的，沒有移動到 <code>y</code>。</p>
 <p>原因是因為像整數這樣的型別在編譯時是已知大小，所以只會存在在堆疊上。所以要拷貝一份實際數值的話是很快的。這也讓我們沒有任何理由要讓 <code>x</code> 在 <code>y</code> 建立後被無效化。換句話說，這邊沒有所謂淺拷貝與深拷貝的差別。所以這邊呼叫 <code>clone</code> 的話不會與平常的淺拷貝有啥不一樣，我們可以保持這樣就好。</p>
 <p>Rust 有個特別的標記叫做 <code>Copy</code> 特徵（trait）可以用在標記像整數這樣存在堆疊上的型別（我們會在<a href="ch10-02-traits.html">第十章</a><!-- ignore -->討論什麼是特徵）。如果一個型別有 <code>Copy</code> 特徵的話，一個變數在賦值給其他變數後仍然會是有效的。</p>
-<p>如果一個型別有實作（implement）<code>Drop</code> 特徵的話，Rust 不會允許我們讓此型別擁有 <code>Copy</code> 特徵。如果我們對某個型別在數值離開作用域時，需要在做特別處理的話，我們對此型別標註 <code>Copy</code> 特徵會在編譯時期產生錯誤。想要瞭解如何為你的型別實作 <code>Copy</code> 特徵的話，請參考附錄 C <a href="appendix-03-derivable-traits.html">「可推導的特徵」</a><!-- ignore -->。</p>
+<p>如果一個型別有實作（implement）<code>Drop</code> 特徵的話，Rust 不會允許我們讓此型別擁有 <code>Copy</code> 特徵。如果我們對某個型別在數值離開作用域時，需要再做特別處理的話，我們對此型別標註 <code>Copy</code> 特徵會在編譯時期產生錯誤。想要瞭解如何為你的型別實作 <code>Copy</code> 特徵的話，請參考附錄 C <a href="appendix-03-derivable-traits.html">「可推導的特徵」</a><!-- ignore -->。</p>
 <p>所以哪些型別有實作 <code>Copy</code> 特徵呢？你可以閱讀技術文件來知道哪些型別有，但基本原則是任何簡單地純量數值都可以實作 <code>Copy</code>，且不需要分配記憶體或任何形式資源的型別也有實作 <code>Copy</code>。以下是一些有實作 <code>Copy</code> 的型別：</p>
 <ul>
 <li>所有整數型別像是 <code>u32</code>。</li>
@@ -4895,7 +4895,7 @@ pub fn eat_at_restaurant() {
 <p>如果你對同個模組同時使用兩種風格的話，你會收到編譯器錯誤。在同個專案對不同模組使用不同風格則是允許的，但這有可能會讓瀏覽專案的人感到困惑。</p>
 <p>使用 <em>mod.rs</em> 檔案名稱的風格最主要的缺點是你的專案可能最後會有很多檔案都叫做 <em>mod.rs</em>，當你在編輯器同時開啟這些檔案時可能會被混淆。</p>
 </blockquote>
-<p>我們將模組的程式碼班到了不同的檔案，而模組樹仍維持完好如初。就算函式定義被移動不同檔案，<code>eat_at_restaurant</code> 內的函式呼叫不用任何修改仍能維持運作。這樣的方式讓你可以隨著模組成長時，移動到新的檔案中。</p>
+<p>我們將模組的程式碼搬到了不同的檔案，而模組樹仍維持完好如初。就算函式定義被移動不同檔案，<code>eat_at_restaurant</code> 內的函式呼叫不用任何修改仍能維持運作。這樣的方式讓你可以隨著模組成長時，移動到新的檔案中。</p>
 <p>另外 <em>src/lib.rs</em> 內的 <code>pub use crate::front_of_house::hosting</code> 陳述式沒有改變，在檔案作為 crate 的一部分來編譯時，使用 <code>use</code> 的方式也沒有改變。<code>mod</code> 關鍵字能宣告模組，然後 Rust 會去同名的檔案尋找該模組的程式碼。</p>
 <h2 id="總結-6"><a class="header" href="#總結-6">總結</a></h2>
 <p>Rust 讓你能夠將套件拆成數個 crate，然後 crate 能再分成數個模組，好讓你可以從一個模組內指定其他模組的項目。而你可以使用絕對或相對路徑來達成。這些路徑可以用 <code>use</code> 陳述式來引入作用域，讓你可以在該作用域用更短的路徑來多次呼叫該項目。模組程式碼預設為私有的，但你可以使用 <code>pub</code> 關鍵字公開它的定義內容。</p>
