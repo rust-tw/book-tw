@@ -5303,7 +5303,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <h3 id="字串並不簡單"><a class="header" href="#字串並不簡單">字串並不簡單</a></h3>
 <p>總結來說，字串是很複雜的。不同的程式語言會選擇不同的決定來呈現給程式設計師。Rust 選擇正確處理 <code>String</code> 的方式作為所有 Rust 程式的預設行為，這也代表開發者在處理 UTF-8 資料時需要多加考量。這樣的取捨的確對比其他程式語言來說，增加了不少字串的複雜程度，但是這能讓你在開發週期免於處理非 ASCII 字元相關的錯誤。</p>
 <p>好消息是標準函式庫針對 <code>String</code> 與 <code>&amp;str</code> 型別提供了許多功能，來幫助正確處理這些複雜的情況。別忘了翻翻技術文件來學習這些實用的方法，像是 <code>contains</code> 能搜尋字串，而 <code>replace</code> 能替換部份字串成另一個字串。</p>
-<p>讓我們接下去開一個較簡單地集合吧：雜湊映射（hash maps）！</p>
+<p>讓我們接下去看一個較簡單地集合吧：雜湊映射（hash maps）！</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="透過雜湊映射儲存鍵值配對"><a class="header" href="#透過雜湊映射儲存鍵值配對">透過雜湊映射儲存鍵值配對</a></h2>
 <p>我們最後一個常見的集合是<strong>雜湊映射（hash map）</strong>，<code>HashMap&lt;K, V&gt;</code> 型別會儲存一個鍵（key）型別 <code>K</code> 對應到一個數值（value）型別 <code>V</code>。它透過<strong>雜湊函式</strong>（hashing function）來決定要將這些鍵與值放在記憶體何處。許多程式語言都有支援這種類型的資料結構，不過通常它們會提供不同的名稱，像是 hash、map、object、hash table、dictionary 或 associative array 等等。</p>
 <p>雜湊映射適合用於當你不想像向量那樣用索引搜尋資料，而是透過一個可以為任意型別的鍵來搜尋的情況。舉例來說，在比賽中我們可以使用雜湊映射來儲存每隊的分數，每個鍵代表隊伍名稱，而每個值代表隊伍分數。給予一個隊伍名稱，你就能取得該隊伍分數。</p>
@@ -7045,7 +7045,7 @@ fn main() {
 <p>接著編譯器檢查第一個規則，指明每個參數都有自己的生命週期。我們如往常一樣指定 <code>'a</code>，所以簽名就會變成：</p>
 <pre><code class="language-rust ignore">fn first_word&lt;'a&gt;(s: &amp;'a str) -&gt; &amp;str {
 </code></pre>
-<p>然後第二個規則也是用因為這裡剛好就一個輸入生命週期而已。第二個規則指明只有一個輸入生命週期的話，就會賦值給所有其他輸出生命週期。所以簽名現在變成這樣：</p>
+<p>然後第二個規則也適用因為這裡剛好就一個輸入生命週期而已。第二個規則指明只有一個輸入生命週期的話，就會賦值給所有其他輸出生命週期。所以簽名現在變成這樣：</p>
 <pre><code class="language-rust ignore">fn first_word&lt;'a&gt;(s: &amp;'a str) -&gt; &amp;'a str {
 </code></pre>
 <p>現在此函式所有的引用都有生命週期了，而且編譯器可以繼續分析，不必要求程式設計師在此詮釋函式簽名的生命週期。</p>

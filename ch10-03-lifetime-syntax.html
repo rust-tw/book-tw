@@ -468,7 +468,7 @@ fn main() {
 <p>接著編譯器檢查第一個規則，指明每個參數都有自己的生命週期。我們如往常一樣指定 <code>'a</code>，所以簽名就會變成：</p>
 <pre><code class="language-rust ignore">fn first_word&lt;'a&gt;(s: &amp;'a str) -&gt; &amp;str {
 </code></pre>
-<p>然後第二個規則也是用因為這裡剛好就一個輸入生命週期而已。第二個規則指明只有一個輸入生命週期的話，就會賦值給所有其他輸出生命週期。所以簽名現在變成這樣：</p>
+<p>然後第二個規則也適用因為這裡剛好就一個輸入生命週期而已。第二個規則指明只有一個輸入生命週期的話，就會賦值給所有其他輸出生命週期。所以簽名現在變成這樣：</p>
 <pre><code class="language-rust ignore">fn first_word&lt;'a&gt;(s: &amp;'a str) -&gt; &amp;'a str {
 </code></pre>
 <p>現在此函式所有的引用都有生命週期了，而且編譯器可以繼續分析，不必要求程式設計師在此詮釋函式簽名的生命週期。</p>
