@@ -25,6 +25,7 @@ Builder Pattern        | 生成器模式                    | 參考：[維基�
 byte                   | 位元組                        | 參考：[維基百科][byte]
 camel case             | 駝峰式大小寫                  | 參考：[維基百科][camel case]
 clone                  | 克隆                          |
+closures               | 閉包                          |
 coerce                 | 強制                          |
 collection             | 集合                          | 參考：[維基百科][collection]
 command line           | 命令列                        | 參考：[維基百科][command_line]
@@ -80,6 +81,7 @@ loop                   | 迴圈、循環                    | 參考：[維基�
 macro                  | 巨集                          | 參考：[維基百科][macro]
 main function          | 主函式                        | 參考：[維基百科][main function]
 metadata               | 詮釋資料                      |
+metaprogramming        | 超程式設計                    | 參考：[維基百科][metaprogramming]
 method                 | 方法                          | 參考：[維基百科][method]
 module                 | 模組                          | 參考：[維基百科][module]
 monomorphism           | 單型                          |
@@ -88,6 +90,7 @@ mutability             | 可變性                        |
 mutation               | 可變數                        |
 namespace              | 命名空間                      | 參考：[維基百科][namespace]
 nested                 | 巢狀                          |
+Nightly                | 每夜版                        |
 operators              | 運算子                        | 參考：[維基百科][operators]
 overloading            | 重載                          | 參考：[維基百科][overloading]
 ownership              | 所有權                        |
@@ -104,6 +107,7 @@ polymorphism           | 多型                          | 參考：[維基百�
 primitive type         | 基本型別                      | 參考：[維基百科][primitive type]
 profile                | 設定檔                        |
 reference              | 參照、參考                    | 參考：[維基百科][reference]
+regression             | 迴歸錯誤                      |
 round bracket          | 圓括號                        | 參考：[維基百科][bracket]
 runtime                | 執行時                        |
 scalar                 | 純量                          |
@@ -125,6 +129,7 @@ struct                 | 結構體                        | 參考：[維基百�
 subscript              | 下標                          | 指的是 `a[1]` 中的 `[1]`
 symbols                | 符號                          |
 syntax                 | 語法                          |
+tabs                   | 分頁                          |
 thread                 | 執行緒                        | 參考：[維基百科][thread]
 trait                  | 特徵                          | 參考：[維基百科][trait]
 tuple                  | 元組                          |
@@ -178,6 +183,7 @@ zero-cost abstractions | 無成本抽象化                  |
 [loop]: https://zh.wikipedia.org/zh-tw/%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B#.E8.BF.B4.E5.9C.88
 [macro]: https://zh.wikipedia.org/zh-tw/%E5%B7%A8%E9%9B%86
 [main function]: https://zh.wikipedia.org/zh-tw/%E4%B8%BB%E5%87%BD%E5%BC%8F
+[metaprogramming]: https://zh.wikipedia.org/zh-tw/%E5%85%83%E7%BC%96%E7%A8%8B
 [method]: https://zh.wikipedia.org/zh-tw/%E6%96%B9%E6%B3%95_(%E9%9B%BB%E8%85%A6%E7%A7%91%E5%AD%B8)
 [module]: https://zh.wikipedia.org/zh-tw/%E6%A8%A1%E7%B5%84_(%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88)
 [multiple dispatch]: https://zh.wikipedia.org/wiki/%E5%A4%9A%E5%88%86%E6%B4%BE
@@ -211,26 +217,12 @@ zero-cost abstractions | 無成本抽象化                  |
 
 English 英文           | Traditional Chinese 正體中文  | Note 備註
 ------------           |-----------------------------  |----------
-alignment              |                               |
 backtrace              |                               |
-bootstrap              |                               |
 build                  |                               | 名詞，例：create a "build"
-closures               |                               |
 crates                 |                               |
-fully-strict           |                               |
-linking                |                               |
 map                    |                               |
 master                 |                               | git branch
-mata                   |                               |
-metaprogramming        |                               |
-non-strict             |                               |
-patches                |                               |
 prelude                |                               | 預先載入的函式庫
-regression             |                               |
 repository             |                               |
-root                   |                               |
 Rustaceans             |                               | Rust 開發者稱呼自己的常用稱號
 shell                  |                               |
-tabs                   |                               |
-target triple          |                               |
-work stealing          |                               |

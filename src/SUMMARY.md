@@ -131,5 +131,5 @@
     - [D - 實用開發工具](appendix-04-useful-development-tools.md)
     - [E - 版號](appendix-05-editions.md)
     - [F - 本書的翻譯本](appendix-06-translation.md)
-    - [G - Rust 的開發流程與「夜版 Rust」](appendix-07-nightly-rust.md)
+    - [G - Rust 的開發流程與「每夜版 Rust」](appendix-07-nightly-rust.md)
     - [H - 中英術語對照表](appendix-08-terminology.md)
