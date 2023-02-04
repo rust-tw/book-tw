@@ -4851,7 +4851,7 @@ use std::io::Write;
 <p>全域運算子很常用在 <code>tests</code> 模組下，將所有東西引入測試中。我們會在第十一章的<a href="ch11-01-writing-tests.html#how-to-write-tests">「如何寫測試」</a><!-- ignore -->段落來討論。全域運算子也常拿來用在 prelude 模式中，你可以查閱<a href="https://doc.rust-lang.org/std/prelude/index.html#other-preludes">標準函式庫的技術文件</a><!-- ignore -->來瞭解此模式的更多資訊。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="將模組拆成不同檔案"><a class="header" href="#將模組拆成不同檔案">將模組拆成不同檔案</a></h2>
 <p>本章節目前所有的範例將數個模組定義在同一個檔案中。當模組增長時，你可能會想要將它們的定義拆開到別的檔案中，好讓程式碼容易瀏覽。</p>
-<p>舉例來說，讓我們從範例 7-17 餐廳的多重模組開始。我們會將模組差成數個檔案，而不只是將所有模組都放在 crate 源頭檔案。在此例中，源頭檔案為 <em>src/lib.rs</em> 不過這步驟在執行檔 crate 的 <em>src/main.rs</em> 一樣可行。</p>
+<p>舉例來說，讓我們從範例 7-17 餐廳的多重模組開始。我們會將模組拆成數個檔案，而不只是將所有模組都放在 crate 源頭檔案。在此例中，源頭檔案為 <em>src/lib.rs</em> 不過這步驟在執行檔 crate 的 <em>src/main.rs</em> 一樣可行。</p>
 <p>首先，我們將 <code>front_of_house</code> 模組移到獨立的檔案中。刪掉 <code>front_of_house</code> 模組大括號內的程式碼，只留下宣告 <code>mod front_of_house;</code>，讓 <em>src/lib.rs</em> 包含的程式碼如範例 7-21 所示。請注意在我們加上範例 7-22 的 <em>src/front_of_house.rs</em> 檔案前這會仍無法編譯。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house;
