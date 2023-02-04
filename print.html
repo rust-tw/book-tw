@@ -5444,7 +5444,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p>標準函式庫的 API 技術文件有詳細介紹向量、字串與雜湊映射的所有方法，這對於這些練習題應該會很有幫助！</p>
 <p>我們現在已經開始遇到有可能會運作失敗的複雜程式了，所以接下來正是來討論錯誤處理的時候！</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="錯誤處理"><a class="header" href="#錯誤處理">錯誤處理</a></h1>
-<p>錯誤是軟體開發中不可避免的一環，所以 Rust 有一些特色能夠處理發生錯誤的情形。在許多情況下，Rust 要求你要任知道可能出錯的地方，並在編譯前採取行動。這樣的要求能讓你的程式更穩定，確保你能發現錯誤並在程式碼發佈到生產環境前妥善處理它們！</p>
+<p>錯誤是軟體開發中不可避免的一環，所以 Rust 有一些特色能夠處理發生錯誤的情形。在許多情況下，Rust 要求你要能知道可能出錯的地方，並在編譯前採取行動。這樣的要求能讓你的程式更穩定，確保你能發現錯誤並在程式碼發佈到生產環境前妥善處理它們！</p>
 <p>Rust 將錯誤分成兩大類：<strong>可復原的</strong>（recoverable）和<strong>不可復原的</strong>（unrecoverable）錯誤。像是<strong>找不到檔案</strong>這種可復原的錯誤，我們通常很可能只想回報問題給使用者並重試。而不可復原的錯誤就會是程式錯誤的跡象，像是嘗試取得陣列結尾之後的位置。</p>
 <p>許多語言不會區分這兩種錯誤，並以相同的方式處理，使用像是例外（exceptions）這樣統一的機制處理。Rust 沒有例外處理機制，取而代之的是它對可復原的錯誤提供 <code>Result&lt;T, E&gt;</code> 型別，對不可復原的錯誤使用 <code>panic!</code> 將程式停止執行。本章節會先介紹 <code>panic!</code> 再來討論 <code>Result&lt;T, E&gt;</code> 數值的回傳。除此之外，我們也將探討何時該從錯誤中復原，何時該選擇停止程式。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="對無法復原的錯誤使用-panic"><a class="header" href="#對無法復原的錯誤使用-panic">對無法復原的錯誤使用 <code>panic!</code></a></h2>
@@ -5657,7 +5657,7 @@ cd listings/ch09-error-handling/no-listing-05-expect
 cargo run
 copy and paste relevant text
 -->
-<pre><code class="language-text">thread 'main' panicked at 'hello.txt should be included in this project: Os {
+<pre><code class="language-text">thread 'main' panicked at 'hello.txt 應該要存在此專案中: Os {
 code: 2, kind: NotFound, message: &quot;No such file or directory&quot; }',
 src/main.rs:5:10
 </code></pre>
@@ -5692,7 +5692,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 9-6：使用 <code>match</code> 回傳錯誤給呼叫者的函式</span></p>
-<p>此函式還能再更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 <code>Result&lt;String, io::Error&gt;</code>。這代表此函式回傳的型別為 <code>Result&lt;T, E&gt;</code>，而泛型型別 <code>T</code> 已經指明為實際型別 <code>String</code> 然後泛型型別 <code>E</code> 也已經指明為實際型別 <code>io::Error</code>。</p>
+<p>此函式還能再更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 <code>Result&lt;String, io::Error&gt;</code>。這代表此函式回傳的型別為 <code>Result&lt;T, E&gt;</code>，其中泛型型別 <code>T</code> 已經指明為實際型別 <code>String</code>，而泛型型別 <code>E</code> 則指明為實際型別 <code>io::Error</code>。</p>
 <p>如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 <code>String</code> 的 <code>Ok</code> 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含相關問題發生資訊的 <code>io::Error</code> 實例的 <code>Err</code> 數值。我們選擇 <code>io::Error</code> 作為函式的回傳值是因為它正是 <code>File::open</code> 函式和 <code>read_to_string</code> 方法失敗時的回傳的錯誤型別。</p>
 <p>函式本體從呼叫 <code>File::open</code> 開始，然後我們使用 <code>match</code> 回傳 <code>Result</code> 數值，就和範例 9-4 的 <code>match</code> 類似。如果 <code>File::open</code> 成功的話，變數 <code>file</code> 中的檔案控制代碼賦值給可變變數 <code>username_file</code> 並讓函式繼續執行下去。但在 <code>Err</code> 的情形時，與其呼叫 <code>panic!</code>，我們使用 <code>return</code> 關鍵字來讓函式提早回傳，並將 <code>File::open</code> 的錯誤值，也就是模式中的變數 <code>e</code>，作為此函式的錯誤值回傳給呼叫的程式碼。</p>
 <p>所以如果我們在 <code>username_file</code> 有拿到檔案控制代碼的話，接著函式就會在變數 <code>username</code> 建立新的 <code>String</code> 並對檔案控制代碼 <code>username_file</code> 呼叫 <code>read_to_string</code> 方法來讀取檔案內容至 <code>username</code>。<code>read_to_string</code> 也會回傳 <code>Result</code> 因為它也可能失敗，就算 <code>File::open</code> 是執行成功的。所以我們需要另一個 <code>match</code> 來處理該 <code>Result</code>，如果 <code>read_to_string</code> 成功的話，我們的函式就是成功的，然後在 <code>Ok</code> 回傳 <code>username</code> 中該檔案的使用者名稱。如果 <code>read_to_string</code> 失敗的話，我們就像處理 <code>File::open</code> 的 <code>match</code> 一樣回傳錯誤值。不過我們不需要顯式寫出 <code>return</code>，因為這是函式中的最後一個表達式。</p>
@@ -5825,7 +5825,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 <p><code>main</code> 函式可以回傳任何有實作 <a href="../std/process/trait.Termination.html"><code>std::process::Termination</code></a><!-- ignore --> 特徵的型別，該特徵包含了一個函式 <code>report</code> 來回傳 <code>ExitCode</code>。你可以查閱標準函式庫技術文件來了解如何對你的型別實作 <code>Termination</code> 特徵。</p>
 <p>現在我們已經討論了呼叫 <code>panic!</code> 與回傳 <code>Result</code> 的細節。現在讓我們回到何時該使用何種辦法的主題上吧。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="要-panic-還是不要-panic"><a class="header" href="#要-panic-還是不要-panic">要 panic! 還是不要 panic!</a></h2>
-<p>所以你該如何決定何時要呼叫 <code>panic!</code> 還是要回傳 <code>Result</code> 呢？當程式碼恐慌時，就沒有任何回復的方式。你可以在任何錯誤場合呼叫 <code>panic!</code>，無論是可能或不可能復原的情況。不過這樣你就等於替呼叫你的程式碼的呼叫者做出決定，讓情況變成無法復原的錯誤了。當你選擇回傳 <code>Result</code> 數值，你將決定權交給呼叫者的程式碼。呼叫者可能會選擇符合當下場合的方式嘗試復原錯誤，或者它可以選擇 <code>Err</code> 內的數值是不可回復的，所以它就呼叫 <code>panic!</code> 讓你原本可回復的錯誤轉成不可回復。因此，當你定義可能失敗的函式時預設回傳 <code>Result</code> 是不錯的選擇。</p>
+<p>所以你該如何決定何時要呼叫 <code>panic!</code> 還是要回傳 <code>Result</code> 呢？當程式碼恐慌時，就沒有任何恢復的方式。你可以在任何錯誤場合呼叫 <code>panic!</code>，無論是可能或不可能復原的情況。不過這樣你就等於替呼叫你的程式碼的呼叫者做出決定，讓情況變成無法復原的錯誤了。當你選擇回傳 <code>Result</code> 數值，你將決定權交給呼叫者的程式碼。呼叫者可能會選擇符合當下場合的方式嘗試復原錯誤，或者它可以選擇 <code>Err</code> 內的數值是不可恢復的，所以它就呼叫 <code>panic!</code> 讓你原本可恢復的錯誤轉成不可恢復。因此，當你定義可能失敗的函式時預設回傳 <code>Result</code> 是不錯的選擇。</p>
 <p>在像是範例、草稿與測試的情況下，程式碼恐慌會比回傳 <code>Result</code> 來得恰當。讓我們來探討為何比較好。然後我們再來討論編譯器無法辨別出不可能失敗，但身為人類的你卻可以的情況。本章節會總結一些通用指導原則來決定何時在函式庫程式碼中恐慌。</p>
 <h3 id="範例程式碼原型與測試"><a class="header" href="#範例程式碼原型與測試">範例、程式碼原型與測試</a></h3>
 <p>當你在寫解釋一些概念的範例時，寫出完善錯誤處理的範例，反而會讓範例變得較不清楚。在範例中，使用像是 <code>unwrap</code> 這樣會恐慌的方法可以被視為是一種要求使用者自行決定如何處理錯誤的表現，因為他們可以依據程式碼執行的方式來修改此方法。</p>
@@ -5852,7 +5852,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 <p>如果有人呼叫了你的程式碼卻傳遞了不合理的數值，如果可以的話最好的辦法是回傳個錯誤，這樣函式庫的使用者可以決定在該情況下該如何處理。不過要是繼續執行下去可能會造成危險或不安全的話，最好的辦法是呼叫 <code>panic!</code> 並警告使用函式庫的人他們程式碼錯誤發生的位置，好讓他們在開發時就能修正。同樣地，<code>panic!</code> 也適合用於如果你呼叫了你無法掌控的外部程式碼，然後它回傳了你無法修正的無效狀態。</p>
 <p>不過如果失敗是可預期的，回傳 <code>Result</code> 就會比呼叫 <code>panic!</code> 來得好。類似的例子有，語法分析器（parser）收到格式錯誤的資訊，或是 HTTP 請求回傳了一個狀態，告訴你已經達到請求上限了。在這樣的案例，回傳 <code>Result</code> 代表失敗是預期有時會發生的，而且呼叫者必須決定如何處理。</p>
 <p>當你的程式碼可能會因為進行運算時輸入無效數值，而造成使用者安危的話，你的程式需要先驗證該數值，如果數值無效的話就要恐慌。這是基於安全原則，嘗試對無效資料做運算的話可能會導致你的程式碼產生漏洞。這也是標準函式庫在你嘗試取得超出界限的記憶體存取會呼叫 <code>panic!</code> 的主要原因。嘗試取得不屬於當前資料結構的記憶體是常見的安全問題。函式通常都會訂下一些<strong>合約（contracts）</strong>，它們的行為只有在輸入資料符合特定要求時才帶有保障。當違反合約時恐慌是十分合理的，因為違反合約就代表這是呼叫者的錯誤，這不是你的程式碼該主動處理的錯誤。事實上，呼叫者也沒有任何合理的理由來復原這樣的錯誤。函式的合約應該要寫在函式的技術文件中解釋，尤其是違反時會恐慌的情況。</p>
-<p>然而要在你的函式寫一大堆錯誤檢查有時是很冗長且麻煩的。幸運的是你可以利用 Rust 的型別系統（以及編譯器的型別檢查）來幫你完成檢驗。如果你的函式用特定型別作為參數的話，你就可以認定你的程式邏輯是編輯器已經幫你確保你拿到的數值是有效的。舉例來說，如果你有個一型別而非 <code>Option</code> 的話，你的程式就會預期取得<strong>某個值</strong>而不是<strong>沒拿到值</strong>。你的程式就不必處理 <code>Some</code> 和 <code>None</code> 這兩個變體情形，它只會有一種情況並絕對會拿到數值。要是有人沒有傳遞任何值給你的函式會根本無法編譯，所以你的函式就不需要在執行時做檢查。另一個例子是使用非帶號整數像是 <code>u32</code> 來確保參數不會是負數。</p>
+<p>然而要在你的函式寫一大堆錯誤檢查有時是很冗長且麻煩的。幸運的是你可以利用 Rust 的型別系統（以及編譯器的型別檢查）來幫你完成檢驗。如果你的函式用特定型別作為參數的話，你就可以認定你的程式邏輯是編輯器已經幫你確保你拿到的數值是有效的。舉例來說，如果你有一個型別而非 <code>Option</code> 的話，你的程式就會預期取得<strong>某個值</strong>而不是<strong>沒拿到值</strong>。你的程式就不必處理 <code>Some</code> 和 <code>None</code> 這兩個變體情形，它只會有一種情況並絕對會拿到數值。要是有人沒有傳遞任何值給你的函式會根本無法編譯，所以你的函式就不需要在執行時做檢查。另一個例子是使用非帶號整數像是 <code>u32</code> 來確保參數不會是負數。</p>
 <h3 id="建立自訂型別來驗證"><a class="header" href="#建立自訂型別來驗證">建立自訂型別來驗證</a></h3>
 <p>讓我們來試著使用 Rust 的型別系統來進一步確保我們擁有有效數值，並建立自訂型別來驗證。回想一下第二章的猜謎遊戲，我們的程式碼要使用者從 1 到 100 之間猜一個數字。在開始與祕密數字做比較之前，我們從未驗證使用者輸入的值，我們只驗證了它是否為正的。在這種情況帶來的後果還不算嚴重：我們還是會顯示「太大」或「太小」。但是我們可以改善這段來引導使用者輸入有效數值，並在使用者輸入時猜了超出範圍的數字或字母時呈現不同行為。</p>
 <p>我們可以將輸入的猜測分析改成 <code>i32</code> 而非 <code>u32</code> 來允許負數，並檢查數字是否在範圍內，如以下所示：</p>
@@ -5932,7 +5932,7 @@ impl Guess {
 <p>接著我們實作了個方法叫做 <code>value</code>，它會借用 <code>self</code> 且沒有任何參數，並會回傳 <code>i32</code>。這種方法有時會被稱為 <em>getter</em>，因為它的目的是從它的欄位中取得一些資料並回傳它。此公開方法是必要的，因為 <code>Guess</code> 結構體中的 <code>value</code> 欄位是私有的。將 <code>Guess</code> 結構體的 <code>value</code> 欄位設為私有是很重要的，這樣就無法直接設置 <code>value</code> ，模組外的程式碼<strong>必須</strong>使用 <code>Guess::new</code> 函式來建立 <code>Guess</code> 的實例，因而確保 <code>Guess</code> 不可能會有沒有經過 <code>Guess::new</code> 函式驗證的 <code>value</code>。</p>
 <p>這樣當函式的參數或回傳值只能是數字 1 到 100 的話，它的簽名就能使用或回傳 <code>Guess</code> 而不是 <code>i32</code>，因此就不必在它的本體內做任何額外檢查。</p>
 <h2 id="總結-8"><a class="header" href="#總結-8">總結</a></h2>
-<p>Rust 的錯誤檢查功能的設計旨在協助你寫出可靠的程式碼。<code>panic!</code> 巨集告訴你的程式遇到了它無法處理的狀態，並讓你告訴程序停止，而不是繼續嘗試使用無效或不正確的數值。<code>Result</code> 枚舉使用 Rust 的型別系統來指出可能會失敗的運算，並讓你的程式碼有辦法回復。你可以使用 <code>Result</code> 來告訴使用你的程式碼的呼叫者，他們需要處理可能成功與失敗的情形。在適當的場合使用 <code>panic!</code> 與 <code>Result</code> 能讓你的程式碼在不可避免的問題中更加可靠。</p>
+<p>Rust 的錯誤檢查功能的設計旨在協助你寫出可靠的程式碼。<code>panic!</code> 巨集告訴你的程式遇到了它無法處理的狀態，並讓你告訴程序停止，而不是繼續嘗試使用無效或不正確的數值。<code>Result</code> 枚舉使用 Rust 的型別系統來指出可能會失敗的運算，並讓你的程式碼有辦法恢復。你可以使用 <code>Result</code> 來告訴使用你的程式碼的呼叫者，他們需要處理可能成功與失敗的情形。在適當的場合使用 <code>panic!</code> 與 <code>Result</code> 能讓你的程式碼在不可避免的問題中更加可靠。</p>
 <p>現在你已經看過標準函式庫中 <code>Option</code> 與 <code>Result</code> 使用泛型的優勢了，就讓我們來討論泛型如何運作的，以及你如何在程式碼中使用它們。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="泛型型別特徵與生命週期"><a class="header" href="#泛型型別特徵與生命週期">泛型型別、特徵與生命週期</a></h1>
 <p>每個程式語言都有能夠高效處理概念複製的工具。在 Rust 此工具就是<strong>泛型（generics）</strong>：實際型別或其他屬性的抽象替代。我們可以表達泛型的行為，或是它們與其他泛型有何關聯，而不必在編譯與執行程式時知道它們實際上是什麼。</p>

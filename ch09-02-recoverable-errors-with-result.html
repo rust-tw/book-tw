@@ -271,7 +271,7 @@ cd listings/ch09-error-handling/no-listing-05-expect
 cargo run
 copy and paste relevant text
 -->
-<pre><code class="language-text">thread 'main' panicked at 'hello.txt should be included in this project: Os {
+<pre><code class="language-text">thread 'main' panicked at 'hello.txt 應該要存在此專案中: Os {
 code: 2, kind: NotFound, message: &quot;No such file or directory&quot; }',
 src/main.rs:5:10
 </code></pre>
@@ -306,7 +306,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 9-6：使用 <code>match</code> 回傳錯誤給呼叫者的函式</span></p>
-<p>此函式還能再更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 <code>Result&lt;String, io::Error&gt;</code>。這代表此函式回傳的型別為 <code>Result&lt;T, E&gt;</code>，而泛型型別 <code>T</code> 已經指明為實際型別 <code>String</code> 然後泛型型別 <code>E</code> 也已經指明為實際型別 <code>io::Error</code>。</p>
+<p>此函式還能再更簡化，但我們要先繼續手動處理來進一步探討錯誤處理，最後我們會展示最精簡的方式。讓我們先看看此函式的回傳型別 <code>Result&lt;String, io::Error&gt;</code>。這代表此函式回傳的型別為 <code>Result&lt;T, E&gt;</code>，其中泛型型別 <code>T</code> 已經指明為實際型別 <code>String</code>，而泛型型別 <code>E</code> 則指明為實際型別 <code>io::Error</code>。</p>
 <p>如果函式正確無誤的話，程式碼會呼叫此函式並收到擁有 <code>String</code> 的 <code>Ok</code> 數值。如果程式遇到任何問題的話，呼叫此函式的程式碼就會獲得擁有包含相關問題發生資訊的 <code>io::Error</code> 實例的 <code>Err</code> 數值。我們選擇 <code>io::Error</code> 作為函式的回傳值是因為它正是 <code>File::open</code> 函式和 <code>read_to_string</code> 方法失敗時的回傳的錯誤型別。</p>
 <p>函式本體從呼叫 <code>File::open</code> 開始，然後我們使用 <code>match</code> 回傳 <code>Result</code> 數值，就和範例 9-4 的 <code>match</code> 類似。如果 <code>File::open</code> 成功的話，變數 <code>file</code> 中的檔案控制代碼賦值給可變變數 <code>username_file</code> 並讓函式繼續執行下去。但在 <code>Err</code> 的情形時，與其呼叫 <code>panic!</code>，我們使用 <code>return</code> 關鍵字來讓函式提早回傳，並將 <code>File::open</code> 的錯誤值，也就是模式中的變數 <code>e</code>，作為此函式的錯誤值回傳給呼叫的程式碼。</p>
 <p>所以如果我們在 <code>username_file</code> 有拿到檔案控制代碼的話，接著函式就會在變數 <code>username</code> 建立新的 <code>String</code> 並對檔案控制代碼 <code>username_file</code> 呼叫 <code>read_to_string</code> 方法來讀取檔案內容至 <code>username</code>。<code>read_to_string</code> 也會回傳 <code>Result</code> 因為它也可能失敗，就算 <code>File::open</code> 是執行成功的。所以我們需要另一個 <code>match</code> 來處理該 <code>Result</code>，如果 <code>read_to_string</code> 成功的話，我們的函式就是成功的，然後在 <code>Ok</code> 回傳 <code>username</code> 中該檔案的使用者名稱。如果 <code>read_to_string</code> 失敗的話，我們就像處理 <code>File::open</code> 的 <code>match</code> 一樣回傳錯誤值。不過我們不需要顯式寫出 <code>return</code>，因為這是函式中的最後一個表達式。</p>
