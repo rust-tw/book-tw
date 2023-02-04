@@ -136,7 +136,7 @@ copy and paste relevant text
 -->
 
 ```text
-thread 'main' panicked at 'hello.txt should be included in this project: Os {
+thread 'main' panicked at 'hello.txt 應該要存在此專案中: Os {
 code: 2, kind: NotFound, message: "No such file or directory" }',
 src/main.rs:5:10
 ```
