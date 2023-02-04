@@ -4998,7 +4998,7 @@ error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immuta
 For more information about this error, try `rustc --explain E0502`.
 error: could not compile `collections` due to previous error
 </code></pre>
-<p>範例 8-6 的程式碼看起來好像能執行。為何第一個元素的引用要在意向量的最後端發生了什麼事呢？此錯誤其實跟向量運作的方式有關：由於向量會將元素放在前一位的記憶體位置後方，在向量後方新增元素時，如果當前向量的空間不夠在塞入另一個值的話，可能會需要分配新的記憶體並複製舊的元素到新的空間中。這樣一來，第一個元素的索引可能就會指向已經被釋放的記憶體，借用規則會防止程式遇到這樣的情形。</p>
+<p>範例 8-6 的程式碼看起來好像能執行。為何第一個元素的引用要在意向量的最後端發生了什麼事呢？此錯誤其實跟向量運作的方式有關：由於向量會將元素放在前一位的記憶體位置後方，在向量後方新增元素時，如果當前向量的空間不夠再塞入另一個值的話，可能會需要分配新的記憶體並複製舊的元素到新的空間中。這樣一來，第一個元素的索引可能就會指向已經被釋放的記憶體，借用規則會防止程式遇到這樣的情形。</p>
 <blockquote>
 <p>注意：關於 <code>Vec&lt;T&gt;</code> 型別更多的實作細節，歡迎查閱<a href="https://doc.rust-lang.org/nomicon/vec/vec.html">「The Rustonomicon」</a>。</p>
 </blockquote>
