@@ -8384,7 +8384,7 @@ fn main() {
     &quot;haystack&quot;,
 ]
 </code></pre>
-<p>值得注意的是向量中第一個數值為 <code>&quot;target/debug/minigrep&quot;</code>，這是我們的執行檔名稱。這與 C 的引數列表行為相符，讓程式在執行時能使用它們被呼叫的名稱路徑。存取程式名稱通常是很實用的，像是你能將它顯示在訊息中，或是依據程式被呼叫的命令列別名還改變程式的行為。但考慮本章節的目的，我們會忽略它並只儲存我們想要的兩個引數。</p>
+<p>值得注意的是向量中第一個數值為 <code>&quot;target/debug/minigrep&quot;</code>，這是我們的執行檔名稱。這與 C 的引數列表行為相符，讓程式在執行時能使用它們被呼叫的名稱路徑。存取程式名稱通常是很實用的，像是你能將它顯示在訊息中，或是依據程式被呼叫的命令列別名來改變程式的行為。但考慮本章節的目的，我們會忽略它並只儲存我們想要的兩個引數。</p>
 <h3 id="將引數數值儲存至變數"><a class="header" href="#將引數數值儲存至變數">將引數數值儲存至變數</a></h3>
 <p>目前程式能夠取得命令列引數指定的數值。現在我們想要將這兩個引數存入變數中，讓我們可以在接下來的程式中使用數值，如範例 12-2 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -8758,7 +8758,7 @@ fn main() {
 </span><span class="boring">}
 </span></code></pre>
 <p><span class="caption">範例 12-10：如果建立新的 <code>Config</code> 失敗時會用錯誤碼離開</span></p>
-<p>在此範例中，我們使用一個還沒詳細介紹的方法 <code>unwrap_or_else</code>，這定義在標準函式庫的 <code>Result&lt;T, E&gt;</code> 中。使用 <code>unwrap_or_else</code> 讓我們能定義一些自訂的非 <code>panic!</code> 錯誤處理。如果 <code>Result</code> 數值為 <code>Ok</code>，此方法行為就類似於 <code>unwrap</code>，它會回傳<code>Ok</code> 所封裝的內部數值。然而，如果數值為 <code>Err</code> 的話，此方法會呼叫<strong>閉包</strong>（closure）內的程式碼，這會是由我們所定義的匿名函式並作為引數傳給 <code>unwrap_or_else</code>。我們會在<a href="ch13-00-functional-features.html">第十三章</a><!-- ignore -->詳細介紹閉包。現在你只需要知道 <code>unwrap_or_else</code> 回傳遞 <code>Err</code> 的內部數值，在此例中就是我們在範例 12-9 新增的靜態字串「引數不足」，將此數值傳遞給閉包中兩條直線之間的 <code>err</code> 引數。閉包內的程式碼就可以在執行時使用 <code>err</code> 數值。</p>
+<p>在此範例中，我們使用一個還沒詳細介紹的方法 <code>unwrap_or_else</code>，這定義在標準函式庫的 <code>Result&lt;T, E&gt;</code> 中。使用 <code>unwrap_or_else</code> 讓我們能定義一些自訂的非 <code>panic!</code> 錯誤處理。如果 <code>Result</code> 數值為 <code>Ok</code>，此方法行為就類似於 <code>unwrap</code>，它會回傳<code>Ok</code> 所封裝的內部數值。然而，如果數值為 <code>Err</code> 的話，此方法會呼叫<strong>閉包</strong>（closure）內的程式碼，這會是由我們所定義的匿名函式並作為引數傳給 <code>unwrap_or_else</code>。我們會在<a href="ch13-00-functional-features.html">第十三章</a><!-- ignore -->詳細介紹閉包。現在你只需要知道 <code>unwrap_or_else</code> 會傳遞 <code>Err</code> 的內部數值，在此例中就是我們在範例 12-9 新增的靜態字串「引數不足」，將此數值傳遞給閉包中兩條直線之間的 <code>err</code> 引數。閉包內的程式碼就可以在執行時使用 <code>err</code> 數值。</p>
 <p>我們新增了一行 <code>use</code> 來將標準函式庫中的 <code>process</code> 引入作用域。在錯誤情形下要執行的閉包程式碼只有兩行：我們印出 <code>err</code> 數值並呼叫 <code>process::exit</code>。<code>process::exit</code> 函式會立即停止程式並回傳給予的數字來作為退出狀態碼。這與範例 12-8 我們使用 <code>panic!</code> 來處理的方式類似，但我們不再顯示多餘的輸出結果。讓我們試試看：</p>
 <pre><code class="language-console">$ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
