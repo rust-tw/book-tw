@@ -332,4 +332,4 @@ let s: &'static str = "我有靜態生命週期。";
 ch04-02-references-and-borrowing.html#引用與借用
 [string-slices-as-parameters]:
 ch04-03-slices.html#字串切片作為參數
-[reference]: ../reference/index.html
+[reference]: https://doc.rust-lang.org/stable/reference/index.html
