@@ -13855,7 +13855,7 @@ collection</span></p>
 <p>在有繼承的語言中，我們可能會定義一個類型（class）叫做 <code>Component</code> 且其有個方法叫做 <code>draw</code>。其他的類型像是 <code>Button</code>、<code>Image</code> 和 <code>SelectBox</code> 等等，可以繼承 <code>Component</code> 以取得 <code>draw</code> 方法。它們可以覆寫 <code>draw</code> 方法來定義它們自己的自訂行為，但是整個框架能將所有型別視為像是 <code>Component</code> 實例來對待，並對它們呼叫 <code>draw</code>。但由於 Rust 並沒有繼承，我們需要其他方式來組織 <code>gui</code> 函式庫，好讓使用者可以透過新的型別來擴展它。</p>
 <h3 id="定義共同行為的特徵"><a class="header" href="#定義共同行為的特徵">定義共同行為的特徵</a></h3>
 <p>要定義我們希望 <code>gui</code> 能擁有的行為，我們定義一個特徵叫做 <code>Draw</code> 並有個方法叫做 <code>draw</code>。然後我們可以定義一個接收<strong>特徵物件</strong>（trait object）的向量。一個特徵物件會指向有實作指定特徵的型別以及一個在執行時尋找該型別方法的尋找表（look up table）。要建立特徵物件，我們指定一些指標，像是引用 <code>&amp;</code> 或者智慧指標 <code>Box&lt;T&gt;</code>，然後加上 <code>dyn</code> 關鍵字與指定的相關特徵。（我們會在第十九章的<a href="ch19-04-advanced-types.html#%E5%8B%95%E6%85%8B%E5%A4%A7%E5%B0%8F%E5%9E%8B%E5%88%A5%E8%88%87-sized-%E7%89%B9%E5%BE%B5">「動態大小型別與 <code>Sized</code> 特徵」</a><!-- ignore -->段落討論特徵物件必須使用指標的原因）我們可以對泛型或實際型別使用特徵物件。當我們使用特徵物件時，Rust 的型別系統會確保在編譯時該段落使用到的任何數值都有實作特徵物件的特徵。於是我們就不必在編譯時知道所有可能的型別。</p>
-<p>我們提到在 Rust 中，我們避免將結構體和枚舉稱為「物件」，來與其他語言的物件做區別。在結構體或枚舉中，結構你欄位中的資料與 <code>impl</code> 區塊的行為是分開來的。在其他語言中，資料與行為會組合成一個概念，也就是所謂的物件。然而特徵物件才比較像是其他語言中的物件，因為這才會將資料與行為組合起來。但特徵物件與傳統物件不同的地方在於，我們無法向特徵物件新增資料。特徵物件不像其他語言的物件那麼通用，它們是特別用於對共同行為產生的抽象概念。</p>
+<p>我們提到在 Rust 中，我們避免將結構體和枚舉稱為「物件」，來與其他語言的物件做區別。在結構體或枚舉中，結構體欄位中的資料與 <code>impl</code> 區塊的行為是分開來的。在其他語言中，資料與行為會組合成一個概念，也就是所謂的物件。然而特徵物件才比較像是其他語言中的物件，因為這才會將資料與行為組合起來。但特徵物件與傳統物件不同的地方在於，我們無法向特徵物件新增資料。特徵物件不像其他語言的物件那麼通用，它們是特別用於對共同行為產生的抽象概念。</p>
 <p>範例 17-3 定義了一個特徵叫做 <code>Draw</code> 以及一個方法叫做 <code>draw</code>：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust noplayground">pub trait Draw {
@@ -14507,7 +14507,7 @@ impl State for Published {
 </ul>
 <p>不過狀態模式有個劣勢，由於狀態實作狀態的轉換，有些狀態之間是彼此耦合的。如果我們在 <code>PendingReview</code> 與 <code>Published</code> 之間再加上另一個狀態像是 <code>Scheduled</code> 的話，我們就需要變更 <code>PendingReview</code> 的程式碼改轉換成
 <code>Scheduled</code>。如果 <code>PendingReview</code> 不需要因為新狀態的加入做改變的話，我們可以少寫些程式碼，但這就意味著切換成其他種設計模式。</p>
-<p>另一項劣勢是我們重複了一些邏輯。要消除掉一些重複的部分，我們可以是著對 <code>State</code> 的 <code>request_review</code> 和 <code>approve</code> 方法提供回傳 <code>self</code> 的預設實作。但是這樣就違反物件安全了，因為特徵不知道 <code>self</code> 的實際型別為何。我們想要能將 <code>State</code> 用在特徵物件中，所以它的方法必須是物件安全的。</p>
+<p>另一項劣勢是我們重複了一些邏輯。要消除掉一些重複的部分，我們可以試著對 <code>State</code> 的 <code>request_review</code> 和 <code>approve</code> 方法提供回傳 <code>self</code> 的預設實作。但是這樣就違反物件安全了，因為特徵不知道 <code>self</code> 的實際型別為何。我們想要能將 <code>State</code> 用在特徵物件中，所以它的方法必須是物件安全的。</p>
 <p>另一個重複的部分包含 <code>Post</code> 的 <code>request_review</code> 與 <code>approve</code> 方法都以類似的方式實作。兩者均呼叫 <code>state</code> 欄位中 <code>Option</code> 內數值對應的相同方法。如果 <code>Post</code> 有很多方法都遵循這樣的模式的話，我們可以考慮定義巨集（macro）來消除重複的部分（請查閱第十九章的<a href="ch19-06-macros.html#macros">「巨集」</a><!-- ignore -->段落）。</p>
 <p>如其他物件導向語言所定義的來實作狀態模式，我們並沒有完全發揮出 Rust 的所有潛力。讓我們看看我們能對 <code>blog</code> crate 做些什麼改善，讓無效的狀態與轉換會產生成編譯時錯誤。</p>
 <h4 id="定義狀態與行為成型別"><a class="header" href="#定義狀態與行為成型別">定義狀態與行為成型別</a></h4>

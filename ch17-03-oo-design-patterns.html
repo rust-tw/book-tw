@@ -600,7 +600,7 @@ impl State for Published {
 </ul>
 <p>不過狀態模式有個劣勢，由於狀態實作狀態的轉換，有些狀態之間是彼此耦合的。如果我們在 <code>PendingReview</code> 與 <code>Published</code> 之間再加上另一個狀態像是 <code>Scheduled</code> 的話，我們就需要變更 <code>PendingReview</code> 的程式碼改轉換成
 <code>Scheduled</code>。如果 <code>PendingReview</code> 不需要因為新狀態的加入做改變的話，我們可以少寫些程式碼，但這就意味著切換成其他種設計模式。</p>
-<p>另一項劣勢是我們重複了一些邏輯。要消除掉一些重複的部分，我們可以是著對 <code>State</code> 的 <code>request_review</code> 和 <code>approve</code> 方法提供回傳 <code>self</code> 的預設實作。但是這樣就違反物件安全了，因為特徵不知道 <code>self</code> 的實際型別為何。我們想要能將 <code>State</code> 用在特徵物件中，所以它的方法必須是物件安全的。</p>
+<p>另一項劣勢是我們重複了一些邏輯。要消除掉一些重複的部分，我們可以試著對 <code>State</code> 的 <code>request_review</code> 和 <code>approve</code> 方法提供回傳 <code>self</code> 的預設實作。但是這樣就違反物件安全了，因為特徵不知道 <code>self</code> 的實際型別為何。我們想要能將 <code>State</code> 用在特徵物件中，所以它的方法必須是物件安全的。</p>
 <p>另一個重複的部分包含 <code>Post</code> 的 <code>request_review</code> 與 <code>approve</code> 方法都以類似的方式實作。兩者均呼叫 <code>state</code> 欄位中 <code>Option</code> 內數值對應的相同方法。如果 <code>Post</code> 有很多方法都遵循這樣的模式的話，我們可以考慮定義巨集（macro）來消除重複的部分（請查閱第十九章的<a href="ch19-06-macros.html#macros">「巨集」</a><!-- ignore -->段落）。</p>
 <p>如其他物件導向語言所定義的來實作狀態模式，我們並沒有完全發揮出 Rust 的所有潛力。讓我們看看我們能對 <code>blog</code> crate 做些什麼改善，讓無效的狀態與轉換會產生成編譯時錯誤。</p>
 <h4 id="定義狀態與行為成型別"><a class="header" href="#定義狀態與行為成型別">定義狀態與行為成型別</a></h4>
