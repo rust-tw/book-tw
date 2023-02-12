@@ -143,7 +143,7 @@
 <p>有一個有趣的點是 Rust 語言提供的並行功能並<strong>沒有很多</strong>。本章節討論到的並行功能幾乎都來自於標準函式庫，並不是語言本身。你能處理並行的選項並不限於語言或標準函式庫，你可以寫出你自己的並行功能或使用其他人提供的。</p>
 <p>然而，還有有兩個並行概念深植於語言中，那就是 <code>std::marker</code> 中的 <code>Sync</code> 與 <code>Send</code> 特徵。</p>
 <h3 id="透過-send-來允許所有權能在執行緒間轉移"><a class="header" href="#透過-send-來允許所有權能在執行緒間轉移">透過 <code>Send</code> 來允許所有權能在執行緒間轉移</a></h3>
-<p><code>Send</code> 標記特徵（marker traits）指定有實作 <code>Send</code> 特徵的型別才能將其數值的所有權在執行緒間轉移。幾乎所有的 Rust 型別都有 <code>Send</code>，但有些例外。這包含 <code>Rc&lt;T&gt;</code>，此型別沒有 <code>Send</code> 是因為如果你克隆了 <code>Rc&lt;T&gt;</code> 數值並嘗試轉移克隆的所有權到其他執行緒，會有兩條執行緒可能同時更新引用引用計數。基於此原因，<code>Rc&lt;T&gt;</code> 是用於當你不想要付出執行緒安全效能開銷時而在單一執行緒使用的情況。</p>
+<p><code>Send</code> 標記特徵（marker traits）指定有實作 <code>Send</code> 特徵的型別才能將其數值的所有權在執行緒間轉移。幾乎所有的 Rust 型別都有 <code>Send</code>，但有些例外。這包含 <code>Rc&lt;T&gt;</code>，此型別沒有 <code>Send</code> 是因為如果你克隆了 <code>Rc&lt;T&gt;</code> 數值並嘗試轉移克隆的所有權到其他執行緒，會有兩條執行緒可能同時更新引用計數。基於此原因，<code>Rc&lt;T&gt;</code> 是用於當你不想要付出執行緒安全效能開銷時而在單一執行緒使用的情況。</p>
 <p>因此 Rust 的型別系統與特徵界限確保你無法意外不安全地傳送 <code>Rc&lt;T&gt;</code> 數值到其他執行緒。當我們嘗試範例 16-14 時，我們就會得到錯誤 <code>the trait Send is not implemented for Rc&lt;Mutex&lt;i32&gt;&gt;</code>。當我們切換成有實作 <code>Send</code> 的 <code>Arc&lt;T&gt;</code> 的話，程式碼就能編譯通過。</p>
 <p>任何由具有 <code>Send</code> 的型別所組成的型別也都會自動標記為 <code>Send</code>。幾乎所有原始型別都是 <code>Send</code>，除了我們將在第十九章提及的裸指標（raw pointers）。</p>
 <h3 id="透過-sync-來允許多重執行緒存取"><a class="header" href="#透過-sync-來允許多重執行緒存取">透過 <code>Sync</code> 來允許多重執行緒存取</a></h3>

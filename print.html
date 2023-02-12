@@ -13113,7 +13113,7 @@ children: RefCell { value: [] } }] } })
 <p>如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱<a href="https://doc.rust-lang.org/nomicon/">「The Rustonomicon」</a>來學習更多實用資訊。</p>
 <p>接下來，我們將討論 Rust 的並行性。你還會再學到一些新的智慧指標。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="無懼並行"><a class="header" href="#無懼並行">無懼並行</a></h1>
-<p>能夠安全高效處理並行程式設計是 Rust 的另一像主要目標。<strong>並行程式設計</strong>（Concurrent programming）會讓程式的不同部分獨立執行，而<strong>平行程式設計</strong>（parallel programming）則是程式的不同部分同時執行。這些隨著電腦越能善用多處理器時也越顯得重要。歷史上，這種程式設計是很困難且容易出錯的，Rust 希望能改善這點。</p>
+<p>能夠安全高效處理並行程式設計是 Rust 的另一項主要目標。<strong>並行程式設計</strong>（Concurrent programming）會讓程式的不同部分獨立執行，而<strong>平行程式設計</strong>（parallel programming）則是程式的不同部分同時執行。這些隨著電腦越能善用多處理器時也越顯得重要。歷史上，這種程式設計是很困難且容易出錯的，Rust 希望能改善這點。</p>
 <p>起初 Rust 團隊認為確保記憶體安全與預防並行問題是兩個分別的問題，要用不同的解決方案。隨著時間過去，團隊發現所有權與型別系統同時是管理記憶體安全<strong>以及</strong>並行問題的強大工具！透過藉助所有權與型別檢查，許多並行錯誤在 Rust 中都是編譯時錯誤而非執行時錯誤。因此，你不用花大量時間嘗試重現編譯時並行錯誤出現時的特定情況，不正確的程式碼會在編譯時就被拒絕，並顯示錯誤解釋問題原因。這樣一來，你就可以在開發時就修正問題，而不用等到可能都部署到生產環境了才發現問題。我們稱呼這個 Rust 的特色為<strong>無懼並行（fearless concurrency）</strong>。無懼並行可以避免你寫出有微妙錯誤的程式碼，並能輕鬆重構，不用擔心產生新的程式錯誤。</p>
 <blockquote>
 <p>注意：出於簡潔考量，我們將把許多問題歸類為<strong>並行</strong>，而不是精確地區分是<strong>並行與／或平行</strong>。如果本書是本專注在並行與/或平行的書，我們才會更在意用詞。至於本章節，當我們使用<strong>並行</strong>的詞彙時，請記得這代表 <strong>並行與／或平行</strong>。</p>
@@ -13761,7 +13761,7 @@ changes in the compiler -->
 <p>有一個有趣的點是 Rust 語言提供的並行功能並<strong>沒有很多</strong>。本章節討論到的並行功能幾乎都來自於標準函式庫，並不是語言本身。你能處理並行的選項並不限於語言或標準函式庫，你可以寫出你自己的並行功能或使用其他人提供的。</p>
 <p>然而，還有有兩個並行概念深植於語言中，那就是 <code>std::marker</code> 中的 <code>Sync</code> 與 <code>Send</code> 特徵。</p>
 <h3 id="透過-send-來允許所有權能在執行緒間轉移"><a class="header" href="#透過-send-來允許所有權能在執行緒間轉移">透過 <code>Send</code> 來允許所有權能在執行緒間轉移</a></h3>
-<p><code>Send</code> 標記特徵（marker traits）指定有實作 <code>Send</code> 特徵的型別才能將其數值的所有權在執行緒間轉移。幾乎所有的 Rust 型別都有 <code>Send</code>，但有些例外。這包含 <code>Rc&lt;T&gt;</code>，此型別沒有 <code>Send</code> 是因為如果你克隆了 <code>Rc&lt;T&gt;</code> 數值並嘗試轉移克隆的所有權到其他執行緒，會有兩條執行緒可能同時更新引用引用計數。基於此原因，<code>Rc&lt;T&gt;</code> 是用於當你不想要付出執行緒安全效能開銷時而在單一執行緒使用的情況。</p>
+<p><code>Send</code> 標記特徵（marker traits）指定有實作 <code>Send</code> 特徵的型別才能將其數值的所有權在執行緒間轉移。幾乎所有的 Rust 型別都有 <code>Send</code>，但有些例外。這包含 <code>Rc&lt;T&gt;</code>，此型別沒有 <code>Send</code> 是因為如果你克隆了 <code>Rc&lt;T&gt;</code> 數值並嘗試轉移克隆的所有權到其他執行緒，會有兩條執行緒可能同時更新引用計數。基於此原因，<code>Rc&lt;T&gt;</code> 是用於當你不想要付出執行緒安全效能開銷時而在單一執行緒使用的情況。</p>
 <p>因此 Rust 的型別系統與特徵界限確保你無法意外不安全地傳送 <code>Rc&lt;T&gt;</code> 數值到其他執行緒。當我們嘗試範例 16-14 時，我們就會得到錯誤 <code>the trait Send is not implemented for Rc&lt;Mutex&lt;i32&gt;&gt;</code>。當我們切換成有實作 <code>Send</code> 的 <code>Arc&lt;T&gt;</code> 的話，程式碼就能編譯通過。</p>
 <p>任何由具有 <code>Send</code> 的型別所組成的型別也都會自動標記為 <code>Send</code>。幾乎所有原始型別都是 <code>Send</code>，除了我們將在第十九章提及的裸指標（raw pointers）。</p>
 <h3 id="透過-sync-來允許多重執行緒存取"><a class="header" href="#透過-sync-來允許多重執行緒存取">透過 <code>Sync</code> 來允許多重執行緒存取</a></h3>
