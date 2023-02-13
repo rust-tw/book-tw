@@ -285,7 +285,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p><code>deref</code> 方法會回傳一個數值引用，以及括號外要再加上普通解引用的原因，都是因為所有權系統。如果 <code>deref</code> 方法直接回傳數值而非引用數值的話，該數值就會移出 <code>self</code>。我們不希望在此例或是大多數使用解引用運算子的場合下，取走 <code>MyBox&lt;T&gt;</code> 內部數值的所有權。</p>
 <p>注意到每次我們在程式碼中使用 <code>*</code> 時，<code>*</code> 運算子被替換成 <code>deref</code> 方法呼叫，然後再呼叫 <code>*</code> 剛好一次。因為 <code>*</code> 運算子不會被無限遞迴替換，我們能剛好取得型別 <code>i32</code> 並符合範例 15-9 <code>assert_eq!</code> 中與 <code>5</code> 的判定。</p>
 <h3 id="函式與方法的隱式強制解引用"><a class="header" href="#函式與方法的隱式強制解引用">函式與方法的隱式強制解引用</a></h3>
-<p><strong>強制解引用</strong>（Deref coercion）會將有實作 <code>Deref</code> 特徵的型別引用轉換成其他型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>&amp;str</code>。<strong>強制解引用</strong>（Deref coercion）是一個 Rust 針對函式或方法的引數的便利設計，且只會用在有實作 <code>Dere</code> 特徵的型別。當我們將某個特定型別數值的引用作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
+<p><strong>強制解引用</strong>（Deref coercion）會將有實作 <code>Deref</code> 特徵的型別引用轉換成其他型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>&amp;str</code>。<strong>強制解引用</strong>（Deref coercion）是一個 Rust 針對函式或方法的引數的便利設計，且只會用在有實作 <code>Deref</code> 特徵的型別。當我們將某個特定型別數值的引用作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
 <p>Rust 會加入強制解引用的原因是因為程式設計師在寫函式與方法呼叫時，就不必加上許多顯式引用 <code>&amp;</code> 與解引用 <code>*</code>。強制解引用還讓我們可以寫出能同時用於引用或智慧指標的程式碼。</p>
 <p>為了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 中定義的函式使用字串切片作為參數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

@@ -11811,7 +11811,7 @@ cargo install something you don't have, copy relevant output below
 <p>透過 Cargo 與 <a href="https://crates.io/">crates.io</a><!-- ignore --> 分享程式碼是讓 Rust 生態系統能適用於許多不同任務的重要部分之一。Rust 的標準函式庫既小又穩定，但是 crate 可以很容易地分享、使用，並在語言本身不同的時間線來進行改善。千萬別吝嗇於分享你認為實用的程式碼到 <a href="https://crates.io/">crates.io</a><!-- ignore -->，其他人可能也會覺得它很有幫助！</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="智慧指標"><a class="header" href="#智慧指標">智慧指標</a></h1>
 <p><strong>指標</strong>（pointer）是一個將變數儲存記憶體位址的通用概念。此位址引用，或者說是「指向」一些其他資料。Rust 中最常見的指標種類就是第四章介紹的引用（reference）。引用以 <code>&amp;</code> 符號作為指示並借用它們指向的數值。它們除了引用資料以外，沒有其他的特殊能力，也沒有任何額外開銷。</p>
-<p>另一方面，<strong>智慧指標</strong>（Smart pointers）是個不只會有像是指標的行為，還會包含擁有的詮釋資料與能力。智慧指標的概念並不是 Rust 獨有的，智慧指標起源於 C++ 且也都存在於其他語言。Rust 在標準函式庫中有提供許多不同的智慧指標，不只能引用還具備更多的功能。為了探索各個概念，我們會來研究一些各種不同的智慧指標範例。，包含<strong>引用計數</strong>（reference counting）智慧指標型別。此指標允許一個資料可以有多個擁有者，並追蹤擁有者的數量，當沒有任何擁有者時，就清除資料。</p>
+<p>另一方面，<strong>智慧指標</strong>（Smart pointers）是個不只會有像是指標的行為，還會包含擁有的詮釋資料與能力。智慧指標的概念並不是 Rust 獨有的，智慧指標起源於 C++ 且也都存在於其他語言。Rust 在標準函式庫中有提供許多不同的智慧指標，不只能引用還具備更多的功能。為了探索各個概念，我們會來研究一些各種不同的智慧指標範例，包含<strong>引用計數</strong>（reference counting）智慧指標型別。此指標允許一個資料可以有多個擁有者，並追蹤擁有者的數量，當沒有任何擁有者時，就清除資料。</p>
 <p>在 Rust 中，我們有所有權與借用的概念，所以引用與智慧指標之間還有一項差別：引用是只有借用資料的指標，但智慧指標在很多時候都<strong>擁有</strong>它們指向的資料。</p>
 <p>雖然在前面的章節我們沒有這樣稱呼，但我們已經在本書中遇過一些智慧指標了，像是第八章的 <code>String</code> 和 <code>Vec&lt;T&gt;</code>，雖然當時我們沒有稱呼它們為智慧指標。這些型別都算是智慧指標，因為它們都擁有一些記憶體並允許你操控它們。它們也有詮釋資料以及額外的能力或保障。像是 <code>String</code> 就會將容量儲存在詮釋資料中，並確保其資料永遠是有效的 UTF-8。</p>
 <p>智慧指標通常都使用結構體實作。和一般結構體不同，智慧指標會實作 <code>Deref</code> 與 <code>Drop</code> 特徵。<code>Deref</code> 特徵允許智慧指標結構體的實例表現的像是引用一樣，讓你可以寫出能用在引用與智慧指標的程式碼。<code>Drop</code> 特徵允許你自訂當智慧指標實例離開作用域時要執行的程式碼。在本章節我們會討論這兩個特徵並解釋為何它們對智慧指標很重要。</p>
@@ -11827,9 +11827,9 @@ cargo install something you don't have, copy relevant output below
 <p>最直白的智慧指標是 <em>box</em> 其型別為 <code>Box&lt;T&gt;</code>。Box 允許你儲存資料到堆積上，而不是堆疊。留在堆疊上的會是指向堆積資料的指標。你可以回顧第四章瞭解堆疊與堆積的差別。</p>
 <p>Box 沒有額外的效能開銷，就只是將它們的資料儲存在堆積上而非堆疊而已。不過相對地它們也沒有多少額外功能。你大概會在這些場合用到它們：</p>
 <ul>
-<li>當你有個型別無法在編譯時期確定大小，而你又想在需要知道確切大小的情況下使用該型別的數值</li>
+<li>當你有個型別無法在編譯時期確定大小，而你又想在需要知道確切大小的情況下使用該型別的數值。</li>
 <li>當你有個龐大的資料，而你想要轉移所有權並確保資料不會被拷貝。</li>
-<li>當你想要擁有某個值，但你只在意該型別有實作特定的特徵，而不是何種特定型別</li>
+<li>當你想要擁有某個值，但你只在意該型別有實作特定的特徵，而不是何種特定型別。</li>
 </ul>
 <p>我們會在<a href="ch15-01-box.html#%E9%80%8F%E9%81%8E-box-%E5%BB%BA%E7%AB%8B%E9%81%9E%E8%BF%B4%E5%9E%8B%E5%88%A5">「透過 Box 建立遞迴型別」</a><!-- ignore -->段落解說第一種情形。而在第二種情形，轉移龐大的資料的所有權可能會很花費時間，因為在堆疊上的話會拷貝所有資料。要改善此情形，我們可以用 box 將龐大的資料儲存在堆積上。這樣就只有少量的指標資料在堆疊上被拷貝，而其引用的資料仍然保留在堆積上的同個位置。第三種情況被稱之為<strong>特徵物件（trait object）</strong>，第十七章會花整個<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->段落來討論此議題。所以你在此學到的到第十七章會再次用上！</p>
 <h3 id="使用-boxt-儲存資料到堆積上"><a class="header" href="#使用-boxt-儲存資料到堆積上">使用 <code>Box&lt;T&gt;</code> 儲存資料到堆積上</a></h3>
@@ -12095,7 +12095,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p><code>deref</code> 方法會回傳一個數值引用，以及括號外要再加上普通解引用的原因，都是因為所有權系統。如果 <code>deref</code> 方法直接回傳數值而非引用數值的話，該數值就會移出 <code>self</code>。我們不希望在此例或是大多數使用解引用運算子的場合下，取走 <code>MyBox&lt;T&gt;</code> 內部數值的所有權。</p>
 <p>注意到每次我們在程式碼中使用 <code>*</code> 時，<code>*</code> 運算子被替換成 <code>deref</code> 方法呼叫，然後再呼叫 <code>*</code> 剛好一次。因為 <code>*</code> 運算子不會被無限遞迴替換，我們能剛好取得型別 <code>i32</code> 並符合範例 15-9 <code>assert_eq!</code> 中與 <code>5</code> 的判定。</p>
 <h3 id="函式與方法的隱式強制解引用"><a class="header" href="#函式與方法的隱式強制解引用">函式與方法的隱式強制解引用</a></h3>
-<p><strong>強制解引用</strong>（Deref coercion）會將有實作 <code>Deref</code> 特徵的型別引用轉換成其他型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>&amp;str</code>。<strong>強制解引用</strong>（Deref coercion）是一個 Rust 針對函式或方法的引數的便利設計，且只會用在有實作 <code>Dere</code> 特徵的型別。當我們將某個特定型別數值的引用作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
+<p><strong>強制解引用</strong>（Deref coercion）會將有實作 <code>Deref</code> 特徵的型別引用轉換成其他型別的引用。舉例來說，強制解引用可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>&amp;str</code>。<strong>強制解引用</strong>（Deref coercion）是一個 Rust 針對函式或方法的引數的便利設計，且只會用在有實作 <code>Deref</code> 特徵的型別。當我們將某個特定型別數值的引用作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解引用就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
 <p>Rust 會加入強制解引用的原因是因為程式設計師在寫函式與方法呼叫時，就不必加上許多顯式引用 <code>&amp;</code> 與解引用 <code>*</code>。強制解引用還讓我們可以寫出能同時用於引用或智慧指標的程式碼。</p>
 <p>為了展示強制解引用，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 中定義的函式使用字串切片作為參數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -12181,7 +12181,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p>第三種情況比較棘手：Rust 也能強制將可變引用轉為一個不可變引用。但反過來是<strong>不可行</strong>的：不可變引用永遠不可能強制解引用成可變引用。由於借用規則，如果你有個可變引用，該可變引用必須是該資料的唯一引用（不然程式無法編譯）。轉換可變引用成不可變引用不會破壞借用規則。轉換不可變引用成可變引用的話，就需要此不可變引用是該資料的唯一引用，但借用規則無法做擔保。因此 Rust 無法將不可變引用轉換成可變引用。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="透過-drop-特徵執行清除程式碼"><a class="header" href="#透過-drop-特徵執行清除程式碼">透過 <code>Drop</code> 特徵執行清除程式碼</a></h2>
 <p>第二個對智慧指標模式很重要的特徵是 <code>Drop</code>，這讓你能自訂數值離開作用域時的行為。你可以對任何型別實作 <code>Drop</code> 特徵，然後你指定的程式碼就能用來釋放像是檔案或網路連線等資源。我們在智慧指標的章節介紹 <code>Drop</code> 的原因是因為 <code>Drop</code> 特徵的功能幾乎永遠會在實作智慧指標時用到。舉例來說，當 <code>Box&lt;T&gt;</code> 離開作用域時，它會釋放該 box 在堆積上指向的記憶體空間。</p>
-<p>在某些語言中，當程式設計師使用完某些型別的實例後，每次都得呼叫釋放記憶體與資源的程式碼。比如果檔案控制代碼（file handle）、插座（socket）或鎖。如果他們忘記的話，系統可能就會過載並崩潰。在 Rust 中你可以對數值離開作用域時指定一些程式碼，然後編譯器就會自動插入此程式碼。所以你就不用每次在特定型別實例使用完時，在程式的每個地方都寫上清理程式碼。而且你還不會泄漏資源！</p>
+<p>在某些語言中，當程式設計師使用完某些型別的實例後，每次都得呼叫釋放記憶體與資源的程式碼。例子包括檔案控制代碼（file handle）、插座（socket）或鎖。如果他們忘記的話，系統可能就會過載並崩潰。在 Rust 中你可以對數值離開作用域時指定一些程式碼，然後編譯器就會自動插入此程式碼。所以你就不用每次在特定型別實例使用完時，在程式的每個地方都寫上清理程式碼。而且你還不會泄漏資源！</p>
 <p>透過實作 <code>Drop</code> 特徵我們可以指定當數值離開作用域時要執行的程式碼。<code>Drop</code> 特徵會要求我們實作一個方法叫做 <code>drop</code>，這會取得 <code>self</code> 的可變引用。為了觀察 Rust 何時會呼叫 <code>drop</code>，讓我們先用 <code>println!</code> 陳述式實作 <code>drop</code>。</p>
 <p>範例 15-14 的結構體 <code>CustomSmartPointer</code> 只有一個功能，那就是在實例離開作用域時印出 <code>Dropping CustomSmartPointer!</code>。此範例能夠展示 Rust 何時會執行 <code>drop</code> 函式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -12909,7 +12909,7 @@ a 在變更 a 後的引用計數 = 2
 <img alt="Reference cycle of lists" src="img/trpl15-04.svg" class="center" />
 <p><span class="caption">圖示 15-4：列表 <code>a</code> 與 <code>b</code> 彼此指向對方的引用循環</span></p>
 <p>如果你解除最後一個 <code>println!</code> 的註解並執行程式的話，Rust 會嘗試印出此循環，因為 <code>a</code> 會指向 <code>b</code> 會指向 <code>a</code> 以此循環下去，直到堆疊溢位（stack overflow）。</p>
-<p>比起真實世界的程式，此循環造成的影響並不嚴重。因為當我們建立完循環引用，程式就結束了不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很常一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
+<p>比起真實世界的程式，此循環造成的影響並不嚴重。因為當我們建立完循環引用，程式就結束了不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很長一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
 <p>要產生循環引用並不是件容易的事，但也不是絕對不可能。如果你有包含 <code>Rc&lt;T&gt;</code> 數值的 <code>RefCell&lt;T&gt;</code> 數值，或是有類似具內部可變性與引用計數巢狀組合的話，你必須確保不會產生循環引用，你無法依靠 Rust 來檢查它們。產生循環引用是程式中的邏輯錯誤，你需要使用自動化測試、程式碼審查以及其他軟體開發技巧來最小化問題。</p>
 <p>另一個避免引用循環的解決辦法是重新組織你的資料結構，確定哪些引用要有所有權，哪些引用不用。這樣一來，循環會由一些有所有權的關係與沒有所有權的關係所組成，而只有所有權關係能影響數值是否能被釋放。在範例 15-25 中。我們永遠會希望 <code>Cons</code> 變體擁有它們的列表，讓重新組織資料結構變得有可能。讓我們看看一個由父節點與子節點的圖形結構，來看看無所有權的關係何時適合用來避免循環引用。</p>
 <h3 id="避免引用循環將-rct-轉換成-weakt"><a class="header" href="#避免引用循環將-rct-轉換成-weakt">避免引用循環：將 <code>Rc&lt;T&gt;</code> 轉換成 <code>Weak&lt;T&gt;</code></a></h3>
