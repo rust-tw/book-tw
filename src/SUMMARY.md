@@ -114,10 +114,10 @@
 
 - [進階特色](ch19-00-advanced-features.md)
     - [不安全的 Rust](ch19-01-unsafe-rust.md)
-    - [進階特徵](ch19-03-advanced-traits.md)
-    - [進階型別](ch19-04-advanced-types.md)
-    - [進階函式與閉包](ch19-05-advanced-functions-and-closures.md)
-    - [巨集](ch19-06-macros.md)
+    - [進階特徵](ch19-02-advanced-traits.md)
+    - [進階型別](ch19-03-advanced-types.md)
+    - [進階函式與閉包](ch19-04-advanced-functions-and-closures.md)
+    - [巨集](ch19-05-macros.md)
 
 - [最終專案：建立多執行緒網頁伺服器](ch20-00-final-project-a-web-server.md)
     - [建立單一執行緒的網頁伺服器](ch20-01-single-threaded.md)
