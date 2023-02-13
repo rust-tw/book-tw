@@ -635,7 +635,7 @@ let mut banana = 5; // 可變的
 </span><span class="boring">}
 </span></code></pre>
 <p>如果我們沒有匯入 <code>io</code> 函式庫，也就是將 <code>use std::io</code> 這行置於程式最一開始的位置的話，我們還是能直接寫出 <code>std::io::stdin</code> 來呼叫函式。<code>stdin</code> 函式會回傳一個 <a href="https://doc.rust-lang.org/std/io/struct.Stdin.html"><code>std::io::Stdin</code></a><!-- ignore --> 實例，這是代表終端機標準輸入控制代碼（handle）的型別。</p>
-<p>接下來 <code>.read_line(&amp;mut guess)</code> 這行會對標準輸入控制代碼呼叫 <a href="https://doc.rust-lang.org/std/io/struct.Stdin.html#method.read_line"><code>read_line</code></a><!-- ignore --> 方法（method）來取得使用者的輸入。我們還傳遞了 <code>&amp;mut guess</code> 作為引數（argument）給 <code>read_line</code>，來告訴它使用者輸入時該儲存什麼字串。整個 <code>read_line</code> 的任務就是取得使用者在標準輸入寫入的任何內容，並加到到字串中（不會覆寫原有內容），所以我們才傳遞個字串作為引數。字串引數需要是可變的，這樣該方法才能變更字串的內容。</p>
+<p>接下來 <code>.read_line(&amp;mut guess)</code> 這行會對標準輸入控制代碼呼叫 <a href="https://doc.rust-lang.org/std/io/struct.Stdin.html#method.read_line"><code>read_line</code></a><!-- ignore --> 方法（method）來取得使用者的輸入。我們還傳遞了 <code>&amp;mut guess</code> 作為引數（argument）給 <code>read_line</code>，來告訴它使用者輸入時該儲存什麼字串。整個 <code>read_line</code> 的任務就是取得使用者在標準輸入寫入的任何內容，並加入到字串中（不會覆寫原有內容），使得我們可以傳遞該字串作為引數。字串引數需要是可變的，這樣該方法才能變更字串的內容。</p>
 <p><code>&amp;</code> 說明此引數是個<strong>引用（reference）</strong>，這讓程式中的多個部分可以取得此資料內容，但不需要每次都得複製資料到記憶體中。引用是個複雜的概念，而 Rust 其中一項主要優勢就是能夠輕鬆又安全地使用引用。你現在還不用知道一堆細節才能完成程式。現在你只需要知道引用和變數一樣，預設都是不可變的。因此你必須寫 <code>&amp;mut guess</code> 而不是 <code>&amp;guess</code> 才能讓它成為可變的。（第四章會再全面詳細解釋引用。）</p>
 <h3 id="使用-result-處理可能的錯誤"><a class="header" href="#使用-result-處理可能的錯誤">使用 <code>Result</code> 處理可能的錯誤</a></h3>
 <p>我們要繼續處理這段程式碼。我們已經討論到第三行了，不過這仍然是這段單一邏輯程式碼中的一部分。接下來的部分是此方法：</p>
