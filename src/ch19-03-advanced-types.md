@@ -164,4 +164,4 @@ Rust 必須知道該配置多少記憶體給特定型別之值，且所有該型
 [字串-slice]: ch04-03-slices.html#字串切片
 [match-控制流運算子]: ch06-02-match.html#match-控制流運算子
 [允許不同型別數值的特徵物件]: ch17-02-trait-objects.html#允許不同型別數值的特徵物件
-[使用新型別模式]: ch19-03-advanced-traits.html#使用新型別模式替外部型別實作外部特徵
+[使用新型別模式]: ch19-02-advanced-traits.html#使用新型別模式替外部型別實作外部特徵
