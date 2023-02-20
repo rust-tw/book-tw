@@ -15538,7 +15538,7 @@ fn main() {
 <p><span class="caption">範例 19-9：定義並使用一個不可變的靜態變數</span></p>
 <p>靜態變數（static variable）與我們在第三章「<a href="ch03-01-variables-and-mutability.html#%E5%B8%B8%E6%95%B8">變數與常數的差異</a><!-- ignore -->」一節討論的常數相似。慣例上靜態變數會用尖叫蛇式命名（<code>SCREAMING_SNAKE_CASE</code>）。由於靜態變數只能儲存 <code>static</code> 生命週期的引用，代表 Rust 編譯器可推導出它的生命週期，不需要我們顯式標註。存取一個不可變的靜態變數是安全的。</p>
 <p>常數和不可變靜態變數看似相同，實則有些許隱晦差異：靜態變數之值有固定的記憶體位址，使用該值永遠會存取相同的資料。反之，常數在使用上則可複製它們儲存的資料。</p>
-<p>另一個常數與靜態變數的差異是，靜態變數能是可變的。存取並修改可變的靜態變數並「<strong>不安全</strong>」。範例 19-10 展示了如何宣告、存取、修改一個可變的靜態變數 <code>COUNTER</code>。</p>
+<p>另一個常數與靜態變數的差異是，靜態變數可能是可變的。存取並修改可變的靜態變數並「<strong>不安全</strong>」。範例 19-10 展示了如何宣告、存取、修改一個可變的靜態變數 <code>COUNTER</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">static mut COUNTER: u32 = 0;
 
@@ -15817,7 +15817,7 @@ impl Human {
 *狂揮雙臂*
 </code></pre>
 <p>因為 <code>fly</code> 方法有個 <code>self</code> 參數，所以我們若有兩個<strong>型別</strong>都實作了同個特徵，Rust 可以透過 <code>self</code> 的型別理出該用哪個特徵的實作。</p>
-<p>然而不屬於方法的關聯函式（associated function）不沒有 <code>self</code> 參數。當同個作用域下的多個型別或特徵皆定義了非方法且同名的函式時，除非使用<strong>完全限定語法</strong>（fully qualified syntax），否則 Rust 無法推斷你指涉哪個型別。舉例來說，範例 19-19 中，我們替動物庇護所建立了一個特徵，會將所有小狗狗命名為<strong>小不點</strong>。我們建立 <code>Animal</code> 特徵並帶有一個關聯非方法的函式 <code>baby_name</code>。<code>Animal</code> 特徵有個在 <code>Dog</code> 上的實作，也提供了關聯非方法的函式 <code>baby_name</code>。</p>
+<p>然而不屬於方法的關聯函式（associated function）則沒有 <code>self</code> 參數。當同個作用域下的多個型別或特徵皆定義了非方法且同名的函式時，除非使用<strong>完全限定語法</strong>（fully qualified syntax），否則 Rust 無法推斷你指涉哪個型別。舉例來說，範例 19-19 中，我們替動物庇護所建立了一個特徵，會將所有小狗狗命名為<strong>小不點</strong>。我們建立 <code>Animal</code> 特徵並帶有一個關聯非方法的函式 <code>baby_name</code>。<code>Animal</code> 特徵有個在 <code>Dog</code> 上的實作，也提供了關聯非方法的函式 <code>baby_name</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">trait Animal {
     fn baby_name() -&gt; String;
