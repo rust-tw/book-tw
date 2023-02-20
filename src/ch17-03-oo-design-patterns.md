@@ -245,4 +245,4 @@
 接下來，我們要看看模式（patterns），這是 Rust 另一個可以提供大量彈性的功能。我們在書中一路下來簡單看過它們好幾次了，不過我們還沒見識到它們全部的本事。讓我們來探索吧！
 
 [more-info-than-rustc]: ch09-03-to-panic-or-not-to-panic.html#當你知道的比編譯器還多的時候
-[macros]: ch19-06-macros.html#macros
+[macros]: ch19-05-macros.html#macros

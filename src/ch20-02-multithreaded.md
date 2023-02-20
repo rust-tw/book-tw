@@ -390,8 +390,7 @@ Worker 2 got a job; executing.
 
 在範例 20-20 程式碼中的 `let job = receiver.lock().unwrap().recv().unwrap();` 可以這樣寫的原因是因爲用的是 `let`，等號右方任何表達式中的暫時數值都會在 `let` 陳述式結束時釋放。然而 `while let` （還有 `if let` 和 `match`）是不會釋放暫時數值的，直到其區塊結束爲止。在範例 20-21 中，在呼叫 `job` 的這段期間內，鎖都會持續鎖著，代表其他工作者無法取得工作。
 
-[creating-type-synonyms-with-type-aliases]:
-ch19-04-advanced-types.html#透過型別別名建立型別同義詞
+[creating-type-synonyms-with-type-aliases]: ch19-03-advanced-types.html#透過型別別名建立型別同義詞
 [integer-types]: ch03-02-data-types.html#整數型別
 [fn-traits]:
 ch13-01-closures.html#fn-特徵以及將獲取的數值移出閉包

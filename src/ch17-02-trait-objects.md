@@ -124,4 +124,4 @@
 
 [performance-of-code-using-generics]:
 ch10-01-syntax.html#使用泛型的程式碼效能
-[dynamically-sized]: ch19-04-advanced-types.html#動態大小型別與-sized-特徵
+[dynamically-sized]: ch19-03-advanced-types.html#動態大小型別與-sized-特徵
