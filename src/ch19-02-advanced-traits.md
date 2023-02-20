@@ -266,7 +266,7 @@ Rust 並沒有限制不同特徵之間不能有同名的方法，也沒有阻止
 
 現在，你知道如何將新型別模式與特徵相關聯，縱使不涉及特徵，新型別模式仍非常實用。接下來我們將目光轉移到其他與 Rust 型別系統互動的方法吧。
 
-[newtype]: ch19-03-advanced-traits.html#使用新型別模式替外部型別實作外部特徵
+[newtype]: ch19-02-advanced-traits.html#使用新型別模式替外部型別實作外部特徵
 [對型別實作特徵]: ch10-02-traits.html#為型別實作特徵
 [iterator-特徵與-next-方法]: ch13-02-iterators.html#iterator-特徵與-next-方法
 [特徵-定義共享行為]: ch10-02-traits.html#特徵-定義共享行為

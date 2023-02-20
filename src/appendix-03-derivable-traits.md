@@ -90,4 +90,4 @@ ch05-01-defining-structs.html#使用結構體更新語法從其他結構體建�
 ch04-01-what-is-ownership.html#只在堆疊上的資料拷貝copy
 [ways-variables-and-data-interact-clone]:
 ch04-01-what-is-ownership.html#變數與資料互動的方式克隆clone
-[macros]: ch19-06-macros.html#巨集
+[macros]: ch19-05-macros.html#巨集

@@ -72,6 +72,6 @@
 
 接下來，讓我們來探討巨集吧！
 
-[進階特徵]: ch19-03-advanced-traits.html#進階特徵
+[進階特徵]: ch19-02-advanced-traits.html#進階特徵
 [枚舉數值]: ch06-01-defining-an-enum.html#枚舉數值
 [允許不同型別數值的特徵物件]: ch17-02-trait-objects.html#允許不同型別數值的特徵物件
