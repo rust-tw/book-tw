@@ -17,7 +17,7 @@ impl Config {
 
         let query = match args.next() {
             Some(arg) => arg,
-            None => return Err("無法取得搜尋字傳"),
+            None => return Err("無法取得搜尋字串"),
         };
 
         let file_path = match args.next() {
