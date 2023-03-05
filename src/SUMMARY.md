@@ -21,7 +21,7 @@
     - [控制流程](ch03-05-control-flow.md)
 - [理解所有權](ch04-00-understanding-ownership.md)
     - [什麼是所有權？](ch04-01-what-is-ownership.md)
-    - [引用與借用](ch04-02-references-and-borrowing.md)
+    - [參考與借用](ch04-02-references-and-borrowing.md)
     - [切片型別](ch04-03-slices.md)
 
 - [透過結構體組織相關資料](ch05-00-structs.md)
@@ -39,7 +39,7 @@
 - [透過套件、Crate 與模組管理成長中的專案](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
     - [套件與 Crates](ch07-01-packages-and-crates.md)
     - [定義模組來控制作用域與隱私權](ch07-02-defining-modules-to-control-scope-and-privacy.md)
-    - [引用模組項目的路徑](ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
+    - [參考模組項目的路徑](ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
     - [透過 `use` 關鍵字引入路徑](ch07-04-bringing-paths-into-scope-with-the-use-keyword.md)
     - [將模組拆成不同檔案](ch07-05-separating-modules-into-different-files.md)
 
@@ -56,7 +56,7 @@
 - [泛型型別、特徵與生命週期](ch10-00-generics.md)
     - [泛型資料型別](ch10-01-syntax.md)
     - [特徵：定義共同行為](ch10-02-traits.md)
-    - [透過生命週期驗證引用](ch10-03-lifetime-syntax.md)
+    - [透過生命週期驗證參考](ch10-03-lifetime-syntax.md)
 
 - [編寫自動化測試](ch11-00-testing.md)
     - [如何寫測試](ch11-01-writing-tests.md)
@@ -88,11 +88,11 @@
 
 - [智慧指標](ch15-00-smart-pointers.md)
     - [使用 `Box<T>` 指向堆積上的資料](ch15-01-box.md)
-    - [透過 `Deref` 特徵將智慧指標視為一般引用](ch15-02-deref.md)
+    - [透過 `Deref` 特徵將智慧指標視為一般參考](ch15-02-deref.md)
     - [透過 `Drop` 特徵執行清除程式碼](ch15-03-drop.md)
-    - [`Rc<T>` 引用計數智慧指標](ch15-04-rc.md)
+    - [`Rc<T>` 參考計數智慧指標](ch15-04-rc.md)
     - [`RefCell<T>` 與內部可變性模式](ch15-05-interior-mutability.md)
-    - [引用循環會導致記憶體泄漏](ch15-06-reference-cycles.md)
+    - [參考循環會導致記憶體泄漏](ch15-06-reference-cycles.md)
 
 - [無懼並行](ch16-00-concurrency.md)
     - [使用執行緒同時執行程式碼](ch16-01-threads.md)

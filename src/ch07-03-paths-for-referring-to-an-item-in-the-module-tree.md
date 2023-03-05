@@ -1,4 +1,4 @@
-## 引用模組項目的路徑
+## 參考模組項目的路徑
 
 要展示 Rust 如何從模組樹中找到一個項目，我們要使用和查閱檔案系統時一樣的路徑方法。要呼叫函式的話，我們需要知道它的路徑：
 
@@ -79,7 +79,7 @@ Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來
 
 現在程式碼就能成功編譯了！要理解為何加上 `pub` 關鍵字讓我們可以在 `add_to_waitlist` 取得這些路徑，同時遵守隱私權規則，讓我們來看看絕對路徑與相對路徑。
 
-在絕對路徑中，我們始於 `crate`，這是 crate 模組樹的根。再來 `front_of_house` 模組被定義在 crate 源頭中，`front_of_house` 模組不是公開，但因為 `eat_at_restaurant` 函式被定義在與 `front_of_house` 同一層模組中（也就是 `eat_at_restaurant` 與 `front_of_house` 同輩（siblings）），我們可以從 `eat_at_restaurant` 引用 `front_of_house`。接下來是有 `pub` 標記的 `hosting` 模組，我們可以取得 `hosting` 的上層模組，所以我們可以取得 `hosting`。最後 `add_to_waitlist` 函式也有 `pub` 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！
+在絕對路徑中，我們始於 `crate`，這是 crate 模組樹的根。再來 `front_of_house` 模組被定義在 crate 源頭中，`front_of_house` 模組不是公開，但因為 `eat_at_restaurant` 函式被定義在與 `front_of_house` 同一層模組中（也就是 `eat_at_restaurant` 與 `front_of_house` 同輩（siblings）），我們可以從 `eat_at_restaurant` 參考 `front_of_house`。接下來是有 `pub` 標記的 `hosting` 模組，我們可以取得 `hosting` 的上層模組，所以我們可以取得 `hosting`。最後 `add_to_waitlist` 函式也有 `pub` 標記而我們可以取得它的上層模組，所以整個程式呼叫就能執行了！
 
 而在相對路徑中，基本邏輯與絕對路徑一樣，不過第一步有點不同。我們不是從 crate 源頭開始，路徑是從 `front_of_house` 開始。`front_of_house` 與 `eat_at_restaurant` 被定義在同一層模組中，所以從 `eat_at_restaurant` 開始定義的相對路徑是有效的。再來因為 `hosting` 與 `add_to_waitlist` 都有 `pub` 標記，其餘的路徑也都是可以進入的，所以此函式呼叫也是有效的！
 
@@ -95,7 +95,7 @@ Rust 選擇這樣的模組系統，讓內部實作細節預設都是隱藏起來
 
 ### 使用 `super` 作為相對路徑的開頭
 
-我們可以在路徑開頭使用 `super` 來建構從上層模組出發的相對路徑，而不用從 crate 源頭開始。這就像在檔案系統中使用 `..` 作為路徑開頭一樣。使用 `super` 讓我們能引用確定位於上層模組的項目。當模組與上層模組有高度關聯，且上層模組可能以後會被移到模組樹的其他地方時，這能讓組織模組樹更加輕鬆。
+我們可以在路徑開頭使用 `super` 來建構從上層模組出發的相對路徑，而不用從 crate 源頭開始。這就像在檔案系統中使用 `..` 作為路徑開頭一樣。使用 `super` 讓我們能參考確定位於上層模組的項目。當模組與上層模組有高度關聯，且上層模組可能以後會被移到模組樹的其他地方時，這能讓組織模組樹更加輕鬆。
 
 請考慮範例 7-8 的程式碼，這模擬了一個主廚修正一個錯誤的訂單，並親自提供給顧客的場景。定義在 `back_of_house` 模組的函式 `fix_incorrect_order` 呼叫了定義在上層模組的函式 `deliver_order`，不過這次是使用 `super` 來指定 `deliver_order` 的路徑：
 

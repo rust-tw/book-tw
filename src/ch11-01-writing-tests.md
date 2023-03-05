@@ -127,7 +127,7 @@ Cargo 會編譯並執行測試。在 `running 1 test` 這行之後會顯示自�
 
 <span class="caption">範例 11-6：一支檢查一個大長方形是否能包含一個小長方形的 `can_hold` 測試</span>
 
-注意到我們已經在 `tests` 模組中加了一行 `use super::*;`。`tests` 和一般的模組一樣都遵循我們在第七章[「引用模組項目的路徑」][paths-for-referring-to-an-item-in-the-module-tree]<!-- ignore -->提及的常見能見度規則。因為 `tests` 模組是內部模組，我們需要將外部模組的程式碼引入內部模組的作用域中。我們使用全域運算子（glob）讓外部模組定義的所有程式碼在此 `tests` 模組都可以使用。
+注意到我們已經在 `tests` 模組中加了一行 `use super::*;`。`tests` 和一般的模組一樣都遵循我們在第七章[「參考模組項目的路徑」][paths-for-referring-to-an-item-in-the-module-tree]<!-- ignore -->提及的常見能見度規則。因為 `tests` 模組是內部模組，我們需要將外部模組的程式碼引入內部模組的作用域中。我們使用全域運算子（glob）讓外部模組定義的所有程式碼在此 `tests` 模組都可以使用。
 
 我們將我們的測試命名為 `larger_can_hold_smaller`，然後我們建立兩個我們需要用到的 `Rectangle` 實例。然後我們呼叫 `assert!` 巨集並將 `larger.can_hold(&smaller)` 的結果傳給它。此表達式應該要回傳 `true`，所以我們的程式應該會通過。讓我們看看結果吧！
 

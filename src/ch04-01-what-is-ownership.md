@@ -69,7 +69,7 @@ let s = "hello";
 let s = String::from("hello");
 ```
 
-雙冒號 `::` 讓我們可以將 `from` 函式置於 `String` 型別的命名空間（namespace）底下，而不是取像是 `string_from` 這樣的名稱。我們將會在第五章的[「方法語法」][method-syntax]<!-- ignore -->討論這個語法，並在第七章的[「引用模組項目的路徑」][paths-module-tree]<!-- ignore -->討論模組（modules）與命名空間。
+雙冒號 `::` 讓我們可以將 `from` 函式置於 `String` 型別的命名空間（namespace）底下，而不是取像是 `string_from` 這樣的名稱。我們將會在第五章的[「方法語法」][method-syntax]<!-- ignore -->討論這個語法，並在第七章的[「參考模組項目的路徑」][paths-module-tree]<!-- ignore -->討論模組（modules）與命名空間。
 
 這種類型的字串是**可以**被改變的：
 
@@ -160,7 +160,7 @@ src="img/trpl04-03.svg" class="center" style="width: 50%;" />
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-04-cant-use-after-move/src/main.rs:here}}
 ```
 
-你會得到像這樣的錯誤，因為 Rust 會防止你使用無效的引用：
+你會得到像這樣的錯誤，因為 Rust 會防止你使用無效的參考：
 
 ```console
 {{#include ../listings/ch04-understanding-ownership/no-listing-04-cant-use-after-move/output.txt}}
@@ -258,7 +258,7 @@ Rust 能讓我們使用元組回傳多個數值，如範例 4-5 所示。
 
 <span class="caption">範例 4-5：回傳參數的所有權</span>
 
-但這實在太繁瑣，而且這樣的情況是很常見的。幸運的是 Rust 有提供一個概念能在不轉移所有權的狀況下使用數值，這叫做**引用（references）**。
+但這實在太繁瑣，而且這樣的情況是很常見的。幸運的是 Rust 有提供一個概念能在不轉移所有權的狀況下使用數值，這叫做**參考（references）**。
 
 [data-types]: ch03-02-data-types.html#data-types
 [ch8]: ch08-02-strings.html

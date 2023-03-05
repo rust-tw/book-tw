@@ -37,9 +37,9 @@
 
 <span class="caption">範例 12-16：定義足夠的 `search` 函式讓我們的測試能夠編譯</span>
 
-值得注意的是在 `search` 的簽名中需要定義一個顯式的生命週期 `'a`，並用於 `contents` 引數與回傳值。回想一下在[第十章][ch10-lifetimes]<!-- ignore -->中生命週期參數會連結引數生命週期與回傳值生命週期。在此例中，我們指明回傳值應包含字串切片且其會引用 `contents` 引數的切片（而非引數 `query`）。
+值得注意的是在 `search` 的簽名中需要定義一個顯式的生命週期 `'a`，並用於 `contents` 引數與回傳值。回想一下在[第十章][ch10-lifetimes]<!-- ignore -->中生命週期參數會連結引數生命週期與回傳值生命週期。在此例中，我們指明回傳值應包含字串切片且其會參考 `contents` 引數的切片（而非引數 `query`）。
 
-換句話說，我們告訴 Rust `search` 函式回傳的資料會跟傳遞給 `search` 函式的引數 `contents` 資料存活的一樣久。這點很重要！被切片引用的資料必須有效，這樣其引用才會有效。如果編譯器假設是在建立 `query` 而非 `contents` 的字串切片，它的安全檢查就會不正確。
+換句話說，我們告訴 Rust `search` 函式回傳的資料會跟傳遞給 `search` 函式的引數 `contents` 資料存活的一樣久。這點很重要！被切片參考的資料必須有效，這樣其參考才會有效。如果編譯器假設是在建立 `query` 而非 `contents` 的字串切片，它的安全檢查就會不正確。
 
 如果我們忘記詮釋生命週期並嘗試編譯此函式，我們會得到以下錯誤：
 
@@ -49,7 +49,7 @@
 
 Rust 無法知道這兩個引數哪個才是我們需要的，所以我們得告訴它。由於引數 `contents` 包含所有文字且我們想要回傳符合條件的部分文字，所以我們知道 `contents` 引數要用生命週期語法與回傳值做連結。
 
-其他程式設計語言不會要求你要在簽名中連結引數與回傳值，但這寫久就會習慣了。你可能會想要將此例與第十章的[「透過生命週期驗證引用」][validating-references-with-lifetimes]<!-- ignore -->段落做比較。
+其他程式設計語言不會要求你要在簽名中連結引數與回傳值，但這寫久就會習慣了。你可能會想要將此例與第十章的[「透過生命週期驗證參考」][validating-references-with-lifetimes]<!-- ignore -->段落做比較。
 
 現在讓我們執行測試：
 
@@ -157,7 +157,7 @@ Rust 有個實用的方法能逐步處理字串的每一行，這方法就叫 `l
 為了讓此專案更完整，我們會簡單介紹如何使用環境變數，以及如何印出到標準錯誤（standard error），這兩項在寫命令列程式時都很實用。
 
 [validating-references-with-lifetimes]:
-ch10-03-lifetime-syntax.html#透過生命週期驗證引用
+ch10-03-lifetime-syntax.html#透過生命週期驗證參考
 [ch11-anatomy]: ch11-01-writing-tests.html#測試函式剖析
 [ch10-lifetimes]: ch10-03-lifetime-syntax.html
 [ch3-iter]: ch03-05-control-flow.html#使用-for-遍歷集合

@@ -30,7 +30,7 @@
 {{#include ../listings/ch07-managing-growing-projects/listing-07-12/output.txt}}
 ```
 
-你會發現還有另外一個警告說明 `use` 在它的作用域中並沒有被用到！要解決此問題的話，我們可以將 `use` 也移動到 `customer` 模組內，或是在`customer` 子模組透過 `super::hosting` 引用上層模組的捷徑。
+你會發現還有另外一個警告說明 `use` 在它的作用域中並沒有被用到！要解決此問題的話，我們可以將 `use` 也移動到 `customer` 模組內，或是在`customer` 子模組透過 `super::hosting` 參考上層模組的捷徑。
 
 ### 建立慣用的 `use` 路徑
 
@@ -86,7 +86,7 @@
 
 ### 使用 `pub use` 重新匯出名稱
 
-當我們使用 `use` 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 `pub` 和 `use`。這樣的技巧稱之為**重新匯出（re-exporting）**，因為我們將項目引入作用域，並同時公開給其他作用域引用。
+當我們使用 `use` 關鍵字將名稱引入作用域時，該有效名稱在新的作用域中是私有的。要是我們希望呼叫我們這段程式碼時，也可以使用這個名稱的話（就像該名稱是在此作用域內定義的），我們可以組合 `pub` 和 `use`。這樣的技巧稱之為**重新匯出（re-exporting）**，因為我們將項目引入作用域，並同時公開給其他作用域參考。
 
 範例 7-17 將範例 7-11 在源頭模組中原本的 `use` 改成 `pub use`。
 
@@ -96,7 +96,7 @@
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-17/src/lib.rs}}
 ```
 
-<span class="caption">範例 7-17：使用 `pub use` 使名稱公開給任何程式的作用域中引用</span>
+<span class="caption">範例 7-17：使用 `pub use` 使名稱公開給任何程式的作用域中參考</span>
 
 在此之前，外部程式碼會需要透過 `restaurant::front_of_house::hosting::add_to_waitlist()` 這樣的路徑才能呼叫 `add_to_waitlist`。現在 `pub use` 從源頭模組重新匯出了 `hosting` 模組，外部程式碼現在可以使用 `restaurant::hosting::add_to_waitlist()` 這樣的路徑就好。
 

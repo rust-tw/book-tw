@@ -63,7 +63,7 @@
 
 <span class="caption">範例 17-13：實作 `add_text` 方法來將文字加入文章的 `content` 中</span>
 
-`add_text` 方法接收 `self` 的可變引用，因為我們在呼叫 `add_text` 時會改變 `Post` 實例。然後我們對 `content` 中的 `String` 呼叫`push_str`，並傳入 `text` 引數來存到 `content` 之中。此行為與文章的狀態無關，所以它沒有被包含在狀態模式中。`add_text` 方法不會與 `state` 欄位有關係，但它是我們想支援的部分行為之一。
+`add_text` 方法接收 `self` 的可變參考，因為我們在呼叫 `add_text` 時會改變 `Post` 實例。然後我們對 `content` 中的 `String` 呼叫`push_str`，並傳入 `text` 引數來存到 `content` 之中。此行為與文章的狀態無關，所以它沒有被包含在狀態模式中。`add_text` 方法不會與 `state` 欄位有關係，但它是我們想支援的部分行為之一。
 
 ### 確保文章草稿的內容為空
 
@@ -91,7 +91,7 @@
 
 <span class="caption">範例 17-15：對 `Post` 與 `State` 特徵實作的 `request_review` 方法</span>
 
-`Post` 現在有個公開方法叫做 `request_review`，這會接收 `self` 的可變引用。然後我們對 `Post` 目前的狀態呼叫其內部的 `request_review` 方法，然後此 `request_review` 方法會消耗目前的狀態並回傳新的狀態。
+`Post` 現在有個公開方法叫做 `request_review`，這會接收 `self` 的可變參考。然後我們對 `Post` 目前的狀態呼叫其內部的 `request_review` 方法，然後此 `request_review` 方法會消耗目前的狀態並回傳新的狀態。
 
 我們對 `State` 特徵也加上了 `request_review` 方法，所有有實作此特徵的型別現在都需要實作 `request_review` 方法。注意到不同於擁有 `self`、`&self` 或 `&mut self` 來作為方法的第一個參數，我們用的是 `self: Box<Self>`。此語法代表對持有型別的 `Box` 呼叫方法才有效。此語法取得 `Box<Self>` 的所有權，將舊的狀態無效化，讓 `Post` 的狀態數值可以轉換成新的狀態。
 
@@ -133,11 +133,11 @@
 
 因為目標是將這些所有規則維持在實作 `State` 的結構體內，我們對 `state` 呼叫 `content` 方法並傳遞文章實例（也就是 `self`）來作為引數。然後我們的回傳值就是對 `state` 數值使用 `content` 的回傳值。
 
-我們對 `Option` 呼叫 `as_ref` 方法，因為我們希望取得 `Option` 內的數值引用，而不是該值的所有權。因為 `state` 的型別是 `Option<Box<dyn State>>`，當我們呼叫 `as_ref` 時會回傳 `Option<&Box<dyn State>>`。如果我們沒有呼叫 `as_ref` 的話，我們會得到錯誤，因為我們無法從借用的函式參數 `&self` 移動 `state`。
+我們對 `Option` 呼叫 `as_ref` 方法，因為我們希望取得 `Option` 內的數值參考，而不是該值的所有權。因為 `state` 的型別是 `Option<Box<dyn State>>`，當我們呼叫 `as_ref` 時會回傳 `Option<&Box<dyn State>>`。如果我們沒有呼叫 `as_ref` 的話，我們會得到錯誤，因為我們無法從借用的函式參數 `&self` 移動 `state`。
 
 然後我們呼叫 `unwrap` 方法，我們知道這絕對不會恐慌，因為我們知道當 `Post` 的方法完成執行時，它們會確保 `state` 永遠包含一個 `Some` 數值。這是我們在第九章的[「當你知道的比編譯器還多的時候」][more-info-than-rustc]<!-- ignore -->段落介紹過的其中一種情況。雖然編譯器不能理解，但我們知道永遠不可能會有 `None` 數值。
 
-此時當我們呼叫 `&Box<dyn State>` 的 `content`，強制解引用（deref coercion）對 `&` 與 `Box` 產生影響，讓 `content` 方法最終對有實作 `State` 特徵的型別呼叫。這代表我需要在 `State` 特徵定義加上 `content`，而這正是我們要填入依據狀態為何來回傳何種內容的地方，如範例 17-18 所示：
+此時當我們呼叫 `&Box<dyn State>` 的 `content`，強制解參考（deref coercion）對 `&` 與 `Box` 產生影響，讓 `content` 方法最終對有實作 `State` 特徵的型別呼叫。這代表我需要在 `State` 特徵定義加上 `content`，而這正是我們要填入依據狀態為何來回傳何種內容的地方，如範例 17-18 所示：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -149,7 +149,7 @@
 
 我們對 `content` 方法加上預設實作來回傳一個空字串切片。這代表我們不需要在 `Draft` 與 `PendingReview` 結構體實作 `content`。`Published` 結構體會覆寫 `content` 方法並回傳 `post.content` 的數值。
 
-注意到我們在此方法需要生命週期詮釋，如我們在第十章所討論到的。我們取得 `post` 的引用作為引數並回傳 `post` 的部分引用，所以回傳引用的生命週期與 `post` 引數的生命週期有關聯。
+注意到我們在此方法需要生命週期詮釋，如我們在第十章所討論到的。我們取得 `post` 的參考作為引數並回傳 `post` 的部分參考，所以回傳參考的生命週期與 `post` 引數的生命週期有關聯。
 
 這樣就完成了！範例 17-11 可以成功執行！我們實作了網誌文章工作流程規則的狀態模式。規則邏輯會位於狀態物件中，而不會分散在 `Post` 中。
 

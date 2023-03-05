@@ -124,7 +124,7 @@ Rust **的確**有印出除錯資訊的功能，但是我們要針對我們的�
 {{#include ../listings/ch05-using-structs-to-structure-related-data/output-only-02-pretty-debug/output.txt}}
 ```
 
-另一種使用 `Debug` 格式印出數值的方式是使用 [`dbg!` 巨集][dbg] <!-- ignore -->。這會拿走一個表達式的所有權（相較於 `println!` 只會拿引用），印出該 `dbg!` 巨集在程式碼中呼叫的檔案與行數，以及該表達式的數值結果，最後回傳該數值的所有權。
+另一種使用 `Debug` 格式印出數值的方式是使用 [`dbg!` 巨集][dbg] <!-- ignore -->。這會拿走一個表達式的所有權（相較於 `println!` 只會拿參考），印出該 `dbg!` 巨集在程式碼中呼叫的檔案與行數，以及該表達式的數值結果，最後回傳該數值的所有權。
 
 > 呼叫 `dbg!` 巨集會顯示到標準錯誤終端串流（`stderr`），而不像 `println!` 是印到標準輸出終端串流（`stdout`）。我們會在第十二章的[「將錯誤訊息寫入標準錯誤而非標準輸出」][err]<!-- ignore -->段落進一步討論 `stderr` 與 `stdout`。
 
@@ -134,7 +134,7 @@ Rust **的確**有印出除錯資訊的功能，但是我們要針對我們的�
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/no-listing-05-dbg-macro/src/main.rs}}
 ```
 
-我們在表達式 `30 * scale` 加上 `dbg!`，因爲 `dbg!` 會回傳表達式的數值所有權， `width` 將能取得和如果我們不加上 `dbg!` 時相同的數值。而我們不希望 `dbg!` 取走 `rect1` 的所有權，所以我們在下一個 `rect1` 的呼叫使用引用。以下是此範例得到的輸出結果：
+我們在表達式 `30 * scale` 加上 `dbg!`，因爲 `dbg!` 會回傳表達式的數值所有權， `width` 將能取得和如果我們不加上 `dbg!` 時相同的數值。而我們不希望 `dbg!` 取走 `rect1` 的所有權，所以我們在下一個 `rect1` 的呼叫使用參考。以下是此範例得到的輸出結果：
 
 ```console
 {{#include ../listings/ch05-using-structs-to-structure-related-data/no-listing-05-dbg-macro/output.txt}}
