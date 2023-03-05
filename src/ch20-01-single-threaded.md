@@ -65,7 +65,7 @@ $ cd hello
 
 我們將 `std::io::prelude` 和 `std::io::BufReader` 引入作用域來取得特定的特徵，讓我們可以讀取並寫入流之中。在 `main` 函式的 `for` 迴圈中，不同於印出說我們取得連線的訊息，我們現在會呼叫新的 `handle_connection` 函式並將 `stream` 傳入。
 
-在 `handle_connection` 函式中，我們建立 `BufReader` 的實例並取得 `stream` 的可變引用。`BufReader` 提供了緩衝區（buffering），幫助我們管理 `std::io::Read` 方法的呼叫。
+在 `handle_connection` 函式中，我們建立 `BufReader` 的實例並取得 `stream` 的可變參考。`BufReader` 提供了緩衝區（buffering），幫助我們管理 `std::io::Read` 方法的呼叫。
 
 我們建立了一個變數 `http_request` 來收集瀏覽器傳送到伺服器的每行請求。我們加上 `Vec<_>` 型別詮釋來指示我們想要將每行收集成向量。
 
