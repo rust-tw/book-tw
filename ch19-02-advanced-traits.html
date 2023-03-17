@@ -144,7 +144,7 @@
 <h3 id="利用關聯型別在特徵定義中指定佔位符型別"><a class="header" href="#利用關聯型別在特徵定義中指定佔位符型別">利用關聯型別在特徵定義中指定佔位符型別</a></h3>
 <p><strong>關聯型別</strong>（associated types）連結了一個型別佔位符（placeholder）與一個特徵，可以將這些佔位符型別使用在這些特徵所定義的方法簽名上。對特定實作來說，特徵的實作者將指明一個具體型別來代替型別佔位符。如此一來，我們可以定義一個使用了某個型別的特徵，但直到特徵被實作之前，都不需知道實際上的型別。</p>
 <p>多數在本章提及的進階特色都較少使用，而關聯型別則是介於其中：他們比書中其他內容來得少用，但比本章介紹的其他特色來得更常見。</p>
-<p>一個具有關聯型別的特徵之範例是標準函式庫提供的 <code>Iterator</code> 特徵。這例子中的關聯型別叫做 <code>Item</code>，表示一型別實作 <code>Iterator</code> 特徵時，會被迭代的那些值的型別。範例 19-12 展示了 <code>Iterator</code> 特徵的定義：</p>
+<p>一個具有關聯型別的特徵之範例是標準函式庫提供的 <code>Iterator</code> 特徵。這例子中的關聯型別叫做 <code>Item</code>，表示一型別實作 <code>Iterator</code> 特徵時，會被疊代的那些值的型別。範例 19-12 展示了 <code>Iterator</code> 特徵的定義：</p>
 <pre><code class="language-rust noplayground">pub trait Iterator {
     type Item;
 
@@ -153,7 +153,7 @@
 </code></pre>
 <p><span class="caption">範例 19-12：<code>Iterator</code> 特徵自帶一個關聯型別</span></p>
 <p><code>Item</code> 型別是個佔位符，<code>next</code> 方法的定義顯示它會回傳型別為 <code>Option&lt;Self::Item&gt;</code> 之值。<code>Iterator</code> 特徵的實作者會指定 <code>Item</code> 的具體型別，而 <code>next</code> 方法則會回傳一個包含該具體型別的值的一個 <code>Option</code>。</p>
-<p>關聯型別可能看起來和泛型的概念非常相似，而後者允許定義函式而不需指定該函式可以處理何種型別。為了檢視以下兩者概念上的差異，我們來看這個替 型別 <code>Counter</code> 上實作 <code>Iterator</code> 特徵，且 <code>Counter</code> 指定的 <code>Item</code> 的型別為 <code>u32</code>：</p>
+<p>關聯型別可能看起來和泛型的概念非常相似，而後者允許定義函式而不需指定該函式可以處理何種型別。為了檢視以下兩者概念上的差異，我們來看這個替型別 <code>Counter</code> 上實作 <code>Iterator</code> 特徵，且 <code>Counter</code> 指定的 <code>Item</code> 的型別為 <code>u32</code>：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">struct Counter {
 </span><span class="boring">    count: u32,

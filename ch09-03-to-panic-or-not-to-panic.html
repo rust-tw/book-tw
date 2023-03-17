@@ -147,7 +147,7 @@
 <p>同樣地 <code>unwrap</code> 與 <code>expect</code> 方法也很適用在試做原型，你可以在決定準備開始處理錯誤前使用它們。它們會留下清楚的痕跡，當你準備好要讓程式碼更穩固時，你就能回來修改。</p>
 <p>如果有方法在測試內失敗時，你會希望整個測試都失敗，就算該方法不是要測試的功能。因為 <code>panic!</code> 會將測試標記為失敗，所以在此呼叫 <code>unwrap</code> 或 <code>expect</code> 是很正確的。</p>
 <h3 id="當你知道的比編譯器還多的時候"><a class="header" href="#當你知道的比編譯器還多的時候">當你知道的比編譯器還多的時候</a></h3>
-<p>如果你知道一些編譯器不知道的邏輯的話，直接在 <code>Result</code> 呼叫 <code>unwrap</code> 或 <code>expect</code> 來直接取得 <code>Ok </code>的數值是很有用的。你還是會有個 <code>Result</code> 數值需要做處理，你呼叫的程式碼還是有機會失敗的，就算在你的特定場合中邏輯上是不可能的。如果你能保證在親自審閱程式碼後，你絕對不可能會有 <code>Err</code> 變體的話，那麼呼叫 <code>unwrap</code> 是完全可以接受的。而更好的話，用 <code>expect</code> 說明為何你一定不會遇到 <code>Err</code> 變體。以下範例就是如此：</p>
+<p>如果你知道一些編譯器不知道的邏輯的話，直接在 <code>Result</code> 呼叫 <code>unwrap</code> 或 <code>expect</code> 來直接取得 <code>Ok</code> 的數值是很有用的。你還是會有個 <code>Result</code> 數值需要做處理，你呼叫的程式碼還是有機會失敗的，就算在你的特定場合中邏輯上是不可能的。如果你能保證在親自審閱程式碼後，你絕對不可能會有 <code>Err</code> 變體的話，那麼呼叫 <code>unwrap</code> 是完全可以接受的。而更好的話，用 <code>expect</code> 說明為何你一定不會遇到 <code>Err</code> 變體。以下範例就是如此：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    use std::net::IpAddr;
 

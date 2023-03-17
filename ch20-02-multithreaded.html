@@ -465,7 +465,7 @@ error: could not compile `hello` due to previous error
 <pre><code class="language-rust ignore">pub fn build(size: usize) -&gt; Result&lt;ThreadPool, PoolCreationError&gt; {
 </code></pre>
 <h4 id="建立執行緒的儲存空間"><a class="header" href="#建立執行緒的儲存空間">建立執行緒的儲存空間</a></h4>
-<p>現在我們有一個有效的執行緒數量能儲存至池中，我們可以在返回實例前，建立這些執行緒並儲存至 <code>ThreadPool</code> 結構體中。但我們要怎麼「儲存」執行緒呢？讓我們再看一次 <code>thread::spawn</code> 的簽名：</p>
+<p>現在我們有一個有效的執行緒數量能儲存至池中，我們可以在回傳實例前，建立這些執行緒並儲存至 <code>ThreadPool</code> 結構體中。但我們要怎麼「儲存」執行緒呢？讓我們再看一次 <code>thread::spawn</code> 的簽名：</p>
 <pre><code class="language-rust ignore">pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
     where
         F: FnOnce() -&gt; T,

@@ -1999,7 +1999,7 @@ CTRL-C
 </code></pre>
 <p><code>^C</code> 這個符號表示你按下了 <span class="keystroke">ctrl-c</span>。按照程式收到中斷訊號的時間點，你可能不會看到 <code>再一次！</code> 出現在 <code>^C</code> 之後。</p>
 <p>幸運的是 Rust 有提供一個從程式中打破迴圈的方法。你可以在迴圈內加上 <code>break</code> 關鍵字告訴程式何時停止執行迴圈。回想一下我們在第二章<a href="ch02-00-guessing-game-tutorial.html#%E7%8C%9C%E5%B0%8D%E5%BE%8C%E9%9B%A2%E9%96%8B">「猜對後離開」</a><!-- ignore -->段落就做過這樣的事，當使用者猜對正確數字而獲勝時就會離開程式。</p>
-<p>我們在猜謎遊戲中也用到了 <code>continue</code>。這在迴圈中會告訴程式跳過這次迭代中剩餘的程式碼，然後進行下一次迭代。</p>
+<p>我們在猜謎遊戲中也用到了 <code>continue</code>。這在迴圈中會告訴程式跳過這次疊代中剩餘的程式碼，然後進行下一次疊代。</p>
 <h4 id="從迴圈回傳數值"><a class="header" href="#從迴圈回傳數值">從迴圈回傳數值</a></h4>
 <p>其中一種使用 <code>loop</code> 的用途是重試某些你覺得會失敗的動作，像是檢查一個執行緒是否已經完成其任務。這樣你可能就會想傳遞任務結果給之後的程式碼。要做到這樣的事，你可以在你要用來停下迴圈的 <code>break</code> 表達式內加上一個你想回傳數值，該值就會被停止的迴圈回傳，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -5249,7 +5249,7 @@ let answer = &amp;hello[0];
 <p>這邊有六個 <code>char</code> 數值，但第四個和第六個卻不是字母，它們是單獨存在不具任何意義的變音符號。最後如果我們以形素群集的角度來看的話，我們就會得到一般人所說的構成此印度語的四個字母：</p>
 <pre><code class="language-text">[&quot;न&quot;, &quot;म&quot;, &quot;स्&quot;, &quot;ते&quot;]
 </code></pre>
-<p>Rust 提拱多種不同的方式來解釋電腦中儲存的原始字串資料，讓每個程式無論是何種人類語言的資料，都可以選擇它們需要的呈現方式。</p>
+<p>Rust 提供多種不同的方式來解釋電腦中儲存的原始字串資料，讓每個程式無論是何種人類語言的資料，都可以選擇它們需要的呈現方式。</p>
 <p>Rust 還有一個不允許索引 <code>String</code> 來取得字元的原因是因為，索引運算必須永遠預期是花費常數時間（O(1)）。但在 <code>String</code> 上無法提供這樣的效能保證，因為 Rust 會需要從索引的開頭遍歷每個內容才能決定多少有效字元存在。</p>
 <h3 id="字串切片-1"><a class="header" href="#字串切片-1">字串切片</a></h3>
 <p>索引字串通常不是個好點子，因為字串索引要回傳的型別是不明確的，是要一個位元組數值、一個字元、一個形素群集還是一個字串切片呢。因此如果你真的想要使用索引建立字串切片的話，Rust 會要你更明確些。要明確指定你的索引與你想要的字串切片。</p>
@@ -5373,7 +5373,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p>我們之後就無法使用變數 <code>field_name</code> 和 <code>field_value</code>，因為它們的值已經透過呼叫 <code>insert</code> 被移入雜湊映射之中。</p>
 <p>如果我們插入雜湊映射的數值是參考的話，該值就不會被移動到雜湊映射之中。不過該值的參考就必須一直有效，至少直到該雜湊映射離開作用域為止。我們會在第十章的<a href="ch10-03-lifetime-syntax.html#validating-references-with-lifetimes">「透過生命週期驗證參考」</a><!-- ignore -->段落討落更多細節。</p>
 <h3 id="更新雜湊映射"><a class="header" href="#更新雜湊映射">更新雜湊映射</a></h3>
-<p>雖然鍵值配對的數量可以增加，但每個鍵同一時間就只能有一個對應的值而已。(反之並不成立：比如藍隊黃隊可以同時都在 <code>scores</code> 雜湊映射內儲存 10 分)</p>
+<p>雖然鍵值配對的數量可以增加，但每個鍵同一時間就只能有一個對應的值而已。（反之並不成立：比如藍隊黃隊可以同時都在 <code>scores</code> 雜湊映射內儲存 10 分）</p>
 <p>當你想要改變雜湊映射的資料的話，你必須決定如何處理當一個鍵已經有一個值的情況。你可以不管舊的值，直接用新值取代。你也可以保留舊值、忽略新值，只有在該鍵<strong>尚未</strong>擁有對應數值時才賦值給它。或者你也可以將舊值與新值組合起來。讓我們看看分別怎麼處理吧！</p>
 <h4 id="覆蓋數值"><a class="header" href="#覆蓋數值">覆蓋數值</a></h4>
 <p>如果我們在雜湊映射插入一個鍵值配對，然後又在相同鍵插入不同的數值的話，該鍵相對應的數值就會被取代。如範例 8-23 雖然我們呼叫了兩次 <code>insert</code>，但是雜湊映射只會保留一個鍵值配對，因為我們向藍隊的鍵插入了兩次數值。</p>
@@ -5832,7 +5832,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 <p>同樣地 <code>unwrap</code> 與 <code>expect</code> 方法也很適用在試做原型，你可以在決定準備開始處理錯誤前使用它們。它們會留下清楚的痕跡，當你準備好要讓程式碼更穩固時，你就能回來修改。</p>
 <p>如果有方法在測試內失敗時，你會希望整個測試都失敗，就算該方法不是要測試的功能。因為 <code>panic!</code> 會將測試標記為失敗，所以在此呼叫 <code>unwrap</code> 或 <code>expect</code> 是很正確的。</p>
 <h3 id="當你知道的比編譯器還多的時候"><a class="header" href="#當你知道的比編譯器還多的時候">當你知道的比編譯器還多的時候</a></h3>
-<p>如果你知道一些編譯器不知道的邏輯的話，直接在 <code>Result</code> 呼叫 <code>unwrap</code> 或 <code>expect</code> 來直接取得 <code>Ok </code>的數值是很有用的。你還是會有個 <code>Result</code> 數值需要做處理，你呼叫的程式碼還是有機會失敗的，就算在你的特定場合中邏輯上是不可能的。如果你能保證在親自審閱程式碼後，你絕對不可能會有 <code>Err</code> 變體的話，那麼呼叫 <code>unwrap</code> 是完全可以接受的。而更好的話，用 <code>expect</code> 說明為何你一定不會遇到 <code>Err</code> 變體。以下範例就是如此：</p>
+<p>如果你知道一些編譯器不知道的邏輯的話，直接在 <code>Result</code> 呼叫 <code>unwrap</code> 或 <code>expect</code> 來直接取得 <code>Ok</code> 的數值是很有用的。你還是會有個 <code>Result</code> 數值需要做處理，你呼叫的程式碼還是有機會失敗的，就算在你的特定場合中邏輯上是不可能的。如果你能保證在親自審閱程式碼後，你絕對不可能會有 <code>Err</code> 變體的話，那麼呼叫 <code>unwrap</code> 是完全可以接受的。而更好的話，用 <code>expect</code> 說明為何你一定不會遇到 <code>Err</code> 變體。以下範例就是如此：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    use std::net::IpAddr;
 
@@ -5938,7 +5938,7 @@ impl Guess {
 <p>每個程式語言都有能夠高效處理概念複製的工具。在 Rust 此工具就是<strong>泛型（generics）</strong>：實際型別或其他屬性的抽象替代。我們可以表達泛型的行為，或是它們與其他泛型有何關聯，而不必在編譯與執行程式時知道它們實際上是什麼。</p>
 <p>函式也可以接受一些泛型型別參數，而不是實際型別像是 <code>i32</code> 或 <code>String</code>，就像函式有辦法能接收多種未知數值作為參數來執行相同程式碼。事實上我們已經在第六章的 <code>Option&lt;T&gt;</code>、第八章的 <code>Vec&lt;T&gt;</code> 和 <code>HashMap&lt;K, V&gt;</code> 以及第九章的 <code>Result&lt;T, E&gt;</code> 使用過泛型了。在本章節，你將會探索如何用泛型定義你自己的型別、函式與方法！</p>
 <p>首先我們會先檢視如何提取參數來減少重複的程式碼。接著我們會以相同的技巧使用泛型將兩個只有參數型別不同的函式轉變成泛型函式。我們還會解釋如何在結構體和枚舉使用泛型型別。</p>
-<p>再來你會學會如何使用<strong>特徵</strong>（traits）來定義共同行為。你可以組合特徵與泛型型別來限制泛型型別只適用在有特定行為的型別，而不是任意型別。</p>
+<p>再來你會學會如何使用**特徵（traits）**來定義共同行為。你可以組合特徵與泛型型別來限制泛型型別只適用在有特定行為的型別，而不是任意型別。</p>
 <p>最後我們會來介紹<strong>生命週期（lifetimes）</strong>：一種能讓編譯器知道參考如何互相關聯的泛型。生命週期讓我們能提供給編譯器更多關於借用數值的資訊，好讓它在更多情況下可以確保參考是有效的。</p>
 <h2 id="提取函數來減少重複性"><a class="header" href="#提取函數來減少重複性">提取函數來減少重複性</a></h2>
 <p>泛型讓我們可以用佔位符（placeholder）替代特定型別，來表示多重型別並減少程式碼的重複性。在我們深入泛型語法之前，讓我們先來看如何不用泛型型別的情況下，用提取函式的方式減少重複的程式碼。之後我們就會用相同的方式來提取泛型函式！和你透過找出重複的程式碼來提取程式一樣，你也將找出重複的函式來轉成泛型。</p>
@@ -5960,7 +5960,7 @@ impl Guess {
 </span>}
 </code></pre></pre>
 <p><span class="caption">範例 10-1：在數字列表中尋找最大數字的程式碼</span></p>
-<p>我們儲存整數列表到變數 <code>number_list</code> 並將列表第一個數字的參考放入變數 <code>largest</code>。接著我們遍歷列表中的所有元素，如果目前數字比 <code>largest</code> 內儲存的數字還大的話，就會替代成該變數的參考。.不過如果目前數值小於或等於最大值的話，變數就不會被改變，程式會接續檢查列表中的下一個數字。在考慮完列表中的所有數字後，<code>largest</code> 就應該會指向最大數字，在此例就是 100。</p>
+<p>我們儲存整數列表到變數 <code>number_list</code> 並將列表第一個數字的參考放入變數 <code>largest</code>。接著我們遍歷列表中的所有元素，如果目前數字比 <code>largest</code> 內儲存的數字還大的話，就會替代成該變數的參考。不過如果目前數值小於或等於最大值的話，變數就不會被改變，程式會接續檢查列表中的下一個數字。在考慮完列表中的所有數字後，<code>largest</code> 就應該會指向最大數字，在此例就是 100。</p>
 <p>現在我們要從兩個不同的數字列表中找到最大值，我們可以重複範例 10-1 的程式碼，然後在程式中兩個不同的地方使用相同的邏輯，如範例 10-2 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -6202,7 +6202,7 @@ fn main() {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><code>Result</code> 枚舉有兩個泛型型別 <code>T</code> 和 <code>E</code> 且有兩個變體：<code>Ok</code> 擁有型別 <code>T</code> 的數值；而 <code>Err</code> 擁有型別 <code>E</code> 的數值。這樣的定義讓我們很方便能表達 <code>Result</code> 枚舉可能擁有一個成功的數值（返回型別 <code>T</code> 的數值）或失敗的數值（回傳型別為 <code>E</code> 的錯誤值）。事實上這就是我們在範例 9-3 開啟檔案的方式，當我們成功開啟檔案時的 <code>T</code> 就會是型別 <code>std::fs::File</code>，然後當開啟檔案會發生問題時 <code>E</code> 就會是型別 <code>std::io::Error</code>。</p>
+<p><code>Result</code> 枚舉有兩個泛型型別 <code>T</code> 和 <code>E</code> 且有兩個變體：<code>Ok</code> 擁有型別 <code>T</code> 的數值；而 <code>Err</code> 擁有型別 <code>E</code> 的數值。這樣的定義讓我們很方便能表達 <code>Result</code> 枚舉可能擁有一個成功的數值（回傳型別 <code>T</code> 的數值）或失敗的數值（回傳型別為 <code>E</code> 的錯誤值）。事實上這就是我們在範例 9-3 開啟檔案的方式，當我們成功開啟檔案時的 <code>T</code> 就會是型別 <code>std::fs::File</code>，然後當開啟檔案會發生問題時 <code>E</code> 就會是型別 <code>std::io::Error</code>。</p>
 <p>當你發現你的程式碼有許多結構體或枚舉都只有儲存的值有所不同時，你可以使用泛型型別來避免重複。</p>
 <h3 id="在方法中定義"><a class="header" href="#在方法中定義">在方法中定義</a></h3>
 <p>我們可以對結構體或枚舉定義方法（如第五章所述）並也可以使用泛型型別來定義。範例 10-9 展示了我們在範例 10-6 定義的結構體 <code>Point&lt;T&gt;</code> 並實作了一個叫做 <code>x</code> 的方法。</p>
@@ -6226,7 +6226,7 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 10-9：在 <code>Point&lt;T&gt;</code> 結構體實作一個方法叫做 <code>x</code>，其會回傳 <code>x</code> 欄位中型別為 <code>T</code> 的參考</span></p>
 <p>我們在這 <code>Point&lt;T&gt;</code> 定義了一個方法叫做 <code>x</code> 並回傳欄位 <code>x</code> 的資料參考。</p>
-<p>注意到我們需要在 <code>impl</code> 宣告 <code>T</code>，才有 <code>T</code> 可以用來標明我們在替型別 <code>Point&lt;T&gt;</code> 實作其方法。在 <code>impl</code> 之後宣告泛型型別 <code>T</code>，Rust 可以識別出 <code>Point</code> 尖括號內的型別為泛型型別而非實際型別。我們其實可以選用不同的泛型參數名稱，而不用和結構體定義的泛型參數一樣，不過通常使用相同名稱還是比較常見。無論該泛型型別最終會是何種實際型別，任何方法在有宣告泛型型別的 <code>impl</code>內，都會被定義成適用於各種型別實例。 </p>
+<p>注意到我們需要在 <code>impl</code> 宣告 <code>T</code>，才有 <code>T</code> 可以用來標明我們在替型別 <code>Point&lt;T&gt;</code> 實作其方法。在 <code>impl</code> 之後宣告泛型型別 <code>T</code>，Rust 可以識別出 <code>Point</code> 尖括號內的型別為泛型型別而非實際型別。我們其實可以選用不同的泛型參數名稱，而不用和結構體定義的泛型參數一樣，不過通常使用相同名稱還是比較常見。無論該泛型型別最終會是何種實際型別，任何方法在有宣告泛型型別的 <code>impl</code> 內，都會被定義成適用於各種型別實例。 </p>
 <p>當我們在定義方法時，我們也可以對泛型型別加上些限制。舉例來說，我們可以只針對 <code>Point&lt;f32&gt;</code> 的實例來實作方法，而非適用於任何泛型型別的 <code>Point&lt;T&gt;</code> 實例。在範例 10-10 我們使用了實例型別 <code>f32</code> 而沒有在 <code>impl</code> 宣告任何型別。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct Point&lt;T&gt; {
@@ -6381,7 +6381,7 @@ fn main() {
     println!(&quot;1 則新推文：{}&quot;, tweet.summarize());
 }
 </code></pre>
-<p>此程式碼會印出「1 則新推文：horse_ebooks: of course, as you probably alreadyknow, people」。</p>
+<p>此程式碼會印出「1 則新推文：horse_ebooks: of course, as you probably already know, people」。</p>
 <p>其他依賴 <code>aggregator</code> 函式庫的 crate 也能將 <code>Summary</code> 特徵引入作用域並對他們自己的型別實作 <code>Summary</code> 特徵。不過實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說，我們可以對自訂型別像是 <code>Tweet</code> 來實作標準函式庫的 <code>Display</code> 特徵來為我們 crate <code>aggregator</code> 增加更多功能。因為 <code>Tweet</code> 位於我們的 <code>aggregator</code> crate 裡面。我們也可以在我們的 crate <code>aggregator</code> 內對 <code>Vec&lt;T&gt;</code> 實作 <code>Summary</code>。因為特徵 <code>Summary</code> 也位於我們的 <code>aggregator</code> crate 裡面。</p>
 <p>但是我們無法對外部型別實作外部特徵。舉例來說我們無法在我們的 <code>aggregator</code> crate 裡面對 <code>Vec&lt;T&gt;</code> 實作 <code>Display</code> 特徵。因為 <code>Display</code> 與 <code>Vec&lt;T&gt;</code> 都定義在標準函式庫中，並沒有在我們 <code>aggregator</code> crate 裡面。此限制叫做「連貫性（coherence）」是程式屬性的一部分。更具體來說我們會稱作「孤兒原則（orphan rule）」，因為上一代（parent）型別不存在。此原則能確保其他人的程式碼不會破壞你的程式碼，反之亦然。沒有此原則的話，兩個 crate 可以都對相同型別實作相同特徵，然後 Rust 就會不知道該用哪個實作。</p>
 <h3 id="預設實作"><a class="header" href="#預設實作">預設實作</a></h3>
@@ -6574,7 +6574,7 @@ where
 </span><span class="boring">}
 </span></code></pre>
 <p>此函式簽名就沒有這麼複雜了，函式名稱、參數列表與回傳型別能靠得比較近，就像沒有一堆特徵界限的函式一樣。</p>
-<h3 id="返回有實作特徵的型別"><a class="header" href="#返回有實作特徵的型別">返回有實作特徵的型別</a></h3>
+<h3 id="回傳有實作特徵的型別"><a class="header" href="#回傳有實作特徵的型別">回傳有實作特徵的型別</a></h3>
 <p>我們也能在回傳的位置使用 <code>impl Trait</code> 語法來回傳某個有實作特徵的型別數值，如以下所示：</p>
 <pre><code class="language-rust ignore"><span class="boring">pub trait Summary {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String;
@@ -6675,7 +6675,7 @@ where
     }
 }
 </code></pre>
-<p>寫說可能返回 <code>NewsArticle</code> 或 <code>Tweet</code> 的話是不被允許的，因為 <code>impl Trait</code> 語法會限制在編譯器中最終決定的型別。我們會在第十七章的<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->來討論如何寫出這種行為的函式。</p>
+<p>寫說可能回傳 <code>NewsArticle</code> 或 <code>Tweet</code> 的話是不被允許的，因為 <code>impl Trait</code> 語法會限制在編譯器中最終決定的型別。我們會在第十七章的<a href="ch17-02-trait-objects.html">「允許不同型別數值的特徵物件」</a><!-- ignore -->來討論如何寫出這種行為的函式。</p>
 <h3 id="透過特徵界限來選擇性實作方法"><a class="header" href="#透過特徵界限來選擇性實作方法">透過特徵界限來選擇性實作方法</a></h3>
 <p>在有使用泛型型別參數 <code>impl</code> 區塊中使用特徵界限，我們可以選擇性地對有實作特定特徵的型別來實作方法。舉例來說，範例 10-15 的 <code>Pair&lt;T&gt;</code> 對所有 <code>T</code> 實作了 <code>new</code> 函式來回傳新的 <code>Pair&lt;T&gt;</code> 實例（回想一下第五章的<a href="ch05-03-method-syntax.html#%E5%AE%9A%E7%BE%A9%E6%96%B9%E6%B3%95">「定義方法」</a><!-- ignore -->段落，<code>Self</code> 是 <code>impl</code> 區塊內的型別別名，在此例就是 <code>Pair&lt;T&gt;</code>）。但在下一個 <code>impl</code> 區塊中，只有在其內部型別 <code>T</code> 有實作能夠做比較的 <code>PartialOrd</code> 特徵<strong>以及</strong>能夠顯示在螢幕的 <code>Display</code> 特徵的話，才會實作 <code>cmp_display</code> 方法。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -6717,8 +6717,8 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 <p>全面實作在特徵技術文件的「Implementors」段落有做說明。</p>
 <p>特徵與特徵界限讓我們能使用泛型型別參數來減少重複的程式碼的同時，告訴編譯器該泛型型別該擁有何種行為。編譯器可以利用特徵界限資訊來檢查程式碼提供的實際型別有沒有符合特定行為。在動態語言中，我們要是呼叫一個該型別沒有的方法的話，我們會在執行時才發生錯誤。但是 Rust 將此錯誤移到編譯期間，讓我們必須在程式能夠執行之前確保有修正此問題。除此之外，我們還不用寫在執行時檢查此行為的程式碼，因為我們已經在編譯時就檢查了。這麼做我們可以在不失去泛型彈性的情況下，提升效能。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="透過生命週期驗證參考"><a class="header" href="#透過生命週期驗證參考">透過生命週期驗證參考</a></h2>
-<p>生命週期（lifetimes）是另一種我們已經使用過的泛型。不同於確保一個型別有沒有我們要的行為，生命週期確保我們在需要參考的時候，它們都是有效的。</p>
-<p>我們在第四章的<a href="ch04-02-references-and-borrowing.html#%E5%8F%83%E8%80%83%E8%88%87%E5%80%9F%E7%94%A8">「參考與借用」</a><!-- ignore -->段落沒談到的是，Rust 中的每個參考都有個<strong>生命週期（lifetime）</strong>，這是決定該參考是否有效的作用域。大多情況下生命週期是隱式且可推導出來的，就像大多情況下型別是可推導出來的。當多種型別都有可能時，我們就得詮釋型別。同樣地，當生命週期的參考能以不同方式關聯的話，我們就得詮釋生命週期。Rust 要求我們用泛型生命週期參數來詮釋參考之間的關係，以確保實際在執行時的參考絕對是有效的。</p>
+<p>生命週期（lifetime）是另一種我們已經使用過的泛型。不同於確保一個型別有沒有我們要的行為，生命週期確保我們在需要參考的時候，它們都是有效的。</p>
+<p>我們在第四章的<a href="ch04-02-references-and-borrowing.html#%E5%8F%83%E8%80%83%E8%88%87%E5%80%9F%E7%94%A8">「參考與借用」</a><!-- ignore -->段落沒談到的是，Rust 中的每個參考都有個<strong>生命週期</strong>，這是決定該參考是否有效的作用域。大多情況下生命週期是隱式且可推導出來的，就像大多情況下型別是可推導出來的。當多種型別都有可能時，我們就得詮釋型別。同樣地，當生命週期的參考能以不同方式關聯的話，我們就得詮釋生命週期。Rust 要求我們用泛型生命週期參數來詮釋參考之間的關係，以確保實際在執行時的參考絕對是有效的。</p>
 <p>詮釋生命週期在大多數的程式語言中都沒有這個概念，所以這段可能會有點讓你覺得陌生。雖然我們不會在此章涵蓋所有生命週期的內容，但是我們會講些你可能遇到生命週期的常見場景，好讓你更加熟悉這個概念。</p>
 <h3 id="透過生命週期預防迷途參考"><a class="header" href="#透過生命週期預防迷途參考">透過生命週期預防迷途參考</a></h3>
 <p>生命週期最主要的目的就是要預防<strong>迷途參考</strong>（dangling references），其會導致程式參考到其他資料，而非它原本想要的參考。請看一下範例 10-16 的程式，它有一個外部作用域與內部作用域。</p>
@@ -7175,7 +7175,7 @@ where
 </ol>
 <p>讓我們看看 Rust 特地提供給測試的功能：包含 <code>test</code> 屬性（attribute）、一些巨集以及 <code>should_panic</code> 屬性。</p>
 <h3 id="測試函式剖析"><a class="header" href="#測試函式剖析">測試函式剖析</a></h3>
-<p>最簡單的形式來看，測試在 Rust 中就是附有 <code>test</code> 屬性的函式。屬性（Attributes）是一種關於某段 Rust 程式碼的詮釋資料（metadata），其中一個例子是我們在第五章使用的 <code>derive</code> 屬性。要將一個函式轉換成測試函式，在 <code>fn</code> 前一行加上 <code>#[test]</code> 即可。當你用 <code>cargo test</code> 命令來執行你的測試時，Rust 會建構一個測試執行檔並執行被標注的函式，並回報每個測試函式是否通過或失敗。</p>
+<p>最簡單的形式來看，測試在 Rust 中就是附有 <code>test</code> 屬性的函式。屬性是一種關於某段 Rust 程式碼的詮釋資料（metadata），其中一個例子是我們在第五章使用的 <code>derive</code> 屬性。要將一個函式轉換成測試函式，在 <code>fn</code> 前一行加上 <code>#[test]</code> 即可。當你用 <code>cargo test</code> 命令來執行你的測試時，Rust 會建構一個測試執行檔並執行被標注的函式，並回報每個測試函式是否通過或失敗。</p>
 <p>當我們用 Cargo 建立新的函式庫專案時，同時會自動建立一個擁有測試函式的測試模組。此模組能協助我們開始寫測試，讓你不必在每次建立新專案時，尋找特定結構體與測試函式的語法。你可以新增多少測試函式與多少測試模組都沒問題！</p>
 <p>在實際測試任何程式碼之前，我們將會透過實驗測試產生的樣板，來探索測試如何運作的每個環節。然後我們會寫些現實世界會寫的測試，呼叫我們寫的程式碼並判定其行為是否正確。</p>
 <p>讓我們建立個會相加兩個數字的函式庫專案 <code>adder</code>：</p>
@@ -8237,7 +8237,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 </code></pre>
 <p>輸出結果中有三個段落，包含單元測試、整合測試與技術文件測試。要是有個段落的任何一個測試失敗的話，接下來的段落就不會執行。舉例來說，如果單元測試失敗了，我們就不會看到整合測試與技術文件測試的輸出，因為它們只會在所有單元測試都通過之後才會執行。</p>
-<p>第一個段落的單元測試與我們看過的相同：每行會是每個單元測試（在此例是我們在範例 11-12 寫得 <code>internal</code>）最後附上單元測試的總結。</p>
+<p>第一個段落的單元測試與我們看過的相同：每行會是每個單元測試（在此例是我們在範例 11-12 寫的 <code>internal</code>）最後附上單元測試的總結。</p>
 <p>整合測試段落從 <code>Running tests/integration_test.rs</code> 開始，接著每行會是每個整合測試的測試函式，最後在 <code>Doc-tests adder</code> 段落開始前的那一行則是整合測試的總結結果。</p>
 <p>每個整合測試檔案會有自己的段落，如果如果我們在 <em>tests</em> 目錄加入更多檔案的話，就會出現更多整合測試段落。</p>
 <p>我們一樣能用測試函式的名稱來作為 <code>cargo test</code> 的引數，來執行特定整合測試。要執行特定整合測試檔案內的所有測試，可以用 <code>--test</code> 作為 <code>cargo test</code> 的引數並加上檔案名稱：</p>
@@ -8559,9 +8559,9 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
     Config { query, file_path }
 }
 </code></pre>
-<p><span class="caption">範例 12-6：重構 <code>parse_config</code> 來返回 <code>Config</code> 結構體實例</span></p>
+<p><span class="caption">範例 12-6：重構 <code>parse_config</code> 來回傳 <code>Config</code> 結構體實例</span></p>
 <p>我們定義了一個結構體 <code>Config</code> 其欄位有 <code>query</code> 與 <code>file_path</code>。<code>parse_config</code> 的簽名現在指明它會回傳一個 <code>Config</code> 數值。在 <code>parse_config</code> 的本體中，我們原先回傳 <code>args</code> 中 <code>String</code> 數值參考的字串切片，現在我們定義 <code>Config</code> 來包含具所有權的 <code>String</code> 數值。<code>main</code> 中的 <code>args</code> 變數是引數數值的擁有者，而且只是借用它們給 <code>parse_config</code> 函式，這意味著如果 <code>Config</code> 嘗試取得 <code>args</code> 中數值的所有權的話，我們會違反 Rust 的借用規則。</p>
-<p>我們可以用許多不同的方式來管理 <code>String</code> 的資料，最簡單（卻較不有效率）的方式是對數值呼叫 <code>clone</code> 方法。這會複製整個資料讓 <code>Config</code> 能夠擁有，這會比參考字串資料還要花時間與記憶體。然而克隆資料讓我們的程式碼比較直白，因為在此情況下我們就不需要管理參考的生命週期，犧牲一點效能以換取簡潔性是值得的。</p>
+<p>我們可以用許多不同的方式來管理 <code>String</code> 的資料，最簡單（卻較無效率）的方式是對數值呼叫 <code>clone</code> 方法。這會複製整個資料讓 <code>Config</code> 能夠擁有，這會比參考字串資料還要花時間與記憶體。然而克隆資料讓我們的程式碼比較直白，因為在此情況下我們就不需要管理參考的生命週期，犧牲一點效能以換取簡潔性是值得的。</p>
 <blockquote>
 <h3 id="使用-clone-的權衡取捨"><a class="header" href="#使用-clone-的權衡取捨">使用 <code>clone</code> 的權衡取捨</a></h3>
 <p>由於 <code>clone</code> 會有運行時消耗，所以許多 Rustaceans 傾向於避免使用它來修正所有權問題。在<a href="ch13-00-functional-features.html">第十三章</a><!-- ignore -->中，你會學到如何更有效率的處理這種情況。但現在我們可以先複製字串來繼續進行下去，因為你只複製了一次，而且檔案路徑與搜尋字串都算很小。先寫出較沒有效率但可執行的程式會比第一次就要過分優化還來的好。隨著你對 Rust 越熟練，你的確就可以從有效率的解決方案開始，但現在呼叫 <code>clone</code> 是完全可以接受的。</p>
@@ -9037,7 +9037,7 @@ fn main() {
 <p>讓我們利用這個新的模組化優勢來進行些原本在就程式碼會很難處理的工作，但在新的程式碼會變得非常容易，那就是寫些測試！</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="透過測試驅動開發完善函式庫功能"><a class="header" href="#透過測試驅動開發完善函式庫功能">透過測試驅動開發完善函式庫功能</a></h2>
 <p>現在我們提取邏輯到 <em>src/lib.rs</em> 並在 <em>src/main.rs</em> 留下引數收集與錯誤處理的任務，現在對程式碼中的核心功能進行測試會簡單許多。我們可以使用各種引數直接呼叫函式來檢查回傳值，而不用從命令列呼叫我們的執行檔。</p>
-<p>在此段落中，我們會在 <code>minigrep</code> 程式中利用測試驅動開發（Test-driven development, TDD）來新增搜尋邏輯。此程式開發技巧遵循以下步驟：</p>
+<p>在此段落中，我們會在 <code>minigrep</code> 程式中利用測試驅動開發（Test-driven development，TDD）來新增搜尋邏輯。此程式開發技巧遵循以下步驟：</p>
 <ol>
 <li>寫出一個會失敗的測試並執行它來確保它失敗的原因如你所預期。</li>
 <li>寫出或修改足夠的程式碼來讓新測試可以通過。</li>
@@ -11227,7 +11227,7 @@ for i in 12..buffer.len() {
 <p>像音訊解碼器這種的應用程式運算通常最注重效率。我們在此建立了一個疊代器，使用兩個配接器，然後消化數值。這段 Rust 程式碼會產生什麼樣的組合語言程式碼呢？在本書撰寫時，它會編譯出與你自己手寫一樣的組合語言。遍歷 <code>coefficients</code> 的數值完全不需用到迴圈：Rust 知道一共有 12 次疊代，所以它會「展開（unroll）」迴圈。<strong>展開</strong>是一種優化方式，這會移除迴圈控制程式碼並改產生針對迴圈中每次疊代的重複程式碼。</p>
 <p>所有的係數都會存在暫存器中，這意味著存取數值會非常地快。在執行時不會有對陣列的界限檢查。這些所有 Rust 能做的優化讓產生的程式碼可以十分迅速。現在既然你已經知道了，你就可以自在地使用疊代器與閉包！它們可以寫出高階的程式碼，但不會犧牲執行時的效能。</p>
 <h2 id="總結-12"><a class="header" href="#總結-12">總結</a></h2>
-<p>閉包與疊代是是 Rust 啟發自函式程式語言的概念。它們讓 Rust 在表達高階概念的同時，仍能擁有低階程式碼的效能。閉包與疊代器的實作對執行時效能不會有影響。這是 Rust 竭力提供零成本抽象的目標之一。</p>
+<p>閉包與疊代器是 Rust 啟發自函式程式語言的概念。它們讓 Rust 在表達高階概念的同時，仍能擁有低階程式碼的效能。閉包與疊代器的實作對執行時效能不會有影響。這是 Rust 竭力提供零成本抽象的目標之一。</p>
 <p>現在我們改善了 I/O 專案的可讀性，讓我們看看 <code>cargo</code> 一些更多的功能，來幫助我們分享專案給全世界。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="更多關於-cargo-與-cratesio-的內容"><a class="header" href="#更多關於-cargo-與-cratesio-的內容">更多關於 Cargo 與 Crates.io 的內容</a></h1>
 <p>目前我們只使用了 Cargo 最基本的功能來建構、執行與測試我們的程式碼，但它還能做更多事。在本章節中我們將討論這些其他的進階功能，你將瞭解如何做到以下動作：</p>
@@ -11951,7 +11951,7 @@ fn main() {
 <p><code>Box&lt;T&gt;</code> 型別是智慧指標是因為它有實作 <code>Deref</code> 特徵，讓 <code>Box&lt;T&gt;</code> 的數值可以被視為參考所使用。當 <code>Box&lt;T&gt;</code> 數值離開作用域時，該 box 指向的堆積資料也會被清除，因為其有 <code>Drop</code> 特徵實作。這兩種特徵對於本章將會討論的其他智慧指標型別所提供的功能，將會更加重要。讓我們來探討這兩種特徵的細節吧。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="透過-deref-特徵將智慧指標視為一般參考"><a class="header" href="#透過-deref-特徵將智慧指標視為一般參考">透過 <code>Deref</code> 特徵將智慧指標視為一般參考</a></h2>
 <p>實作 <code>Deref</code> 特徵讓你可以自訂<strong>解參考運算子（dereference operator）</strong> <code>*</code> 的行為（這不是相乘或全域運算子）。透過這種方式實作 <code>Deref</code> 的智慧指標可以被視為正常參考來對待，這樣操作參考的程式碼也能用在智慧指標中。</p>
-<p>讓我們先看解參考運算子如何在正常參考中使用。然後我們會嘗試定義一個行為類似 <code>Box&lt;T&gt;</code> 的自定型別，並看看為何解參考運算子無法像參考那樣用在我們新定義的型別。我們將會探討如何實作 <code>Deref</code> 特徵使智慧指標能像類似參考的方式運作。接著我們會看看 Rust 的<strong>強制解參考</strong>（deref coercion）功能並瞭解它如何處理參考與智慧指標。</p>
+<p>讓我們先看解參考運算子如何在正常參考中使用。然後我們會嘗試定義一個行為類似 <code>Box&lt;T&gt;</code> 的自定型別，並看看為何解參考運算子無法像參考那樣用在我們新定義的型別。我們將會探討如何實作 <code>Deref</code> 特徵使智慧指標能像類似參考的方式運作。接著我們會看看 Rust 的**強制解參考（deref coercion）**功能並瞭解它如何處理參考與智慧指標。</p>
 <blockquote>
 <p>注意：我們即將定義的 <code>MyBox&lt;T&gt;</code> 型別與真正的 <code>Box&lt;T&gt;</code> 有一項很大的差別，就是我們的版本不會將其資料儲存在堆積上。我們在此例會專注在 <code>Deref</code> 上，所以資料實際上儲存在何處，並沒有比指標相關行為來得重要。</p>
 </blockquote>
@@ -12095,7 +12095,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p><code>deref</code> 方法會回傳一個數值參考，以及括號外要再加上普通解參考的原因，都是因為所有權系統。如果 <code>deref</code> 方法直接回傳數值而非參考數值的話，該數值就會移出 <code>self</code>。我們不希望在此例或是大多數使用解參考運算子的場合下，取走 <code>MyBox&lt;T&gt;</code> 內部數值的所有權。</p>
 <p>注意到每次我們在程式碼中使用 <code>*</code> 時，<code>*</code> 運算子被替換成 <code>deref</code> 方法呼叫，然後再呼叫 <code>*</code> 剛好一次。因為 <code>*</code> 運算子不會被無限遞迴替換，我們能剛好取得型別 <code>i32</code> 並符合範例 15-9 <code>assert_eq!</code> 中與 <code>5</code> 的判定。</p>
 <h3 id="函式與方法的隱式強制解參考"><a class="header" href="#函式與方法的隱式強制解參考">函式與方法的隱式強制解參考</a></h3>
-<p><strong>強制解參考</strong>（Deref coercion）會將有實作 <code>Deref</code> 特徵的型別參考轉換成其他型別的參考。舉例來說，強制解參考可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>&amp;str</code>。<strong>強制解參考</strong>（Deref coercion）是一個 Rust 針對函式或方法的引數的便利設計，且只會用在有實作 <code>Deref</code> 特徵的型別。當我們將某個特定型別數值的參考作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解參考就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
+<p>**強制解參考（Deref coercion）**會將有實作 <code>Deref</code> 特徵的型別參考轉換成其他型別的參考。舉例來說，強制解參考可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>&amp;str</code>。強制解參考是一個 Rust 針對函式或方法的引數的便利設計，且只會用在有實作 <code>Deref</code> 特徵的型別。當我們將某個特定型別數值的參考作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解參考就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
 <p>Rust 會加入強制解參考的原因是因為程式設計師在寫函式與方法呼叫時，就不必加上許多顯式參考 <code>&amp;</code> 與解參考 <code>*</code>。強制解參考還讓我們可以寫出能同時用於參考或智慧指標的程式碼。</p>
 <p>為了展示強制解參考，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 中定義的函式使用字串切片作為參數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -15583,7 +15583,7 @@ fn main() {}
 <h3 id="利用關聯型別在特徵定義中指定佔位符型別"><a class="header" href="#利用關聯型別在特徵定義中指定佔位符型別">利用關聯型別在特徵定義中指定佔位符型別</a></h3>
 <p><strong>關聯型別</strong>（associated types）連結了一個型別佔位符（placeholder）與一個特徵，可以將這些佔位符型別使用在這些特徵所定義的方法簽名上。對特定實作來說，特徵的實作者將指明一個具體型別來代替型別佔位符。如此一來，我們可以定義一個使用了某個型別的特徵，但直到特徵被實作之前，都不需知道實際上的型別。</p>
 <p>多數在本章提及的進階特色都較少使用，而關聯型別則是介於其中：他們比書中其他內容來得少用，但比本章介紹的其他特色來得更常見。</p>
-<p>一個具有關聯型別的特徵之範例是標準函式庫提供的 <code>Iterator</code> 特徵。這例子中的關聯型別叫做 <code>Item</code>，表示一型別實作 <code>Iterator</code> 特徵時，會被迭代的那些值的型別。範例 19-12 展示了 <code>Iterator</code> 特徵的定義：</p>
+<p>一個具有關聯型別的特徵之範例是標準函式庫提供的 <code>Iterator</code> 特徵。這例子中的關聯型別叫做 <code>Item</code>，表示一型別實作 <code>Iterator</code> 特徵時，會被疊代的那些值的型別。範例 19-12 展示了 <code>Iterator</code> 特徵的定義：</p>
 <pre><code class="language-rust noplayground">pub trait Iterator {
     type Item;
 
@@ -15592,7 +15592,7 @@ fn main() {}
 </code></pre>
 <p><span class="caption">範例 19-12：<code>Iterator</code> 特徵自帶一個關聯型別</span></p>
 <p><code>Item</code> 型別是個佔位符，<code>next</code> 方法的定義顯示它會回傳型別為 <code>Option&lt;Self::Item&gt;</code> 之值。<code>Iterator</code> 特徵的實作者會指定 <code>Item</code> 的具體型別，而 <code>next</code> 方法則會回傳一個包含該具體型別的值的一個 <code>Option</code>。</p>
-<p>關聯型別可能看起來和泛型的概念非常相似，而後者允許定義函式而不需指定該函式可以處理何種型別。為了檢視以下兩者概念上的差異，我們來看這個替 型別 <code>Counter</code> 上實作 <code>Iterator</code> 特徵，且 <code>Counter</code> 指定的 <code>Item</code> 的型別為 <code>u32</code>：</p>
+<p>關聯型別可能看起來和泛型的概念非常相似，而後者允許定義函式而不需指定該函式可以處理何種型別。為了檢視以下兩者概念上的差異，我們來看這個替型別 <code>Counter</code> 上實作 <code>Iterator</code> 特徵，且 <code>Counter</code> 指定的 <code>Item</code> 的型別為 <code>u32</code>：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">struct Counter {
 </span><span class="boring">    count: u32,
@@ -17319,7 +17319,7 @@ error: could not compile `hello` due to previous error
 <pre><code class="language-rust ignore">pub fn build(size: usize) -&gt; Result&lt;ThreadPool, PoolCreationError&gt; {
 </code></pre>
 <h4 id="建立執行緒的儲存空間"><a class="header" href="#建立執行緒的儲存空間">建立執行緒的儲存空間</a></h4>
-<p>現在我們有一個有效的執行緒數量能儲存至池中，我們可以在返回實例前，建立這些執行緒並儲存至 <code>ThreadPool</code> 結構體中。但我們要怎麼「儲存」執行緒呢？讓我們再看一次 <code>thread::spawn</code> 的簽名：</p>
+<p>現在我們有一個有效的執行緒數量能儲存至池中，我們可以在回傳實例前，建立這些執行緒並儲存至 <code>ThreadPool</code> 結構體中。但我們要怎麼「儲存」執行緒呢？讓我們再看一次 <code>thread::spawn</code> 的簽名：</p>
 <pre><code class="language-rust ignore">pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
     where
         F: FnOnce() -&gt; T,
