@@ -47,7 +47,7 @@
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-01-calling-trait-method/src/main.rs}}
 ```
 
-此程式碼會印出「1 則新推文：horse_ebooks: of course, as you probably alreadyknow, people」。
+此程式碼會印出「1 則新推文：horse_ebooks: of course, as you probably already know, people」。
 
 其他依賴 `aggregator` 函式庫的 crate 也能將 `Summary` 特徵引入作用域並對他們自己的型別實作 `Summary` 特徵。不過實作特徵時有一個限制，那就是我們只能在該特徵或該型別位於我們的 crate 時，才能對型別實作特徵。舉例來說，我們可以對自訂型別像是 `Tweet` 來實作標準函式庫的 `Display` 特徵來為我們 crate `aggregator` 增加更多功能。因為 `Tweet` 位於我們的 `aggregator` crate 裡面。我們也可以在我們的 crate `aggregator` 內對 `Vec<T>` 實作 `Summary`。因為特徵 `Summary` 也位於我們的 `aggregator` crate 裡面。
 
