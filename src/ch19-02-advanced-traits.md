@@ -8,7 +8,7 @@
 
 多數在本章提及的進階特色都較少使用，而關聯型別則是介於其中：他們比書中其他內容來得少用，但比本章介紹的其他特色來得更常見。
 
-一個具有關聯型別的特徵之範例是標準函式庫提供的 `Iterator` 特徵。這例子中的關聯型別叫做 `Item`，表示一型別實作 `Iterator` 特徵時，會被迭代的那些值的型別。範例 19-12 展示了 `Iterator` 特徵的定義：
+一個具有關聯型別的特徵之範例是標準函式庫提供的 `Iterator` 特徵。這例子中的關聯型別叫做 `Item`，表示一型別實作 `Iterator` 特徵時，會被疊代的那些值的型別。範例 19-12 展示了 `Iterator` 特徵的定義：
 
 ```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-12/src/lib.rs}}
@@ -18,7 +18,7 @@
 
 `Item` 型別是個佔位符，`next` 方法的定義顯示它會回傳型別為 `Option<Self::Item>` 之值。`Iterator` 特徵的實作者會指定 `Item` 的具體型別，而 `next` 方法則會回傳一個包含該具體型別的值的一個 `Option`。
 
-關聯型別可能看起來和泛型的概念非常相似，而後者允許定義函式而不需指定該函式可以處理何種型別。為了檢視以下兩者概念上的差異，我們來看這個替 型別 `Counter` 上實作 `Iterator` 特徵，且 `Counter` 指定的 `Item` 的型別為 `u32`：
+關聯型別可能看起來和泛型的概念非常相似，而後者允許定義函式而不需指定該函式可以處理何種型別。為了檢視以下兩者概念上的差異，我們來看這個替型別 `Counter` 上實作 `Iterator` 特徵，且 `Counter` 指定的 `Item` 的型別為 `u32`：
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 

@@ -170,7 +170,7 @@ pub fn build(size: usize) -> Result<ThreadPool, PoolCreationError> {
 
 #### 建立執行緒的儲存空間
 
-現在我們有一個有效的執行緒數量能儲存至池中，我們可以在返回實例前，建立這些執行緒並儲存至 `ThreadPool` 結構體中。但我們要怎麼「儲存」執行緒呢？讓我們再看一次 `thread::spawn` 的簽名：
+現在我們有一個有效的執行緒數量能儲存至池中，我們可以在回傳實例前，建立這些執行緒並儲存至 `ThreadPool` 結構體中。但我們要怎麼「儲存」執行緒呢？讓我們再看一次 `thread::spawn` 的簽名：
 
 ```rust,ignore
 pub fn spawn<F, T>(f: F) -> JoinHandle<T>
