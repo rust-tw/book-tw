@@ -211,7 +211,7 @@ let s = &hello[0..4];
 {{#include ../listings/ch08-common-collections/output-only-01-not-char-boundary/output.txt}}
 ```
 
-你在使用範圍來建立字串切片時要格外小心，因為這樣做有可能會使你的程式崩潰。
+你在使用範圍來建立字串切片時要格外小心，因為這樣做有可能會使你的程式當機。
 
 ### 遍歷字串的方法
 
