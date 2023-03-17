@@ -57,7 +57,7 @@
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-06/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-6：重構 `parse_config` 來返回 `Config` 結構體實例</span>
+<span class="caption">範例 12-6：重構 `parse_config` 來回傳 `Config` 結構體實例</span>
 
 我們定義了一個結構體 `Config` 其欄位有 `query` 與 `file_path`。`parse_config` 的簽名現在指明它會回傳一個 `Config` 數值。在 `parse_config` 的本體中，我們原先回傳 `args` 中 `String` 數值參考的字串切片，現在我們定義 `Config` 來包含具所有權的 `String` 數值。`main` 中的 `args` 變數是引數數值的擁有者，而且只是借用它們給 `parse_config` 函式，這意味著如果 `Config` 嘗試取得 `args` 中數值的所有權的話，我們會違反 Rust 的借用規則。
 

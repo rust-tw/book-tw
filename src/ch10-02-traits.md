@@ -171,7 +171,7 @@ fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {
 
 此函式簽名就沒有這麼複雜了，函式名稱、參數列表與回傳型別能靠得比較近，就像沒有一堆特徵界限的函式一樣。
 
-### 返回有實作特徵的型別
+### 回傳有實作特徵的型別
 
 我們也能在回傳的位置使用 `impl Trait` 語法來回傳某個有實作特徵的型別數值，如以下所示：
 
@@ -189,7 +189,7 @@ fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-06-impl-trait-returns-one-type/src/lib.rs:here}}
 ```
 
-寫說可能返回 `NewsArticle` 或 `Tweet` 的話是不被允許的，因為 `impl Trait` 語法會限制在編譯器中最終決定的型別。我們會在第十七章的[「允許不同型別數值的特徵物件」][using-trait-objects-that-allow-for-values-of-different-types]<!-- ignore -->來討論如何寫出這種行為的函式。
+寫說可能回傳 `NewsArticle` 或 `Tweet` 的話是不被允許的，因為 `impl Trait` 語法會限制在編譯器中最終決定的型別。我們會在第十七章的[「允許不同型別數值的特徵物件」][using-trait-objects-that-allow-for-values-of-different-types]<!-- ignore -->來討論如何寫出這種行為的函式。
 
 ### 透過特徵界限來選擇性實作方法
 
