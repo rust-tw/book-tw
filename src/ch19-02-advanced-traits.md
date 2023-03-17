@@ -8,7 +8,7 @@
 
 多數在本章提及的進階特色都較少使用，而關聯型別則是介於其中：他們比書中其他內容來得少用，但比本章介紹的其他特色來得更常見。
 
-一個具有關聯型別的特徵之範例是標準函式庫提供的 `Iterator` 特徵。這例子中的關聯型別叫做 `Item`，表示一型別實作 `Iterator` 特徵時，會被迭代的那些值的型別。範例 19-12 展示了 `Iterator` 特徵的定義：
+一個具有關聯型別的特徵之範例是標準函式庫提供的 `Iterator` 特徵。這例子中的關聯型別叫做 `Item`，表示一型別實作 `Iterator` 特徵時，會被疊代的那些值的型別。範例 19-12 展示了 `Iterator` 特徵的定義：
 
 ```rust,noplayground
 {{#rustdoc_include ../listings/ch19-advanced-features/listing-19-12/src/lib.rs}}
