@@ -156,9 +156,9 @@
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="前言"><a class="header" href="#前言">前言</a></h1>
 <p>雖然不是那麼明確，但 Rust 程式設計語言旨在<strong>賦權（empowerment）</strong>：無論你現在寫的是何種程式碼，Rust 都能賦予你更多能力，在更廣泛的領域中帶有自信地向前邁進。</p>
-<p>比方說，「系統層級」的工作會需要處理低階的記憶體管理、資料呈現與程序並行的細節。對以往來說，這塊程式領域被視為巫術般的存在，只有投入好幾年時間學習的選中之人才有辦法駕馭，也才能懂得如何避開其惡名昭彰的陷阱。而且就算是這個領域的實作者也謹慎行事，也生怕他們的程式碼會出現漏洞、當機或損壞。</p>
-<p>Rust 破除了這些障礙，消除了以往的陷阱並提供友善全面的工具來協助你。想要「深入」底層控制的程式設計師可以使用 Rust，無需冒著常見的當機或安全漏洞風險，也無需學習得經常改變的工具鏈其中的細節。更好地是，這個語言本身就是設計成能引導你自然而然地寫出可靠且在速度與記憶體使用都十分高效的程式碼。</p>
-<p>已經在處理底層程式碼的程式設計師可以使用 Rust 來擴展他們的野心。舉例來說，在 Rust 中進行平行化是相對低風險的動作，編譯器會幫你抓到典型的錯誤。而且你也能更有自信且更積極地進行最佳化，不必擔心會意外造成當機或漏洞。</p>
+<p>比方說，「系統層級」的工作會需要處理低階的記憶體管理、資料呈現與程序並行的細節。對以往來說，這塊程式領域被視為巫術般的存在，只有投入好幾年時間學習的選中之人才有辦法駕馭，也才能懂得如何避開其惡名昭彰的陷阱。而且就算是這個領域的實作者也謹慎行事，也生怕他們的程式碼會出現漏洞、崩潰或損壞。</p>
+<p>Rust 破除了這些障礙，消除了以往的陷阱並提供友善全面的工具來協助你。想要「深入」底層控制的程式設計師可以使用 Rust，無需冒著常見的崩潰或安全漏洞風險，也無需學習得經常改變的工具鏈其中的細節。更好地是，這個語言本身就是設計成能引導你自然而然地寫出可靠且在速度與記憶體使用都十分高效的程式碼。</p>
+<p>已經在處理底層程式碼的程式設計師可以使用 Rust 來擴展他們的野心。舉例來說，在 Rust 中進行平行化是相對低風險的動作，編譯器會幫你抓到典型的錯誤。而且你也能更有自信且更積極地進行最佳化，不必擔心會意外造成崩潰或漏洞。</p>
 <p>但 Rust 並不只限於底層的系統程式設計。其表現力與易用易讀的程度能令人愉快地寫出 CLI 應用程式、網頁伺服器與許多其他種程式碼。你會在本書中看到這兩種簡單的範例。使用 Rust 能這讓你將一個領域所學到的技能延伸到另一個領域，你可以透過寫網頁應用程式來學習 Rust，然後應用同樣的技能到你的樹莓派（Raspberry Pi）上。</p>
 <p>本書充分體現了 Rust 賦予其使用者更多能力的潛力。其內容平易近人，不止致力於協助你提升 Rust 的知識，還能提升讓你身為程式設計師的整體信心。所以讓我們準備開始學習吧，歡迎加入 Rust 的社群！</p>
 <p>— Nicholas Matsakis 與 Aaron Turon</p>
@@ -662,7 +662,7 @@ let mut banana = 5; // 可變的
 <p>如稍早提過的，<code>read_line</code> 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個 <code>Result</code> 數值。<a href="https://doc.rust-lang.org/std/result/enum.Result.html"><code>Result</code></a><!-- ignore --> 是種<a href="ch06-00-enums.html"><strong>枚舉（enumerations）</strong></a><!-- ignore -->，常稱為 <em>enums</em>。枚舉是種可能有數種狀態其中之一的型別，而每種可能的狀態我們稱之為枚舉的<strong>變體（variants）</strong>。</p>
 <p><a href="ch06-00-enums.html">第六章</a><!-- ignore -->會更詳細地介紹枚舉，這些 <code>Result</code> 型別的目的是要編碼錯誤處理資訊。</p>
 <p><code>Result</code> 的變體有 <code>Ok</code> 和 <code>Err</code>。<code>Ok</code> 變體指的是該動作成功完成，且 <code>Ok</code> 內部會包含成功產生的數值。而 <code>Err</code> 變體代表動作失敗，且 <code>Err</code> 會包含該動作如何與為何會失敗的資訊。</p>
-<p><code>Result</code> 型別的數值與任何型別的數值一樣，它們都有定義些方法。<code>Result</code> 的實例有 <a href="https://doc.rust-lang.org/std/result/enum.Result.html#method.expect"><code>expect</code> 方法</a><!-- ignore --> 讓你能呼叫。如果此 <code>Result</code> 實例數值為 <code>Err</code> 的話，<code>expect</code> 會讓程式當機並顯示作為引數傳給 <code>expect</code> 的訊息。如果 <code>read_line</code> 回傳 <code>Err</code> 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 <code>io::Result</code> 實例數值為 <code>Ok</code> 的話，<code>expect</code> 會接收 <code>Ok</code> 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值將為使用者輸入進標準輸入介面的位元組數字。</p>
+<p><code>Result</code> 型別的數值與任何型別的數值一樣，它們都有定義些方法。<code>Result</code> 的實例有 <a href="https://doc.rust-lang.org/std/result/enum.Result.html#method.expect"><code>expect</code> 方法</a><!-- ignore --> 讓你能呼叫。如果此 <code>Result</code> 實例數值為 <code>Err</code> 的話，<code>expect</code> 會讓程式崩潰並顯示作為引數傳給 <code>expect</code> 的訊息。如果 <code>read_line</code> 回傳 <code>Err</code> 的話，這可能就是從底層作業系統傳來的錯誤結果。如果此 <code>io::Result</code> 實例數值為 <code>Ok</code> 的話，<code>expect</code> 會接收 <code>Ok</code> 的回傳值並只回傳該數值，讓你可以使用。在此例中，數值將為使用者輸入進標準輸入介面的位元組數字。</p>
 <p>如果你沒有呼叫 <code>expect</code>，程式仍能編譯，但你會收到一個警告：</p>
 <pre><code class="language-console">$ cargo build
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
@@ -3853,7 +3853,7 @@ struct ChangeColorMessage(i32, i32, i32); // 元組結構體
 <p>程式語言設計通常要考慮哪些功能是你要的，但同時哪些功能是你不要的也很重要。Rust 沒有像其他許多語言都有空值。<strong>空值</strong>（Null）代表的是沒有任何數值。在有空值的語言，所有變數都有兩種可能：空值或非空值。</p>
 <p>而其發明者 Tony Hoare 在他 2009 的演講「空參考：造成數十億損失的錯誤」（“Null References: The Billion Dollar Mistake”）中提到：</p>
 <blockquote>
-<p>我稱它為我十億美元級的錯誤。當時我正在為一門物件導向語言設計第一個全方位的參考型別系統。我當時的目標是透過編譯器自動檢查來確保所有的參考都是安全的。但我無法抗拒去加入空參考的誘惑，因為實作的方式實在太簡單了。這導致了無數的錯誤、漏洞與系統當機，在接下來的四十年中造成了大概數十億美金的痛苦與傷害。</p>
+<p>我稱它為我十億美元級的錯誤。當時我正在為一門物件導向語言設計第一個全方位的參考型別系統。我當時的目標是透過編譯器自動檢查來確保所有的參考都是安全的。但我無法抗拒去加入空參考的誘惑，因為實作的方式實在太簡單了。這導致了無數的錯誤、漏洞與系統崩潰，在接下來的四十年中造成了大概數十億美金的痛苦與傷害。</p>
 </blockquote>
 <p>空值的問題在於，如果你想在非空值使用空值的話，你會得到某種錯誤。由於空值與非空值的特性無所不在，你會很容易犯下這類型的錯誤。</p>
 <p>但有時候能夠表達「空（null）」的概念還是很有用的：空值代表目前的數值因為某些原因而無效或缺少。</p>
@@ -19276,7 +19276,7 @@ $ rustup override set nightly
 <tr><td>constant</td><td>常數</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E5%B8%B8%E6%95%B0">維基百科</a></td></tr>
 <tr><td>constructor</td><td>建構子</td><td></td></tr>
 <tr><td>copy</td><td>拷貝</td><td></td></tr>
-<tr><td>crash</td><td>當機</td><td></td></tr>
+<tr><td>crash</td><td>崩潰</td><td>亦譯作「當機」，為了避免混淆使用「崩潰」統一指稱，參考：<a href="https://terms.naer.edu.tw/search/?query_term=crash&amp;query_field=title&amp;query_op=&amp;match_type=phrase&amp;filter_bool=and&amp;filter_term=%27%E9%9B%BB%E5%AD%90%E8%A8%88%E7%AE%97%E6%A9%9F%E5%90%8D%E8%A9%9E%27&amp;filter_field=subcategory_1.raw&amp;filter_op=term&amp;tabaction=browse">樂詞網</a></td></tr>
 <tr><td>dangling pointer</td><td>迷途指標</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E8%BF%B7%E9%80%94%E6%8C%87%E9%92%88">維基百科</a></td></tr>
 <tr><td>data race</td><td>資料競爭</td><td></td></tr>
 <tr><td>declaration statements</td><td>宣告陳述式</td><td></td></tr>
