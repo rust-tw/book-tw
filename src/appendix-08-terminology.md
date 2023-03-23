@@ -36,7 +36,7 @@ configuration          | 配置                          |
 constant               | 常數                          | 參考：[維基百科][constant]
 constructor            | 建構子                        |
 copy                   | 拷貝                          |
-crash                  | 當機                          |
+crash                  | 崩潰                          | 亦譯作「當機」，為了避免混淆使用「崩潰」統一指稱，參考：[樂詞網](https://terms.naer.edu.tw/search/?query_term=crash&query_field=title&query_op=&match_type=phrase&filter_bool=and&filter_term=%27%E9%9B%BB%E5%AD%90%E8%A8%88%E7%AE%97%E6%A9%9F%E5%90%8D%E8%A9%9E%27&filter_field=subcategory_1.raw&filter_op=term&tabaction=browse)
 dangling pointer       | 迷途指標                      | 參考：[維基百科][dangling pointer]
 data race              | 資料競爭                      |
 declaration statements | 宣告陳述式                    |
