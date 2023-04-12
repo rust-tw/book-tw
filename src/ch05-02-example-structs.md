@@ -26,7 +26,7 @@
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-08/src/main.rs:here}}
 ```
 
-`area` 函式應該要計算長方形的面積，但是我們寫的函式有兩個參數，但在我們得程式中參數的相關性卻沒有表達出來。要是能將寬度與長度組合起來的話，會更容易閱讀與管理。我們可以使用我們在第三章提到的[「元組型別」][the-tuple-type]<!-- ignore -->。
+`area` 函式有寬度與長度兩個參數，可用以計算長方形的面積。但在我們的程式中，其參數相關性卻沒有表達出來。要是能將寬度與長度組合起來的話，會更容易閱讀與管理。我們可以使用我們在第三章提到的[「元組型別」][the-tuple-type]<!-- ignore -->。
 
 ### 使用元組重構
 
@@ -60,7 +60,7 @@
 
 現在我們的 `area` 函式使需要一個參數 `rectangle`，其型別為 `Rectangle` 結構體實例的不可變借用。如同第四章提到的，我們希望借用結構體而非取走其所有權。這樣一來，`main` 能保留它的所有權並讓 `rect1` 繼續使用，這也是為何我們要在要呼叫函式的簽名中使用 `&`。
 
-`area` 函式能夠存取 `Rectangle` 中的 `width` 與 `height` 欄位（存取借用結構體實例的欄位不會移動欄位數值，這就是為何你常看到結構體的借用）。我們的 `area` 函式簽名由可以表達出我們想要做的事情了：使用 `width` 與 `height` 欄位來計算 `Rectangle` 的面積。這能表達出寬度與長度之間的關係，並且給了它們容易讀懂的名稱，而不是像元組那樣用索引 `0` 和 `1`。這樣清楚多了。
+`area` 函式能夠存取 `Rectangle` 中的 `width` 與 `height` 欄位（存取借用結構體實例的欄位不會移動欄位數值，這就是為何你常看到結構體的借用）。我們的 `area` 函式簽名可以表達出我們想要做的事情了：使用 `width` 與 `height` 欄位來計算 `Rectangle` 的面積。這能表達出寬度與長度之間的關係，並且給了它們容易讀懂的名稱，而不是像元組那樣用索引 `0` 和 `1`。這樣清楚多了。
 
 ### 使用推導特徵實現更多功能
 
@@ -134,7 +134,7 @@ Rust **的確**有印出除錯資訊的功能，但是我們要針對我們的�
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/no-listing-05-dbg-macro/src/main.rs}}
 ```
 
-我們在表達式 `30 * scale` 加上 `dbg!`，因爲 `dbg!` 會回傳表達式的數值所有權， `width` 將能取得和如果我們不加上 `dbg!` 時相同的數值。而我們不希望 `dbg!` 取走 `rect1` 的所有權，所以我們在下一個 `rect1` 的呼叫使用參考。以下是此範例得到的輸出結果：
+我們在表達式 `30 * scale` 加上 `dbg!`，因爲 `dbg!` 會回傳表達式的數值所有權， `width` 將能取得和不加上 `dbg!` 時相同的數值。而我們不希望 `dbg!` 取走 `rect1` 的所有權，所以我們在下一個 `rect1` 的呼叫使用參考。以下是此範例得到的輸出結果：
 
 ```console
 {{#include ../listings/ch05-using-structs-to-structure-related-data/no-listing-05-dbg-macro/output.txt}}
