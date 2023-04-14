@@ -187,7 +187,7 @@ changes in the compiler -->
 <p><code>thread::sleep</code> 的呼叫強制執行緒短時間內停止運作，讓不同的執行緒可以執行。執行緒可能會輪流執行，但並不保證絕對如此，這會依據你的作業系統如何安排執行緒而有所不同。在這一輪中，主執行緒會先顯示，就算程式中是先寫新執行緒的 <code>println!</code> 陳述式。而且雖然我們是寫說新執行緒印出 <code>i</code> 一直到 9，但它在主執行緒結束前只印到 5。</p>
 <p>如果當你執行此程式時只看到主執行緒的結果，或者沒有看到任何交錯的話，你可以嘗試增加數字範圍來增加作業系統切換執行緒的機會。</p>
 <h3 id="使用-join-等待所有執行緒完成"><a class="header" href="#使用-join-等待所有執行緒完成">使用 <code>join</code> 等待所有執行緒完成</a></h3>
-<p>範例 16-1 的程式碼在主執行緒結束時不只會在大多數的時候提早結束新產生的執行緒，還不能保證執行緒運行的順序，我們甚至無法保證產生的執行序真的會執行！</p>
+<p>範例 16-1 的程式碼在主執行緒結束時不只會在大多數的時候提早結束新產生的執行緒，還不能保證執行緒運行的順序，我們甚至無法保證產生的執行緒真的會執行！</p>
 <p>透過儲存 <code>thread::spawn</code> 回傳的數值為變數，我們可以修正產生的執行緒完全沒有執行或沒有執行完成的問題。<code>thread::spawn</code> 的回傳型別為 <code>JoinHandle</code>。<code>JoinHandle</code> 是個有所有權的數值，當我們對它呼叫 <code>join</code> 方法時，它就會等待它的執行緒完成。範例 16-2 顯示了如何使用我們在範例 16-1 中執行緒的 <code>JoinHandle</code> 並呼叫 <code>join</code> 來確保產生的執行緒會在 <code>main</code> 離開之前完成：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;

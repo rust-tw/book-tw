@@ -212,7 +212,7 @@ fn handle_connection(mut stream: TcpStream) {
 <p>在 <code>handle_connection</code> 函式中，我們建立 <code>BufReader</code> 的實例並取得 <code>stream</code> 的可變參考。<code>BufReader</code> 提供了緩衝區（buffering），幫助我們管理 <code>std::io::Read</code> 方法的呼叫。</p>
 <p>我們建立了一個變數 <code>http_request</code> 來收集瀏覽器傳送到伺服器的每行請求。我們加上 <code>Vec&lt;_&gt;</code> 型別詮釋來指示我們想要將每行收集成向量。</p>
 <p><code>BufReader</code> 實作的 <code>std::io::BufRead</code> 特徵有提供個 <code>lines</code> 方法。該方法會回傳個 <code>Result&lt;String, std::io::Error&gt;</code> 的疊代器，這會在每次看到換行（newline）位元組時，將資料流分開。我們用 <code>map </code> 對每個 <code>Result</code> 呼叫 <code>unwrap</code> 來取得 <code>String</code>。如果資料不是有效的 UTF-8 或是讀取流時發生問題的話，<code>Result</code> 可能會產生錯誤。在正式環境的程式應該要適當地處理這些錯誤，但為了簡潔我們在這裡選擇直接在遇到錯誤時就終止程式。</p>
-<p>瀏覽器會傳送兩次換行字元來表達 HTTP 的請求結束了，所以要確定我們從流中取得一個請求的話，我們就重複取得行數直到有一行是空字串為止。一但我們將行數收集到向量中，我們就使用好看的除錯格式印出來，讓我們可以觀察瀏覽器傳送了哪些指令給我們的伺服器。</p>
+<p>瀏覽器會傳送兩次換行字元來表達 HTTP 的請求結束了，所以要確定我們從流中取得一個請求的話，我們就重複取得行數直到有一行是空字串為止。一旦我們將行數收集到向量中，我們就使用好看的除錯格式印出來，讓我們可以觀察瀏覽器傳送了哪些指令給我們的伺服器。</p>
 <p>讓我們嘗試看看此程式碼！開啟程式並再次從網頁瀏覽器發送請求。注意到我們仍然會在瀏覽器中取得錯誤頁面，但是我們程式在終端機的輸出應該會類似以下結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling hello v0.1.0 (file:///projects/hello)

@@ -513,7 +513,7 @@ test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; 
 error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>注意到程式碼恐慌時的訊息 <code>already borrowed: BorrowMutError</code>。這就是 <code>RefCell&lt;T&gt;</code> 如何在執行時處理違反借用規則的情況。</p>
-<p>像我們在這裡選擇在執行時獲取借用錯誤而不是在編譯時，代表你會在開發過程之後才找到程式碼錯誤，甚至有可能一直到程式碼部署到正式環境後才查覺。而且你的程式碼也會多了一寫小小的執行時效能開銷，作為在執行時而非編譯時檢查的代價。不過使用 <code>RefCell&lt;T&gt;</code>  讓你能在只允許有不可變數值的環境中寫出能夠變更內部追蹤訊息的模擬物件。這是想獲得 <code>RefCell&lt;T&gt;</code> 帶來的功能時，要與一般參考之間作出的取捨。</p>
+<p>像我們在這裡選擇在執行時獲取借用錯誤而不是在編譯時，代表你會在開發過程之後才找到程式碼錯誤，甚至有可能一直到程式碼部署到正式環境後才查覺。而且你的程式碼也會多了一些小小的執行時效能開銷，作為在執行時而非編譯時檢查的代價。不過使用 <code>RefCell&lt;T&gt;</code>  讓你能在只允許有不可變數值的環境中寫出能夠變更內部追蹤訊息的模擬物件。這是想獲得 <code>RefCell&lt;T&gt;</code> 帶來的功能時，要與一般參考之間作出的取捨。</p>
 <h3 id="組合-rct-與-refcellt-來擁有多個可變資料的擁有者"><a class="header" href="#組合-rct-與-refcellt-來擁有多個可變資料的擁有者">組合 <code>Rc&lt;T&gt;</code> 與 <code>RefCell&lt;T&gt;</code> 來擁有多個可變資料的擁有者</a></h3>
 <p><code>RefCell&lt;T&gt;</code> 的常見使用方法是搭配 <code>Rc&lt;T&gt;</code>。回想一下 <code>Rc&lt;T&gt;</code> 讓你可以對數個擁有者共享相同資料，但是它只能用於不可變資料。如果你有一個 <code>Rc&lt;T&gt;</code> 並存有 <code>RefCell&lt;T&gt;</code> 的話，你就可以取得一個有數個擁有者<strong>而且</strong>可變的數值！</p>
 <p>舉例來說，回憶一下範例 15-18 cons list 的範例我們使用了 <code>Rc&lt;T&gt;</code> 來讓數個列表可以共享另一個列表的所有權。因為 <code>Rc&lt;T&gt;</code> 只能有不可變數值，我們一旦建立它們後就無法變更列表中的任何數值。讓我們加上 <code>RefCell&lt;T&gt;</code> 來獲得能改變列表數值的能力吧。範例 15-24 顯示了在 <code>Cons</code> 定義中使用 <code>RefCell&lt;T&gt;</code>，這樣一來我們就可以變更儲存在列表中的所有數值：</p>

@@ -181,7 +181,7 @@ fn area(width: u32, height: u32) -&gt; u32 {
 <span class="boring">    width * height
 </span><span class="boring">}
 </span></code></pre>
-<p><code>area</code> 函式應該要計算長方形的面積，但是我們寫的函式有兩個參數，但在我們得程式中參數的相關性卻沒有表達出來。要是能將寬度與長度組合起來的話，會更容易閱讀與管理。我們可以使用我們在第三章提到的<a href="ch03-02-data-types.html#%E5%85%83%E7%B5%84%E5%9E%8B%E5%88%A5">「元組型別」</a><!-- ignore -->。</p>
+<p><code>area</code> 函式有寬度與長度兩個參數，可用以計算長方形的面積。但在我們的程式中，其參數相關性卻沒有表達出來。要是能將寬度與長度組合起來的話，會更容易閱讀與管理。我們可以使用我們在第三章提到的<a href="ch03-02-data-types.html#%E5%85%83%E7%B5%84%E5%9E%8B%E5%88%A5">「元組型別」</a><!-- ignore -->。</p>
 <h3 id="使用元組重構"><a class="header" href="#使用元組重構">使用元組重構</a></h3>
 <p>範例 5-9 展示了我們的程式用元組的另一種寫法。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -228,7 +228,7 @@ fn area(rectangle: &amp;Rectangle) -&gt; u32 {
 <p><span class="caption">範例 5-10：定義 <code>Rectangle</code> 結構體</span></p>
 <p>我們在此定義了一個結構體叫做 <code>Rectangle</code>。在大括號內，我們定義了 <code>width</code> 與 <code>height</code> 的欄位，兩者型別皆為 <code>u32</code>。然後在 <code>main</code> 中，我們建立了一個寬度為 <code>30</code> 長度為 <code>50</code> 的 <code>Rectangle</code> 實例。</p>
 <p>現在我們的 <code>area</code> 函式使需要一個參數 <code>rectangle</code>，其型別為 <code>Rectangle</code> 結構體實例的不可變借用。如同第四章提到的，我們希望借用結構體而非取走其所有權。這樣一來，<code>main</code> 能保留它的所有權並讓 <code>rect1</code> 繼續使用，這也是為何我們要在要呼叫函式的簽名中使用 <code>&amp;</code>。</p>
-<p><code>area</code> 函式能夠存取 <code>Rectangle</code> 中的 <code>width</code> 與 <code>height</code> 欄位（存取借用結構體實例的欄位不會移動欄位數值，這就是為何你常看到結構體的借用）。我們的 <code>area</code> 函式簽名由可以表達出我們想要做的事情了：使用 <code>width</code> 與 <code>height</code> 欄位來計算 <code>Rectangle</code> 的面積。這能表達出寬度與長度之間的關係，並且給了它們容易讀懂的名稱，而不是像元組那樣用索引 <code>0</code> 和 <code>1</code>。這樣清楚多了。</p>
+<p><code>area</code> 函式能夠存取 <code>Rectangle</code> 中的 <code>width</code> 與 <code>height</code> 欄位（存取借用結構體實例的欄位不會移動欄位數值，這就是為何你常看到結構體的借用）。我們的 <code>area</code> 函式簽名可以表達出我們想要做的事情了：使用 <code>width</code> 與 <code>height</code> 欄位來計算 <code>Rectangle</code> 的面積。這能表達出寬度與長度之間的關係，並且給了它們容易讀懂的名稱，而不是像元組那樣用索引 <code>0</code> 和 <code>1</code>。這樣清楚多了。</p>
 <h3 id="使用推導特徵實現更多功能"><a class="header" href="#使用推導特徵實現更多功能">使用推導特徵實現更多功能</a></h3>
 <p>現在要是能夠在我們除錯程式時能夠印出 <code>Rectangle</code> 的實例並看到它所有的欄位數值就更好了。範例 5-11 嘗試使用我們之前章節提到的 <a href="https://doc.rust-lang.org/std/macro.println.html"><code>println!</code> 巨集</a><!-- ignore -->，但是卻無法執行。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -319,7 +319,7 @@ fn main() {
     dbg!(&amp;rect1);
 }
 </code></pre></pre>
-<p>我們在表達式 <code>30 * scale</code> 加上 <code>dbg!</code>，因爲 <code>dbg!</code> 會回傳表達式的數值所有權， <code>width</code> 將能取得和如果我們不加上 <code>dbg!</code> 時相同的數值。而我們不希望 <code>dbg!</code> 取走 <code>rect1</code> 的所有權，所以我們在下一個 <code>rect1</code> 的呼叫使用參考。以下是此範例得到的輸出結果：</p>
+<p>我們在表達式 <code>30 * scale</code> 加上 <code>dbg!</code>，因爲 <code>dbg!</code> 會回傳表達式的數值所有權， <code>width</code> 將能取得和不加上 <code>dbg!</code> 時相同的數值。而我們不希望 <code>dbg!</code> 取走 <code>rect1</code> 的所有權，所以我們在下一個 <code>rect1</code> 的呼叫使用參考。以下是此範例得到的輸出結果：</p>
 <pre><code class="language-console">$ cargo run
    Compiling rectangles v0.1.0 (file:///projects/rectangles)
     Finished dev [unoptimized + debuginfo] target(s) in 0.61s

@@ -184,7 +184,7 @@ fn main() {
 </span>}
 </code></pre></pre>
 <p><span class="caption">範例 10-4：兩個名稱與其簽名中的型別都不同的函式</span></p>
-<p><code>largest_i32</code> 函式和我們在範例 10-3 提取的函式一樣都是尋找切片中最大的 <code>i32</code>。而 <code>largest_char</code> 函式則尋找切片中最大的 <code>char</code>。函式本體都擁有相同的程式碼，讓我以讓我們來開始用泛型型別參數來消除重複的部分，轉變成只有一個函式吧。</p>
+<p><code>largest_i32</code> 函式和我們在範例 10-3 提取的函式一樣都是尋找切片中最大的 <code>i32</code>。而 <code>largest_char</code> 函式則尋找切片中最大的 <code>char</code>。函式本體都擁有相同的程式碼，讓我們來開始用泛型型別參數來消除重複的部分，轉變成只有一個函式吧。</p>
 <p>要在新定義的函式中參數化型別的話，我們需要為參數型別命名，就和我們在函式中的參數數值所做的一樣。你可以用任何標識符來命名型別參數名稱。但我們習慣上會用 <code>T</code>，因為 Rust 的型別參數名稱都盡量很短，常常只會有一個字母，而且 Rust 對於型別命名的慣用規則是駝峰式大小寫（CamelCase）。所以 <code>T</code> 作為「type」的簡稱是大多數 Rust 程式設計師的選擇。</p>
 <p>當我們在函式本體使用參數時，我們必須在簽名中宣告參數名稱，編譯器才能知道該名稱代表什麼。同樣地，當我們要在函式簽名中使用型別參數名稱，我們必須在使用前宣告該型別參數名稱。要定義泛型 <code>largest</code> 函式的話，我們在函式名稱與參數列表之間加上尖括號，其內就是型別名稱的宣告，如以下所示：</p>
 <pre><code class="language-rust ignore">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {

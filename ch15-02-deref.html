@@ -141,7 +141,7 @@
                     <main>
                         <h2 id="透過-deref-特徵將智慧指標視為一般參考"><a class="header" href="#透過-deref-特徵將智慧指標視為一般參考">透過 <code>Deref</code> 特徵將智慧指標視為一般參考</a></h2>
 <p>實作 <code>Deref</code> 特徵讓你可以自訂<strong>解參考運算子（dereference operator）</strong> <code>*</code> 的行為（這不是相乘或全域運算子）。透過這種方式實作 <code>Deref</code> 的智慧指標可以被視為正常參考來對待，這樣操作參考的程式碼也能用在智慧指標中。</p>
-<p>讓我們先看解參考運算子如何在正常參考中使用。然後我們會嘗試定義一個行為類似 <code>Box&lt;T&gt;</code> 的自定型別，並看看為何解參考運算子無法像參考那樣用在我們新定義的型別。我們將會探討如何實作 <code>Deref</code> 特徵使智慧指標能像類似參考的方式運作。接著我們會看看 Rust 的**強制解參考（deref coercion）**功能並瞭解它如何處理參考與智慧指標。</p>
+<p>讓我們先看解參考運算子如何在正常參考中使用。然後我們會嘗試定義一個行為類似 <code>Box&lt;T&gt;</code> 的自定型別，並看看為何解參考運算子無法像參考那樣用在我們新定義的型別。我們將會探討如何實作 <code>Deref</code> 特徵使智慧指標能像類似參考的方式運作。接著我們會看看 Rust 的<strong>強制解參考（deref coercion）</strong> 功能並瞭解它如何處理參考與智慧指標。</p>
 <blockquote>
 <p>注意：我們即將定義的 <code>MyBox&lt;T&gt;</code> 型別與真正的 <code>Box&lt;T&gt;</code> 有一項很大的差別，就是我們的版本不會將其資料儲存在堆積上。我們在此例會專注在 <code>Deref</code> 上，所以資料實際上儲存在何處，並沒有比指標相關行為來得重要。</p>
 </blockquote>
@@ -285,7 +285,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p><code>deref</code> 方法會回傳一個數值參考，以及括號外要再加上普通解參考的原因，都是因為所有權系統。如果 <code>deref</code> 方法直接回傳數值而非參考數值的話，該數值就會移出 <code>self</code>。我們不希望在此例或是大多數使用解參考運算子的場合下，取走 <code>MyBox&lt;T&gt;</code> 內部數值的所有權。</p>
 <p>注意到每次我們在程式碼中使用 <code>*</code> 時，<code>*</code> 運算子被替換成 <code>deref</code> 方法呼叫，然後再呼叫 <code>*</code> 剛好一次。因為 <code>*</code> 運算子不會被無限遞迴替換，我們能剛好取得型別 <code>i32</code> 並符合範例 15-9 <code>assert_eq!</code> 中與 <code>5</code> 的判定。</p>
 <h3 id="函式與方法的隱式強制解參考"><a class="header" href="#函式與方法的隱式強制解參考">函式與方法的隱式強制解參考</a></h3>
-<p>**強制解參考（Deref coercion）**會將有實作 <code>Deref</code> 特徵的型別參考轉換成其他型別的參考。舉例來說，強制解參考可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>&amp;str</code>。強制解參考是一個 Rust 針對函式或方法的引數的便利設計，且只會用在有實作 <code>Deref</code> 特徵的型別。當我們將某個特定型別數值的參考作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解參考就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
+<p><strong>強制解參考（Deref coercion）</strong> 會將有實作 <code>Deref</code> 特徵的型別參考轉換成其他型別的參考。舉例來說，強制解參考可以轉換 <code>&amp;String</code> 成 <code>&amp;str</code>，因為 <code>String</code> 有實作 <code>Deref</code> 特徵並能用它來回傳 <code>&amp;str</code>。強制解參考是一個 Rust 針對函式或方法的引數的便利設計，且只會用在有實作 <code>Deref</code> 特徵的型別。當我們將某個特定型別數值的參考作為引數傳入一個函式或方法，但該函式或方法所定義的參數卻不相符時，強制解參考就會自動發生，並進行一系列的 <code>deref</code> 方法呼叫，將我們提供的型別轉換成參數所需的型別。</p>
 <p>Rust 會加入強制解參考的原因是因為程式設計師在寫函式與方法呼叫時，就不必加上許多顯式參考 <code>&amp;</code> 與解參考 <code>*</code>。強制解參考還讓我們可以寫出能同時用於參考或智慧指標的程式碼。</p>
 <p>為了展示強制解參考，讓我們使用範例 15-8 定義的 <code>MyBox&lt;T&gt;</code> 型別以及範例 15-10 所加上的 <code>Deref</code> 實作。範例 15-11 中定義的函式使用字串切片作為參數：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
