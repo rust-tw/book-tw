@@ -277,7 +277,7 @@ don't want to include it for rustdoc testing purposes. -->
 
 <span class="caption">範例 9-12：將 `main` 改成回傳 `Result<(), E>` 就能允許在 `Result` 數值上使用 `?` 運算子</span>
 
-`Box<dyn Error>` 型別使用了**特徵物件**（trait object）我們會在第十七章的[「允許不同型別數值的特徵物件」][trait-objects]<!-- ignore -->討論到。現在你可以將 `Box<dyn Error>` 視為它是「任何種類的錯誤」。在有 `Box<dyn Error>` 錯誤型別的 `main` 函式中的 `Result` 使用 `?` 是允許的，因為現在 `Err` 數值可以被提早回傳。盡管此 `main` 函式本的只會回傳錯誤型別 `std::io::Error`，但有了 `Box<dyn Error>` 的話，此簽名就能允許其他錯誤型別加入 `main` 本體中。
+`Box<dyn Error>` 型別使用了**特徵物件**（trait object）我們會在第十七章的[「允許不同型別數值的特徵物件」][trait-objects]<!-- ignore -->討論到。現在你可以將 `Box<dyn Error>` 視為它是「任何種類的錯誤」。在有 `Box<dyn Error>` 錯誤型別的 `main` 函式中的 `Result` 使用 `?` 是允許的，因為現在 `Err` 數值可以被提早回傳。盡管此 `main` 函式本來只會回傳錯誤型別 `std::io::Error`，但有了 `Box<dyn Error>` 的話，此簽名就能允許其他錯誤型別加入 `main` 本體中。
 
 當 `main` 函式回傳 `Result<(), E>` 時，如果 `main` 回傳 `Ok(())` 的話，執行檔就會用 `0` 退出；如果 `main` 回傳 `Err` 數值的話，就會用非零數值退出。用 C 語言寫的執行檔在退出時會回傳整數：程式成功退出的話會回傳整數 `0`，而程式退出錯誤的話則會回傳不是 `0` 的其他整數。而 Rust 執行檔也遵循相容這項規則。
 
