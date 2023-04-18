@@ -6048,10 +6048,10 @@ fn main() {
     largest
 }
 
-fn largest_char(list: &amp;[char]) -&gt; char {
-    let mut largest = list[0];
+fn largest_char(list: &amp;[char]) -&gt; &amp;char {
+    let mut largest = &amp;list[0];
 
-    for &amp;item in list {
+    for item in list {
         if item &gt; largest {
             largest = item;
         }
