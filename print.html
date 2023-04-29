@@ -2672,7 +2672,7 @@ for it to be borrowed from
 <p>我們先來想看看不使用切片的話，以下函式的簽名會長怎樣。這有助於我們理解切片想解決什麼問題：</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; ?
 </code></pre>
-<p>此函式 <code>first_word</code> 有一個參數 <code>&amp;String</code>。我們不需要取得所有權，所以這是合理的。但我們該回傳啥呢？我們目前還沒有方法能夠描述一個字串的<strong>其中一部分</strong>。不過我們可以回傳該單字的最後一個索引，也就是和空格作比較。讓我們像範例 4-7 這樣試試看。</p>
+<p>此函式 <code>first_word</code> 有一個參數 <code>&amp;String</code>。我們不需要取得所有權，所以這是合理的。但我們該回傳啥呢？我們目前還沒有方法能夠描述一個字串的<strong>其中一部分</strong>。不過我們可以回傳單字的最後一個索引，也就是和空格作比較。讓我們像範例 4-7 這樣試試看。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;String) -&gt; usize {
     let bytes = s.as_bytes();
