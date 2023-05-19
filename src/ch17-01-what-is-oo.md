@@ -4,7 +4,7 @@
 
 ### 物件包含資料與行為
 
-由 Erich Gamma、Richard Helm、Ralph Johnson 與 John Vlissides（Addison-Wesley Professional, 1994) 所寫的書 *Design Patterns: Elements of Reusable Object-Oriented Software* 俗稱為 *The Gang of Four*，這是本物件導向設計模式的目錄。它是這樣定義 OOP 的：
+由 Erich Gamma、Richard Helm、Ralph Johnson 與 John Vlissides（Addison-Wesley Professional，1994）所寫的書 *Design Patterns: Elements of Reusable Object-Oriented Software* 俗稱為 *The Gang of Four*，這是本物件導向設計模式的目錄。它是這樣定義 OOP 的：
 
 > 物件導向程式由物件所組成。**物件**會包裝資料以及運作在資料上的行為。此行為常稱為**方法（methods）**或**操作（operations）**。
 
