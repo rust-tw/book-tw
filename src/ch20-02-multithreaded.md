@@ -235,7 +235,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 #### 透過通道傳遞請求給執行緒
 
-接下來我們要來處理的問題是 `thread::spawn` 中的閉包不會做任何事情。目前我們透過 `execute` 取得我們想執行的閉包。但是我們當在 `ThreadPool` 的生成中建立每個 `Worker` 時，我會需要給 `thread::spawn` 一個閉包來執行。
+接下來我們要來處理的問題是 `thread::spawn` 中的閉包不會做任何事情。目前我們透過 `execute` 取得我們想執行的閉包。但是我們當在 `ThreadPool` 的產生中建立每個 `Worker` 時，我會需要給 `thread::spawn` 一個閉包來執行。
 
 我們想要我們建立的 `Worker` 結構體能夠從 `ThreadPool` 中的佇列提取程式碼來執行，並將該程式碼傳至自身的執行緒來執行。
 
