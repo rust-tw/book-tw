@@ -215,7 +215,7 @@ copy output below
 </code></pre>
 <p>現在我們可以讓我們 <code>adder</code> 套件的執行檔依賴擁有函式庫的 <code>add_one</code> 套件。首先，我們需要將 <code>add_one</code> 的路徑依賴加到 <em>adder/Cargo.toml</em>。</p>
 <p><span class="filename">檔案名稱：adder/Cargo.toml</span></p>
-<pre><code class="language-toml">
+<pre><code class="language-toml">[dependencies]
 add_one = { path = &quot;../add_one&quot; }
 </code></pre>
 <p>Cargo 不會假設工作空間下的 crate 會彼此依賴，我們我們要指定彼此之間依賴的關係。</p>

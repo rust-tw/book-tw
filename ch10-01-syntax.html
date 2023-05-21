@@ -393,7 +393,7 @@ fn main() {
 <p>此例是是為了展示一些泛型參數是透過 <code>impl</code> 宣告而有些則是透過方法定義來取得。泛型參數 <code>X1</code> 和 <code>Y1</code> 是宣告在 <code>impl</code> 之後，因為它們與結構體定義有關聯。泛型參數 <code>X2</code> 和 <code>Y2</code> 則是宣告在 <code>fn mixup</code> 之後，因為它們只與方法定義有關聯。</p>
 <h3 id="使用泛型的程式碼效能"><a class="header" href="#使用泛型的程式碼效能">使用泛型的程式碼效能</a></h3>
 <p>你可能會好奇當你使用泛型型別參數會不會有執行時的消耗。好消息是使用泛型型別不會比使用實際型別還來的慢。</p>
-<p>Rust 在編譯時對使用泛型的程式碼進行單態化（monomorphization）。<strong>單態化</strong>是個讓泛型程式碼轉換成特定程式碼的過程，在編譯時填入實際的型別。在此過程中，編譯器會做與我們在範例 10-5 建立泛型函式相反的事：編譯器檢查所有泛型程式碼被呼叫的地方，並依據泛型程式碼被呼叫的情況產生實際型別的程式碼。</p>
+<p>Rust 在編譯時對使用泛型的程式碼進行單型化（monomorphization）。<strong>單型化</strong>是個讓泛型程式碼轉換成特定程式碼的過程，在編譯時填入實際的型別。在此過程中，編譯器會做與我們在範例 10-5 建立泛型函式相反的事：編譯器檢查所有泛型程式碼被呼叫的地方，並依據泛型程式碼被呼叫的情況產生實際型別的程式碼。</p>
 <p>讓我們看看這在標準函式庫的泛型枚舉 <code>Option&lt;T&gt;</code> 中是怎麼做到的：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -401,8 +401,8 @@ fn main() {
 let float = Some(5.0);
 <span class="boring">}
 </span></code></pre></pre>
-<p>當 Rust 編譯此程式碼時中，他會進行單態化。在此過程中，會讀取 <code>Option&lt;T&gt;</code> 實例中使用的數值並識別出兩種 <code>Option&lt;T&gt;</code>：一種是 <code>i32</code> 而另一種是 <code>f64</code>。接著它就會將 <code>Option&lt;T&gt;</code> 的泛型定義展開為兩種定義 <code>i32</code> 與 <code>f64</code>，以此替換函式定義為特定型別。</p>
-<p>單態化的版本看起來會像這樣（編譯器實際使用的名稱會和我們這邊示範的不同）：</p>
+<p>當 Rust 編譯此程式碼時中，他會進行單型化。在此過程中，會讀取 <code>Option&lt;T&gt;</code> 實例中使用的數值並識別出兩種 <code>Option&lt;T&gt;</code>：一種是 <code>i32</code> 而另一種是 <code>f64</code>。接著它就會將 <code>Option&lt;T&gt;</code> 的泛型定義展開為兩種定義 <code>i32</code> 與 <code>f64</code>，以此替換函式定義為特定型別。</p>
+<p>單型化的版本看起來會像這樣（編譯器實際使用的名稱會和我們這邊示範的不同）：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum Option_i32 {
     Some(i32),
@@ -419,7 +419,7 @@ fn main() {
     let float = Option_f64::Some(5.0);
 }
 </code></pre></pre>
-<p>泛型 <code>Option&lt;T&gt;</code> 會被替換成編譯器定義的特定定義。因為 Rust 會編譯泛型程式碼成個別實例的特定型別，我們使用泛型就不會造成任何執行時消耗。當程式執行時，它就會和我們親自寫重複定義的版本一樣。單態化的過程讓 Rust 的泛型在執行時十分有效率。</p>
+<p>泛型 <code>Option&lt;T&gt;</code> 會被替換成編譯器定義的特定定義。因為 Rust 會編譯泛型程式碼成個別實例的特定型別，我們使用泛型就不會造成任何執行時消耗。當程式執行時，它就會和我們親自寫重複定義的版本一樣。單型化的過程讓 Rust 的泛型在執行時十分有效率。</p>
 
                     </main>
 

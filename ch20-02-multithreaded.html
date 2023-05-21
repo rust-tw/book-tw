@@ -584,7 +584,7 @@ impl Worker {
 </blockquote>
 <p>此程式碼會編譯通過並透過 <code>ThreadPool::new</code> 的指定引數儲存一定數量的 <code>Worker</code> 實例。但我們<strong>仍然</strong>沒有處理 <code>execute</code>中取得的閉包。讓我們看看接下來怎麼做。</p>
 <h4 id="透過通道傳遞請求給執行緒"><a class="header" href="#透過通道傳遞請求給執行緒">透過通道傳遞請求給執行緒</a></h4>
-<p>接下來我們要來處理的問題是 <code>thread::spawn</code> 中的閉包不會做任何事情。目前我們透過 <code>execute</code> 取得我們想執行的閉包。但是我們當在 <code>ThreadPool</code> 的生成中建立每個 <code>Worker</code> 時，我會需要給 <code>thread::spawn</code> 一個閉包來執行。</p>
+<p>接下來我們要來處理的問題是 <code>thread::spawn</code> 中的閉包不會做任何事情。目前我們透過 <code>execute</code> 取得我們想執行的閉包。但是我們當在 <code>ThreadPool</code> 的產生中建立每個 <code>Worker</code> 時，我會需要給 <code>thread::spawn</code> 一個閉包來執行。</p>
 <p>我們想要我們建立的 <code>Worker</code> 結構體能夠從 <code>ThreadPool</code> 中的佇列提取程式碼來執行，並將該程式碼傳至自身的執行緒來執行。</p>
 <p>我們在第十六章中學過的<strong>通道</strong>（channels）是個能在兩個執行緒間溝通的好辦法，這對我們的專案來說可說是絕佳解法。我們會用通道來作為任務佇列，然後 <code>execute</code> 來傳送從 <code>ThreadPool</code> 一份任務至 <code>Worker</code> 實例，其就會傳遞該任務給自身的執行緒。以下是我們的計劃：</p>
 <ol>

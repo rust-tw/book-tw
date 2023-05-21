@@ -376,7 +376,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <p>讀取檔案至字串中算是個常見動作，所以標準函式庫提供了一個方便的函式 <code>fs::read_to_string</code> 來開啟檔案、建立新的 <code>String</code>、讀取檔案內容、將內容放入該 <code>String</code> 並回傳它。不過使用 <code>fs::read_to_string</code> 就沒有機會讓我們來解釋所有的錯誤處理，所以我們一開始才用比較長的寫法。</p>
 <h4 id="-運算子可以用哪裡"><a class="header" href="#-運算子可以用哪裡"><code>?</code> 運算子可以用哪裡？</a></h4>
 <p><code>?</code> 運算子只能用在有函式的回傳值相容於 <code>?</code> 使用的值才行。這是因為 <code>?</code> 運算子會在函式中提早回傳數值，就像我們在範例 9-6 那樣用 <code>match</code> 表達式提早回傳一樣。在範例 9-6 中，<code>match</code> 使用的是 <code>Result</code> 數值，函式的回傳值必須是 <code>Result</code> 才能相容於此 <code>return</code>。</p>
-<p>讓我們看看在範例 9-10 的 <code>main</code> 函式中的回傳值要是不兼容於我們用在 <code>?</code> 的型別，如果我們使用 <code>?</code> 運算子會發生什麼事：</p>
+<p>讓我們看看在範例 9-10 的 <code>main</code> 函式中的回傳值要是不相容於我們用在 <code>?</code> 的型別，如果我們使用 <code>?</code> 運算子會發生什麼事：</p>
 <pre><code class="language-rust ignore does_not_compile">use std::fs::File;
 
 fn main() {
@@ -385,7 +385,7 @@ fn main() {
 </code></pre>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <p><span class="caption">範例 9-10：嘗試在回傳 <code>()</code> 的 <code>main</code> 函式中使用 <code>?</code> 會無法編譯</span></p>
-<p>此程式法會開啟檔案，所以可能會失敗。<code>?</code> 運算子會拿到 <code>File::open</code> 回傳的 <code>Result</code> 數值，但是此 <code>main</code> 函式的回傳值為<code>()</code> 而非 <code>Result</code>。當我們編譯此程式碼時，我們會得到以下錯誤訊息：</p>
+<p>此程式碼會開啟檔案，所以可能會失敗。<code>?</code> 運算子會拿到 <code>File::open</code> 回傳的 <code>Result</code> 數值，但是此 <code>main</code> 函式的回傳值為<code>()</code> 而非 <code>Result</code>。當我們編譯此程式碼時，我們會得到以下錯誤訊息：</p>
 <pre><code class="language-console">$ cargo run
    Compiling error-handling v0.1.0 (file:///projects/error-handling)
 error[E0277]: the `?` operator can only be used in a function that returns `Result` or `Option` (or another type that implements `FromResidual`)
@@ -402,7 +402,7 @@ For more information about this error, try `rustc --explain E0277`.
 error: could not compile `error-handling` due to previous error
 </code></pre>
 <p>此錯誤告訴我們只能在回傳型別為 <code>Result</code> 或 <code>Option</code> 或其他有實作 <code>FromResidual</code> 的型別的函式才能使用 <code>?</code> 運算子。</p>
-<p>要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成與 <code>?</code> 運算子兼容的型別。另一種則是依照可能的情境使用 <code>match</code> 或 <code>Result&lt;T, E&gt;</code> 其中一種方法來處理 <code>Result&lt;T, E&gt;</code>。</p>
+<p>要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成與 <code>?</code> 運算子相容的型別。另一種則是依照可能的情境使用 <code>match</code> 或 <code>Result&lt;T, E&gt;</code> 其中一種方法來處理 <code>Result&lt;T, E&gt;</code>。</p>
 <p>錯誤訊息還提到了 <code>?</code> 也能用在 <code>Option&lt;T&gt;</code> 的數值。就像 <code>?</code> 能用在 <code>Result</code>一樣，你只能在有回傳 <code>Option</code> 的函式中，對 <code>Option</code> 的值使用 <code>?</code>。在 <code>Option&lt;T&gt;</code> 呼叫 <code>?</code> 的行為與在 <code>Result&lt;T, E&gt;</code> 上呼叫類似：如果數值為 <code>None</code>，<code>None</code> 就會在函式該處被提早回傳；如果數值為 <code>Some</code>，<code>Some</code> 中的值就會是表達式的結果數值，且程式會繼續執行下去。以下範例 9-11 的函式會尋找給予文字的第一行中最後一個字元：</p>
 <pre><pre class="playground"><code class="language-rust">fn last_char_of_first_line(text: &amp;str) -&gt; Option&lt;char&gt; {
     text.lines().next()?.chars().last()

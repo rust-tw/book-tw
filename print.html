@@ -5762,7 +5762,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <p>讀取檔案至字串中算是個常見動作，所以標準函式庫提供了一個方便的函式 <code>fs::read_to_string</code> 來開啟檔案、建立新的 <code>String</code>、讀取檔案內容、將內容放入該 <code>String</code> 並回傳它。不過使用 <code>fs::read_to_string</code> 就沒有機會讓我們來解釋所有的錯誤處理，所以我們一開始才用比較長的寫法。</p>
 <h4 id="-運算子可以用哪裡"><a class="header" href="#-運算子可以用哪裡"><code>?</code> 運算子可以用哪裡？</a></h4>
 <p><code>?</code> 運算子只能用在有函式的回傳值相容於 <code>?</code> 使用的值才行。這是因為 <code>?</code> 運算子會在函式中提早回傳數值，就像我們在範例 9-6 那樣用 <code>match</code> 表達式提早回傳一樣。在範例 9-6 中，<code>match</code> 使用的是 <code>Result</code> 數值，函式的回傳值必須是 <code>Result</code> 才能相容於此 <code>return</code>。</p>
-<p>讓我們看看在範例 9-10 的 <code>main</code> 函式中的回傳值要是不兼容於我們用在 <code>?</code> 的型別，如果我們使用 <code>?</code> 運算子會發生什麼事：</p>
+<p>讓我們看看在範例 9-10 的 <code>main</code> 函式中的回傳值要是不相容於我們用在 <code>?</code> 的型別，如果我們使用 <code>?</code> 運算子會發生什麼事：</p>
 <pre><code class="language-rust ignore does_not_compile">use std::fs::File;
 
 fn main() {
@@ -5771,7 +5771,7 @@ fn main() {
 </code></pre>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <p><span class="caption">範例 9-10：嘗試在回傳 <code>()</code> 的 <code>main</code> 函式中使用 <code>?</code> 會無法編譯</span></p>
-<p>此程式法會開啟檔案，所以可能會失敗。<code>?</code> 運算子會拿到 <code>File::open</code> 回傳的 <code>Result</code> 數值，但是此 <code>main</code> 函式的回傳值為<code>()</code> 而非 <code>Result</code>。當我們編譯此程式碼時，我們會得到以下錯誤訊息：</p>
+<p>此程式碼會開啟檔案，所以可能會失敗。<code>?</code> 運算子會拿到 <code>File::open</code> 回傳的 <code>Result</code> 數值，但是此 <code>main</code> 函式的回傳值為<code>()</code> 而非 <code>Result</code>。當我們編譯此程式碼時，我們會得到以下錯誤訊息：</p>
 <pre><code class="language-console">$ cargo run
    Compiling error-handling v0.1.0 (file:///projects/error-handling)
 error[E0277]: the `?` operator can only be used in a function that returns `Result` or `Option` (or another type that implements `FromResidual`)
@@ -5788,7 +5788,7 @@ For more information about this error, try `rustc --explain E0277`.
 error: could not compile `error-handling` due to previous error
 </code></pre>
 <p>此錯誤告訴我們只能在回傳型別為 <code>Result</code> 或 <code>Option</code> 或其他有實作 <code>FromResidual</code> 的型別的函式才能使用 <code>?</code> 運算子。</p>
-<p>要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成與 <code>?</code> 運算子兼容的型別。另一種則是依照可能的情境使用 <code>match</code> 或 <code>Result&lt;T, E&gt;</code> 其中一種方法來處理 <code>Result&lt;T, E&gt;</code>。</p>
+<p>要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成與 <code>?</code> 運算子相容的型別。另一種則是依照可能的情境使用 <code>match</code> 或 <code>Result&lt;T, E&gt;</code> 其中一種方法來處理 <code>Result&lt;T, E&gt;</code>。</p>
 <p>錯誤訊息還提到了 <code>?</code> 也能用在 <code>Option&lt;T&gt;</code> 的數值。就像 <code>?</code> 能用在 <code>Result</code>一樣，你只能在有回傳 <code>Option</code> 的函式中，對 <code>Option</code> 的值使用 <code>?</code>。在 <code>Option&lt;T&gt;</code> 呼叫 <code>?</code> 的行為與在 <code>Result&lt;T, E&gt;</code> 上呼叫類似：如果數值為 <code>None</code>，<code>None</code> 就會在函式該處被提早回傳；如果數值為 <code>Some</code>，<code>Some</code> 中的值就會是表達式的結果數值，且程式會繼續執行下去。以下範例 9-11 的函式會尋找給予文字的第一行中最後一個字元：</p>
 <pre><pre class="playground"><code class="language-rust">fn last_char_of_first_line(text: &amp;str) -&gt; Option&lt;char&gt; {
     text.lines().next()?.chars().last()
@@ -6284,7 +6284,7 @@ fn main() {
 <p>此例是是為了展示一些泛型參數是透過 <code>impl</code> 宣告而有些則是透過方法定義來取得。泛型參數 <code>X1</code> 和 <code>Y1</code> 是宣告在 <code>impl</code> 之後，因為它們與結構體定義有關聯。泛型參數 <code>X2</code> 和 <code>Y2</code> 則是宣告在 <code>fn mixup</code> 之後，因為它們只與方法定義有關聯。</p>
 <h3 id="使用泛型的程式碼效能"><a class="header" href="#使用泛型的程式碼效能">使用泛型的程式碼效能</a></h3>
 <p>你可能會好奇當你使用泛型型別參數會不會有執行時的消耗。好消息是使用泛型型別不會比使用實際型別還來的慢。</p>
-<p>Rust 在編譯時對使用泛型的程式碼進行單態化（monomorphization）。<strong>單態化</strong>是個讓泛型程式碼轉換成特定程式碼的過程，在編譯時填入實際的型別。在此過程中，編譯器會做與我們在範例 10-5 建立泛型函式相反的事：編譯器檢查所有泛型程式碼被呼叫的地方，並依據泛型程式碼被呼叫的情況產生實際型別的程式碼。</p>
+<p>Rust 在編譯時對使用泛型的程式碼進行單型化（monomorphization）。<strong>單型化</strong>是個讓泛型程式碼轉換成特定程式碼的過程，在編譯時填入實際的型別。在此過程中，編譯器會做與我們在範例 10-5 建立泛型函式相反的事：編譯器檢查所有泛型程式碼被呼叫的地方，並依據泛型程式碼被呼叫的情況產生實際型別的程式碼。</p>
 <p>讓我們看看這在標準函式庫的泛型枚舉 <code>Option&lt;T&gt;</code> 中是怎麼做到的：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6292,8 +6292,8 @@ fn main() {
 let float = Some(5.0);
 <span class="boring">}
 </span></code></pre></pre>
-<p>當 Rust 編譯此程式碼時中，他會進行單態化。在此過程中，會讀取 <code>Option&lt;T&gt;</code> 實例中使用的數值並識別出兩種 <code>Option&lt;T&gt;</code>：一種是 <code>i32</code> 而另一種是 <code>f64</code>。接著它就會將 <code>Option&lt;T&gt;</code> 的泛型定義展開為兩種定義 <code>i32</code> 與 <code>f64</code>，以此替換函式定義為特定型別。</p>
-<p>單態化的版本看起來會像這樣（編譯器實際使用的名稱會和我們這邊示範的不同）：</p>
+<p>當 Rust 編譯此程式碼時中，他會進行單型化。在此過程中，會讀取 <code>Option&lt;T&gt;</code> 實例中使用的數值並識別出兩種 <code>Option&lt;T&gt;</code>：一種是 <code>i32</code> 而另一種是 <code>f64</code>。接著它就會將 <code>Option&lt;T&gt;</code> 的泛型定義展開為兩種定義 <code>i32</code> 與 <code>f64</code>，以此替換函式定義為特定型別。</p>
+<p>單型化的版本看起來會像這樣（編譯器實際使用的名稱會和我們這邊示範的不同）：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">enum Option_i32 {
     Some(i32),
@@ -6310,7 +6310,7 @@ fn main() {
     let float = Option_f64::Some(5.0);
 }
 </code></pre></pre>
-<p>泛型 <code>Option&lt;T&gt;</code> 會被替換成編譯器定義的特定定義。因為 Rust 會編譯泛型程式碼成個別實例的特定型別，我們使用泛型就不會造成任何執行時消耗。當程式執行時，它就會和我們親自寫重複定義的版本一樣。單態化的過程讓 Rust 的泛型在執行時十分有效率。</p>
+<p>泛型 <code>Option&lt;T&gt;</code> 會被替換成編譯器定義的特定定義。因為 Rust 會編譯泛型程式碼成個別實例的特定型別，我們使用泛型就不會造成任何執行時消耗。當程式執行時，它就會和我們親自寫重複定義的版本一樣。單型化的過程讓 Rust 的泛型在執行時十分有效率。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="特徵定義共同行為"><a class="header" href="#特徵定義共同行為">特徵：定義共同行為</a></h2>
 <p><strong>特徵</strong>（trait）會定義特定型別與其他型別共享的功能。我們可以使用特徵定義來抽象出共同行為。我們可以使用<strong>特徵界限</strong>（trait bounds）來指定泛型型別為擁有特定行為的任意型別。</p>
 <blockquote>
@@ -11205,7 +11205,7 @@ mod tests {
 test bench_search_iter ... bench:  19,234,900 ns/iter (+/- 657,200)
 </code></pre>
 <p>疊代器版本竟然比較快一些！我們在此不會解釋評測的程式碼，因為這裡的重點不再於證明這兩種版本是一樣快的，而是要理解這兩種實作對效能的影響。</p>
-<p>要做更全面的評測的話，你應該要檢查使用不同大小的不同文字來作為 <code>contents</code>、不同單字與不同長度來作為 <code>query</code>，以及所有各式各樣的可能性。這邊的重點在於：疊代器雖然是高階抽象，但其編譯出來的程式碼與你親自寫出低階的程式碼幾乎相同。疊代器是 Rust 其中一種<strong>零成本抽象</strong>（zero-cost abstractions），這指的是使用的抽象不會在執行時有額外的開銷。這是 C++ 的初始設計暨實作者 Bjarne Stroustrup 在 “Foundations of C++” (2012) 書中所定義的<strong>零開銷</strong>（zero-overhead）的概念：</p>
+<p>要做更全面的評測的話，你應該要檢查使用不同大小的不同文字來作為 <code>contents</code>、不同單字與不同長度來作為 <code>query</code>，以及所有各式各樣的可能性。這邊的重點在於：疊代器雖然是高階抽象，但其編譯出來的程式碼與你親自寫出低階的程式碼幾乎相同。疊代器是 Rust 其中一種<strong>零成本抽象</strong>（zero-cost abstractions），這指的是使用的抽象不會在執行時有額外的開銷。這是 C++ 的初始設計暨實作者 Bjarne Stroustrup 在《Foundations of C++》（2012）書中所定義的<strong>零開銷</strong>（zero-overhead）的概念：</p>
 <blockquote>
 <p>大致上來說，C++ 的實作遵守著零開銷的原則：你沒有使用到的話，你就不必買單。而且你有使用到的話，你不可能再寫出更好的程式碼。</p>
 </blockquote>
@@ -11626,7 +11626,7 @@ copy output below
 </code></pre>
 <p>現在我們可以讓我們 <code>adder</code> 套件的執行檔依賴擁有函式庫的 <code>add_one</code> 套件。首先，我們需要將 <code>add_one</code> 的路徑依賴加到 <em>adder/Cargo.toml</em>。</p>
 <p><span class="filename">檔案名稱：adder/Cargo.toml</span></p>
-<pre><code class="language-toml">
+<pre><code class="language-toml">[dependencies]
 add_one = { path = &quot;../add_one&quot; }
 </code></pre>
 <p>Cargo 不會假設工作空間下的 crate 會彼此依賴，我們我們要指定彼此之間依賴的關係。</p>
@@ -13776,11 +13776,11 @@ changes in the compiler -->
 <p>Rust 標準函式庫提供訊息傳遞的通道與智慧指標，像是 <code>Mutex&lt;T&gt;</code> 與 <code>Arc&lt;T&gt;</code>，能夠在並行環境中安全使用。型別系統與借用檢查器中確保使用這些解決方案的程式碼不會發生資料競爭或是無效參考。一旦你讓你的程式碼能編譯通過後，你可以放心地認定它會開開心心地在多執行緒中執行，並且不會發生任何在其他語言中常見且難以追蹤的程式錯誤。並行程式設計就不再是個令人害怕的概念，無畏無懼地開發並行程式吧！</p>
 <p>接下來，我們要討論當你的 Rust 程式成長時，定義出問題並組織解決辦法的慣用方案。除此之外，我們也將討論 Rust 有哪些與物件導向程式設計（object-oriented programming）類似的概念。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust-的物件導向程式設計特色"><a class="header" href="#rust-的物件導向程式設計特色">Rust 的物件導向程式設計特色</a></h1>
-<p>物件導向程式設計（Object-oriented programming, OOP）是一種模組化程式的方式，物件這種程式設計的概念始於 1960 年的 Simula。這些物件影響了 Alan Kay 的程式設計架構中物件彼此之間訊息的傳遞。他在 1967 年提出了<strong>物件導向程式設計</strong>來描述此架構。對於 OOP 的定義有許多種描述，有些定義會將 Rust 歸類為屬於物件導向的，而有些則不會。在本章節中，我們會探討特定常視為是物件導向的特色並看看這些特色如何轉換成慣用的 Rust 程式碼。然後我們會向你展示如何在 Rust 中實作物件導向設計模式，並討論這麼做與利用 Rust 自身的優勢實現的版本有何取捨差別。</p>
+<p>物件導向程式設計（Object-oriented programming，OOP）是一種模組化程式的方式，物件這種程式設計的概念始於 1960 年的 Simula。這些物件影響了 Alan Kay 的程式設計架構中物件彼此之間訊息的傳遞。他在 1967 年提出了<strong>物件導向程式設計</strong>來描述此架構。對於 OOP 的定義有許多種描述，有些定義會將 Rust 歸類為屬於物件導向的，而有些則不會。在本章節中，我們會探討特定常視為是物件導向的特色並看看這些特色如何轉換成慣用的 Rust 程式碼。然後我們會向你展示如何在 Rust 中實作物件導向設計模式，並討論這麼做與利用 Rust 自身的優勢實現的版本有何取捨差別。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="物件導向語言的特色"><a class="header" href="#物件導向語言的特色">物件導向語言的特色</a></h2>
 <p>對於一個被視為物件導向的語言該有哪些功能，在程式設計語言社群中並沒有達成共識。Rust 受到許多程式設計理念影響，這當然包括 OOP。舉例來說，我們在第十三章探討了源自於函式語言的特性。同樣地，OOP 語言有一些特定常見特色，諸如物件、封裝（encapsulation）與繼承（inheritance）。讓我們看看這些特色分別是什麼意思以及 Rust 有沒有支援。</p>
 <h3 id="物件包含資料與行為"><a class="header" href="#物件包含資料與行為">物件包含資料與行為</a></h3>
-<p>由 Erich Gamma、Richard Helm、Ralph Johnson 與 John Vlissides（Addison-Wesley Professional, 1994) 所寫的書 <em>Design Patterns: Elements of Reusable Object-Oriented Software</em> 俗稱為 <em>The Gang of Four</em>，這是本物件導向設計模式的目錄。它是這樣定義 OOP 的：</p>
+<p>由 Erich Gamma、Richard Helm、Ralph Johnson 與 John Vlissides（Addison-Wesley Professional，1994）所寫的書《Design Patterns: Elements of Reusable Object-Oriented Software》俗稱為「The Gang of Four」，這是本物件導向設計模式的目錄。它是這樣定義 OOP 的：</p>
 <blockquote>
 <p>物件導向程式由物件所組成。<strong>物件</strong>會包裝資料以及運作在資料上的行為。此行為常稱為<strong>方法（methods）<strong>或</strong>操作（operations）</strong>。</p>
 </blockquote>
@@ -13850,7 +13850,7 @@ collection</span></p>
 <p>基於這些原因，Rust 採取了不同的方案，使用特徵物件（trait objects）而非繼承。讓我們看看 Rust 的特徵物件如何達成多型。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="允許不同型別數值的特徵物件"><a class="header" href="#允許不同型別數值的特徵物件">允許不同型別數值的特徵物件</a></h2>
 <p>在第八章中，我們提及向量其中一項限制是它儲存的元素只能有一種型別。我們在範例 8-9 提出一個替代方案，那就是我們定義 <code>SpreadsheetCell</code> 枚舉且其變體能存有整數、浮點數與文字。這讓我們可以對每個元素儲存不同的型別，且向量仍能代表元素的集合。當我們的可變換的項目有固定的型別集合，而且我們在編譯程式碼時就知道的話，這的確是完美的解決方案。</p>
-<p>然而，有時我們會希望函式庫的使用者能夠在特定的情形下擴展型別的集合。為了展示我們如何達成，我們來建立個圖形使用者介面（graphical user interface, GUI）工具範例來遍歷一個項目列表，呼叫其內每個項目的 <code>draw</code> 方法將其顯示在螢幕上，這是 GUI 工具常見的技巧。我們會建立個函式庫 crate 叫做 <code>gui</code>，這會包含 GUI 函式庫的結構體。此 crate 可能會包含一些人們會使用到的型別，像是 <code>Button</code> 或 <code>TextField</code>。除此之外，<code>gui</code> 使用者也能夠建立他們自己的型別來顯示出來。舉例來說，有些開發者可以加上 <code>Image</code> 而其他人可能會加上 <code>SelectBox</code>。</p>
+<p>然而，有時我們會希望函式庫的使用者能夠在特定的情形下擴展型別的集合。為了展示我們如何達成，我們來建立個圖形使用者介面（graphical user interface，GUI）工具範例來遍歷一個項目列表，呼叫其內每個項目的 <code>draw</code> 方法將其顯示在螢幕上，這是 GUI 工具常見的技巧。我們會建立個函式庫 crate 叫做 <code>gui</code>，這會包含 GUI 函式庫的結構體。此 crate 可能會包含一些人們會使用到的型別，像是 <code>Button</code> 或 <code>TextField</code>。除此之外，<code>gui</code> 使用者也能夠建立他們自己的型別來顯示出來。舉例來說，有些開發者可以加上 <code>Image</code> 而其他人可能會加上 <code>SelectBox</code>。</p>
 <p>我們在此例中不會實作出整個 GUI 函式庫，但會展示各個元件是怎麼組合起來的。在寫函式庫時，我們無法知道並定義開發者想建立出來的所有型別。但我們知道 <code>gui</code> 需要追蹤許多不同型別的數值，且它需要能夠對這些不同的型別數值呼叫 <code>draw</code> 方法。它不需要知道當我們呼叫 <code>draw</code> 方法時實際發生了什麼事，只需要知道該數值有我們可以呼叫的方法。</p>
 <p>在有繼承的語言中，我們可能會定義一個類型（class）叫做 <code>Component</code> 且其有個方法叫做 <code>draw</code>。其他的類型像是 <code>Button</code>、<code>Image</code> 和 <code>SelectBox</code> 等等，可以繼承 <code>Component</code> 以取得 <code>draw</code> 方法。它們可以覆寫 <code>draw</code> 方法來定義它們自己的自訂行為，但是整個框架能將所有型別視為像是 <code>Component</code> 實例來對待，並對它們呼叫 <code>draw</code>。但由於 Rust 並沒有繼承，我們需要其他方式來組織 <code>gui</code> 函式庫，好讓使用者可以透過新的型別來擴展它。</p>
 <h3 id="定義共同行為的特徵"><a class="header" href="#定義共同行為的特徵">定義共同行為的特徵</a></h3>
@@ -13915,7 +13915,7 @@ where
 }
 </code></pre>
 <p><span class="caption">範例 17-6：<code>Screen</code> 結構體的另種實作方式，它的方法 <code>run</code> 則使用泛型與特徵界限</span></p>
-<p>這樣我們會限制 <code>Screen</code> 實例必須擁有一串全是 <code>Button</code> 型別或全是 <code>TextField</code> 型別的列表。如果你只會有同型別的集合，使用泛型與特徵界限的確是比較合適的，因為其定義就會在編譯時單態化為使用實際型別。</p>
+<p>這樣我們會限制 <code>Screen</code> 實例必須擁有一串全是 <code>Button</code> 型別或全是 <code>TextField</code> 型別的列表。如果你只會有同型別的集合，使用泛型與特徵界限的確是比較合適的，因為其定義就會在編譯時單型化為使用實際型別。</p>
 <p>另一方面，透過使用特徵物件的方法，<code>Screen</code> 實例就能有個同時包含 <code>Box&lt;Button&gt;</code> 與 <code>Box&lt;TextField&gt;</code> 的 <code>Vec&lt;T&gt;</code>。讓我們看看這如何辦到的，然後我們會討論其對執行時效能的影響。</p>
 <h3 id="實作特徵"><a class="header" href="#實作特徵">實作特徵</a></h3>
 <p>現在我們來加上一些有實作 <code>Draw</code> 特徵的型別。我們會提供 <code>Button</code> 型別。再次重申 GUI 函式庫的實際實作超出了本書的範疇，所以 <code>draw</code> 的本體不會有任何有意義的實作。為了想像該實作會像是什麼，<code>Button</code> 型別可能會有欄位 <code>width</code>、<code>height</code> 與 <code>label</code>，如範例 17-7 所示：</p>
@@ -14044,21 +14044,21 @@ error: could not compile `gui` due to previous error
 </code></pre>
 <p>此錯誤讓我們知道要麼我們傳遞了不希望傳給 <code>Screen</code> 的型別所以應該要傳遞其他型別，要麼我們應該要對 <code>String</code> 實作 <code>Draw</code>，這樣 <code>Screen</code> 才能對其呼叫 <code>draw</code>。</p>
 <h3 id="特徵物件執行動態調度"><a class="header" href="#特徵物件執行動態調度">特徵物件執行動態調度</a></h3>
-<p>回想一下第十章的<a href="ch10-01-syntax.html#%E4%BD%BF%E7%94%A8%E6%B3%9B%E5%9E%8B%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%A2%BC%E6%95%88%E8%83%BD">「使用泛型的程式碼效能」</a><!-- ignore -->段落我們討論過，當我們對泛型使用閉包時，編譯器會執行單態化（monomorphization）的過程。編譯器會在我們對每個用泛型型別參數取代的實際型別產生非泛型的函式與方法實作。單態化產生程式碼的動作會稱為「靜態調度（static dispatch）」，這代表編譯器在編譯時知道我們呼叫的方法為何。與其相反的則是<strong>動態調度（dynamic dispatch）</strong>，這種方式時編譯器在編譯時無法知道你呼叫的方法為何。在動態調度的情況下，編譯器會生成在執行時能夠確定會呼叫何種方法的程式碼。</p>
+<p>回想一下第十章的<a href="ch10-01-syntax.html#%E4%BD%BF%E7%94%A8%E6%B3%9B%E5%9E%8B%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%A2%BC%E6%95%88%E8%83%BD">「使用泛型的程式碼效能」</a><!-- ignore -->段落我們討論過，當我們對泛型使用閉包時，編譯器會執行單型化（monomorphization）的過程。編譯器會在我們對每個用泛型型別參數取代的實際型別產生非泛型的函式與方法實作。單型化產生程式碼的動作會稱為「靜態調度（static dispatch）」，這代表編譯器在編譯時知道我們呼叫的方法為何。與其相反的則是<strong>動態調度（dynamic dispatch）</strong>，這種方式時編譯器在編譯時無法知道你呼叫的方法為何。在動態調度的情況下，編譯器會產生在執行時能夠確定會呼叫何種方法的程式碼。</p>
 <p>當我們使用特徵物件時，Rust 必須使用動態調度。編譯器無法知道使用特徵物件的程式碼會使用到的所有型別為何，所以它會不知道該呼叫哪個型別的哪個實作方法。取而代之的是，Rust 在執行時會使用特徵物件內部的指標來知道該呼叫哪個方法。這樣尋找的動作會產生靜態調度所沒有的執行時開銷。動態調度也讓編譯器無法選擇內聯（inline）方法的程式碼，這樣會因而阻止一些優化。不過我們的確對範例 17-5 的程式碼增加了額外的彈性，並能夠支援範例 17-9，所以這是個權衡取捨。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="實作物件導向設計模式"><a class="header" href="#實作物件導向設計模式">實作物件導向設計模式</a></h2>
-<p><strong>狀態模式</strong>（state pattern）是種物件導向設計模式。此模式的關鍵在於我們會定義一個數值擁有些內部狀態，以<strong>狀態物件</strong>（state objects）呈現，然後數值的行為會依據內部狀態而有所改變。我們將向用一個網誌文章結構體作為範例，讓它持有個狀態能在「草稿」、「審核」「發佈」間轉換，成為狀態物件。</p>
+<p><strong>狀態模式</strong>（state pattern）是種物件導向設計模式。此模式的關鍵在於我們會定義一個數值擁有些內部狀態，以<strong>狀態物件</strong>（state objects）呈現，然後數值的行為會依據內部狀態而有所改變。我們將向用一個部落格文章結構體作為範例，讓它持有個狀態能在「草稿」、「審核」、「發佈」間轉換，成為狀態物件。</p>
 <p>狀態物件會分享功能，當然在 Rust 中我們使用結構體與特徵，而不是使用物件與繼承。每個狀態物件負責本身的行為並監測何時要改變成其他狀態。持有狀態物件的數值不會知道狀態中不同的行為，或是何時要轉換狀態。</p>
 <p>使用狀態模式的優勢在於當程式的業務需求改變時，我們不需要改變持有狀態的數值或使用其數值的程式碼。我們只需要變更其中一個狀態物件的程式碼來改變其規則，或者新增更多狀態物件。</p>
-<p>我們先用比較傳統的物件導向方式實作狀態模式，然後我們會再來改成比較符合 Rust 的形式。讓我們來用狀態模式一步步實作網誌文章流程吧：</p>
-<p>網誌最終的功能會長得像這樣：</p>
+<p>我們先用比較傳統的物件導向方式實作狀態模式，然後我們會再來改成比較符合 Rust 的形式。讓我們來用狀態模式一步步實作部落格文章流程吧：</p>
+<p>部落格最終的功能會長得像這樣：</p>
 <ol>
-<li>網誌文章從空白草稿開始。</li>
+<li>部落格文章從空白草稿開始。</li>
 <li>當草稿完成時，請求審核文章。</li>
 <li>當文章通過時，它就會被發佈。</li>
-<li>只有發佈的網誌文章內容會顯示出來，所以沒被通過的文章不會被意外顯示出來。</li>
+<li>只有發佈的部落格文章內容會顯示出來，所以沒被通過的文章不會被意外顯示出來。</li>
 </ol>
-<p>其他任何對文章的修改不會有任何影響。舉例來說，如果我們嘗試在請求審核一個文章前，通過其他網誌文章草稿的話，該文章應維持未發佈的狀態。</p>
+<p>其他任何對文章的修改不會有任何影響。舉例來說，如果我們嘗試在請求審核一個文章前，通過其他部落格文章草稿的話，該文章應維持未發佈的狀態。</p>
 <p>此範例顯示了此工作流程的程式碼形式，這是個會用到我們等等會實作的函式庫 crate <code>blog</code> API 的範例。這目前還無法編譯，因為我們還沒有實作 <code>blog</code>。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use blog::Post;
@@ -14077,7 +14077,7 @@ fn main() {
 }
 </code></pre>
 <p><span class="caption">範例 17-11：展示我們所希望的 <code>blog</code> crate 預期行為的程式碼</span></p>
-<p>我們想要讓使用者能透過 <code>Post::new</code> 來建立新的網誌文章草稿，然後我們希望能對網誌文章加入文字。如果我們想在通過前立即取得文章內容的話，我們什麼都不會看到，因為該文章還只是個草稿。我們加入的 <code>assert_eq!</code> 在此只是作為解釋目的。更好地做法是寫個判定網誌文章草稿是否會從 <code>content</code> 方法回傳空字串的單元測試，不過我們在此例不會寫任何測試。</p>
+<p>我們想要讓使用者能透過 <code>Post::new</code> 來建立新的部落格文章草稿，然後我們希望能對部落格文章加入文字。如果我們想在通過前立即取得文章內容的話，我們什麼都不會看到，因為該文章還只是個草稿。我們加入的 <code>assert_eq!</code> 在此只是作為解釋目的。更好地做法是寫個判定部落格文章草稿是否會從 <code>content</code> 方法回傳空字串的單元測試，不過我們在此例不會寫任何測試。</p>
 <p>接著，我們想要請求文章審核，且我們希望在等待審核時 <code>content</code> 仍是回傳空字串。當文章通過時，它就會被發佈，代表當 <code>content</code> 呼叫時，文章中的文字就會回傳。</p>
 <p>注意到我們要使用此 crate 時只會接觸到到一個型別 <code>Post</code>。此型別會使用狀態模式，並持有個數值能包含三種狀態物件其中之一，來代表文章狀態可以是擬稿中、等待審核或已發佈。變更狀態由 <code>Post</code> 型別內部管理。狀態依據函式庫使用者對 <code>Post</code> 實例呼叫的方法而改變，但他們不用手動管理狀態的變更。而且使用者也不可能會在狀態中出錯，像是在審核前就發佈文章。</p>
 <h3 id="定義-post-並在草稿階段建立新實例"><a class="header" href="#定義-post-並在草稿階段建立新實例">定義 <code>Post</code> 並在草稿階段建立新實例</a></h3>
@@ -14108,7 +14108,7 @@ impl State for Draft {}
 <p><code>State</code> 定義了不同文章狀態共享的行為。<code>Draft</code>、<code>PendingReview</code> 與 <code>Published</code> 這些狀態物件都會實作 <code>State</code> 特徵。目前特徵還沒有任何方法，而且我們也只先定義 <code>Draft</code> 狀態，因為這是文章的初始狀態。</p>
 <p>當我們建立新的 <code>Post</code>，我們對其 <code>state</code> 欄位給予存有 <code>Box</code> 的 <code>Some</code> 數值。此 <code>Box</code> 會指向一個新的 <code>Draft</code> 結構體實例。這確保每當我們建立 <code>Post</code> 的新實例時，它會從草稿起始。因為 <code>Post</code> 的 <code>state</code> 欄位是私有的，我們沒有任何方法可以建立處於其他狀態的 <code>Post</code>！在 <code>Post::new</code> 函式中，我們設置 <code>content</code> 欄位為一個新的空 <code>String</code>。</p>
 <h3 id="儲存文章內容的文字"><a class="header" href="#儲存文章內容的文字">儲存文章內容的文字</a></h3>
-<p>在範例 17-11 我們想要能夠呼叫一個叫做 <code>add_text</code> 的函式並傳入 <code>&amp;str</code> 來對網誌文章增加文字內容。我們實作此方法，而不是將 <code>content</code> 欄位透過 <code>pub</code> 公開出去，這樣我們之後就可以實作個方法來控制 <code>content</code> 欄位資料該怎麼讀取。<code>add_text</code> 方法非常直觀，所以讓我們在 <code>impl Post</code> 區塊中加上範例 17-13 的實作吧：</p>
+<p>在範例 17-11 我們想要能夠呼叫一個叫做 <code>add_text</code> 的函式並傳入 <code>&amp;str</code> 來對部落格文章增加文字內容。我們實作此方法，而不是將 <code>content</code> 欄位透過 <code>pub</code> 公開出去，這樣我們之後就可以實作個方法來控制 <code>content</code> 欄位資料該怎麼讀取。<code>add_text</code> 方法非常直觀，所以讓我們在 <code>impl Post</code> 區塊中加上範例 17-13 的實作吧：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust noplayground"><span class="boring">pub struct Post {
 </span><span class="boring">    state: Option&lt;Box&lt;dyn State&gt;&gt;,
@@ -14170,7 +14170,7 @@ impl State for Draft {}
 </span><span class="boring">impl State for Draft {}
 </span></code></pre>
 <p><span class="caption">範例 17-14：<code>Post</code> 暫時實作的 <code>content</code> 方法，這會永遠回傳一個空字串切片</span></p>
-<p>透過此 <code>content</code> 方法，範例 17-11 的程式碼到地七行都能如期執行。</p>
+<p>透過此 <code>content</code> 方法，範例 17-11 的程式碼到第七行都能如期執行。</p>
 <h3 id="請求文章審核來變更它的狀態"><a class="header" href="#請求文章審核來變更它的狀態">請求文章審核來變更它的狀態</a></h3>
 <p>接下來，我們需要增加請求文章審核的功能，這會將其狀態從 <code>Draft</code> 變更為 <code>PendingReview</code>。如範例 14-15 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -14490,7 +14490,7 @@ impl State for Published {
 <p><span class="caption">範例 17-18：在 <code>State</code> 特徵加上 <code>content</code> 方法</span></p>
 <p>我們對 <code>content</code> 方法加上預設實作來回傳一個空字串切片。這代表我們不需要在 <code>Draft</code> 與 <code>PendingReview</code> 結構體實作 <code>content</code>。<code>Published</code> 結構體會覆寫 <code>content</code> 方法並回傳 <code>post.content</code> 的數值。</p>
 <p>注意到我們在此方法需要生命週期詮釋，如我們在第十章所討論到的。我們取得 <code>post</code> 的參考作為引數並回傳 <code>post</code> 的部分參考，所以回傳參考的生命週期與 <code>post</code> 引數的生命週期有關聯。</p>
-<p>這樣就完成了！範例 17-11 可以成功執行！我們實作了網誌文章工作流程規則的狀態模式。規則邏輯會位於狀態物件中，而不會分散在 <code>Post</code> 中。</p>
+<p>這樣就完成了！範例 17-11 可以成功執行！我們實作了部落格文章工作流程規則的狀態模式。規則邏輯會位於狀態物件中，而不會分散在 <code>Post</code> 中。</p>
 <blockquote>
 <h4 id="為何不用枚舉"><a class="header" href="#為何不用枚舉">為何不用枚舉？</a></h4>
 <p>你可能會好奇為何我們不使用 <code>enum</code> 的變體來表達不同的文章狀態。這的確是個可能的解法，歡迎嘗試親自實作看看，然後比較出你傾向於何者！使用枚舉的缺點會是當你每次想要檢查枚舉數值時，就需要使用 <code>match</code> 表達式或類似的方式才能處理每種變體。這可能會比特徵物件的做法還麻煩。</p>
@@ -14558,7 +14558,7 @@ impl DraftPost {
 }
 </code></pre>
 <p><span class="caption">範例 17-19：<code>Post</code> 有 <code>content</code> 方法，而 <code>DraftPost</code> 則沒有 <code>content</code> 方法</span></p>
-<p><code>Post</code> 與 <code>DraftPost</code> 結構體都有個私有欄位 <code>content</code> 來儲存網誌文章文字。結構體不再有 <code>state</code> 欄位，因為我們將狀態的定義移到了結構體的型別中。<code>Post</code> 結構體就代表已發佈的文章，且其有個 <code>content</code> 方法來回傳 <code>content</code>。</p>
+<p><code>Post</code> 與 <code>DraftPost</code> 結構體都有個私有欄位 <code>content</code> 來儲存部落格文章文字。結構體不再有 <code>state</code> 欄位，因為我們將狀態的定義移到了結構體的型別中。<code>Post</code> 結構體就代表已發佈的文章，且其有個 <code>content</code> 方法來回傳 <code>content</code>。</p>
 <p>我們仍然有 <code>Post::new</code> 函式，但是它沒有回傳 <code>Post</code> 實例，而是回傳了 <code>DraftPost</code> 的實例。因為 <code>content</code> 是私有的，而且沒有任何函式回傳 <code>Post</code>，所以目前沒有任何辦法能建立 <code>Post</code> 的實例。</p>
 <p><code>DraftPost</code> 結構體有個 <code>add_text</code> 方法，所以我們可以像之前一樣為 <code>content</code> 新增文字，但注意到 <code>DraftPost</code> 沒有定義 <code>content</code> 方法！所以現在程式確保所有文章都已草稿為起始，而且文章草稿不會提供顯示其內容的方法。任何想嘗試繞過此約束的方式都會產生變意錯誤。</p>
 <h4 id="透過不同型別的轉移來實作狀態轉換"><a class="header" href="#透過不同型別的轉移來實作狀態轉換">透過不同型別的轉移來實作狀態轉換</a></h4>
@@ -14610,7 +14610,7 @@ impl PendingReviewPost {
 }
 </code></pre>
 <p><span class="caption">範例 17-20：呼叫 <code>DraftPost</code> 的 <code>request_review</code> 來建立 <code>PendingReviewPost</code>，且其有個 <code>approve</code> 方法能將 <code>PendingReviewPost</code> 轉換成已發佈的 <code>Post</code></span></p>
-<p><code>request_review</code> 與 <code>approve</code> 方法都會取得 <code>self</code> 的所有權，因此會消耗 <code>DraftPost</code> 與 <code>PendingReviewPost</code> 實例，並分別轉換成 <code>PendingReviewPost</code> 與已發佈的 <code>Post</code>。這樣在我們呼叫 <code>request_review</code> 時，就不會有殘留的 <code>DraftPost</code> 實例，以此類推。<code>PendingReviewPost</code> 結構體也沒有定義 <code>content</code> 方法，所以嘗試讀取其內容會導致編譯錯誤，就如同 <code>DraftPost</code>。由於唯一能取得有 <code>content</code> 方法定義的已發佈 <code>Post</code> 是透過呼叫 <code>PendingReviewPost</code> 的 <code>approve</code> 方法，而唯一能取得 <code>PendingReviewPost</code> 的方法是呼叫 <code>DraftPost</code> 的 <code>request_review</code> 方法，我們現在將網誌文章工作流程寫進了型別系統中。</p>
+<p><code>request_review</code> 與 <code>approve</code> 方法都會取得 <code>self</code> 的所有權，因此會消耗 <code>DraftPost</code> 與 <code>PendingReviewPost</code> 實例，並分別轉換成 <code>PendingReviewPost</code> 與已發佈的 <code>Post</code>。這樣在我們呼叫 <code>request_review</code> 時，就不會有殘留的 <code>DraftPost</code> 實例，以此類推。<code>PendingReviewPost</code> 結構體也沒有定義 <code>content</code> 方法，所以嘗試讀取其內容會導致編譯錯誤，就如同 <code>DraftPost</code>。由於唯一能取得有 <code>content</code> 方法定義的已發佈 <code>Post</code> 是透過呼叫 <code>PendingReviewPost</code> 的 <code>approve</code> 方法，而唯一能取得 <code>PendingReviewPost</code> 的方法是呼叫 <code>DraftPost</code> 的 <code>request_review</code> 方法，我們現在將部落格文章工作流程寫進了型別系統中。</p>
 <p>但我們也得對 <code>main</code> 做些小修改。<code>request_review</code> 與 <code>approve</code> 方法會回傳新的實例，而不是修改它們所呼叫的結構體，所以我們需要加些 <code>let post =</code> 來遮蔽賦值來儲存回傳的實例。我們也無法判定草稿與審核中的文章內容是否是空字串，不過我們其實也不需要它們，我們不再能編譯嘗試讀取這些狀態文章內容的程式碼了。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use blog::Post;
@@ -14627,7 +14627,7 @@ fn main() {
     assert_eq!(&quot;我今天午餐吃了沙拉&quot;, post.content());
 }
 </code></pre>
-<p><span class="caption">範例 17-21：修改 <code>main</code> 來使用新的網誌文章工作流程實作</span></p>
+<p><span class="caption">範例 17-21：修改 <code>main</code> 來使用新的部落格文章工作流程實作</span></p>
 <p>我們修改 <code>main</code> 來重新賦值 <code>post</code> 意味著此實作不再遵循物件導向狀態模式了，狀態的轉換不再完全封裝在 <code>Post</code> 實作內部。然而我們得到的好處是的是無效狀態是不可能發生的了，這都多虧了型別系統與編譯時型別檢查！這確保了特定程式錯誤會在進入生產環境前就被察覺，像是顯示尚未發佈的文章內容。</p>
 <p>你可以試試看在範例 17-20 之後，對 <code>blog</code> crate 實作稍早提及的額外需求任務建議，來看看你覺得此版本的程式碼設計如何。注意有些任務很可能在此設計就已經實作完成了。</p>
 <p>我們看到儘管 Rust 能夠實作物件導向設計模式、其他像是將狀態寫入型別系統中的模式在 Rust 中也是可行的。這些模式有不同的取捨。雖然你可能非常熟悉物件導向模式，但重新思考問題，並善用 Rust 的特色可以帶來不少優勢，像是在執行時就避免錯誤發生。物件導向模式在 Rust 中不會永遠是最好的解決方案，因為 Rust 有像是所有權這樣物件導向語言所沒有的特定功能。</p>
@@ -15230,7 +15230,7 @@ error: could not compile `patterns` due to previous error
 
     match num {
         Some(x) if x % 2 == 0 =&gt; println!(&quot;數字 {x} 是偶數&quot;),
-        Some(x) =&gt; println!(&quot;數字 {x} 是基數&quot;),
+        Some(x) =&gt; println!(&quot;數字 {x} 是奇數&quot;),
         None =&gt; (),
     }
 <span class="boring">}
@@ -15377,7 +15377,7 @@ error: could not compile `patterns` due to previous error
 <p><span class="caption">範例 19-3：在 <code>unsafe</code> 區塊對裸指標解參考</span></p>
 <p>建立一個指標沒有危險性，只有當我們嘗試存取它指向的值時，才可能需要處理非法的值。</p>
 <p>請注意，範例 19-1 與 19-3，我們建立了 <code>*const i32</code> 與 <code>*mut i32</code> 兩個裸指標，皆指向相同儲存 <code>num</code> 的記憶體位置。若我們走正常程序建立指向 <code>num</code>  的不可變與可變參考，程式碼將因為 Rust 所有權規則不允許同時存在一個可變參考與多個不可變參考，進而無法編譯。有了裸指標，即可建立指向同個位置的可變指標和不可變指標，並透過可變指標改變其資料，但可能帶來資料競爭（data races），請小心！</p>
-<p>既然有這些危險，為什麼你還要用裸指標呢？一個主要用例是與 C 程式碼介接，你將會在下一節<a href="ch19-01-unsafe-rust.html#%E5%91%BC%E5%8F%AB%E4%B8%8D%E5%AE%89%E5%85%A8%E5%87%BD%E5%BC%8F%E6%88%96%E6%96%B9%E6%B3%95">「呼叫不安全函式或方法」</a>讀到。另一個用例是在借用檢查器不理解之處建立一層安全抽象。我們將會介紹不安全函式，再探討一個使用到不安全程式碼的安全抽象範例。</p>
+<p>既然有這些危險，為什麼你還要用裸指標呢？一個主要使用案例是與 C 程式碼介接，你將會在下一節<a href="ch19-01-unsafe-rust.html#%E5%91%BC%E5%8F%AB%E4%B8%8D%E5%AE%89%E5%85%A8%E5%87%BD%E5%BC%8F%E6%88%96%E6%96%B9%E6%B3%95">「呼叫不安全函式或方法」</a>讀到。另一個用例是在借用檢查器不理解之處建立一層安全抽象。我們將會介紹不安全函式，再探討一個使用到不安全程式碼的安全抽象範例。</p>
 <h3 id="呼叫不安全函式或方法"><a class="header" href="#呼叫不安全函式或方法">呼叫不安全函式或方法</a></h3>
 <p>第二種需要不安全區塊的操作是呼叫不安全函式。不安全函式與方法外觀看起來與正常函式及方法並無二致，僅在整個函式定義前多了額外的 <code>unsafe</code> 。<code>unsafe</code> 關鍵字在此脈絡下是指此函式在呼叫時必須遵守某些要求，因為 Rust 無法保證我們能達成這項要求。當我們在一個 <code>unsafe</code> 區塊內呼叫一個 <code>unsafe</code> 函式，意味著我們已閱讀此函式的文件，而且有責任遵守此函式的使用條款。</p>
 <p>這裡有個不安全函式叫做 <code>dangerous</code>，函式本體內無任何東西：</p>
@@ -15420,14 +15420,14 @@ error: could not compile `unsafe-example` due to previous error
 </span></code></pre></pre>
 <p><span class="caption">範例 19-4：使用一個安全的 <code>split_at_mut</code> 函式</span></p>
 <p>我們不可能在 safe Rust 下實作這個函式。一個嘗試可能會像範例 19-5 無法編譯。為了簡化，我們將 <code>split_at_mut</code> 實作為一個函式而非方法，並且以 <code>i32</code> 取代泛型型別 <code>T</code>。</p>
-<pre><code class="language-rust ignore does_not_compile"><span class="boring">fn split_at_mut(values: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;mut [i32]) {
-</span><span class="boring">    let len = values.len();
-</span><span class="boring">
-</span><span class="boring">    assert!(mid &lt;= len);
-</span><span class="boring">
-</span><span class="boring">    (&amp;mut values[..mid], &amp;mut values[mid..])
-</span><span class="boring">}
-</span><span class="boring">
+<pre><code class="language-rust ignore does_not_compile">fn split_at_mut(values: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;mut [i32]) {
+    let len = values.len();
+
+    assert!(mid &lt;= len);
+
+    (&amp;mut values[..mid], &amp;mut values[mid..])
+}
+<span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    let mut vector = vec![1, 2, 3, 4, 5, 6];
 </span><span class="boring">    let (left, right) = split_at_mut(&amp;mut vector, 3);
@@ -17438,7 +17438,7 @@ impl Worker {
 </blockquote>
 <p>此程式碼會編譯通過並透過 <code>ThreadPool::new</code> 的指定引數儲存一定數量的 <code>Worker</code> 實例。但我們<strong>仍然</strong>沒有處理 <code>execute</code>中取得的閉包。讓我們看看接下來怎麼做。</p>
 <h4 id="透過通道傳遞請求給執行緒"><a class="header" href="#透過通道傳遞請求給執行緒">透過通道傳遞請求給執行緒</a></h4>
-<p>接下來我們要來處理的問題是 <code>thread::spawn</code> 中的閉包不會做任何事情。目前我們透過 <code>execute</code> 取得我們想執行的閉包。但是我們當在 <code>ThreadPool</code> 的生成中建立每個 <code>Worker</code> 時，我會需要給 <code>thread::spawn</code> 一個閉包來執行。</p>
+<p>接下來我們要來處理的問題是 <code>thread::spawn</code> 中的閉包不會做任何事情。目前我們透過 <code>execute</code> 取得我們想執行的閉包。但是我們當在 <code>ThreadPool</code> 的產生中建立每個 <code>Worker</code> 時，我會需要給 <code>thread::spawn</code> 一個閉包來執行。</p>
 <p>我們想要我們建立的 <code>Worker</code> 結構體能夠從 <code>ThreadPool</code> 中的佇列提取程式碼來執行，並將該程式碼傳至自身的執行緒來執行。</p>
 <p>我們在第十六章中學過的<strong>通道</strong>（channels）是個能在兩個執行緒間溝通的好辦法，這對我們的專案來說可說是絕佳解法。我們會用通道來作為任務佇列，然後 <code>execute</code> 來傳送從 <code>ThreadPool</code> 一份任務至 <code>Worker</code> 實例，其就會傳遞該任務給自身的執行緒。以下是我們的計劃：</p>
 <ol>
@@ -19261,7 +19261,7 @@ $ rustup override set nightly
 <tr><td>borrowing</td><td>借用</td><td></td></tr>
 <tr><td>borrow checker</td><td>借用檢查器</td><td></td></tr>
 <tr><td>bug</td><td>程式錯誤</td><td></td></tr>
-<tr><td>Builder Pattern</td><td>生成器模式</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%BC%8F">維基百科</a></td></tr>
+<tr><td>Builder Pattern</td><td>建造者模式</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%BC%8F">維基百科</a></td></tr>
 <tr><td>byte</td><td>位元組</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E5%AD%97%E8%8A%82">維基百科</a></td></tr>
 <tr><td>camel case</td><td>駝峰式大小寫</td><td>參考：<a href="https://zh.wikipedia.org/zh-tw/%E9%A7%9D%E5%B3%B0%E5%BC%8F%E5%A4%A7%E5%B0%8F%E5%AF%AB">維基百科</a></td></tr>
 <tr><td>clone</td><td>克隆</td><td></td></tr>
