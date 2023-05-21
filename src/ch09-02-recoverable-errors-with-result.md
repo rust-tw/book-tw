@@ -233,7 +233,7 @@ don't want to include it for rustdoc testing purposes. -->
 
 `?` 運算子只能用在有函式的回傳值相容於 `?` 使用的值才行。這是因為 `?` 運算子會在函式中提早回傳數值，就像我們在範例 9-6 那樣用 `match` 表達式提早回傳一樣。在範例 9-6 中，`match` 使用的是 `Result` 數值，函式的回傳值必須是 `Result` 才能相容於此 `return`。
 
-讓我們看看在範例 9-10 的 `main` 函式中的回傳值要是不兼容於我們用在 `?` 的型別，如果我們使用 `?` 運算子會發生什麼事：
+讓我們看看在範例 9-10 的 `main` 函式中的回傳值要是不相容於我們用在 `?` 的型別，如果我們使用 `?` 運算子會發生什麼事：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch09-error-handling/listing-09-10/src/main.rs}}
@@ -243,7 +243,7 @@ don't want to include it for rustdoc testing purposes. -->
 
 <span class="caption">範例 9-10：嘗試在回傳 `()` 的 `main` 函式中使用 `?` 會無法編譯</span>
 
-此程式法會開啟檔案，所以可能會失敗。`?` 運算子會拿到 `File::open` 回傳的 `Result` 數值，但是此 `main` 函式的回傳值為`()` 而非 `Result`。當我們編譯此程式碼時，我們會得到以下錯誤訊息：
+此程式碼會開啟檔案，所以可能會失敗。`?` 運算子會拿到 `File::open` 回傳的 `Result` 數值，但是此 `main` 函式的回傳值為`()` 而非 `Result`。當我們編譯此程式碼時，我們會得到以下錯誤訊息：
 
 ```console
 {{#include ../listings/ch09-error-handling/listing-09-10/output.txt}}
@@ -251,7 +251,7 @@ don't want to include it for rustdoc testing purposes. -->
 
 此錯誤告訴我們只能在回傳型別為 `Result` 或 `Option` 或其他有實作 `FromResidual` 的型別的函式才能使用 `?` 運算子。
 
-要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成與 `?` 運算子兼容的型別。另一種則是依照可能的情境使用 `match` 或 `Result<T, E>` 其中一種方法來處理 `Result<T, E>`。
+要修正此錯誤的話，你有兩種選擇。其中一種是如果你沒有任何限制的話，你可以將函式回傳值變更成與 `?` 運算子相容的型別。另一種則是依照可能的情境使用 `match` 或 `Result<T, E>` 其中一種方法來處理 `Result<T, E>`。
 
 錯誤訊息還提到了 `?` 也能用在 `Option<T>` 的數值。就像 `?` 能用在 `Result`一樣，你只能在有回傳 `Option` 的函式中，對 `Option` 的值使用 `?`。在 `Option<T>` 呼叫 `?` 的行為與在 `Result<T, E>` 上呼叫類似：如果數值為 `None`，`None` 就會在函式該處被提早回傳；如果數值為 `Some`，`Some` 中的值就會是表達式的結果數值，且程式會繼續執行下去。以下範例 9-11 的函式會尋找給予文字的第一行中最後一個字元：
 
