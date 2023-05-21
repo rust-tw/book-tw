@@ -21,7 +21,7 @@ bounds-check           | 邊界檢查                      | 參考：[維基百
 borrowing              | 借用                          |
 borrow checker         | 借用檢查器                    |
 bug                    | 程式錯誤                      |
-Builder Pattern        | 生成器模式                    | 參考：[維基百科][Builder Pattern]
+Builder Pattern        | 建造者模式                    | 參考：[維基百科][Builder Pattern]
 byte                   | 位元組                        | 參考：[維基百科][byte]
 camel case             | 駝峰式大小寫                  | 參考：[維基百科][camel case]
 clone                  | 克隆                          |
