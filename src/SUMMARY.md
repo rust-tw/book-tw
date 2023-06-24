@@ -29,8 +29,8 @@
     - [使用結構體的程式範例](ch05-02-example-structs.md)
     - [方法語法](ch05-03-method-syntax.md)
 
-- [枚舉與模式配對](ch06-00-enums.md)
-    - [定義枚舉](ch06-01-defining-an-enum.md)
+- [列舉與模式配對](ch06-00-enums.md)
+    - [定義列舉](ch06-01-defining-an-enum.md)
     - [`match` 控制流建構子](ch06-02-match.md)
     - [透過 `if let` 簡化控制流](ch06-03-if-let.md)
 

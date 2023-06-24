@@ -46,7 +46,7 @@ dereference            | 取值                          | 即 `*` 運算子
 dispatch               | 分派                          | 參考：[維基百科][multiple dispatch]
 diverging functions    | 發散函式                      | 不回傳值的函式
 edition                | 版號                          |
-enumerate              | 枚舉                          | 參考：[維基百科][enumerate]
+enumerate              | 列舉                          | 參考：[維基百科][enumerate]
 equality               | 等式                          |
 ergonomics             | 人因工程                      |  參考：[RFC 0198 PR][ergonomics]
 executable             | 執行檔                        |
