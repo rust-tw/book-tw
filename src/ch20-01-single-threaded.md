@@ -116,7 +116,7 @@ message-body
 
 請求行的下一個部分是 `/`，這代表客戶端請求的**統一資源標誌符（Uniform Resource Identifier，URI）**，URI 絕大多數（但不是絕對）就等於**統一資源定位符（Uniform Resource Locator，URL）**。URI 與 URL 的差別對於本章節的學習目的來說並不重要，但是 HTTP 規格使用的術語是 URI，所以我們這裡將 URL 替換為 URI。
 
-最後一個部分是客戶端使用的 HTTP 版本，然後請求行最後以 **CRLF 序列**做結尾，CRLF 指的是**回車（carriage return）與換行（line feed）**，這是打字機時代的術語！CRLF 序列也可以寫成 `\r\n`，`\r` 指的是回車，而 `\n` 指的是換行。CRLF 序列將請求行與剩餘的請求資料區隔開來。注意到當 CRLF 印出時，我們會看到的是新的一行而不是 `\r\n`。
+最後一個部分是客戶端使用的 HTTP 版本，然後請求行最後以 **CRLF 序列**做結尾，CRLF 指的是**輸入（carriage return）與換行（line feed）**，這是打字機時代的術語！CRLF 序列也可以寫成 `\r\n`，`\r` 指的是輸入，而 `\n` 指的是換行。CRLF 序列將請求行與剩餘的請求資料區隔開來。注意到當 CRLF 印出時，我們會看到的是新的一行而不是 `\r\n`。
 
 觀察我們目前從程式中取得的請求行資料，我們看到它使用 `GET` 方法，`/`  為請求 URI，然後版本為 `HTTP/1.1`。
 
