@@ -197,7 +197,7 @@ fn handle_connection(mut stream: TcpStream) {
 <p>我們有好幾種方式能避免緩慢請求造成的請求堆積。其中一種就是我們要實作的執行緒池（thread pool）。</p>
 <h3 id="透過執行緒池改善吞吐量"><a class="header" href="#透過執行緒池改善吞吐量">透過執行緒池改善吞吐量</a></h3>
 <p><strong>執行緒池</strong>（thread pool）會產生一群執行緒來等待並隨時準備好處理任務。當程式收到新任務時，它會將此任務分配給執行緒池其中一條執行緒，然後該執行緒就會處理該任務。池中剩餘的執行緒在第一條執行緒處理任務時，仍能隨時處理任何其他來臨的任務。當第一條執行緒處理完成時，他會回到閒置執行緒池之中，等待處理新的任務。執行緒池讓你能並行處理連線，增加伺服器的吞吐量。</p>
-<p>我們會限制執行緒池的數量為少量的數量就好，以避免我們造成阻斷服務（Denial of Service,  DOS）攻擊。如果我們的程式每次遇到新的請求時就產生新的執行緒，某個人就可以產生一千萬個請求至我們的伺服器，來破壞並用光我們伺服器的資源，並導致所有請求的處理都被擱置。</p>
+<p>我們會限制執行緒池的數量為少量的數量就好，以避免我們造成阻斷服務（Denial of Service，DOS）攻擊。如果我們的程式每次遇到新的請求時就產生新的執行緒，某個人就可以產生一千萬個請求至我們的伺服器，來破壞並用光我們伺服器的資源，並導致所有請求的處理都被擱置。</p>
 <p>所以與其產生無限制的執行緒，我們會有個固定數量的執行緒在池中等待。當有請求來臨時，它們會被送至池中處理。此池會維護一個接收請求的佇列（queue）。每個執行緒會從此佇列彈出一個請求、處理該請求然後再繼續向佇列索取下一個請求。有了此設計，我們就可以同時處理 <code>N</code> 個請求，其中 <code>N</code> 就是執行緒的數量。如果每個執行緒都負責到需要長時間處理的請求，隨後的請求還是會阻塞佇列，但是我們至少增加了能夠同時處理長時間請求的數量。</p>
 <p>此技巧只是其中一種改善網頁伺服器吞吐量的方式而已。其他你可能會探索到的選項還有 <strong>fork/join 模型</strong>、<strong>單執行緒非同步模型</strong>或<strong>多執行緒非同步模型</strong>。如果你對此議題有興趣，你可以閱讀其他解決方案，並嘗試實作到 Rust 中。像 Rust 這種低階語言，這些所有選項都是可能的。</p>
 <p>在我們開始實作執行緒池之前，讓我們討論一下使用該池會是什麼樣子。當你嘗試設計程式碼時，先寫出使用者的介面能協助引導你的設計。寫出程式碼的 API，使其能以你所期望的方式呼叫，然後在該結構內實作功能，而不是先實作功能再設計公開 API。</p>
@@ -517,7 +517,7 @@ impl ThreadPool {
 <h4 id="結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒"><a class="header" href="#結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒">結構體 <code>Worker</code> 負責從 <code>ThreadPool</code> 傳遞程式碼給一條執行緒</a></h4>
 <p>我們在範例 20-14 的 <code>for</code> 迴圈中留下一個關於建立執行緒的註解。我們在此將看看我們該如何實際建立執行緒。標準函式庫提供 <code>thread::spawn</code> 作為建立執行緒的方式，然後 <code>thread::spawn</code> 預期在執行緒建立時就會獲得一些程式碼讓執行緒能夠執行。但在我們的場合中，我們希望建立執行緒，並讓它們<strong>等待</strong>我們之後會傳送的程式碼。標準函式庫的執行緒實作並不包含這種方式，我們得自己實作。</p>
 <p>我們實作此行為的方法是在 <code>ThreadPool</code> 與執行緒間建立一個新的資料結構，這用來管理此新的行為。我們將此資料結構稱為 <code>Worker</code>，這在池實作中是很常見的術語。Worker 拿取要執行的程式碼然後在自己的執行緒跑這段程式碼。想像一下這是有一群人在餐廳廚房內工作：工作者（worker）會等待顧客的訂單，然後他們負責接受這些訂單並完成它們。</p>
-<p>所以與其在執行緒池中儲存 <code>JoinHandle&lt;()&gt;</code> 實例的向量，我們可以儲存 <code>Worker</code> 結構體的實例。每個 <code>Worker</code> 會儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例。然後對 <code>Worker</code> 實作一個方法來取得閉包要執行的程式碼，並傳入已經在執行的執行緒來處理。我們也會給每個 <code>Worker</code> 一個 <code>id</code>，好讓我們在紀錄日誌或除錯時，分辨池中不同的工作者。</p>
+<p>所以與其在執行緒池中儲存 <code>JoinHandle&lt;()&gt;</code> 實例的向量，我們可以儲存 <code>Worker</code> 結構體的實例。每個 <code>Worker</code> 會儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例。然後對 <code>Worker</code> 實作一個方法來取得閉包要執行的程式碼，並傳入已經在執行的執行緒來處理。我們也會給每個 <code>Worker</code> 一個 <code>id</code>，好讓我們在記錄日誌或除錯時，分辨池中不同的工作者。</p>
 <p>當我們建立 <code>ThreadPool</code> 時會發生以下事情。我們會用以下方式在設置完 <code>Worker</code> 後，實作將閉包傳遞給執行緒的程式碼：</p>
 <ol>
 <li>定義 <code>Worker</code> 結構體存有 <code>id</code> 與 <code>JoinHandle&lt;()&gt;</code>。</li>
@@ -577,7 +577,7 @@ impl Worker {
 }
 </code></pre>
 <p><span class="caption">範例 20-15：變更 <code>ThreadPool</code> 來儲存 <code>Worker</code> 實例，而非直接儲存執行緒</span></p>
-<p>我們將 <code>ThreadPool</code> 中欄位的名稱從 <code>threads</code> 改為 <code>workers</code>，因為它現在啊儲存的是 <code>Worker</code> 實例而非 <code>JoinHandle&lt;()&gt;</code> 實例。我們使用 <code>for</code> 迴圈的計數作為 <code>Worker::new</code> 的引數，然後我們將每個新的  <code>Worker</code> 儲存到名稱為 <code>workers</code> 的向量中。</p>
+<p>我們將 <code>ThreadPool</code> 中欄位的名稱從 <code>threads</code> 改為 <code>workers</code>，因為它現在儲存的是 <code>Worker</code> 實例而非 <code>JoinHandle&lt;()&gt;</code> 實例。我們使用 <code>for</code> 迴圈的計數作為 <code>Worker::new</code> 的引數，然後我們將每個新的  <code>Worker</code> 儲存到名稱為 <code>workers</code> 的向量中。</p>
 <p>外部的程式碼（像是我們在 <em>src/main.rs</em> 的伺服器）不需要知道 <code>ThreadPool</code> 內部實作細節已經改為使用 <code>Worker</code> 結構體，所以我們讓 <code>Worker</code> 結構體與其 <code>new</code> 函式維持私有。<code>Worker::new</code> 函式會使用我們給予的 <code>id</code> 並儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例，這是用空閉包產生的新執行緒所建立的。</p>
 <blockquote>
 <p>注意：如果作業系統因為系統資源不足，而無法建立執行緒的話，<code>thread::spawn</code> 會恐慌。這會使我們的伺服器恐慌，就算有些執行緒能成功建立。基於簡潔原則，這段程式碼還算能接受。但如果是正式環境的執行緒實作，你可能會想使用 <a href="https://doc.rust-lang.org/std/thread/struct.Builder.html"><code>std::thread::Builder</code></a><!-- ignore --> 與其 <a href="https://doc.rust-lang.org/std/thread/struct.Builder.html#method.spawn"><code>spawn</code></a><!-- ignore --> 方法來回傳 <code>Result</code>。</p>
@@ -990,7 +990,7 @@ Worker 2 got a job; executing.
 </code></pre>
 <p>成功了！我們現在有個執行緒池能非同步地處理連線。我們產生的執行緒不超過四條，所以如果伺服器收到大量請求時，我們的系統就不會超載。如果我們下達 <code>/sleep</code> 的請求，伺服器會有其他執行緒來處理其他請求並執行它們。</p>
 <blockquote>
-<p>注意：如果你在數個瀏覽器視窗同時打開 <code>/sleep</code>，它們可能會彼此間格 5 秒鐘來讀取。這是因為有些網頁瀏覽器會對多個相同請求的實例做快取。這項限制不是網頁伺服器造成的。</p>
+<p>注意：如果你在數個瀏覽器視窗同時打開 <code>/sleep</code>，它們可能會彼此間隔 5 秒鐘來讀取。這是因為有些網頁瀏覽器會對多個相同請求的實例做快取。這項限制不是網頁伺服器造成的。</p>
 </blockquote>
 <p>在學習過第十八章的 <code>while let</code> 迴圈後，你可能會好奇為何我們不像範例 20-21 這樣來寫工作者執行緒的程式碼。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>

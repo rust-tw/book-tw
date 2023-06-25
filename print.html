@@ -959,7 +959,7 @@ error: could not compile `guessing_game` due to previous error
 <pre><code class="language-rust ignore">let guess: u32 = guess.trim().parse().expect(&quot;請輸入一個數字！&quot;);
 </code></pre>
 <p>我們建立了一個變數叫做 <code>guess</code>。小等一下，程式不是已經有個變數叫做 <code>guess</code>了嗎？的確是的，但 Rust 允許我們遮蔽之前的 <code>guess</code> 數值成新的數值。<strong>遮蔽</strong>（Shadowing）讓我們可以重複使用 <code>guess</code> 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 <code>guess_str</code> 和 <code>guess</code>。我們會在<a href="ch03-01-variables-and-mutability.html#shadowing">第三章</a><!-- ignore -->更詳細地解釋此概念，現在這邊只需要知道這常拿來將一個數值的型別轉換成另一個型別。</p>
-<p>我們將此新的變數綁定給 <code>guess.trim().parse()</code> 表達式。表達式中的 <code>guess</code> 指的是原本儲存字串輸入的 <code>guess</code>。<code>String</code> 中的 <code>trim</code> 方法會去除開頭與結尾的任何空白字元，我們一定要這樣做才能將字串與 <code>u32</code> 作比較，因為它只會包含數字字元。使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 <code>read_line</code> 並輸入他們的猜測數字，這樣會加上一個換行字元。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，<code>guess</code> 看起來會像這樣：<code>5\n</code>。<code>\n</code> 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果（在 Windows 按下 <span class="keystroke">enter</span> 的結果會是回車和換行 <code>\r\n</code>）。<code>trim</code> 方法能去除 <code>\n</code> 或 <code>\r\n</code>，讓結果只會是 <code>5</code>。</p>
+<p>我們將此新的變數綁定給 <code>guess.trim().parse()</code> 表達式。表達式中的 <code>guess</code> 指的是原本儲存字串輸入的 <code>guess</code>。<code>String</code> 中的 <code>trim</code> 方法會去除開頭與結尾的任何空白字元，我們一定要這樣做才能將字串與 <code>u32</code> 作比較，因為它只會包含數字字元。使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 <code>read_line</code> 並輸入他們的猜測數字，這樣會加上一個換行字元。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，<code>guess</code> 看起來會像這樣：<code>5\n</code>。<code>\n</code> 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果（在 Windows 按下 <span class="keystroke">enter</span> 的結果會是輸入和換行 <code>\r\n</code>）。<code>trim</code> 方法能去除 <code>\n</code> 或 <code>\r\n</code>，讓結果只會是 <code>5</code>。</p>
 <p>而<a href="https://doc.rust-lang.org/std/primitive.str.html#method.parse">字串中的 <code>parse</code> 方法</a><!-- ignore -->會轉換字串成其他型別。我們在此用它將字串轉換成數字，我們需要使用 <code>let guess: u32</code> 來告訴 Rust 我們想使用的確切數字型別。<code>guess</code> 後面的分號（<code>:</code>）告訴 Rust 我們會詮釋此變數的型別。Rust 有些內建的數字型別，這裡的 <code>u32</code> 是個非帶號（unsigned）的 32 位元整數。對於不大的正整數來說，這是不錯的預設選擇。你會在<a href="ch03-02-data-types.html#integer-types">第三章</a><!-- ignore -->學到其他數字型別。</p>
 <p>除此之外，在此範例程式中的 <code>u32</code> 詮釋與 <code>secret_number</code> 的比較意味著 Rust 也會將 <code>secret_number</code> 推斷成 <code>u32</code>。所以現在會有兩個相同型別的數值能做比較了！</p>
 <p><code>parse</code> 的呼叫很容易造成錯誤，因為它只適用於邏輯上能轉換成數字的字元。舉例來說，如果字串包含 <code>A👍%</code> 的話，就不可能轉換成數字。因為它可能會失敗，<code>parse</code> 方法回傳的是 <code>Result</code> 型別，就和 <code>read_line</code> 方法一樣（在之前的<a href="ch02-00-guessing-game-tutorial.html#%E4%BD%BF%E7%94%A8-result-%E8%99%95%E7%90%86%E5%8F%AF%E8%83%BD%E7%9A%84%E9%8C%AF%E8%AA%A4">「使用 <code>Result</code> 處理可能的錯誤」</a><!-- ignore -->段落提及）。我們也會用相同的方式來處理此 <code>Result</code>，也就是呼叫 <code>expect</code> 方法。如果 <code>parse</code> 回傳 <code>Result</code> 的 <code>Err</code> 變體的話，由於它無法從字串建立數字，<code>expect</code> 的呼叫會讓遊戲當掉並顯示我們給予的訊息。如果 <code>parse</code> 能成功將字串轉成數字，它將會回傳 <code>Result</code> 的 <code>Ok</code> 變體，而 <code>expect</code> 將會回傳 <code>Ok</code> 的內部數值。</p>
@@ -16626,7 +16626,7 @@ pub fn sql(input: TokenStream) -&gt; TokenStream {
 <p>不過在我們開始之前，我們需要提醒一件事，我們使用的方法不會是在 Rust 中建立網頁伺服器的最佳方案。<a href="https://crates.io/">crates.io</a> 上有不少已經能用在正式環境的 crate，它們都有提供比我們所建立的還更完善的網頁伺服器與執行緒池。然而我們在本章節的目的是要幫助你學習，而不是走捷徑。因為 Rust 是個系統程式設計語言，我們可以選擇我們想運用的抽象層級，而且可以比其他語言更可能且實際地抵達最底層。我們會親自寫出基本的 HTTP 伺服器與執行緒池，來幫助你瞭解往後你可能會用到的 crate 背後的基本概念與技術。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="建立單一執行緒的網頁伺服器"><a class="header" href="#建立單一執行緒的網頁伺服器">建立單一執行緒的網頁伺服器</a></h2>
 <p>我們會先從建立一個可運作的單一執行緒網頁伺服器作為起始。在我們開始之前，讓我們快速瞭解一下建構網頁伺服器會涉及到的協定。這些協定的細節超出本書的範疇，不過以下簡短的概覽可以提供你所需要知道的訊息。</p>
-<p>網頁伺服器會涉及到的兩大協定為<strong>超文本傳輸協定（Hypertext Transfer Protocol, HTTP）<strong>與</strong>傳輸控制協定（Transmission Control Protocol, TCP）</strong>。這兩種協定都是<strong>請求-回應（request-response）<strong>協定，這意味著</strong>客戶端</strong>會初始一個請求，然後<strong>伺服器</strong>接聽請求並提供回應給客戶端。協定會定義這些請求與回應的內容。</p>
+<p>網頁伺服器會涉及到的兩大協定為<strong>超文本傳輸協定（Hypertext Transfer Protocol，HTTP）<strong>與</strong>傳輸控制協定（Transmission Control Protocol，TCP）</strong>。這兩種協定都是<strong>請求-回應（request-response）<strong>協定，這意味著</strong>客戶端</strong>會初始一個請求，然後<strong>伺服器</strong>接聽請求並提供回應給客戶端。協定會定義這些請求與回應的內容。</p>
 <p>TCP 是個較底層的協定並描述資訊如何從一個伺服器傳送到另一個伺服器的細節，但是它並不指定資訊內容為何。HTTP 建立在 TCP 之上並定義請求與回應的內容。技術上來說，HTTP 是可以與其他協定組合的，但是對大多數場合中，HTTP 主要還是透過 TCP 來傳送資訊。我們會處理 TCP 與 HTTP 中請求與回應的原始位元組（raw bytes）。</p>
 <h3 id="監聽-tcp-連線"><a class="header" href="#監聽-tcp-連線">監聽 TCP 連線</a></h3>
 <p>我們的網頁伺服器需要監聽一個 TCP 連線，所以這就是我們要處理的第一個步驟。標準函式庫有提供 <code>std::net</code> 模組能讓我們使用。讓我們如往常一樣建立一個新的專案：</p>
@@ -16729,8 +16729,8 @@ headers CRLF
 message-body
 </code></pre>
 <p>第一行是<strong>請求行（request line）<strong>並持有客戶端想請求什麼的資訊。請求行的第一個部分代表著想使用的</strong>方法（method）</strong>，像是 <code>GET</code> 或 <code>POST</code>，這描述了客戶端如何產生此請求。在此例中，我們的客戶端使用的是 <code>GET</code> 請求</p>
-<p>請求行的下一個部分是 <code>/</code>，這代表客戶端請求的<strong>統一資源標誌符（Uniform Resource Identifier, URI）</strong>，URI 絕大多數（但不是絕對）就等於<strong>統一資源定位符（Uniform Resource Locator, URL）</strong>。URI 與 URL 的差別對於本章節的學習目的來說並不重要，但是 HTTP 規格使用的術語是 URI，所以我們這裡將 URL 替換為 URI。</p>
-<p>最後一個部分是客戶端使用的 HTTP 版本，然後請求行最後以 <strong>CRLF 序列</strong>做結尾，CRLF 指的是<strong>回車（carriage return）與換行（line feed）</strong>，這是打字機時代的術語！CRLF 序列也可以寫成 <code>\r\n</code>，<code>\r</code> 指的是回車，而 <code>\n</code> 指的是換行。CRLF 序列將請求行與剩餘的請求資料區隔開來。注意到當 CRLF 印出時，我們會看到的是新的一行而不是 <code>\r\n</code>。</p>
+<p>請求行的下一個部分是 <code>/</code>，這代表客戶端請求的<strong>統一資源標誌符（Uniform Resource Identifier，URI）</strong>，URI 絕大多數（但不是絕對）就等於<strong>統一資源定位符（Uniform Resource Locator，URL）</strong>。URI 與 URL 的差別對於本章節的學習目的來說並不重要，但是 HTTP 規格使用的術語是 URI，所以我們這裡將 URL 替換為 URI。</p>
+<p>最後一個部分是客戶端使用的 HTTP 版本，然後請求行最後以 <strong>CRLF 序列</strong>做結尾，CRLF 指的是<strong>輸入（carriage return）與換行（line feed）</strong>，這是打字機時代的術語！CRLF 序列也可以寫成 <code>\r\n</code>，<code>\r</code> 指的是輸入，而 <code>\n</code> 指的是換行。CRLF 序列將請求行與剩餘的請求資料區隔開來。注意到當 CRLF 印出時，我們會看到的是新的一行而不是 <code>\r\n</code>。</p>
 <p>觀察我們目前從程式中取得的請求行資料，我們看到它使用 <code>GET</code> 方法，<code>/</code>  為請求 URI，然後版本為 <code>HTTP/1.1</code>。</p>
 <p>在請求行之後，剩餘從 <code>Host:</code> 開始的行數都是標頭（header）。<code>GET</code> 請求不會有本體（body）。</p>
 <p>你可以嘗試看看從不同的瀏覽器或尋問不同的位址，像是 <em>127.0.0.1:7878/test</em>，來看看請求資料有什麼改變。</p>
@@ -17051,7 +17051,7 @@ fn handle_connection(mut stream: TcpStream) {
 <p>我們有好幾種方式能避免緩慢請求造成的請求堆積。其中一種就是我們要實作的執行緒池（thread pool）。</p>
 <h3 id="透過執行緒池改善吞吐量"><a class="header" href="#透過執行緒池改善吞吐量">透過執行緒池改善吞吐量</a></h3>
 <p><strong>執行緒池</strong>（thread pool）會產生一群執行緒來等待並隨時準備好處理任務。當程式收到新任務時，它會將此任務分配給執行緒池其中一條執行緒，然後該執行緒就會處理該任務。池中剩餘的執行緒在第一條執行緒處理任務時，仍能隨時處理任何其他來臨的任務。當第一條執行緒處理完成時，他會回到閒置執行緒池之中，等待處理新的任務。執行緒池讓你能並行處理連線，增加伺服器的吞吐量。</p>
-<p>我們會限制執行緒池的數量為少量的數量就好，以避免我們造成阻斷服務（Denial of Service,  DOS）攻擊。如果我們的程式每次遇到新的請求時就產生新的執行緒，某個人就可以產生一千萬個請求至我們的伺服器，來破壞並用光我們伺服器的資源，並導致所有請求的處理都被擱置。</p>
+<p>我們會限制執行緒池的數量為少量的數量就好，以避免我們造成阻斷服務（Denial of Service，DOS）攻擊。如果我們的程式每次遇到新的請求時就產生新的執行緒，某個人就可以產生一千萬個請求至我們的伺服器，來破壞並用光我們伺服器的資源，並導致所有請求的處理都被擱置。</p>
 <p>所以與其產生無限制的執行緒，我們會有個固定數量的執行緒在池中等待。當有請求來臨時，它們會被送至池中處理。此池會維護一個接收請求的佇列（queue）。每個執行緒會從此佇列彈出一個請求、處理該請求然後再繼續向佇列索取下一個請求。有了此設計，我們就可以同時處理 <code>N</code> 個請求，其中 <code>N</code> 就是執行緒的數量。如果每個執行緒都負責到需要長時間處理的請求，隨後的請求還是會阻塞佇列，但是我們至少增加了能夠同時處理長時間請求的數量。</p>
 <p>此技巧只是其中一種改善網頁伺服器吞吐量的方式而已。其他你可能會探索到的選項還有 <strong>fork/join 模型</strong>、<strong>單執行緒非同步模型</strong>或<strong>多執行緒非同步模型</strong>。如果你對此議題有興趣，你可以閱讀其他解決方案，並嘗試實作到 Rust 中。像 Rust 這種低階語言，這些所有選項都是可能的。</p>
 <p>在我們開始實作執行緒池之前，讓我們討論一下使用該池會是什麼樣子。當你嘗試設計程式碼時，先寫出使用者的介面能協助引導你的設計。寫出程式碼的 API，使其能以你所期望的方式呼叫，然後在該結構內實作功能，而不是先實作功能再設計公開 API。</p>
@@ -17371,7 +17371,7 @@ impl ThreadPool {
 <h4 id="結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒"><a class="header" href="#結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒">結構體 <code>Worker</code> 負責從 <code>ThreadPool</code> 傳遞程式碼給一條執行緒</a></h4>
 <p>我們在範例 20-14 的 <code>for</code> 迴圈中留下一個關於建立執行緒的註解。我們在此將看看我們該如何實際建立執行緒。標準函式庫提供 <code>thread::spawn</code> 作為建立執行緒的方式，然後 <code>thread::spawn</code> 預期在執行緒建立時就會獲得一些程式碼讓執行緒能夠執行。但在我們的場合中，我們希望建立執行緒，並讓它們<strong>等待</strong>我們之後會傳送的程式碼。標準函式庫的執行緒實作並不包含這種方式，我們得自己實作。</p>
 <p>我們實作此行為的方法是在 <code>ThreadPool</code> 與執行緒間建立一個新的資料結構，這用來管理此新的行為。我們將此資料結構稱為 <code>Worker</code>，這在池實作中是很常見的術語。Worker 拿取要執行的程式碼然後在自己的執行緒跑這段程式碼。想像一下這是有一群人在餐廳廚房內工作：工作者（worker）會等待顧客的訂單，然後他們負責接受這些訂單並完成它們。</p>
-<p>所以與其在執行緒池中儲存 <code>JoinHandle&lt;()&gt;</code> 實例的向量，我們可以儲存 <code>Worker</code> 結構體的實例。每個 <code>Worker</code> 會儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例。然後對 <code>Worker</code> 實作一個方法來取得閉包要執行的程式碼，並傳入已經在執行的執行緒來處理。我們也會給每個 <code>Worker</code> 一個 <code>id</code>，好讓我們在紀錄日誌或除錯時，分辨池中不同的工作者。</p>
+<p>所以與其在執行緒池中儲存 <code>JoinHandle&lt;()&gt;</code> 實例的向量，我們可以儲存 <code>Worker</code> 結構體的實例。每個 <code>Worker</code> 會儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例。然後對 <code>Worker</code> 實作一個方法來取得閉包要執行的程式碼，並傳入已經在執行的執行緒來處理。我們也會給每個 <code>Worker</code> 一個 <code>id</code>，好讓我們在記錄日誌或除錯時，分辨池中不同的工作者。</p>
 <p>當我們建立 <code>ThreadPool</code> 時會發生以下事情。我們會用以下方式在設置完 <code>Worker</code> 後，實作將閉包傳遞給執行緒的程式碼：</p>
 <ol>
 <li>定義 <code>Worker</code> 結構體存有 <code>id</code> 與 <code>JoinHandle&lt;()&gt;</code>。</li>
@@ -17431,7 +17431,7 @@ impl Worker {
 }
 </code></pre>
 <p><span class="caption">範例 20-15：變更 <code>ThreadPool</code> 來儲存 <code>Worker</code> 實例，而非直接儲存執行緒</span></p>
-<p>我們將 <code>ThreadPool</code> 中欄位的名稱從 <code>threads</code> 改為 <code>workers</code>，因為它現在啊儲存的是 <code>Worker</code> 實例而非 <code>JoinHandle&lt;()&gt;</code> 實例。我們使用 <code>for</code> 迴圈的計數作為 <code>Worker::new</code> 的引數，然後我們將每個新的  <code>Worker</code> 儲存到名稱為 <code>workers</code> 的向量中。</p>
+<p>我們將 <code>ThreadPool</code> 中欄位的名稱從 <code>threads</code> 改為 <code>workers</code>，因為它現在儲存的是 <code>Worker</code> 實例而非 <code>JoinHandle&lt;()&gt;</code> 實例。我們使用 <code>for</code> 迴圈的計數作為 <code>Worker::new</code> 的引數，然後我們將每個新的  <code>Worker</code> 儲存到名稱為 <code>workers</code> 的向量中。</p>
 <p>外部的程式碼（像是我們在 <em>src/main.rs</em> 的伺服器）不需要知道 <code>ThreadPool</code> 內部實作細節已經改為使用 <code>Worker</code> 結構體，所以我們讓 <code>Worker</code> 結構體與其 <code>new</code> 函式維持私有。<code>Worker::new</code> 函式會使用我們給予的 <code>id</code> 並儲存一個 <code>JoinHandle&lt;()&gt;</code> 實例，這是用空閉包產生的新執行緒所建立的。</p>
 <blockquote>
 <p>注意：如果作業系統因為系統資源不足，而無法建立執行緒的話，<code>thread::spawn</code> 會恐慌。這會使我們的伺服器恐慌，就算有些執行緒能成功建立。基於簡潔原則，這段程式碼還算能接受。但如果是正式環境的執行緒實作，你可能會想使用 <a href="https://doc.rust-lang.org/std/thread/struct.Builder.html"><code>std::thread::Builder</code></a><!-- ignore --> 與其 <a href="https://doc.rust-lang.org/std/thread/struct.Builder.html#method.spawn"><code>spawn</code></a><!-- ignore --> 方法來回傳 <code>Result</code>。</p>
@@ -17844,7 +17844,7 @@ Worker 2 got a job; executing.
 </code></pre>
 <p>成功了！我們現在有個執行緒池能非同步地處理連線。我們產生的執行緒不超過四條，所以如果伺服器收到大量請求時，我們的系統就不會超載。如果我們下達 <code>/sleep</code> 的請求，伺服器會有其他執行緒來處理其他請求並執行它們。</p>
 <blockquote>
-<p>注意：如果你在數個瀏覽器視窗同時打開 <code>/sleep</code>，它們可能會彼此間格 5 秒鐘來讀取。這是因為有些網頁瀏覽器會對多個相同請求的實例做快取。這項限制不是網頁伺服器造成的。</p>
+<p>注意：如果你在數個瀏覽器視窗同時打開 <code>/sleep</code>，它們可能會彼此間隔 5 秒鐘來讀取。這是因為有些網頁瀏覽器會對多個相同請求的實例做快取。這項限制不是網頁伺服器造成的。</p>
 </blockquote>
 <p>在學習過第十八章的 <code>while let</code> 迴圈後，你可能會好奇為何我們不像範例 20-21 這樣來寫工作者執行緒的程式碼。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>

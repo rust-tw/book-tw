@@ -141,7 +141,7 @@
                     <main>
                         <h2 id="建立單一執行緒的網頁伺服器"><a class="header" href="#建立單一執行緒的網頁伺服器">建立單一執行緒的網頁伺服器</a></h2>
 <p>我們會先從建立一個可運作的單一執行緒網頁伺服器作為起始。在我們開始之前，讓我們快速瞭解一下建構網頁伺服器會涉及到的協定。這些協定的細節超出本書的範疇，不過以下簡短的概覽可以提供你所需要知道的訊息。</p>
-<p>網頁伺服器會涉及到的兩大協定為<strong>超文本傳輸協定（Hypertext Transfer Protocol, HTTP）<strong>與</strong>傳輸控制協定（Transmission Control Protocol, TCP）</strong>。這兩種協定都是<strong>請求-回應（request-response）<strong>協定，這意味著</strong>客戶端</strong>會初始一個請求，然後<strong>伺服器</strong>接聽請求並提供回應給客戶端。協定會定義這些請求與回應的內容。</p>
+<p>網頁伺服器會涉及到的兩大協定為<strong>超文本傳輸協定（Hypertext Transfer Protocol，HTTP）<strong>與</strong>傳輸控制協定（Transmission Control Protocol，TCP）</strong>。這兩種協定都是<strong>請求-回應（request-response）<strong>協定，這意味著</strong>客戶端</strong>會初始一個請求，然後<strong>伺服器</strong>接聽請求並提供回應給客戶端。協定會定義這些請求與回應的內容。</p>
 <p>TCP 是個較底層的協定並描述資訊如何從一個伺服器傳送到另一個伺服器的細節，但是它並不指定資訊內容為何。HTTP 建立在 TCP 之上並定義請求與回應的內容。技術上來說，HTTP 是可以與其他協定組合的，但是對大多數場合中，HTTP 主要還是透過 TCP 來傳送資訊。我們會處理 TCP 與 HTTP 中請求與回應的原始位元組（raw bytes）。</p>
 <h3 id="監聽-tcp-連線"><a class="header" href="#監聽-tcp-連線">監聽 TCP 連線</a></h3>
 <p>我們的網頁伺服器需要監聽一個 TCP 連線，所以這就是我們要處理的第一個步驟。標準函式庫有提供 <code>std::net</code> 模組能讓我們使用。讓我們如往常一樣建立一個新的專案：</p>
@@ -244,8 +244,8 @@ headers CRLF
 message-body
 </code></pre>
 <p>第一行是<strong>請求行（request line）<strong>並持有客戶端想請求什麼的資訊。請求行的第一個部分代表著想使用的</strong>方法（method）</strong>，像是 <code>GET</code> 或 <code>POST</code>，這描述了客戶端如何產生此請求。在此例中，我們的客戶端使用的是 <code>GET</code> 請求</p>
-<p>請求行的下一個部分是 <code>/</code>，這代表客戶端請求的<strong>統一資源標誌符（Uniform Resource Identifier, URI）</strong>，URI 絕大多數（但不是絕對）就等於<strong>統一資源定位符（Uniform Resource Locator, URL）</strong>。URI 與 URL 的差別對於本章節的學習目的來說並不重要，但是 HTTP 規格使用的術語是 URI，所以我們這裡將 URL 替換為 URI。</p>
-<p>最後一個部分是客戶端使用的 HTTP 版本，然後請求行最後以 <strong>CRLF 序列</strong>做結尾，CRLF 指的是<strong>回車（carriage return）與換行（line feed）</strong>，這是打字機時代的術語！CRLF 序列也可以寫成 <code>\r\n</code>，<code>\r</code> 指的是回車，而 <code>\n</code> 指的是換行。CRLF 序列將請求行與剩餘的請求資料區隔開來。注意到當 CRLF 印出時，我們會看到的是新的一行而不是 <code>\r\n</code>。</p>
+<p>請求行的下一個部分是 <code>/</code>，這代表客戶端請求的<strong>統一資源標誌符（Uniform Resource Identifier，URI）</strong>，URI 絕大多數（但不是絕對）就等於<strong>統一資源定位符（Uniform Resource Locator，URL）</strong>。URI 與 URL 的差別對於本章節的學習目的來說並不重要，但是 HTTP 規格使用的術語是 URI，所以我們這裡將 URL 替換為 URI。</p>
+<p>最後一個部分是客戶端使用的 HTTP 版本，然後請求行最後以 <strong>CRLF 序列</strong>做結尾，CRLF 指的是<strong>輸入（carriage return）與換行（line feed）</strong>，這是打字機時代的術語！CRLF 序列也可以寫成 <code>\r\n</code>，<code>\r</code> 指的是輸入，而 <code>\n</code> 指的是換行。CRLF 序列將請求行與剩餘的請求資料區隔開來。注意到當 CRLF 印出時，我們會看到的是新的一行而不是 <code>\r\n</code>。</p>
 <p>觀察我們目前從程式中取得的請求行資料，我們看到它使用 <code>GET</code> 方法，<code>/</code>  為請求 URI，然後版本為 <code>HTTP/1.1</code>。</p>
 <p>在請求行之後，剩餘從 <code>Host:</code> 開始的行數都是標頭（header）。<code>GET</code> 請求不會有本體（body）。</p>
 <p>你可以嘗試看看從不同的瀏覽器或尋問不同的位址，像是 <em>127.0.0.1:7878/test</em>，來看看請求資料有什麼改變。</p>
