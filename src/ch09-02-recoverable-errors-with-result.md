@@ -2,7 +2,7 @@
 
 大多數的錯誤沒有嚴重到需要讓整個程式停止執行。有時候當函式失敗時，你是可以輕易理解並作出反應的。舉例來說，如果你嘗試開啟一個檔案，但該動作卻因為沒有該檔案而失敗的話，你可能會想要建立檔案，而不是終止程序。
 
-回憶一下第二章的[「使用 `Result` 型別可能的錯誤」][handle_failure]<!-- ignore -->提到 `Result` 枚舉的定義有兩個變體 `Ok` 和 `Err`，如以下所示：
+回憶一下第二章的[「使用 `Result` 型別可能的錯誤」][handle_failure]<!-- ignore -->提到 `Result` 列舉的定義有兩個變體 `Ok` 和 `Err`，如以下所示：
 
 ```rust
 enum Result<T, E> {
@@ -23,7 +23,7 @@ enum Result<T, E> {
 
 <span class="caption">範例 9-3：嘗試開啟一個檔案</span>
 
-`File::open` 的回傳型別為 `Result<T, E>`。泛型參數 `T` 在此已經被 `File::open` 指明成功時會用到的型別 `std::fs::File`，也就是檔案的控制代碼（handle）。用於錯誤時的 `E` 型別則是 `std::io::Error`。這樣的回傳型別代表 `File::open` 的呼叫在成功時會回傳我們可以讀寫的檔案控制代碼，但該函式呼叫也可能失敗。舉例來說，該檔案可能會不存在，或者我們沒有檔案的存取權限。`File::open` 需要有某種方式能告訴我們它的結果是成功或失敗，並回傳檔案控制代碼或是錯誤資訊。這樣的資訊正是 `Result` 枚舉想表達的。
+`File::open` 的回傳型別為 `Result<T, E>`。泛型參數 `T` 在此已經被 `File::open` 指明成功時會用到的型別 `std::fs::File`，也就是檔案的控制代碼（handle）。用於錯誤時的 `E` 型別則是 `std::io::Error`。這樣的回傳型別代表 `File::open` 的呼叫在成功時會回傳我們可以讀寫的檔案控制代碼，但該函式呼叫也可能失敗。舉例來說，該檔案可能會不存在，或者我們沒有檔案的存取權限。`File::open` 需要有某種方式能告訴我們它的結果是成功或失敗，並回傳檔案控制代碼或是錯誤資訊。這樣的資訊正是 `Result` 列舉想表達的。
 
 如果 `File::open` 成功的話，變數 `greeting_file_result` 的數值就會獲得包含檔案控制代碼的 `Ok` 實例。如果失敗的話，`greeting_file_result` 的值就會是包含為何產生該錯誤的資訊的 `Err` 實例。
 
@@ -37,7 +37,7 @@ enum Result<T, E> {
 
 <span class="caption">範例 9-4：使用 `match` 表達式來處理回傳的 `Result` 變體</span>
 
-和 `Option` 枚舉一樣，`Result` 枚舉與其變體都會透過 prelude 引入作用域，所以我們不需要指明 `Result::`，可以直接在 `match` 的分支中使用 `Ok` 和 `Err` 變體。
+和 `Option` 列舉一樣，`Result` 列舉與其變體都會透過 prelude 引入作用域，所以我們不需要指明 `Result::`，可以直接在 `match` 的分支中使用 `Ok` 和 `Err` 變體。
 
 當結果是 `Ok` 時，這裡的程式碼就會回傳 `Ok` 變體中內部的 `file`，然後我們就可以將檔案控制代碼賦值給變數 `greeting_file`。在 `match` 之後，我們就可以使用檔案控制代碼來讀寫。
 
@@ -64,9 +64,9 @@ tests to fail lol -->
 
 <span class="caption">範例 9-5：針對不同種類的錯誤採取不同動作</span>
 
-`File::open` 在 `Err` 變體的回傳型別為 `io::Error`，這是標準函式庫提供的結構體。此結構體有個 `kind` 方法讓我們可以取得 `io::ErrorKind` 數值。標準函式庫提供的枚舉 `io::ErrorKind` 有從 `io` 運算可能發生的各種錯誤。我們想處理的變體是 `ErrorKind::NotFound`，這指的是我們嘗試開啟的檔案還不存在。所以我們對 `greeting_file_result` 配對並在用 `error.kind()` 繼續配對下去。
+`File::open` 在 `Err` 變體的回傳型別為 `io::Error`，這是標準函式庫提供的結構體。此結構體有個 `kind` 方法讓我們可以取得 `io::ErrorKind` 數值。標準函式庫提供的列舉 `io::ErrorKind` 有從 `io` 運算可能發生的各種錯誤。我們想處理的變體是 `ErrorKind::NotFound`，這指的是我們嘗試開啟的檔案還不存在。所以我們對 `greeting_file_result` 配對並在用 `error.kind()` 繼續配對下去。
 
-我們從內部配對檢查 `error.kind()` 的回傳值是否是 `ErrorKind` 枚舉中的 `NotFound` 變體。如果是的話，我們就嘗試使用 `File::create` 建立檔案。不過 `File::create` 也可能會失敗，所以我們需要第二個內部 `match` 表達式來處理。如果檔案無法建立的話，我們就會印出不同的錯誤訊息。第二個分支的外部 `match` 分支保持不變，如果程式遇到其他錯誤的話就會恐慌。
+我們從內部配對檢查 `error.kind()` 的回傳值是否是 `ErrorKind` 列舉中的 `NotFound` 變體。如果是的話，我們就嘗試使用 `File::create` 建立檔案。不過 `File::create` 也可能會失敗，所以我們需要第二個內部 `match` 表達式來處理。如果檔案無法建立的話，我們就會印出不同的錯誤訊息。第二個分支的外部 `match` 分支保持不變，如果程式遇到其他錯誤的話就會恐慌。
 
 > ### 除了使用 `match` 配對 `Result<T, E>` 以外的方式
 >

@@ -48,7 +48,7 @@ Box 沒有額外的效能開銷，就只是將它們的資料儲存在堆積上�
 
 在 Rust 中 cons lists 不是常見的資料結構。大多數當你在 Rust 需要項目列表時，`Vec<T>` 會是比較好的選擇。而其他時候夠複雜的遞迴資料型別**確實**在各種特殊情形會很實用，不過先從 cons list 開始的話，我們可以專注探討 box 如何讓我們定義遞迴資料型別。
 
-範例 15-2 包含了 cons list 的枚舉定義。注意到此程式碼還不能編譯過，因為 `List` 型別並沒有已知的大小，我們接下來會繼續說明。
+範例 15-2 包含了 cons list 的列舉定義。注意到此程式碼還不能編譯過，因為 `List` 型別並沒有已知的大小，我們接下來會繼續說明。
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
@@ -56,7 +56,7 @@ Box 沒有額外的效能開銷，就只是將它們的資料儲存在堆積上�
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-02/src/main.rs:here}}
 ```
 
-<span class="caption">範例 15-2：第一次嘗試定義一個枚舉來代表有 `i32` 數值的 cons list 資料結構</span>
+<span class="caption">範例 15-2：第一次嘗試定義一個列舉來代表有 `i32` 數值的 cons list 資料結構</span>
 
 > 注意：我們定義的 cons list 只有 `i32` 數值是為了範例考量。我們當然可以使用第十章討論過的泛型來定義它，讓 cons list 定義的型別可以儲存任何型別數值。
 
@@ -68,7 +68,7 @@ Box 沒有額外的效能開銷，就只是將它們的資料儲存在堆積上�
 {{#rustdoc_include ../listings/ch15-smart-pointers/listing-15-03/src/main.rs:here}}
 ```
 
-<span class="caption">範例 15-3：使用 `List` 枚舉儲存列表 `1, 2, 3`</span>
+<span class="caption">範例 15-3：使用 `List` 列舉儲存列表 `1, 2, 3`</span>
 
 第一個 `Cons` 值會得到 `1` 與另一個 `List` 數值。此 `List` 數值是另一個 `Cons` 數值且持有 `2` 與另一個 `List` 數值。此 `List` 數值是另一個 `Cons` 數值且擁有 `3` 與一個 `List` 數值，其就是最後的 `Nil`，這是傳遞列表結尾訊號的非遞迴變體。
 
@@ -78,13 +78,13 @@ Box 沒有額外的效能開銷，就只是將它們的資料儲存在堆積上�
 {{#include ../listings/ch15-smart-pointers/listing-15-03/output.txt}}
 ```
 
-<span class="caption">範例 15-4：嘗試定義遞迴枚舉所得到的錯誤</span>
+<span class="caption">範例 15-4：嘗試定義遞迴列舉所得到的錯誤</span>
 
 錯誤顯示此型別的「大小為無限」，原因是因為我們定義的 `List` 有個變體是遞迴：它直接存有另一個相同類型的數值。所以 Rust 無法判別出它需要多少空間才能儲存一個 `List` 的數值。讓我進一步研究為何我們會得到這樣的錯誤，首先來看 Rust 如何決定要分配多少空間來儲存非遞迴型別。
 
 #### 計算非遞迴型別的大小
 
-回想一下第六章中，當我們在討論枚舉定義時，我們在範例 6-2 定義的 `Message` 枚舉：
+回想一下第六章中，當我們在討論列舉定義時，我們在範例 6-2 定義的 `Message` 列舉：
 
 ```rust
 {{#rustdoc_include ../listings/ch06-enums-and-pattern-matching/listing-06-02/src/main.rs:here}}
@@ -92,7 +92,7 @@ Box 沒有額外的效能開銷，就只是將它們的資料儲存在堆積上�
 
 要決定一個 `Message` 數值需要分配多少空間，Rust 會遍歷每個變體來看哪個變體需要最大的空間。Rust 會看到 `Message::Quit` 不佔任何空間、`Message::Move` 需要能夠儲存兩個 `i32` 的空間，以此類推。因為只有一個變體會被使用，一個 `Message` 數值所需的最大空間就是其最大變體的大小。
 
-將此對應到當 Rust 嘗試檢查像是範例 15-2 的 `List` 枚舉來決定遞迴型別需要多少空間時，究竟會發生什麼事。編譯器先從查看 `Cons` 的變體開始，其存有一個 `i32` 型別與一個 `List` 型別。因此 `Cons` 需要的空間大小為 `i32` 的大小加上 `List` 的大小。為了要瞭解 `List` 型別需要的多少記憶體，編譯器在進一步看它的變體，也是從 `Cons` 變體開始。`Cons` 變體存有一個型別 `i32` 與一個型別 `List`，而這樣的過程就無限處理下去，如圖示 15-1 所示。
+將此對應到當 Rust 嘗試檢查像是範例 15-2 的 `List` 列舉來決定遞迴型別需要多少空間時，究竟會發生什麼事。編譯器先從查看 `Cons` 的變體開始，其存有一個 `i32` 型別與一個 `List` 型別。因此 `Cons` 需要的空間大小為 `i32` 的大小加上 `List` 的大小。為了要瞭解 `List` 型別需要的多少記憶體，編譯器在進一步看它的變體，也是從 `Cons` 變體開始。`Cons` 變體存有一個型別 `i32` 與一個型別 `List`，而這樣的過程就無限處理下去，如圖示 15-1 所示。
 
 <img alt="An infinite Cons list" src="img/trpl15-01.svg" class="center" style="width: 50%;" />
 
@@ -117,7 +117,7 @@ help: insert some indirection (e.g., a `Box`, `Rc`, or `&`) to make `List` repre
 
 因為 `Box<T>` 是個指標，Rust 永遠知道 `Box<T>` 需要多少空間：指標的大小不會隨著指向的資料數量而改變。這代表我們可以將 `Box<T>` 存入 `Cons` 變體而非直接儲存另一個 `List` 數值。`Box<T>` 會指向另一個存在於堆積上的 `List` 數值而不是存在 `Cons` 變體中。概念上我們仍然有建立一個持有其他列表的列表，但此實作更像是將項目接著另一個項目排列，而非包含另一個在內。
 
-我們可以改變範例 15-2 的 `List` 枚舉定義以及範例 15-3 `List` 的使用方式，將其寫入範例 15-5，這次就能夠編譯過了：
+我們可以改變範例 15-2 的 `List` 列舉定義以及範例 15-3 `List` 的使用方式，將其寫入範例 15-5，這次就能夠編譯過了：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 

@@ -147,9 +147,9 @@ io::stdin().read_line(&mut guess).expect("讀取行數失敗");
 
 但是這麼長通常會很難閱讀，最好還是能夠分段。當你透過 `.method_name()` 語法呼叫方法時，通常換行來寫並加上縮排，來拆開一串很長的程式碼會比較好閱讀。現在讓我們來討論這行在做什麼。
 
-如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個 `Result` 數值。[`Result`][result]<!-- ignore --> 是種[**枚舉（enumerations）**][enums]<!-- ignore -->，常稱為 *enums*。枚舉是種可能有數種狀態其中之一的型別，而每種可能的狀態我們稱之為枚舉的**變體（variants）**。
+如稍早提過的，`read_line` 會將使用者任何輸入轉換至我們傳入的字串，但它還回傳了一個 `Result` 數值。[`Result`][result]<!-- ignore --> 是種[**列舉（enumerations）**][enums]<!-- ignore -->，常稱為 *enums*。列舉是種可能有數種狀態其中之一的型別，而每種可能的狀態我們稱之為列舉的**變體（variants）**。
 
-[第六章][enums]<!-- ignore -->會更詳細地介紹枚舉，這些 `Result` 型別的目的是要編碼錯誤處理資訊。
+[第六章][enums]<!-- ignore -->會更詳細地介紹列舉，這些 `Result` 型別的目的是要編碼錯誤處理資訊。
 
 `Result` 的變體有 `Ok` 和 `Err`。`Ok` 變體指的是該動作成功完成，且 `Ok` 內部會包含成功產生的數值。而 `Err` 變體代表動作失敗，且 `Err` 會包含該動作如何與為何會失敗的資訊。
 
@@ -386,9 +386,9 @@ $ cargo run
 
 <span class="caption">範例 2-4：處理比較兩個數字後的可能數值</span>
 
-首先我們加上另一個 `use` 陳述式，這將 `std::cmp::Ordering` 型別從標準函式庫引入作用域中。`Ordering` 是另一個枚舉，擁有的變體為 `Less`、`Greater` 與 `Equal`。這些是當你比較兩個數值時的三種可能結果。
+首先我們加上另一個 `use` 陳述式，這將 `std::cmp::Ordering` 型別從標準函式庫引入作用域中。`Ordering` 是另一個列舉，擁有的變體為 `Less`、`Greater` 與 `Equal`。這些是當你比較兩個數值時的三種可能結果。
 
-然後我們在底下加上五行程式碼來使用 `Ordering` 型別。`cmp` 方法會比較兩個數值，並能在任何可以比較的數值中進行呼叫。其參考一個任何你想做比較的數值，在此例中就是將 `guess` 與 `secret_number` 做比較。然後它會回傳我們透過 `use` 陳述式引入作用域的 `Ordering` 枚舉其中一個變體。我們使用 [`match`][match]<!-- ignore --> 表達式來依據透過 `guess` 與 `secret_number` 呼叫 `cmp` 回傳的 `Ordering` 變體來決定下一步要做什麼。
+然後我們在底下加上五行程式碼來使用 `Ordering` 型別。`cmp` 方法會比較兩個數值，並能在任何可以比較的數值中進行呼叫。其參考一個任何你想做比較的數值，在此例中就是將 `guess` 與 `secret_number` 做比較。然後它會回傳我們透過 `use` 陳述式引入作用域的 `Ordering` 列舉其中一個變體。我們使用 [`match`][match]<!-- ignore --> 表達式來依據透過 `guess` 與 `secret_number` 呼叫 `cmp` 回傳的 `Ordering` 變體來決定下一步要做什麼。
 
 `match` 表達式由**分支**（arms）所組成。分支包含一個能被配對的**模式**（pattern）以及對應的程式碼，這在當 `match` 的數值能與該分支的模式配對時就能執行。Rust 會用 `match` 得到的數值依序遍歷每個分支中的模式。`match` 結構與模式是 Rust 中非常強大的特色，能讓你表達各種程式碼可能會遇上的情形，並確保你有將它們全部處理完。這些特色功能會在第六章與第十八章分別討論其細節。
 
@@ -532,7 +532,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 <span class="caption">範例 2-5：忽略非數字的猜測並要求下一個猜測數字，而不是讓程式當掉</span>
 
-我們將 `expect` 的呼叫換成 `match` 表達式，從錯誤中當掉改成實際處理錯誤。你應該還記得 `parse` 回傳的是 `Result` 型別，且 `Result` 是個枚舉，其變體為 `Ok` 與 `Err`。我們在此使用 `match` 表達式，如同我們對 `cmp` 方法回傳的 `Ordering` 處理方式一樣。
+我們將 `expect` 的呼叫換成 `match` 表達式，從錯誤中當掉改成實際處理錯誤。你應該還記得 `parse` 回傳的是 `Result` 型別，且 `Result` 是個列舉，其變體為 `Ok` 與 `Err`。我們在此使用 `match` 表達式，如同我們對 `cmp` 方法回傳的 `Ordering` 處理方式一樣。
 
 如果 `parse` 能成功將字串轉換成數字，它會回傳 `Ok` 數值內包含的結果數字。該 `Ok` 數值就會配對到第一個分支的模式，然後 `match` 表達式就會回傳 `parse` 產生並填入 `Ok` 內的 `num` 數值。該數字最後就會如我們所願變成我們建立的 `guess` 變數。
 
@@ -586,7 +586,7 @@ foo
 
 ## 總結
 
-此專案讓你能動手實踐並親自體驗許多 Rust 的新概念：`let`、`match`、函式、外部 crate 的使用以及更多等等。在接下來陸續的章節，你將深入學習這些概念。第三章會涵蓋多數程式設計語言都有的概念，像是變數、資料型別與函式，以及如何在 Rust 中使用它們。第四章會探索所有權（ownership），這是 Rust 與其他語言最不同的特色。第五章會討論結構體（structs）與方法語法，而第六章會解釋枚舉。
+此專案讓你能動手實踐並親自體驗許多 Rust 的新概念：`let`、`match`、函式、外部 crate 的使用以及更多等等。在接下來陸續的章節，你將深入學習這些概念。第三章會涵蓋多數程式設計語言都有的概念，像是變數、資料型別與函式，以及如何在 Rust 中使用它們。第四章會探索所有權（ownership），這是 Rust 與其他語言最不同的特色。第五章會討論結構體（structs）與方法語法，而第六章會解釋列舉。
 
 [prelude]: https://doc.rust-lang.org/std/prelude/index.html
 [variables-and-mutability]:
