@@ -228,11 +228,11 @@ b 下個項目 = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
 b 在變更 a 後的參考計數 = 2
 a 在變更 a 後的參考計數 = 2
 </code></pre>
-<p>在我們變更列表 <code>a</code> 來指向 <code>b</code> 後，<code>a</code> 和 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例參考計數都是 2。在 <code>main</code> 結束後，Rust 會釋放 <code>b</code>，讓 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例計數從 2 減到 1。此時堆積上 <code>Rc&lt;List&gt;</code> 的記憶體還不會被釋放，因爲參考計數還有 1，而非 0。然後 Rust 釋放 <code>a</code>，讓 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 實例也從 2 減到 1。此實例的記憶體也不會被釋放，因爲另一個 <code>Rc&lt;List&gt;</code> 的實例仍然參考著它。列表分配的記憶體會永遠不被釋放。為了視覺化參考循環，我們用圖示 15-4 表示。</p>
+<p>在我們變更列表 <code>a</code> 來指向 <code>b</code> 後，<code>a</code> 和 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例參考計數都是 2。在 <code>main</code> 結束後，Rust 會釋放 <code>b</code>，讓 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例計數從 2 減到 1。此時堆積上 <code>Rc&lt;List&gt;</code> 的記憶體還不會被釋放，因爲參考計數還有 1，而非 0。然後 Rust 釋放 <code>a</code>，讓 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 實例也從 2 減到 1。此實例的記憶體也不會被釋放，因爲另一個 <code>Rc&lt;List&gt;</code> 的實例仍然參考著它。列表配置的記憶體會永遠不被釋放。為了視覺化參考循環，我們用圖示 15-4 表示。</p>
 <img alt="Reference cycle of lists" src="img/trpl15-04.svg" class="center" />
 <p><span class="caption">圖示 15-4：列表 <code>a</code> 與 <code>b</code> 彼此指向對方的參考循環</span></p>
 <p>如果你解除最後一個 <code>println!</code> 的註解並執行程式的話，Rust 會嘗試印出此循環，因為 <code>a</code> 會指向 <code>b</code> 會指向 <code>a</code> 以此循環下去，直到堆疊溢位（stack overflow）。</p>
-<p>比起真實世界的程式，此循環造成的影響並不嚴重。因為當我們建立完循環參考，程式就結束了。不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很長一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
+<p>比起真實世界的程式，此循環造成的影響並不嚴重。因為當我們建立完循環參考，程式就結束了。不過要是有個更複雜的程式配置了大量的記憶體而產生循環，並維持很長一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
 <p>要產生循環參考並不是件容易的事，但也不是絕對不可能。如果你有包含 <code>Rc&lt;T&gt;</code> 數值的 <code>RefCell&lt;T&gt;</code> 數值，或是有類似具內部可變性與參考計數巢狀組合的話，你必須確保不會產生循環參考，你無法依靠 Rust 來檢查它們。產生循環參考是程式中的邏輯錯誤，你需要使用自動化測試、程式碼審查以及其他軟體開發技巧來最小化問題。</p>
 <p>另一個避免參考循環的解決辦法是重新組織你的資料結構，確定哪些參考要有所有權，哪些參考不用。這樣一來，循環會由一些有所有權的關係與沒有所有權的關係所組成，而只有所有權關係能影響數值是否能被釋放。在範例 15-25 中。我們永遠會希望 <code>Cons</code> 變體擁有它們的列表，讓重新組織資料結構變得有可能。讓我們看看一個由父節點與子節點的圖形結構，來看看無所有權的關係何時適合用來避免循環參考。</p>
 <h3 id="避免參考循環將-rct-轉換成-weakt"><a class="header" href="#避免參考循環將-rct-轉換成-weakt">避免參考循環：將 <code>Rc&lt;T&gt;</code> 轉換成 <code>Weak&lt;T&gt;</code></a></h3>
@@ -431,7 +431,7 @@ children: RefCell { value: [] } }] } })
 <p>如果我們嘗試在作用域結束後取得 <code>leaf</code> 的父節點，我們會再次獲得 <code>None</code>。在程式的最後，<code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 強計數為 1 且弱計數為 0，因為變數 <code>leaf</code> 現在是 <code>Rc&lt;Node&gt;</code> 唯一的參考。</p>
 <p>所有管理計數與數值釋放都已經實作在 <code>Rc&lt;T&gt;</code> 與 <code>Weak&lt;T&gt;</code>，它們都有 <code>Drop</code> 特的實作。在 <code>Node</code> 的定義中指定子節點對父節點的關係應為 <code>Weak&lt;T&gt;</code> 參考，讓你能夠將父節點與子節點彼此關聯，且不必擔心產生參考循環與記憶體泄漏。</p>
 <h2 id="總結"><a class="header" href="#總結">總結</a></h2>
-<p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設參考所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料分配到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的參考數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，它會在執行時強制檢測借用規則，而非編譯時。</p>
+<p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設參考所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料配置到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的參考數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，它會在執行時強制檢測借用規則，而非編譯時。</p>
 <p>我們也討論了 <code>Deref</code> 與 <code>Drop</code> 特徵，這些對智慧指標提供了許多功能。我們探討了參考循環可能會導致記憶體泄漏以及如何使用 <code>Weak&lt;T&gt;</code> 避免它們。</p>
 <p>如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱<a href="https://doc.rust-lang.org/nomicon/">「The Rustonomicon」</a>來學習更多實用資訊。</p>
 <p>接下來，我們將討論 Rust 的並行性。你還會再學到一些新的智慧指標。</p>

@@ -512,7 +512,7 @@ impl ThreadPool {
 </code></pre>
 <p><span class="caption">範例 20-14：在 <code>ThreadPool</code> 中建立向量來儲存執行緒</span></p>
 <p>我們將 <code>std::thread</code> 引入函式庫 crate 中的作用域，因為我們使用 <code>thread::JoinHandle</code> 作為 <code>ThreadPool</code> 中向量的項目型別。</p>
-<p>一旦有收到有效大小，<code>ThreadPool</code> 就會建立一個可以儲存 <code>size</code> 個項目的新向量。<code>with_capacity</code> 函式會與 <code>Vec::new</code> 做同樣的事，但是有一個關鍵差別：它會預先分配空間給向量。由於我們知道要儲存 <code>size</code> 個元素至向量中，這樣的分配方式會比 <code>Vec::new</code> 還要些微有效一點，因為後者只會在元素插入時才重新分配自身大小。</p>
+<p>一旦有收到有效大小，<code>ThreadPool</code> 就會建立一個可以儲存 <code>size</code> 個項目的新向量。<code>with_capacity</code> 函式會與 <code>Vec::new</code> 做同樣的事，但是有一個關鍵差別：它會預先配置空間給向量。由於我們知道要儲存 <code>size</code> 個元素至向量中，這樣的配置方式會比 <code>Vec::new</code> 還要些微有效一點，因為後者只會在元素插入時才重新配置自身大小。</p>
 <p>當你再次執行 <code>cargo check</code>，這次就能成功編譯。</p>
 <h4 id="結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒"><a class="header" href="#結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒">結構體 <code>Worker</code> 負責從 <code>ThreadPool</code> 傳遞程式碼給一條執行緒</a></h4>
 <p>我們在範例 20-14 的 <code>for</code> 迴圈中留下一個關於建立執行緒的註解。我們在此將看看我們該如何實際建立執行緒。標準函式庫提供 <code>thread::spawn</code> 作為建立執行緒的方式，然後 <code>thread::spawn</code> 預期在執行緒建立時就會獲得一些程式碼讓執行緒能夠執行。但在我們的場合中，我們希望建立執行緒，並讓它們<strong>等待</strong>我們之後會傳送的程式碼。標準函式庫的執行緒實作並不包含這種方式，我們得自己實作。</p>

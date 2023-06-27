@@ -1505,7 +1505,7 @@ error: could not compile `no_type_annotations` due to previous error
     let a = [1, 2, 3, 4, 5];
 }
 </code></pre></pre>
-<p>當你想要你的資料被分配在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在<a href="ch04-01-what-is-ownership.html#the-stack-and-the-heap">第四章</a><!-- ignore -->討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素時也是。所以陣列不像向量（vector）型別那麼有彈性，<strong>向量</strong>是標準函式庫提供的集合型別，類似於陣列但<strong>允許</strong>變更長度大小。如果你不確定該用陣列或向量的話，通常你應該用向量就好。<a href="ch08-01-vectors.html">第八章</a><!-- ignore -->將會討論更多向量的細節。</p>
+<p>當你想要你的資料被配置在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在<a href="ch04-01-what-is-ownership.html#the-stack-and-the-heap">第四章</a><!-- ignore -->討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素時也是。所以陣列不像向量（vector）型別那麼有彈性，<strong>向量</strong>是標準函式庫提供的集合型別，類似於陣列但<strong>允許</strong>變更長度大小。如果你不確定該用陣列或向量的話，通常你應該用向量就好。<a href="ch08-01-vectors.html">第八章</a><!-- ignore -->將會討論更多向量的細節。</p>
 <p>不過如果你知道元素的多寡不會變的話，陣列就是個不錯的選擇。舉例來說，如果你想在程式中使用月份的話，你可能就會選擇用陣列宣告，因為永遠只會有 12 個月份：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1528,7 +1528,7 @@ error: could not compile `no_type_annotations` due to previous error
 </span></code></pre></pre>
 <p>陣列 <code>a</code> 會包含 <code>5</code> 個元素，然後每個元素的初始化數值均為 <code>3</code>。這樣寫與 <code>let a = [3, 3, 3, 3, 3];</code> 的寫法一樣，但比較簡潔。</p>
 <h5 id="獲取陣列元素"><a class="header" href="#獲取陣列元素">獲取陣列元素</a></h5>
-<p>一個陣列是被分配在堆疊上且已知固定大小的一整塊記憶體，你可以用索引來取得陣列的元素，比如：</p>
+<p>一個陣列是被配置在堆疊上且已知固定大小的一整塊記憶體，你可以用索引來取得陣列的元素，比如：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [1, 2, 3, 4, 5];
@@ -2134,18 +2134,18 @@ End count = 2
 </ul>
 <p>當你準備好後，我們就來探討一個其他語言<strong>不常見</strong>的概念：所有權。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="理解所有權"><a class="header" href="#理解所有權">理解所有權</a></h1>
-<p>所有權可以說是 Rust 最與眾不同的特色，並深深影響著整個語言。這讓 Rust 不需要垃圾回收（garbage collector）就可以保障記憶體安全，因此理解 Rust 中的所有權如何運作至關重要。在本章節，我們將討論所有權以及一些相關的功能：借用、切片與 Rust 如何在記憶體分配資料。</p>
+<p>所有權可以說是 Rust 最與眾不同的特色，並深深影響著整個語言。這讓 Rust 不需要垃圾回收（garbage collector）就可以保障記憶體安全，因此理解 Rust 中的所有權如何運作至關重要。在本章節，我們將討論所有權以及一些相關的功能：借用、切片與 Rust 如何在記憶體配置資料。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="什麼是所有權"><a class="header" href="#什麼是所有權">什麼是所有權？</a></h2>
 <p><strong>所有權</strong>在 Rust 中用來管理程式記憶體的一系列規則。 </p>
-<p>所有程式都需要在執行時管理它們使用記憶體的方式。有些語言會用垃圾回收機制，在程式執行時不斷尋找不再使用的記憶體；而有些程式，開發者必須親自分配和釋放記憶體。Rust 選擇了第三種方式：記憶體由所有權系統管理，且編譯器會在編譯時加上一些規則檢查。如果有地方違規的話，程式就無法編譯。這些所有權的規則完全不會降低執行程式的速度。</p>
+<p>所有程式都需要在執行時管理它們使用記憶體的方式。有些語言會用垃圾回收機制，在程式執行時不斷尋找不再使用的記憶體；而有些程式，開發者必須親自配置和釋放記憶體。Rust 選擇了第三種方式：記憶體由所有權系統管理，且編譯器會在編譯時加上一些規則檢查。如果有地方違規的話，程式就無法編譯。這些所有權的規則完全不會降低執行程式的速度。</p>
 <p>因為所有權對許多程式設計師來說是個全新的觀念，所以的確需要花一點時間消化。好消息是隨著你越熟悉 Rust 與所有權系統的規則，你越能輕鬆地開發出安全又高效的程式碼。加油，堅持下去！</p>
 <p>當你理解所有權時，你就有一個穩健的基礎能夠理解那些使 Rust 獨特的功能。在本章節中，你將透過一些範例來學習所有權，我們會專注在一個非常常見的資料結構：字串。</p>
 <blockquote>
 <h3 id="堆疊stack與堆積heap"><a class="header" href="#堆疊stack與堆積heap">堆疊（Stack）與堆積（Heap）</a></h3>
 <p>在許多程式語言中，你通常不需要去想到堆疊與堆積。但在像是 Rust 這樣的系統程式語言，資料是位於堆疊還是堆積就會有差，這會影響語言的行為也是你得作出某些特定決策的理由。在本章稍後討論所有權時，都會談到堆疊與堆積的關聯，所以這裡預先稍作解釋。</p>
 <p>堆疊與堆積都是提供程式碼在執行時能夠使用的記憶體部分，但他們組成的方式卻不一樣。堆疊會按照它取得數值的順序依序存放它們，並以相反的順序移除數值。這通常稱為<strong>後進先出（last in, first out）</strong>。你可以把堆疊想成是盤子，當你要加入更多盤子，你會將它們疊在最上面。如果你要取走盤子的話，你也是從最上方拿走。想要從底部或中間，插入或拿走盤子都是不可行的！當我們要新增資料時，我們會稱呼為<strong>推入堆疊（pushing onto the stack）</strong>，而移除資料則是叫做<strong>彈出堆疊（popping off the stack）</strong>。所有在堆疊上的資料都必須是已知固定大小。在編譯時屬於未知或可能變更大小的資料必須儲存在堆積。</p>
-<p>堆積就比較沒有組織，當你要將資料放入堆積，你得要求一定大小的空間。記憶體分配器（memory allocator）會找到一塊夠大的空位，標記為已佔用，然後回傳一個<strong>指標（pointer）</strong>，指著該位置的位址。這樣的過程稱為<strong>在堆積上分配（allocating on the heap）</strong>，或者有時直接簡稱為<strong>分配</strong>（allocating）就好（將數值放入堆疊不會被視為是在分配）。因為指標是固定已知的大小，所以你可以存在堆疊上。但當你要存取實際資料時，你就得去透過指標取得資料。你可以想像成是一個餐廳。當你進入餐廳時，你會告訴服務員你的團體有多少人，他就會將你們帶到足夠人數的餐桌。如果你的團體有人晚到的話，他們可以直接詢問你坐在哪而找到你。</p>
-<p>將資料推入堆疊會比在堆積上分配還來的快，因為分配器不需要去搜尋哪邊才能存入新資料，其位置永遠在堆疊最上方。相對的，堆積就需要比較多步驟，分配器必須先找到一個夠大的空位來儲存資料，然後作下紀錄為下次分配做準備。</p>
+<p>堆積就比較沒有組織，當你要將資料放入堆積，你得要求一定大小的空間。記憶體配置器（memory allocator）會找到一塊夠大的空位，標記為已佔用，然後回傳一個<strong>指標（pointer）</strong>，指著該位置的位址。這樣的過程稱為<strong>在堆積上配置（allocating on the heap）</strong>，或者有時直接簡稱為<strong>配置</strong>（allocating）就好（將數值放入堆疊不會被視為是在配置）。因為指標是固定已知的大小，所以你可以存在堆疊上。但當你要存取實際資料時，你就得去透過指標取得資料。你可以想像成是一個餐廳。當你進入餐廳時，你會告訴服務員你的團體有多少人，他就會將你們帶到足夠人數的餐桌。如果你的團體有人晚到的話，他們可以直接詢問你坐在哪而找到你。</p>
+<p>將資料推入堆疊會比在堆積上配置還來的快，因為配置器不需要去搜尋哪邊才能存入新資料，其位置永遠在堆疊最上方。相對的，堆積就需要比較多步驟，配置器必須先找到一個夠大的空位來儲存資料，然後作下紀錄為下次配置做準備。</p>
 <p>在堆積上取得資料也比在堆疊上取得來得慢，因為你需要用追蹤指標才找的到。現代的處理器如果在記憶體間跳轉越少的話速度就越快。讓我們繼續用餐廳做比喻，想像伺服器就是在餐廳為數個餐桌點餐。最有效率的點餐方式就是依照餐桌順序輪流點餐。如果幫餐桌 A 點了餐之後跑到餐桌 B 點，又跑回到 A 然後又跑到 B 的話，可以想像這是個浪費時間的過程。同樣的道理，處理器在處理任務時，如果處理的資料相鄰很近（就如同存在堆疊）的話，當然比相鄰很遠（如同存在堆積）來得快。</p>
 <p>當你的程式碼呼叫函式時，傳遞給函式的數值（可能包含指向堆積上資料的指標）與函式區域變數會被推入堆疊。當函式結束時，這些數值就會被彈出。</p>
 <p>追蹤哪部分的程式碼用到了堆積上的哪些資料、最小化堆積上的重複資料、以及清除堆積上沒在使用的資料確保你不會耗盡空間，這些問題都是所有權系統要處理的。一旦你理解所有權後，你通常就不再需要經常考慮堆疊與堆積的問題，不過能理解所有權主要就是為了管理堆積有助於解釋為何它要這樣運作。</p>
@@ -2184,7 +2184,7 @@ End count = 2
 <h3 id="string-型別"><a class="header" href="#string-型別"><code>String</code> 型別</a></h3>
 <p>要能夠解釋所有權規則，我們需要使用比第三章的<a href="ch03-02-data-types.html#data-types">「資料型別」</a><!-- ignore -->介紹過的還複雜的型別才行。之前我們提到的型別都是已知固定大小且儲存在堆疊上的，在作用域結束時就會從堆疊中彈出。而且如果其它部分的程式碼需要在不同作用域使用相同數值的話，它們都能迅速簡單地透過複製產生新的單獨實例。但是我們想要觀察的是儲存在堆積上的資料，並研究 Rust 是如何知道要清理資料的。而 <code>String</code> 型別正是個絕佳範例。</p>
 <p>我們專注在 <code>String</code> 與所有權有關的部分。這些部分也適用於其他基本函式庫或你自己定義的複雜資料型別。我們會在<a href="ch08-02-strings.html">第八章</a><!-- ignore -->更深入探討 <code>String</code>。</p>
-<p>我們已經看過字串字面值（string literals），字串的數值是寫死在我們的程式內的。字串字面值的確很方便，但它不可能完全適用於我們使用文字時的所有狀況。其中一個原因是因為它是不可變的，另一個原因是並非所有字串值在我們編寫程式時就會知道。舉例來說，要是我們想要收集使用者的輸入並儲存它呢？對於這些情形，Rust 提供第二種字串型別 <code>String</code>。此型別管理分配在堆積上的資料，所以可以儲存我們在編譯期間未知的一些文字。你可以從字串字面值使用 <code>from</code> 函式來建立一個 <code>String</code>，如以下所示：</p>
+<p>我們已經看過字串字面值（string literals），字串的數值是寫死在我們的程式內的。字串字面值的確很方便，但它不可能完全適用於我們使用文字時的所有狀況。其中一個原因是因為它是不可變的，另一個原因是並非所有字串值在我們編寫程式時就會知道。舉例來說，要是我們想要收集使用者的輸入並儲存它呢？對於這些情形，Rust 提供第二種字串型別 <code>String</code>。此型別管理配置在堆積上的資料，所以可以儲存我們在編譯期間未知的一些文字。你可以從字串字面值使用 <code>from</code> 函式來建立一個 <code>String</code>，如以下所示：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from(&quot;hello&quot;);
@@ -2201,14 +2201,14 @@ End count = 2
 <span class="boring">}
 </span></code></pre></pre>
 <p>所以這邊有何差別呢？為何 <code>String</code> 是可變的，但字面值卻不行？兩者最主要的差別在於它們對待記憶體的方式。</p>
-<h3 id="記憶體與分配"><a class="header" href="#記憶體與分配">記憶體與分配</a></h3>
+<h3 id="記憶體與配置"><a class="header" href="#記憶體與配置">記憶體與配置</a></h3>
 <p>以字串字面值來說，我們在編譯時就知道它的內容，所以可以寫死在最終執行檔內。這就是為何字串字面值非常迅速且高效。但這些特性均來自於字串字面值的不可變性。不幸的是我們無法將編譯時未知大小的文字，或是執行程式時大小可能會改變的文字等對應記憶體塞進執行檔中。</p>
-<p>而對於 <code>String</code> 型別來說，為了要能夠支援可變性、改變文字長度大小，我們需要在堆積上分配一塊編譯時未知大小的記憶體來儲存這樣的內容，這代表：</p>
+<p>而對於 <code>String</code> 型別來說，為了要能夠支援可變性、改變文字長度大小，我們需要在堆積上配置一塊編譯時未知大小的記憶體來儲存這樣的內容，這代表：</p>
 <ul>
-<li>記憶體分配器必須在執行時請求記憶體。</li>
-<li>我們不再需要這個 <code>String</code> 時，我們需要以某種方法將此記憶體還給分配器。</li>
+<li>記憶體配置器必須在執行時請求記憶體。</li>
+<li>我們不再需要這個 <code>String</code> 時，我們需要以某種方法將此記憶體還給配置器。</li>
 </ul>
-<p>當我們呼叫 <code>String::from</code> 時就等於完成第一個部分，它的實作會請求分配一塊它需要的記憶體。這邊大概和其他程式語言都一樣。</p>
+<p>當我們呼叫 <code>String::from</code> 時就等於完成第一個部分，它的實作會請求配置一塊它需要的記憶體。這邊大概和其他程式語言都一樣。</p>
 <p>不過第二部分就不同了。在擁有<strong>垃圾回收機制</strong>（garbage collector, GC）的語言中，GC 會追蹤並清理不再使用的記憶體，所以我們不用去擔心這件事。沒有 GC 的話，識別哪些記憶體不再使用並明確的呼叫程式碼釋放它們就是我們的責任了，就像我們請求取得它一樣。在以往的歷史我們可以看到要完成這件事是一項艱鉅的任務，如果我們忘了，那麼就等於在浪費記憶體。如果我們釋放的太早的話，我們則有可能會拿到無效的變數。要是我們釋放了兩次，那也會造成程式錯誤。我們必須準確無誤地配對一個 <code>allocate</code> 給剛好一個 <code>free</code>。</p>
 <p>Rust 選擇了一條不同的道路：當記憶體在擁有它的變數離開作用域時就會自動釋放。以下是我們解釋作用域的範例 4-1，但使用的是 <code>String</code> 而不是原本的字串字面值：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -2220,11 +2220,11 @@ End count = 2
                                        // s 不再有效
 <span class="boring">}
 </span></code></pre></pre>
-<p>當 <code>s</code> 離開作用域時，我們就可以很自然地將 <code>String</code> 所需要的記憶體釋放回分配器。當變數離開作用域時，Rust 會幫我們呼叫一個特殊函式。此函式叫做 <a href="https://doc.rust-lang.org/std/ops/trait.Drop.html#tymethod.drop"><code>drop</code></a><!-- ignore -->，在這裡當時 <code>String</code> 的作者就可以寫入釋放記憶體的程式碼。Rust 會在大括號結束時自動呼叫 <code>drop</code>。</p>
+<p>當 <code>s</code> 離開作用域時，我們就可以很自然地將 <code>String</code> 所需要的記憶體釋放回配置器。當變數離開作用域時，Rust 會幫我們呼叫一個特殊函式。此函式叫做 <a href="https://doc.rust-lang.org/std/ops/trait.Drop.html#tymethod.drop"><code>drop</code></a><!-- ignore -->，在這裡當時 <code>String</code> 的作者就可以寫入釋放記憶體的程式碼。Rust 會在大括號結束時自動呼叫 <code>drop</code>。</p>
 <blockquote>
 <p>注意：在 C++，這樣在項目生命週期結束時釋放資源的模式，有時被稱為<strong>資源取得即初始化（Resource Acquisition Is Initialization, RAII）</strong>。如果你已經用過 RAII 的模式，那麼你應該就會很熟悉 Rust 的 <code>drop</code> 函式。</p>
 </blockquote>
-<p>這樣的模式對於 Rust 程式碼的編寫有很深遠的影響。雖然現在這樣看起來很簡單，但在更多複雜的情況下程式碼的行為可能會變得很難預測。像是當我們需要許多變數，所以得在堆積上分配它們的情況。現在就讓我們開始來探討這些情形。</p>
+<p>這樣的模式對於 Rust 程式碼的編寫有很深遠的影響。雖然現在這樣看起來很簡單，但在更多複雜的情況下程式碼的行為可能會變得很難預測。像是當我們需要許多變數，所以得在堆積上配置它們的情況。現在就讓我們開始來探討這些情形。</p>
 <h4 id="變數與資料互動的方式移動move"><a class="header" href="#變數與資料互動的方式移動move">變數與資料互動的方式：移動（Move）</a></h4>
 <p>數個變數在 Rust 中可以有許多不同方式來與相同資料進行互動。讓我們看看使用整數的範例 4-2。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -2248,7 +2248,7 @@ value in the second table. The second table contains the representation of the
 string data on the heap, byte by byte." src="img/trpl04-01.svg" class="center"
 style="width: 50%;" /></p>
 <p><span class="caption">圖示 4-1：將數值 <code>&quot;hello&quot;</code> 賦值給 <code>s1</code> 的 <code>String</code> 記憶體結構</span></p>
-<p>長度指的是目前所使用的 <code>String</code> 內容在記憶體以位元組為單位所佔用的大小。而容量則是 <code>String</code> 從分配器以位元組為單位取得的總記憶體量。長度和容量的確是有差別的，但現在對我們來說還不太重要，你現在可以先忽略容量的問題。</p>
+<p>長度指的是目前所使用的 <code>String</code> 內容在記憶體以位元組為單位所佔用的大小。而容量則是 <code>String</code> 從配置器以位元組為單位取得的總記憶體量。長度和容量的確是有差別的，但現在對我們來說還不太重要，你現在可以先忽略容量的問題。</p>
 <p>當我們將 <code>s1</code> 賦值給 <code>s2</code>，<code>String</code> 的資料會被拷貝，不過我們拷貝的是堆疊上的指標、長度和容量。我們不會拷貝指標指向的堆積資料。資料以記憶體結構表示的方式會如圖示 4-2 表示。</p>
 <p><img alt="Three tables: tables s1 and s2 representing those strings on the
 stack, respectively, and both pointing to the same string data on the heap."
@@ -2321,7 +2321,7 @@ access the heap data." src="img/trpl04-04.svg" class="center" style="width:
 <p>原因是因為像整數這樣的型別在編譯時是已知大小，所以只會存在在堆疊上。所以要拷貝一份實際數值的話是很快的。這也讓我們沒有任何理由要讓 <code>x</code> 在 <code>y</code> 建立後被無效化。換句話說，這邊沒有所謂淺拷貝與深拷貝的差別。所以這邊呼叫 <code>clone</code> 的話不會與平常的淺拷貝有啥不一樣，我們可以保持這樣就好。</p>
 <p>Rust 有個特別的標記叫做 <code>Copy</code> 特徵（trait）可以用在標記像整數這樣存在堆疊上的型別（我們會在<a href="ch10-02-traits.html">第十章</a><!-- ignore -->討論什麼是特徵）。如果一個型別有 <code>Copy</code> 特徵的話，一個變數在賦值給其他變數後仍然會是有效的。</p>
 <p>如果一個型別有實作（implement）<code>Drop</code> 特徵的話，Rust 不會允許我們讓此型別擁有 <code>Copy</code> 特徵。如果我們對某個型別在數值離開作用域時，需要再做特別處理的話，我們對此型別標註 <code>Copy</code> 特徵會在編譯時期產生錯誤。想要瞭解如何為你的型別實作 <code>Copy</code> 特徵的話，請參考附錄 C <a href="appendix-03-derivable-traits.html">「可推導的特徵」</a><!-- ignore -->。</p>
-<p>所以哪些型別有實作 <code>Copy</code> 特徵呢？你可以閱讀技術文件來知道哪些型別有，但基本原則是任何簡單地純量數值都可以實作 <code>Copy</code>，且不需要分配記憶體或任何形式資源的型別也有實作 <code>Copy</code>。以下是一些有實作 <code>Copy</code> 的型別：</p>
+<p>所以哪些型別有實作 <code>Copy</code> 特徵呢？你可以閱讀技術文件來知道哪些型別有，但基本原則是任何簡單地純量數值都可以實作 <code>Copy</code>，且不需要配置記憶體或任何形式資源的型別也有實作 <code>Copy</code>。以下是一些有實作 <code>Copy</code> 的型別：</p>
 <ul>
 <li>所有整數型別像是 <code>u32</code>。</li>
 <li>布林型別 <code>bool</code>，它只有數值 <code>true</code> 與 <code>false</code>。</li>
@@ -4998,7 +4998,7 @@ error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immuta
 For more information about this error, try `rustc --explain E0502`.
 error: could not compile `collections` due to previous error
 </code></pre>
-<p>範例 8-6 的程式碼看起來好像能執行。為何第一個元素的參考要在意向量的最後端發生了什麼事呢？此錯誤其實跟向量運作的方式有關：由於向量會將元素放在前一位的記憶體位置後方，在向量後方新增元素時，如果當前向量的空間不夠再塞入另一個值的話，可能會需要分配新的記憶體並複製舊的元素到新的空間中。這樣一來，第一個元素的索引可能就會指向已經被釋放的記憶體，借用規則會防止程式遇到這樣的情形。</p>
+<p>範例 8-6 的程式碼看起來好像能執行。為何第一個元素的參考要在意向量的最後端發生了什麼事呢？此錯誤其實跟向量運作的方式有關：由於向量會將元素放在前一位的記憶體位置後方，在向量後方新增元素時，如果當前向量的空間不夠再塞入另一個值的話，可能會需要配置新的記憶體並複製舊的元素到新的空間中。這樣一來，第一個元素的索引可能就會指向已經被釋放的記憶體，借用規則會防止程式遇到這樣的情形。</p>
 <blockquote>
 <p>注意：關於 <code>Vec&lt;T&gt;</code> 型別更多的實作細節，歡迎查閱<a href="https://doc.rust-lang.org/nomicon/vec/vec.html">「The Rustonomicon」</a>。</p>
 </blockquote>
@@ -9664,7 +9664,7 @@ Trust me.&quot;;
 </span></code></pre>
 <p><span class="caption">範例 12-21：定義 <code>search_case_insensitive</code> 並在比較前將搜尋字串與行數均改為小寫</span></p>
 <p>首先我們將 <code>query</code> 字串變成小寫並儲存到同名的遮蔽變數中。我們必須呼叫對要搜尋的字串 <code>to_lowercase</code>，這樣無論使用者輸入的是 <code>&quot;rust&quot;</code>、<code>&quot;RUST&quot;</code>、<code>&quot;Rust&quot;</code> 或 <code>&quot;rUsT&quot;</code>，我們都會將字串視為 <code>&quot;rust&quot;</code> 並以此來不區分大小寫。雖然 <code>to_lowercase</code> 能處理基本的 Unicode，但它不會是 100% 準確的。如果我們是在寫真正的應用程式的話，我們需要處理更多條件，但在此段落是為了理解環境變數而非 Unicode，所以我們維持這樣寫就好。</p>
-<p>注意到 <code>query</code> 現在是個 <code>String</code> 而非字串切片，因為呼叫 <code>to_lowercase</code> 會建立新的資料而非參考現存的資料。假設要搜尋的字串是 <code>&quot;rUsT&quot;</code> 的話，該字串切片並沒有包含小寫的 <code>u</code> 或 <code>t</code> 能讓我們來使用，所以我們必須分配一個包含 <code>&quot;rust&quot;</code> 的新 <code>String</code>。現在當我們將 <code>query</code> 作為引數傳給 <code>contains</code> 方法時，我們需要加上「&amp;」，因為 <code>contains</code> 所定義的簽名接收的是一個字串切片。</p>
+<p>注意到 <code>query</code> 現在是個 <code>String</code> 而非字串切片，因為呼叫 <code>to_lowercase</code> 會建立新的資料而非參考現存的資料。假設要搜尋的字串是 <code>&quot;rUsT&quot;</code> 的話，該字串切片並沒有包含小寫的 <code>u</code> 或 <code>t</code> 能讓我們來使用，所以我們必須配置一個包含 <code>&quot;rust&quot;</code> 的新 <code>String</code>。現在當我們將 <code>query</code> 作為引數傳給 <code>contains</code> 方法時，我們需要加上「&amp;」，因為 <code>contains</code> 所定義的簽名接收的是一個字串切片。</p>
 <p>接著，我們對每個 <code>line</code> 加上 <code>to_lowercase</code> 的呼叫。現在我們將 <code>line</code> 和 <code>query</code> 都轉換成小寫了。我們可以不區分大小寫來找到符合的行數。</p>
 <p>讓我們來看看實作是否能通過測試：</p>
 <pre><code class="language-console">$ cargo test
@@ -10746,7 +10746,7 @@ mod tests {
 <p>當時我們說先不用擔心 <code>clone</code> 呼叫帶來的效率問題，因為我們會在之後移除它們。現在正是絕佳時機！</p>
 <p>我們在此需要 <code>clone</code> 的原因為我們的參數 <code>args</code> 是擁有 <code>String</code> 元素的切片，但是 <code>build</code> 函式並不擁有 <code>args</code>。要回傳 <code>Config</code> 實例的所有權，我們必須克隆數值給 <code>Config</code> 的 <code>query</code> 與 <code>filename</code> 欄位，<code>Config</code> 實例才能擁有其值。</p>
 <p>有了我們新學到的疊代器，我們可以改變 <code>build</code> 函式來取得疊代器的所有權來作為引數，而非借用切片。我們會來使用疊代器的功能，而不是檢查切片長度並索引特定位置。這能讓 <code>Config::build</code> 函式的意圖更清楚，因為疊代器會存取數值。</p>
-<p>一旦 <code>Config::build</code> 取得疊代器的所有權並不再使用借用的索引動作，我們就可以從疊代器中移動 <code>String</code> 的數值至 <code>Config</code> 而非呼叫 <code>clone</code> 來產生新的分配。</p>
+<p>一旦 <code>Config::build</code> 取得疊代器的所有權並不再使用借用的索引動作，我們就可以從疊代器中移動 <code>String</code> 的數值至 <code>Config</code> 而非呼叫 <code>clone</code> 來產生新的配置。</p>
 <h4 id="直接使用回傳的疊代器"><a class="header" href="#直接使用回傳的疊代器">直接使用回傳的疊代器</a></h4>
 <p>請開啟你的 I/O 專案下的 <em>src/main.rs</em> 檔案，這應該會看起來像這樣：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -11817,7 +11817,7 @@ cargo install something you don't have, copy relevant output below
 <p>智慧指標通常都使用結構體實作。和一般結構體不同，智慧指標會實作 <code>Deref</code> 與 <code>Drop</code> 特徵。<code>Deref</code> 特徵允許智慧指標結構體的實例表現的像是參考一樣，讓你可以寫出能用在參考與智慧指標的程式碼。<code>Drop</code> 特徵允許你自訂當智慧指標實例離開作用域時要執行的程式碼。在本章節我們會討論這兩個特徵並解釋為何它們對智慧指標很重要。</p>
 <p>有鑑於智慧指標在 Rust 是個常用的通用設計模式，本章不會涵蓋每一個現有的智慧指標。許多函式庫也都會提供它們自己的智慧指標，你甚至能寫個你自己的。我們會提及標準函式庫中最常用到的智慧指標：</p>
 <ul>
-<li><code>Box&lt;T&gt;</code> 將數值分配到堆積上</li>
+<li><code>Box&lt;T&gt;</code> 將數值配置到堆積上</li>
 <li><code>Rc&lt;T&gt;</code>, 參考計數型別來允許資料能有數個擁有者</li>
 <li>透過 <code>RefCell&lt;T&gt;</code> 來存取 <code>Ref&lt;T&gt;</code> 與 <code>RefMut&lt;T&gt;</code> ，這是在執行時而非編譯時強制執行借用規則的型別</li>
 </ul>
@@ -11842,7 +11842,7 @@ cargo install something you don't have, copy relevant output below
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-1：使用 box 在堆積上儲存一個 <code>i32</code> 數值</span></p>
-<p>我們定義了變數 <code>b</code> 其數值為 <code>Box</code> 分配在堆積上指向的數值 <code>5</code>。程式在此例會印出 <code>b = 5</code>，在此例中我們可以用在堆疊上相同的方式取得 box 的資料。就像任何有所有權的數值一樣，當 box 離開作用域時會釋放記憶體，在此例就是當 <code>b</code> 抵達 <code>main</code> 結尾的時候。釋放記憶體作用於 box（儲存在堆疊上）以及其所指向的資料（儲存在堆積上）。</p>
+<p>我們定義了變數 <code>b</code> 其數值為 <code>Box</code> 配置在堆積上指向的數值 <code>5</code>。程式在此例會印出 <code>b = 5</code>，在此例中我們可以用在堆疊上相同的方式取得 box 的資料。就像任何有所有權的數值一樣，當 box 離開作用域時會釋放記憶體，在此例就是當 <code>b</code> 抵達 <code>main</code> 結尾的時候。釋放記憶體作用於 box（儲存在堆疊上）以及其所指向的資料（儲存在堆積上）。</p>
 <p>將單一數值放在堆積上的確沒什麼用處，所以你不會對這種類型經常使用 box。在大多數情況下將像 <code>i32</code> 這種單一數值預設儲存在堆疊的確比較適合。</p>
 <h3 id="透過-box-建立遞迴型別"><a class="header" href="#透過-box-建立遞迴型別">透過 Box 建立遞迴型別</a></h3>
 <p><strong>遞迴型別</strong>（recursive type）的數值可以用相同型別的其他數值作為自己的一部分。遞迴型別對 Rust 來說會造成問題，因為 Rust 得在編譯期間時知道型別佔用的空間。由於這種巢狀數值理論上可以無限循環下去，Rust 無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。</p>
@@ -11902,7 +11902,7 @@ For more information about this error, try `rustc --explain E0072`.
 error: could not compile `cons-list` due to previous error
 </code></pre>
 <p><span class="caption">範例 15-4：嘗試定義遞迴列舉所得到的錯誤</span></p>
-<p>錯誤顯示此型別的「大小為無限」，原因是因為我們定義的 <code>List</code> 有個變體是遞迴：它直接存有另一個相同類型的數值。所以 Rust 無法判別出它需要多少空間才能儲存一個 <code>List</code> 的數值。讓我進一步研究為何我們會得到這樣的錯誤，首先來看 Rust 如何決定要分配多少空間來儲存非遞迴型別。</p>
+<p>錯誤顯示此型別的「大小為無限」，原因是因為我們定義的 <code>List</code> 有個變體是遞迴：它直接存有另一個相同類型的數值。所以 Rust 無法判別出它需要多少空間才能儲存一個 <code>List</code> 的數值。讓我進一步研究為何我們會得到這樣的錯誤，首先來看 Rust 如何決定要配置多少空間來儲存非遞迴型別。</p>
 <h4 id="計算非遞迴型別的大小"><a class="header" href="#計算非遞迴型別的大小">計算非遞迴型別的大小</a></h4>
 <p>回想一下第六章中，當我們在討論列舉定義時，我們在範例 6-2 定義的 <code>Message</code> 列舉：</p>
 <pre><pre class="playground"><code class="language-rust">enum Message {
@@ -11914,12 +11914,12 @@ error: could not compile `cons-list` due to previous error
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p>要決定一個 <code>Message</code> 數值需要分配多少空間，Rust 會遍歷每個變體來看哪個變體需要最大的空間。Rust 會看到 <code>Message::Quit</code> 不佔任何空間、<code>Message::Move</code> 需要能夠儲存兩個 <code>i32</code> 的空間，以此類推。因為只有一個變體會被使用，一個 <code>Message</code> 數值所需的最大空間就是其最大變體的大小。</p>
+<p>要決定一個 <code>Message</code> 數值需要配置多少空間，Rust 會遍歷每個變體來看哪個變體需要最大的空間。Rust 會看到 <code>Message::Quit</code> 不佔任何空間、<code>Message::Move</code> 需要能夠儲存兩個 <code>i32</code> 的空間，以此類推。因為只有一個變體會被使用，一個 <code>Message</code> 數值所需的最大空間就是其最大變體的大小。</p>
 <p>將此對應到當 Rust 嘗試檢查像是範例 15-2 的 <code>List</code> 列舉來決定遞迴型別需要多少空間時，究竟會發生什麼事。編譯器先從查看 <code>Cons</code> 的變體開始，其存有一個 <code>i32</code> 型別與一個 <code>List</code> 型別。因此 <code>Cons</code> 需要的空間大小為 <code>i32</code> 的大小加上 <code>List</code> 的大小。為了要瞭解 <code>List</code> 型別需要的多少記憶體，編譯器在進一步看它的變體，也是從 <code>Cons</code> 變體開始。<code>Cons</code> 變體存有一個型別 <code>i32</code> 與一個型別 <code>List</code>，而這樣的過程就無限處理下去，如圖示 15-1 所示。</p>
 <img alt="An infinite Cons list" src="img/trpl15-01.svg" class="center" style="width: 50%;" />
 <p><span class="caption">圖示 15-1：無限個 <code>List</code> 包含著無限個 <code>Cons</code> 變體</span></p>
 <h4 id="使用-boxt-取得已知大小的遞迴型別"><a class="header" href="#使用-boxt-取得已知大小的遞迴型別">使用 <code>Box&lt;T&gt;</code> 取得已知大小的遞迴型別</a></h4>
-<p>由於 Rust 無法判別出遞迴定義型別要分配多少空間，所以編譯器會針對此錯誤提供些實用的建議：</p>
+<p>由於 Rust 無法判別出遞迴定義型別要配置多少空間，所以編譯器會針對此錯誤提供些實用的建議：</p>
 <!-- manual-regeneration
 after doing automatic regeneration, look at listings/ch15-smart-pointers/listing-15-03/output.txt and copy the relevant line
 -->
@@ -11947,7 +11947,7 @@ fn main() {
 <p><code>Cons</code> 變體需要的大小為 <code>i32</code> 加上儲存 box 指標的空間。<code>Nil</code> 變體沒有儲存任何數值，所以它需要的空間比 <code>Cons</code> 變體少。現在我們知道任何 <code>List</code> 數值會佔的空間都是一個 <code>i32</code> 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 <code>List</code> 數值所需要的大小。圖示 15-2 顯示了 <code>Cons</code> 變體看起來的樣子。</p>
 <img alt="A finite Cons list" src="img/trpl15-02.svg" class="center" />
 <p><span class="caption">圖示 15-2：不再是無限大小的 <code>List</code>，因為其 <code>Cons</code> 存的是 <code>Box</code></span></p>
-<p>Boxes 只提供了間接儲存與堆積分配，它們沒有其他任何特殊功能，比如我們等下就會看到的其他智慧指標型別。它們也沒有任何因這些特殊功能產生的額外效能開銷，所以它們很適合用於像是 cons list 這種我們只需要間接儲存的場合。我們在第十七章還會再介紹到更多 box 的使用情境。</p>
+<p>Boxes 只提供了間接儲存與堆積配置，它們沒有其他任何特殊功能，比如我們等下就會看到的其他智慧指標型別。它們也沒有任何因這些特殊功能產生的額外效能開銷，所以它們很適合用於像是 cons list 這種我們只需要間接儲存的場合。我們在第十七章還會再介紹到更多 box 的使用情境。</p>
 <p><code>Box&lt;T&gt;</code> 型別是智慧指標是因為它有實作 <code>Deref</code> 特徵，讓 <code>Box&lt;T&gt;</code> 的數值可以被視為參考所使用。當 <code>Box&lt;T&gt;</code> 數值離開作用域時，該 box 指向的堆積資料也會被清除，因為其有 <code>Drop</code> 特徵實作。這兩種特徵對於本章將會討論的其他智慧指標型別所提供的功能，將會更加重要。讓我們來探討這兩種特徵的細節吧。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="透過-deref-特徵將智慧指標視為一般參考"><a class="header" href="#透過-deref-特徵將智慧指標視為一般參考">透過 <code>Deref</code> 特徵將智慧指標視為一般參考</a></h2>
 <p>實作 <code>Deref</code> 特徵讓你可以自訂<strong>解參考運算子（dereference operator）</strong> <code>*</code> 的行為（這不是相乘或全域運算子）。透過這種方式實作 <code>Deref</code> 的智慧指標可以被視為正常參考來對待，這樣操作參考的程式碼也能用在智慧指標中。</p>
@@ -12292,14 +12292,14 @@ CustomSmartPointer 建立完畢。
 CustomSmartPointer 在 main 結束前就被釋放了。
 </code></pre>
 <p><code>釋放 CustomSmartPointer 的資料 `某些資料`!</code> 這段文字會在 <code>CustomSmartPointer 建立完畢。</code> 與 <code>CustomSmartPointer 在 main 結束前就被釋放了。</code> 文字之間印出，顯示  <code>drop</code> 方法會在那時釋放 <code>c</code>。</p>
-<p>你可以在許多地方使用 <code>Drop</code> 特徵實作所指定的程式碼，讓清除實例變得方便又安全。舉例來說，你可以用它來建立你自己的記憶體分配器！透過 <code>Drop</code> 特徵與 Rust 的所有權系統，你不必去擔心要記得清理，因為 Rust 會自動處理。</p>
+<p>你可以在許多地方使用 <code>Drop</code> 特徵實作所指定的程式碼，讓清除實例變得方便又安全。舉例來說，你可以用它來建立你自己的記憶體配置器！透過 <code>Drop</code> 特徵與 Rust 的所有權系統，你不必去擔心要記得清理，因為 Rust 會自動處理。</p>
 <p>你也不必擔心會意外清理仍在使用的數值：所有權系統會確保所有參考永遠有效，並確保當數值不再需要使用時只會呼叫 <code>drop</code> 一次。</p>
 <p>現在你看過 <code>Box&lt;T&gt;</code> 以及一些智慧指標的特性了，讓我們來看看一些其他定義在標準函式庫的智慧指標吧。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="rct-參考計數智慧指標"><a class="header" href="#rct-參考計數智慧指標"><code>Rc&lt;T&gt;</code> 參考計數智慧指標</a></h2>
 <p>在大多數的場合，所有權是很明確的：你能確切知道哪些變數擁有哪些數值。然而還是有些情況會需要讓一個數值能有數個擁有者。舉例來說，在圖資料結構中數個邊可能就會指向同個節點，而該節點概念上就被所有指向它的邊所擁有。節點直到沒有任何邊指向它，也就是沒有任何擁有者時才會被清除。</p>
 <p>你必須使用 Rust 的型別 <code>Rc&lt;T&gt;</code> 才能擁有多重所有權，這是<strong>參考計數</strong>（reference counting）的簡寫。<code>Rc&lt;T&gt;</code> 型別會追蹤參考其數值的數量來決定該數值是否還在使用中。如果數值沒有任何參考的話，該數值就可以被清除，因為不會產生任何無效參考。</p>
 <p>想像 <code>Rc&lt;T&gt;</code> 是個在客廳裡的電視，當有人進入客廳要看電視時，它們就會打開它。其他人也能進來觀看電視。當最後一個人離開客廳時，它們會關掉電視，因為沒有任何人會再看了。如果當其他人還在看電視時，有人關掉了它，其他在看電視的人肯定會生氣。</p>
-<p><code>Rc&lt;T&gt;</code> 型別的使用時機在於當我們想要在堆積上分配一些資料給程式中數個部分讀取，但是我們無法在編譯時期決定哪個部分會最後一個結束使用數值的部分。如果我們知道哪個部分會最後結束的話，我們可以將那個部分作為資料的擁有者就好，然後正常的所有權規則就會在編譯時生效。</p>
+<p><code>Rc&lt;T&gt;</code> 型別的使用時機在於當我們想要在堆積上配置一些資料給程式中數個部分讀取，但是我們無法在編譯時期決定哪個部分會最後一個結束使用數值的部分。如果我們知道哪個部分會最後結束的話，我們可以將那個部分作為資料的擁有者就好，然後正常的所有權規則就會在編譯時生效。</p>
 <p>注意到 <code>Rc&lt;T&gt;</code> 只適用於單一執行緒（single-threaded）的場合。當我們在第十六章討論並行（concurrency）時，我們會介紹如何在多執行緒程式達成參考計數。</p>
 <h3 id="使用-rct-來分享資料"><a class="header" href="#使用-rct-來分享資料">使用 <code>Rc&lt;T&gt;</code> 來分享資料</a></h3>
 <p>讓我們回顧範例 15-5 的 cons list 範例。回想一下我們當時適用 <code>Box&lt;T&gt;</code> 定義。這次我們會建立兩個列表，它們會同時共享第三個列表的所有權。概念上會如圖示 15-3 所示：</p>
@@ -12905,11 +12905,11 @@ b 下個項目 = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
 b 在變更 a 後的參考計數 = 2
 a 在變更 a 後的參考計數 = 2
 </code></pre>
-<p>在我們變更列表 <code>a</code> 來指向 <code>b</code> 後，<code>a</code> 和 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例參考計數都是 2。在 <code>main</code> 結束後，Rust 會釋放 <code>b</code>，讓 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例計數從 2 減到 1。此時堆積上 <code>Rc&lt;List&gt;</code> 的記憶體還不會被釋放，因爲參考計數還有 1，而非 0。然後 Rust 釋放 <code>a</code>，讓 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 實例也從 2 減到 1。此實例的記憶體也不會被釋放，因爲另一個 <code>Rc&lt;List&gt;</code> 的實例仍然參考著它。列表分配的記憶體會永遠不被釋放。為了視覺化參考循環，我們用圖示 15-4 表示。</p>
+<p>在我們變更列表 <code>a</code> 來指向 <code>b</code> 後，<code>a</code> 和 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例參考計數都是 2。在 <code>main</code> 結束後，Rust 會釋放 <code>b</code>，讓 <code>b</code> 的 <code>Rc&lt;List&gt;</code> 實例計數從 2 減到 1。此時堆積上 <code>Rc&lt;List&gt;</code> 的記憶體還不會被釋放，因爲參考計數還有 1，而非 0。然後 Rust 釋放 <code>a</code>，讓 <code>a</code> 的 <code>Rc&lt;List&gt;</code> 實例也從 2 減到 1。此實例的記憶體也不會被釋放，因爲另一個 <code>Rc&lt;List&gt;</code> 的實例仍然參考著它。列表配置的記憶體會永遠不被釋放。為了視覺化參考循環，我們用圖示 15-4 表示。</p>
 <img alt="Reference cycle of lists" src="img/trpl15-04.svg" class="center" />
 <p><span class="caption">圖示 15-4：列表 <code>a</code> 與 <code>b</code> 彼此指向對方的參考循環</span></p>
 <p>如果你解除最後一個 <code>println!</code> 的註解並執行程式的話，Rust 會嘗試印出此循環，因為 <code>a</code> 會指向 <code>b</code> 會指向 <code>a</code> 以此循環下去，直到堆疊溢位（stack overflow）。</p>
-<p>比起真實世界的程式，此循環造成的影響並不嚴重。因為當我們建立完循環參考，程式就結束了。不過要是有個更複雜的程式分配了大量的記憶體而產生循環，並維持很長一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
+<p>比起真實世界的程式，此循環造成的影響並不嚴重。因為當我們建立完循環參考，程式就結束了。不過要是有個更複雜的程式配置了大量的記憶體而產生循環，並維持很長一段時間的話，程式會用到比原本預期還多的記憶體，並可能壓垮系統，導致它將記憶體用光。</p>
 <p>要產生循環參考並不是件容易的事，但也不是絕對不可能。如果你有包含 <code>Rc&lt;T&gt;</code> 數值的 <code>RefCell&lt;T&gt;</code> 數值，或是有類似具內部可變性與參考計數巢狀組合的話，你必須確保不會產生循環參考，你無法依靠 Rust 來檢查它們。產生循環參考是程式中的邏輯錯誤，你需要使用自動化測試、程式碼審查以及其他軟體開發技巧來最小化問題。</p>
 <p>另一個避免參考循環的解決辦法是重新組織你的資料結構，確定哪些參考要有所有權，哪些參考不用。這樣一來，循環會由一些有所有權的關係與沒有所有權的關係所組成，而只有所有權關係能影響數值是否能被釋放。在範例 15-25 中。我們永遠會希望 <code>Cons</code> 變體擁有它們的列表，讓重新組織資料結構變得有可能。讓我們看看一個由父節點與子節點的圖形結構，來看看無所有權的關係何時適合用來避免循環參考。</p>
 <h3 id="避免參考循環將-rct-轉換成-weakt"><a class="header" href="#避免參考循環將-rct-轉換成-weakt">避免參考循環：將 <code>Rc&lt;T&gt;</code> 轉換成 <code>Weak&lt;T&gt;</code></a></h3>
@@ -13108,7 +13108,7 @@ children: RefCell { value: [] } }] } })
 <p>如果我們嘗試在作用域結束後取得 <code>leaf</code> 的父節點，我們會再次獲得 <code>None</code>。在程式的最後，<code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 強計數為 1 且弱計數為 0，因為變數 <code>leaf</code> 現在是 <code>Rc&lt;Node&gt;</code> 唯一的參考。</p>
 <p>所有管理計數與數值釋放都已經實作在 <code>Rc&lt;T&gt;</code> 與 <code>Weak&lt;T&gt;</code>，它們都有 <code>Drop</code> 特的實作。在 <code>Node</code> 的定義中指定子節點對父節點的關係應為 <code>Weak&lt;T&gt;</code> 參考，讓你能夠將父節點與子節點彼此關聯，且不必擔心產生參考循環與記憶體泄漏。</p>
 <h2 id="總結-14"><a class="header" href="#總結-14">總結</a></h2>
-<p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設參考所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料分配到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的參考數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，它會在執行時強制檢測借用規則，而非編譯時。</p>
+<p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設參考所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料配置到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的參考數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，它會在執行時強制檢測借用規則，而非編譯時。</p>
 <p>我們也討論了 <code>Deref</code> 與 <code>Drop</code> 特徵，這些對智慧指標提供了許多功能。我們探討了參考循環可能會導致記憶體泄漏以及如何使用 <code>Weak&lt;T&gt;</code> 避免它們。</p>
 <p>如果本章節引起你的興趣，讓你想要實作你自己的智慧指標的話，歡迎查閱<a href="https://doc.rust-lang.org/nomicon/">「The Rustonomicon」</a>來學習更多實用資訊。</p>
 <p>接下來，我們將討論 Rust 的並行性。你還會再學到一些新的智慧指標。</p>
@@ -16265,7 +16265,7 @@ pub trait Write {
 </span></code></pre>
 <p>這裡迴圈永不結束，所以 <code>!</code> 就是迴圈表達式的值。但當我們有一個 <code>break</code> 時，這就不成立了，因為迴圈會在抵達 <code>break</code> 時終止。</p>
 <h3 id="動態大小型別與-sized-特徵"><a class="header" href="#動態大小型別與-sized-特徵">動態大小型別與 <code>Sized</code> 特徵</a></h3>
-<p>Rust 需要了解其型別的特定細節，例如需替特定型別之值分配多少空間。這導致型別系統有令人困惑的小地方：即是<strong>動態大小型別</strong>（dynamically sized type）的概念。有時稱為 <em>DST</em> 或<strong>不定大小（unsize）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
+<p>Rust 需要了解其型別的特定細節，例如需替特定型別之值配置多少空間。這導致型別系統有令人困惑的小地方：即是<strong>動態大小型別</strong>（dynamically sized type）的概念。有時稱為 <em>DST</em> 或<strong>不定大小（unsize）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
 <p>讓我們深入研究一個貫穿全書到處使用的動態大小型別 <code>str</code> 的細節。你沒看錯，不是 <code>&amp;str</code> 而是 <code>str</code> 本身就是 DST。在執行期前我們無從得知字串多長，也就表示無法建立一個型別為 <code>str</code> 的變數，更不能將 <code>str</code> 型別作為引數。試想以下不能執行的程式碼：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1: str = &quot;Hello there!&quot;;
@@ -17366,7 +17366,7 @@ impl ThreadPool {
 </code></pre>
 <p><span class="caption">範例 20-14：在 <code>ThreadPool</code> 中建立向量來儲存執行緒</span></p>
 <p>我們將 <code>std::thread</code> 引入函式庫 crate 中的作用域，因為我們使用 <code>thread::JoinHandle</code> 作為 <code>ThreadPool</code> 中向量的項目型別。</p>
-<p>一旦有收到有效大小，<code>ThreadPool</code> 就會建立一個可以儲存 <code>size</code> 個項目的新向量。<code>with_capacity</code> 函式會與 <code>Vec::new</code> 做同樣的事，但是有一個關鍵差別：它會預先分配空間給向量。由於我們知道要儲存 <code>size</code> 個元素至向量中，這樣的分配方式會比 <code>Vec::new</code> 還要些微有效一點，因為後者只會在元素插入時才重新分配自身大小。</p>
+<p>一旦有收到有效大小，<code>ThreadPool</code> 就會建立一個可以儲存 <code>size</code> 個項目的新向量。<code>with_capacity</code> 函式會與 <code>Vec::new</code> 做同樣的事，但是有一個關鍵差別：它會預先配置空間給向量。由於我們知道要儲存 <code>size</code> 個元素至向量中，這樣的配置方式會比 <code>Vec::new</code> 還要些微有效一點，因為後者只會在元素插入時才重新配置自身大小。</p>
 <p>當你再次執行 <code>cargo check</code>，這次就能成功編譯。</p>
 <h4 id="結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒"><a class="header" href="#結構體-worker-負責從-threadpool-傳遞程式碼給一條執行緒">結構體 <code>Worker</code> 負責從 <code>ThreadPool</code> 傳遞程式碼給一條執行緒</a></h4>
 <p>我們在範例 20-14 的 <code>for</code> 迴圈中留下一個關於建立執行緒的註解。我們在此將看看我們該如何實際建立執行緒。標準函式庫提供 <code>thread::spawn</code> 作為建立執行緒的方式，然後 <code>thread::spawn</code> 預期在執行緒建立時就會獲得一些程式碼讓執行緒能夠執行。但在我們的場合中，我們希望建立執行緒，並讓它們<strong>等待</strong>我們之後會傳送的程式碼。標準函式庫的執行緒實作並不包含這種方式，我們得自己實作。</p>
@@ -18742,7 +18742,7 @@ impl Worker {
 <li><code>const</code> - 定義常數項目或常數裸指標</li>
 <li><code>continue</code> - 繼續進入下一次迴圈疊代</li>
 <li><code>crate</code> - 在模組路徑中，指的是 crate 的源頭</li>
-<li><code>dyn</code> - 對特徵物件的動態分配</li>
+<li><code>dyn</code> - 對特徵物件的動態配置</li>
 <li><code>else</code> - <code>if</code> 與 <code>if let</code> 控制流結構的例外選項</li>
 <li><code>enum</code> - 定義列舉</li>
 <li><code>extern</code> - 連結外部函式或變數</li>

@@ -158,7 +158,7 @@
 }
 </code></pre></pre>
 <p><span class="caption">範例 15-1：使用 box 在堆積上儲存一個 <code>i32</code> 數值</span></p>
-<p>我們定義了變數 <code>b</code> 其數值為 <code>Box</code> 分配在堆積上指向的數值 <code>5</code>。程式在此例會印出 <code>b = 5</code>，在此例中我們可以用在堆疊上相同的方式取得 box 的資料。就像任何有所有權的數值一樣，當 box 離開作用域時會釋放記憶體，在此例就是當 <code>b</code> 抵達 <code>main</code> 結尾的時候。釋放記憶體作用於 box（儲存在堆疊上）以及其所指向的資料（儲存在堆積上）。</p>
+<p>我們定義了變數 <code>b</code> 其數值為 <code>Box</code> 配置在堆積上指向的數值 <code>5</code>。程式在此例會印出 <code>b = 5</code>，在此例中我們可以用在堆疊上相同的方式取得 box 的資料。就像任何有所有權的數值一樣，當 box 離開作用域時會釋放記憶體，在此例就是當 <code>b</code> 抵達 <code>main</code> 結尾的時候。釋放記憶體作用於 box（儲存在堆疊上）以及其所指向的資料（儲存在堆積上）。</p>
 <p>將單一數值放在堆積上的確沒什麼用處，所以你不會對這種類型經常使用 box。在大多數情況下將像 <code>i32</code> 這種單一數值預設儲存在堆疊的確比較適合。</p>
 <h3 id="透過-box-建立遞迴型別"><a class="header" href="#透過-box-建立遞迴型別">透過 Box 建立遞迴型別</a></h3>
 <p><strong>遞迴型別</strong>（recursive type）的數值可以用相同型別的其他數值作為自己的一部分。遞迴型別對 Rust 來說會造成問題，因為 Rust 得在編譯期間時知道型別佔用的空間。由於這種巢狀數值理論上可以無限循環下去，Rust 無法知道一個遞迴型別的數值需要多大的空間。然而 box 則有已知大小，所以將 box 填入遞迴型別定義中，你就可以有遞迴型別了。</p>
@@ -218,7 +218,7 @@ For more information about this error, try `rustc --explain E0072`.
 error: could not compile `cons-list` due to previous error
 </code></pre>
 <p><span class="caption">範例 15-4：嘗試定義遞迴列舉所得到的錯誤</span></p>
-<p>錯誤顯示此型別的「大小為無限」，原因是因為我們定義的 <code>List</code> 有個變體是遞迴：它直接存有另一個相同類型的數值。所以 Rust 無法判別出它需要多少空間才能儲存一個 <code>List</code> 的數值。讓我進一步研究為何我們會得到這樣的錯誤，首先來看 Rust 如何決定要分配多少空間來儲存非遞迴型別。</p>
+<p>錯誤顯示此型別的「大小為無限」，原因是因為我們定義的 <code>List</code> 有個變體是遞迴：它直接存有另一個相同類型的數值。所以 Rust 無法判別出它需要多少空間才能儲存一個 <code>List</code> 的數值。讓我進一步研究為何我們會得到這樣的錯誤，首先來看 Rust 如何決定要配置多少空間來儲存非遞迴型別。</p>
 <h4 id="計算非遞迴型別的大小"><a class="header" href="#計算非遞迴型別的大小">計算非遞迴型別的大小</a></h4>
 <p>回想一下第六章中，當我們在討論列舉定義時，我們在範例 6-2 定義的 <code>Message</code> 列舉：</p>
 <pre><pre class="playground"><code class="language-rust">enum Message {
@@ -230,12 +230,12 @@ error: could not compile `cons-list` due to previous error
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p>要決定一個 <code>Message</code> 數值需要分配多少空間，Rust 會遍歷每個變體來看哪個變體需要最大的空間。Rust 會看到 <code>Message::Quit</code> 不佔任何空間、<code>Message::Move</code> 需要能夠儲存兩個 <code>i32</code> 的空間，以此類推。因為只有一個變體會被使用，一個 <code>Message</code> 數值所需的最大空間就是其最大變體的大小。</p>
+<p>要決定一個 <code>Message</code> 數值需要配置多少空間，Rust 會遍歷每個變體來看哪個變體需要最大的空間。Rust 會看到 <code>Message::Quit</code> 不佔任何空間、<code>Message::Move</code> 需要能夠儲存兩個 <code>i32</code> 的空間，以此類推。因為只有一個變體會被使用，一個 <code>Message</code> 數值所需的最大空間就是其最大變體的大小。</p>
 <p>將此對應到當 Rust 嘗試檢查像是範例 15-2 的 <code>List</code> 列舉來決定遞迴型別需要多少空間時，究竟會發生什麼事。編譯器先從查看 <code>Cons</code> 的變體開始，其存有一個 <code>i32</code> 型別與一個 <code>List</code> 型別。因此 <code>Cons</code> 需要的空間大小為 <code>i32</code> 的大小加上 <code>List</code> 的大小。為了要瞭解 <code>List</code> 型別需要的多少記憶體，編譯器在進一步看它的變體，也是從 <code>Cons</code> 變體開始。<code>Cons</code> 變體存有一個型別 <code>i32</code> 與一個型別 <code>List</code>，而這樣的過程就無限處理下去，如圖示 15-1 所示。</p>
 <img alt="An infinite Cons list" src="img/trpl15-01.svg" class="center" style="width: 50%;" />
 <p><span class="caption">圖示 15-1：無限個 <code>List</code> 包含著無限個 <code>Cons</code> 變體</span></p>
 <h4 id="使用-boxt-取得已知大小的遞迴型別"><a class="header" href="#使用-boxt-取得已知大小的遞迴型別">使用 <code>Box&lt;T&gt;</code> 取得已知大小的遞迴型別</a></h4>
-<p>由於 Rust 無法判別出遞迴定義型別要分配多少空間，所以編譯器會針對此錯誤提供些實用的建議：</p>
+<p>由於 Rust 無法判別出遞迴定義型別要配置多少空間，所以編譯器會針對此錯誤提供些實用的建議：</p>
 <!-- manual-regeneration
 after doing automatic regeneration, look at listings/ch15-smart-pointers/listing-15-03/output.txt and copy the relevant line
 -->
@@ -263,7 +263,7 @@ fn main() {
 <p><code>Cons</code> 變體需要的大小為 <code>i32</code> 加上儲存 box 指標的空間。<code>Nil</code> 變體沒有儲存任何數值，所以它需要的空間比 <code>Cons</code> 變體少。現在我們知道任何 <code>List</code> 數值會佔的空間都是一個 <code>i32</code> 加上 box 指標的大小。透過使用 box，我們打破了無限遞迴，所以編譯器可以知道儲存一個 <code>List</code> 數值所需要的大小。圖示 15-2 顯示了 <code>Cons</code> 變體看起來的樣子。</p>
 <img alt="A finite Cons list" src="img/trpl15-02.svg" class="center" />
 <p><span class="caption">圖示 15-2：不再是無限大小的 <code>List</code>，因為其 <code>Cons</code> 存的是 <code>Box</code></span></p>
-<p>Boxes 只提供了間接儲存與堆積分配，它們沒有其他任何特殊功能，比如我們等下就會看到的其他智慧指標型別。它們也沒有任何因這些特殊功能產生的額外效能開銷，所以它們很適合用於像是 cons list 這種我們只需要間接儲存的場合。我們在第十七章還會再介紹到更多 box 的使用情境。</p>
+<p>Boxes 只提供了間接儲存與堆積配置，它們沒有其他任何特殊功能，比如我們等下就會看到的其他智慧指標型別。它們也沒有任何因這些特殊功能產生的額外效能開銷，所以它們很適合用於像是 cons list 這種我們只需要間接儲存的場合。我們在第十七章還會再介紹到更多 box 的使用情境。</p>
 <p><code>Box&lt;T&gt;</code> 型別是智慧指標是因為它有實作 <code>Deref</code> 特徵，讓 <code>Box&lt;T&gt;</code> 的數值可以被視為參考所使用。當 <code>Box&lt;T&gt;</code> 數值離開作用域時，該 box 指向的堆積資料也會被清除，因為其有 <code>Drop</code> 特徵實作。這兩種特徵對於本章將會討論的其他智慧指標型別所提供的功能，將會更加重要。讓我們來探討這兩種特徵的細節吧。</p>
 
                     </main>
