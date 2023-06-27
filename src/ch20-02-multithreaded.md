@@ -194,7 +194,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 我們將 `std::thread` 引入函式庫 crate 中的作用域，因為我們使用 `thread::JoinHandle` 作為 `ThreadPool` 中向量的項目型別。
 
-一旦有收到有效大小，`ThreadPool` 就會建立一個可以儲存 `size` 個項目的新向量。`with_capacity` 函式會與 `Vec::new` 做同樣的事，但是有一個關鍵差別：它會預先分配空間給向量。由於我們知道要儲存 `size` 個元素至向量中，這樣的分配方式會比 `Vec::new` 還要些微有效一點，因為後者只會在元素插入時才重新分配自身大小。
+一旦有收到有效大小，`ThreadPool` 就會建立一個可以儲存 `size` 個項目的新向量。`with_capacity` 函式會與 `Vec::new` 做同樣的事，但是有一個關鍵差別：它會預先配置空間給向量。由於我們知道要儲存 `size` 個元素至向量中，這樣的配置方式會比 `Vec::new` 還要些微有效一點，因為後者只會在元素插入時才重新配置自身大小。
 
 當你再次執行 `cargo check`，這次就能成功編譯。
 
