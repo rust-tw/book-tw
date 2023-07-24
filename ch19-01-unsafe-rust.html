@@ -321,7 +321,7 @@ fn split_at_mut(values: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;
 <p>我們不擁有此位址之下的記憶體，且並不保證這段程式碼建立的切片一定包含合法的 <code>i32</code> 值。嘗試將 <code>values</code> 當作合法的切片來使用，會導致為未定義行為（undefined behavior）。</p>
 <h4 id="使用-extern-函式呼叫外部程式碼"><a class="header" href="#使用-extern-函式呼叫外部程式碼">使用 <code>extern</code> 函式呼叫外部程式碼</a></h4>
 <p>有些時候，你的 Rust 程式碼可能需要與其他語言撰寫的程式碼互動。這種情況 Rust 提供 <code>extern</code> 關鍵字，予以協助建立與使用<strong>外部函式介面（Foreign Function Interface，FFI）</strong> 。FFI 的功能是給在一門程式語言定義函式，使得另一門（外部）程式語言可以呼叫這些函式。</p>
-<p>範例 19-8 展示了如何建立整合一個 C 標準函式庫的 <code>abc</code> 函式。由於其他語言並無強制遵守 Rust 的規則和保證，而且 Rust 也無法檢查之，因此在 Rust 程式碼中呼叫在 <code>extern</code> 區塊內宣告的函式一定是不安全的操作，所以確保安全的重責大任就會落在程式設計師身上。</p>
+<p>範例 19-8 展示了如何建立整合一個 C 標準函式庫的 <code>abs</code> 函式。由於其他語言並無強制遵守 Rust 的規則和保證，而且 Rust 也無法檢查之，因此在 Rust 程式碼中呼叫在 <code>extern</code> 區塊內宣告的函式一定是不安全的操作，所以確保安全的重責大任就會落在程式設計師身上。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">extern &quot;C&quot; {
     fn abs(input: i32) -&gt; i32;
