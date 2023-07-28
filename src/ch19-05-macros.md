@@ -148,7 +148,7 @@ $ cargo new hello_macro_derive --lib
 {{#include ../listings/ch19-advanced-features/listing-19-31/hello_macro/hello_macro_derive/Cargo.toml:6:12}}
 ```
 
-欲開始定義程序式巨集，請將範例 19-31 的程式碼放入你的 `hello_macro_derive` crate 的 *src.lib.rs* 檔案中。注意，在我們定義 `impl_hello_macro` 函式之前，這段程式碼都無法編譯。
+欲開始定義程序式巨集，請將範例 19-31 的程式碼放入你的 `hello_macro_derive` crate 的 *src/lib.rs* 檔案中。注意，在我們定義 `impl_hello_macro` 函式之前，這段程式碼都無法編譯。
 
 <span class="filename">檔案名稱：hello_macro_derive/src/lib.rs</span>
 
