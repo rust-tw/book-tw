@@ -37,7 +37,7 @@ Linux 使用者的話則需要依據他們的發行版文件來安裝 GCC 或 Cl
 
 ### 在 Windows 上安裝 `rustup`
 
-在 Windows 上請前往[下載頁面][install-windows]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求說你還需要 C++ build tools for Visual Studio 2013 或更新的版本。
+在 Windows 上請前往[下載頁面][install]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求說你還需要 C++ build tools for Visual Studio 2013 或更新的版本。
 
 要取得 build tools 的話，你需要安裝 [Visual Studio 2022][visualstudio]。當你被問到要安裝哪些時，請記得包含：
 
