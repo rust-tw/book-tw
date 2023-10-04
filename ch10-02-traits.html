@@ -147,7 +147,7 @@
 <h3 id="定義特徵"><a class="header" href="#定義特徵">定義特徵</a></h3>
 <p>一個型別的行為包含我們對該型別可以呼叫的方法。如果我們可以對不同型別呼叫相同的方法，這些型別就能定義共同行為了。特徵定義是一個將方法簽名統整起來，來達成一些目的而定義一系列行為的方法。</p>
 <p>舉例來說，如果我們有數個結構體各自擁有不同種類與不同數量的文字：結構體 <code>NewsArticle</code> 儲存特定地點的新聞故事，然後 <code>Tweet</code> 則有最多 280 字元的內容，且有個欄位來判斷是全新的推文、轉推或其他推文的回覆。</p>
-<p>我們想要建立ㄧ個多媒體聚合器函式庫 crate 叫 <code>aggregator</code> 來顯示可能存在 <code>NewsArticle</code> 或 <code>Tweet</code> 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們會呼叫該實例的 <code>summarize</code> 方法來索取總結。範例 10-12 顯示了表達此行為的 <code>Summary</code> 特徵定義。</p>
+<p>我們想要建立ㄧ個多媒體聚集器函式庫 crate 叫 <code>aggregator</code> 來顯示可能存在 <code>NewsArticle</code> 或 <code>Tweet</code> 實例的資料總結。要達成此目的的話，我們需要每個型別的總結，且我們會呼叫該實例的 <code>summarize</code> 方法來索取總結。範例 10-12 顯示了表達此行為的 <code>Summary</code> 特徵定義。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust noplayground">pub trait Summary {
     fn summarize(&amp;self) -&gt; String;
@@ -158,7 +158,7 @@
 <p>在方法簽名之後，我們並沒有加上大括號提供實作細節，而是使用分號。每個有實作此特徵的型別必須提供其自訂行為的方法本體。編譯器會強制要求任何有 <code>Summary</code> 特徵的型別都要有定義相同簽名的 <code>summarize</code> 方法。</p>
 <p>特徵本體中可以有多個方法，每行會有一個方法簽名並都以分號做結尾。</p>
 <h3 id="為型別實作特徵"><a class="header" href="#為型別實作特徵">為型別實作特徵</a></h3>
-<p>現在我們已經用 <code>Summary</code> 特徵定義了所需的方法簽名。我們可以在我們多媒體聚合器的型別中實作它。範例 10-13 顯示了 <code>NewsArticle</code> 結構體實作 <code>Summary</code> 特徵的方式，其使用頭條、作者、位置來建立 <code>summerize</code> 的回傳值。至於結構體 <code>Tweet</code>，我們使用使用者名稱加上整個推文的文字來定義 <code>summarize</code>，因為推文的內容長度已經被限制在 280 個字元以內了。</p>
+<p>現在我們已經用 <code>Summary</code> 特徵定義了所需的方法簽名。我們可以在我們多媒體聚集器的型別中實作它。範例 10-13 顯示了 <code>NewsArticle</code> 結構體實作 <code>Summary</code> 特徵的方式，其使用頭條、作者、位置來建立 <code>summerize</code> 的回傳值。至於結構體 <code>Tweet</code>，我們使用使用者名稱加上整個推文的文字來定義 <code>summarize</code>，因為推文的內容長度已經被限制在 280 個字元以內了。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust noplayground"><span class="boring">pub trait Summary {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String;
