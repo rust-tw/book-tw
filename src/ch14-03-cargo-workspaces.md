@@ -103,7 +103,7 @@ $ cargo new add_one --lib
 {{#include ../listings/ch14-more-about-cargo/no-listing-02-workspace-with-two-crates/add/adder/Cargo.toml:6:7}}
 ```
 
-Cargo 不會假設工作空間下的 crate 會彼此依賴，我們我們要指定彼此之間依賴的關係。
+Cargo 不會假設工作空間下的 crate 會彼此依賴，我們要指定彼此之間依賴的關係。
 
 接著讓我們在 `adder` 內使用 `add_one` crate 的 `add_one` 函式。開啟 *adder/src/main.rs* 檔案並在最上方加上 `use` 來將 `add_one` 函式庫引入作用域。然後變更 `main` 函式來呼叫 `add_one` 函式，如範例 14-7 所示。
 
