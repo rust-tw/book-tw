@@ -218,7 +218,7 @@ copy output below
 <pre><code class="language-toml">[dependencies]
 add_one = { path = &quot;../add_one&quot; }
 </code></pre>
-<p>Cargo 不會假設工作空間下的 crate 會彼此依賴，我們我們要指定彼此之間依賴的關係。</p>
+<p>Cargo 不會假設工作空間下的 crate 會彼此依賴，我們要指定彼此之間依賴的關係。</p>
 <p>接著讓我們在 <code>adder</code> 內使用 <code>add_one</code> crate 的 <code>add_one</code> 函式。開啟 <em>adder/src/main.rs</em> 檔案並在最上方加上 <code>use</code> 來將 <code>add_one</code> 函式庫引入作用域。然後變更 <code>main</code> 函式來呼叫 <code>add_one</code> 函式，如範例 14-7 所示。</p>
 <p><span class="filename">檔案名稱：adder/src/main.rs</span></p>
 <pre><code class="language-rust ignore">use add_one;
