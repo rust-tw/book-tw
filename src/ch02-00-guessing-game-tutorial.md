@@ -423,7 +423,7 @@ anchor or snip comments
 let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
 ```
 
-我們建立了一個變數叫做 `guess`。稍等一下，程式不是已經有個變數叫做 `guess`了嗎？的確是的，但 Rust 允許我們遮蔽之前的 `guess` 數值成新的數值。**遮蔽**（Shadowing）讓我們可以重複使用 `guess` 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 `guess_str` 和 `guess`。我們會在[第三章][shadowing]<!-- ignore -->更詳細地解釋此概念，現在這邊只需要知道這常拿來將一個數值的型別轉換成另一個型別。
+我們建立了一個變數叫做 `guess`。小等一下，程式不是已經有個變數叫做 `guess`了嗎？的確是的，但 Rust 允許我們遮蔽之前的 `guess` 數值成新的數值。**遮蔽**（Shadowing）讓我們可以重複使用 `guess` 變數名稱，而不必強迫我們得建立兩個不同的變數，舉例來說像是 `guess_str` 和 `guess`。我們會在[第三章][shadowing]<!-- ignore -->更詳細地解釋此概念，現在這邊只需要知道這常拿來將一個數值的型別轉換成另一個型別。
 
 我們將此新的變數綁定給 `guess.trim().parse()` 表達式。表達式中的 `guess` 指的是原本儲存字串輸入的 `guess`。`String` 中的 `trim` 方法會去除開頭與結尾的任何空白字元，我們一定要這樣做才能將字串與 `u32` 作比較，因為它只會包含數字字元。使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 `read_line` 並輸入他們的猜測數字，這樣會加上一個換行字元。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，`guess` 看起來會像這樣：`5\n`。`\n` 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果（在 Windows 按下 <span class="keystroke">enter</span> 的結果會是輸入和換行 `\r\n`）。`trim` 方法能去除 `\n` 或 `\r\n`，讓結果只會是 `5`。
 
