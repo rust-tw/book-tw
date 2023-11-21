@@ -192,7 +192,7 @@ string data on the heap." src="img/trpl04-05.svg" class="center" /></p>
   // 所以不會被釋放掉
 </code></pre></pre>
 <p>變數 <code>s</code> 有效的作用域和任何函式參數的作用域一樣，但當不再使用參考時，參考所指向的數值不會被丟棄，因為我們沒有所有權。當函式使用參考作為參數而非實際數值時，我們不需要回傳數值來還所有權，因為我們不曾擁有過。</p>
-<p>我們會稱呼建立參考這樣的動作叫做<strong>借用（borrowing）</strong>。就像現實世界一樣，如果有人擁有每項東西，他可以借用給你。當你使用完後，你就還給他。你並不擁有它。</p>
+<p>我們會稱呼建立參考這樣的動作叫做<strong>借用（borrowing）</strong>。就像現實世界一樣，如果有人擁有某項東西，他可以借用給你。當你使用完後，你就還給他。你並不擁有它。</p>
 <p>所以要是我們嘗試修改我們借用的東西會如何呢？請試試範例 4-6 的程式碼。直接劇透你：它執行不了的！</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {

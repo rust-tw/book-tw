@@ -403,7 +403,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 19-19: 一個特徵和一個型別分別擁有同名關聯函式，並且該型別實作了該特徵</span></p>
-<p>我們在 <code>Dog</code> 中的 <code>baby_name</code> 關聯函式實作了一段程式碼，將所有小狗狗命名為小不點。這個 <code>Dog</code> 型別同時實作了 <code>Animal</code> 特徵，<code>Animal</code> 特徵則描述了所有動物都有的習性。。在實作了 <code>Animal</code> 特徵的 <code>Dog</code> 上，透過與 <code>Animal</code> 特徵關聯的 <code>baby_name</code> 函式中，表達了幼犬被稱作小狗狗這一概念。</p>
+<p>我們在 <code>Dog</code> 中的 <code>baby_name</code> 關聯函式實作了一段程式碼，將所有小狗狗命名為小不點。這個 <code>Dog</code> 型別同時實作了 <code>Animal</code> 特徵，<code>Animal</code> 特徵則描述了所有動物都有的習性。在實作了 <code>Animal</code> 特徵的 <code>Dog</code> 上，透過與 <code>Animal</code> 特徵關聯的 <code>baby_name</code> 函式中，表達了幼犬被稱作小狗狗這一概念。</p>
 <p>在 <code>main</code> 中我們呼叫 <code>Dog::baby_name</code> 函式，最終會直接呼叫 <code>Dog</code> 上的關聯函式。這段程式碼會印出：</p>
 <pre><code class="language-console">$ cargo run
    Compiling traits-example v0.1.0 (file:///projects/traits-example)
@@ -427,7 +427,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">impl Animal for Dog {
 </span><span class="boring">    fn baby_name() -&gt; String {
-</span><span class="boring">        String::from(&quot;小狗崽&quot;)
+</span><span class="boring">        String::from(&quot;小狗狗&quot;)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -472,7 +472,7 @@ error: could not compile `traits-example` due to previous error
 </span><span class="boring">
 </span><span class="boring">impl Animal for Dog {
 </span><span class="boring">    fn baby_name() -&gt; String {
-</span><span class="boring">        String::from(&quot;小狗崽&quot;)
+</span><span class="boring">        String::from(&quot;小狗狗&quot;)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -486,7 +486,7 @@ error: could not compile `traits-example` due to previous error
    Compiling traits-example v0.1.0 (file:///projects/traits-example)
     Finished dev [unoptimized + debuginfo] target(s) in 0.48s
      Running `target/debug/traits-example`
-幼犬被稱作小狗崽
+幼犬被稱作小狗狗
 </code></pre>
 <p>普遍來說，完全限定語法定義如下：</p>
 <pre><code class="language-rust ignore">&lt;Type as Trait&gt;::function(receiver_if_method, next_arg, ...);

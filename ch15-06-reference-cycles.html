@@ -429,7 +429,7 @@ children: RefCell { value: [] } }] } })
 <p>在 <code>leaf</code> 建立後，它的 <code>Rc&lt;Node&gt;</code> 有強計數為 1 與弱計數為 0。在內部作用域中，我們建立了 <code>branch</code> 並與 <code>leaf</code> 做連結，此時當我們印出計數時，<code>branch</code> 的 <code>Rc&lt;Node&gt;</code> 會有強計數為 1 與弱計數為 1（因為 <code>leaf.parent</code> 透過 <code>Weak&lt;Node&gt;</code> 指向 <code>branch</code>）。當我們印出 <code>leaf</code> 的計數時，我們會看到它會有強計數為 2，因為 <code>branch</code> 現在有個 <code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 克隆儲存在 <code>branch.children</code>，但弱計數仍為 0。</p>
 <p>當內部作用域結束時，<code>branch</code> 會離開作用域且 <code>Rc&lt;Node&gt;</code> 的強計數會歸零，所以它的 <code>Node</code> 就會被釋放。<code>leaf.parent</code> 的弱計數 1 與 <code>Node</code> 是否被釋放無關，所以我們沒有產生任何記憶體泄漏！</p>
 <p>如果我們嘗試在作用域結束後取得 <code>leaf</code> 的父節點，我們會再次獲得 <code>None</code>。在程式的最後，<code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 強計數為 1 且弱計數為 0，因為變數 <code>leaf</code> 現在是 <code>Rc&lt;Node&gt;</code> 唯一的參考。</p>
-<p>所有管理計數與數值釋放都已經實作在 <code>Rc&lt;T&gt;</code> 與 <code>Weak&lt;T&gt;</code>，它們都有 <code>Drop</code> 特的實作。在 <code>Node</code> 的定義中指定子節點對父節點的關係應為 <code>Weak&lt;T&gt;</code> 參考，讓你能夠將父節點與子節點彼此關聯，且不必擔心產生參考循環與記憶體泄漏。</p>
+<p>所有管理計數與數值釋放都已經實作在 <code>Rc&lt;T&gt;</code> 與 <code>Weak&lt;T&gt;</code>，它們都有 <code>Drop</code> 特徵的實作。在 <code>Node</code> 的定義中指定子節點對父節點的關係應為 <code>Weak&lt;T&gt;</code> 參考，讓你能夠將父節點與子節點彼此關聯，且不必擔心產生參考循環與記憶體泄漏。</p>
 <h2 id="總結"><a class="header" href="#總結">總結</a></h2>
 <p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設參考所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料配置到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的參考數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，它會在執行時強制檢測借用規則，而非編譯時。</p>
 <p>我們也討論了 <code>Deref</code> 與 <code>Drop</code> 特徵，這些對智慧指標提供了許多功能。我們探討了參考循環可能會導致記憶體泄漏以及如何使用 <code>Weak&lt;T&gt;</code> 避免它們。</p>

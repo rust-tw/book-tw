@@ -2460,7 +2460,7 @@ string data on the heap." src="img/trpl04-05.svg" class="center" /></p>
   // 所以不會被釋放掉
 </code></pre></pre>
 <p>變數 <code>s</code> 有效的作用域和任何函式參數的作用域一樣，但當不再使用參考時，參考所指向的數值不會被丟棄，因為我們沒有所有權。當函式使用參考作為參數而非實際數值時，我們不需要回傳數值來還所有權，因為我們不曾擁有過。</p>
-<p>我們會稱呼建立參考這樣的動作叫做<strong>借用（borrowing）</strong>。就像現實世界一樣，如果有人擁有每項東西，他可以借用給你。當你使用完後，你就還給他。你並不擁有它。</p>
+<p>我們會稱呼建立參考這樣的動作叫做<strong>借用（borrowing）</strong>。就像現實世界一樣，如果有人擁有某項東西，他可以借用給你。當你使用完後，你就還給他。你並不擁有它。</p>
 <p>所以要是我們嘗試修改我們借用的東西會如何呢？請試試範例 4-6 的程式碼。直接劇透你：它執行不了的！</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
@@ -5337,7 +5337,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 8-21：取得雜湊映射中藍隊的分數</span></p>
-<p><code>score</code> 在此將會是對應藍隊的分數，而且結果會是 <code>Some(&amp;10)</code>。結果是使用 <code>Some</code> 的原因是因為 <code>get</code> 回傳的是 <code>Option&lt;&amp;V&gt;</code>。如果雜湊映射中該鍵沒有對應值的話，<code>get</code> 就會回傳 <code>None</code>。所以程式會需要透過我們在第六章談到的方式處理 <code>Option</code>。</p>
+<p><code>score</code> 在此將會是對應藍隊的分數，而且結果會是 <code>10</code>。結果是使用 <code>Some</code> 的原因是因為 <code>get</code> 回傳的是 <code>Option&lt;&amp;V&gt;</code>。如果雜湊映射中該鍵沒有對應值的話，<code>get</code> 就會回傳 <code>None</code>。所以程式會需要透過我們在第六章談到的方式處理 <code>Option</code>。</p>
 <p>我們也可以使用 <code>for</code> 迴圈用類似的方式來遍歷雜湊映射中每個鍵值配對：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
@@ -6869,7 +6869,7 @@ error: could not compile `chapter10` due to previous error
 <p>此函式簽名告訴 Rust 它有個生命週期 <code>'a</code>，函式的兩個參數都是字串切片，並且會有生命週期<code>'a</code>。此函式簽名還告訴了 Rust 從函式回傳的字串切片也會和生命週期 <code>'a</code> 存活的一樣久。實際上它代表 <code>longest</code> 函式回傳參考的生命週期與函式引數傳入時生命週期較短的參考的生命週期一樣。這樣的關係正是我們想讓 Rust 知道以便分析這段程式碼。</p>
 <p>注意當我們在此函式簽名指定生命週期參數時，我們不會變更任何傳入或傳出數值的生命週期。我們只是告訴借用檢查器應該要拒絕任何沒有服從這些約束的數值。注意到 <code>longest</code> 函式不需要知道 <code>x</code> 和 <code>y</code> 實際上會活多久，只需要知道有某個作用域會用 <code>'a</code> 取代來滿足此簽名。</p>
 <p>當要在函式詮釋生命週期時，詮釋會位於函式簽名中，而不是函式本體。就像型別會寫在簽名中一樣，生命週期詮釋會成為函式的一部份。在函式簽名加上生命週期能讓 Rust 編譯器的分析工作變得更輕鬆。如果當函式的詮釋或呼叫的方式出問題時，編譯器錯誤就能限縮到我們的程式碼中指出來。如果都改讓 Rust 編譯器去推到可能的生命週期關係的話，編譯器可能會指到程式碼真正出錯之後的好幾步之後。</p>
-<p>當我們向 <code>longest</code> 傳入實際參考時，<code>'a</code> 實際替代的生命週期為 <code>x</code> 作用域與 <code>y</code> 作用域重疊得部分。換句話說，泛型生命週期 <code>'a</code> 取得的生命週期會等於 <code>x</code> 與 <code>y</code> 的生命週期中較短的。因為我們將回傳的參考詮釋了相同的生命週期參數 <code>'a</code>，回傳參考的生命週期也會保證在 <code>x</code> 和 <code>y</code> 的生命週期較短的結束前有效。</p>
+<p>當我們向 <code>longest</code> 傳入實際參考時，<code>'a</code> 實際替代的生命週期為 <code>x</code> 作用域與 <code>y</code> 作用域重疊的部分。換句話說，泛型生命週期 <code>'a</code> 取得的生命週期會等於 <code>x</code> 與 <code>y</code> 的生命週期中較短的。因為我們將回傳的參考詮釋了相同的生命週期參數 <code>'a</code>，回傳參考的生命週期也會保證在 <code>x</code> 和 <code>y</code> 的生命週期較短的結束前有效。</p>
 <p>讓我們來看看如何透過傳入不同實際生命週期的參考來使生命週期詮釋能約束 <code>longest</code> 函式，如範例 10-22 所示。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -7061,7 +7061,7 @@ fn main() {
 <p>當我們在有生命週期的結構體上實作方法時，其語法類似於我們在範例 10-11 中泛型型別參數的語法。宣告並使用生命週期參數的地方會依據它們是否與結構體欄位或方法參數與回傳值相關。</p>
 <p>結構體欄位的生命週期永遠需要宣告在 <code>impl</code> 關鍵字後方以及結構體名稱後方，因為這些生命週期是結構體型別的一部分。</p>
 <p>在 <code>impl</code> 區塊中方法簽名的參考可能會與結構體欄位的參考生命週期綁定，或者它們可能是互相獨立的。除此之外，生命週期省略規則常常可以省略方法簽名中的生命週期詮釋。讓我們看看範例 10-24 定義過的 <code>ImportantExcerpt</code> 來作為範例。</p>
-<p>首先我們使用一個方叫做 <code>level</code> 其參數只有 <code>self</code> 的參考而回傳值是 <code>i32</code>，這不是任何參考：</p>
+<p>首先我們使用一個方法叫做 <code>level</code> 其參數只有 <code>self</code> 的參考而回傳值是 <code>i32</code>，這不是任何參考：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct ImportantExcerpt&lt;'a&gt; {
 </span><span class="boring">    part: &amp;'a str,
 </span><span class="boring">}
@@ -7158,7 +7158,7 @@ where
 </code></pre></pre>
 <p>這是範例 10-21 會回傳兩個字串切片較長者的 <code>longest</code> 函式。不過現在它有個額外的參數 <code>ann</code>，使用的是泛型型別 <code>T</code>，它可以是任何在 <code>where</code> 中所指定有實作 <code>Display</code> 特徵的型別。此額外參數會在 <code>{}</code> 的地方印出來，這正是為何 <code>Display</code> 的特徵界限是必須的。因為生命週期也是一種泛型，生命週期參數 <code>'a</code> 與泛型型別參數 <code>T</code> 都宣告在函式名稱後的尖括號內。</p>
 <h2 id="總結-9"><a class="header" href="#總結-9">總結</a></h2>
-<p>我們在此章節涵蓋了許多內容！現在你已經知道泛型型別參數、特徵與特徵界限以及泛型生命週期參數，你已經準備好能寫出適用於許多不同情況且不重複的程式碼了。泛型型別參數讓你可以讓程式碼適用於不同型別；特徵與特徵界限確保就算型別為泛型，它們都會有相同的行為。你還學到了使用生命週期詮釋確保此如此彈性的程式碼不會造成迷途參考。而且這些分析都發生在編譯期間，完全不影響執行時效能！</p>
+<p>我們在此章節涵蓋了許多內容！現在你已經知道泛型型別參數、特徵與特徵界限以及泛型生命週期參數，你已經準備好能寫出適用於許多不同情況且不重複的程式碼了。泛型型別參數讓你可以讓程式碼適用於不同型別；特徵與特徵界限確保就算型別為泛型，它們都會有相同的行為。你還學到了使用生命週期詮釋確保此如此彈性的程式碼不會造成迷途參考。而且這些分析都發生在編譯期間，完全不影響執行的效能！</p>
 <p>不管你信不信，本章節還有很多延伸主題可以導論，像是第十七章就會討論特徵物件（trait objects），這是另一個使用特徵的方法。另外還有一些更複雜的場合會涉及到更進階的生命週期詮釋。對此你可能就會想閱讀 <a href="https://doc.rust-lang.org/stable/reference/index.html">Rust Reference</a>。接下來，你將學習如何在 Rust 寫測試，讓你可以確保程式碼能如期執行。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="編寫自動化測試"><a class="header" href="#編寫自動化測試">編寫自動化測試</a></h1>
 <p>Edsger W. Dijkstra 曾在 1972 年的演講「謙遜的程式設計師」中提到：「程式測試是個證明程式錯誤存在非常有效的方法，但要證明它不存在卻反而顯得十分無力。」這不代表我們不應該盡可能地做測試！</p>
@@ -7593,7 +7593,7 @@ error: test failed, to rerun pass `--lib`
 <p><code>assert_ne!</code> 巨集會在我們給予的兩個值不相等時通過，相等時失敗。此巨集適用於當我們不確定一個數值<strong>會是</strong>什麼樣子，但是我們確定該數值<strong>不該</strong>是某種樣子。舉例來說，如果我們要測試一個保證會以某種形式更改其輸入的函式，但輸入變更的方式是依照我們執行程式時的當天是星期幾來決定，此時最好的判定方式就是檢查函式的輸出不等於輸入。</p>
 <p><code>assert_eq!</code> 和 <code>assert_ne!</code> 巨集底下分別使用了 <code>==</code> 和 <code>!=</code> 運算子。當判定失敗時，巨集會透過除錯格式化資訊來顯示它們的引數，代表要比較的數值必須要實作 <code>PartialEq</code> 和 <code>Debug</code> 特徵。所有的基本型別與大多數標準函式庫中提供的型別都有實作這些特徵。對於你自己定義的結構體與列舉，你需要實作 <code>PartialEq</code>，這樣該型別的數值才能判定相等或不相等。你需要實作 <code>Debug</code> 來顯示判定失敗時的數值。因為這兩個特徵都是可推導的特徵，就像第五章的範例 5-12 所寫的那樣，我們通常只要在你定義的結構體或列舉前加上 <code>#[derive(PartialEq, Debug)]</code> 的詮釋就好。你可以查閱附錄 C <a href="appendix-03-derivable-traits.html">「可推導的特徵」</a><!-- ignore --> 來發現更多可推導的特徵。</p>
 <h3 id="加入自訂失敗訊息"><a class="header" href="#加入自訂失敗訊息">加入自訂失敗訊息</a></h3>
-<p>你可以寫一個一個與失敗訊息一同顯示的自訂訊息，作為 <code>assert!</code>、<code>assert_eq!</code> 與 <code>assert_ne!</code> 巨集的選擇性引數。任何指定在必要引數後方的任何引數都會傳給 <code>format!</code> 巨集（我們在第八章<a href="ch08-02-strings.html#%E4%BD%BF%E7%94%A8--%E9%81%8B%E7%AE%97%E5%AD%90%E6%88%96-format-%E5%B7%A8%E9%9B%86%E4%B8%B2%E6%8E%A5%E5%AD%97%E4%B8%B2">「使用 <code>+</code> 運算子或 <code>format!</code> 巨集串接字串」</a><!-- ignore -->的段落討論過），所以你可以傳入一個包含 <code>{}</code> 佔位符（placeholder）的格式化字串以及其對應的數值。自訂訊息可以用來紀錄判定的意義，當測試失敗時，你可以更清楚知道程式碼的問題。</p>
+<p>你可以寫一個與失敗訊息一同顯示的自訂訊息，作為 <code>assert!</code>、<code>assert_eq!</code> 與 <code>assert_ne!</code> 巨集的選擇性引數。任何指定在必要引數後方的任何引數都會傳給 <code>format!</code> 巨集（我們在第八章<a href="ch08-02-strings.html#%E4%BD%BF%E7%94%A8--%E9%81%8B%E7%AE%97%E5%AD%90%E6%88%96-format-%E5%B7%A8%E9%9B%86%E4%B8%B2%E6%8E%A5%E5%AD%97%E4%B8%B2">「使用 <code>+</code> 運算子或 <code>format!</code> 巨集串接字串」</a><!-- ignore -->的段落討論過），所以你可以傳入一個包含 <code>{}</code> 佔位符（placeholder）的格式化字串以及其對應的數值。自訂訊息可以用來紀錄判定的意義，當測試失敗時，你可以更清楚知道程式碼的問題。</p>
 <p>舉例來說，假設我們有個函式會以收到的名字向人們打招呼，而且我們希望測試我們傳入的名字有出現在輸出：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust noplayground">pub fn greeting(name: &amp;str) -&gt; String {
@@ -7911,7 +7911,7 @@ mod tests {
 <p>不過你就不能將 <code>#[should_panic]</code> 詮釋用在使用 <code>Result&lt;T, E&gt;</code> 的測試。要判斷一個操作是否回傳 <code>Err</code> 的話，不要在 <code>Result&lt;T, E&gt;</code> 數值後加上 <code>?</code>，而是改用 <code>assert!(value.is_err())</code>。</p>
 <p>現在你知道了各種寫測試的方法，讓我們看看執行程式時發生了什麼事，並探索我們可以對 <code>cargo test</code> 使用的選項。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="控制程式如何執行"><a class="header" href="#控制程式如何執行">控制程式如何執行</a></h2>
-<p>就像 <code>cargo run</code> 會編譯你的程式碼並執行產生的執行檔，<code>cargo test</code> 會在測試模式編譯你的程式碼並執行產生的測試執行檔。<code>cargo test</code> 產生的執行檔預設行為會平行執行所有測試，並獲取測試執行時的輸出，，讓測試各自的輸出結果不會顯示出來，以更容易讀取相關測試的結果。然而你可以指定命令列選項來改變預設行為。</p>
+<p>就像 <code>cargo run</code> 會編譯你的程式碼並執行產生的執行檔，<code>cargo test</code> 會在測試模式編譯你的程式碼並執行產生的測試執行檔。<code>cargo test</code> 產生的執行檔預設行為會平行執行所有測試，並獲取測試執行時的輸出，讓測試各自的輸出結果不會顯示出來，以更容易讀取相關測試的結果。然而你可以指定命令列選項來改變預設行為。</p>
 <p>有些命令列選項用於 <code>cargo test</code> 而有些則用於產生的測試執行檔。要分開這兩種引數，你可以先列出要用於 <code>cargo test</code> 的引數然後加上 <code>--</code> 分隔線來區隔要用於測試執行檔的引數。執行 <code>cargo test --help</code> 可以顯示你能用在 <code>cargo test</code> 的選項，而執行 <code>cargo test -- --help</code> 則會顯示你在 <code>--</code> 之後能用的選項。</p>
 <h3 id="平行或接續執行測試"><a class="header" href="#平行或接續執行測試">平行或接續執行測試</a></h3>
 <p>當你執行數個測試時，它們預設會使用執行緒（thread）來平行執行。這樣測試可以更快完成，讓你可以從你或其他人的程式碼更快獲得回饋。因為測試是同時一起執行的，請確保你的測試並不依賴其他測試或是共享的狀態。這包含共享環境，像是目前的工作目錄或是環境變數。</p>
@@ -11352,7 +11352,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 <p>項目中的技術文件註解可以用來分別描述 crate 和模組。用它們來將解釋容器整體的目的有助於你的使用者瞭解該 crate 的程式碼組織架構。</p>
 <h3 id="透過-pub-use-匯出理想的公開-api"><a class="header" href="#透過-pub-use-匯出理想的公開-api">透過 <code>pub use</code> 匯出理想的公開 API</a></h3>
 <p>公開 API 的架構是發佈 crate 時要考量到的一大重點。使用 crate 的人可能並沒有你那麼熟悉其中的架構，而且如果你的 crate 模組分層越深的話，他們可能就難以找到他們想使用的部分。</p>
-<p>在第七章中，我們介紹了如何使用 <code>mod</code> 關鍵字來組織我們的程式碼成模組、如何使用 <code>pub</code> 關鍵字來公開項目，以及如何使用 <code>use</code> 關鍵字在將項目引入作用域。然而在開發 crate 時的架構雖然對你來說是合理的，但對你的使用者來說可能就不是那麼合適了。你可能會希望用有數個層級的分層架構來組織你的程式碼，但是要是有人想使用你定義在分層架構裡的型別時，它們可能就很難發現這些型別的存在。而且輸入 <code>use my_crate::some_module::another_module::UsefulType;</code> 是非常惱人的，我們會希望輸入 <code>use my_crate::UsefulType;</code> 就好。</p>
+<p>在第七章中，我們介紹了如何使用 <code>mod</code> 關鍵字來組織我們的程式碼成模組、如何使用 <code>pub</code> 關鍵字來公開項目，以及如何使用 <code>use</code> 關鍵字來將項目引入作用域。然而在開發 crate 時的架構雖然對你來說是合理的，但對你的使用者來說可能就不是那麼合適了。你可能會希望用有數個層級的分層架構來組織你的程式碼，但是要是有人想使用你定義在分層架構裡的型別時，它們可能就很難發現這些型別的存在。而且輸入 <code>use my_crate::some_module::another_module::UsefulType;</code> 是非常惱人的，我們會希望輸入 <code>use my_crate::UsefulType;</code> 就好。</p>
 <p>好消息是如果你的架構<strong>不便於</strong>其他函式庫所使用的話，你不必重新組織你的內部架構：你可以透過使用 <code>pub use</code>選擇重新匯出（re-export）項目來建立一個不同於內部私有架構的公開架構。重新匯出會先取得某處的公開項目，再從其他地方使其公開，讓它像是被定義在其他地方一樣。</p>
 <p>舉例來說，我們建立了一個函式庫叫做 <code>art</code> 來模擬藝術概念。在函式庫中有兩個模組：<code>kinds</code> 模組包含兩個列舉 <code>PrimaryColor</code> 和 <code>SecondaryColor</code>；而 <code>utils</code> 模組包含一個函式 <code>mix</code>，如範例 14-3 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
@@ -13106,7 +13106,7 @@ children: RefCell { value: [] } }] } })
 <p>在 <code>leaf</code> 建立後，它的 <code>Rc&lt;Node&gt;</code> 有強計數為 1 與弱計數為 0。在內部作用域中，我們建立了 <code>branch</code> 並與 <code>leaf</code> 做連結，此時當我們印出計數時，<code>branch</code> 的 <code>Rc&lt;Node&gt;</code> 會有強計數為 1 與弱計數為 1（因為 <code>leaf.parent</code> 透過 <code>Weak&lt;Node&gt;</code> 指向 <code>branch</code>）。當我們印出 <code>leaf</code> 的計數時，我們會看到它會有強計數為 2，因為 <code>branch</code> 現在有個 <code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 克隆儲存在 <code>branch.children</code>，但弱計數仍為 0。</p>
 <p>當內部作用域結束時，<code>branch</code> 會離開作用域且 <code>Rc&lt;Node&gt;</code> 的強計數會歸零，所以它的 <code>Node</code> 就會被釋放。<code>leaf.parent</code> 的弱計數 1 與 <code>Node</code> 是否被釋放無關，所以我們沒有產生任何記憶體泄漏！</p>
 <p>如果我們嘗試在作用域結束後取得 <code>leaf</code> 的父節點，我們會再次獲得 <code>None</code>。在程式的最後，<code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 強計數為 1 且弱計數為 0，因為變數 <code>leaf</code> 現在是 <code>Rc&lt;Node&gt;</code> 唯一的參考。</p>
-<p>所有管理計數與數值釋放都已經實作在 <code>Rc&lt;T&gt;</code> 與 <code>Weak&lt;T&gt;</code>，它們都有 <code>Drop</code> 特的實作。在 <code>Node</code> 的定義中指定子節點對父節點的關係應為 <code>Weak&lt;T&gt;</code> 參考，讓你能夠將父節點與子節點彼此關聯，且不必擔心產生參考循環與記憶體泄漏。</p>
+<p>所有管理計數與數值釋放都已經實作在 <code>Rc&lt;T&gt;</code> 與 <code>Weak&lt;T&gt;</code>，它們都有 <code>Drop</code> 特徵的實作。在 <code>Node</code> 的定義中指定子節點對父節點的關係應為 <code>Weak&lt;T&gt;</code> 參考，讓你能夠將父節點與子節點彼此關聯，且不必擔心產生參考循環與記憶體泄漏。</p>
 <h2 id="總結-14"><a class="header" href="#總結-14">總結</a></h2>
 <p>本章節涵蓋了如何使用智慧指標來得到一些不同於 Rust 預設參考所帶來的保障以及取捨。<code>Box&lt;T&gt;</code> 型別有已知大小並能將資料配置到堆積上。<code>Rc&lt;T&gt;</code> 型別會追蹤堆積上資料的參考數量，讓該資料能有數個擁有者。<code>RefCell&lt;T&gt;</code> 型別具有內部可變性，提供一個外部不可變的型別，但有方法可以改變內部數值，它會在執行時強制檢測借用規則，而非編譯時。</p>
 <p>我們也討論了 <code>Deref</code> 與 <code>Drop</code> 特徵，這些對智慧指標提供了許多功能。我們探討了參考循環可能會導致記憶體泄漏以及如何使用 <code>Weak&lt;T&gt;</code> 避免它們。</p>
@@ -14047,7 +14047,7 @@ error: could not compile `gui` due to previous error
 <p>回想一下第十章的<a href="ch10-01-syntax.html#%E4%BD%BF%E7%94%A8%E6%B3%9B%E5%9E%8B%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%A2%BC%E6%95%88%E8%83%BD">「使用泛型的程式碼效能」</a><!-- ignore -->段落我們討論過，當我們對泛型使用閉包時，編譯器會執行單型化（monomorphization）的過程。編譯器會在我們對每個用泛型型別參數取代的實際型別產生非泛型的函式與方法實作。單型化產生程式碼的動作會稱為「靜態調度（static dispatch）」，這代表編譯器在編譯時知道我們呼叫的方法為何。與其相反的則是<strong>動態調度（dynamic dispatch）</strong>，這種方式時編譯器在編譯時無法知道你呼叫的方法為何。在動態調度的情況下，編譯器會產生在執行時能夠確定會呼叫何種方法的程式碼。</p>
 <p>當我們使用特徵物件時，Rust 必須使用動態調度。編譯器無法知道使用特徵物件的程式碼會使用到的所有型別為何，所以它會不知道該呼叫哪個型別的哪個實作方法。取而代之的是，Rust 在執行時會使用特徵物件內部的指標來知道該呼叫哪個方法。這樣尋找的動作會產生靜態調度所沒有的執行時開銷。動態調度也讓編譯器無法選擇內聯（inline）方法的程式碼，這樣會因而阻止一些優化。不過我們的確對範例 17-5 的程式碼增加了額外的彈性，並能夠支援範例 17-9，所以這是個權衡取捨。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="實作物件導向設計模式"><a class="header" href="#實作物件導向設計模式">實作物件導向設計模式</a></h2>
-<p><strong>狀態模式</strong>（state pattern）是種物件導向設計模式。此模式的關鍵在於我們會定義一個數值擁有些內部狀態，以<strong>狀態物件</strong>（state objects）呈現，然後數值的行為會依據內部狀態而有所改變。我們將向用一個部落格文章結構體作為範例，讓它持有個狀態能在「草稿」、「審核」、「發佈」間轉換，成為狀態物件。</p>
+<p><strong>狀態模式</strong>（state pattern）是種物件導向設計模式。此模式的關鍵在於我們會定義一個數值擁有些內部狀態，以<strong>狀態物件</strong>（state objects）呈現，然後數值的行為會依據內部狀態而有所改變。我們將用一個部落格文章結構體作為範例，讓它持有個狀態能在「草稿」、「審核」、「發佈」間轉換，成為狀態物件。</p>
 <p>狀態物件會分享功能，當然在 Rust 中我們使用結構體與特徵，而不是使用物件與繼承。每個狀態物件負責本身的行為並監測何時要改變成其他狀態。持有狀態物件的數值不會知道狀態中不同的行為，或是何時要轉換狀態。</p>
 <p>使用狀態模式的優勢在於當程式的業務需求改變時，我們不需要改變持有狀態的數值或使用其數值的程式碼。我們只需要變更其中一個狀態物件的程式碼來改變其規則，或者新增更多狀態物件。</p>
 <p>我們先用比較傳統的物件導向方式實作狀態模式，然後我們會再來改成比較符合 Rust 的形式。讓我們來用狀態模式一步步實作部落格文章流程吧：</p>
@@ -15842,7 +15842,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 19-19: 一個特徵和一個型別分別擁有同名關聯函式，並且該型別實作了該特徵</span></p>
-<p>我們在 <code>Dog</code> 中的 <code>baby_name</code> 關聯函式實作了一段程式碼，將所有小狗狗命名為小不點。這個 <code>Dog</code> 型別同時實作了 <code>Animal</code> 特徵，<code>Animal</code> 特徵則描述了所有動物都有的習性。。在實作了 <code>Animal</code> 特徵的 <code>Dog</code> 上，透過與 <code>Animal</code> 特徵關聯的 <code>baby_name</code> 函式中，表達了幼犬被稱作小狗狗這一概念。</p>
+<p>我們在 <code>Dog</code> 中的 <code>baby_name</code> 關聯函式實作了一段程式碼，將所有小狗狗命名為小不點。這個 <code>Dog</code> 型別同時實作了 <code>Animal</code> 特徵，<code>Animal</code> 特徵則描述了所有動物都有的習性。在實作了 <code>Animal</code> 特徵的 <code>Dog</code> 上，透過與 <code>Animal</code> 特徵關聯的 <code>baby_name</code> 函式中，表達了幼犬被稱作小狗狗這一概念。</p>
 <p>在 <code>main</code> 中我們呼叫 <code>Dog::baby_name</code> 函式，最終會直接呼叫 <code>Dog</code> 上的關聯函式。這段程式碼會印出：</p>
 <pre><code class="language-console">$ cargo run
    Compiling traits-example v0.1.0 (file:///projects/traits-example)
@@ -15866,7 +15866,7 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">impl Animal for Dog {
 </span><span class="boring">    fn baby_name() -&gt; String {
-</span><span class="boring">        String::from(&quot;小狗崽&quot;)
+</span><span class="boring">        String::from(&quot;小狗狗&quot;)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -15911,7 +15911,7 @@ error: could not compile `traits-example` due to previous error
 </span><span class="boring">
 </span><span class="boring">impl Animal for Dog {
 </span><span class="boring">    fn baby_name() -&gt; String {
-</span><span class="boring">        String::from(&quot;小狗崽&quot;)
+</span><span class="boring">        String::from(&quot;小狗狗&quot;)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -15925,7 +15925,7 @@ error: could not compile `traits-example` due to previous error
    Compiling traits-example v0.1.0 (file:///projects/traits-example)
     Finished dev [unoptimized + debuginfo] target(s) in 0.48s
      Running `target/debug/traits-example`
-幼犬被稱作小狗崽
+幼犬被稱作小狗狗
 </code></pre>
 <p>普遍來說，完全限定語法定義如下：</p>
 <pre><code class="language-rust ignore">&lt;Type as Trait&gt;::function(receiver_if_method, next_arg, ...);
@@ -16424,7 +16424,7 @@ macro_rules! vec {
 <p>合法的巨集定義模式語法和在第十八章的模式語法並不相同，巨集的模式並不跟值比較，而是與 Rust 程式碼的結構相互匹配。在範例 19-28 我們會走過一次這些模式的意義，至於完整的巨集模式語法，請閱讀 <a href="https://doc.rust-lang.org/reference/macros-by-example.html">Rust 參考手冊</a>。</p>
 <p>首先，我們用一對括號包圍整個模式。我們使用錢字號（<code>$</code>）在巨集系統定義一個變數，該變數將包含與模式匹配的 Rust 程式碼。採用錢字號清楚展現它並非尋常的 Rust 變數，而是巨集變數。再來就是一對括號，用以捕獲與括號內的模式匹配之值，以替換為程式碼。在 <code>$()</code> 內的 <code>$x:expr</code> 會匹配任意 Rust 表達式，並賦予表達式一個 <code>$x</code> 名稱。</p>
 <p>在 <code>$()</code> 後的逗號代表字面上的逗號分隔，可以選擇性地在匹配 <code>$()</code> 內的程式碼後出現。而 <code>*</code> 這指明，這個模式可以匹配零至多個在 <code>*</code> 之前的東西。</p>
-<p>當我們的以 <code>vec![1, 2, 3]</code> 呼叫這個巨集，<code>$x</code> 模式會匹配到三次，分別為 <code>1</code>、<code>2</code> 和 <code>3</code> 三個表達式。</p>
+<p>當我們以 <code>vec![1, 2, 3]</code> 呼叫這個巨集，<code>$x</code> 模式會匹配到三次，分別為 <code>1</code>、<code>2</code> 和 <code>3</code> 三個表達式。</p>
 <p>現在來看看這個模式分支的本體程式碼：在 <code>$()*</code> 內的 <code>temp_vec.push()</code> 會根據 <code>$()</code> 模式匹配了幾次而產生幾次。這個 <code>$x</code> 會被每個匹配的表達式取代。當我們使用 <code>vec![1, 2, 3]</code> 呼叫巨集時，這個取代巨集呼叫而產生出來的程式碼會是：</p>
 <pre><code class="language-rust ignore">{
     let mut temp_vec = Vec::new();

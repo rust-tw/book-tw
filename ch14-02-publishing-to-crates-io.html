@@ -220,7 +220,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 <p>項目中的技術文件註解可以用來分別描述 crate 和模組。用它們來將解釋容器整體的目的有助於你的使用者瞭解該 crate 的程式碼組織架構。</p>
 <h3 id="透過-pub-use-匯出理想的公開-api"><a class="header" href="#透過-pub-use-匯出理想的公開-api">透過 <code>pub use</code> 匯出理想的公開 API</a></h3>
 <p>公開 API 的架構是發佈 crate 時要考量到的一大重點。使用 crate 的人可能並沒有你那麼熟悉其中的架構，而且如果你的 crate 模組分層越深的話，他們可能就難以找到他們想使用的部分。</p>
-<p>在第七章中，我們介紹了如何使用 <code>mod</code> 關鍵字來組織我們的程式碼成模組、如何使用 <code>pub</code> 關鍵字來公開項目，以及如何使用 <code>use</code> 關鍵字在將項目引入作用域。然而在開發 crate 時的架構雖然對你來說是合理的，但對你的使用者來說可能就不是那麼合適了。你可能會希望用有數個層級的分層架構來組織你的程式碼，但是要是有人想使用你定義在分層架構裡的型別時，它們可能就很難發現這些型別的存在。而且輸入 <code>use my_crate::some_module::another_module::UsefulType;</code> 是非常惱人的，我們會希望輸入 <code>use my_crate::UsefulType;</code> 就好。</p>
+<p>在第七章中，我們介紹了如何使用 <code>mod</code> 關鍵字來組織我們的程式碼成模組、如何使用 <code>pub</code> 關鍵字來公開項目，以及如何使用 <code>use</code> 關鍵字來將項目引入作用域。然而在開發 crate 時的架構雖然對你來說是合理的，但對你的使用者來說可能就不是那麼合適了。你可能會希望用有數個層級的分層架構來組織你的程式碼，但是要是有人想使用你定義在分層架構裡的型別時，它們可能就很難發現這些型別的存在。而且輸入 <code>use my_crate::some_module::another_module::UsefulType;</code> 是非常惱人的，我們會希望輸入 <code>use my_crate::UsefulType;</code> 就好。</p>
 <p>好消息是如果你的架構<strong>不便於</strong>其他函式庫所使用的話，你不必重新組織你的內部架構：你可以透過使用 <code>pub use</code>選擇重新匯出（re-export）項目來建立一個不同於內部私有架構的公開架構。重新匯出會先取得某處的公開項目，再從其他地方使其公開，讓它像是被定義在其他地方一樣。</p>
 <p>舉例來說，我們建立了一個函式庫叫做 <code>art</code> 來模擬藝術概念。在函式庫中有兩個模組：<code>kinds</code> 模組包含兩個列舉 <code>PrimaryColor</code> 和 <code>SecondaryColor</code>；而 <code>utils</code> 模組包含一個函式 <code>mix</code>，如範例 14-3 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
