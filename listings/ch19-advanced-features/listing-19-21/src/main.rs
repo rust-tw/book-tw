@@ -12,7 +12,7 @@ impl Dog {
 
 impl Animal for Dog {
     fn baby_name() -> String {
-        String::from("小狗崽")
+        String::from("小狗狗")
     }
 }
 
