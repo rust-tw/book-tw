@@ -427,7 +427,7 @@ let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
 
 我們將此新的變數綁定給 `guess.trim().parse()` 表達式。表達式中的 `guess` 指的是原本儲存字串輸入的 `guess`。`String` 中的 `trim` 方法會去除開頭與結尾的任何空白字元，我們一定要這樣做才能將字串與 `u32` 作比較，因為它只會包含數字字元。使用者一定得按下 <span class="keystroke">enter</span> 才能滿足 `read_line` 並輸入他們的猜測數字，這樣會加上一個換行字元。當使用者按下 <span class="keystroke">enter</span> 時，字串結尾就會加上換行字元。舉例來說，如果使用者輸入 <span class="keystroke">5</span> 並按下 <span class="keystroke">enter</span> 的話，`guess` 看起來會像這樣：`5\n`。`\n` 指的是「換行（newline）」，這是按下 <span class="keystroke">enter</span> 的結果（在 Windows 按下 <span class="keystroke">enter</span> 的結果會是輸入和換行 `\r\n`）。`trim` 方法能去除 `\n` 或 `\r\n`，讓結果只會是 `5`。
 
-而[字串中的 `parse` 方法][parse]<!-- ignore -->會轉換字串成其他型別。我們在此用它將字串轉換成數字，我們需要使用 `let guess: u32` 來告訴 Rust 我們想使用的確切數字型別。`guess` 後面的分號（`:`）告訴 Rust 我們會詮釋此變數的型別。Rust 有些內建的數字型別，這裡的 `u32` 是個非帶號（unsigned）的 32 位元整數。對於不大的正整數來說，這是不錯的預設選擇。你會在[第三章][integers]<!-- ignore -->學到其他數字型別。
+而[字串中的 `parse` 方法][parse]<!-- ignore -->會轉換字串成其他型別。我們在此用它將字串轉換成數字，我們需要使用 `let guess: u32` 來告訴 Rust 我們想使用的確切數字型別。`guess` 後面的冒號（`:`）告訴 Rust 我們會詮釋此變數的型別。Rust 有些內建的數字型別，這裡的 `u32` 是個非帶號（unsigned）的 32 位元整數。對於不大的正整數來說，這是不錯的預設選擇。你會在[第三章][integers]<!-- ignore -->學到其他數字型別。
 
 除此之外，在此範例程式中的 `u32` 詮釋與 `secret_number` 的比較意味著 Rust 也會將 `secret_number` 推斷成 `u32`。所以現在會有兩個相同型別的數值能做比較了！
 
