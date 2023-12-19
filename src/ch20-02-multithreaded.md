@@ -84,7 +84,7 @@
 {{#rustdoc_include ../listings/ch20-web-server/no-listing-01-define-threadpool-struct/src/lib.rs}}
 ```
 
-然後編輯 *main.ts* 檔案將 `ThreadPool` 從函式庫 crate 引入作用域，請將以下程式碼寫入 *src/main.rs* 最上方：
+然後編輯 *main.rs* 檔案將 `ThreadPool` 從函式庫 crate 引入作用域，請將以下程式碼寫入 *src/main.rs* 最上方：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
