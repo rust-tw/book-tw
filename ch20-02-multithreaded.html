@@ -315,7 +315,7 @@ error: could not compile `hello` due to previous error
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust noplayground">pub struct ThreadPool;
 </code></pre>
-<p>然後編輯 <em>main.ts</em> 檔案將 <code>ThreadPool</code> 從函式庫 crate 引入作用域，請將以下程式碼寫入 <em>src/main.rs</em> 最上方：</p>
+<p>然後編輯 <em>main.rs</em> 檔案將 <code>ThreadPool</code> 從函式庫 crate 引入作用域，請將以下程式碼寫入 <em>src/main.rs</em> 最上方：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use hello::ThreadPool;
 <span class="boring">use std::{
