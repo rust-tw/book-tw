@@ -112,7 +112,7 @@ headers CRLF
 message-body
 ```
 
-第一行是**請求行（request line）**並持有客戶端想請求什麼的資訊。請求行的第一個部分代表著想使用的**方法（method）**，像是 `GET` 或 `POST`，這描述了客戶端如何產生此請求。在此例中，我們的客戶端使用的是 `GET` 請求
+第一行是**請求行（request line）**並持有客戶端想請求什麼的資訊。請求行的第一個部分代表著想使用的**方法（method）**，像是 `GET` 或 `POST`，這描述了客戶端如何產生此請求。在此例中，我們的客戶端使用的是 `GET` 請求。
 
 請求行的下一個部分是 `/`，這代表客戶端請求的**統一資源標誌符（Uniform Resource Identifier，URI）**，URI 絕大多數（但不是絕對）就等於**統一資源定位符（Uniform Resource Locator，URL）**。URI 與 URL 的差別對於本章節的學習目的來說並不重要，但是 HTTP 規格使用的術語是 URI，所以我們這裡將 URL 替換為 URI。
 
