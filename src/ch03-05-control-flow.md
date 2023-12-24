@@ -36,7 +36,7 @@
 {{#include ../listings/ch03-common-programming-concepts/no-listing-27-if-false/output.txt}}
 ```
 
-還有一件值得注意的是程式碼的條件判斷**必須**是 `bool`。如果條件不是 `bool` 的話，我們就會遇到錯誤。比方說，試試以下程式碼：
+還有一點值得注意的是程式碼的條件判斷**必須**是 `bool`。如果條件不是 `bool` 的話，我們就會遇到錯誤。比方說，試試以下程式碼：
 
 <span class="filename">檔案名稱：src/main.rs</span>
 
