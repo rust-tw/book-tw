@@ -78,7 +78,7 @@ let v: Vec<u32> = vec![1, 2, 3];
 
 第二種巨集形式是**程序式巨集**，其行為更像是函式（也是一種程序）。程序式巨集接受一些程式碼作為輸入，操作這些程式碼，然後輸出一些程式碼。和宣告式巨集去匹配模式和取代程式碼的方式不同。三種程序式巨集（自訂 derive，類屬性、類函式）都有著相近的工作方式。
 
-當建立一個程序式巨集時，該巨集必須放置在自己特殊的一種 crate 中。會這種是因為一些複雜的技術問題，我們希望在未來消弭這個情況。範例 19-29 我們展示了如何定義程序式巨集，其中 `some_attribute` 是一個用來代表特定巨集的佔位符。
+當建立一個程序式巨集時，該巨集必須放置在自己特殊的一種 crate 中。會這樣是因為一些複雜的技術問題，我們希望在未來消弭這個情況。範例 19-29 我們展示了如何定義程序式巨集，其中 `some_attribute` 是一個用來代表特定巨集的佔位符。
 
 <span class="filename">檔案名稱：src/lib.rs</span>
 
@@ -162,7 +162,7 @@ $ cargo new hello_macro_derive --lib
 
 我們導入了三個新 crate：`proc_macro`，[`syn`] 和 [`quote`]。`proc_macro` 包含在 Rust 裡面，所以我們不需要將之加入 *Cargo.toml*。`proc_macro` crate 就是編譯器的 API，提供從我們的程式碼讀取和操作 Rust 程式碼。
 
-`syn` crate 負責從字串解析 Rust 程式碼，轉成我們可以操作的資料結構。而 `qoute` crate 則將 `syn` 的資料結構轉回 Rust 程式碼。撰寫完整的 Rust 程式碼解析器並不是容易的工作，而這些 crate 讓解析任何 Rust 程式碼更為簡便。
+`syn` crate 負責從字串解析 Rust 程式碼，轉成我們可以操作的資料結構。而 `quote` crate 則將 `syn` 的資料結構轉回 Rust 程式碼。撰寫完整的 Rust 程式碼解析器並不是容易的工作，而這些 crate 讓解析任何 Rust 程式碼更為簡便。
 
 當使用者在一個型別上指定 `#[derive(HelloMacro)]`，`hello_macro_derive` 函式就會被呼叫，這是由於我們使用 `proc_macro_derive` 和指定的 `HelloMacro` 名稱來標註 `hello_macro_derive` 函式，而其中的 `HelloMacro` 是我們的特徵名稱。以上就是大多數程序式巨集遵守的慣例。
 
