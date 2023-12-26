@@ -84,7 +84,7 @@
     - [發佈 Crate 到 Crates.io](ch14-02-publishing-to-crates-io.md)
     - [Cargo 工作空間](ch14-03-cargo-workspaces.md)
     - [透過 `cargo install` 安裝執行檔](ch14-04-installing-binaries.md)
-    - [透過自訂命命來擴展 Cargo 的功能](ch14-05-extending-cargo.md)
+    - [透過自訂命令來擴展 Cargo 的功能](ch14-05-extending-cargo.md)
 
 - [智慧指標](ch15-00-smart-pointers.md)
     - [使用 `Box<T>` 指向堆積上的資料](ch15-01-box.md)

@@ -22,7 +22,7 @@ impl ThreadPool {
         let mut threads = Vec::with_capacity(size);
 
         for _ in 0..size {
-            // 就產生些執行緒並儲存至向量
+            // 將產生些執行緒並儲存至向量
         }
 
         ThreadPool { threads }
