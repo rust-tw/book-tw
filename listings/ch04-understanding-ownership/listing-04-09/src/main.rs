@@ -19,6 +19,8 @@ fn main() {
     // first_word 適用於 `String` 的切片，無論是部分或整體
     let word = first_word(&my_string[0..6]);
     let word = first_word(&my_string[..]);
+    // first_word 也適用於 `String` 的參考，這等同於對整個 `String` 切片的操作。
+    let word = first_word(&my_string);
 
     let my_string_literal = "hello world";
 
