@@ -388,6 +388,8 @@ error: could not compile `ownership` due to previous error
 </span><span class="boring">    // first_word 適用於 `String` 的切片，無論是部分或整體
 </span><span class="boring">    let word = first_word(&amp;my_string[0..6]);
 </span><span class="boring">    let word = first_word(&amp;my_string[..]);
+</span><span class="boring">    // first_word 也適用於 `String` 的參考，這等同於對整個 `String` 切片的操作。
+</span><span class="boring">    let word = first_word(&amp;my_string);
 </span><span class="boring">
 </span><span class="boring">    let my_string_literal = &quot;hello world&quot;;
 </span><span class="boring">
@@ -422,6 +424,8 @@ error: could not compile `ownership` due to previous error
     // first_word 適用於 `String` 的切片，無論是部分或整體
     let word = first_word(&amp;my_string[0..6]);
     let word = first_word(&amp;my_string[..]);
+    // first_word 也適用於 `String` 的參考，這等同於對整個 `String` 切片的操作。
+    let word = first_word(&amp;my_string);
 
     let my_string_literal = &quot;hello world&quot;;
 
