@@ -1,4 +1,4 @@
-$ cargo r
+$ cargo run
    Compiling closure-example v0.1.0 (file:///projects/closure-example)
 error[E0308]: mismatched types
  --> src/main.rs:5:29
