@@ -88,7 +88,7 @@ const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-04-shadowing-can-change-types/src/main.rs:here}}
 ```
 
-第一次宣告 `spaces` 的變數是一個字串型別，而第二次宣告 `spaces` 則成了數字型別。遮蔽這項功能讓我們不必去宣告像是 `spaces_str` 與 `spaces_num`，我們可以重複使用 `spaces` 這個變數名稱。不過，可變變數仍然是無法變更變數型別的，如果這樣做的話我們就會拿到編譯期錯誤：
+第一次宣告 `spaces` 的變數是一個字串型別，而第二次宣告 `spaces` 則成了數字型別。遮蔽這項功能讓我們不必去宣告像是 `spaces_str` 與 `spaces_num`，我們可以重複使用 `spaces` 這個變數名稱。不過，可變變數仍然是無法變更變數型別的，如果這樣做的話我們就會拿到編譯器錯誤：
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-05-mut-cant-change-types/src/main.rs:here}}
