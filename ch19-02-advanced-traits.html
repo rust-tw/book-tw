@@ -220,7 +220,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 19-14：藉由實作 <code>Add</code> 特徵，重載 <code>Point</code> 實例的 <code>+</code> 運算子</span></p>
-<p><code>add</code> 方法將兩個 <code>Point</code> 實例的 <code>x</code> 值相加，兩個 <code>y</code> 值相加，並建立新的 <code>Point</code> 實例。<code>Add</code> 特徵有個關聯型別 <code>Outpout</code> 可以決定 <code>add</code> 方法回傳的型別。</p>
+<p><code>add</code> 方法將兩個 <code>Point</code> 實例的 <code>x</code> 值相加，兩個 <code>y</code> 值相加，並建立新的 <code>Point</code> 實例。<code>Add</code> 特徵有個關聯型別 <code>Output</code> 可以決定 <code>add</code> 方法回傳的型別。</p>
 <p>這段程式碼的預設泛型型別寫在 <code>Add</code> 特徵中，定義如下：</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
