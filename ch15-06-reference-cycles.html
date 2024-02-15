@@ -140,7 +140,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="參考循環會導致記憶體泄漏"><a class="header" href="#參考循環會導致記憶體泄漏">參考循環會導致記憶體泄漏</a></h2>
-<p>意外情況下，執行程式時可能會產生永遠不會被清除的記憶體（通稱為<strong>記憶體泄漏／memory leak</strong>）。Rust 的記憶體安全性雖然可以保證令這種情況難以發生，但並非絕不可能。雖然 Rust 在編譯時可以保證做到禁止資料競爭（<strong>data races</strong>），但它無法保證完全避免記憶體泄漏，這是因為對 Rust 來說，記憶體泄漏是屬於安全範疇內的（<strong>memory safe</strong>)。透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> ，我們能觀察到 Rust 允許使用者自行產生記憶體泄漏：因為使用者可以產生兩個參考並互相參照，造成一個循環。這種情況下會導致記憶體泄漏，因為循環中的參考計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
+<p>意外情況下，執行程式時可能會產生永遠不會被清除的記憶體（通稱為<strong>記憶體泄漏／memory leak</strong>）。Rust 的記憶體安全性雖然可以保證令這種情況難以發生，但並非絕不可能。雖然 Rust 在編譯時可以保證做到禁止資料競爭（<strong>data races</strong>），但它無法保證完全避免記憶體泄漏，這是因為對 Rust 來說，記憶體泄漏是屬於安全範疇內的（<strong>memory safe</strong>）。透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> ，我們能觀察到 Rust 允許使用者自行產生記憶體泄漏：因為使用者可以產生兩個參考並互相參照，造成一個循環。這種情況下會導致記憶體泄漏，因為循環中的參考計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
 <h3 id="產生參考循環"><a class="header" href="#產生參考循環">產生參考循環</a></h3>
 <p>讓我們看看參考循環是怎麼發生的，以及如何避免它。我們從範例 15-25 的 <code>List</code> 列舉定義與一個 <code>tail</code> 方法開始：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>

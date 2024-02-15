@@ -381,7 +381,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 19-10：讀取與寫入可變的靜態變數為不安全的操作</span></p>
-<p>與普通變數一樣，我們透過 <code>mut</code> 關鍵字指明可變性。任何讀寫 <code>COURTER</code> 的程式碼皆必須在 <code>unsafe</code> 區塊中。這個程式碼會編譯並打印出我們預期中的 <code>COUNTER: 3</code> 是因為他在單執行緒執行，若在多執行緒存取 <code>COUTER</code> 則可能導致資料競爭。</p>
+<p>與普通變數一樣，我們透過 <code>mut</code> 關鍵字指明可變性。任何讀寫 <code>COURTER</code> 的程式碼皆必須在 <code>unsafe</code> 區塊中。這個程式碼會編譯並打印出我們預期中的 <code>COUNTER: 3</code> 是因為他在單執行緒執行，若在多執行緒存取 <code>COUNTER</code> 則可能導致資料競爭。</p>
 <p>當能從全域存取可變資料時，確保沒有資料競爭就不容易了，這就是為什麼 Rust 將可變的靜態變數視為不安全。若是可能的話，我們推薦使用第十六章討論的並行技術與執行緒安全（thread-safe）的智慧指標（smart pointer），如此一來編譯器就能檢查從不同執行緒存取資料是安全的。</p>
 <h3 id="實作不安全特徵"><a class="header" href="#實作不安全特徵">實作不安全特徵</a></h3>
 <p>我們可以用 <code>unsafe</code> 實作不安全特徵。當一個特徵是有至少一個方法包含編譯器無法驗證的不變條件（invariant），就稱該特徵不安全。我們透過在 <code>trait</code> 前加上 <code>unsafe</code> 關鍵字來宣告一個特徵為 <code>unsafe</code>，這也讓實作該特徵會變成 <code>unsafe</code>，如 19-11 所示。</p>

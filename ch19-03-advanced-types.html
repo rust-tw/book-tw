@@ -306,7 +306,7 @@ pub trait Write {
     };
 <span class="boring">}
 </span></code></pre>
-<p>這段程式碼中 <code>guess</code> 的型別必須是<strong>同時是</strong>整數與字串，並且 Rust 要求 <code>guess</code> 只能是一種型別。那 <code>contiunue</code> 回傳了什麼？範例 19-26 中，為什麼允許一個分支回傳 <code>u32</code> 但同時有另一分支結束在 <code>continue</code>？</p>
+<p>這段程式碼中 <code>guess</code> 的型別必須是<strong>同時是</strong>整數與字串，並且 Rust 要求 <code>guess</code> 只能是一種型別。那 <code>continue</code> 回傳了什麼？範例 19-26 中，為什麼允許一個分支回傳 <code>u32</code> 但同時有另一分支結束在 <code>continue</code>？</p>
 <p>如你所猜，<code>continue</code> 具有 <code>!</code> 值。意即當 Rust 根據兩個分支來推算 <code>guess</code> 型別時，會觀察到前者會是 <code>u32</code>，而後者是 <code>!</code>。因為 <code>!</code> 永遠不會有值，Rust 於是決定 <code>guess</code> 的型別為 <code>u32</code>。</p>
 <p>描述這種行為的正確方式是：<code>!</code> 型別的表達式能夠轉型為任意其他型別。我們允許 <code>match</code> 分支結束在 <code>continue</code> 就是因為 <code>continue</code> 不會回傳任何值，相反地，它將控制流移至迴圈的最上面，所以在 <code>Err</code> 的情況，我們不會對 <code>guess</code> 賦值。</p>
 <p>永不型別在使用 <code>panic!</code> 巨集很實用。回想一下我們對 <code>Option&lt;T&gt;</code> 呼叫 <code>unwrap</code> 函式，會產生一個值或是恐慌，這是它的定義：</p>
@@ -338,7 +338,7 @@ pub trait Write {
 </span></code></pre>
 <p>這裡迴圈永不結束，所以 <code>!</code> 就是迴圈表達式的值。但當我們有一個 <code>break</code> 時，這就不成立了，因為迴圈會在抵達 <code>break</code> 時終止。</p>
 <h3 id="動態大小型別與-sized-特徵"><a class="header" href="#動態大小型別與-sized-特徵">動態大小型別與 <code>Sized</code> 特徵</a></h3>
-<p>Rust 需要了解其型別的特定細節，例如需替特定型別之值配置多少空間。這導致型別系統有令人困惑的小地方：即是<strong>動態大小型別</strong>（dynamically sized type）的概念。有時稱為 <em>DST</em> 或<strong>不定大小（unsize）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
+<p>Rust 需要了解其型別的特定細節，例如需替特定型別之值配置多少空間。這導致型別系統有令人困惑的小地方：即是<strong>動態大小型別</strong>（dynamically sized type）的概念。有時稱為 <em>DST</em> 或<strong>不定大小（unsized）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
 <p>讓我們深入研究一個貫穿全書到處使用的動態大小型別 <code>str</code> 的細節。你沒看錯，不是 <code>&amp;str</code> 而是 <code>str</code> 本身就是 DST。在執行期前我們無從得知字串多長，也就表示無法建立一個型別為 <code>str</code> 的變數，更不能將 <code>str</code> 型別作為引數。試想以下不能執行的程式碼：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1: str = &quot;Hello there!&quot;;

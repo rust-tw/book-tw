@@ -6334,7 +6334,7 @@ fn main() {
 <p>在方法簽名之後，我們並沒有加上大括號提供實作細節，而是使用分號。每個有實作此特徵的型別必須提供其自訂行為的方法本體。編譯器會強制要求任何有 <code>Summary</code> 特徵的型別都要有定義相同簽名的 <code>summarize</code> 方法。</p>
 <p>特徵本體中可以有多個方法，每行會有一個方法簽名並都以分號做結尾。</p>
 <h3 id="為型別實作特徵"><a class="header" href="#為型別實作特徵">為型別實作特徵</a></h3>
-<p>現在我們已經用 <code>Summary</code> 特徵定義了所需的方法簽名。我們可以在我們多媒體聚集器的型別中實作它。範例 10-13 顯示了 <code>NewsArticle</code> 結構體實作 <code>Summary</code> 特徵的方式，其使用頭條、作者、位置來建立 <code>summerize</code> 的回傳值。至於結構體 <code>Tweet</code>，我們使用使用者名稱加上整個推文的文字來定義 <code>summarize</code>，因為推文的內容長度已經被限制在 280 個字元以內了。</p>
+<p>現在我們已經用 <code>Summary</code> 特徵定義了所需的方法簽名。我們可以在我們多媒體聚集器的型別中實作它。範例 10-13 顯示了 <code>NewsArticle</code> 結構體實作 <code>Summary</code> 特徵的方式，其使用頭條、作者、位置來建立 <code>summarize</code> 的回傳值。至於結構體 <code>Tweet</code>，我們使用使用者名稱加上整個推文的文字來定義 <code>summarize</code>，因為推文的內容長度已經被限制在 280 個字元以內了。</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust noplayground"><span class="boring">pub trait Summary {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String;
@@ -12821,7 +12821,7 @@ c 之後 = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
 </code></pre>
 <p>此技巧是不是很厲害！透過使用 <code>RefCell&lt;T&gt;</code>，我們可以得到一個外部是不可變的 <code>List</code> 數值，但是我們可以使用 <code>RefCell&lt;T&gt;</code> 提供的方法來取得其內部可變性，讓我們可以在我們想要時改變我們的資料。執行時的借用規則檢查能防止資料競爭，並在某些場合犧牲一點速度來換取資料結構的彈性。注意到 <code>RefCell&lt;T&gt;</code> 無法用在多執行緒的程式碼！<code>Mutex&lt;T&gt;</code> 才是執行緒安全版的 <code>RefCell&lt;T&gt;</code>，我們會在第十六章再討論 <code>Mutex&lt;T&gt;</code>。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="參考循環會導致記憶體泄漏"><a class="header" href="#參考循環會導致記憶體泄漏">參考循環會導致記憶體泄漏</a></h2>
-<p>意外情況下，執行程式時可能會產生永遠不會被清除的記憶體（通稱為<strong>記憶體泄漏／memory leak</strong>）。Rust 的記憶體安全性雖然可以保證令這種情況難以發生，但並非絕不可能。雖然 Rust 在編譯時可以保證做到禁止資料競爭（<strong>data races</strong>），但它無法保證完全避免記憶體泄漏，這是因為對 Rust 來說，記憶體泄漏是屬於安全範疇內的（<strong>memory safe</strong>)。透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> ，我們能觀察到 Rust 允許使用者自行產生記憶體泄漏：因為使用者可以產生兩個參考並互相參照，造成一個循環。這種情況下會導致記憶體泄漏，因為循環中的參考計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
+<p>意外情況下，執行程式時可能會產生永遠不會被清除的記憶體（通稱為<strong>記憶體泄漏／memory leak</strong>）。Rust 的記憶體安全性雖然可以保證令這種情況難以發生，但並非絕不可能。雖然 Rust 在編譯時可以保證做到禁止資料競爭（<strong>data races</strong>），但它無法保證完全避免記憶體泄漏，這是因為對 Rust 來說，記憶體泄漏是屬於安全範疇內的（<strong>memory safe</strong>）。透過使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> ，我們能觀察到 Rust 允許使用者自行產生記憶體泄漏：因為使用者可以產生兩個參考並互相參照，造成一個循環。這種情況下會導致記憶體泄漏，因為循環中的參考計數永遠不會變成 0，所以數值永遠不會被釋放。</p>
 <h3 id="產生參考循環"><a class="header" href="#產生參考循環">產生參考循環</a></h3>
 <p>讓我們看看參考循環是怎麼發生的，以及如何避免它。我們從範例 15-25 的 <code>List</code> 列舉定義與一個 <code>tail</code> 方法開始：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
@@ -15561,7 +15561,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><span class="caption">範例 19-10：讀取與寫入可變的靜態變數為不安全的操作</span></p>
-<p>與普通變數一樣，我們透過 <code>mut</code> 關鍵字指明可變性。任何讀寫 <code>COURTER</code> 的程式碼皆必須在 <code>unsafe</code> 區塊中。這個程式碼會編譯並打印出我們預期中的 <code>COUNTER: 3</code> 是因為他在單執行緒執行，若在多執行緒存取 <code>COUTER</code> 則可能導致資料競爭。</p>
+<p>與普通變數一樣，我們透過 <code>mut</code> 關鍵字指明可變性。任何讀寫 <code>COURTER</code> 的程式碼皆必須在 <code>unsafe</code> 區塊中。這個程式碼會編譯並打印出我們預期中的 <code>COUNTER: 3</code> 是因為他在單執行緒執行，若在多執行緒存取 <code>COUNTER</code> 則可能導致資料競爭。</p>
 <p>當能從全域存取可變資料時，確保沒有資料競爭就不容易了，這就是為什麼 Rust 將可變的靜態變數視為不安全。若是可能的話，我們推薦使用第十六章討論的並行技術與執行緒安全（thread-safe）的智慧指標（smart pointer），如此一來編譯器就能檢查從不同執行緒存取資料是安全的。</p>
 <h3 id="實作不安全特徵"><a class="header" href="#實作不安全特徵">實作不安全特徵</a></h3>
 <p>我們可以用 <code>unsafe</code> 實作不安全特徵。當一個特徵是有至少一個方法包含編譯器無法驗證的不變條件（invariant），就稱該特徵不安全。我們透過在 <code>trait</code> 前加上 <code>unsafe</code> 關鍵字來宣告一個特徵為 <code>unsafe</code>，這也讓實作該特徵會變成 <code>unsafe</code>，如 19-11 所示。</p>
@@ -16068,7 +16068,7 @@ fn main() {
 </code></pre></pre>
 <p><span class="caption">範例 19-23：建立一個 <code>Wrapper</code> 型別封裝 <code>Vec&lt;STring&gt;</code> 以實作 <code>Display</code></span></p>
 <p>因為 <code>Wrapper</code> 是一個元組結構體而 <code>Vec&lt;T&gt;</code> 是該元組在索引 0 上的項目，所以該 <code>Display</code> 的實作使用 <code>self.0</code> 存取內部的 <code>Vec&lt;T&gt;</code>。我們就可以在 <code>Wrapper</code> 上使用 <code>Display</code> 的功能了。</p>
-<p>使用這個技術的缺點是 <code>Wrapper</code> 是個新型別，並無它封裝的值所擁有的方法。我們不得不在 <code>Wapper</code> 上實作所有 <code>Vec&lt;T&gt;</code> 的方法，委派這些方法給 <code>self.0</code>，讓我們可以將 <code>Wrapper</code> 作為 <code>Vec&lt;T&gt;</code> 一樣對待。如果我們想要新型別得到所有內部型別擁有的所有方法，一個解法是透過對 <code>Wrapper</code> 實作 <code>Deref</code> 特徵（在第十五章<a href="ch15-02-deref.html#%E9%80%8F%E9%81%8E-deref-%E7%89%B9%E5%BE%B5%E5%B0%87%E6%99%BA%E6%85%A7%E6%8C%87%E6%A8%99%E8%A6%96%E7%82%BA%E4%B8%80%E8%88%AC%E5%8F%83%E8%80%83">「透過 <code>Deref</code> 特徵將智慧指標視為一般參考」</a>一節有相應討論）並回傳內部型別。如果我們不想要 <code>Wrapper</code> 擁有所有內部型別的方法，例如限制 <code>Wrapper</code> 型別之行為，就僅須實作那些我們想要的方法。</p>
+<p>使用這個技術的缺點是 <code>Wrapper</code> 是個新型別，並無它封裝的值所擁有的方法。我們不得不在 <code>Wrapper</code> 上實作所有 <code>Vec&lt;T&gt;</code> 的方法，委派這些方法給 <code>self.0</code>，讓我們可以將 <code>Wrapper</code> 作為 <code>Vec&lt;T&gt;</code> 一樣對待。如果我們想要新型別得到所有內部型別擁有的所有方法，一個解法是透過對 <code>Wrapper</code> 實作 <code>Deref</code> 特徵（在第十五章<a href="ch15-02-deref.html#%E9%80%8F%E9%81%8E-deref-%E7%89%B9%E5%BE%B5%E5%B0%87%E6%99%BA%E6%85%A7%E6%8C%87%E6%A8%99%E8%A6%96%E7%82%BA%E4%B8%80%E8%88%AC%E5%8F%83%E8%80%83">「透過 <code>Deref</code> 特徵將智慧指標視為一般參考」</a>一節有相應討論）並回傳內部型別。如果我們不想要 <code>Wrapper</code> 擁有所有內部型別的方法，例如限制 <code>Wrapper</code> 型別之行為，就僅須實作那些我們想要的方法。</p>
 <p>現在，你知道如何將新型別模式與特徵相關聯，縱使不涉及特徵，新型別模式仍非常實用。接下來我們將目光轉移到其他與 Rust 型別系統互動的方法吧。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="進階型別"><a class="header" href="#進階型別">進階型別</a></h2>
 <p>至此，我們提及 Rust 型別系統的諸多特色，不過尚未深入討論。本章將從一般角度切入討論新型別（newtype）並檢驗為何作為型別來說，新型別非常好用。再來，接續看看型別別名（type alias）這個類似新型別但語意上不盡相同的特色。我們也會探討 <code>!</code> 型別與動態大小型別（dynamically sized type）。</p>
@@ -16237,7 +16237,7 @@ pub trait Write {
     };
 <span class="boring">}
 </span></code></pre>
-<p>這段程式碼中 <code>guess</code> 的型別必須是<strong>同時是</strong>整數與字串，並且 Rust 要求 <code>guess</code> 只能是一種型別。那 <code>contiunue</code> 回傳了什麼？範例 19-26 中，為什麼允許一個分支回傳 <code>u32</code> 但同時有另一分支結束在 <code>continue</code>？</p>
+<p>這段程式碼中 <code>guess</code> 的型別必須是<strong>同時是</strong>整數與字串，並且 Rust 要求 <code>guess</code> 只能是一種型別。那 <code>continue</code> 回傳了什麼？範例 19-26 中，為什麼允許一個分支回傳 <code>u32</code> 但同時有另一分支結束在 <code>continue</code>？</p>
 <p>如你所猜，<code>continue</code> 具有 <code>!</code> 值。意即當 Rust 根據兩個分支來推算 <code>guess</code> 型別時，會觀察到前者會是 <code>u32</code>，而後者是 <code>!</code>。因為 <code>!</code> 永遠不會有值，Rust 於是決定 <code>guess</code> 的型別為 <code>u32</code>。</p>
 <p>描述這種行為的正確方式是：<code>!</code> 型別的表達式能夠轉型為任意其他型別。我們允許 <code>match</code> 分支結束在 <code>continue</code> 就是因為 <code>continue</code> 不會回傳任何值，相反地，它將控制流移至迴圈的最上面，所以在 <code>Err</code> 的情況，我們不會對 <code>guess</code> 賦值。</p>
 <p>永不型別在使用 <code>panic!</code> 巨集很實用。回想一下我們對 <code>Option&lt;T&gt;</code> 呼叫 <code>unwrap</code> 函式，會產生一個值或是恐慌，這是它的定義：</p>
@@ -16269,7 +16269,7 @@ pub trait Write {
 </span></code></pre>
 <p>這裡迴圈永不結束，所以 <code>!</code> 就是迴圈表達式的值。但當我們有一個 <code>break</code> 時，這就不成立了，因為迴圈會在抵達 <code>break</code> 時終止。</p>
 <h3 id="動態大小型別與-sized-特徵"><a class="header" href="#動態大小型別與-sized-特徵">動態大小型別與 <code>Sized</code> 特徵</a></h3>
-<p>Rust 需要了解其型別的特定細節，例如需替特定型別之值配置多少空間。這導致型別系統有令人困惑的小地方：即是<strong>動態大小型別</strong>（dynamically sized type）的概念。有時稱為 <em>DST</em> 或<strong>不定大小（unsize）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
+<p>Rust 需要了解其型別的特定細節，例如需替特定型別之值配置多少空間。這導致型別系統有令人困惑的小地方：即是<strong>動態大小型別</strong>（dynamically sized type）的概念。有時稱為 <em>DST</em> 或<strong>不定大小（unsized）型別</strong>，這些型別賦予我們寫出僅能在執行期（runtime）得知值的大小之程式碼。</p>
 <p>讓我們深入研究一個貫穿全書到處使用的動態大小型別 <code>str</code> 的細節。你沒看錯，不是 <code>&amp;str</code> 而是 <code>str</code> 本身就是 DST。在執行期前我們無從得知字串多長，也就表示無法建立一個型別為 <code>str</code> 的變數，更不能將 <code>str</code> 型別作為引數。試想以下不能執行的程式碼：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1: str = &quot;Hello there!&quot;;
@@ -16454,7 +16454,7 @@ pub fn some_name(input: TokenStream) -&gt; TokenStream {
 <p>這個函式定義一個程序式巨集，接受輸入 <code>TokenStream</code>，並輸出 <code>TokenStream</code>。<code>TokenStream</code> 型別定義在 <code>proc_macro</code> crate 中，這個 crate 包含在 Rust 中，可以表示一連串的標記，這就是巨集的核心：巨集替來自輸入的 <code>TokenStream</code> 搽脂抹粉，而巨集產生的程式碼就是輸出的 <code>TokenStream</code>。上面例子中這個函式附加了一個屬性，指定我們要產生哪個程序式巨集。在同一個 crate 中我們可以使用多個不同的程序式巨集。</p>
 <p>我們來看不同的程序式巨集吧。就從自訂 derive 巨集開始，逐步介紹它與其他種類巨集的細部差異。</p>
 <h3 id="如何撰寫自訂的-derive-巨集"><a class="header" href="#如何撰寫自訂的-derive-巨集">如何撰寫自訂的 <code>derive</code> 巨集</a></h3>
-<p>我們建立一個 <code>hello_macro</code> crate，並定義 <code>HelloMacro</code> 特徵與它的 <code>hello_macro</code> 關聯函式。我們提供一個程序式巨集，讓 crate 的使用者透過 <code>#[derive(HelloMacro)]</code> 標註它們的型別，來獲得預設的 <code>hello_macro</code> 函式的實作，而不需要使用者替每個型別手動實作 <code>HelloMacro</code> 特徵。這個預設的函式實作會印出 <code>你好，巨集，我叫做型別名稱！</code>，其中 <code>型別名稱</code> 是實作特徵那個型別的名字。換句話說，就是我們會寫出一個 crate，讓其他程式設計師用我們的 crate，以範例 19-30 的方式來寫程式。</p>
+<p>我們建立一個 <code>hello_macro</code> crate，並定義 <code>HelloMacro</code> 特徵與它的 <code>hello_macro</code> 關聯函式。我們提供一個程序式巨集，讓 crate 的使用者透過 <code>#[derive(HelloMacro)]</code> 標註它們的型別，來獲得預設的 <code>hello_macro</code> 函式的實作，而不需要使用者替每個型別手動實作 <code>HelloMacro</code> 特徵。這個預設的函式實作會印出 <code>你好，巨集！我叫做型別名稱！</code>，其中 <code>型別名稱</code> 是實作特徵那個型別的名字。換句話說，就是我們會寫出一個 crate，讓其他程式設計師用我們的 crate，以範例 19-30 的方式來寫程式。</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">use hello_macro::HelloMacro;
 use hello_macro_derive::HelloMacro;
@@ -16571,7 +16571,7 @@ pub fn hello_macro_derive(input: TokenStream) -&gt; TokenStream {
     let gen = quote! {
         impl HelloMacro for #name {
             fn hello_macro() {
-                println!(&quot;你好，巨集，我叫做{}！&quot;, stringify!(#name));
+                println!(&quot;你好，巨集！我叫做{}！&quot;, stringify!(#name));
             }
         }
     };
@@ -16582,7 +16582,7 @@ pub fn hello_macro_derive(input: TokenStream) -&gt; TokenStream {
 <p>我們從 <code>ast.ident</code> 取得 <code>Ident</code> 結構體實例，這個實例中帶有被標註的型別之名稱（識別字）。當我們執行在範例 19-30 程式碼中的 <code>impl_hello_macro</code> 函式，會獲得一個 <code>ident</code>，帶有一個值為 <code>&quot;Pancakes&quot;</code> 的 <code>ident</code> 欄位，就如同範例 19-30 所示。因此，在範例 19-33 的 <code>name</code> 變數會包含一個 <code>Ident</code> 結構體實例，當我們印之，會出現字串 <code>&quot;Pancakes&quot;</code>，也就是該結構體在範例 19-30 所示的名字。</p>
 <p><code>quote!</code> 巨集提供我們定義想要回傳的 Rust 程式碼。編譯器期望接收到不同於 <code>quote!</code> 巨集執行後直接輸出的結果，所以我們需要將結果轉換為一個 <code>TokenStream</code>。我們透過呼叫 <code>into</code> 方法達成，這個方法會消耗中介碼（intermediate representation）並回傳一個型別為 <code>TokenStream</code> 之值。</p>
 <p><code>quote!</code> 巨集也提供非常炫的模板機制：我們可以輸入 <code>#name</code>，而 <code>quote!</code> 會以變數 <code>name</code> 值取而代之。我們甚至可以做一些類似普通巨集的重複工作。閱讀 <a href="https://docs.rs/quote"><code>quote</code> crate 的文件</a>以獲得完整的介紹。</p>
-<p>我們想要我們的程序式巨集對使用者標註的型別產生 <code>HelloMacro</code> 特徵的實作，這個標註的型別名稱可以從 <code>#name</code> 取得。這個特徵的實作有一個函式 <code>hello_macro</code>，函式本體包含我們想要的功能：印出 <code>你好，巨集，我叫做</code> 再加上被標註的型別的名稱。</p>
+<p>我們想要我們的程序式巨集對使用者標註的型別產生 <code>HelloMacro</code> 特徵的實作，這個標註的型別名稱可以從 <code>#name</code> 取得。這個特徵的實作有一個函式 <code>hello_macro</code>，函式本體包含我們想要的功能：印出 <code>你好，巨集！我叫做</code> 再加上被標註的型別的名稱。</p>
 <p><code>stringify!</code> 巨集是 Rust 內建的，會將一個 Rust 表達式，例如 <code>1 + 2</code>，在編譯期轉換成字串字面值（string literal），例如 <code>&quot;1 + 2&quot;</code>。這和 <code>format!</code> 或 <code>println!</code> 巨集會對表達式求值並將結果轉為 <code>String</code> 不同。因為輸入的 <code>#name</code> 可能是一個表達式，但要直接照字面印出來，所以我們選擇使用 <code>stringify!</code>。使用 <code>stringify!</code> 也可以節省在編譯器因為轉換 <code>#name</code> 成為字串字面量所需的空間配置。</p>
 <p>至此，<code>cargo build</code> 應該可以成功在 <code>hello_macro</code> 和 <code>hello_macro_derive</code> 完成。我們在範例 19-30 來玩玩這些 crate 看看他們如何實際作用！先在你的<strong>專案</strong>目錄下，透過 <code>cargo new pancakes</code> 建立一個新的執行檔專案。我們必須將 <code>hello_macro</code> 和 <code>hello_macro_derive</code> 加入 <code>pancakes</code> 的 <em>Cargo.toml</em> 作為依賴。若你已經發佈自己的 <code>hello_macro</code> 和 <code>hello_macro_derive</code> 的版本到 <a href="https://crates.io/">crates.io</a>，他們就是普通的依賴；若無，你可以指定他們為 <code>path</code> 的依賴，如下：</p>
 <pre><code class="language-toml">hello_macro = { path = &quot;../hello_macro&quot; }
