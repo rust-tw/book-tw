@@ -2719,7 +2719,7 @@ for it to be borrowed from
 </span><span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre>
-<p>我們會在<a href="ch13-02-iterators.html">第十三章</a><!-- ignore -->討論疊代器的細節。現在我們只需要知道 <code>iter</code> 是個能夠回傳集合中每個元素的方法，然後 <code>enumerate</code> 會將 <code>iter</code> 的結果包裝起來回傳成元組。<code>enumerate</code> 回傳的元組中的第一個元素是索引，第二個才是元素的參考。這樣比我們自己計算索引還來的方便。</p>
+<p>我們會在<a href="ch13-02-iterators.html">第十三章</a><!-- ignore -->討論疊代器的細節。現在我們只需要知道 <code>iter</code> 是個能夠回傳集合中每個元素的方法，然後 <code>enumerate</code> 會將 <code>iter</code> 的結果包裝起來回傳成元組（tuple）。<code>enumerate</code> 回傳的元組中的第一個元素是索引，第二個才是元素的參考。這樣比我們自己計算索引還來的方便。</p>
 <p>既然 <code>enumerate</code> 回傳的是元組，我們可以用模式配對來解構元組。我們會在<a href="ch06-02-match.html#patterns-that-bind-to-values">第六章</a><!-- ignore -->進一步解釋模式配對。所以在 <code>for</code> 迴圈中，我們指定了一個模式讓 <code>i</code> 取得索引然後 <code>&amp;item</code> 取得元組中的位元組。因為我們從用 <code>.iter().enumerate()</code> 取得參考的，所以在模式中我們用的是 <code>&amp;</code> 來獲取。</p>
 <p>在 <code>for</code> 迴圈裡面我們使用字串字面值的語法搜尋位元組是不是空格。如果我們找到空格的話，我們就回傳該位置。不然我們就用 <code>s.len()</code> 回傳整個字串的長度。</p>
 <pre><code class="language-rust ignore"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
