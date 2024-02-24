@@ -32,7 +32,7 @@ fn first_word(s: &String) -> ?
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:iter}}
 ```
 
-我們會在[第十三章][ch13]<!-- ignore -->討論疊代器的細節。現在我們只需要知道 `iter` 是個能夠回傳集合中每個元素的方法，然後 `enumerate` 會將 `iter` 的結果包裝起來回傳成元組。`enumerate` 回傳的元組中的第一個元素是索引，第二個才是元素的參考。這樣比我們自己計算索引還來的方便。
+我們會在[第十三章][ch13]<!-- ignore -->討論疊代器的細節。現在我們只需要知道 `iter` 是個能夠回傳集合中每個元素的方法，然後 `enumerate` 會將 `iter` 的結果包裝起來回傳成元組（tuple）。`enumerate` 回傳的元組中的第一個元素是索引，第二個才是元素的參考。這樣比我們自己計算索引還來的方便。
 
 既然 `enumerate` 回傳的是元組，我們可以用模式配對來解構元組。我們會在[第六章][ch6]<!-- ignore -->進一步解釋模式配對。所以在 `for` 迴圈中，我們指定了一個模式讓 `i` 取得索引然後 `&item` 取得元組中的位元組。因為我們從用 `.iter().enumerate()` 取得參考的，所以在模式中我們用的是 `&` 來獲取。
 
