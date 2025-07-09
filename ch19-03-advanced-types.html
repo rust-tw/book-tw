@@ -159,7 +159,7 @@
 </span><span class="boring">    println!(&quot;x + y = {}&quot;, x + y);
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>現在，<code>Kilometers</code>  別名就是 <code>i32</code> 的<strong>同義詞</strong>。不像我們在範例 19-15 建立的 <code>Millimeters</code> 與 <code>Meters</code> 型別，<code>Kilometers</code> 並非獨立的新型別。型別為 <code>Kilometers</code> 的值會被當作型別是 <code>i32</code> 的值。</p>
+<p>現在，<code>Kilometers</code> 別名就是 <code>i32</code> 的<strong>同義詞</strong>。不像我們在範例 19-15 建立的 <code>Millimeters</code> 與 <code>Meters</code> 型別，<code>Kilometers</code> 並非獨立的新型別。型別為 <code>Kilometers</code> 的值會被當作型別是 <code>i32</code> 的值。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    type Kilometers = i32;
 
@@ -326,7 +326,7 @@ pub trait Write {
     }
 }
 </code></pre>
-<p>和範例 19-26 <code>match</code> 相同的情況，在這段程式碼再度上演：Rust 看到 <code>val</code> 的型別是 <code>T</code> 且 <code>panic</code> 是 <code>!</code> 型別，所以 <code>match</code> 表達式的總體結果是 <code>T</code>。這段程式碼可執行是因為 <code>panic!</code> 會結束程式而不會產生值。當遇上 <code>None</code> 的情形，我們不會從 <code>unwrap</code> 回傳任何值，所以這段程式碼合法有效。</p>
+<p>和範例 19-26 <code>match</code> 相同的情況，在這段程式碼再度上演：Rust 看到 <code>val</code> 的型別是 <code>T</code> 且 <code>panic</code> 是 <code>!</code> 型別，所以 <code>match</code> 表達式的總體結果是 <code>T</code>。這段程式碼可執行是因為 <code>panic!</code> 會結束程式而不會產生值。當遇上 <code>None</code> 的情形，我們不會從 <code>unwrap</code> 回傳任何值，所以這段程式碼有效。</p>
 <p>最後一個具有 <code>!</code> 型別的表達式是 <code>loop</code>：</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span>    print!(&quot;永永&quot;);

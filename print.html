@@ -15321,7 +15321,7 @@ error: could not compile `patterns` due to previous error
 <p>這些 Rust 全功能特色適合所有人。一起來深究吧！</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="不安全的-rust"><a class="header" href="#不安全的-rust">不安全的 Rust</a></h2>
 <p>到目前為止，我們討論的所有程式碼都在編譯期強制加上 Rust 記憶體安全保證。然而，Rust 內部其實隱藏了第二種語言，並不強制加上這些記憶體安全保證：這語言叫做<strong>不安全（unsafe）的 Rust</strong>，可和常規 Rust 一樣正常執行，同時賦予我們極強的能力。</p>
-<p>不安全的 Rust 之所以存在，是由於靜態分析本質上過於保守。當編譯器嘗試確認程式碼是否遵守這些安全保證時，比起接受一些非法的程式，更寧願拒絕部分合法程式。儘管有些程式碼<strong>看起來</strong>正確，但 Rust 無法獲取足夠資訊保證的話，它就是會擋下來。在這些案例中，你可以寫不安全程式碼並告訴編譯器：「相信我，我知道我在幹麻。」從反面來看這也有缺點，你必須自行承擔風險：若誤用不安全程式碼，可能會造成記憶體不安全，例如發生對空指標（null pointer）解參考。</p>
+<p>不安全的 Rust 之所以存在，是由於靜態分析本質上過於保守。當編譯器嘗試確認程式碼是否遵守這些安全保證時，比起接受一些非法的程式，更寧願拒絕部分有效的程式。儘管有些程式碼<strong>看起來</strong>正確，但 Rust 無法獲取足夠資訊保證的話，它就是會擋下來。在這些案例中，你可以寫不安全程式碼並告訴編譯器：「相信我，我知道我在幹麻。」從反面來看這也有缺點，你必須自行承擔風險：若誤用不安全程式碼，可能會造成記憶體不安全，例如發生對空指標（null pointer）解參考。</p>
 <p>Rust 擁有另一個不安全的自我的另一理由是電腦硬體本質上就不安全。如果 Rust 不允許這些不安全操作，就無法完成特定任務。Rust 必須允許你做這些底層系統程式設計，例如直接與作業系統互動，甚至撰寫自己的作業系統。系統程式設計是這個語言的目標之一，一起探索我們可以用不安全的 Rust 做什麼和如何使用吧。</p>
 <h3 id="不安全的超能力"><a class="header" href="#不安全的超能力">不安全的超能力</a></h3>
 <p>欲切換成不安全的 Rust，可使用 <code>unsafe</code> 關鍵字開啟一個新程式碼區塊，並封裝這些不安全程式碼。在不安全的 Rust，你可使用在安全的 Rust 之下無法使用的五種功能，我們稱之為<strong>不安全的超能力</strong>。這些超能力包含：</p>
@@ -15333,16 +15333,16 @@ error: could not compile `patterns` due to previous error
 <li>存取聯合體（union）的欄位</li>
 </ul>
 <p>需要謹記在心的是，<code>unsafe</code> 並不會關閉借用檢查器（borrow checker）或是停用其他 Rust 的安全檢查：在不安全程式碼中操作一個參考仍然會經過檢查。<code>unsafe</code> 關鍵字只提供上述不經由編譯器檢查記憶體安全的五項功能，在不安全區塊內你依然保有一定程度的安全性。</p>
-<p>此外，<code>unsafe</code> 並不意味在此區塊內的程式碼一定有風險或有記憶體安全問題：其目的是作為一個程式設計師，你必須確保在 <code>unsafe</code> 區塊內的程式碼透過合法途徑存取記憶體。</p>
+<p>此外，<code>unsafe</code> 並不意味在此區塊內的程式碼一定有風險或有記憶體安全問題：其目的是作為一個程式設計師，你必須確保在 <code>unsafe</code> 區塊內的程式碼透過有效途徑存取記憶體。</p>
 <p>錯誤因人類不可靠而發生。不過，將五種不安全操作標記在 <code>unsafe</code> 區塊內，讓你得知任何記憶體安全相關的錯誤一定在某個 <code>unsafe</code> 內。請將 <code>unsafe</code> 區塊保持夠小，當你在調查一個記憶體錯誤時，會慶幸當初有這麼做。</p>
 <p>為了盡可能隔離不安全程式碼，最佳作法是將之封裝在安全的抽象並提供安全的 API，本章在後面的探討不安全函式和方法一併討論之。部分的標準函式庫同樣是在審核過的不安全程式碼上提供安全抽象。透過安全抽象封裝不安全程式碼，可防止你或你的使用者使用以 <code>unsafe</code> 實作的功能，不會將實際的 <code>unsafe</code> 使用洩漏到四散各地，因為安全抽象就是安全的 Rust。</p>
 <p>接下來將依序探討這五個不安全的超能力。也會看看一些替不安全程式碼提供安全介面的抽象。</p>
 <h3 id="對裸指標解參考"><a class="header" href="#對裸指標解參考">對裸指標解參考</a></h3>
-<p>在第四章<a href="ch04-02-references-and-borrowing.html#%E8%BF%B7%E9%80%94%E5%8F%83%E8%80%83">「迷途參考」</a>一節，我們提及編譯器確保參考一定是合法的。不安全的 Rust 有兩種新型別叫<strong>裸指標</strong>，和參考非常相似。和參考一樣，裸指標能是不可變或可變，分別寫做 <code>*const T</code> 和 <code>*mut T</code>。星號不是解參考運算子，它就是型別名稱的一部分。在裸指標的脈絡下，<strong>不可變</strong>代表指標不能在被解參考之後直接賦值。</p>
+<p>在第四章<a href="ch04-02-references-and-borrowing.html#%E8%BF%B7%E9%80%94%E5%8F%83%E8%80%83">「迷途參考」</a>一節，我們提及編譯器確保參考一定是有效的。不安全的 Rust 有兩種新型別叫<strong>裸指標</strong>，和參考非常相似。和參考一樣，裸指標能是不可變或可變，分別寫做 <code>*const T</code> 和 <code>*mut T</code>。星號不是解參考運算子，它就是型別名稱的一部分。在裸指標的脈絡下，<strong>不可變</strong>代表指標不能在被解參考之後直接賦值。</p>
 <p>和參考與智慧指標（smart pointer）不同，裸指標是：</p>
 <ul>
 <li>允許忽略借用規則，同時可存在指向相同位置的可變和不可變的指標，或是多個可變指標</li>
-<li>不能保證一定指向合法記憶體</li>
+<li>不能保證一定指向有效記憶體</li>
 <li>可以為空（null）</li>
 <li>並無實作任何自動清理機制</li>
 </ul>
@@ -15357,8 +15357,8 @@ error: could not compile `patterns` due to previous error
 </span></code></pre></pre>
 <p><span class="caption">範例 19-1：從參考建立裸指標</span></p>
 <p>注意，這段程式碼並無使用 <code>unsafe</code> 關鍵字。我們可以在安全程式碼中建立裸指標，我們只是不能在不安全區塊外對其解參考，你很快就會看到。</p>
-<p>我們透過 <code>as</code> 將不可變與可變參考轉型成個別對應的裸指標。由於這些裸指標是從保證合法的參考而來，就能得知這些裸指標同樣合法，但我們無法推導所有裸指標都合法。</p>
-<p>為了展示上述情形，接下來，我們將建立無法確認合法性的裸指標，範例 19-2 展示了如何從任意記憶體的位置建立裸指標。嘗試使用任意的記憶體行為並未定義，該位址上可能有也可能沒資料，且編譯器可能會最佳化該程式，所以該處可能不會存取記憶體，或是程式因區段錯誤導致崩潰。一般情況下，雖然這種程式碼能寫得出來，但不會有任何好理由寫出它。</p>
+<p>我們透過 <code>as</code> 將不可變與可變參考轉型成個別對應的裸指標。由於這些裸指標是從保證有效的參考而來，就能得知這些裸指標同樣有效，但我們無法推導所有裸指標都有效。</p>
+<p>為了展示上述情形，接下來，我們將建立無法確認有效性的裸指標，範例 19-2 展示了如何從任意記憶體的位置建立裸指標。嘗試使用任意的記憶體行為並未定義，該位址上可能有也可能沒資料，且編譯器可能會最佳化該程式，所以該處可能不會存取記憶體，或是程式因區段錯誤導致崩潰。一般情況下，雖然這種程式碼能寫得出來，但不會有任何好理由寫出它。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let address = 0x012345usize;
     let r = address as *const i32;
@@ -15380,7 +15380,7 @@ error: could not compile `patterns` due to previous error
 </span></code></pre></pre>
 <p><span class="caption">範例 19-3：在 <code>unsafe</code> 區塊對裸指標解參考</span></p>
 <p>建立一個指標沒有危險性，只有當我們嘗試存取它指向的值時，才可能需要處理非法的值。</p>
-<p>請注意，範例 19-1 與 19-3，我們建立了 <code>*const i32</code> 與 <code>*mut i32</code> 兩個裸指標，皆指向相同儲存 <code>num</code> 的記憶體位置。若我們走正常程序建立指向 <code>num</code>  的不可變與可變參考，程式碼將因為 Rust 所有權規則不允許同時存在一個可變參考與多個不可變參考，進而無法編譯。有了裸指標，即可建立指向同個位置的可變指標和不可變指標，並透過可變指標改變其資料，但可能帶來資料競爭（data races），請小心！</p>
+<p>請注意，範例 19-1 與 19-3，我們建立了 <code>*const i32</code> 與 <code>*mut i32</code> 兩個裸指標，皆指向相同儲存 <code>num</code> 的記憶體位置。若我們走正常程序建立指向 <code>num</code> 的不可變與可變參考，程式碼將因為 Rust 所有權規則不允許同時存在一個可變參考與多個不可變參考，進而無法編譯。有了裸指標，即可建立指向同個位置的可變指標和不可變指標，並透過可變指標改變其資料，但可能帶來資料競爭（data races），請小心！</p>
 <p>既然有這些危險，為什麼你還要用裸指標呢？一個主要使用案例是與 C 程式碼介接，你將會在下一節<a href="ch19-01-unsafe-rust.html#%E5%91%BC%E5%8F%AB%E4%B8%8D%E5%AE%89%E5%85%A8%E5%87%BD%E5%BC%8F%E6%88%96%E6%96%B9%E6%B3%95">「呼叫不安全函式或方法」</a>讀到。另一個用例是在借用檢查器不理解之處建立一層安全抽象。我們將會介紹不安全函式，再探討一個使用到不安全程式碼的安全抽象範例。</p>
 <h3 id="呼叫不安全函式或方法"><a class="header" href="#呼叫不安全函式或方法">呼叫不安全函式或方法</a></h3>
 <p>第二種需要不安全區塊的操作是呼叫不安全函式。不安全函式與方法外觀看起來與正常函式及方法並無二致，僅在整個函式定義前多了額外的 <code>unsafe</code> 。<code>unsafe</code> 關鍵字在此脈絡下是指此函式在呼叫時必須遵守某些要求，因為 Rust 無法保證我們能達成這項要求。當我們在一個 <code>unsafe</code> 區塊內呼叫一個 <code>unsafe</code> 函式，意味著我們已閱讀此函式的文件，而且有責任遵守此函式的使用條款。</p>
@@ -15485,8 +15485,8 @@ fn split_at_mut(values: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;
 <p><span class="caption">範例 19-6：在 <code>split_at_mut</code> 函式實作中使用不安全程式碼</span></p>
 <p>回憶一下第四章<a href="ch04-03-slices.html#%E5%88%87%E7%89%87%E5%9E%8B%E5%88%A5">「切片型別」</a> 一節中，提及切片會儲存指向某些資料的指標以及該切片長度。我們可使用 <code>len</code> 方法取得切片的長度，並用 <code>as_mut_ptr</code> 取得指向切片的裸指標。在此範例中，由於我們擁有指向某些 <code>i32</code> 值的可變切片，<code>as_mut_ptr</code> 會回傳一個型別為 <code>*mut i32</code> 的裸指標，即是儲存在 <code>ptr</code> 變數中的值。</p>
 <p>我們判定 <code>mid</code> 索引在該切片內。此後我們進入不安全程式碼：<code>slice::from_raw_parts_mut</code> 函式需要一個裸指標與一個長度，並建立一個切片。我們使用這個函式來建立一個從 <code>ptr</code> 開始長度為 <code>mid</code> 的切片。而後，我們以 <code>mid</code> 作為引數，對 <code>ptr</code> 呼叫 <code>add</code> 方法，以取得從 <code>mid</code> 開始的裸指標，再來用此指標與從 <code>mid</code> 開始剩下的元素個數作為長度，建立另一個切片。</p>
-<p><code>slice::from_raw_parts_mut</code> 之所以為不安全函式，是因為它需要裸指標，且必須相信這個指標合法。<code>add</code> 是不安全方法是由於它必須相信偏移後的位址是合法指標。因此，我們需要在呼叫 <code>slice::from_raw_parts_mut</code> 和 <code>add</code> 外包一層 <code>unsafe</code> 函式。透過閱讀程式碼與加上對 <code>mid</code> 一定等於或比 <code>len</code> 小的斷言，我們可以宣稱所有在 <code>unsafe</code> 區塊的裸指標都是指向原始切片內的合法指標。這是一個可接受且合理的 <code>unsafe</code> 使用情境。</p>
-<p>注意，我們不需替 <code>split_at_mut</code> 函式輸出結果做上 <code>unsafe</code> 的記號，而且我們可以在安全的 Rust 呼叫它。我們藉由安全的方式使用 <code>unsafe</code> 函式，完成了對不安全程式碼建立一層安全抽象，這個抽象只會從該函式能夠存取的資料內建立合法指標。</p>
+<p><code>slice::from_raw_parts_mut</code> 之所以為不安全函式，是因為它需要裸指標，且必須相信這個指標有效。<code>add</code> 是不安全方法是由於它必須相信偏移後的位址是有效指標。因此，我們需要在呼叫 <code>slice::from_raw_parts_mut</code> 和 <code>add</code> 外包一層 <code>unsafe</code> 函式。透過閱讀程式碼與加上對 <code>mid</code> 一定等於或比 <code>len</code> 小的斷言，我們可以宣稱所有在 <code>unsafe</code> 區塊的裸指標都是指向原始切片內的有效指標。這是一個可接受且合理的 <code>unsafe</code> 使用情境。</p>
+<p>注意，我們不需替 <code>split_at_mut</code> 函式輸出結果做上 <code>unsafe</code> 的記號，而且我們可以在安全的 Rust 呼叫它。我們藉由安全的方式使用 <code>unsafe</code> 函式，完成了對不安全程式碼建立一層安全抽象，這個抽象只會從該函式能夠存取的資料內建立有效指標。</p>
 <p>對比之下，範例 19-7 中使用 <code>slice::from_raw_parts_mut</code> 則極有可能會在該切片被使用時崩潰。這段程式碼從任意的記憶體位置建立了一個 10,000 元素長的切片。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    use std::slice;
@@ -15498,7 +15498,7 @@ fn split_at_mut(values: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">範例 19-7：從任意記憶體位址建立切片</span></p>
-<p>我們不擁有此位址之下的記憶體，且並不保證這段程式碼建立的切片一定包含合法的 <code>i32</code> 值。嘗試將 <code>values</code> 當作合法的切片來使用，會導致為未定義行為（undefined behavior）。</p>
+<p>我們不擁有此位址之下的記憶體，且並不保證這段程式碼建立的切片一定包含有效的 <code>i32</code> 值。嘗試將 <code>values</code> 當作有效的切片來使用，會導致為未定義行為（undefined behavior）。</p>
 <h4 id="使用-extern-函式呼叫外部程式碼"><a class="header" href="#使用-extern-函式呼叫外部程式碼">使用 <code>extern</code> 函式呼叫外部程式碼</a></h4>
 <p>有些時候，你的 Rust 程式碼可能需要與其他語言撰寫的程式碼互動。這種情況 Rust 提供 <code>extern</code> 關鍵字，予以協助建立與使用<strong>外部函式介面（Foreign Function Interface，FFI）</strong> 。FFI 的功能是給在一門程式語言定義函式，使得另一門（外部）程式語言可以呼叫這些函式。</p>
 <p>範例 19-8 展示了如何建立整合一個 C 標準函式庫的 <code>abs</code> 函式。由於其他語言並無強制遵守 Rust 的規則和保證，而且 Rust 也無法檢查之，因此在 Rust 程式碼中呼叫在 <code>extern</code> 區塊內宣告的函式一定是不安全的操作，所以確保安全的重責大任就會落在程式設計師身上。</p>
@@ -16090,7 +16090,7 @@ fn main() {
 </span><span class="boring">    println!(&quot;x + y = {}&quot;, x + y);
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>現在，<code>Kilometers</code>  別名就是 <code>i32</code> 的<strong>同義詞</strong>。不像我們在範例 19-15 建立的 <code>Millimeters</code> 與 <code>Meters</code> 型別，<code>Kilometers</code> 並非獨立的新型別。型別為 <code>Kilometers</code> 的值會被當作型別是 <code>i32</code> 的值。</p>
+<p>現在，<code>Kilometers</code> 別名就是 <code>i32</code> 的<strong>同義詞</strong>。不像我們在範例 19-15 建立的 <code>Millimeters</code> 與 <code>Meters</code> 型別，<code>Kilometers</code> 並非獨立的新型別。型別為 <code>Kilometers</code> 的值會被當作型別是 <code>i32</code> 的值。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    type Kilometers = i32;
 
@@ -16257,7 +16257,7 @@ pub trait Write {
     }
 }
 </code></pre>
-<p>和範例 19-26 <code>match</code> 相同的情況，在這段程式碼再度上演：Rust 看到 <code>val</code> 的型別是 <code>T</code> 且 <code>panic</code> 是 <code>!</code> 型別，所以 <code>match</code> 表達式的總體結果是 <code>T</code>。這段程式碼可執行是因為 <code>panic!</code> 會結束程式而不會產生值。當遇上 <code>None</code> 的情形，我們不會從 <code>unwrap</code> 回傳任何值，所以這段程式碼合法有效。</p>
+<p>和範例 19-26 <code>match</code> 相同的情況，在這段程式碼再度上演：Rust 看到 <code>val</code> 的型別是 <code>T</code> 且 <code>panic</code> 是 <code>!</code> 型別，所以 <code>match</code> 表達式的總體結果是 <code>T</code>。這段程式碼可執行是因為 <code>panic!</code> 會結束程式而不會產生值。當遇上 <code>None</code> 的情形，我們不會從 <code>unwrap</code> 回傳任何值，所以這段程式碼有效。</p>
 <p>最後一個具有 <code>!</code> 型別的表達式是 <code>loop</code>：</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span>    print!(&quot;永永&quot;);
@@ -16424,8 +16424,8 @@ macro_rules! vec {
 </blockquote>
 <p>這個 <code>#[macro_export]</code> 標註（annotation）用來指明只要這個 crate 有在程式碼可見作用域中，就可以使用該巨集。若沒有這個標註，巨集就不能帶入該作用域內。</p>
 <p>我們的巨集定義從 <code>macro_rules!</code> 和我們欲定義的巨集名稱<strong>去除</strong>驚嘆號開始。這個名稱，在我們例子裡是 <code>vec</code>，的後面接著花括號表示巨集定義的本體。</p>
-<p>這個 <code>vec!</code> 本體的結構和 <code>match</code> 表達式的結構相似。這裡我們有一個 match 分支，帶著模式 <code>( $( $x:expr ),* )</code>，並接著 <code>=&gt;</code> 後面與該模式相關聯的程式碼區塊。這個分支是此巨集唯一一個模式，所以只有一個合法匹配方式；任何其他模式都會產生錯誤。更複雜的巨集會有多於一個分支。</p>
-<p>合法的巨集定義模式語法和在第十八章的模式語法並不相同，巨集的模式並不跟值比較，而是與 Rust 程式碼的結構相互匹配。在範例 19-28 我們會走過一次這些模式的意義，至於完整的巨集模式語法，請閱讀 <a href="https://doc.rust-lang.org/reference/macros-by-example.html">Rust 參考手冊</a>。</p>
+<p>這個 <code>vec!</code> 本體的結構和 <code>match</code> 表達式的結構相似。這裡我們有一個 match 分支，帶著模式 <code>( $( $x:expr ),* )</code>，並接著 <code>=&gt;</code> 後面與該模式相關聯的程式碼區塊。這個分支是此巨集唯一一個模式，所以只有一個有效匹配方式；任何其他模式都會產生錯誤。更複雜的巨集會有多於一個分支。</p>
+<p>有效的巨集定義模式語法和在第十八章的模式語法並不相同，巨集的模式並不跟值比較，而是與 Rust 程式碼的結構相互匹配。在範例 19-28 我們會走過一次這些模式的意義，至於完整的巨集模式語法，請閱讀 <a href="https://doc.rust-lang.org/reference/macros-by-example.html">Rust 參考手冊</a>。</p>
 <p>首先，我們用一對括號包圍整個模式。我們使用錢字號（<code>$</code>）在巨集系統定義一個變數，該變數將包含與模式匹配的 Rust 程式碼。採用錢字號清楚展現它並非尋常的 Rust 變數，而是巨集變數。再來就是一對括號，用以捕獲與括號內的模式匹配之值，以替換為程式碼。在 <code>$()</code> 內的 <code>$x:expr</code> 會匹配任意 Rust 表達式，並賦予表達式一個 <code>$x</code> 名稱。</p>
 <p>在 <code>$()</code> 後的逗號代表字面上的逗號分隔，可以選擇性地在匹配 <code>$()</code> 內的程式碼後出現。而 <code>*</code> 這指明，這個模式可以匹配零至多個在 <code>*</code> 之前的東西。</p>
 <p>當我們以 <code>vec![1, 2, 3]</code> 呼叫這個巨集，<code>$x</code> 模式會匹配到三次，分別為 <code>1</code>、<code>2</code> 和 <code>3</code> 三個表達式。</p>
