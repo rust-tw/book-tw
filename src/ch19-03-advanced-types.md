@@ -20,7 +20,7 @@ Rust 提供了替一個既有型別宣告型別別名的方式。對此我們會
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-04-kilometers-alias/src/main.rs:here}}
 ```
 
-現在，`Kilometers`  別名就是 `i32` 的**同義詞**。不像我們在範例 19-15 建立的 `Millimeters` 與 `Meters` 型別，`Kilometers` 並非獨立的新型別。型別為 `Kilometers` 的值會被當作型別是 `i32` 的值。
+現在，`Kilometers` 別名就是 `i32` 的**同義詞**。不像我們在範例 19-15 建立的 `Millimeters` 與 `Meters` 型別，`Kilometers` 並非獨立的新型別。型別為 `Kilometers` 的值會被當作型別是 `i32` 的值。
 
 ```rust
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-04-kilometers-alias/src/main.rs:there}}
@@ -110,8 +110,7 @@ Rust 有一個特殊的型別叫做 `!`，由於它沒有任何值，在型別�
 {{#rustdoc_include ../listings/ch19-advanced-features/no-listing-09-unwrap-definition/src/lib.rs:here}}
 ```
 
-和範例 19-26 `match` 相同的情況，在這段程式碼再度上演：Rust 看到 `val` 的型別是 `T` 且 `panic` 是 `!` 型別，所以 `match` 表達式的總體結果是 `T`。這段程式碼可執行是因為 `panic!` 會結束程式而不會產生值。當遇上 `None` 的情形，我們不會從 `unwrap` 回傳任何值，所以這段程式碼合法有效。
-
+和範例 19-26 `match` 相同的情況，在這段程式碼再度上演：Rust 看到 `val` 的型別是 `T` 且 `panic` 是 `!` 型別，所以 `match` 表達式的總體結果是 `T`。這段程式碼可執行是因為 `panic!` 會結束程式而不會產生值。當遇上 `None` 的情形，我們不會從 `unwrap` 回傳任何值，所以這段程式碼有效。
 
 最後一個具有 `!` 型別的表達式是 `loop`：
 
