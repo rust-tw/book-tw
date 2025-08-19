@@ -1,159 +1,233 @@
-## 使用執行緒同時執行程式碼
+## Using Threads to Run Code Simultaneously
 
-在大部分的現代作業系統中，被執行的程式碼會在**程序（process）**中執行，作業系統會負責同時處理數個程序。在你的程式中，你也可以將各自獨立的部分同時執行。執行這些獨立部分的功能就叫做**執行緒（threads）**。舉例來說，一個網路伺服器可以有數個執行緒來同時回應一個以上的請求。
+In most current operating systems, an executed program’s code is run in a
+_process_, and the operating system will manage multiple processes at once.
+Within a program, you can also have independent parts that run simultaneously.
+The features that run these independent parts are called _threads_. For
+example, a web server could have multiple threads so that it can respond to
+more than one request at the same time.
 
-將程式中的運算拆成數個執行緒可以提升效能，不過這也同時增加了複雜度。因為執行緒可以同時執行，所以無法保證不同執行緒的程式碼執行的順序。這會導致以下問題：
+Splitting the computation in your program into multiple threads to run multiple
+tasks at the same time can improve performance, but it also adds complexity.
+Because threads can run simultaneously, there’s no inherent guarantee about the
+order in which parts of your code on different threads will run. This can lead
+to problems, such as:
 
-* 競爭條件（Race conditions）：數個執行緒以不一致的順序取得資料或資源
-* 死結（Deadlocks）：兩個執行緒彼此都在等待對方，因而讓執行緒無法繼續執行
-* 只在特定情形會發生的程式錯誤，並難以重現與穩定修復
+- Race conditions, in which threads are accessing data or resources in an
+  inconsistent order
+- Deadlocks, in which two threads are waiting for each other, preventing both
+  threads from continuing
+- Bugs that only happen in certain situations and are hard to reproduce and fix
+  reliably
 
-Rust 嘗試降低使用執行緒所帶來的負面效果，不過對於多執行緒程式設計還是得格外小心，其所要求的程式結構也與單一執行緒的程式有所不同。
+Rust attempts to mitigate the negative effects of using threads, but
+programming in a multithreaded context still takes careful thought and requires
+a code structure that is different from that in programs running in a single
+thread.
 
-不同程式語言會以不同的方式實作執行緒，許多作業系統都有提供 API 來建立新的執行緒。Rust 標準函式庫使用的是 *1:1* 的執行緒實作模型，也就是每一個語言產生的執行緒就是一個作業系統的執行緒。有其他 crate 會實作其他種執行緒模型，讓我們能與 1:1 模型之間做取捨。
+Programming languages implement threads in a few different ways, and many
+operating systems provide an API the programming language can call for creating
+new threads. The Rust standard library uses a _1:1_ model of thread
+implementation, whereby a program uses one operating system thread per one
+language thread. There are crates that implement other models of threading that
+make different trade-offs to the 1:1 model. (Rust’s async system, which we will
+see in the next chapter, provides another approach to concurrency as well.)
 
-### 透過 `spawn` 建立新的執行緒
+### Creating a New Thread with `spawn`
 
-要建立一個新的執行緒，我們呼叫函式 `thread::spawn` 並傳入一個閉包（我們在第十三章談過閉包），其包含我們想在新執行緒執行的程式碼。範例 16-1 會在主執行緒印出一些文字，並在新執行緒印出其他文字：
+To create a new thread, we call the `thread::spawn` function and pass it a
+closure (we talked about closures in Chapter 13) containing the code we want to
+run in the new thread. The example in Listing 16-1 prints some text from a main
+thread and other text from a new thread.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="16-1" file-name="src/main.rs" caption="Creating a new thread to print one thing while the main thread prints something else">
 
 ```rust
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-01/src/main.rs}}
 ```
 
-<span class="caption">範例 16-1：建立一個會印出一些字的新執行緒，而主執行緒會印出其他字</span>
+</Listing>
 
-注意到當 Rust 程式的主執行緒完成的話，所有執行緒也會被停止，無論它有沒有完成任務。此程式的輸出結果每次可能都會有點不相同，但它會類似以下這樣：
+Note that when the main thread of a Rust program completes, all spawned threads
+are shut down, whether or not they have finished running. The output from this
+program might be a little different every time, but it will look similar to the
+following:
 
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-數字 1 出現在主執行緒中！
-數字 1 出現在產生的執行緒中！
-數字 2 出現在主執行緒中！
-數字 2 出現在產生的執行緒中！
-數字 3 出現在主執行緒中！
-數字 3 出現在產生的執行緒中！
-數字 4 出現在主執行緒中！
-數字 4 出現在產生的執行緒中！
-數字 5 出現在產生的執行緒中！
+hi number 1 from the main thread!
+hi number 1 from the spawned thread!
+hi number 2 from the main thread!
+hi number 2 from the spawned thread!
+hi number 3 from the main thread!
+hi number 3 from the spawned thread!
+hi number 4 from the main thread!
+hi number 4 from the spawned thread!
+hi number 5 from the spawned thread!
 ```
 
-`thread::sleep` 的呼叫強制執行緒短時間內停止運作，讓不同的執行緒可以執行。執行緒可能會輪流執行，但並不保證絕對如此，這會依據你的作業系統如何安排執行緒而有所不同。在這一輪中，主執行緒會先顯示，就算程式中是先寫新執行緒的 `println!` 陳述式。而且雖然我們是寫說新執行緒印出 `i` 一直到 9，但它在主執行緒結束前只印到 5。
+The calls to `thread::sleep` force a thread to stop its execution for a short
+duration, allowing a different thread to run. The threads will probably take
+turns, but that isn’t guaranteed: it depends on how your operating system
+schedules the threads. In this run, the main thread printed first, even though
+the print statement from the spawned thread appears first in the code. And even
+though we told the spawned thread to print until `i` is `9`, it only got to `5`
+before the main thread shut down.
 
-如果當你執行此程式時只看到主執行緒的結果，或者沒有看到任何交錯的話，你可以嘗試增加數字範圍來增加作業系統切換執行緒的機會。
+If you run this code and only see output from the main thread, or don’t see any
+overlap, try increasing the numbers in the ranges to create more opportunities
+for the operating system to switch between the threads.
 
-### 使用 `join` 等待所有執行緒完成
+### Waiting for All Threads to Finish Using `join` Handles
 
-範例 16-1 的程式碼在主執行緒結束時不只會在大多數的時候提早結束新產生的執行緒，還不能保證執行緒運行的順序，我們甚至無法保證產生的執行緒真的會執行！
+The code in Listing 16-1 not only stops the spawned thread prematurely most of
+the time due to the main thread ending, but because there is no guarantee on
+the order in which threads run, we also can’t guarantee that the spawned thread
+will get to run at all!
 
-透過儲存 `thread::spawn` 回傳的數值為變數，我們可以修正產生的執行緒完全沒有執行或沒有執行完成的問題。`thread::spawn` 的回傳型別為 `JoinHandle`。`JoinHandle` 是個有所有權的數值，當我們對它呼叫 `join` 方法時，它就會等待它的執行緒完成。範例 16-2 顯示了如何使用我們在範例 16-1 中執行緒的 `JoinHandle` 並呼叫 `join` 來確保產生的執行緒會在 `main` 離開之前完成：
+We can fix the problem of the spawned thread not running or of it ending
+prematurely by saving the return value of `thread::spawn` in a variable. The
+return type of `thread::spawn` is `JoinHandle<T>`. A `JoinHandle<T>` is an
+owned value that, when we call the `join` method on it, will wait for its
+thread to finish. Listing 16-2 shows how to use the `JoinHandle<T>` of the
+thread we created in Listing 16-1 and how to call `join` to make sure the
+spawned thread finishes before `main` exits.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="16-2" file-name="src/main.rs" caption="Saving a `JoinHandle<T>` from `thread::spawn` to guarantee the thread is run to completion">
 
 ```rust
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-02/src/main.rs}}
 ```
 
-<span class="caption">範例 16-2：從 `thread::spawn` 儲存 `JoinHandle` 以保障執行緒能執行完成</span>
+</Listing>
 
-對其呼叫 `join` 會阻擋當前正在執行的執行緒中直到 `JoinHandle` 的執行緒結束為止。**阻擋**（Blocking）一條執行緒代表該執行緒不會繼續運作或離開。因為我們在主執行緒的 `for` 迴圈之後加上了 `join` 的呼叫，範例 16-2 應該會產生類似以下的輸出：
+Calling `join` on the handle blocks the thread currently running until the
+thread represented by the handle terminates. _Blocking_ a thread means that
+thread is prevented from performing work or exiting. Because we’ve put the call
+to `join` after the main thread’s `for` loop, running Listing 16-2 should
+produce output similar to this:
 
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-數字 1 出現在主執行緒中！
-數字 2 出現在主執行緒中！
-數字 1 出現在產生的執行緒中！
-數字 3 出現在主執行緒中！
-數字 2 出現在產生的執行緒中！
-數字 4 出現在主執行緒中！
-數字 3 出現在產生的執行緒中！
-數字 4 出現在產生的執行緒中！
-數字 5 出現在產生的執行緒中！
-數字 6 出現在產生的執行緒中！
-數字 7 出現在產生的執行緒中！
-數字 8 出現在產生的執行緒中！
-數字 9 出現在產生的執行緒中！
+hi number 1 from the main thread!
+hi number 2 from the main thread!
+hi number 1 from the spawned thread!
+hi number 3 from the main thread!
+hi number 2 from the spawned thread!
+hi number 4 from the main thread!
+hi number 3 from the spawned thread!
+hi number 4 from the spawned thread!
+hi number 5 from the spawned thread!
+hi number 6 from the spawned thread!
+hi number 7 from the spawned thread!
+hi number 8 from the spawned thread!
+hi number 9 from the spawned thread!
 ```
 
-兩條執行緒會互相交錯，但是主執行緒這次會因為 `handle.join()` 而等待，直到產生的執行緒完成前都不會結束。
+The two threads continue alternating, but the main thread waits because of the
+call to `handle.join()` and does not end until the spawned thread is finished.
 
-那如果我們如以下這樣將 `handle.join()` 移到 `main` 中的 `for` 迴圈前會發生什麼事呢：
+But let’s see what happens when we instead move `handle.join()` before the
+`for` loop in `main`, like this:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing file-name="src/main.rs">
 
 ```rust
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/no-listing-01-join-too-early/src/main.rs}}
 ```
 
-主執行緒會等待產生的執行緒完成才會執行它的 `for` 迴圈，所以輸出結果就不會彼此交錯，如以下所示：
+</Listing>
+
+The main thread will wait for the spawned thread to finish and then run its
+`for` loop, so the output won’t be interleaved anymore, as shown here:
 
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
 
 ```text
-數字 1 出現在產生的執行緒中！
-數字 2 出現在產生的執行緒中！
-數字 3 出現在產生的執行緒中！
-數字 4 出現在產生的執行緒中！
-數字 5 出現在產生的執行緒中！
-數字 6 出現在產生的執行緒中！
-數字 7 出現在產生的執行緒中！
-數字 8 出現在產生的執行緒中！
-數字 9 出現在產生的執行緒中！
-數字 1 出現在主執行緒中！
-數字 2 出現在主執行緒中！
-數字 3 出現在主執行緒中！
-數字 4 出現在主執行緒中！
+hi number 1 from the spawned thread!
+hi number 2 from the spawned thread!
+hi number 3 from the spawned thread!
+hi number 4 from the spawned thread!
+hi number 5 from the spawned thread!
+hi number 6 from the spawned thread!
+hi number 7 from the spawned thread!
+hi number 8 from the spawned thread!
+hi number 9 from the spawned thread!
+hi number 1 from the main thread!
+hi number 2 from the main thread!
+hi number 3 from the main thread!
+hi number 4 from the main thread!
 ```
 
-像這樣將 `join` 呼叫置於何處的小細節，會影響你的執行緒會不會同時運行。
+Small details, such as where `join` is called, can affect whether or not your
+threads run at the same time.
 
-### 透過執行緒使用 `move` 閉包
+### Using `move` Closures with Threads
 
-我們通常會使用 `thread::spawn` 時都會搭配有 `move` 關鍵字的閉包，因為該閉包能獲取周圍環境的數值，轉移那些數值的所有權到另一個執行緒中。在第十三章的[「獲取參考或移動所有權」][capture]<!-- ignore-->段落我們討論過閉包如何運用 `move`。現在我們會來專注在 `move` 與 `thread::spawn` 之間如何互動。
+We’ll often use the `move` keyword with closures passed to `thread::spawn`
+because the closure will then take ownership of the values it uses from the
+environment, thus transferring ownership of those values from one thread to
+another. In [“Capturing References or Moving Ownership”][capture]<!-- ignore
+--> in Chapter 13, we discussed `move` in the context of closures. Now we’ll
+concentrate more on the interaction between `move` and `thread::spawn`.
 
+Notice in Listing 16-1 that the closure we pass to `thread::spawn` takes no
+arguments: we’re not using any data from the main thread in the spawned
+thread’s code. To use data from the main thread in the spawned thread, the
+spawned thread’s closure must capture the values it needs. Listing 16-3 shows
+an attempt to create a vector in the main thread and use it in the spawned
+thread. However, this won’t work yet, as you’ll see in a moment.
 
-在第十三章中，我們提到我們可以在閉包參數列表前使用 `move` 關鍵字來強制閉包取得其從環境獲取數值的所有權。此技巧在建立新的執行緒特別有用，讓我們可以從一個執行緒轉移數值所有權到另一個執行緒。
-
-注意到範例 16-1 中我們傳入 `thread::spawn` 的閉包沒有任何引數，我們在產生的執行緒程式碼內沒有使用主執行緒的任何資料。要在產生的執行緒中使用主執行緒的資料的話，產生的執行緒閉包必須獲取它所需的資料。範例 16-3 嘗試在主執行緒建立一個向量並在產生的執行緒使用它。不過這目前無法執行，你會在稍後知道原因。
-
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="16-3" file-name="src/main.rs" caption="Attempting to use a vector created by the main thread in another thread">
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-03/src/main.rs}}
 ```
 
-<span class="caption">範例 16-3：嘗試在其他執行緒使用主執行緒建立的向量</span>
+</Listing>
 
-閉包想使用 `v`，所以它得獲取 `v` 並使其成為閉包環境的一部分。因為 `thread::spawn` 會在新的執行緒執行此閉包，我們要能在新的執行緒內存取 `v`。但當我們編譯此範例時，我們會得到以下錯誤：
+The closure uses `v`, so it will capture `v` and make it part of the closure’s
+environment. Because `thread::spawn` runs this closure in a new thread, we
+should be able to access `v` inside that new thread. But when we compile this
+example, we get the following error:
 
 ```console
 {{#include ../listings/ch16-fearless-concurrency/listing-16-03/output.txt}}
 ```
 
-Rust 會**推斷**如何獲取 `v` 而且因為 `println!` 只需要 `v` 的參考，閉包得借用 `v`。不過這會有個問題，Rust 無法知道產生的執行緒會執行多久，所以它無法確定 `v` 的參考是不是永遠有效。
+Rust _infers_ how to capture `v`, and because `println!` only needs a reference
+to `v`, the closure tries to borrow `v`. However, there’s a problem: Rust can’t
+tell how long the spawned thread will run, so it doesn’t know whether the
+reference to `v` will always be valid.
 
-範例 16-4 提供了一個情境讓 `v` 很有可能不再有效：
+Listing 16-4 provides a scenario that’s more likely to have a reference to `v`
+that won’t be valid.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="16-4" file-name="src/main.rs" caption="A thread with a closure that attempts to capture a reference to `v` from a main thread that drops `v`">
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-04/src/main.rs}}
 ```
 
-<span class="caption">範例 16-4：執行緒的閉包嘗試獲取 `v` 的參考，但主執行緒會釋放 `v`</span>
+</Listing>
 
-如果 Rust 允許執行此程式碼，產生的執行緒是有可能會置於背景而沒有馬上執行。產生的執行緒內部有 `v` 的參考，但主執行緒會立即釋放 `v`，使用我們在第十五章討論過的 `drop` 函式。然後當產生的執行緒開始執行時，`v` 就不再有效了，所以它的參考也是無效的了。喔不！
+If Rust allowed us to run this code, there’s a possibility that the spawned
+thread would be immediately put in the background without running at all. The
+spawned thread has a reference to `v` inside, but the main thread immediately
+drops `v`, using the `drop` function we discussed in Chapter 15. Then, when the
+spawned thread starts to execute, `v` is no longer valid, so a reference to it
+is also invalid. Oh no!
 
-要修正範例 16-3 的編譯錯誤，我們可以使用錯誤訊息的建議：
+To fix the compiler error in Listing 16-3, we can use the error message’s
+advice:
 
 <!-- manual-regeneration
 after automatic regeneration, look at listings/ch16-fearless-concurrency/listing-16-03/output.txt and copy the relevant part
@@ -166,25 +240,41 @@ help: to force the closure to take ownership of `v` (and any other referenced va
   |                                ++++
 ```
 
-透過在閉包前面加上 `move` 關鍵字，我們強制讓閉包取得它所要使用數值的所有權，而非任由 Rust 去推斷它是否該借用數值。範例 16-5 修改了範例 16-3 並能夠如期編譯與執行：
+By adding the `move` keyword before the closure, we force the closure to take
+ownership of the values it’s using rather than allowing Rust to infer that it
+should borrow the values. The modification to Listing 16-3 shown in Listing
+16-5 will compile and run as we intend.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="16-5" file-name="src/main.rs" caption="Using the `move` keyword to force a closure to take ownership of the values it uses">
 
 ```rust
 {{#rustdoc_include ../listings/ch16-fearless-concurrency/listing-16-05/src/main.rs}}
 ```
 
-<span class="caption">範例 16-5：使用 `move` 關鍵字強制閉包取得它所使用數值的所有權</span>
+</Listing>
 
-
-我們可能會想嘗試用範例 16-4 做的事來修正程式碼，使用 `move` 閉包的同時在主執行緒呼叫 `drop`。但這樣的修正沒有用，因為範例 16-4 想做的事情會因為不同原因而不被允許。如果我們對閉包加上了 `move`，我們將會把 `v` 移入閉包環境，而在主執行緒將無法再對它呼叫 `drop` 了。我們會得到另一個編譯錯誤：
+We might be tempted to try the same thing to fix the code in Listing 16-4 where
+the main thread called `drop` by using a `move` closure. However, this fix will
+not work because what Listing 16-4 is trying to do is disallowed for a
+different reason. If we added `move` to the closure, we would move `v` into the
+closure’s environment, and we could no longer call `drop` on it in the main
+thread. We would get this compiler error instead:
 
 ```console
 {{#include ../listings/ch16-fearless-concurrency/output-only-01-move-drop/output.txt}}
 ```
 
-Rust 的所有權規則再次拯救了我們！我們在範例 16-3 會得到錯誤是因為 Rust 是保守的，所以只會為執行緒借用 `v`，這代表主執行緒理論上可能會使產生的執行緒的參考無效化。透過告訴 Rust 將 `v` 的所有權移入產生的執行緒中，我們向 Rust 保證不會在主執行緒用到 `v`。如果我們用相同方式修改範例 16-4 的話，當我們嘗試在主執行緒使用 `v` 的話，我們就違反了所有權規則。`move` 關鍵字會覆蓋 Rust 保守的預設借用行為，且也不允許我們違反所有權規則。
+Rust’s ownership rules have saved us again! We got an error from the code in
+Listing 16-3 because Rust was being conservative and only borrowing `v` for the
+thread, which meant the main thread could theoretically invalidate the spawned
+thread’s reference. By telling Rust to move ownership of `v` to the spawned
+thread, we’re guaranteeing to Rust that the main thread won’t use `v` anymore.
+If we change Listing 16-4 in the same way, we’re then violating the ownership
+rules when we try to use `v` in the main thread. The `move` keyword overrides
+Rust’s conservative default of borrowing; it doesn’t let us violate the
+ownership rules.
 
-有了對執行緒與執行緒 API 的基本瞭解，讓我們看看我們可以透過執行緒**做些**什麼。
+Now that we’ve covered what threads are and the methods supplied by the thread
+API, let’s look at some situations in which we can use threads.
 
-[capture]: ch13-01-closures.html#獲取參考或移動所有權
+[capture]: ch13-01-closures.html#capturing-references-or-moving-ownership

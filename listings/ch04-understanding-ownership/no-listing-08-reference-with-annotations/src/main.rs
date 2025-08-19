@@ -3,12 +3,12 @@ fn main() {
 
     let len = calculate_length(&s1);
 
-    println!("'{}' 的長度為 {}。", s1, len);
+    println!("The length of '{s1}' is {len}.");
 }
 
 // ANCHOR: here
-fn calculate_length(s: &String) -> usize { // s 是個 String 的參考
+fn calculate_length(s: &String) -> usize { // s is a reference to a String
     s.len()
-} // s 在此離開作用域，但因為它沒有它所指向的資料的所有權
-  // 所以不會被釋放掉
+} // Here, s goes out of scope. But because s does not have ownership of what
+  // it refers to, the String is not dropped.
 // ANCHOR_END: here

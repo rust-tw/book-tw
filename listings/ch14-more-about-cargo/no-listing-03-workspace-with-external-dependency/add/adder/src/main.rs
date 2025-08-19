@@ -3,7 +3,7 @@ use add_one;
 fn main() {
     let num = 10;
     println!(
-        "你好，世界！{} 加一會是 {}！",
+        "Hello, world! {} plus one is {}!",
         num,
         add_one::add_one(num)
     );

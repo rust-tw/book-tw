@@ -1,10 +1,10 @@
 $ cargo run -- the poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.0s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
      Running `target/debug/minigrep the poem.txt`
-搜尋 the
-目標檔案為 poem.txt
-文字內容：
+Searching for the
+In file poem.txt
+With text:
 I'm nobody! Who are you?
 Are you nobody, too?
 Then there's a pair of us - don't tell!

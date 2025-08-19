@@ -1,7 +1,8 @@
-# 開始入門
+# Getting Started
 
-讓我們開始你的 Rust 旅途吧！千里之行始於足下，在此章節我們將討論：
+Let’s start your Rust journey! There’s a lot to learn, but every journey starts
+somewhere. In this chapter, we’ll discuss:
 
-* 在 Linux、macOS 和 Windows 上安裝 Rust
-* 寫一支印出 `Hello, world!` 的程式
-* 使用 Rust 的套件管理工具暨建構系統 `cargo`
+- Installing Rust on Linux, macOS, and Windows
+- Writing a program that prints `Hello, world!`
+- Using `cargo`, Rust’s package manager and build system

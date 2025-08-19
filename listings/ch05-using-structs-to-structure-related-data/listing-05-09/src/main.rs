@@ -2,7 +2,7 @@ fn main() {
     let rect1 = (30, 50);
 
     println!(
-        "長方形的面積為 {} 平方像素。",
+        "The area of the rectangle is {} square pixels.",
         area(rect1)
     );
 }

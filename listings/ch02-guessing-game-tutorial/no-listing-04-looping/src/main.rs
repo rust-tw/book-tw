@@ -1,21 +1,22 @@
-use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
 
+use rand::Rng;
+
 fn main() {
-    println!("請猜測一個數字！");
+    println!("Guess the number!");
 
     let secret_number = rand::thread_rng().gen_range(1..=100);
 
     // ANCHOR: here
-    // --省略--
+    // --snip--
 
-    println!("祕密數字為：{secret_number}");
+    println!("The secret number is: {secret_number}");
 
     loop {
-        println!("請輸入你的猜測數字。");
+        println!("Please input your guess.");
 
-        // --省略--
+        // --snip--
 
         // ANCHOR_END: here
 
@@ -23,17 +24,17 @@ fn main() {
 
         io::stdin()
             .read_line(&mut guess)
-            .expect("讀取該行失敗");
+            .expect("Failed to read line");
 
-        let guess: u32 = guess.trim().parse().expect("請輸入一個數字！");
+        let guess: u32 = guess.trim().parse().expect("Please type a number!");
 
-        println!("你的猜測數字：{guess}");
+        println!("You guessed: {guess}");
 
         // ANCHOR: here
         match guess.cmp(&secret_number) {
-            Ordering::Less => println!("太小了！"),
-            Ordering::Greater => println!("太大了！"),
-            Ordering::Equal => println!("獲勝！"),
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => println!("You win!"),
         }
     }
 }

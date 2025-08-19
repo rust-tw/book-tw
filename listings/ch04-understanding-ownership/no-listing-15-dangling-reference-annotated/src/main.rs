@@ -3,11 +3,11 @@ fn main() {
 }
 
 // ANCHOR: here
-fn dangle() -> &String { // 回傳 String 的迷途參考
+fn dangle() -> &String { // dangle returns a reference to a String
 
-    let s = String::from("hello"); // s 是個新 String
+    let s = String::from("hello"); // s is a new String
 
-    &s // 我們回傳 String s 的參考
-} // s 在此會離開作用域並釋放，它的記憶體就不見了。
-  // 危險！
-// ANCHOR_END: here
+    &s // we return a reference to the String, s
+} // Here, s goes out of scope and is dropped, so its memory goes away.
+  // Danger!
+  // ANCHOR_END: here

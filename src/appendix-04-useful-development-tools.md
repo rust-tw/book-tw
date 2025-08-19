@@ -1,60 +1,65 @@
-## 附錄 D - 實用開發工具
+## Appendix D - Useful Development Tools
 
-在此附錄中，我們會討論些 Rust 專案提供的實用開發工具。我們會介紹自動格式化工具、修正警告最快速的方式、linter 以及 IDE 的整合工具。
+In this appendix, we talk about some useful development tools that the Rust
+project provides. We’ll look at automatic formatting, quick ways to apply
+warning fixes, a linter, and integrating with IDEs.
 
-### 透過 `rustfmt` 自動格式化
+### Automatic Formatting with `rustfmt`
 
-`rustfmt` 工具會依據社群程式碼風格來重新格式化你的程式碼。許多協作專案都會使用 `rustfmt` 來避免 Rust 風格的歧義，每個人都能用此工具格式化他們的程式碼。
+The `rustfmt` tool reformats your code according to the community code style.
+Many collaborative projects use `rustfmt` to prevent arguments about which
+style to use when writing Rust: everyone formats their code using the tool.
 
-欲安裝 `rustfmt`，請輸入以下命令：
-
-```console
-$ rustup component add rustfmt
-```
-
-此命令會給你 `rustfmt` 與 `cargo-fmt`，就像 Rust 會提供你 `rustc` 與 `cargo` 一樣。要格式化任何 Cargo 專案的話，請輸入：
+Rust installations include `rustfmt` by default, so you should already have the
+programs `rustfmt` and `cargo-fmt` on your system. These two commands are
+analogous to `rustc` and `cargo` in that `rustfmt` allows finer-grained control
+and `cargo-fmt` understands conventions of a project that uses Cargo. To format
+any Cargo project, enter the following:
 
 ```console
 $ cargo fmt
 ```
 
-執行此命令會重新格式化目前 crate 中所有的 Rust 程式碼。不過這只會變更程式碼風格，並不會影響程式碼語義。想瞭解更多 `rustfmt` 的資訊，歡迎查閱[它的技術文件][rustfmt]。
+Running this command reformats all the Rust code in the current crate. This
+should only change the code style, not the code semantics. For more information
+on `rustfmt`, see [its documentation][rustfmt].
 
-[rustfmt]: https://github.com/rust-lang/rustfmt
+### Fix Your Code with `rustfix`
 
-### 透過 `rustfix` 修正你的程式碼
+The `rustfix` tool is included with Rust installations and can automatically fix
+compiler warnings that have a clear way to correct the problem that’s likely
+what you want. You’ve probably seen compiler warnings before. For example,
+consider this code:
 
-rustfix 工具包含在 Rust 的安裝中，它可以自動修復編譯器警告，這可能是你想要糾正問題的明確方法。你以前可能看過編譯器警告。舉例來說，請參考以下程式碼：
-
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
-fn do_something() {}
-
 fn main() {
-    for i in 0..100 {
-        do_something();
-    }
+    let mut x = 42;
+    println!("{x}");
 }
 ```
 
-我們在此呼叫 `do_something` 函式 100 次，但是我們在 `for` 迴圈中完全沒用到變數 `i`。Rust 會警告我們：
+Here, we’re defining the variable `x` as mutable, but we never actually mutate
+it. Rust warns us about that:
 
 ```console
 $ cargo build
    Compiling myprogram v0.1.0 (file:///projects/myprogram)
-warning: unused variable: `i`
- --> src/main.rs:4:9
+warning: variable does not need to be mutable
+ --> src/main.rs:2:9
   |
-4 |     for i in 0..100 {
-  |         ^ help: consider using `_i` instead
+2 |     let mut x = 0;
+  |         ----^
+  |         |
+  |         help: remove this `mut`
   |
-  = note: #[warn(unused_variables)] on by default
-
-    Finished dev [unoptimized + debuginfo] target(s) in 0.50s
+  = note: `#[warn(unused_mut)]` on by default
 ```
 
-警告訊息建議我們改使用 `_i` 來作為名稱，底線指的是我們認定此變數不會被使用。我們可以透過執行 `cargo fix` 來使用 `rustfix` 工具以自動採用這些建議：
+The warning suggests that we remove the `mut` keyword. We can automatically
+apply that suggestion using the `rustfix` tool by running the command `cargo
+fix`:
 
 ```console
 $ cargo fix
@@ -63,43 +68,39 @@ $ cargo fix
     Finished dev [unoptimized + debuginfo] target(s) in 0.59s
 ```
 
-當我們再次檢查 *src/main.rs*，我們會看到 `cargo fix` 已經將程式碼修正了：
+When we look at _src/main.rs_ again, we’ll see that `cargo fix` has changed the
+code:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
-fn do_something() {}
-
 fn main() {
-    for _i in 0..100 {
-        do_something();
-    }
+    let x = 42;
+    println!("{x}");
 }
 ```
 
-`for` 迴圈變數現在改名為 `_i`，而警告也不再出現了。
+The variable `x` is now immutable, and the warning no longer appears.
 
-你也可以使用 `cargo fix` 命令來在不同的 Rust 版號之間做轉換程式碼。版號會在附錄 E 做介紹。
+You can also use the `cargo fix` command to transition your code between
+different Rust editions. Editions are covered in [Appendix E][editions].
 
-### 透過 Clippy 運用更多功能
+### More Lints with Clippy
 
-Clippy 工具是一系列的 lint 集合，用來分析程式碼以獲取常見錯誤並改善你的 Rust 程式碼。
+The Clippy tool is a collection of lints to analyze your code so you can catch
+common mistakes and improve your Rust code. Clippy is included with standard
+Rust installations.
 
-要安裝 Clippy 的話，輸入以下命令：
-
-```console
-$ rustup component add clippy
-```
-
-要在任何 Cargo 專案執行 Clippy，輸入以下命令：
+To run Clippy’s lints on any Cargo project, enter the following:
 
 ```console
 $ cargo clippy
 ```
 
-舉例來說，假設你在寫程式時使用到如 pi 這種數學常數的近似值，如以下所示：
+For example, say you write a program that uses an approximation of a
+mathematical constant, such as pi, as this program does:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing file-name="src/main.rs">
 
 ```rust
 fn main() {
@@ -109,7 +110,9 @@ fn main() {
 }
 ```
 
-對此專案執行 `cargo clippy` 會顯示以下錯誤：
+</Listing>
+
+Running `cargo clippy` on this project results in this error:
 
 ```text
 error: approximate value of `f{32, 64}::consts::PI` found
@@ -123,9 +126,13 @@ error: approximate value of `f{32, 64}::consts::PI` found
   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#approx_constant
 ```
 
-此錯誤告訴你 Rust 已經有個更精準的 `PI` 常數定義，如果改使用此定義的話，你的程式會更準確。你可以將你的程式碼改使用 `PI` 常數。以下程式碼就不會透過 Clippy 獲得任何錯誤或警告：
+This error lets you know that Rust already has a more precise `PI` constant
+defined, and that your program would be more correct if you used the constant
+instead. You would then change your code to use the `PI` constant.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+The following code doesn’t result in any errors or warnings from Clippy:
+
+<Listing file-name="src/main.rs">
 
 ```rust
 fn main() {
@@ -135,17 +142,27 @@ fn main() {
 }
 ```
 
-關於更多 Clippy 的資訊，請查閱[它的技術文件][clippy]。
+</Listing>
 
+For more information on Clippy, see [its documentation][clippy].
+
+### IDE Integration Using `rust-analyzer`
+
+To help with IDE integration, the Rust community recommends using
+[`rust-analyzer`][rust-analyzer]<!-- ignore -->. This tool is a set of
+compiler-centric utilities that speak [Language Server Protocol][lsp]<!--
+ignore -->, which is a specification for IDEs and programming languages to
+communicate with each other. Different clients can use `rust-analyzer`, such as
+[the Rust analyzer plug-in for Visual Studio Code][vscode].
+
+Visit the `rust-analyzer` project’s [home page][rust-analyzer]<!-- ignore -->
+for installation instructions, then install the language server support in your
+particular IDE. Your IDE will gain capabilities such as autocompletion, jump to
+definition, and inline errors.
+
+[rustfmt]: https://github.com/rust-lang/rustfmt
+[editions]: appendix-05-editions.md
 [clippy]: https://github.com/rust-lang/rust-clippy
-
-### 使用 `rust-analyzer` 整合 IDE
-
-為了協助 IDE 的整合，Rust 社群推薦使用 [`rust-analyzer`][rust-analyzer]<!-- ignore -->。此工具會與 [Language Server Protocol][lsp] 溝通，來提供許多與編譯器相關的協助，這是 IDE 與程式語言彼此溝通的協定規格。`rust-analyzer` 可用於各種不同的客戶端，像是 [Visual Studio Code 的 Rust analyzer 外掛][vscode]。
-
+[rust-analyzer]: https://rust-analyzer.github.io
 [lsp]: http://langserver.org/
 [vscode]: https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer
-
-前往 `rust-analyzer` 專案的[首頁][rust-analyzer]<!-- ignore -->可以了解更多安裝方法，讓你所使用的 IDE 也能獲得 Language Server 的支援。這樣你的 IDE 就能獲得許多功能像是：自動補全、跳至定義與顯示錯誤等等。
-
-[rust-analyzer]: https://rust-analyzer.github.io

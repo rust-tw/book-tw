@@ -1,7 +1,7 @@
 $ cargo run
    Compiling drop-example v0.1.0 (file:///projects/drop-example)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.73s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.73s
      Running `target/debug/drop-example`
-CustomSmartPointer 建立完畢。
-釋放 CustomSmartPointer 的資料 `某些資料`!
-CustomSmartPointer 在 main 結束前就被釋放了。
+CustomSmartPointer created.
+Dropping CustomSmartPointer with data `some data`!
+CustomSmartPointer dropped before the end of main.

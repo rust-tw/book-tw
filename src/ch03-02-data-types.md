@@ -1,222 +1,348 @@
-## 資料型別
+## Data Types
 
-每個數值在 Rust 中都屬於某種**資料型別**，這告訴 Rust 何種資料被指定，好讓它能妥善處理資料。我們將討論兩種資料型別子集：純量（scalar）與複合（compound）。
+Every value in Rust is of a certain _data type_, which tells Rust what kind of
+data is being specified so it knows how to work with that data. We’ll look at
+two data type subsets: scalar and compound.
 
-請記住 Rust 是一門**靜態型別**語言，這代表它必須在編譯時知道所有變數的型別。編譯器通常能依據數值與我們使用的方式推導出我們想使用的型別。但有時候如果多種型別都有可能時，像是第二章的[「將猜測的數字與祕密數字做比較」][comparing-the-guess-to-the-secret-number]<!-- ignore -->用到的 `parse` 將 `String` 轉換成數字時，我們就需要像這樣加上型別詮釋：
+Keep in mind that Rust is a _statically typed_ language, which means that it
+must know the types of all variables at compile time. The compiler can usually
+infer what type we want to use based on the value and how we use it. In cases
+when many types are possible, such as when we converted a `String` to a numeric
+type using `parse` in the [“Comparing the Guess to the Secret
+Number”][comparing-the-guess-to-the-secret-number]<!-- ignore --> section in
+Chapter 2, we must add a type annotation, like this:
 
 ```rust
-let guess: u32 = "42".parse().expect("這不是數字！");
+let guess: u32 = "42".parse().expect("Not a number!");
 ```
 
-如果我們沒有像上列程式碼這樣加上型別詮釋 `: u32` 的話，Rust 將會顯示以下錯誤訊息。這表示編譯器需要我們給予更多資訊才能夠知道我們想用何種型別：
+If we don’t add the `: u32` type annotation shown in the preceding code, Rust
+will display the following error, which means the compiler needs more
+information from us to know which type we want to use:
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/output-only-01-no-type-annotations/output.txt}}
 ```
 
-你將會看到其他資料型別的各種型別詮釋。
+You’ll see different type annotations for other data types.
 
-### 純量型別
+### Scalar Types
 
-**純量**型別代表單一數值。Rust 有四種主要純量型別：整數、浮點數、布林以及字元。你應該在其他程式語言就看過它們了，讓我們來看看它們在 Rust 是怎麼使用的：
+A _scalar_ type represents a single value. Rust has four primary scalar types:
+integers, floating-point numbers, Booleans, and characters. You may recognize
+these from other programming languages. Let’s jump into how they work in Rust.
 
-#### 整數型別
+#### Integer Types
 
-**整數**是沒有小數點的數字。我們在第二章用到了一個整數型別 `u32`，此型別表示其擁有的數值應該是一個佔 32 位元大小的非帶號整數（帶號整數的話則是用 `i` 起頭而非 `u`）。表格 3-1 展示了 Rust 中內建的整數型別。我們可以使用以下任何一種型別來宣告一個整數數值。
+An _integer_ is a number without a fractional component. We used one integer
+type in Chapter 2, the `u32` type. This type declaration indicates that the
+value it’s associated with should be an unsigned integer (signed integer types
+start with `i` instead of `u`) that takes up 32 bits of space. Table 3-1 shows
+the built-in integer types in Rust. We can use any of these variants to declare
+the type of an integer value.
 
-<span class="caption">表格 3-1：Rust 中的整數型別</span>
+<span class="caption">Table 3-1: Integer Types in Rust</span>
 
-| 長度     | 帶號    | 非帶號   |
-|----------|---------|----------|
-| 8 位元   | `i8`    | `u8`     |
-| 16 位元  | `i16`   | `u16`    |
-| 32 位元  | `i32`   | `u32`    |
-| 64 位元  | `i64`   | `u64`    |
-| 128 位元 | `i128`  | `u128`   |
-| 系統架構 | `isize` | `usize`  |
+| Length  | Signed  | Unsigned |
+| ------- | ------- | -------- |
+| 8-bit   | `i8`    | `u8`     |
+| 16-bit  | `i16`   | `u16`    |
+| 32-bit  | `i32`   | `u32`    |
+| 64-bit  | `i64`   | `u64`    |
+| 128-bit | `i128`  | `u128`   |
+| architecture dependent | `isize` | `usize`  |
 
-每個變體都可以是帶號或非帶號的，並且都有明確的大小。**帶號**與**非帶號**的區別是數字能不能有負數，換句話說就是數字能否帶有正負符號，如果沒有的話那就只會出現正整數而已。就像在紙上寫數字一樣：當我們需要考慮符號時，我們就會在數字前面加上正負號；但如果我們只在意正整數的話，那它可以不帶符號。帶號數字是以[二補數][twos-complement]<!-- ignore -->的方式儲存。
+Each variant can be either signed or unsigned and has an explicit size.
+_Signed_ and _unsigned_ refer to whether it’s possible for the number to be
+negative—in other words, whether the number needs to have a sign with it
+(signed) or whether it will only ever be positive and can therefore be
+represented without a sign (unsigned). It’s like writing numbers on paper: when
+the sign matters, a number is shown with a plus sign or a minus sign; however,
+when it’s safe to assume the number is positive, it’s shown with no sign.
+Signed numbers are stored using [two’s complement][twos-complement]<!-- ignore
+--> representation.
 
-每一帶號變體可以儲存的數字範圍包含從 -(2<sup>n - 1</sup>) 到 2<sup>n - 1</sup> - 1 以內的數字，*n* 就是該變體佔用的位元大小。所以一個 `i8` 可以儲存的數字範圍就是從 -(2<sup>7</sup>) 到 2<sup>7</sup> - 1，也就是 -128 到 127。而非帶號可以儲存的數字範圍則是從 0 到 2<sup>n</sup> - 1，所以 `u8` 可以儲存的範圍是從 0 到 2<sup>8</sup> - 1，也就是 0 到 255。
+Each signed variant can store numbers from −(2<sup>n − 1</sup>) to 2<sup>n −
+1</sup> − 1 inclusive, where _n_ is the number of bits that variant uses. So an
+`i8` can store numbers from −(2<sup>7</sup>) to 2<sup>7</sup> − 1, which equals
+−128 to 127. Unsigned variants can store numbers from 0 to 2<sup>n</sup> − 1,
+so a `u8` can store numbers from 0 to 2<sup>8</sup> − 1, which equals 0 to 255.
 
-另外，`isize` 與 `usize` 型別則是依據你程式運行的電腦架構來決定大小，所以上方表格才用「系統架構」來表示長度：如果你在 64 位元架構上的話就是 64 位元；如果你是 32 位元架構的話就是 32 位元。
+Additionally, the `isize` and `usize` types depend on the architecture of the
+computer your program is running on: 64 bits if you’re on a 64-bit architecture
+and 32 bits if you’re on a 32-bit architecture.
 
-你可以用表格 3-2 列的格式來寫出整數字面值（literals）。能適用於數種數字型別的數字字面值都允許在最後面加上型別，比如說用 `57u8` 來指定型別。數字字面值也可以加上底線 `_` 分隔方便閱讀，比如說 `1_000` 其實就和指定 `1000` 的數值一樣。
+You can write integer literals in any of the forms shown in Table 3-2. Note
+that number literals that can be multiple numeric types allow a type suffix,
+such as `57u8`, to designate the type. Number literals can also use `_` as a
+visual separator to make the number easier to read, such as `1_000`, which will
+have the same value as if you had specified `1000`.
 
-<span class="caption">表格 3-2：Rust 中的整數字面值</span>
+<span class="caption">Table 3-2: Integer Literals in Rust</span>
 
-| 數字字面值         | 範例          |
-|--------------------|---------------|
-| 十進制             | `98_222`      |
-| 十六進制           | `0xff`        |
-| 八進制             | `0o77`        |
-| 二進制             | `0b1111_0000` |
-| 位元組（僅限`u8`） | `b'A'`        |
+| Number literals  | Example       |
+| ---------------- | ------------- |
+| Decimal          | `98_222`      |
+| Hex              | `0xff`        |
+| Octal            | `0o77`        |
+| Binary           | `0b1111_0000` |
+| Byte (`u8` only) | `b'A'`        |
 
-所以你該用哪些整數型別呢？如果你不確定的話，Rust 預設的型別是很好的起始點：整數型別預設是 `i32`。而你會用到 `isize` 或 `usize` 的主要時機是作為某些集合的索引。
+So how do you know which type of integer to use? If you’re unsure, Rust’s
+defaults are generally good places to start: integer types default to `i32`.
+The primary situation in which you’d use `isize` or `usize` is when indexing
+some sort of collection.
 
-> ##### 整數溢位
+> ##### Integer Overflow
 >
-> 假設你有個變數型別是 `u8` 可以儲存 0 到 255 的數值。如果你想要改變變數的值超出這個範圍的話，比方說像是 256，那麼就會發生**整數溢位**，這會產生兩種不同的結果。如果你是在除錯模式編譯的話，Rust 會包含整數溢位的檢查，造成你的程式在執行時**恐慌（panic）**。Rust 使用恐慌來表示程式因錯誤而結束，我們會在第九章的[「對無法復原的錯誤使用 `panic!`」][unrecoverable-errors-with-panic]<!-- ignore -->段落討論更多造成恐慌的細節。
+> Let’s say you have a variable of type `u8` that can hold values between 0 and
+> 255. If you try to change the variable to a value outside that range, such as
+> 256, _integer overflow_ will occur, which can result in one of two behaviors.
+> When you’re compiling in debug mode, Rust includes checks for integer overflow
+> that cause your program to _panic_ at runtime if this behavior occurs. Rust
+> uses the term _panicking_ when a program exits with an error; we’ll discuss
+> panics in more depth in the [“Unrecoverable Errors with
+> `panic!`”][unrecoverable-errors-with-panic]<!-- ignore --> section in Chapter
+> 9.
 >
-> 當你是在發佈模式下用 `--release` 來編譯的話，Rust 則**不會**加上整數溢位的檢查而造成恐慌。相反地，如果發生整數溢位的話，Rust 會作出**二補數包裝**的動作。簡單來說，超出最大值的數值可以被**包裝**成該型別的最低數值。以 `u8` 為例的話，256 會變成 0、257 會變成 1，以此類推。程式不會恐慌，但是該變數可能會得到一個不是你原本預期的數值。通常依靠整數溢位的行為仍然會被視為邏輯錯誤。
+> When you’re compiling in release mode with the `--release` flag, Rust does
+> _not_ include checks for integer overflow that cause panics. Instead, if
+> overflow occurs, Rust performs _two’s complement wrapping_. In short, values
+> greater than the maximum value the type can hold “wrap around” to the minimum
+> of the values the type can hold. In the case of a `u8`, the value 256 becomes
+> 0, the value 257 becomes 1, and so on. The program won’t panic, but the
+> variable will have a value that probably isn’t what you were expecting it to
+> have. Relying on integer overflow’s wrapping behavior is considered an error.
 >
-> 要顯式處理可能的溢位的話，你可以使用以下標準函式庫中基本型別提供的一系列方法：
+> To explicitly handle the possibility of overflow, you can use these families
+> of methods provided by the standard library for primitive numeric types:
 >
-> * 將所有操作用 `wrapping_*` 方法包裝，像是 `wrapping_add`。
-> * 使用 `checked_*` 方法，如果有溢位的話其會回傳 `None` 數值。
-> * 使用 `overflowing_*` 方法，其會回傳數值與一個布林值來顯示是否有溢位發生。
-> * 屬於 `saturating_*` ，讓數值溢位時保持在最小或最大值。
+> - Wrap in all modes with the `wrapping_*` methods, such as `wrapping_add`.
+> - Return the `None` value if there is overflow with the `checked_*` methods.
+> - Return the value and a Boolean indicating whether there was overflow with
+>   the `overflowing_*` methods.
+> - Saturate at the value’s minimum or maximum values with the `saturating_*`
+>   methods.
 
-#### 浮點數型別
+#### Floating-Point Types
 
-Rust 還有針對有小數點的**浮點數**提供兩種基本型別：`f32` 和 `f64`，分別佔有 32 位元與 64 位元的大小。而預設的型別為 `f64`，因為現代的電腦處理的速度幾乎和 `f32` 一樣卻還能擁有更高的精準度。所有的浮點數型別都是帶號的（signed）。
+Rust also has two primitive types for _floating-point numbers_, which are
+numbers with decimal points. Rust’s floating-point types are `f32` and `f64`,
+which are 32 bits and 64 bits in size, respectively. The default type is `f64`
+because on modern CPUs, it’s roughly the same speed as `f32` but is capable of
+more precision. All floating-point types are signed.
 
-以下為展示浮點數的範例：
+Here’s an example that shows floating-point numbers in action:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-06-floating-point/src/main.rs}}
 ```
 
-浮點數是依照 IEEE-754 所定義的，`f32` 型別是單精度浮點數，而 `f64` 是倍精度浮點數。
+Floating-point numbers are represented according to the IEEE-754 standard.
 
-#### 數值運算
+#### Numeric Operations
 
-Rust 支援你所有想得到的數值型別基本運算：加法、減法、乘法、除法和取餘。整數除法會取最接近零的下界數值。以下程式碼展示出如何在 `let` 陳述式使用這些運算：
+Rust supports the basic mathematical operations you’d expect for all the number
+types: addition, subtraction, multiplication, division, and remainder. Integer
+division truncates toward zero to the nearest integer. The following code shows
+how you’d use each numeric operation in a `let` statement:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-07-numeric-operations/src/main.rs}}
 ```
 
-每一個陳述式中的表達式都使用了一個數學運算符號並計算出一個數值出來，賦值給該變數。[附錄 B][appendix_b]<!-- ignore --> 有提供列表列出 Rust 所提供的所有運算子。
+Each expression in these statements uses a mathematical operator and evaluates
+to a single value, which is then bound to a variable. [Appendix
+B][appendix_b]<!-- ignore --> contains a list of all operators that Rust
+provides.
 
-#### 布林型別
+#### The Boolean Type
 
-如同其他多數程式語言一樣，Rust 中的布林型別有兩個可能的值：`true` 和 `false`。布林值的大小為一個位元組。要在 Rust 中定義布林型別的話用 `bool`，如範例所示：
+As in most other programming languages, a Boolean type in Rust has two possible
+values: `true` and `false`. Booleans are one byte in size. The Boolean type in
+Rust is specified using `bool`. For example:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-08-boolean/src/main.rs}}
 ```
 
-布林值最常使用的方式之一是作為條件判斷，像是在 `if` 表達式中使用。我們將會在[「控制流程」][control-flow]<!-- ignore -->段落介紹如何在 Rust 使用 `if` 表達式。
+The main way to use Boolean values is through conditionals, such as an `if`
+expression. We’ll cover how `if` expressions work in Rust in the [“Control
+Flow”][control-flow]<!-- ignore --> section.
 
-#### 字元型別
+#### The Character Type
 
-Rust 的 `char` 型別是最基本的字母型別，以下程式碼顯示了使用它的方法：
+Rust’s `char` type is the language’s most primitive alphabetic type. Here are
+some examples of declaring `char` values:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-09-char/src/main.rs}}
 ```
 
-注意到 `char` 字面值是用單引號賦值，宣告字串字面值時才是用雙引號。Rust 的 `char` 型別大小為四個位元組並表示為一個 Unicode 純量數值，這代表它能擁有的字元比 ASCII 還來的多。舉凡標音字母（Accented letters）、中文、日文、韓文、表情符號以及零長度空格都是 Rust `char` 的有效字元。Unicode 純量數值的範圍包含從 `U+0000` 到 `U+D7FF` 以及 `U+E000` 到 `U+10FFFF`。但是一個「字元」並不是真正的 Unicode 概念，所以你對於什麼是一個「字元」的看法可能會和 Rust 的 `char` 不一樣。我們將會在第八章的[「透過字串儲存 UTF-8 編碼的文字」][strings]<!-- ignore -->來討論此議題。
+Note that we specify `char` literals with single quotes, as opposed to string
+literals, which use double quotes. Rust’s `char` type is four bytes in size and
+represents a Unicode scalar value, which means it can represent a lot more than
+just ASCII. Accented letters; Chinese, Japanese, and Korean characters; emoji;
+and zero-width spaces are all valid `char` values in Rust. Unicode scalar
+values range from `U+0000` to `U+D7FF` and `U+E000` to `U+10FFFF` inclusive.
+However, a “character” isn’t really a concept in Unicode, so your human
+intuition for what a “character” is may not match up with what a `char` is in
+Rust. We’ll discuss this topic in detail in [“Storing UTF-8 Encoded Text with
+Strings”][strings]<!-- ignore --> in Chapter 8.
 
-### 複合型別
+### Compound Types
 
-**複合型別**可以組合數個數值為一個型別，Rust 有兩個基本複合型別：元組（tuples）和陣列（arrays）。
+_Compound types_ can group multiple values into one type. Rust has two
+primitive compound types: tuples and arrays.
 
-#### 元組（Tuple）型別
+#### The Tuple Type
 
-**元組**是個將許多不同型別的數值合成一個複合型別的常見方法。元組擁有固定長度：一旦宣告好後，它們就無法增長或縮減。
+A _tuple_ is a general way of grouping together a number of values with a
+variety of types into one compound type. Tuples have a fixed length: once
+declared, they cannot grow or shrink in size.
 
-我們建立一個元組的方法是寫一個用括號囊括起來的數值列表，每個值再用逗號分隔開來。元組的每一格都是一個獨立型別，不同數值不必是相同型別。以下範例我們也加上了型別詮釋，平時不一定要加上：
+We create a tuple by writing a comma-separated list of values inside
+parentheses. Each position in the tuple has a type, and the types of the
+different values in the tuple don’t have to be the same. We’ve added optional
+type annotations in this example:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-10-tuples/src/main.rs}}
 ```
 
-此變數 `tup` 就是整個元組，因為一個元組就被視為單一複合元素。要拿到元組中的每個獨立數值的話，我們可以用模式配對（pattern matching）來解構一個元組的數值，如以下所示：
+The variable `tup` binds to the entire tuple because a tuple is considered a
+single compound element. To get the individual values out of a tuple, we can
+use pattern matching to destructure a tuple value, like this:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-11-destructuring-tuples/src/main.rs}}
 ```
 
-此程式先是建立了一個元組然後賦值給 `tup`，接著它用模式配對和 `let` 將 `tup` 拆成三個個別的變數 `x`、`y` 和 `z`。這就叫做**解構（destructuring）**，因為它將單一元組拆成了三個部分。最後程式將 `y` 的值印出來，也就是 `6.4`。
+This program first creates a tuple and binds it to the variable `tup`. It then
+uses a pattern with `let` to take `tup` and turn it into three separate
+variables, `x`, `y`, and `z`. This is called _destructuring_ because it breaks
+the single tuple into three parts. Finally, the program prints the value of
+`y`, which is `6.4`.
 
-我們也可以直接用句號（`.`）再加上數值的索引來取得元組內的元素。舉例來說：
+We can also access a tuple element directly by using a period (`.`) followed by
+the index of the value we want to access. For example:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-12-tuple-indexing/src/main.rs}}
 ```
 
-此程式建立了元組 `x`，然後用它們個別的索引來存取元組的元素。和多數程式語言一樣，元組的第一個索引是 0。
+This program creates the tuple `x` and then accesses each element of the tuple
+using their respective indices. As with most programming languages, the first
+index in a tuple is 0.
 
-沒有任何數值的元組有一種特殊的名稱叫做**單元型別（Unit）**，其數值與型別都寫作 `()`，通常代表一個空的數值或空的回傳型別。表達式要是沒有回傳任何數值的話，它們就會隱式回傳單元型別。
+The tuple without any values has a special name, _unit_. This value and its
+corresponding type are both written `()` and represent an empty value or an
+empty return type. Expressions implicitly return the unit value if they don’t
+return any other value.
 
-#### 陣列型別
+#### The Array Type
 
-另一種取得數個數值集合的方法是使用**陣列**。和元組不一樣的是，陣列中的每個型別必須是一樣的。和其他語言的陣列不同，Rust 的陣列是固定長度的。
+Another way to have a collection of multiple values is with an _array_. Unlike
+a tuple, every element of an array must have the same type. Unlike arrays in
+some other languages, arrays in Rust have a fixed length.
 
-我們將數值寫在陣列中的括號內，每個數值再用逗號區隔開來：
+We write the values in an array as a comma-separated list inside square
+brackets:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-13-arrays/src/main.rs}}
 ```
 
-當你想要你的資料被配置在堆疊（stack）而不是堆積（heap）的話，使用陣列是很好的選擇（我們會在[第四章][stack-and-heap]<!-- ignore -->討論堆疊與堆積的內容）。或者當你想確定你永遠會取得固定長度的元素時也是。所以陣列不像向量（vector）型別那麼有彈性，**向量**是標準函式庫提供的集合型別，類似於陣列但**允許**變更長度大小。如果你不確定該用陣列或向量的話，通常你應該用向量就好。[第八章][vectors]<!-- ignore -->將會討論更多向量的細節。
+Arrays are useful when you want your data allocated on the stack, the same as
+the other types we have seen so far, rather than the heap (we will discuss the
+stack and the heap more in [Chapter 4][stack-and-heap]<!-- ignore -->) or when
+you want to ensure you always have a fixed number of elements. An array isn’t
+as flexible as the vector type, though. A _vector_ is a similar collection type
+provided by the standard library that _is_ allowed to grow or shrink in size
+because its contents live on the heap. If you’re unsure whether to use an array
+or a vector, chances are you should use a vector. [Chapter 8][vectors]<!--
+ignore --> discusses vectors in more detail.
 
-不過如果你知道元素的多寡不會變的話，陣列就是個不錯的選擇。舉例來說，如果你想在程式中使用月份的話，你可能就會選擇用陣列宣告，因為永遠只會有 12 個月份：
+However, arrays are more useful when you know the number of elements will not
+need to change. For example, if you were using the names of the month in a
+program, you would probably use an array rather than a vector because you know
+it will always contain 12 elements:
 
 ```rust
-let months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月",
-              "八月", "九月", "十月", "十一月", "十二月"];
+let months = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"];
 ```
 
-要詮釋陣列型別的話，你可以在中括號寫出型別和元素個數，並用分號區隔開來，如以下所示：
+You write an array’s type using square brackets with the type of each element,
+a semicolon, and then the number of elements in the array, like so:
 
 ```rust
 let a: [i32; 5] = [1, 2, 3, 4, 5];
 ```
 
+Here, `i32` is the type of each element. After the semicolon, the number `5`
+indicates the array contains five elements.
 
-`i32` 在此是每個元素的型別，在分號後面的數字 `5` 指的是此陣列有五個元素。
-
-如果你想建立的陣列中每個元素數值都一樣的話，你可以指定一個數值後加上分號，最後寫出元素個數。如以下所示：
+You can also initialize an array to contain the same value for each element by
+specifying the initial value, followed by a semicolon, and then the length of
+the array in square brackets, as shown here:
 
 ```rust
 let a = [3; 5];
 ```
 
-陣列 `a` 會包含 `5` 個元素，然後每個元素的初始化數值均為 `3`。這樣寫與 `let a = [3, 3, 3, 3, 3];` 的寫法一樣，但比較簡潔。
+The array named `a` will contain `5` elements that will all be set to the value
+`3` initially. This is the same as writing `let a = [3, 3, 3, 3, 3];` but in a
+more concise way.
 
-##### 獲取陣列元素
+##### Accessing Array Elements
 
-一個陣列是被配置在堆疊上且已知固定大小的一整塊記憶體，你可以用索引來取得陣列的元素，比如：
+An array is a single chunk of memory of a known, fixed size that can be
+allocated on the stack. You can access elements of an array using indexing,
+like this:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-14-array-indexing/src/main.rs}}
 ```
 
-在此範例中，變數 `first` 會得到數值 `1`，因為這是陣列索引 `[0]` 的數值。變數 `second` 則會從陣列索引 `[1]` 得到數值 `2`。
+In this example, the variable named `first` will get the value `1` because that
+is the value at index `[0]` in the array. The variable named `second` will get
+the value `2` from index `[1]` in the array.
 
-##### 無效的陣列元素存取
+##### Invalid Array Element Access
 
-讓我們看看如果我們存取陣列之後的元素會發生什麼事呢？假設你修改成以下範例，這是改寫自第二章猜謎遊戲要從使用者取得陣列索引的程式碼：
+Let’s see what happens if you try to access an element of an array that is past
+the end of the array. Say you run this code, similar to the guessing game in
+Chapter 2, to get an array index from the user:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust,ignore,panics
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-15-invalid-array-access/src/main.rs}}
 ```
 
-此程式碼能編譯成功。如果你透過 `cargo run` 執行此程式碼並輸入 `0`、`1`、`2`、`3` 或 `4`  的話，程式將會印出陣列索引對應的數值。但如果你輸入超出陣列長度的數值，像是 `10` 的話，你會看到像是這樣的輸出結果：
+This code compiles successfully. If you run this code using `cargo run` and
+enter `0`, `1`, `2`, `3`, or `4`, the program will print out the corresponding
+value at that index in the array. If you instead enter a number past the end of
+the array, such as `10`, you’ll see output like this:
 
 <!-- manual-regeneration
 cd listings/ch03-common-programming-concepts/no-listing-15-invalid-array-access
@@ -225,16 +351,28 @@ cargo run
 -->
 
 ```console
-thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 10', src/main.rs:19:19
+thread 'main' panicked at src/main.rs:19:19:
+index out of bounds: the len is 5 but the index is 10
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
-此程式會在使用無效數值進行索引操作時產生**執行時**（runtime）錯誤。程式會退出並回傳錯誤訊息，且不會執行最後的 `println!`。當你嘗試使用索引存取元素時，Rust 會檢查你的索引是否小於陣列長度，如果索引大於或等於陣列長度的話，Rust 就會恐慌。這樣的檢查必須發生在執行時，尤其是在此例，因爲編譯器無法知道之後的使用者將會輸入哪些數值。
+The program resulted in a _runtime_ error at the point of using an invalid
+value in the indexing operation. The program exited with an error message and
+didn’t execute the final `println!` statement. When you attempt to access an
+element using indexing, Rust will check that the index you’ve specified is less
+than the array length. If the index is greater than or equal to the length,
+Rust will panic. This check has to happen at runtime, especially in this case,
+because the compiler can’t possibly know what value a user will enter when they
+run the code later.
 
-這是 Rust 記憶體安全原則給予的保障。在許多低階語言並不會提供這樣的檢查，所以當你提供不正確的索引時，無效的記憶體可能會被存取。Rust 會保護你免於這樣的錯誤風險，並立即離開程式，而不是允許記憶體存取並繼續。第九章將會討論更多有關 Rust 的錯誤處理方式以及如何讓你寫出易讀且安全的程式碼，而不會恐慌或造成無效的記憶體存取。
+This is an example of Rust’s memory safety principles in action. In many
+low-level languages, this kind of check is not done, and when you provide an
+incorrect index, invalid memory can be accessed. Rust protects you against this
+kind of error by immediately exiting instead of allowing the memory access and
+continuing. Chapter 9 discusses more of Rust’s error handling and how you can
+write readable, safe code that neither panics nor allows invalid memory access.
 
-[comparing-the-guess-to-the-secret-number]:
-ch02-00-guessing-game-tutorial.html#將猜測的數字與祕密數字做比較
+[comparing-the-guess-to-the-secret-number]: ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number
 [twos-complement]: https://en.wikipedia.org/wiki/Two%27s_complement
 [control-flow]: ch03-05-control-flow.html#control-flow
 [strings]: ch08-02-strings.html#storing-utf-8-encoded-text-with-strings

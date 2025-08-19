@@ -1,7 +1,17 @@
-## 透過自訂命令來擴展 Cargo 的功能
+## Extending Cargo with Custom Commands
 
-Cargo 的設計能讓你在不用修改 Cargo 的情況下擴展新的子命令。如果你 `$PATH` 中有任何叫做 `cargo-something` 的執行檔，你就可以用像是執行 Cargo 子命令的方式 `cargo something` 來執行它。像這樣的自訂命令在你執行 `cargo --list` 時也會顯示出來。能夠透過 `cargo install` 來安裝擴展外掛並有如內建 Cargo 工具般來執行使用是 Cargo 設計上的一大方便優勢！
+Cargo is designed so you can extend it with new subcommands without having to
+modify it. If a binary in your `$PATH` is named `cargo-something`, you can run
+it as if it were a Cargo subcommand by running `cargo something`. Custom
+commands like this are also listed when you run `cargo --list`. Being able to
+use `cargo install` to install extensions and then run them just like the
+built-in Cargo tools is a super-convenient benefit of Cargo’s design!
 
-## 總結
+## Summary
 
-透過 Cargo 與 [crates.io](https://crates.io/)<!-- ignore --> 分享程式碼是讓 Rust 生態系統能適用於許多不同任務的重要部分之一。Rust 的標準函式庫既小又穩定，但是 crate 可以很容易地分享、使用，並在語言本身不同的時間線來進行改善。千萬別吝嗇於分享你認為實用的程式碼到 [crates.io](https://crates.io/)<!-- ignore -->，其他人可能也會覺得它很有幫助！
+Sharing code with Cargo and [crates.io](https://crates.io/)<!-- ignore --> is
+part of what makes the Rust ecosystem useful for many different tasks. Rust’s
+standard library is small and stable, but crates are easy to share, use, and
+improve on a timeline different from that of the language. Don’t be shy about
+sharing code that’s useful to you on [crates.io](https://crates.io/)<!-- ignore
+-->; it’s likely that it will be useful to someone else as well!

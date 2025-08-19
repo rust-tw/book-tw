@@ -3,12 +3,12 @@ fn main() {
     let v = vec![1, 2, 3, 4, 5];
 
     let third: &i32 = &v[2];
-    println!("第三個元素是 {third}");
+    println!("The third element is {third}");
 
     let third: Option<&i32> = v.get(2);
     match third {
-        Some(third) => println!("第三個元素是 {third}"),
-        None => println!("第三個元素並不存在。"),
+        Some(third) => println!("The third element is {third}"),
+        None => println!("There is no third element."),
     }
     // ANCHOR_END: here
 }

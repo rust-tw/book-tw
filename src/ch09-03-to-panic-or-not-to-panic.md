@@ -1,82 +1,226 @@
-## 要 panic! 還是不要 panic!
+## To `panic!` or Not to `panic!`
 
-所以你該如何決定何時要呼叫 `panic!` 還是要回傳 `Result` 呢？當程式碼恐慌時，就沒有任何恢復的方式。你可以在任何錯誤場合呼叫 `panic!`，無論是可能或不可能復原的情況。不過這樣你就等於替呼叫你的程式碼的呼叫者做出決定，讓情況變成無法復原的錯誤了。當你選擇回傳 `Result` 數值，你將決定權交給呼叫者的程式碼。呼叫者可能會選擇符合當下場合的方式嘗試復原錯誤，或者它可以選擇 `Err` 內的數值是不可恢復的，所以它就呼叫 `panic!` 讓你原本可恢復的錯誤轉成不可恢復。因此，當你定義可能失敗的函式時預設回傳 `Result` 是不錯的選擇。
+So how do you decide when you should call `panic!` and when you should return
+`Result`? When code panics, there’s no way to recover. You could call `panic!`
+for any error situation, whether there’s a possible way to recover or not, but
+then you’re making the decision that a situation is unrecoverable on behalf of
+the calling code. When you choose to return a `Result` value, you give the
+calling code options. The calling code could choose to attempt to recover in a
+way that’s appropriate for its situation, or it could decide that an `Err`
+value in this case is unrecoverable, so it can call `panic!` and turn your
+recoverable error into an unrecoverable one. Therefore, returning `Result` is a
+good default choice when you’re defining a function that might fail.
 
-在像是範例、草稿與測試的情況下，程式碼恐慌會比回傳 `Result` 來得恰當。讓我們來探討為何比較好。然後我們再來討論編譯器無法辨別出不可能失敗，但身為人類的你卻可以的情況。本章節會總結一些通用指導原則來決定何時在函式庫程式碼中恐慌。
+In situations such as examples, prototype code, and tests, it’s more
+appropriate to write code that panics instead of returning a `Result`. Let’s
+explore why, then discuss situations in which the compiler can’t tell that
+failure is impossible, but you as a human can. The chapter will conclude with
+some general guidelines on how to decide whether to panic in library code.
 
-### 範例、程式碼原型與測試
+### Examples, Prototype Code, and Tests
 
-當你在寫解釋一些概念的範例時，寫出完善錯誤處理的範例，反而會讓範例變得較不清楚。在範例中，使用像是 `unwrap` 這樣會恐慌的方法可以被視為是一種要求使用者自行決定如何處理錯誤的表現，因為他們可以依據程式碼執行的方式來修改此方法。
+When you’re writing an example to illustrate some concept, also including
+robust error-handling code can make the example less clear. In examples, it’s
+understood that a call to a method like `unwrap` that could panic is meant as a
+placeholder for the way you’d want your application to handle errors, which can
+differ based on what the rest of your code is doing.
 
-同樣地 `unwrap` 與 `expect` 方法也很適用在試做原型，你可以在決定準備開始處理錯誤前使用它們。它們會留下清楚的痕跡，當你準備好要讓程式碼更穩固時，你就能回來修改。
+Similarly, the `unwrap` and `expect` methods are very handy when prototyping,
+before you’re ready to decide how to handle errors. They leave clear markers in
+your code for when you’re ready to make your program more robust.
 
-如果有方法在測試內失敗時，你會希望整個測試都失敗，就算該方法不是要測試的功能。因為 `panic!` 會將測試標記為失敗，所以在此呼叫 `unwrap` 或 `expect` 是很正確的。
+If a method call fails in a test, you’d want the whole test to fail, even if
+that method isn’t the functionality under test. Because `panic!` is how a test
+is marked as a failure, calling `unwrap` or `expect` is exactly what should
+happen.
 
-### 當你知道的比編譯器還多的時候
+### Cases in Which You Have More Information Than the Compiler
 
-如果你知道一些編譯器不知道的邏輯的話，直接在 `Result` 呼叫 `unwrap` 或 `expect` 來直接取得 `Ok` 的數值是很有用的。你還是會有個 `Result` 數值需要做處理，你呼叫的程式碼還是有機會失敗的，就算在你的特定場合中邏輯上是不可能的。如果你能保證在親自審閱程式碼後，你絕對不可能會有 `Err` 變體的話，那麼呼叫 `unwrap` 是完全可以接受的。而更好的話，用 `expect` 說明為何你一定不會遇到 `Err` 變體。以下範例就是如此：
+It would also be appropriate to call `expect` when you have some other logic
+that ensures the `Result` will have an `Ok` value, but the logic isn’t
+something the compiler understands. You’ll still have a `Result` value that you
+need to handle: whatever operation you’re calling still has the possibility of
+failing in general, even though it’s logically impossible in your particular
+situation. If you can ensure by manually inspecting the code that you’ll never
+have an `Err` variant, it’s perfectly acceptable to call `expect` and document
+the reason you think you’ll never have an `Err` variant in the argument text.
+Here’s an example:
 
 ```rust
 {{#rustdoc_include ../listings/ch09-error-handling/no-listing-08-unwrap-that-cant-fail/src/main.rs:here}}
 ```
 
-我們傳遞寫死的字串來建立 `IpAddr` 的實例。我們可以看出 `127.0.0.1` 是完全合理的 IP 位址，所以這邊我們可以直接 `expect`。不過使用寫死的合理字串並不會改變 `parse` 方法的回傳型別，我們還是會取得 `Result` 數值，編譯器仍然會要我們處理 `Result` 並認為 `Err` 變體是有可能發生的。因為編譯器並沒有聰明到可以看出此字串是個有效的 IP 位址。如果 IP 位址的字串是來自使用者輸入而非我們寫死進程式的話，它**的確**有可能會失敗，這時我們就得要認真處理 `Result` 了。註明該 IP 位址是寫死的能在未來我們想拿掉 `expect` 並改善錯誤處理時，幫助我們理解需要如何從其他來源處理 IP 位址。
+We’re creating an `IpAddr` instance by parsing a hardcoded string. We can see
+that `127.0.0.1` is a valid IP address, so it’s acceptable to use `expect`
+here. However, having a hardcoded, valid string doesn’t change the return type
+of the `parse` method: we still get a `Result` value, and the compiler will
+still make us handle the `Result` as if the `Err` variant is a possibility
+because the compiler isn’t smart enough to see that this string is always a
+valid IP address. If the IP address string came from a user rather than being
+hardcoded into the program and therefore _did_ have a possibility of failure,
+we’d definitely want to handle the `Result` in a more robust way instead.
+Mentioning the assumption that this IP address is hardcoded will prompt us to
+change `expect` to better error-handling code if, in the future, we need to get
+the IP address from some other source instead.
 
-### 錯誤處理的指導原則
+### Guidelines for Error Handling
 
-當你的程式碼可能會導致嚴重狀態的話，就建議讓你的程式恐慌。這裡的嚴重狀態是指一些假設、保證、協議或不可變性被打破時的狀態，像是當你的程式碼有無效的數值、互相矛盾的數值或缺少數值。另外還加上以下情形：
+It’s advisable to have your code panic when it’s possible that your code could
+end up in a bad state. In this context, a _bad state_ is when some assumption,
+guarantee, contract, or invariant has been broken, such as when invalid values,
+contradictory values, or missing values are passed to your code—plus one or
+more of the following:
 
-* 該嚴重狀態並非預期會發生的，而不是像使用者輸入了錯誤格式這種偶而可能會發生的。
-* 你的程式在此時需要避免這種嚴重狀態，而不是在每一步都處理此問題。
-* 你所使用的型別沒有適合的方式能夠處理此嚴重狀態。我們會在第十七章的[「定義狀態與行為成型別」][encoding]<!-- ignore -->段落用範例解釋我們指的是什麼。
+- The bad state is something that is unexpected, as opposed to something that
+  will likely happen occasionally, like a user entering data in the wrong
+  format.
+- Your code after this point needs to rely on not being in this bad state,
+  rather than checking for the problem at every step.
+- There’s not a good way to encode this information in the types you use. We’ll
+  work through an example of what we mean in [“Encoding States and Behavior as
+  Types”][encoding]<!-- ignore --> in Chapter 18.
 
-如果有人呼叫了你的程式碼卻傳遞了不合理的數值，如果可以的話最好的辦法是回傳個錯誤，這樣函式庫的使用者可以決定在該情況下該如何處理。不過要是繼續執行下去可能會造成危險或不安全的話，最好的辦法是呼叫 `panic!` 並警告使用函式庫的人他們程式碼錯誤發生的位置，好讓他們在開發時就能修正。同樣地，`panic!` 也適合用於如果你呼叫了你無法掌控的外部程式碼，然後它回傳了你無法修正的無效狀態。
+If someone calls your code and passes in values that don’t make sense, it’s
+best to return an error if you can so the user of the library can decide what
+they want to do in that case. However, in cases where continuing could be
+insecure or harmful, the best choice might be to call `panic!` and alert the
+person using your library to the bug in their code so they can fix it during
+development. Similarly, `panic!` is often appropriate if you’re calling
+external code that is out of your control and it returns an invalid state that
+you have no way of fixing.
 
-不過如果失敗是可預期的，回傳 `Result` 就會比呼叫 `panic!` 來得好。類似的例子有，語法分析器（parser）收到格式錯誤的資訊，或是 HTTP 請求回傳了一個狀態，告訴你已經達到請求上限了。在這樣的案例，回傳 `Result` 代表失敗是預期有時會發生的，而且呼叫者必須決定如何處理。
+However, when failure is expected, it’s more appropriate to return a `Result`
+than to make a `panic!` call. Examples include a parser being given malformed
+data or an HTTP request returning a status that indicates you have hit a rate
+limit. In these cases, returning a `Result` indicates that failure is an
+expected possibility that the calling code must decide how to handle.
 
-當你的程式碼可能會因為進行運算時輸入無效數值，而造成使用者安危的話，你的程式需要先驗證該數值，如果數值無效的話就要恐慌。這是基於安全原則，嘗試對無效資料做運算的話可能會導致你的程式碼產生漏洞。這也是標準函式庫在你嘗試取得超出界限的記憶體存取會呼叫 `panic!` 的主要原因。嘗試取得不屬於當前資料結構的記憶體是常見的安全問題。函式通常都會訂下一些**合約（contracts）**，它們的行為只有在輸入資料符合特定要求時才帶有保障。當違反合約時恐慌是十分合理的，因為違反合約就代表這是呼叫者的錯誤，這不是你的程式碼該主動處理的錯誤。事實上，呼叫者也沒有任何合理的理由來復原這樣的錯誤。函式的合約應該要寫在函式的技術文件中解釋，尤其是違反時會恐慌的情況。
+When your code performs an operation that could put a user at risk if it’s
+called using invalid values, your code should verify the values are valid first
+and panic if the values aren’t valid. This is mostly for safety reasons:
+attempting to operate on invalid data can expose your code to vulnerabilities.
+This is the main reason the standard library will call `panic!` if you attempt
+an out-of-bounds memory access: trying to access memory that doesn’t belong to
+the current data structure is a common security problem. Functions often have
+_contracts_: their behavior is only guaranteed if the inputs meet particular
+requirements. Panicking when the contract is violated makes sense because a
+contract violation always indicates a caller-side bug, and it’s not a kind of
+error you want the calling code to have to explicitly handle. In fact, there’s
+no reasonable way for calling code to recover; the calling _programmers_ need
+to fix the code. Contracts for a function, especially when a violation will
+cause a panic, should be explained in the API documentation for the function.
 
-然而要在你的函式寫一大堆錯誤檢查有時是很冗長且麻煩的。幸運的是你可以利用 Rust 的型別系統（以及編譯器的型別檢查）來幫你完成檢驗。如果你的函式用特定型別作為參數的話，你就可以認定你的程式邏輯是編輯器已經幫你確保你拿到的數值是有效的。舉例來說，如果你有一個型別而非 `Option` 的話，你的程式就會預期取得**某個值**而不是**沒拿到值**。你的程式就不必處理 `Some` 和 `None` 這兩個變體情形，它只會有一種情況並絕對會拿到數值。要是有人沒有傳遞任何值給你的函式會根本無法編譯，所以你的函式就不需要在執行時做檢查。另一個例子是使用非帶號整數像是 `u32` 來確保參數不會是負數。
+However, having lots of error checks in all of your functions would be verbose
+and annoying. Fortunately, you can use Rust’s type system (and thus the type
+checking done by the compiler) to do many of the checks for you. If your
+function has a particular type as a parameter, you can proceed with your code’s
+logic knowing that the compiler has already ensured you have a valid value. For
+example, if you have a type rather than an `Option`, your program expects to
+have _something_ rather than _nothing_. Your code then doesn’t have to handle
+two cases for the `Some` and `None` variants: it will only have one case for
+definitely having a value. Code trying to pass nothing to your function won’t
+even compile, so your function doesn’t have to check for that case at runtime.
+Another example is using an unsigned integer type such as `u32`, which ensures
+the parameter is never negative.
 
-### 建立自訂型別來驗證
+### Creating Custom Types for Validation
 
-讓我們來試著使用 Rust 的型別系統來進一步確保我們擁有有效數值，並建立自訂型別來驗證。回想一下第二章的猜謎遊戲，我們的程式碼要使用者從 1 到 100 之間猜一個數字。在開始與祕密數字做比較之前，我們從未驗證使用者輸入的值，我們只驗證了它是否為正的。在這種情況帶來的後果還不算嚴重：我們還是會顯示「太大」或「太小」。但是我們可以改善這段來引導使用者輸入有效數值，並在使用者輸入時猜了超出範圍的數字或字母時呈現不同行為。
+Let’s take the idea of using Rust’s type system to ensure we have a valid value
+one step further and look at creating a custom type for validation. Recall the
+guessing game in Chapter 2 in which our code asked the user to guess a number
+between 1 and 100. We never validated that the user’s guess was between those
+numbers before checking it against our secret number; we only validated that
+the guess was positive. In this case, the consequences were not very dire: our
+output of “Too high” or “Too low” would still be correct. But it would be a
+useful enhancement to guide the user toward valid guesses and have different
+behavior when the user guesses a number that’s out of range versus when the
+user types, for example, letters instead.
 
-我們可以將輸入的猜測分析改成 `i32` 而非 `u32` 來允許負數，並檢查數字是否在範圍內，如以下所示：
+One way to do this would be to parse the guess as an `i32` instead of only a
+`u32` to allow potentially negative numbers, and then add a check for the
+number being in range, like so:
+
+<Listing file-name="src/main.rs">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch09-error-handling/no-listing-09-guess-out-of-range/src/main.rs:here}}
 ```
 
-`if` 表達式檢查我們的數值是否超出範圍，如果是的話就告訴使用者問題原因，並呼叫 `continue` 來進行下一次的猜測循環，要求再猜一次。在 `if` 表達式之後我們就能用已經知道範圍是在 1 到 100 的 `guess` 與祕密數字做比較。
+</Listing>
 
-不過這並非理想解決方案：如果程式必定要求數值一定要是 1 到 100，而且我們有很多函式都有此需求的話，在每個函式都檢查就太囉唆了（而且可能會影響效能）。
+The `if` expression checks whether our value is out of range, tells the user
+about the problem, and calls `continue` to start the next iteration of the loop
+and ask for another guess. After the `if` expression, we can proceed with the
+comparisons between `guess` and the secret number knowing that `guess` is
+between 1 and 100.
 
-對此我們可以建立一個新的型別，並且建立一個驗證產生實例的函式，這樣我們就不必在每個地方都做驗證。這樣一來函式就可以安全地以這個新型別作為簽名，並放心地使用收到的數值。範例 9-13 顯示了定義 `Guess` 型別的例子，它的 `new` 函式只會在接收值為 1 到 100 時才會建立 `Guess` 實例。
+However, this is not an ideal solution: if it were absolutely critical that the
+program only operated on values between 1 and 100, and it had many functions
+with this requirement, having a check like this in every function would be
+tedious (and might impact performance).
 
-<!-- Deliberately not using rustdoc_include here; the `main` function in the
-file requires the `rand` crate. We do want to include it for reader
-experimentation purposes, but don't want to include it for rustdoc testing
-purposes. -->
+Instead, we can make a new type in a dedicated module and put the validations in
+a function to create an instance of the type rather than repeating the
+validations everywhere. That way, it’s safe for functions to use the new type in
+their signatures and confidently use the values they receive. Listing 9-13 shows
+one way to define a `Guess` type that will only create an instance of `Guess` if
+the `new` function receives a value between 1 and 100.
+
+<Listing number="9-13" caption="A `Guess` type that will only continue with values between 1 and 100" file-name="src/guessing_game.rs">
 
 ```rust
-{{#include ../listings/ch09-error-handling/listing-09-13/src/main.rs:here}}
+{{#rustdoc_include ../listings/ch09-error-handling/listing-09-13/src/guessing_game.rs}}
 ```
 
-<span class="caption">範例 9-13：只會擁有 1 到 100 的 `Guess` 型別</span>
+</Listing>
 
-首先我們定義了一個結構體叫做 `Guess`，其欄位叫做 `value` 並會持有 `i32`。這就是數字會被儲存的地方。
+Note that this code in *src/guessing_game.rs* depends on adding a module
+declaration `mod guessing_game;` in *src/lib.rs* that we haven’t shown here.
+Within this new module’s file, we define a struct in that module named `Guess`
+that has a field named `value` that holds an `i32`. This is where the number
+will be stored.
 
-接著我們實作一個 `Guess` 的關聯函式叫做 `new` 來建立 `Guess` 的值。`new` 函式定義的參數叫做 `value` 並擁有型別 `i32`，且最後會回傳 `Guess`。函式 `new` 本體中的程式碼會驗證 `value` 確保它位於 1 到 100 之間。如果 `value` 沒有通過驗證，我們呼叫 `panic!` 來警告呼叫此程式碼的開發者，他們可能有需要修正的程式錯誤，因為使用超出範圍的 `value` 來建立 `Guess` 違反了 `Guess::new` 的合約。`Guess::new` 會恐慌的情況需要在公開的 API 技術文件中提及。我們會在第十四章討論如何寫出技術文件並在 API 技術文件中指出可能發生 `panic!` 的情形。如果 `value` 通過驗證的話，我們就建立一個新的 `Guess` 並將參數 `value` 賦值給 `value` 欄位，最後回傳 `Guess`。
+Then we implement an associated function named `new` on `Guess` that creates
+instances of `Guess` values. The `new` function is defined to have one
+parameter named `value` of type `i32` and to return a `Guess`. The code in the
+body of the `new` function tests `value` to make sure it’s between 1 and 100.
+If `value` doesn’t pass this test, we make a `panic!` call, which will alert
+the programmer who is writing the calling code that they have a bug they need
+to fix, because creating a `Guess` with a `value` outside this range would
+violate the contract that `Guess::new` is relying on. The conditions in which
+`Guess::new` might panic should be discussed in its public-facing API
+documentation; we’ll cover documentation conventions indicating the possibility
+of a `panic!` in the API documentation that you create in Chapter 14. If
+`value` does pass the test, we create a new `Guess` with its `value` field set
+to the `value` parameter and return the `Guess`.
 
-接著我們實作了個方法叫做 `value`，它會借用 `self` 且沒有任何參數，並會回傳 `i32`。這種方法有時會被稱為 *getter*，因為它的目的是從它的欄位中取得一些資料並回傳它。此公開方法是必要的，因為 `Guess` 結構體中的 `value` 欄位是私有的。將 `Guess` 結構體的 `value` 欄位設為私有是很重要的，這樣就無法直接設置 `value` ，模組外的程式碼**必須**使用 `Guess::new` 函式來建立 `Guess` 的實例，因而確保 `Guess` 不可能會有沒有經過 `Guess::new` 函式驗證的 `value`。
+Next, we implement a method named `value` that borrows `self`, doesn’t have any
+other parameters, and returns an `i32`. This kind of method is sometimes called
+a _getter_ because its purpose is to get some data from its fields and return
+it. This public method is necessary because the `value` field of the `Guess`
+struct is private. It’s important that the `value` field be private so code
+using the `Guess` struct is not allowed to set `value` directly: code outside
+the `guessing_game` module _must_ use the `Guess::new` function to create an
+instance of `Guess`, thereby ensuring there’s no way for a `Guess` to have a
+`value` that hasn’t been checked by the conditions in the `Guess::new` function.
 
-這樣當函式的參數或回傳值只能是數字 1 到 100 的話，它的簽名就能使用或回傳 `Guess` 而不是 `i32`，因此就不必在它的本體內做任何額外檢查。
+A function that has a parameter or returns only numbers between 1 and 100 could
+then declare in its signature that it takes or returns a `Guess` rather than an
+`i32` and wouldn’t need to do any additional checks in its body.
 
-## 總結
+## Summary
 
-Rust 的錯誤檢查功能的設計旨在協助你寫出可靠的程式碼。`panic!` 巨集告訴你的程式遇到了它無法處理的狀態，並讓你告訴程序停止，而不是繼續嘗試使用無效或不正確的數值。`Result` 列舉使用 Rust 的型別系統來指出可能會失敗的運算，並讓你的程式碼有辦法恢復。你可以使用 `Result` 來告訴使用你的程式碼的呼叫者，他們需要處理可能成功與失敗的情形。在適當的場合使用 `panic!` 與 `Result` 能讓你的程式碼在不可避免的問題中更加可靠。
+Rust’s error-handling features are designed to help you write more robust code.
+The `panic!` macro signals that your program is in a state it can’t handle and
+lets you tell the process to stop instead of trying to proceed with invalid or
+incorrect values. The `Result` enum uses Rust’s type system to indicate that
+operations might fail in a way that your code could recover from. You can use
+`Result` to tell code that calls your code that it needs to handle potential
+success or failure as well. Using `panic!` and `Result` in the appropriate
+situations will make your code more reliable in the face of inevitable problems.
 
-現在你已經看過標準函式庫中 `Option` 與 `Result` 使用泛型的優勢了，就讓我們來討論泛型如何運作的，以及你如何在程式碼中使用它們。
+Now that you’ve seen useful ways that the standard library uses generics with
+the `Option` and `Result` enums, we’ll talk about how generics work and how you
+can use them in your code.
 
-[encoding]: ch17-03-oo-design-patterns.html#定義狀態與行為成型別
+[encoding]: ch18-03-oo-design-patterns.html#encoding-states-and-behavior-as-types

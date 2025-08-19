@@ -5,11 +5,11 @@ fn main() {
     let (tx, rx) = mpsc::channel();
 
     thread::spawn(move || {
-        let val = String::from("嗨");
+        let val = String::from("hi");
         tx.send(val).unwrap();
-        println!("val 為 {}", val);
+        println!("val is {val}");
     });
 
     let received = rx.recv().unwrap();
-    println!("取得：{}", received);
+    println!("Got: {received}");
 }

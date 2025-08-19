@@ -3,11 +3,11 @@ fn main() {
 
     let (s2, len) = calculate_length(s1);
 
-    println!("'{}' 的長度為 {}。", s2, len);
+    println!("The length of '{s2}' is {len}.");
 }
 
 fn calculate_length(s: String) -> (String, usize) {
-    let length = s.len(); // len() 回傳 String 的長度
+    let length = s.len(); // len() returns the length of a String
 
     (s, length)
 }

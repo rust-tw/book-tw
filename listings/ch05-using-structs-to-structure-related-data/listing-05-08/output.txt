@@ -1,5 +1,5 @@
 $ cargo run
    Compiling rectangles v0.1.0 (file:///projects/rectangles)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.42s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.42s
      Running `target/debug/rectangles`
-長方形的面積為 1500 平方像素。
+The area of the rectangle is 1500 square pixels.

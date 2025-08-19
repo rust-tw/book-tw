@@ -7,9 +7,9 @@ struct User {
 
 // ANCHOR: here
 fn main() {
-    // --省略--
+    // --snip--
     // ANCHOR_END: here
-    
+
     let user1 = User {
         email: String::from("someone@example.com"),
         username: String::from("someusername123"),
@@ -17,7 +17,7 @@ fn main() {
         sign_in_count: 1,
     };
     // ANCHOR: here
-    
+
     let user2 = User {
         active: user1.active,
         username: user1.username,

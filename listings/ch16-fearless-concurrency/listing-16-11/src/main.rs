@@ -4,17 +4,17 @@ use std::time::Duration;
 
 fn main() {
     // ANCHOR: here
-    // --省略--
+    // --snip--
 
     let (tx, rx) = mpsc::channel();
 
     let tx1 = tx.clone();
     thread::spawn(move || {
         let vals = vec![
-            String::from("執行緒"),
-            String::from("傳來"),
-            String::from("的"),
-            String::from("嗨"),
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
         ];
 
         for val in vals {
@@ -25,10 +25,10 @@ fn main() {
 
     thread::spawn(move || {
         let vals = vec![
-            String::from("更多"),
-            String::from("給你"),
-            String::from("的"),
-            String::from("訊息"),
+            String::from("more"),
+            String::from("messages"),
+            String::from("for"),
+            String::from("you"),
         ];
 
         for val in vals {
@@ -38,9 +38,9 @@ fn main() {
     });
 
     for received in rx {
-        println!("取得：{}", received);
+        println!("Got: {received}");
     }
 
-    // --省略--
+    // --snip--
     // ANCHOR_END: here
 }

@@ -5,7 +5,7 @@ pub struct Guess {
 impl Guess {
     pub fn new(value: i32) -> Guess {
         if value < 1 || value > 100 {
-            panic!("猜測數字必須介於 1 到 100 之間，你輸入的是 {}。", value);
+            panic!("Guess value must be between 1 and 100, got {value}.");
         }
 
         Guess { value }

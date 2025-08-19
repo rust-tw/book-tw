@@ -1,3 +1,11 @@
-# 列舉與模式配對
+# Enums and Pattern Matching
 
-在本章節中，我們將討論**列舉**（enumerations），有時也被簡寫為 *enums*。列舉讓你定義一個能夠列舉其可能**變體**（variants）的型別。首先，我們會定義並使用列舉來展示列舉如何將其數據組織起來。再來，我們會來探討一個特定的實用列舉：`Option`，其代表該值為某些東西不然就是什麼都沒有。然後我們會看看 `match` 表達式的模式配對是怎麼運作的，讓它能夠針對列舉中不同數值執行不同的程式碼。最後，我們會介紹 `if let` 這個結構，來用簡潔又方便的方式處理列舉。
+In this chapter, we’ll look at _enumerations_, also referred to as _enums_.
+Enums allow you to define a type by enumerating its possible _variants_. First
+we’ll define and use an enum to show how an enum can encode meaning along with
+data. Next, we’ll explore a particularly useful enum, called `Option`, which
+expresses that a value can be either something or nothing. Then we’ll look at
+how pattern matching in the `match` expression makes it easy to run different
+code for different values of an enum. Finally, we’ll cover how the `if let`
+construct is another convenient and concise idiom available to handle enums in
+your code.

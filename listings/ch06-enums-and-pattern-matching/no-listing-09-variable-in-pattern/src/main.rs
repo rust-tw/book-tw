@@ -2,7 +2,7 @@
 enum UsState {
     Alabama,
     Alaska,
-    // --省略--
+    // --snip--
 }
 
 enum Coin {
@@ -19,7 +19,7 @@ fn value_in_cents(coin: Coin) -> u8 {
         Coin::Nickel => 5,
         Coin::Dime => 10,
         Coin::Quarter(state) => {
-            println!("此 25 美分所屬的州為 {:?}!", state);
+            println!("State quarter from {state:?}!");
             25
         }
     }

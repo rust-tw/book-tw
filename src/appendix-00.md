@@ -1,3 +1,4 @@
-# 附錄
+# Appendix
 
-以下段落包含你可能會在你的 Rust 旅途中覺得有用的參考資源。
+The following sections contain reference material you may find useful in your
+Rust journey.

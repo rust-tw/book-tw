@@ -1,14 +1,19 @@
-// ANCHOR: here
+pub fn add(left: u64, right: u64) -> u64 {
+    left + right
+}
+
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn exploration() {
-        assert_eq!(2 + 2, 4);
+        let result = add(2, 2);
+        assert_eq!(result, 4);
     }
 
     #[test]
     fn another() {
-        panic!("此測試會失敗");
+        panic!("Make this test fail");
     }
 }
-// ANCHOR_END: here

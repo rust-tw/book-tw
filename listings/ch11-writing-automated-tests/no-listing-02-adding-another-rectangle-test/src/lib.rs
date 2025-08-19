@@ -17,7 +17,7 @@ mod tests {
 
     #[test]
     fn larger_can_hold_smaller() {
-        // --省略--
+        // --snip--
         // ANCHOR_END: here
         let larger = Rectangle {
             width: 8,

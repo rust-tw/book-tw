@@ -1,11 +1,14 @@
-# 更多關於 Cargo 與 Crates.io 的內容
+# More About Cargo and Crates.io
 
-目前我們只使用了 Cargo 最基本的功能來建構、執行與測試我們的程式碼，但它還能做更多事。在本章節中我們將討論這些其他的進階功能，你將瞭解如何做到以下動作：
+So far, we’ve used only the most basic features of Cargo to build, run, and
+test our code, but it can do a lot more. In this chapter, we’ll discuss some of
+its other, more advanced features to show you how to do the following:
 
-* 透過發佈設定檔來自訂你的建構
-* 發佈函式庫到 [crates.io](https://crates.io/)<!-- ignore -->
-* 透過工作空間組織大型專案
-* 從 [crates.io](https://crates.io/)<!-- ignore --> 安裝執行檔
-* 使用自訂命令擴展 Cargo 的功能
+- Customize your build through release profiles
+- Publish libraries on [crates.io](https://crates.io/)<!-- ignore -->
+- Organize large projects with workspaces
+- Install binaries from [crates.io](https://crates.io/)<!-- ignore -->
+- Extend Cargo using custom commands
 
-Cargo 能做的事比本章會介紹到的功能還多，所以想要知道它所有功能的話，歡迎查閱[它的技術文件](https://doc.rust-lang.org/cargo/)。
+Cargo can do even more than the functionality we cover in this chapter, so for
+a full explanation of all its features, see [its documentation](https://doc.rust-lang.org/cargo/).

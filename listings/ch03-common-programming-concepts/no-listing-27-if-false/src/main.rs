@@ -4,8 +4,8 @@ fn main() {
     // ANCHOR_END: here
 
     if number < 5 {
-        println!("條件為真");
+        println!("condition was true");
     } else {
-        println!("條件為否");
+        println!("condition was false");
     }
 }

@@ -1,21 +1,46 @@
-# 智慧指標
+# Smart Pointers
 
-**指標**（pointer）是一個將變數儲存記憶體位址的通用概念。此位址參考或者說是「指向」一些其他資料。Rust 中最常見的指標種類就是第四章介紹的參考（reference）。參考以 `&` 符號作為指示並借用它們指向的數值。它們除了參考資料以外，沒有其他的特殊能力，也沒有任何額外開銷。
+A _pointer_ is a general concept for a variable that contains an address in
+memory. This address refers to, or “points at,” some other data. The most
+common kind of pointer in Rust is a reference, which you learned about in
+Chapter 4. References are indicated by the `&` symbol and borrow the value they
+point to. They don’t have any special capabilities other than referring to
+data, and they have no overhead.
 
-另一方面，**智慧指標**（Smart pointers）是個不只會有像是指標的行為，還會包含擁有的詮釋資料與能力。智慧指標的概念並不是 Rust 獨有的，智慧指標起源於 C++ 且也都存在於其他語言。Rust 在標準函式庫中有提供許多不同的智慧指標，不只能參考還具備更多的功能。為了探索各個概念，我們會來研究一些各種不同的智慧指標範例，包含**參考計數**（reference counting）智慧指標型別。此指標允許一個資料可以有多個擁有者，並追蹤擁有者的數量，當沒有任何擁有者時，就清除資料。
+_Smart pointers_, on the other hand, are data structures that act like a
+pointer but also have additional metadata and capabilities. The concept of
+smart pointers isn’t unique to Rust: smart pointers originated in C++ and exist
+in other languages as well. Rust has a variety of smart pointers defined in the
+standard library that provide functionality beyond that provided by references.
+To explore the general concept, we’ll look at a couple of different examples of
+smart pointers, including a _reference counting_ smart pointer type. This
+pointer enables you to allow data to have multiple owners by keeping track of
+the number of owners and, when no owners remain, cleaning up the data.
 
-在 Rust 中，我們有所有權與借用的概念，所以參考與智慧指標之間還有一項差別：參考是只有借用資料的指標，但智慧指標在很多時候都**擁有**它們指向的資料。
+Rust, with its concept of ownership and borrowing, has an additional difference
+between references and smart pointers: while references only borrow data, in
+many cases smart pointers _own_ the data they point to.
 
-雖然在前面的章節我們沒有這樣稱呼，但我們已經在本書中遇過一些智慧指標了，像是第八章的 `String` 和 `Vec<T>`，雖然當時我們沒有稱呼它們為智慧指標。這些型別都算是智慧指標，因為它們都擁有一些記憶體並允許你操控它們。它們也有詮釋資料以及額外的能力或保障。像是 `String` 就會將容量儲存在詮釋資料中，並確保其資料永遠是有效的 UTF-8。
+Smart pointers are usually implemented using structs. Unlike an ordinary
+struct, smart pointers implement the `Deref` and `Drop` traits. The `Deref`
+trait allows an instance of the smart pointer struct to behave like a reference
+so you can write your code to work with either references or smart pointers.
+The `Drop` trait allows you to customize the code that’s run when an instance
+of the smart pointer goes out of scope. In this chapter, we’ll discuss both of
+these traits and demonstrate why they’re important to smart pointers.
 
-智慧指標通常都使用結構體實作。和一般結構體不同，智慧指標會實作 `Deref` 與 `Drop` 特徵。`Deref` 特徵允許智慧指標結構體的實例表現的像是參考一樣，讓你可以寫出能用在參考與智慧指標的程式碼。`Drop` 特徵允許你自訂當智慧指標實例離開作用域時要執行的程式碼。在本章節我們會討論這兩個特徵並解釋為何它們對智慧指標很重要。
+Given that the smart pointer pattern is a general design pattern used
+frequently in Rust, this chapter won’t cover every existing smart pointer. Many
+libraries have their own smart pointers, and you can even write your own. We’ll
+cover the most common smart pointers in the standard library:
 
-有鑑於智慧指標在 Rust 是個常用的通用設計模式，本章不會涵蓋每一個現有的智慧指標。許多函式庫也都會提供它們自己的智慧指標，你甚至能寫個你自己的。我們會提及標準函式庫中最常用到的智慧指標：
+- `Box<T>`, for allocating values on the heap
+- `Rc<T>`, a reference counting type that enables multiple ownership
+- `Ref<T>` and `RefMut<T>`, accessed through `RefCell<T>`, a type that enforces
+  the borrowing rules at runtime instead of compile time
 
-* `Box<T>` 將數值配置到堆積上
-* `Rc<T>`, 參考計數型別來允許資料能有數個擁有者
-* 透過 `RefCell<T>` 來存取 `Ref<T>` 與 `RefMut<T>` ，這是在執行時而非編譯時強制執行借用規則的型別
+In addition, we’ll cover the _interior mutability_ pattern where an immutable
+type exposes an API for mutating an interior value. We’ll also discuss
+reference cycles: how they can leak memory and how to prevent them.
 
-除此之外，我們還會涵蓋到**內部可變性**（interior mutability）模式，這讓不可變參考的型別能提供改變內部數值的 API。我們還會討論**參考循環**（reference cycles）為何會導致記憶體泄漏以及如何預防它們。
-
-讓我們開始吧！
+Let’s dive in!

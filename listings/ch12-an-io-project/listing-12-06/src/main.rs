@@ -7,16 +7,16 @@ fn main() {
 
     let config = parse_config(&args);
 
-    println!("搜尋 {}", config.query);
-    println!("目標檔案為 {}", config.file_path);
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
 
     let contents = fs::read_to_string(config.file_path)
-        .expect("應該要能夠讀取檔案");
+        .expect("Should have been able to read the file");
 
-    // --省略--
+    // --snip--
     // ANCHOR_END: here
 
-    println!("文字內容：\n{contents}");
+    println!("With text:\n{contents}");
     // ANCHOR: here
 }
 

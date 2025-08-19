@@ -1,13 +1,16 @@
+// ANCHOR: here
 mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
     }
 }
 
+// -- snip --
+// ANCHOR_END: here
 pub fn eat_at_restaurant() {
-    // 絕對路徑
+    // Absolute path
     crate::front_of_house::hosting::add_to_waitlist();
 
-    // 相對路徑
+    // Relative path
     front_of_house::hosting::add_to_waitlist();
 }

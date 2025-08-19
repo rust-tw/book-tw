@@ -1,3 +1,3 @@
 fn main() {
-    let lucky_number = 7; // 幸運 777！
+    let lucky_number = 7; // I'm feeling lucky today
 }

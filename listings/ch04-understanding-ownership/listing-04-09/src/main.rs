@@ -16,20 +16,22 @@ fn first_word(s: &str) -> &str {
 fn main() {
     let my_string = String::from("hello world");
 
-    // first_word 適用於 `String` 的切片，無論是部分或整體
+    // `first_word` works on slices of `String`s, whether partial or whole.
     let word = first_word(&my_string[0..6]);
     let word = first_word(&my_string[..]);
-    // first_word 也適用於 `String` 的參考，這等同於對整個 `String` 切片的操作。
+    // `first_word` also works on references to `String`s, which are equivalent
+    // to whole slices of `String`s.
     let word = first_word(&my_string);
 
     let my_string_literal = "hello world";
 
-    // first_word 適用於字串字面值，無論是部分或整體
+    // `first_word` works on slices of string literals, whether partial or
+    // whole.
     let word = first_word(&my_string_literal[0..6]);
     let word = first_word(&my_string_literal[..]);
 
-    // 因為字串字面值本來就是切片
-    // 沒有切片語法也是可行的！
+    // Because string literals *are* string slices already,
+    // this works too, without the slice syntax!
     let word = first_word(my_string_literal);
 }
 // ANCHOR_END: usage

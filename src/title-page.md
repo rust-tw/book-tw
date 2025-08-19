@@ -1,20 +1,27 @@
-# Rust 程式設計語言
+# The Rust Programming Language
 
-*由 Steve Klabnik 與 Carol Nichols，以及 Rust 社群的貢獻撰寫而成*
+_by Steve Klabnik, Carol Nichols, and Chris Krycho, with contributions from the
+Rust Community_
 
-此版本假設你使用的是 Rust 1.65（於 2022-11-03 發布）或更高的版本，並在所有專案中的 *Cargo.toml* 都有 `edition="2021"` 來使用 Rust 2021 版號。請查看[第一章的「安裝」段落][install]<!-- ignore -->來安裝或更新 Rust。
+This version of the text assumes you’re using Rust 1.85.0 (released 2025-02-17)
+or later with `edition = "2024"` in the Cargo.toml file of all projects to
+configure them to use Rust 2024 edition idioms. See the [“Installation” section
+of Chapter 1][install]<!-- ignore --> to install or update Rust.
 
-本書的 HTML 格式可以在線上閱讀：[https://doc.rust-lang.org/stable/book/](https://doc.rust-lang.org/stable/book/)（[正體中文版](https://rust-lang.tw/book-tw/)）。而離線版則包含在 `rustup` 安裝的 Rust 中，輸入 `rustup docs --book` 就能開啟。
+The HTML format is available online at
+[https://doc.rust-lang.org/stable/book/](https://doc.rust-lang.org/stable/book/)
+and offline with installations of Rust made with `rustup`; run `rustup doc
+--book` to open.
 
-社群中也有提供本書的各種[譯本][translations]。
+Several community [translations] are also available.
 
-本書也有由 [No Starch Press 出版平裝與電子版格式][nsprust]。
+This text is available in [paperback and ebook format from No Starch
+Press][nsprust].
 
 [install]: ch01-01-installation.html
-[editions]: appendix-05-editions.html
-[nsprust]: https://nostarch.com/rust
+[nsprust]: https://nostarch.com/rust-programming-language-2nd-edition
 [translations]: appendix-06-translation.html
 
-> **🚨 想要更有互動的學習體驗？來嘗試不同的 Rust Book，賣點有：隨堂測驗、重點提示、視覺化呈現，更多都在** <https://rust-book.cs.brown.edu>
-
-> - commit: [3f64052](https://github.com/rust-lang/book/commit/3f64052c048c6def93b94a2b514ee88bba918744)
+> **🚨 Want a more interactive learning experience? Try out a different version
+> of the Rust Book, featuring: quizzes, highlighting, visualizations, and
+> more**: <https://rust-book.cs.brown.edu>

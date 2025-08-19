@@ -1,10 +1,10 @@
 fn main() {
     let list = vec![1, 2, 3];
-    println!("定義閉包前：{:?}", list);
+    println!("Before defining closure: {list:?}");
 
-    let only_borrows = || println!("來自閉包：{:?}", list);
+    let only_borrows = || println!("From closure: {list:?}");
 
-    println!("呼叫閉包前：{:?}", list);
+    println!("Before calling closure: {list:?}");
     only_borrows();
-    println!("呼叫閉包後：{:?}", list);
+    println!("After calling closure: {list:?}");
 }

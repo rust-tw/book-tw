@@ -1,6 +1,6 @@
 fn main() {
     let mut x = 5;
-    println!("x 的數值為：{x}");
+    println!("The value of x is: {x}");
     x = 6;
-    println!("x 的數值為：{x}");
+    println!("The value of x is: {x}");
 }

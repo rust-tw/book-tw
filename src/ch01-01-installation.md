@@ -1,109 +1,169 @@
-## 安裝教學
+## Installation
 
-第一步是安裝 Rust，我們將會透過 `rustup` 安裝 Rust，這是個管理 Rust 版本及相關工具的命令列工具。你將會需要網路連線才能下載。
+The first step is to install Rust. We’ll download Rust through `rustup`, a
+command line tool for managing Rust versions and associated tools. You’ll need
+an internet connection for the download.
 
-> 注意：如果你基於某些原因不想使用 `rustup` 的話，請前往 [Rust 其他安裝方法的頁面][otherinstall]尋求其他選項。
+> Note: If you prefer not to use `rustup` for some reason, please see the
+> [Other Rust Installation Methods page][otherinstall] for more options.
 
-以下步驟將會安裝最新的穩定版 Rust 編譯器。Rust 的穩定性能確保本書的所有範例在更新的 Rust 版本仍然能繼續編譯出來。輸出的結果可能會在不同版本間而有些微的差異，因為 Rust 時常會改善錯誤與警告訊息。換句話說，任何你所安裝的最新穩定版 Rust 都應該能夠正常運行本書的內容。
+The following steps install the latest stable version of the Rust compiler.
+Rust’s stability guarantees ensure that all the examples in the book that
+compile will continue to compile with newer Rust versions. The output might
+differ slightly between versions because Rust often improves error messages and
+warnings. In other words, any newer, stable version of Rust you install using
+these steps should work as expected with the content of this book.
 
-> ### 命令列標記
+> ### Command Line Notation
 >
-> 在本章節到整本書為止，我們將會顯示一些終端機會用到的命令。任一你會用到的命令都會始於 `$`。但你不需要去輸入 `$`，因為這通常代表每一命令列的起始位置。而沒有出現 `$` 的行數，通常則代表前一行命列輸出的結果。除此之外，針對 PowerShell 的範例則將會使用 `>` 而不是 `$`。
+> In this chapter and throughout the book, we’ll show some commands used in the
+> terminal. Lines that you should enter in a terminal all start with `$`. You
+> don’t need to type the `$` character; it’s the command line prompt shown to
+> indicate the start of each command. Lines that don’t start with `$` typically
+> show the output of the previous command. Additionally, PowerShell-specific
+> examples will use `>` rather than `$`.
 
-### 在 Linux 或 macOS 上安裝 `rustup`
+### Installing `rustup` on Linux or macOS
 
-如果你使用的是 Linux 或 macOS，請開啟終端機然後輸入以下命令：
+If you’re using Linux or macOS, open a terminal and enter the following command:
 
 ```console
-$ curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh
+$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 ```
 
-這道命令會下載一支腳本然後開始安裝 `rustup` 工具，接著安裝最新的穩定版 Rust。下載過程中可能會要求你輸入你的密碼。如果下載成功的話，將會出現以下內容：
+The command downloads a script and starts the installation of the `rustup`
+tool, which installs the latest stable version of Rust. You might be prompted
+for your password. If the install is successful, the following line will appear:
 
 ```text
 Rust is installed now. Great!
 ```
 
-你還會需要一個**連結器（linker）** 來讓 Rust 將編譯好的輸出資料整理到一個檔案內。通常你很可能已經有安裝了，但如果你遇到連結器相關的錯誤時，這代表你需要安裝一個 C 編譯器，因爲它通常都會帶有一個的連結器。有個 C 編譯器通常也很實用，因爲一些常見的 Rust 套件也會依賴於 C 而需要一個 C 編譯器。
+You will also need a _linker_, which is a program that Rust uses to join its
+compiled outputs into one file. It is likely you already have one. If you get
+linker errors, you should install a C compiler, which will typically include a
+linker. A C compiler is also useful because some common Rust packages depend on
+C code and will need a C compiler.
 
-在 macOS 上，你可以輸入以下命令來安裝 C 編譯器：
+On macOS, you can get a C compiler by running:
 
 ```console
 $ xcode-select --install
 ```
 
-Linux 使用者的話則需要依據他們的發行版文件來安裝 GCC 或 Clang。舉例來說，如果你使用 Ubuntu 的話，你可以安裝 `build-essential` 套件。
+Linux users should generally install GCC or Clang, according to their
+distribution’s documentation. For example, if you use Ubuntu, you can install
+the `build-essential` package.
 
+### Installing `rustup` on Windows
 
-### 在 Windows 上安裝 `rustup`
+On Windows, go to [https://www.rust-lang.org/tools/install][install] and follow
+the instructions for installing Rust. At some point in the installation, you’ll
+be prompted to install Visual Studio. This provides a linker and the native
+libraries needed to compile programs. If you need more help with this step, see
+[https://rust-lang.github.io/rustup/installation/windows-msvc.html][msvc]
 
-在 Windows 上請前往[下載頁面][install]並依照指示安裝 Rust。在安裝的某個過程中，你將會看到一個訊息要求說你還需要 C++ build tools for Visual Studio 2013 或更新的版本。
+The rest of this book uses commands that work in both _cmd.exe_ and PowerShell.
+If there are specific differences, we’ll explain which to use.
 
-要取得 build tools 的話，你需要安裝 [Visual Studio 2022][visualstudio]。當你被問到要安裝哪些時，請記得包含：
+### Troubleshooting
 
-* “Desktop Development with C++”
-* The Windows 10 or 11 SDK
-* The English language pack component（以及其他你想選擇的語言包）
-
-本書接下來使用的命令都相容於 *cmd.exe* 和 PowerShell。如果有特別不同的地方，我們會解釋該怎麼使用。
-
-### 疑難排除
-
-想簡單確認你是否有正確安裝 Rust 的話，請開啟 shell 然後輸入此命令：
+To check whether you have Rust installed correctly, open a shell and enter this
+line:
 
 ```console
 $ rustc --version
 ```
 
-你應該會看到已發佈的最新穩定版本號、提交雜湊（hash）以及提交日期如以下格式所示：
+You should see the version number, commit hash, and commit date for the latest
+stable version that has been released, in the following format:
 
 ```text
 rustc x.y.z (abcabcabc yyyy-mm-dd)
 ```
 
-如果你看到這則訊息代表你成功安裝 Rust 了！如果你沒有看到的話，請如下檢查 Rust 是否在你的 `%PATH%` 系統變數裡。
+If you see this information, you have installed Rust successfully! If you don’t
+see this information, check that Rust is in your `%PATH%` system variable as
+follows.
 
-在 Windows CMD 中請使用：
+In Windows CMD, use:
 
 ```console
 > echo %PATH%
 ```
 
-在 PowerShell 中請使用：
+In PowerShell, use:
 
 ```powershell
 > echo $env:Path
 ```
 
-在 Linux 和 macOS 的話請使用：
+In Linux and macOS, use:
 
 ```console
 $ echo $PATH
 ```
 
-如果以上步驟皆正確無誤，但還是無法執行 Rust 的話，你可以前往一些地方尋求協助。例如您可以前往[社群頁面][community]聯絡其他 Rustaceans（這是我們常用稱呼自己取的暱稱）交談並取得協助。
+If that’s all correct and Rust still isn’t working, there are a number of
+places you can get help. Find out how to get in touch with other Rustaceans (a
+silly nickname we call ourselves) on [the community page][community].
 
-### 更新與解除安裝
+### Updating and Uninstalling
 
-當你透過 `rustup` 安裝完 Rust 後，要更新到最新版本的方法非常簡單。在你的 shell 中執行以下更新腳本即可：
+Once Rust is installed via `rustup`, updating to a newly released version is
+easy. From your shell, run the following update script:
 
 ```console
 $ rustup update
 ```
 
-要解除安裝 Rust 與 `rustup` 的話，則在 shell 輸入以下解除安裝腳本：
+To uninstall Rust and `rustup`, run the following uninstall script from your
+shell:
 
 ```console
 $ rustup self uninstall
 ```
 
-### 本地端技術文件
+### Local Documentation
 
-安裝 Rust 的同時也會包含一份本地的技術文件副本，讓你可以離線閱讀。執行 `rustup doc` 就可以用你的瀏覽器開啟本地文件。
+The installation of Rust also includes a local copy of the documentation so
+that you can read it offline. Run `rustup doc` to open the local documentation
+in your browser.
 
-每當有任何型別或函式出現而你卻不清楚如何使用時，你就可以閱讀應用程式介面（API）技術文件來理解！
+Any time a type or function is provided by the standard library and you’re not
+sure what it does or how to use it, use the application programming interface
+(API) documentation to find out!
+
+### Text Editors and Integrated Development Environments
+
+This book makes no assumptions about what tools you use to author Rust code.
+Just about any text editor will get the job done! However, many text editors and
+integrated development environments (IDEs) have built-in support for Rust. You
+can always find a fairly current list of many editors and IDEs on [the tools
+page][tools] on the Rust website.
+
+### Working Offline with This Book
+
+In several examples, we will use Rust packages beyond the standard library. To
+work through those examples, you will either need to have an internet connection
+or to have downloaded those dependencies ahead of time. To download the
+dependencies ahead of time, you can run the following commands. (We’ll explain
+what `cargo` is and what each of these commands does in detail later.)
+
+```console
+$ cargo new get-dependencies
+$ cd get-dependencies
+$ cargo add rand@0.8.5 trpl@0.2.0
+```
+
+This will cache the downloads for these packages so you will not need to
+download them later. Once you have run this command, you do not need to keep the
+`get-dependencies` folder. If you have run this command, you can use the
+`--offline` flag with all `cargo` commands in the rest of the book to use these
+cached versions instead of attempting to use the network. 
 
 [otherinstall]: https://forge.rust-lang.org/infra/other-installation-methods.html
 [install]: https://www.rust-lang.org/tools/install
-[visualstudio]: https://visualstudio.microsoft.com/downloads/
+[msvc]: https://rust-lang.github.io/rustup/installation/windows-msvc.html
 [community]: https://www.rust-lang.org/community
+[tools]: https://www.rust-lang.org/tools

@@ -9,10 +9,10 @@ fn main() {
         Err(error) => match error.kind() {
             ErrorKind::NotFound => match File::create("hello.txt") {
                 Ok(fc) => fc,
-                Err(e) => panic!("建立檔案時發生問題：{:?}", e),
+                Err(e) => panic!("Problem creating the file: {e:?}"),
             },
-            other_error => {
-                panic!("開啟檔案時發生問題：{:?}", other_error);
+            _ => {
+                panic!("Problem opening the file: {error:?}");
             }
         },
     };

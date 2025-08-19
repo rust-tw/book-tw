@@ -5,5 +5,5 @@ fn main() {
 }
 
 fn another_function() {
-    println!("另一支函式。");
+    println!("Another function.");
 }

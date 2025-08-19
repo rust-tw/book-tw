@@ -1,3 +1,3 @@
 fn main() {
-    panic!("◢▆▅▄▃ 崩╰(〒皿〒)╯潰▃▄▅▆◣");
+    panic!("crash and burn");
 }

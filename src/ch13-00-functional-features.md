@@ -1,14 +1,24 @@
-# 函式語言功能：疊代器與閉包
+# Functional Language Features: Iterators and Closures
 
-Rust 的設計靈感啟發自許多現有的語言與技術，其中一個影響十分顯著的就是*函式程式設計（functional programming）*。以函式風格的程式設計通常包含將函式視為數值並作為引數傳遞、將它們從其他函式回傳、將它們賦值給變數以便之後使用，以及更多。
+Rust’s design has taken inspiration from many existing languages and
+techniques, and one significant influence is _functional programming_.
+Programming in a functional style often includes using functions as values by
+passing them in arguments, returning them from other functions, assigning them
+to variables for later execution, and so forth.
 
-在本章節中，我們不會討論哪些才是屬於函式程式設計或哪些不是，而是介紹一些 Rust 中類似於許多語言常視為函式語言特色的功能。
+In this chapter, we won’t debate the issue of what functional programming is or
+isn’t but will instead discuss some features of Rust that are similar to
+features in many languages often referred to as functional.
 
-更明確來說，我們會涵蓋：
+More specifically, we’ll cover:
 
-* *閉包（Closures）*：類似函式的結構並可以賦值給變數
-* *疊代器（Iterators）*：遍歷一系列元素的方法
-* 如何用閉包與疊代器來改善第十二章的 I/O 專案
-* 閉包與疊代器的效能（先偷偷跟你說：它們比你想像的還要快！）
+- _Closures_, a function-like construct you can store in a variable
+- _Iterators_, a way of processing a series of elements
+- How to use closures and iterators to improve the I/O project in Chapter 12
+- The performance of closures and iterators (spoiler alert: they’re faster than
+  you might think!)
 
-我們已經在其他章節提到的功能像是模式配對與列舉也都有被函式風格所影響。因為掌握閉包與疊代器是寫出符合語言風格與高效 Rust 程式碼中重要的一環，所以我們將用一章來介紹它們。
+We’ve already covered some other Rust features, such as pattern matching and
+enums, that are also influenced by the functional style. Because mastering
+closures and iterators is an important part of writing idiomatic, fast Rust
+code, we’ll devote this entire chapter to them.

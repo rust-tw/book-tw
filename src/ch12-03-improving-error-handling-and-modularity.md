@@ -1,266 +1,505 @@
-## 透過重構來改善模組性與錯誤處理
+## Refactoring to Improve Modularity and Error Handling
 
-為了改善我們的程式，我們需要修正四個問題，這與程式架構與如何處理潛在錯誤有關。首先，我們的 `main` 函式會處理兩件任務：它得解析引數並讀取檔案。隨著我們的程式增長，`main` 函式中要處理的任務就會增加。要是一個函式有這麼多責任，它就會越來越難理解、越難測試並且難在不破壞其他部分的情況下做改變。我們最好能將不同功能拆開，讓每個函式只負責一項任務。
+To improve our program, we’ll fix four problems that have to do with the
+program’s structure and how it’s handling potential errors. First, our `main`
+function now performs two tasks: it parses arguments and reads files. As our
+program grows, the number of separate tasks the `main` function handles will
+increase. As a function gains responsibilities, it becomes more difficult to
+reason about, harder to test, and harder to change without breaking one of its
+parts. It’s best to separate functionality so each function is responsible for
+one task.
 
-而這也和第二個問題有關：雖然 `query` 與 `file_path` 是我們程式的設置變數，而變數 `contents` 則用於程式邏輯。隨著 `main` 增長，我們會需要引入越多變數至作用域中。而作用域中有越多變數，我們就越難追蹤每個變數的用途。我們最好是將設置變數集結成一個結構體，讓它們的用途清楚明白。
+This issue also ties into the second problem: although `query` and `file_path`
+are configuration variables to our program, variables like `contents` are used
+to perform the program’s logic. The longer `main` becomes, the more variables
+we’ll need to bring into scope; the more variables we have in scope, the harder
+it will be to keep track of the purpose of each. It’s best to group the
+configuration variables into one structure to make their purpose clear.
 
-第三個問題是當讀取檔案失敗時，我們使用 `expect` 來印出錯誤訊息，但是錯誤訊息只印出 `應該要能夠讀取檔案`。讀取檔案可以有好幾種失敗的方式：舉例來說，檔案可能不存在，或是我們可能沒有權限能開啟它。目前不管原因為何，我們都只印出相同的錯誤訊息，這並沒有給使用者足夠的資訊！
+The third problem is that we’ve used `expect` to print an error message when
+reading the file fails, but the error message just prints `Should have been
+able to read the file`. Reading a file can fail in a number of ways: for
+example, the file could be missing, or we might not have permission to open it.
+Right now, regardless of the situation, we’d print the same error message for
+everything, which wouldn’t give the user any information!
 
-第四，我們重複使用 `expect` 來處理不同錯誤，而如果有使用者沒有指定足夠的引數來執行程式的話，他們會從 Rust 獲得 `index out of bounds` 的錯誤，這並沒有清楚解釋問題。最好是所有的錯誤處理程式碼都可以位於同個地方，讓未來的維護者只需要在此處來修改錯誤處理的程式碼。將所有錯誤處理的程式碼置於同處也能確保我們能提供對終端使用者有意義的訊息。
+Fourth, we use `expect` to handle an error, and if the user runs our program
+without specifying enough arguments, they’ll get an `index out of bounds` error
+from Rust that doesn’t clearly explain the problem. It would be best if all the
+error-handling code were in one place so future maintainers had only one place
+to consult the code if the error-handling logic needed to change. Having all the
+error-handling code in one place will also ensure that we’re printing messages
+that will be meaningful to our end users.
 
-讓我們來重構專案以解決這四個問題吧。
+Let’s address these four problems by refactoring our project.
 
-### 分開執行檔專案的任務
+### Separation of Concerns for Binary Projects
 
-`main` 函式負責多數任務的組織分配問題在許多執行檔專案中都很常見。所以 Rust 社群開發出了一種流程，這在當 `main` 開始變大時，能作為分開執行檔程式中任務的指導原則。此流程有以下步驟：
+The organizational problem of allocating responsibility for multiple tasks to
+the `main` function is common to many binary projects. As a result, many Rust
+programmers find it useful to split up the separate concerns of a binary
+program when the `main` function starts getting large. This process has the
+following steps:
 
-* 將你的程式分成 *main.rs* 與 *lib.rs* 並將程式邏輯放到 *lib.rs*。
-* 只要你的命令列解析邏輯很小，它可以留在 *main.rs*。
-* 當命令行解析邏輯變得複雜時，就將其從 *main.rs* 移至 *lib.rs*。
+- Split your program into a _main.rs_ file and a _lib.rs_ file and move your
+  program’s logic to _lib.rs_.
+- As long as your command line parsing logic is small, it can remain in
+  the `main` function.
+- When the command line parsing logic starts getting complicated, extract it
+  from the `main` function into other functions or types.
 
-在此流程之後的 `main` 函式應該要只負責以下任務：
+The responsibilities that remain in the `main` function after this process
+should be limited to the following:
 
-* 透過引數數值呼叫命令列解析邏輯
-* 設置任何其他的配置
-* 呼叫 *lib.rs* 中的 `run` 函式
-* 如果 `run` 回傳錯誤的話，處理該錯誤
+- Calling the command line parsing logic with the argument values
+- Setting up any other configuration
+- Calling a `run` function in _lib.rs_
+- Handling the error if `run` returns an error
 
-此模式用於分開不同任務：*main.rs* 處理程式的執行，然後 *lib.rs* 處理眼前的所有任務邏輯。因為你無法直接測試 `main`，此架構讓你能測試所有移至 *lib.rs* 的程式函式邏輯。留在 *main.rs* 的程式碼會非常小，所以容易直接用閱讀來驗證。讓我們用此流程來重構程式吧。
+This pattern is about separating concerns: _main.rs_ handles running the
+program and _lib.rs_ handles all the logic of the task at hand. Because you
+can’t test the `main` function directly, this structure lets you test all of
+your program’s logic by moving it out of the `main` function. The code that
+remains in the `main` function will be small enough to verify its correctness
+by reading it. Let’s rework our program by following this process.
 
-#### 提取引數解析器
+#### Extracting the Argument Parser
 
-我們會提取解析引數的功能到一個 `main` 會呼叫的函式中，以將命令列解析邏輯妥善地移至 *src/lib.rs*。範例 12-5 展示新的 `main` 會呼叫新的函式 `parse_config`，而此函式我們先暫時留在 *src/main.rs*。
+We’ll extract the functionality for parsing arguments into a function that
+`main` will call. Listing 12-5 shows the new start of the `main` function that
+calls a new function `parse_config`, which we’ll define in _src/main.rs_.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="12-5" file-name="src/main.rs" caption="Extracting a `parse_config` function from `main`">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-05/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-5：從 `main` 提取 `parse_config` 函式</span>
+</Listing>
 
-我們仍然收集命令列引數至向量中，但不同於在 `main` 函式中將索引 1 的引數數值賦值給變數 `query` 且將索引 2 的引數數值賦值給變數 `file_path`，我們將整個向量傳至 `parse_config` 函式。`parse_config` 函式會擁有決定哪些引數要賦值給哪些變數的邏輯，並將數值回傳給 `main`。我們仍然在 `main` 中建立變數 `query` and `file_path`，但 `main` 不再負責決定命令列引數與變數之間的關係。
+We’re still collecting the command line arguments into a vector, but instead of
+assigning the argument value at index 1 to the variable `query` and the
+argument value at index 2 to the variable `file_path` within the `main`
+function, we pass the whole vector to the `parse_config` function. The
+`parse_config` function then holds the logic that determines which argument
+goes in which variable and passes the values back to `main`. We still create
+the `query` and `file_path` variables in `main`, but `main` no longer has the
+responsibility of determining how the command line arguments and variables
+correspond.
 
-此重構可能對我們的小程式來說有點像是殺雞焉用牛刀，但是我們正一小步一小步地累積重構。做了這項改變後，請再次執行程式來驗證引數解析有沒有正常運作。經常檢查你的進展是很好的，這能幫助你找出問題發生的原因。
+This rework may seem like overkill for our small program, but we’re refactoring
+in small, incremental steps. After making this change, run the program again to
+verify that the argument parsing still works. It’s good to check your progress
+often, to help identify the cause of problems when they occur.
 
-#### 集結配置數值
+#### Grouping Configuration Values
 
-我們可以再進一步改善 `parse_config` 函式。目前我們回傳的是元組，但是我們馬上又將元組拆成獨立部分。這是個我們還沒有建立正確抽象的信號。
+We can take another small step to improve the `parse_config` function further.
+At the moment, we’re returning a tuple, but then we immediately break that
+tuple into individual parts again. This is a sign that perhaps we don’t have
+the right abstraction yet.
 
-另外一個告訴我們還有改善空間的地方是 `parse_config` 名稱中的 `config`，這指示我們回傳的兩個數值是相關的，且都是配置數值的一部分。我們現在沒有確實表達出這樣的資料結構，而只有將兩個數值組合成一個元組而已，我們可以將這兩個數值存入一個結構體，並對每個結構體欄位給予有意義的名稱。這樣做能讓未來的維護者可以清楚知道這些數值的不同與關聯，以及它們的用途。
+Another indicator that shows there’s room for improvement is the `config` part
+of `parse_config`, which implies that the two values we return are related and
+are both part of one configuration value. We’re not currently conveying this
+meaning in the structure of the data other than by grouping the two values into
+a tuple; we’ll instead put the two values into one struct and give each of the
+struct fields a meaningful name. Doing so will make it easier for future
+maintainers of this code to understand how the different values relate to each
+other and what their purpose is.
 
-範例 12-6 改善了 `parse_config` 函式。
+Listing 12-6 shows the improvements to the `parse_config` function.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="12-6" file-name="src/main.rs" caption="Refactoring `parse_config` to return an instance of a `Config` struct">
 
 ```rust,should_panic,noplayground
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-06/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-6：重構 `parse_config` 來回傳 `Config` 結構體實例</span>
+</Listing>
 
-我們定義了一個結構體 `Config` 其欄位有 `query` 與 `file_path`。`parse_config` 的簽名現在指明它會回傳一個 `Config` 數值。在 `parse_config` 的本體中，我們原先回傳 `args` 中 `String` 數值參考的字串切片，現在我們定義 `Config` 來包含具所有權的 `String` 數值。`main` 中的 `args` 變數是引數數值的擁有者，而且只是借用它們給 `parse_config` 函式，這意味著如果 `Config` 嘗試取得 `args` 中數值的所有權的話，我們會違反 Rust 的借用規則。
+We’ve added a struct named `Config` defined to have fields named `query` and
+`file_path`. The signature of `parse_config` now indicates that it returns a
+`Config` value. In the body of `parse_config`, where we used to return
+string slices that reference `String` values in `args`, we now define `Config`
+to contain owned `String` values. The `args` variable in `main` is the owner of
+the argument values and is only letting the `parse_config` function borrow
+them, which means we’d violate Rust’s borrowing rules if `Config` tried to take
+ownership of the values in `args`.
 
-我們可以用許多不同的方式來管理 `String` 的資料，最簡單（卻較無效率）的方式是對數值呼叫 `clone` 方法。這會複製整個資料讓 `Config` 能夠擁有，這會比參考字串資料還要花時間與記憶體。然而克隆資料讓我們的程式碼比較直白，因為在此情況下我們就不需要管理參考的生命週期，犧牲一點效能以換取簡潔性是值得的。
+There are a number of ways we could manage the `String` data; the easiest,
+though somewhat inefficient, route is to call the `clone` method on the values.
+This will make a full copy of the data for the `Config` instance to own, which
+takes more time and memory than storing a reference to the string data.
+However, cloning the data also makes our code very straightforward because we
+don’t have to manage the lifetimes of the references; in this circumstance,
+giving up a little performance to gain simplicity is a worthwhile trade-off.
 
-> ### 使用 `clone` 的權衡取捨
+> ### The Trade-Offs of Using `clone`
 >
-> 由於 `clone` 會有運行時消耗，所以許多 Rustaceans 傾向於避免使用它來修正所有權問題。在[第十三章][ch13]<!-- ignore -->中，你會學到如何更有效率的處理這種情況。但現在我們可以先複製字串來繼續進行下去，因為你只複製了一次，而且檔案路徑與搜尋字串都算很小。先寫出較沒有效率但可執行的程式會比第一次就要過分優化還來的好。隨著你對 Rust 越熟練，你的確就可以從有效率的解決方案開始，但現在呼叫 `clone` 是完全可以接受的。
+> There’s a tendency among many Rustaceans to avoid using `clone` to fix
+> ownership problems because of its runtime cost. In
+> [Chapter 13][ch13]<!-- ignore -->, you’ll learn how to use more efficient
+> methods in this type of situation. But for now, it’s okay to copy a few
+> strings to continue making progress because you’ll make these copies only
+> once and your file path and query string are very small. It’s better to have
+> a working program that’s a bit inefficient than to try to hyperoptimize code
+> on your first pass. As you become more experienced with Rust, it’ll be
+> easier to start with the most efficient solution, but for now, it’s
+> perfectly acceptable to call `clone`.
 
-我們更新 `main` 來將 `parse_config` 回傳的 `Config` 實例儲存至 `config` 變數中，並更新之前分別使用變數 `query` 與 `file_path` 的程式碼段落來改使用 `Config` 結構體中的欄位。
+We’ve updated `main` so it places the instance of `Config` returned by
+`parse_config` into a variable named `config`, and we updated the code that
+previously used the separate `query` and `file_path` variables so it now uses
+the fields on the `Config` struct instead.
 
-現在我們的程式碼更能表達出 `query` 與 `file_path` 是相關的，而且它們的目的是配置程式的行為。任何使用這些數值的程式碼都會從 `config` 實例中的欄位名稱知道它們的用途。
+Now our code more clearly conveys that `query` and `file_path` are related and
+that their purpose is to configure how the program will work. Any code that
+uses these values knows to find them in the `config` instance in the fields
+named for their purpose.
 
-#### 建立 `Config` 的建構子
+#### Creating a Constructor for `Config`
 
-目前我們將負責解析命令列引數的邏輯從 `main` 移至 `parse_config` 函式。這樣做能幫助我們理解 `query` 與 `file_path` 數值是相關的，且此關係應該要能在我們的程式碼中表達出來。然後我們增加了結構體 `Config` 來描述 `query` 與 `file_path` 的相關性，並在 `parse_config` 函式中將數值名稱作為結構體欄位名稱來回傳。
+So far, we’ve extracted the logic responsible for parsing the command line
+arguments from `main` and placed it in the `parse_config` function. Doing so
+helped us see that the `query` and `file_path` values were related, and that
+relationship should be conveyed in our code. We then added a `Config` struct to
+name the related purpose of `query` and `file_path` and to be able to return the
+values’ names as struct field names from the `parse_config` function.
 
-所以現在 `parse_config` 函式的目的是要建立 `Config` 實例，我們可以將 `parse_config` 從普通的函式變成與 `Config` 結構體相關連的 `new` 函式。這樣做能讓程式碼更符合慣例。我們可以對像是 `String` 等標準函式庫中的型別呼叫 `String::new` 來建立實例。同樣地，透過將 `parse_config` 改為 `Config` 的關聯函式 `new`，我們可以透過呼叫 `Config::new` 來建立 `Config` 的實例。範例 12-7 正是我們要作出的改變。
+So now that the purpose of the `parse_config` function is to create a `Config`
+instance, we can change `parse_config` from a plain function to a function
+named `new` that is associated with the `Config` struct. Making this change
+will make the code more idiomatic. We can create instances of types in the
+standard library, such as `String`, by calling `String::new`. Similarly, by
+changing `parse_config` into a `new` function associated with `Config`, we’ll
+be able to create instances of `Config` by calling `Config::new`. Listing 12-7
+shows the changes we need to make.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="12-7" file-name="src/main.rs" caption="Changing `parse_config` into `Config::new`">
 
 ```rust,should_panic,noplayground
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-07/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-7：變更 `parse_config` 成 `Config::new`</span>
+</Listing>
 
-我們更新了 `main` 原先呼叫 `parse_config` 的地方來改呼叫 `Config::new`。我們變更了 `parse_config` 的名稱成 `new` 並移入 `impl` 區塊中，讓 `new` 成為 `Config` 的關聯函式。請嘗試再次編譯此程式碼來確保它能執行。
+We’ve updated `main` where we were calling `parse_config` to instead call
+`Config::new`. We’ve changed the name of `parse_config` to `new` and moved it
+within an `impl` block, which associates the `new` function with `Config`. Try
+compiling this code again to make sure it works.
 
-### 修正錯誤處理
+### Fixing the Error Handling
 
-現在我們要來修正錯誤處理。回想一下要是 `args`向量中的項目太少的話，嘗試取得向量中索引 1 或索引 2 的數值的話可能就會導致程式恐慌。試著不用任何引數執行程式的話，它會產生以下結果：
+Now we’ll work on fixing our error handling. Recall that attempting to access
+the values in the `args` vector at index 1 or index 2 will cause the program to
+panic if the vector contains fewer than three items. Try running the program
+without any arguments; it will look like this:
 
 ```console
 {{#include ../listings/ch12-an-io-project/listing-12-07/output.txt}}
 ```
 
-`index out of bounds: the len is 1 but the index is 1` 這行是給程式設計師看的錯誤訊息。這無法協助我們的終端使用者理解他們該怎麼處理。讓我們來修正吧。
+The line `index out of bounds: the len is 1 but the index is 1` is an error
+message intended for programmers. It won’t help our end users understand what
+they should do instead. Let’s fix that now.
 
-#### 改善錯誤訊息
+#### Improving the Error Message
 
-在範例 12-8 中，我們在 `new` 函式加上了一項檢查來驗證 slice 是否夠長，接著才會取得索引 1 和 2。如果 slice 不夠長的話，程式就會恐慌並顯示更清楚的錯誤訊息。
+In Listing 12-8, we add a check in the `new` function that will verify that the
+slice is long enough before accessing index 1 and index 2. If the slice isn’t
+long enough, the program panics and displays a better error message.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="12-8" file-name="src/main.rs" caption="Adding a check for the number of arguments">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-08/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-8：新增對引數數量的檢查</span>
+</Listing>
 
-此程式碼類似於我們在[範例 9-13 寫的 `Guess::new` 函式][ch9-custom-types]<!-- ignore -->，在那裡當 `value` 超出有效數值的範圍時，我們就呼叫 `panic!`。然而在此我們不是檢查數值的範圍，而是檢查 `args` 的長度是否至少為 3，然後函式剩餘的段落都能在假設此條件成立情況下正常執行。如果 `args` 的項目數量少於三的話，此條件會為真，然後我們就會立即呼叫 `panic!` 巨集來結束程式。
+This code is similar to [the `Guess::new` function we wrote in Listing
+9-13][ch9-custom-types]<!-- ignore -->, where we called `panic!` when the
+`value` argument was out of the range of valid values. Instead of checking for
+a range of values here, we’re checking that the length of `args` is at least
+`3` and the rest of the function can operate under the assumption that this
+condition has been met. If `args` has fewer than three items, this condition
+will be `true`, and we call the `panic!` macro to end the program immediately.
 
-在 `new` 多了這些額外的程式碼之後，讓我們不用任何引數再次執行程式，來看看錯誤訊息為何：
+With these extra few lines of code in `new`, let’s run the program without any
+arguments again to see what the error looks like now:
 
 ```console
 {{#include ../listings/ch12-an-io-project/listing-12-08/output.txt}}
 ```
 
-這樣的輸出就好多了，我們現在有個合理的錯誤訊息。然而我們還是顯示了一些額外資訊給使用者。也許在此使用範例 9-13 的技巧並不是最好的選擇，如同[第九章所提及的][ch9-error-guidelines]<!-- ignore -->，`panic!` 的呼叫比較屬於程式設計問題，而不是使用問題。我們可以改使用第九章的其他技巧，像是[回傳 `Result`][ch9-result]<!-- ignore -->來表達是成功還是失敗。
+This output is better: we now have a reasonable error message. However, we also
+have extraneous information we don’t want to give to our users. Perhaps the
+technique we used in Listing 9-13 isn’t the best one to use here: a call to
+`panic!` is more appropriate for a programming problem than a usage problem,
+[as discussed in Chapter 9][ch9-error-guidelines]<!-- ignore -->. Instead,
+we’ll use the other technique you learned about in Chapter 9—[returning a
+`Result`][ch9-result]<!-- ignore --> that indicates either success or an error.
 
-#### 回傳 `Result` 而非呼叫 `panic!`
+<!-- Old headings. Do not remove or links may break. -->
 
-我們可以回傳 `Result` 數值，在成功時包含 `Config` 的實例並在錯誤時描述問題原因。我們也將函式名稱從 `new` 改為 `build`，因為許多開發者通常預期 `new` 函式不會失敗。當 `Config::build` 與 `main` 溝通時，我們可以使用 `Result` 型別來表達這裡有問題發生。然後我們改變 `main` 來將 `Err` 變體轉換成適當的錯誤訊息給使用者，而不是像呼叫 `panic!` 時出現圍繞著 `thread 'main'` 與 `RUST_BACKTRACE` 的文字。
+<a id="returning-a-result-from-new-instead-of-calling-panic"></a>
 
-範例 12-9 顯示我們得改變 `Config::build` 的回傳值並讓函式本體回傳 `Result`。注意到這還不能編譯，直到我們也更新 `main` 為止，這會在下個範例解釋。
+#### Returning a `Result` Instead of Calling `panic!`
 
-<span class="filename">檔案名稱：src/main.rs</span>
+We can instead return a `Result` value that will contain a `Config` instance in
+the successful case and will describe the problem in the error case. We’re also
+going to change the function name from `new` to `build` because many
+programmers expect `new` functions to never fail. When `Config::build` is
+communicating to `main`, we can use the `Result` type to signal there was a
+problem. Then we can change `main` to convert an `Err` variant into a more
+practical error for our users without the surrounding text about `thread
+'main'` and `RUST_BACKTRACE` that a call to `panic!` causes.
+
+Listing 12-9 shows the changes we need to make to the return value of the
+function we’re now calling `Config::build` and the body of the function needed
+to return a `Result`. Note that this won’t compile until we update `main` as
+well, which we’ll do in the next listing.
+
+<Listing number="12-9" file-name="src/main.rs" caption="Returning a `Result` from `Config::build`">
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-09/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-9：從 `Config::build` 回傳 `Result`</span>
+</Listing>
 
-我們的 `build` 函式現在會回傳 `Result`，在成功時會有 `Config` 實例，而在錯誤時會有個 `&'static str`。我們的錯誤值永遠會是有 `'static` 生命週期的字串字面值。
+Our `build` function returns a `Result` with a `Config` instance in the success
+case and a string literal in the error case. Our error values will always be
+string literals that have the `'static` lifetime.
 
-我們在 `build` 函式本體作出了兩項改變：不同於呼叫 `panic!`，當使用者沒有傳遞足夠引數時，我們現在會回傳 `Err` 數值。此外我們也將 `Config` 封裝進 `Ok` 作為回傳值。這些改變讓函式能符合其新的型別簽名。
+We’ve made two changes in the body of the function: instead of calling `panic!`
+when the user doesn’t pass enough arguments, we now return an `Err` value, and
+we’ve wrapped the `Config` return value in an `Ok`. These changes make the
+function conform to its new type signature.
 
-從 `Config::build` 回傳 `Err` 數值讓 `main` 函式能處理 `build` 函式回傳的 `Result` 數值，並明確地在錯誤情況下離開程序。
+Returning an `Err` value from `Config::build` allows the `main` function to
+handle the `Result` value returned from the `build` function and exit the
+process more cleanly in the error case.
 
-#### 呼叫 `Config::build` 並處理錯誤
+<!-- Old headings. Do not remove or links may break. -->
 
-為了能處理錯誤情形並印出對使用者友善的訊息，我們需要更新 `main` 來處理 `Config::build` 回傳的 `Result`，如範例 12-10 所示。我們還要負責用一個非零的錯誤碼來離開命令列工具，這原先是 `panic!` 會處理的，現在我們得自己實作。非零退出狀態是個常見信號，用來告訴呼叫程式的程序，該程式離開時有個錯誤狀態。
+<a id="calling-confignew-and-handling-errors"></a>
 
-<span class="filename">檔案名稱：src/main.rs</span>
+#### Calling `Config::build` and Handling Errors
+
+To handle the error case and print a user-friendly message, we need to update
+`main` to handle the `Result` being returned by `Config::build`, as shown in
+Listing 12-10. We’ll also take the responsibility of exiting the command line
+tool with a nonzero error code away from `panic!` and instead implement it by
+hand. A nonzero exit status is a convention to signal to the process that
+called our program that the program exited with an error state.
+
+<Listing number="12-10" file-name="src/main.rs" caption="Exiting with an error code if building a `Config` fails">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-10/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-10：如果建立新的 `Config` 失敗時會用錯誤碼離開</span>
+</Listing>
 
-在此範例中，我們使用一個還沒詳細介紹的方法 `unwrap_or_else`，這定義在標準函式庫的 `Result<T, E>` 中。使用 `unwrap_or_else` 讓我們能定義一些自訂的非 `panic!` 錯誤處理。如果 `Result` 數值為 `Ok`，此方法行為就類似於 `unwrap`，它會回傳`Ok` 所封裝的內部數值。然而，如果數值為 `Err` 的話，此方法會呼叫**閉包**（closure）內的程式碼，這會是由我們所定義的匿名函式並作為引數傳給 `unwrap_or_else`。我們會在[第十三章][ch13]<!-- ignore -->詳細介紹閉包。現在你只需要知道 `unwrap_or_else` 會傳遞 `Err` 的內部數值，在此例中就是我們在範例 12-9 新增的靜態字串「引數不足」，將此數值傳遞給閉包中兩條直線之間的 `err` 引數。閉包內的程式碼就可以在執行時使用 `err` 數值。
+In this listing, we’ve used a method we haven’t covered in detail yet:
+`unwrap_or_else`, which is defined on `Result<T, E>` by the standard library.
+Using `unwrap_or_else` allows us to define some custom, non-`panic!` error
+handling. If the `Result` is an `Ok` value, this method’s behavior is similar
+to `unwrap`: it returns the inner value that `Ok` is wrapping. However, if the
+value is an `Err` value, this method calls the code in the _closure_, which is
+an anonymous function we define and pass as an argument to `unwrap_or_else`.
+We’ll cover closures in more detail in [Chapter 13][ch13]<!-- ignore -->. For
+now, you just need to know that `unwrap_or_else` will pass the inner value of
+the `Err`, which in this case is the static string `"not enough arguments"`
+that we added in Listing 12-9, to our closure in the argument `err` that
+appears between the vertical pipes. The code in the closure can then use the
+`err` value when it runs.
 
-我們新增了一行 `use` 來將標準函式庫中的 `process` 引入作用域。在錯誤情形下要執行的閉包程式碼只有兩行：我們印出 `err` 數值並呼叫 `process::exit`。`process::exit` 函式會立即停止程式並回傳給予的數字來作為退出狀態碼。這與範例 12-8 我們使用 `panic!` 來處理的方式類似，但我們不再顯示多餘的輸出結果。讓我們試試看：
+We’ve added a new `use` line to bring `process` from the standard library into
+scope. The code in the closure that will be run in the error case is only two
+lines: we print the `err` value and then call `process::exit`. The
+`process::exit` function will stop the program immediately and return the
+number that was passed as the exit status code. This is similar to the
+`panic!`-based handling we used in Listing 12-8, but we no longer get all the
+extra output. Let’s try it:
 
 ```console
 {{#include ../listings/ch12-an-io-project/listing-12-10/output.txt}}
 ```
 
-很好！這樣的輸出結果對使用者友善多了。
+Great! This output is much friendlier for our users.
 
-### 從 `main` 提取邏輯
+<!-- Old headings. Do not remove or links may break. -->
 
-現在我們完成配置解析的重構了，接下來輪到程式邏輯了。如同我們在[「分開執行檔專案的任務」](#分開執行檔專案的任務)<!-- ignore -->中所提及的，我們會提取一個函式叫做 `run`，這會存有目前 `main` 函式中除了設置配置或處理錯誤以外的所有邏輯。當我們完成後，`main` 會變得非常簡潔，且能輕鬆用肉眼來驗證，然後我就能對所有其他邏輯進行測試了。
+<a id="extracting-logic-from-main"></a>
 
-範例 12-11 提取了 `run` 函式。目前我們在提取函式時，會逐步作出小小的改善。我們仍然在 *src/main.rs* 底下定義函式。
+### Extracting Logic from the `main` Function
 
-<span class="filename">檔案名稱：src/main.rs</span>
+Now that we’ve finished refactoring the configuration parsing, let’s turn to
+the program’s logic. As we stated in [“Separation of Concerns for Binary
+Projects”](#separation-of-concerns-for-binary-projects)<!-- ignore -->, we’ll
+extract a function named `run` that will hold all the logic currently in the
+`main` function that isn’t involved with setting up configuration or handling
+errors. When we’re done, the `main` function will be concise and easy to verify
+by inspection, and we’ll be able to write tests for all the other logic.
+
+Listing 12-11 shows the small, incremental improvement of extracting a `run`
+function.
+
+<Listing number="12-11" file-name="src/main.rs" caption="Extracting a `run` function containing the rest of the program logic">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-11/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-11：提取 `run` 函式來包含剩餘的程式邏輯</span>
+</Listing>
 
-`run` 現在會包含 `main` 中從讀取文件開始的所有剩餘邏輯。`run` 函式會接收 `Config` 實例來作為引數。
+The `run` function now contains all the remaining logic from `main`, starting
+from reading the file. The `run` function takes the `Config` instance as an
+argument.
 
-#### 從 `run` 函式回傳錯誤
+#### Returning Errors from the `run` Function
 
-隨著剩餘程式邏輯都移至 `run` 函式，我們可以像範例 12-9 的 `Config::build` 一樣來改善錯誤處理。不同於讓程式呼叫 `expect` 來恐慌，當有問題發生時，`run` 函式會回傳 `Result<T, E>`。這能讓我們進一步穩固 `main` 中對使用者友善的處理錯誤邏輯。範例 12-12 展示我們對 `run` 的簽名與本體所需要做的改變。
+With the remaining program logic separated into the `run` function, we can
+improve the error handling, as we did with `Config::build` in Listing 12-9.
+Instead of allowing the program to panic by calling `expect`, the `run`
+function will return a `Result<T, E>` when something goes wrong. This will let
+us further consolidate the logic around handling errors into `main` in a
+user-friendly way. Listing 12-12 shows the changes we need to make to the
+signature and body of `run`.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="12-12" file-name="src/main.rs" caption="Changing the `run` function to return `Result`">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-12/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-12：變更 `run` 函式來回傳 `Result`</span>
+</Listing>
 
-我們在此做了三項明顯的修改。首先，我們改變了 `run` 函式的回傳型別為 `Result<(), Box<dyn Error>>`，此函式之前回傳的是單元型別 `()`，而它現在仍作為 `Ok` 條件內的數值。
+We’ve made three significant changes here. First, we changed the return type of
+the `run` function to `Result<(), Box<dyn Error>>`. This function previously
+returned the unit type, `()`, and we keep that as the value returned in the
+`Ok` case.
 
-對於錯誤型別，我們使用**特徵物件（trait object）** `Box<dyn Error>`（然後我們在最上方透過 `use` 陳述式來將 `std::error::Error` 引入作用域）。我們會在[第十七章][ch17]<!-- ignore -->討論特徵物件。現在你只需要知道 `Box<dyn Error>` 代表函式會回傳有實作 `Error` 特徵的型別，但我們不必指定回傳值的明確型別。這增加了回傳錯誤數值的彈性，其在不同錯誤情形中可能有不同的型別。`dyn` 關鍵字是「動態（dynamic）」的縮寫。
+For the error type, we used the _trait object_ `Box<dyn Error>` (and we’ve
+brought `std::error::Error` into scope with a `use` statement at the top).
+We’ll cover trait objects in [Chapter 18][ch18]<!-- ignore -->. For now, just
+know that `Box<dyn Error>` means the function will return a type that
+implements the `Error` trait, but we don’t have to specify what particular type
+the return value will be. This gives us flexibility to return error values that
+may be of different types in different error cases. The `dyn` keyword is short
+for _dynamic_.
 
-再來，我們移除了 `expect` 的呼叫並改為[第九章][ch9-question-mark]<!-- ignore -->所介紹的 `?` 運算子。所以與其對錯誤 `panic!`，`?` 會回傳當前函式的錯誤數值，並交由呼叫者處理。
+Second, we’ve removed the call to `expect` in favor of the `?` operator, as we
+talked about in [Chapter 9][ch9-question-mark]<!-- ignore -->. Rather than
+`panic!` on an error, `?` will return the error value from the current function
+for the caller to handle.
 
-第三，`run` 函式現在成功時會回傳 `Ok` 數值。我們在 `run` 函式簽名中的成功型別為 `()`，這意味著我們需要將單元型別封裝進 `Ok` 數值。`Ok(())` 這樣的語法一開始看可能會覺得有點奇怪，但這樣子使用 `()` 的確符合慣例，說明我們呼叫 `run` 只是為了它的副作用，它不會回傳我們需要的數值。
+Third, the `run` function now returns an `Ok` value in the success case.
+We’ve declared the `run` function’s success type as `()` in the signature,
+which means we need to wrap the unit type value in the `Ok` value. This
+`Ok(())` syntax might look a bit strange at first, but using `()` like this is
+the idiomatic way to indicate that we’re calling `run` for its side effects
+only; it doesn’t return a value we need.
 
-當你執行此程式時，它雖然能編譯但會顯示一個警告：
+When you run this code, it will compile but will display a warning:
 
 ```console
 {{#include ../listings/ch12-an-io-project/listing-12-12/output.txt}}
 ```
 
-Rust 告訴我們程式碼忽略了 `Result` 數值且 `Result` 數值可能代表會有錯誤發生。但我們沒有檢查是不是會發生錯誤，所以編譯器提醒我們可能要在此寫些錯誤處理的程式碼！我們現在就來修正此問題。
+Rust tells us that our code ignored the `Result` value and the `Result` value
+might indicate that an error occurred. But we’re not checking to see whether or
+not there was an error, and the compiler reminds us that we probably meant to
+have some error-handling code here! Let’s rectify that problem now.
 
-#### 在 `main` 中處理 `run` 回傳的錯誤
+#### Handling Errors Returned from `run` in `main`
 
-我們會用類似範例 12-10 中處理 `Config::build` 的技巧來處理錯誤，不過會有一些差別：
+We’ll check for errors and handle them using a technique similar to one we used
+with `Config::build` in Listing 12-10, but with a slight difference:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch12-an-io-project/no-listing-01-handling-errors-in-main/src/main.rs:here}}
 ```
 
-我們使用 `if let` 而非 `unwrap_or_else` 來檢查 `run` 是否有回傳 `Err` 數值，並以此呼叫 `process::exit(1)`。`run` 函式沒有回傳數值，所以我們不必像處理 `Config::build` 得用 `unwrap` 取得 `Config` 實例。因為 `run` 在成功時會回傳 `()`，而我們只在乎偵測錯誤，所以我們不需要 `unwrap_or_else` 來回傳解封裝後的數值，因為它只會是 `()`。
+We use `if let` rather than `unwrap_or_else` to check whether `run` returns an
+`Err` value and to call `process::exit(1)` if it does. The `run` function
+doesn’t return a value that we want to `unwrap` in the same way that
+`Config::build` returns the `Config` instance. Because `run` returns `()` in
+the success case, we only care about detecting an error, so we don’t need
+`unwrap_or_else` to return the unwrapped value, which would only be `()`.
 
-`if let` 的本體與 `unwrap_or_else` 函式則都做一樣的事情：印出錯誤並離開。
+The bodies of the `if let` and the `unwrap_or_else` functions are the same in
+both cases: we print the error and exit.
 
-### 將程式碼拆到函式庫 Crate
+### Splitting Code into a Library Crate
 
-我們的 `minigrep` 專案目前看起來不錯！接下來我們要將 *src/main.rs* 檔案分開來，將一些程式碼放入 *src/lib.rs* 檔案中。這樣讓我們可以測試程式碼，並讓 *src/main.rs* 檔案的負擔變得少一點。
+Our `minigrep` project is looking good so far! Now we’ll split the
+_src/main.rs_ file and put some code into the _src/lib.rs_ file. That way, we
+can test the code and have a _src/main.rs_ file with fewer responsibilities.
 
-讓我們將 `main` 以外的所有程式碼從 *src/main.rs* 移到 *src/lib.rs*：
+Let’s define the code responsible for searching text in _src/lib.rs_ rather
+than in _src/main.rs_, which will let us (or anyone else using our
+`minigrep` library) call the searching function from more contexts than our
+`minigrep` binary.
 
-* `run` 函式定義
-* 相關的 `use` 陳述式
-* `Config` 的定義
-* `Config::build` 的函式定義
+First, let’s define the `search` function signature in _src/lib.rs_ as shown in
+Listing 12-13, with a body that calls the `unimplemented!` macro. We’ll explain
+the signature in more detail when we fill in the implementation.
 
-*src/lib.rs* 的內容應該要如範例 12-13 所示（為了簡潔，我們省略了函式本體）。注意到這還無法編譯，直到我們也修改 *src/main.rs* 成範例 12-14 為止。
-
-<span class="filename">檔案名稱：src/lib.rs</span>
+<Listing number="12-13" file-name="src/lib.rs" caption="Defining the `search` function in  *src/lib.rs*">
 
 ```rust,ignore,does_not_compile
-{{#rustdoc_include ../listings/ch12-an-io-project/listing-12-13/src/lib.rs:here}}
+{{#rustdoc_include ../listings/ch12-an-io-project/listing-12-13/src/lib.rs}}
 ```
 
-<span class="caption">範例 12-13：將 `Config` 與 `run` 移至 *src/lib.rs*</span>
+</Listing>
 
-我們對許多項目都使用了 `pub` 關鍵字，這包含 `Config` 與其欄位，以及其 `build` 方法，還有 `run` 函式。我們現在有個函式庫會提供公開 API 能讓我們來測試！
+We’ve used the `pub` keyword on the function definition to designate `search`
+as part of our library crate’s public API. We now have a library crate that we
+can use from our binary crate and that we can test!
 
-現在我們需要將移至 *src/lib.rs* 的程式碼引入執行檔 crate 的 *src/main.rs* 作用域中，如範例 12-14 所示。
+Now we need to bring the code defined in _src/lib.rs_ into the scope of the
+binary crate in _src/main.rs_ and call it, as shown in Listing 12-14.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="12-14" file-name="src/main.rs" caption="Using the `minigrep` library crate’s `search` function in *src/main.rs*">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch12-an-io-project/listing-12-14/src/main.rs:here}}
 ```
 
-<span class="caption">範例 12-14：在 *src/main.rs* 使用 `minigrep` 函式庫 crate</span>
+</Listing>
 
-我們加上 `use minigrep::Config` 這行來將 `Config` 型別從函式庫 crate 引入執行檔 crate 的作用域中，然後我們使用 `run` 函式的方式是在其前面再加上 crate 的名稱。現在所有的功能都應該正常並能執行了。透過 `cargo run` 來執行程式並確保一切正常。
+We add a `use minigrep::search` line to bring the `search` function from
+the library crate into the binary crate’s scope. Then, in the `run` function,
+rather than printing out the contents of the file, we call the `search`
+function and pass the `config.query` value and `contents` as arguments. Then
+`run` will use a `for` loop to print each line returned from `search` that
+matched the query. This is also a good time to remove the `println!` calls in
+the `main` function that displayed the query and the file path so that our
+program only prints the search results (if no errors occur).
 
-哇！辛苦了，不過我們為未來的成功打下了基礎。現在處理錯誤就輕鬆多了，而且我們讓程式更模組化。現在幾乎所有的工作都會在 *src/lib.rs* 中進行。
+Note that the search function will be collecting all the results into a vector
+it returns before any printing happens. This implementation could be slow to
+display results when searching large files because results aren’t printed as
+they’re found; we’ll discuss a possible way to fix this using iterators in
+Chapter 13.
 
-讓我們利用這個新的模組化優勢來進行些原本在舊程式碼會很難處理的工作，但在新的程式碼會變得非常容易，那就是寫些測試！
+Whew! That was a lot of work, but we’ve set ourselves up for success in the
+future. Now it’s much easier to handle errors, and we’ve made the code more
+modular. Almost all of our work will be done in _src/lib.rs_ from here on out.
+
+Let’s take advantage of this newfound modularity by doing something that would
+have been difficult with the old code but is easy with the new code: we’ll
+write some tests!
 
 [ch13]: ch13-00-functional-features.html
-[ch9-custom-types]: ch09-03-to-panic-or-not-to-panic.html#建立自訂型別來驗證
-[ch9-error-guidelines]: ch09-03-to-panic-or-not-to-panic.html#錯誤處理的指導原則
+[ch9-custom-types]: ch09-03-to-panic-or-not-to-panic.html#creating-custom-types-for-validation
+[ch9-error-guidelines]: ch09-03-to-panic-or-not-to-panic.html#guidelines-for-error-handling
 [ch9-result]: ch09-02-recoverable-errors-with-result.html
-[ch17]: ch17-00-oop.html
-[ch9-question-mark]: ch09-02-recoverable-errors-with-result.html#傳播錯誤的捷徑-運算子
+[ch18]: ch18-00-oop.html
+[ch9-question-mark]: ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator

@@ -1,73 +1,129 @@
-## 將模組拆成不同檔案
+## Separating Modules into Different Files
 
-本章節目前所有的範例將數個模組定義在同一個檔案中。當模組增長時，你可能會想要將它們的定義拆開到別的檔案中，好讓程式碼容易瀏覽。
+So far, all the examples in this chapter defined multiple modules in one file.
+When modules get large, you might want to move their definitions to a separate
+file to make the code easier to navigate.
 
-舉例來說，讓我們從範例 7-17 餐廳的多重模組開始。我們會將模組拆成數個檔案，而不只是將所有模組都放在 crate 源頭檔案。在此例中，源頭檔案為 *src/lib.rs* 不過這步驟在執行檔 crate 的 *src/main.rs* 一樣可行。
+For example, let’s start from the code in Listing 7-17 that had multiple
+restaurant modules. We’ll extract modules into files instead of having all the
+modules defined in the crate root file. In this case, the crate root file is
+_src/lib.rs_, but this procedure also works with binary crates whose crate root
+file is _src/main.rs_.
 
-首先，我們將 `front_of_house` 模組移到獨立的檔案中。刪掉 `front_of_house` 模組大括號內的程式碼，只留下宣告 `mod front_of_house;`，讓 *src/lib.rs* 包含的程式碼如範例 7-21 所示。請注意在我們加上範例 7-22 的 *src/front_of_house.rs* 檔案前這會仍無法編譯。
+First we’ll extract the `front_of_house` module to its own file. Remove the
+code inside the curly brackets for the `front_of_house` module, leaving only
+the `mod front_of_house;` declaration, so that _src/lib.rs_ contains the code
+shown in Listing 7-21. Note that this won’t compile until we create the
+_src/front_of_house.rs_ file in Listing 7-22.
 
-<span class="filename">檔案名稱：src/lib.rs</span>
+<Listing number="7-21" file-name="src/lib.rs" caption="Declaring the `front_of_house` module whose body will be in *src/front_of_house.rs*">
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-21-and-22/src/lib.rs}}
 ```
 
-<span class="caption">範例 7-21：宣告 `front_of_house` 模組，其本體位於 *src/front_of_house.rs*</span>
+</Listing>
 
-接著，將原本大括號內的程式碼寫到新的檔案 *src/front_of_house.rs* 中，如範例 7-22 所示。編譯器知道要查看這個檔案，因為 crate 源頭有宣告這個模組的名稱 `front_of_house`。
+Next, place the code that was in the curly brackets into a new file named
+_src/front_of_house.rs_, as shown in Listing 7-22. The compiler knows to look
+in this file because it came across the module declaration in the crate root
+with the name `front_of_house`.
 
-<span class="filename">檔案名稱：src/front_of_house.rs</span>
+<Listing number="7-22" file-name="src/front_of_house.rs" caption="Definitions inside the `front_of_house` module in *src/front_of_house.rs*">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/listing-07-21-and-22/src/front_of_house.rs}}
 ```
 
-<span class="caption">範例 7-22：`front_of_house` 模組的定義位於 *src/front_of_house.rs*</span>
+</Listing>
 
-你只需要在模組樹中使用 `mod` 宣告一次來讀取檔案就好。一旦編譯器知道該檔案屬於專案的一部分（且知道其位在模組樹中的何處，因為你有宣告 `mod` 陳述式），專案中的其他檔案就能用宣告的路徑讀取檔案的程式碼，如同[「參考模組項目的路徑」][paths]<!-- ignore -->段落提到的一樣。換句話說，`mod` 和你在其他程式語言可能會看到的「include」動作並**不一樣**。
+Note that you only need to load a file using a `mod` declaration _once_ in your
+module tree. Once the compiler knows the file is part of the project (and knows
+where in the module tree the code resides because of where you’ve put the `mod`
+statement), other files in your project should refer to the loaded file’s code
+using a path to where it was declared, as covered in the [“Paths for Referring
+to an Item in the Module Tree”][paths]<!-- ignore --> section. In other words,
+`mod` is _not_ an “include” operation that you may have seen in other
+programming languages.
 
-要開始移動 `hosting` 的話，我們先改變 *src/front_of_house.rs*，讓它只包含 `hosting` 模組的宣告：
+Next, we’ll extract the `hosting` module to its own file. The process is a bit
+different because `hosting` is a child module of `front_of_house`, not of the
+root module. We’ll place the file for `hosting` in a new directory that will be
+named for its ancestors in the module tree, in this case _src/front_of_house_.
 
-<span class="filename">檔案名稱：src/front_of_house.rs</span>
+To start moving `hosting`, we change _src/front_of_house.rs_ to contain only
+the declaration of the `hosting` module:
+
+<Listing file-name="src/front_of_house.rs">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/no-listing-02-extracting-hosting/src/front_of_house.rs}}
 ```
 
-然後我們建立一個目錄 *src/front_of_house* 以及一個檔案 *src/front_of_house/hosting.rs* 來包含 `hosting` 模組的定義：
+</Listing>
 
-<span class="filename">檔案名稱：src/front_of_house/hosting.rs</span>
+Then we create a _src/front_of_house_ directory and a _hosting.rs_ file to
+contain the definitions made in the `hosting` module:
+
+<Listing file-name="src/front_of_house/hosting.rs">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch07-managing-growing-projects/no-listing-02-extracting-hosting/src/front_of_house/hosting.rs}}
 ```
 
-如果我們將 *hosting.rs* 放在 *src* 目錄下，編譯器會將 *hosting.rs* 的程式碼視為是宣告在 crate 源頭底下的 `hosting` 模組。編譯器決定哪些檔案屬於哪些模組的規則讓目錄與檔案架構能更貼近模組樹的架構。
+</Listing>
 
-> ### 其他種的檔案路徑
->
-> 目前我們涵蓋了 Rust 編譯器使用的最佳檔案路徑形式，但 Rust 仍然支援舊版的檔案路徑。當 crate 源頭宣告了一個模組 `front_of_house` 時，編譯器會在以下幾處尋找模組的程式碼：
->
-> * *src/front_of_house.rs*（我們介紹的）
-> * *src/front_of_house/mod.rs*（舊版風格，仍然支援的路徑形式）
->
-> 當有個 `front_of_house` 的子模組 `hosting` 宣告時，編譯器會在以下幾處尋找模組的程式碼：
->
-> * *src/front_of_house/hosting.rs*（我們介紹的）
-> * *src/front_of_house/hosting/mod.rs*（舊版風格，仍然支援的路徑形式）
->
-> 如果你對同個模組同時使用兩種風格的話，你會收到編譯器錯誤。在同個專案對不同模組使用不同風格則是允許的，但這有可能會讓瀏覽專案的人感到困惑。
->
-> 使用 *mod.rs* 檔案名稱的風格最主要的缺點是你的專案可能最後會有很多檔案都叫做 *mod.rs*，當你在編輯器同時開啟這些檔案時可能會被混淆。
+If we instead put _hosting.rs_ in the _src_ directory, the compiler would
+expect the _hosting.rs_ code to be in a `hosting` module declared in the crate
+root, and not declared as a child of the `front_of_house` module. The
+compiler’s rules for which files to check for which modules’ code mean the
+directories and files more closely match the module tree.
 
-我們將模組的程式碼搬到了不同的檔案，而模組樹仍維持完好如初。就算函式定義被移動不同檔案，`eat_at_restaurant` 內的函式呼叫不用任何修改仍能維持運作。這樣的方式讓你可以隨著模組成長時，移動到新的檔案中。
+> ### Alternate File Paths
+>
+> So far we’ve covered the most idiomatic file paths the Rust compiler uses,
+> but Rust also supports an older style of file path. For a module named
+> `front_of_house` declared in the crate root, the compiler will look for the
+> module’s code in:
+>
+> - _src/front_of_house.rs_ (what we covered)
+> - _src/front_of_house/mod.rs_ (older style, still supported path)
+>
+> For a module named `hosting` that is a submodule of `front_of_house`, the
+> compiler will look for the module’s code in:
+>
+> - _src/front_of_house/hosting.rs_ (what we covered)
+> - _src/front_of_house/hosting/mod.rs_ (older style, still supported path)
+>
+> If you use both styles for the same module, you’ll get a compiler error.
+> Using a mix of both styles for different modules in the same project is
+> allowed, but might be confusing for people navigating your project.
+>
+> The main downside to the style that uses files named _mod.rs_ is that your
+> project can end up with many files named _mod.rs_, which can get confusing
+> when you have them open in your editor at the same time.
 
-另外 *src/lib.rs* 內的 `pub use crate::front_of_house::hosting` 陳述式沒有改變，在檔案作為 crate 的一部分來編譯時，使用 `use` 的方式也沒有改變。`mod` 關鍵字能宣告模組，然後 Rust 會去同名的檔案尋找該模組的程式碼。
+We’ve moved each module’s code to a separate file, and the module tree remains
+the same. The function calls in `eat_at_restaurant` will work without any
+modification, even though the definitions live in different files. This
+technique lets you move modules to new files as they grow in size.
 
-## 總結
+Note that the `pub use crate::front_of_house::hosting` statement in
+_src/lib.rs_ also hasn’t changed, nor does `use` have any impact on what files
+are compiled as part of the crate. The `mod` keyword declares modules, and Rust
+looks in a file with the same name as the module for the code that goes into
+that module.
 
-Rust 讓你能夠將套件拆成數個 crate，然後 crate 能再分成數個模組，好讓你可以從一個模組內指定其他模組的項目。而你可以使用絕對或相對路徑來達成。這些路徑可以用 `use` 陳述式來引入作用域，讓你可以在該作用域用更短的路徑來多次呼叫該項目。模組程式碼預設為私有的，但你可以使用 `pub` 關鍵字公開它的定義內容。
+## Summary
 
-在下個章節，我們將探討在標準函式庫中的一些資料結構集合，讓你可以利用它們寫出整潔有組織的程式碼。
+Rust lets you split a package into multiple crates and a crate into modules so
+you can refer to items defined in one module from another module. You can do
+this by specifying absolute or relative paths. These paths can be brought into
+scope with a `use` statement so you can use a shorter path for multiple uses of
+the item in that scope. Module code is private by default, but you can make
+definitions public by adding the `pub` keyword.
+
+In the next chapter, we’ll look at some collection data structures in the
+standard library that you can use in your neatly organized code.
 
 [paths]: ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html

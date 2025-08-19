@@ -15,15 +15,15 @@ fn first_word(s: &str) -> &str {
 fn main() {
     let my_string = String::from("hello world");
 
-    // first_word 能用在`String` 的切片
+    // first_word works on slices of `String`s
     let word = first_word(&my_string[..]);
 
     let my_string_literal = "hello world";
 
-    // first_word 能用在字串字面值
+    // first_word works on slices of string literals
     let word = first_word(&my_string_literal[..]);
 
-    // 因為字串字面值已經是字串切片了
-    // 所以也可以不用加上字串語法！
+    // Because string literals *are* string slices already,
+    // this works too, without the slice syntax!
     let word = first_word(my_string_literal);
 }

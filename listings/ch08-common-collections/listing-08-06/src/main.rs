@@ -6,6 +6,6 @@ fn main() {
 
     v.push(6);
 
-    println!("第一個元素是：{first}");
+    println!("The first element is: {first}");
     // ANCHOR_END: here
 }

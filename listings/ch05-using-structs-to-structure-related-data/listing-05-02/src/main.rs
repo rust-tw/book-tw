@@ -9,8 +9,8 @@ struct User {
 fn main() {
     let user1 = User {
         active: true,
-        email: String::from("someone@example.com"),
         username: String::from("someusername123"),
+        email: String::from("someone@example.com"),
         sign_in_count: 1,
     };
 }

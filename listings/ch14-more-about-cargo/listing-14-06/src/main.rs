@@ -1,9 +1,9 @@
 // ANCHOR: here
-use art::mix;
 use art::PrimaryColor;
+use art::mix;
 
 fn main() {
-    // --省略--
+    // --snip--
     // ANCHOR_END: here
     let red = PrimaryColor::Red;
     let yellow = PrimaryColor::Yellow;

@@ -25,7 +25,7 @@ pub mod utils {
     /// Combines two primary colors in equal amounts to create
     /// a secondary color.
     pub fn mix(c1: PrimaryColor, c2: PrimaryColor) -> SecondaryColor {
-        // --省略--
+        // --snip--
         // ANCHOR_END: here
         unimplemented!();
         // ANCHOR: here

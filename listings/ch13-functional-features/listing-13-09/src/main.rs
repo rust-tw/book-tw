@@ -16,5 +16,5 @@ fn main() {
         num_sort_operations += 1;
         r.width
     });
-    println!("{:#?} 的排序經過 {num_sort_operations} 次運算", list);
+    println!("{list:#?}, sorted in {num_sort_operations} operations");
 }

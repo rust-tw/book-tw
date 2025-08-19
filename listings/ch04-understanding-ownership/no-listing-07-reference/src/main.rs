@@ -6,7 +6,7 @@ fn main() {
     let len = calculate_length(&s1);
     // ANCHOR_END: here
 
-    println!("'{}' 的長度為 {}。", s1, len);
+    println!("The length of '{s1}' is {len}.");
 }
 
 fn calculate_length(s: &String) -> usize {

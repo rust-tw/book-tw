@@ -4,6 +4,6 @@ fn main() {
 
     let home: IpAddr = "127.0.0.1"
         .parse()
-        .expect("寫死的 IP 位址應該要有效");
+        .expect("Hardcoded IP address should be valid");
     // ANCHOR_END: here
 }

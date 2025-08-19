@@ -1,111 +1,171 @@
-## 函式
+## Functions
 
-函式在 Rust 程式碼中無所不在。你已經見過一個語言最重要的函式了：`main` 函式是許多程式的入口點。此外你也看到了 `fn` 關鍵字能讓你宣告新的函式。
+Functions are prevalent in Rust code. You’ve already seen one of the most
+important functions in the language: the `main` function, which is the entry
+point of many programs. You’ve also seen the `fn` keyword, which allows you to
+declare new functions.
 
-Rust 程式碼使用 *snake case* 式作為函式與變數名稱的慣例風格。所有的字母都是小寫，並用底線區隔單字。以下是一支包含函式定義範例的程式：
+Rust code uses _snake case_ as the conventional style for function and variable
+names, in which all letters are lowercase and underscores separate words.
+Here’s a program that contains an example function definition:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-16-functions/src/main.rs}}
 ```
 
-我們在 Rust 中定義函式是先從 `fn` 開始，再加上函式名稱和一組括號，大括號告訴編譯器函式本體的開始與結束位置。
+We define a function in Rust by entering `fn` followed by a function name and a
+set of parentheses. The curly brackets tell the compiler where the function
+body begins and ends.
 
-我們可以輸入函式的名稱並加上括號來呼叫任何我們定義過的函式。因為 `another_function` 已經在程式中定義了，他就可以在 `main` 函式中呼叫。注意到我們是在原始碼中的 `main` 函式**之後**定義 `another_function` 的，我們當然也可以把它定義在前面。Rust 不在乎你的函式是在哪裡定義的，只需要知道它定義在作用域的某處，且能被呼叫者看到就好。
+We can call any function we’ve defined by entering its name followed by a set
+of parentheses. Because `another_function` is defined in the program, it can be
+called from inside the `main` function. Note that we defined `another_function`
+_after_ the `main` function in the source code; we could have defined it before
+as well. Rust doesn’t care where you define your functions, only that they’re
+defined somewhere in a scope that can be seen by the caller.
 
-讓我們開啟一個新的專案叫做 *functions* 來進一步探索。請將 `another_function` 範例放入 *src/main.rs* 然後執行它。你應該會看到以下輸出：
+Let’s start a new binary project named _functions_ to explore functions
+further. Place the `another_function` example in _src/main.rs_ and run it. You
+should see the following output:
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-16-functions/output.txt}}
 ```
 
-程式碼會按照 `main` 函式中的順序執行。首先，「Hello, world!」的訊息會先顯示出來，再來才會呼叫 `another_function` 並印出它的訊息。
+The lines execute in the order in which they appear in the `main` function.
+First the “Hello, world!” message prints, and then `another_function` is called
+and its message is printed.
 
-### 參數
+### Parameters
 
-我們也可以定義函式成擁有**參數（parameters）**的，這是函式簽名（signatures）中特殊的變數。當函式有參數時，你可以提供那些參數的確切數值。嚴格上來說，我們傳遞的數值會叫做**引數（arguments）**。但為了方便起見，通常大家不太會去在意兩者的區別。雖然函式定義時才叫**參數**，傳遞數值時叫做**引數**，但很多情況下都能被交換使用。
+We can define functions to have _parameters_, which are special variables that
+are part of a function’s signature. When a function has parameters, you can
+provide it with concrete values for those parameters. Technically, the concrete
+values are called _arguments_, but in casual conversation, people tend to use
+the words _parameter_ and _argument_ interchangeably for either the variables
+in a function’s definition or the concrete values passed in when you call a
+function.
 
-以下的 `another_function` 是加上參數後的版本：
+In this version of `another_function` we add a parameter:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-17-functions-with-parameters/src/main.rs}}
 ```
 
-嘗試執行程式的話，你應該會看到以下輸出結果：
+Try running this program; you should get the following output:
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-17-functions-with-parameters/output.txt}}
 ```
 
-宣告 `another_function` 時有一個參數叫做 `x`，而 `x` 的型別被指定為 `i32`。當我們傳遞 `5` 給 `another_function` 時，`println!` 巨集會將 `5` 置於格式化字串中的大括號內 `x` 的位置。
+The declaration of `another_function` has one parameter named `x`. The type of
+`x` is specified as `i32`. When we pass `5` in to `another_function`, the
+`println!` macro puts `5` where the pair of curly brackets containing `x` was
+in the format string.
 
-在函式簽名中，你**必須**宣告每個參數的型別，這是 Rust 刻意做下的設計決定：在函式定義中要求型別詮釋，代表編譯器幾乎不需要你在其他地方再提供資訊才能知道你要使用什麼型別。而且如果編譯器能知道函式預期的型別的話，它還能夠給予更有幫助的錯誤訊息。
+In function signatures, you _must_ declare the type of each parameter. This is
+a deliberate decision in Rust’s design: requiring type annotations in function
+definitions means the compiler almost never needs you to use them elsewhere in
+the code to figure out what type you mean. The compiler is also able to give
+more helpful error messages if it knows what types the function expects.
 
-如果要定義函式擁有數個參數時，會用逗號區隔開來，像這樣：
+When defining multiple parameters, separate the parameter declarations with
+commas, like this:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-18-functions-with-multiple-parameters/src/main.rs}}
 ```
 
-此範例建立了一個有兩個參數的函式 `print_labeled_measurement`，第一個參數叫做 `value` 而型別爲 `i32`，第二個參數叫做 `unit_label` 而型別爲 `char`。接著函式會印出包含 `value` 與 `unit_label` 的文字。
+This example creates a function named `print_labeled_measurement` with two
+parameters. The first parameter is named `value` and is an `i32`. The second is
+named `unit_label` and is type `char`. The function then prints text containing
+both the `value` and the `unit_label`.
 
-讓我們試著執行此程式碼，請覆蓋你的專案 *functions* 內的 *src/main.rs* 檔案內容為以上範例，然後用 `cargo run` 執行程式：
+Let’s try running this code. Replace the program currently in your _functions_
+project’s _src/main.rs_ file with the preceding example and run it using `cargo
+run`:
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-18-functions-with-multiple-parameters/output.txt}}
 ```
 
-因為我們呼叫函式時，將 `5` 給了 `value` 且將 `'h'` 給了 `unit_label`，程式輸出就會包含這些數值。
+Because we called the function with `5` as the value for `value` and `'h'` as
+the value for `unit_label`, the program output contains those values.
 
-### 陳述式與表達式
+### Statements and Expressions
 
-函式本體是由一系列的陳述式（statements）並在最後可以選擇加上表達式（expression）來組成。目前我們只講了沒有用到表達式做結尾的函式。由於 Rust 是門基於表達式（expression-based）的語言，知道這樣的區別是很重要的。其他語言通常沒有這樣的區別，所以現在讓我們來看看陳述式和表達式有什麼不同，以及它們怎麼影響函式本體。
+Function bodies are made up of a series of statements optionally ending in an
+expression. So far, the functions we’ve covered haven’t included an ending
+expression, but you have seen an expression as part of a statement. Because
+Rust is an expression-based language, this is an important distinction to
+understand. Other languages don’t have the same distinctions, so let’s look at
+what statements and expressions are and how their differences affect the bodies
+of functions.
 
-* **陳述式**（Statements）是進行一些動作的指令，且不回傳任何數值。
-* **表達式**（Expressions）則是計算並產生數值。讓我們來看一些範例：
+- Statements are instructions that perform some action and do not return
+  a value.
+- Expressions evaluate to a resultant value.
 
-我們其實已經使用了很多次陳述式與表達式。建立一個變數然後用 `let` 關鍵字賦值給它就是一道陳述式。在範例 3-1 中的 `let y = 6;` 就是個陳述式。
+Let’s look at some examples.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+We’ve actually already used statements and expressions. Creating a variable and
+assigning a value to it with the `let` keyword is a statement. In Listing 3-1,
+`let y = 6;` is a statement.
+
+<Listing number="3-1" file-name="src/main.rs" caption="A `main` function declaration containing one statement">
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/listing-03-01/src/main.rs}}
 ```
 
-<span class="caption">範例 3-1：包含一道陳述式的 `main` 函式宣告</span>
+</Listing>
 
-此函式定義也是陳述式，整個範例本身就是一個陳述式。
+Function definitions are also statements; the entire preceding example is a
+statement in itself. (As we’ll see below, _calling_ a function is not a
+statement, though.)
 
-陳述式不會回傳數值，因此你無法將 `let` 陳述式賦值給其他變數。如同以下程式碼所做的，你將會得到一個錯誤：
+Statements do not return values. Therefore, you can’t assign a `let` statement
+to another variable, as the following code tries to do; you’ll get an error:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-19-statements-vs-expressions/src/main.rs}}
 ```
 
-當你執行此程式時，你就會看到這樣的錯誤訊息：
+When you run this program, the error you’ll get looks like this:
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-19-statements-vs-expressions/output.txt}}
 ```
 
-`let y = 6` 陳述式不回傳數值，所以 `x` 得不到任何數值。這就和其他語言有所不同，像是 C 或 Ruby，通常它們的賦值仍能回傳所得到的值。在那些語言，你可以寫 `x = y = 6` 同時讓 `x` 與 `y` 都取得 `6`，但在 Rust 就不行。
+The `let y = 6` statement does not return a value, so there isn’t anything for
+`x` to bind to. This is different from what happens in other languages, such as
+C and Ruby, where the assignment returns the value of the assignment. In those
+languages, you can write `x = y = 6` and have both `x` and `y` have the value
+`6`; that is not the case in Rust.
 
-表達式則會運算出一個數值，並組合成你大部分所寫的 Rust 程式。先想想看一個數學運算比如 `5 + 6`，這就是個會算出 `11` 的表達式。表達式可以是陳述式的一部分：在範例 3-1 中 `let y = 6;` 的 `6` 其實就是個算出 `6` 的表達式。呼叫函式也可以是表達式、呼叫巨集也是表達式、我們用 `{}` 產生的作用域也是表達式。舉例來說：
+Expressions evaluate to a value and make up most of the rest of the code that
+you’ll write in Rust. Consider a math operation, such as `5 + 6`, which is an
+expression that evaluates to the value `11`. Expressions can be part of
+statements: in Listing 3-1, the `6` in the statement `let y = 6;` is an
+expression that evaluates to the value `6`. Calling a function is an
+expression. Calling a macro is an expression. A new scope block created with
+curly brackets is an expression, for example:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-20-blocks-are-expressions/src/main.rs}}
 ```
 
-此表達式：
+This expression:
 
 ```rust,ignore
 {
@@ -114,52 +174,81 @@ Rust 程式碼使用 *snake case* 式作為函式與變數名稱的慣例風格�
 }
 ```
 
-就是一個會回傳 `4` 的區塊，此值再用 `let` 陳述式賦值給 `y`。請注意到 `x + 1` 這行沒有加上分號，它和你目前看到的寫法有點不同，因為表達式結尾不會加上分號。如果你在此表達式加上分號的話，它就不會回傳數值。在我們繼續探討函式回傳值與表達式的同時請記住這一點。
+is a block that, in this case, evaluates to `4`. That value gets bound to `y`
+as part of the `let` statement. Note that the `x + 1` line doesn’t have a
+semicolon at the end, which is unlike most of the lines you’ve seen so far.
+Expressions do not include ending semicolons. If you add a semicolon to the end
+of an expression, you turn it into a statement, and it will then not return a
+value. Keep this in mind as you explore function return values and expressions
+next.
 
-### 函式回傳值
+### Functions with Return Values
 
-函式可以回傳數值給呼叫它們的程式碼，我們不會為回傳值命名，但我們必須用箭頭（`->`）來宣告它們的型別。在 Rust 中，回傳值其實就是函式本體最後一行的表達式。你可以用 `return` 關鍵字加上一個數值來提早回傳函式，但多數函式都能用最後一行的表達式作為數值回傳。以下是一個有回傳數值的函式範例：
+Functions can return values to the code that calls them. We don’t name return
+values, but we must declare their type after an arrow (`->`). In Rust, the
+return value of the function is synonymous with the value of the final
+expression in the block of the body of a function. You can return early from a
+function by using the `return` keyword and specifying a value, but most
+functions return the last expression implicitly. Here’s an example of a
+function that returns a value:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-21-function-return-values/src/main.rs}}
 ```
 
-在 `five` 函式中沒有任何函式呼叫、巨集甚至是 `let` 陳述式，只有一個 `5`。這在 Rust 中完全是合理的函式。請注意到函式的回傳型別也有指明，就是 `-> i32`。嘗試執行此程式的話，輸出結果就會像是這樣：
+There are no function calls, macros, or even `let` statements in the `five`
+function—just the number `5` by itself. That’s a perfectly valid function in
+Rust. Note that the function’s return type is specified too, as `-> i32`. Try
+running this code; the output should look like this:
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-21-function-return-values/output.txt}}
 ```
 
-`five` 中的 `5` 就是函式的回傳值，這就是為何回傳型別是 `i32`。讓我們進一步研究細節，這邊有兩個重要的地方：首先這行 `let x = five();` 顯示了我們用函式的回傳值作為變數的初始值。因為函式 `five` 回傳 `5`，所以這行和以下程式碼相同：
+The `5` in `five` is the function’s return value, which is why the return type
+is `i32`. Let’s examine this in more detail. There are two important bits:
+first, the line `let x = five();` shows that we’re using the return value of a
+function to initialize a variable. Because the function `five` returns a `5`,
+that line is the same as the following:
 
 ```rust
 let x = 5;
 ```
 
-再來，`five` 函式沒有參數但有定義回傳值的型別。所以函式本體只需有一個 `5` 就好，不需加上分號，這樣就能當做表達式回傳我們想要的數值。
+Second, the `five` function has no parameters and defines the type of the
+return value, but the body of the function is a lonely `5` with no semicolon
+because it’s an expression whose value we want to return.
 
-讓我們再看另一個例子：
+Let’s look at another example:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-22-function-parameter-and-return/src/main.rs}}
 ```
 
-執行此程式會顯示 `x 的數值為：6`，但如果我們在最後一行 `x + 1` 加上分號的話，就會將它從表達式變為陳述式。我們就會得到錯誤：
+Running this code will print `The value of x is: 6`. But if we place a
+semicolon at the end of the line containing `x + 1`, changing it from an
+expression to a statement, we’ll get an error:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<span class="filename">Filename: src/main.rs</span>
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-23-statements-dont-return-values/src/main.rs}}
 ```
 
-編譯此程式就會產生以下錯誤：
+Compiling this code produces an error, as follows:
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/no-listing-23-statements-dont-return-values/output.txt}}
 ```
 
-錯誤訊息 `mismatched types` 就告訴了我們此程式碼的核心問題。`plus_one` 的函式定義說它會回傳 `i32` 但是陳述式不會回傳任何數值。我們用單元型別 `()` 表示不會回傳任何值。因此沒有任何值被回傳，這和函式定義相牴觸，最後產生錯誤。在此輸出結果，Rust 提供了一道訊息來協助解決問題：它建議移除分號，這樣就能修正錯誤。
+The main error message, `mismatched types`, reveals the core issue with this
+code. The definition of the function `plus_one` says that it will return an
+`i32`, but statements don’t evaluate to a value, which is expressed by `()`,
+the unit type. Therefore, nothing is returned, which contradicts the function
+definition and results in an error. In this output, Rust provides a message to
+possibly help rectify this issue: it suggests removing the semicolon, which
+would fix the error.

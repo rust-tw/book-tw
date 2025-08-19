@@ -1,335 +1,617 @@
-## 透過生命週期驗證參考
+## Validating References with Lifetimes
 
-生命週期（lifetime）是另一種我們已經使用過的泛型。不同於確保一個型別有沒有我們要的行為，生命週期確保我們在需要參考的時候，它們都是有效的。
+Lifetimes are another kind of generic that we’ve already been using. Rather
+than ensuring that a type has the behavior we want, lifetimes ensure that
+references are valid as long as we need them to be.
 
-我們在第四章的[「參考與借用」][references-and-borrowing]<!-- ignore -->段落沒談到的是，Rust 中的每個參考都有個**生命週期**，這是決定該參考是否有效的作用域。大多情況下生命週期是隱式且可推導出來的，就像大多情況下型別是可推導出來的。當多種型別都有可能時，我們就得詮釋型別。同樣地，當生命週期的參考能以不同方式關聯的話，我們就得詮釋生命週期。Rust 要求我們用泛型生命週期參數來詮釋參考之間的關係，以確保實際在執行時的參考絕對是有效的。
+One detail we didn’t discuss in the [“References and
+Borrowing”][references-and-borrowing]<!-- ignore --> section in Chapter 4 is
+that every reference in Rust has a _lifetime_, which is the scope for which
+that reference is valid. Most of the time, lifetimes are implicit and inferred,
+just like most of the time, types are inferred. We are only required to
+annotate types when multiple types are possible. In a similar way, we have to
+annotate lifetimes when the lifetimes of references could be related in a few
+different ways. Rust requires us to annotate the relationships using generic
+lifetime parameters to ensure the actual references used at runtime will
+definitely be valid.
 
-詮釋生命週期在大多數的程式語言中都沒有這個概念，所以這段可能會有點讓你覺得陌生。雖然我們不會在此章涵蓋所有生命週期的內容，但是我們會講些你可能遇到生命週期的常見場景，好讓你更加熟悉這個概念。
+Annotating lifetimes is not even a concept most other programming languages
+have, so this is going to feel unfamiliar. Although we won’t cover lifetimes in
+their entirety in this chapter, we’ll discuss common ways you might encounter
+lifetime syntax so you can get comfortable with the concept.
 
-### 透過生命週期預防迷途參考
+### Preventing Dangling References with Lifetimes
 
-生命週期最主要的目的就是要預防**迷途參考**（dangling references），其會導致程式參考到其他資料，而非它原本想要的參考。請看一下範例 10-16 的程式，它有一個外部作用域與內部作用域。
+The main aim of lifetimes is to prevent _dangling references_, which cause a
+program to reference data other than the data it’s intended to reference.
+Consider the program in Listing 10-16, which has an outer scope and an inner
+scope.
+
+<Listing number="10-16" caption="An attempt to use a reference whose value has gone out of scope">
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-16/src/main.rs}}
 ```
 
-<span class="caption">範例 10-16：嘗試使用其值已經離開作用域的參考</span>
+</Listing>
 
-> 注意：範例 10-16、10-17 與 10-23 宣告變數時都沒有給予初始數值，所以變數名稱可以存在於外部作用域。乍看之下這似乎違反 Rust 不存在空值的原則。但是如果我們嘗試在賦值前使用變數的話，我們就會獲得編譯期錯誤，這證明 Rust 的確不允許空值。
+> Note: The examples in Listings 10-16, 10-17, and 10-23 declare variables
+> without giving them an initial value, so the variable name exists in the outer
+> scope. At first glance, this might appear to be in conflict with Rust’s having
+> no null values. However, if we try to use a variable before giving it a value,
+> we’ll get a compile-time error, which shows that Rust indeed does not allow
+> null values.
 
-外部作用域宣告了一個沒有初始值的變數 `r`，然後內部作用域宣告了一個初始值為 5 的變數 `x`。在內部作用域中，我們嘗試將 `x` 的參考賦值給 `r`。然後內部作用域結束後，我們嘗試印出 `r`。此程式碼不會編譯成功，因為數值 `r` 指向的數值在我們嘗試使用它時已經離開作用域。以下是錯誤訊息。
+The outer scope declares a variable named `r` with no initial value, and the
+inner scope declares a variable named `x` with the initial value of `5`. Inside
+the inner scope, we attempt to set the value of `r` as a reference to `x`. Then
+the inner scope ends, and we attempt to print the value in `r`. This code won’t
+compile because the value that `r` is referring to has gone out of scope before
+we try to use it. Here is the error message:
 
 ```console
 {{#include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-16/output.txt}}
 ```
 
-變數 `x` 「存在的不夠久」。原因是因為當內部作用域在第 7 行結束時，`x` 會離開作用域。但是 `r` 卻還在外部作用域中有效，我們會說的「活得比較久」。如果 Rust 允許此程式碼可以執行的話，`r` 就會參考到 `x` 離開作用域後被釋放的記憶體位置，然後我們嘗試對 `r` 做的事情都不會是正確的了。所以 Rust 如何決定此程式碼無效呢？它使用了借用檢查器。
+The error message says that the variable `x` “does not live long enough.” The
+reason is that `x` will be out of scope when the inner scope ends on line 7.
+But `r` is still valid for the outer scope; because its scope is larger, we say
+that it “lives longer.” If Rust allowed this code to work, `r` would be
+referencing memory that was deallocated when `x` went out of scope, and
+anything we tried to do with `r` wouldn’t work correctly. So how does Rust
+determine that this code is invalid? It uses a borrow checker.
 
-### 借用檢查器
+### The Borrow Checker
 
-Rust 編譯器有個**借用檢查器**（borrow checker）會比較作用域來檢測所有的借用是否有效。範例 10-17 顯示了範例 10-16 的程式碼，但加上了變數生命週期的詮釋。
+The Rust compiler has a _borrow checker_ that compares scopes to determine
+whether all borrows are valid. Listing 10-17 shows the same code as Listing
+10-16 but with annotations showing the lifetimes of the variables.
+
+<Listing number="10-17" caption="Annotations of the lifetimes of `r` and `x`, named `'a` and `'b`, respectively">
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-17/src/main.rs}}
 ```
 
-<span class="caption">範例 10-17：變數 `r` 與 `x` 的生命週期詮釋，分別以 `'a` 和 `'b` 作為表示</span>
+</Listing>
 
-我們在此定義 `r` 的生命週期詮釋為 `'a` 而 `x` 的生命週期為 `'b`。如同你所見，內部的 `'b` 區塊比外部的 `'a` 生命週期區塊還小。在編譯期間，Rust 會比較兩個生命週期的大小，並看出 `r` 有生命週期 `'a` 但它參考的記憶體有生命週期 `'b`。程式被回絕的原因是因為 `'b` 比 `'a` 還短：被參考的對象比參考者存在的時間還短。
+Here, we’ve annotated the lifetime of `r` with `'a` and the lifetime of `x`
+with `'b`. As you can see, the inner `'b` block is much smaller than the outer
+`'a` lifetime block. At compile time, Rust compares the size of the two
+lifetimes and sees that `r` has a lifetime of `'a` but that it refers to memory
+with a lifetime of `'b`. The program is rejected because `'b` is shorter than
+`'a`: the subject of the reference doesn’t live as long as the reference.
 
-範例 10-18 修正了此程式碼讓它不會存在迷途參考，並能夠正確編譯。
+Listing 10-18 fixes the code so it doesn’t have a dangling reference and it
+compiles without any errors.
+
+<Listing number="10-18" caption="A valid reference because the data has a longer lifetime than the reference">
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-18/src/main.rs}}
 ```
 
-<span class="caption">範例 10-18：一個有效參考，因為資料比參考的生命週期還長</span>
+</Listing>
 
-`x` 在此有生命週期 `'b`，此時它比 `'a` 還長。這代表 `r` 可以參考 `x`，因為 Rust 知道 `r` 的參考在 `x` 是有效的時候永遠是有效的。
+Here, `x` has the lifetime `'b`, which in this case is larger than `'a`. This
+means `r` can reference `x` because Rust knows that the reference in `r` will
+always be valid while `x` is valid.
 
-現在你知道參考的生命週期，以及 Rust 如何分析生命週期以確保參考永遠有效了。讓我們來探索函式中參數與回傳值的泛型生命週期。
+Now that you know where the lifetimes of references are and how Rust analyzes
+lifetimes to ensure references will always be valid, let’s explore generic
+lifetimes of parameters and return values in the context of functions.
 
-### 函式中的泛型生命週期
+### Generic Lifetimes in Functions
 
-讓我們寫個回傳兩個字串切片中較長者的函式。此函式會接收兩個字串切片並回傳一個字串切片。在我們實作 `longest` 函式後，範例 10-19 的程式碼應該要印出 `最長的字串為 abcd`。
+We’ll write a function that returns the longer of two string slices. This
+function will take two string slices and return a single string slice. After
+we’ve implemented the `longest` function, the code in Listing 10-19 should
+print `The longest string is abcd`.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="10-19" file-name="src/main.rs" caption="A `main` function that calls the `longest` function to find the longer of two string slices">
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-19/src/main.rs}}
 ```
 
-<span class="caption">範例 10-19：`main` 函式呼叫 `longest` 函式來找出兩個字串切片中較長的</span>
+</Listing>
 
-注意我們想要函式接收的是字串切片的參考，而不是字串，因為我們不希望 `longest` 函式會取得它參數的所有權。第四章的[「字串切片作為參數」][string-slices-as-parameters]<!-- ignore -->段落有提到為何範例 10-19 的參數正是我們所想要使用的參數。
+Note that we want the function to take string slices, which are references,
+rather than strings, because we don’t want the `longest` function to take
+ownership of its parameters. Refer to [“String Slices as
+Parameters”][string-slices-as-parameters]<!-- ignore --> in Chapter 4 for more
+discussion about why the parameters we use in Listing 10-19 are the ones we
+want.
 
-如果我們嘗試實作 `longest` 函式時，如範例 10-20 所示，它不會編譯過。
+If we try to implement the `longest` function as shown in Listing 10-20, it
+won’t compile.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="10-20" file-name="src/main.rs" caption="An implementation of the `longest` function that returns the longer of two string slices but does not yet compile">
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-20/src/main.rs:here}}
 ```
 
-<span class="caption">範例 10-20：回傳兩個字串中較長者的 `longest` 函式實作，不過無法編譯成功</span>
+</Listing>
 
-我們會看到以下關於生命週期的錯誤：
+Instead, we get the following error that talks about lifetimes:
 
 ```console
 {{#include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-20/output.txt}}
 ```
 
-提示文字表示回傳型別需要有一個泛型生命週期參數，因為 Rust 無法辨別出回傳的參考指的是 `x` 還是 `y`。事實上，我們也不知道，因為函式本體中的 `if` 區塊會回傳 `x` 的參考而 `else` 區塊會回傳 `y` 的參考！
+The help text reveals that the return type needs a generic lifetime parameter
+on it because Rust can’t tell whether the reference being returned refers to
+`x` or `y`. Actually, we don’t know either, because the `if` block in the body
+of this function returns a reference to `x` and the `else` block returns a
+reference to `y`!
 
-當我們定義函式時，我們不知道傳遞進此函式的實際數值會是什麼，所以我們不知道到底是 `if` 或 `else` 的區塊會被執行。我們也不知道傳遞進來的參考實際的生命週期為何，所以我們無法像範例 10-17 和 10-18 那樣觀察作用域，來判定我們回傳的參考會永遠有效。要修正此錯誤，我們要加上泛型生命週期參數來定義參考之間的關係，讓借用檢查器能夠進行分析。
+When we’re defining this function, we don’t know the concrete values that will
+be passed into this function, so we don’t know whether the `if` case or the
+`else` case will execute. We also don’t know the concrete lifetimes of the
+references that will be passed in, so we can’t look at the scopes as we did in
+Listings 10-17 and 10-18 to determine whether the reference we return will
+always be valid. The borrow checker can’t determine this either, because it
+doesn’t know how the lifetimes of `x` and `y` relate to the lifetime of the
+return value. To fix this error, we’ll add generic lifetime parameters that
+define the relationship between the references so the borrow checker can
+perform its analysis.
 
-### 生命週期詮釋語法
+### Lifetime Annotation Syntax
 
-生命週期詮釋（Lifetime Annotation）不會改變參考能存活多久，它們僅描述了數個參考的生命週期之間互相的關係，而不會影響其生命週期。就像當函式簽名指定了一個泛型型別參數時，函式便能夠接受任意型別一樣。函式可以指定一個泛型生命週期參數，這樣函式就能接受任何生命週期。
+Lifetime annotations don’t change how long any of the references live. Rather,
+they describe the relationships of the lifetimes of multiple references to each
+other without affecting the lifetimes. Just as functions can accept any type
+when the signature specifies a generic type parameter, functions can accept
+references with any lifetime by specifying a generic lifetime parameter.
 
-生命週期詮釋的語法有一點不一樣：生命週期參數的名稱必須以撇號（`'`）作為開頭，通常全是小寫且很短，就像泛型型別一樣。大多數的人會使用名稱 `'a` 作為第一個生命週期詮釋。我們將生命週期參數置於參考的 `&` 之後，並使用空格區隔詮釋與參考的型別。
+Lifetime annotations have a slightly unusual syntax: the names of lifetime
+parameters must start with an apostrophe (`'`) and are usually all lowercase
+and very short, like generic types. Most people use the name `'a` for the first
+lifetime annotation. We place lifetime parameter annotations after the `&` of a
+reference, using a space to separate the annotation from the reference’s type.
 
-以下是一些例子：沒有生命週期參數的 `i32` 參考、有生命週期 `'a` 的 `i32` 參考以及有生命週期 `'a` 的 `i32` 可變參考。
+Here are some examples: a reference to an `i32` without a lifetime parameter, a
+reference to an `i32` that has a lifetime parameter named `'a`, and a mutable
+reference to an `i32` that also has the lifetime `'a`.
 
 ```rust,ignore
-&i32        // 一個參考
-&'a i32     // 一個有顯式生命週期的參考
-&'a mut i32 // 一個有顯式生命週期的可變參考
+&i32        // a reference
+&'a i32     // a reference with an explicit lifetime
+&'a mut i32 // a mutable reference with an explicit lifetime
 ```
 
-只有自己一個生命週期本身沒有多少意義，因為該詮釋是為了告訴 Rust 數個參考的泛型生命週期參數之間互相的關係。讓我們來研究生命週期詮釋如何在 `longest` 函式中相互關聯吧。
+One lifetime annotation by itself doesn’t have much meaning because the
+annotations are meant to tell Rust how generic lifetime parameters of multiple
+references relate to each other. Let’s examine how the lifetime annotations
+relate to each other in the context of the `longest` function.
 
-### 函式簽名中的生命週期詮釋
+### Lifetime Annotations in Function Signatures
 
-要在函式簽名使用生命週期詮釋的話，我們需要在函式名稱與參數列表之間的尖括號內宣告泛型**生命週期**參數，就像泛型**型別**參數那樣。
+To use lifetime annotations in function signatures, we need to declare the
+generic _lifetime_ parameters inside angle brackets between the function name
+and the parameter list, just as we did with generic _type_ parameters.
 
-我們想在此簽名表達這樣的限制：只要所有參數都要是有效的，那麼回傳的參考才也會是有效的。也就是參數的生命週期與回傳參考的生命週期是相關的。我們會將生命週期命名為 `'a` 然後將它加到每個參考，如範例 10-21 所示。
+We want the signature to express the following constraint: the returned
+reference will be valid as long as both the parameters are valid. This is the
+relationship between lifetimes of the parameters and the return value. We’ll
+name the lifetime `'a` and then add it to each reference, as shown in Listing
+10-21.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="10-21" file-name="src/main.rs" caption="The `longest` function definition specifying that all the references in the signature must have the same lifetime `'a`">
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-21/src/main.rs:here}}
 ```
 
-<span class="caption">範例 10-21：`longest` 函式定義指定所有簽名中的參考必須有相同的生命週期 `'a`</span>
+</Listing>
 
-此程式碼能夠編譯成功並產生我們希望在範例 10-19 的 `main` 函式中得到的結果。
+This code should compile and produce the result we want when we use it with the
+`main` function in Listing 10-19.
 
-此函式簽名告訴 Rust 它有個生命週期 `'a`，函式的兩個參數都是字串切片，並且會有生命週期`'a`。此函式簽名還告訴了 Rust 從函式回傳的字串切片也會和生命週期 `'a` 存活的一樣久。實際上它代表 `longest` 函式回傳參考的生命週期與函式引數傳入時生命週期較短的參考的生命週期一樣。這樣的關係正是我們想讓 Rust 知道以便分析這段程式碼。
+The function signature now tells Rust that for some lifetime `'a`, the function
+takes two parameters, both of which are string slices that live at least as
+long as lifetime `'a`. The function signature also tells Rust that the string
+slice returned from the function will live at least as long as lifetime `'a`.
+In practice, it means that the lifetime of the reference returned by the
+`longest` function is the same as the smaller of the lifetimes of the values
+referred to by the function arguments. These relationships are what we want
+Rust to use when analyzing this code.
 
-注意當我們在此函式簽名指定生命週期參數時，我們不會變更任何傳入或傳出數值的生命週期。我們只是告訴借用檢查器應該要拒絕任何沒有服從這些約束的數值。注意到 `longest` 函式不需要知道 `x` 和 `y` 實際上會活多久，只需要知道有某個作用域會用 `'a` 取代來滿足此簽名。
+Remember, when we specify the lifetime parameters in this function signature,
+we’re not changing the lifetimes of any values passed in or returned. Rather,
+we’re specifying that the borrow checker should reject any values that don’t
+adhere to these constraints. Note that the `longest` function doesn’t need to
+know exactly how long `x` and `y` will live, only that some scope can be
+substituted for `'a` that will satisfy this signature.
 
-當要在函式詮釋生命週期時，詮釋會位於函式簽名中，而不是函式本體。就像型別會寫在簽名中一樣，生命週期詮釋會成為函式的一部份。在函式簽名加上生命週期能讓 Rust 編譯器的分析工作變得更輕鬆。如果當函式的詮釋或呼叫的方式出問題時，編譯器錯誤就能限縮到我們的程式碼中指出來。如果都改讓 Rust 編譯器去推導可能的生命週期關係的話，編譯器可能會指到程式碼真正出錯之後的好幾步之後。
+When annotating lifetimes in functions, the annotations go in the function
+signature, not in the function body. The lifetime annotations become part of
+the contract of the function, much like the types in the signature. Having
+function signatures contain the lifetime contract means the analysis the Rust
+compiler does can be simpler. If there’s a problem with the way a function is
+annotated or the way it is called, the compiler errors can point to the part of
+our code and the constraints more precisely. If, instead, the Rust compiler
+made more inferences about what we intended the relationships of the lifetimes
+to be, the compiler might only be able to point to a use of our code many steps
+away from the cause of the problem.
 
-當我們向 `longest` 傳入實際參考時，`'a` 實際替代的生命週期為 `x` 作用域與 `y` 作用域重疊的部分。換句話說，泛型生命週期 `'a` 取得的生命週期會等於 `x` 與 `y` 的生命週期中較短的。因為我們將回傳的參考詮釋了相同的生命週期參數 `'a`，回傳參考的生命週期也會保證在 `x` 和 `y` 的生命週期較短的結束前有效。
+When we pass concrete references to `longest`, the concrete lifetime that is
+substituted for `'a` is the part of the scope of `x` that overlaps with the
+scope of `y`. In other words, the generic lifetime `'a` will get the concrete
+lifetime that is equal to the smaller of the lifetimes of `x` and `y`. Because
+we’ve annotated the returned reference with the same lifetime parameter `'a`,
+the returned reference will also be valid for the length of the smaller of the
+lifetimes of `x` and `y`.
 
-讓我們來看看如何透過傳入不同實際生命週期的參考來使生命週期詮釋能約束 `longest` 函式，如範例 10-22 所示。
+Let’s look at how the lifetime annotations restrict the `longest` function by
+passing in references that have different concrete lifetimes. Listing 10-22 is
+a straightforward example.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="10-22" file-name="src/main.rs" caption="Using the `longest` function with references to `String` values that have different concrete lifetimes">
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-22/src/main.rs:here}}
 ```
 
-<span class="caption">範例 10-22 使用 `longest` 函式並傳入 `String` 數值的參考，但兩個參數的實際生命週期均不相同</span>
+</Listing>
 
-在此例中 `string1` 在外部作用域結束前都有效，而 `string2` 在內部作用域結束前都有效，然後 `result` 會取得某個有效參考直到內部作用域結束為止。執行此程式的話，你會看到借用檢查器認可此程式碼，它會編譯成功然後印出 `最長的字串為 很長的長字串`。
+In this example, `string1` is valid until the end of the outer scope, `string2`
+is valid until the end of the inner scope, and `result` references something
+that is valid until the end of the inner scope. Run this code and you’ll see
+that the borrow checker approves; it will compile and print `The longest string
+is long string is long`.
 
-接下來，讓我們寫一個範例能要求 `result` 生命週期的參考必須是兩個引數中較短的才行。我們會移動變數 `result` 的宣告到外部作用域，但保留變數 `result` 的賦值與 `string2` 一樣在內部作用域。然後我們也將使用到 `result` 的 `println!` 移到外部作用域，緊接在內部作用域結束之後。如範例 10-23 所示，此程式碼會編譯不過。
+Next, let’s try an example that shows that the lifetime of the reference in
+`result` must be the smaller lifetime of the two arguments. We’ll move the
+declaration of the `result` variable outside the inner scope but leave the
+assignment of the value to the `result` variable inside the scope with
+`string2`. Then we’ll move the `println!` that uses `result` to outside the
+inner scope, after the inner scope has ended. The code in Listing 10-23 will
+not compile.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="10-23" file-name="src/main.rs" caption="Attempting to use `result` after `string2` has gone out of scope">
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-23/src/main.rs:here}}
 ```
 
-<span class="caption">範例 10-23：嘗試在 `string2` 離開作用域後使用 `result`</span>
+</Listing>
 
-當我們嘗試編譯此程式碼，我們會看到以下錯誤：
+When we try to compile this code, we get this error:
 
 ```console
 {{#include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-23/output.txt}}
 ```
 
-錯誤訊息表示要讓 `result` 在 `println!` 陳述式有效的話，`string2` 必須在外部作用域結束前都是有效的。Rust 會知道是因為我們在函式的參數與回傳值使用相同的生命週期 `'a` 來詮釋。
+The error shows that for `result` to be valid for the `println!` statement,
+`string2` would need to be valid until the end of the outer scope. Rust knows
+this because we annotated the lifetimes of the function parameters and return
+values using the same lifetime parameter `'a`.
 
-身為人類我們能看出此程式碼的 `string1` 字串長度的確比 `string2` 長，因此 `result` 會包含 `string1` 的參考。因為 `string1` 尚未離開作用域，所以 `string1` 的參考在 `println!` 陳述式中仍然是有效的才對。然而編譯器在此情形會無法看出參考是有效的。所以我們才告訴 Rust `longest` 函式回傳參考的生命週期等同於傳入參考中較短的生命週期。這樣一來借用檢查器就會否決範例 10-23 的程式碼，因為它可能會有無效的參考。
+As humans, we can look at this code and see that `string1` is longer than
+`string2`, and therefore, `result` will contain a reference to `string1`.
+Because `string1` has not gone out of scope yet, a reference to `string1` will
+still be valid for the `println!` statement. However, the compiler can’t see
+that the reference is valid in this case. We’ve told Rust that the lifetime of
+the reference returned by the `longest` function is the same as the smaller of
+the lifetimes of the references passed in. Therefore, the borrow checker
+disallows the code in Listing 10-23 as possibly having an invalid reference.
 
-歡迎嘗試設計更多採用不同數值與不同生命週期的參考作為 `longest` 函式參數與回傳值的實驗，並在編譯前假設你的實驗會不會通過借用檢查器，然後看看你的理解是不是正確的！
+Try designing more experiments that vary the values and lifetimes of the
+references passed in to the `longest` function and how the returned reference
+is used. Make hypotheses about whether or not your experiments will pass the
+borrow checker before you compile; then check to see if you’re right!
 
-### 深入理解生命週期
+### Thinking in Terms of Lifetimes
 
-你要指定生命週期參數的方式取決於函式的行為。舉例來說如果我們改變函式 `longest` 的實作為永遠只回傳第一個參數而不是最長的字串切片，我們就不需要在參數 `y` 指定生命週期。以下的程式碼就能編譯：
+The way in which you need to specify lifetime parameters depends on what your
+function is doing. For example, if we changed the implementation of the
+`longest` function to always return the first parameter rather than the longest
+string slice, we wouldn’t need to specify a lifetime on the `y` parameter. The
+following code will compile:
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing file-name="src/main.rs">
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-08-only-one-reference-with-lifetime/src/main.rs:here}}
 ```
 
-我們指定生命週期參數 `'a` 給參數 `x` 與回傳型別，但參數 `y` 則沒有，因為 `y` 的生命週期與 `x` 和回傳型別的生命週期之間沒有任何關係。
+</Listing>
 
-當函式回傳參考時，回傳型別的生命週期參數必須符合其中一個參數的生命週期參數。如果回傳參考**沒有**和任何參數有關聯的話，代表它參考的是函式本體中的數值。但這會是迷途參考，因為該數值會在函式結尾離開作用域。請看看以下嘗試在函式 `longest` 的實作做法，它並不會編譯成功：
+We’ve specified a lifetime parameter `'a` for the parameter `x` and the return
+type, but not for the parameter `y`, because the lifetime of `y` does not have
+any relationship with the lifetime of `x` or the return value.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+When returning a reference from a function, the lifetime parameter for the
+return type needs to match the lifetime parameter for one of the parameters. If
+the reference returned does _not_ refer to one of the parameters, it must refer
+to a value created within this function. However, this would be a dangling
+reference because the value will go out of scope at the end of the function.
+Consider this attempted implementation of the `longest` function that won’t
+compile:
+
+<Listing file-name="src/main.rs">
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-09-unrelated-lifetime/src/main.rs:here}}
 ```
 
-我們在這邊雖然有對回傳型別指定生命週期參數 `'a`，但此實作還是會失敗，因為回傳值的生命週期與參數的生命週期完全無關。以下是我們獲得的錯誤訊息：
+</Listing>
+
+Here, even though we’ve specified a lifetime parameter `'a` for the return
+type, this implementation will fail to compile because the return value
+lifetime is not related to the lifetime of the parameters at all. Here is the
+error message we get:
 
 ```console
 {{#include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-09-unrelated-lifetime/output.txt}}
 ```
 
-問題在於 `result` 會離開作用域並在 `longest` 函式結尾被清除。我們卻嘗試從函式中回傳 `result` 的參考。我們無法指定生命週期參數來改變迷途參考，而且 Rust 不會允許我們將建立迷途參考。在此例中，最好的解決辦法是回傳有所有權的資料型別而非參考，並讓呼叫的函式自行決定如何清理數值。
+The problem is that `result` goes out of scope and gets cleaned up at the end
+of the `longest` function. We’re also trying to return a reference to `result`
+from the function. There is no way we can specify lifetime parameters that
+would change the dangling reference, and Rust won’t let us create a dangling
+reference. In this case, the best fix would be to return an owned data type
+rather than a reference so the calling function is then responsible for
+cleaning up the value.
 
-總結來說，生命週期語法是用來連接函式中不同參數與回傳值的生命週期。一旦連結起來，Rust 就可以獲得足夠的資訊來確保記憶體安全的運算並防止會產生迷途指標或違反記憶體安全的操作。
+Ultimately, lifetime syntax is about connecting the lifetimes of various
+parameters and return values of functions. Once they’re connected, Rust has
+enough information to allow memory-safe operations and disallow operations that
+would create dangling pointers or otherwise violate memory safety.
 
-### 結構體定義中的生命週期詮釋
+### Lifetime Annotations in Struct Definitions
 
-目前為止，我們定義過的結構體都持有型別的所有權。結構體其實也能持有參考，不過我們會需要在結構體定義中每個參考加上生命週期詮釋。範例 10-24 有個持有字串切片的結構體 `ImportantExcerpt`。
+So far, the structs we’ve defined all hold owned types. We can define structs
+to hold references, but in that case we would need to add a lifetime annotation
+on every reference in the struct’s definition. Listing 10-24 has a struct named
+`ImportantExcerpt` that holds a string slice.
 
-<span class="filename">檔案名稱：src/main.rs</span>
+<Listing number="10-24" file-name="src/main.rs" caption="A struct that holds a reference, requiring a lifetime annotation">
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-24/src/main.rs}}
 ```
 
-<span class="caption">範例 10-24：擁有參考的結構體需要加上生命週期詮釋</span>
+</Listing>
 
-此結構體有個欄位 `part` 並擁有字串切片參考。如同泛型資料型別，我們在結構體名稱之後的尖括號內宣告泛型生命週期參數，所以我們就可以在結構體定義的本體中使用生命週期參數。此詮釋代表 `ImportantExcerpt` 的實例不能比它持有的欄位 `part` 活得還久。
+This struct has the single field `part` that holds a string slice, which is a
+reference. As with generic data types, we declare the name of the generic
+lifetime parameter inside angle brackets after the name of the struct so we can
+use the lifetime parameter in the body of the struct definition. This
+annotation means an instance of `ImportantExcerpt` can’t outlive the reference
+it holds in its `part` field.
 
-`main` 函式在此產生一個結構體 `ImportantExcerpt` 的實例並持有一個參考，其為變數 `novel` 所擁有的 `String` 中的第一個句子的參考。`novel` 的資料是在 `ImportantExcerpt` 實例之前建立的。除此之外，`novel` 在 `ImportantExcerpt` 離開作用域之前不會離開作用域，所以 `ImportantExcerpt` 實例中的參考是有效的。
+The `main` function here creates an instance of the `ImportantExcerpt` struct
+that holds a reference to the first sentence of the `String` owned by the
+variable `novel`. The data in `novel` exists before the `ImportantExcerpt`
+instance is created. In addition, `novel` doesn’t go out of scope until after
+the `ImportantExcerpt` goes out of scope, so the reference in the
+`ImportantExcerpt` instance is valid.
 
-### 生命週期省略
+### Lifetime Elision
 
-你已經學到了每個參考都有個生命週期，而且你需要在有使用參考的函式與結構體中指定生命週期參數。然而在第四章的範例 4-9 我們有函式可以不詮釋生命週期並照樣編譯成功，我們在範例 10-25 再展示一次。
+You’ve learned that every reference has a lifetime and that you need to specify
+lifetime parameters for functions or structs that use references. However, we
+had a function in Listing 4-9, shown again in Listing 10-25, that compiled
+without lifetime annotations.
 
-<span class="filename">檔案名稱：src/lib.rs</span>
+<Listing number="10-25" file-name="src/lib.rs" caption="A function we defined in Listing 4-9 that compiled without lifetime annotations, even though the parameter and return type are references">
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/listing-10-25/src/main.rs:here}}
 ```
 
-<span class="caption">範例 10-25：在範例 4-9 定義過的函式，雖然其參數與回傳值均為參考，卻仍可編譯成功</span>
+</Listing>
 
-此函式可以不用生命週期詮釋仍照樣編譯過是有歷史因素的：在早期版本的 Rust（1.0 之前），此程式碼是無法編譯的，因為每個參考都得有顯式生命週期。在當時的情況下，此函式簽名會長得像這樣：
+The reason this function compiles without lifetime annotations is historical:
+in early versions (pre-1.0) of Rust, this code wouldn’t have compiled because
+every reference needed an explicit lifetime. At that time, the function
+signature would have been written like this:
 
 ```rust,ignore
 fn first_word<'a>(s: &'a str) -> &'a str {
 ```
 
-在寫了大量的 Rust 程式碼後，Rust 團隊發現 Rust 開發者會在特定情況反覆輸入同樣的生命週期詮釋。這些情形都是可預期的，而且可以遵循一些明確的模式。開發者將這些模式加入編譯器的程式碼中，所以借用檢查器可以依據這些情況自行推導生命週期，而讓我們不必顯式詮釋。
+After writing a lot of Rust code, the Rust team found that Rust programmers
+were entering the same lifetime annotations over and over in particular
+situations. These situations were predictable and followed a few deterministic
+patterns. The developers programmed these patterns into the compiler’s code so
+the borrow checker could infer the lifetimes in these situations and wouldn’t
+need explicit annotations.
 
-這樣的歷史值得提起的原因是因為很可能會有更多明確的模式被找出來並加到編譯器中，意味著未來對於生命週期詮釋的要求會更少。
+This piece of Rust history is relevant because it’s possible that more
+deterministic patterns will emerge and be added to the compiler. In the future,
+even fewer lifetime annotations might be required.
 
-被寫進 Rust 參考分析的模式被稱作**生命週期省略規則（lifetime elision rules）**。這些不是程式設計師要遵守的規則，而是一系列編譯器能去考慮的情形。而如果你的程式碼符合這些情形時，你就不必顯式寫出生命週期。
+The patterns programmed into Rust’s analysis of references are called the
+_lifetime elision rules_. These aren’t rules for programmers to follow; they’re
+a set of particular cases that the compiler will consider, and if your code
+fits these cases, you don’t need to write the lifetimes explicitly.
 
-省略規則無法提供完整的推導。如果 Rust 能明確套用規則，但在這之後還是有參考存在模棱兩可的生命週期，編譯器就無法猜出剩餘參考的生命週期。編譯器不會亂猜，它會回傳錯誤給你，說明你需要指定生命週期詮釋。
+The elision rules don’t provide full inference. If there is still ambiguity
+about what lifetimes the references have after Rust applies the rules, the
+compiler won’t guess what the lifetime of the remaining references should be.
+Instead of guessing, the compiler will give you an error that you can resolve by
+adding the lifetime annotations.
 
-在函式或方法參數上的生命週期稱為**輸入生命週期（input lifetimes）**，而在回傳值的生命週期則稱為**輸出生命週期（output lifetimes）**。
+Lifetimes on function or method parameters are called _input lifetimes_, and
+lifetimes on return values are called _output lifetimes_.
 
-當參考沒有顯式詮釋生命週期時，編譯器會用三項規則來推導它們。第一個規則適用於輸入生命週期，而第二與第三個規則適用於輸出生命週期。如果編譯器處理完這三個規則，卻仍有參考無法推斷出生命週期時，編譯器就會停止並回傳錯誤。這些適用於 `fn` 定義的規則一樣適用於 `impl` 區塊。
+The compiler uses three rules to figure out the lifetimes of the references
+when there aren’t explicit annotations. The first rule applies to input
+lifetimes, and the second and third rules apply to output lifetimes. If the
+compiler gets to the end of the three rules and there are still references for
+which it can’t figure out lifetimes, the compiler will stop with an error.
+These rules apply to `fn` definitions as well as `impl` blocks.
 
-第一個規則是編譯器會給予每個參考參數一個生命週期參數。換句話說，一個函式只有一個參數的話，就只會有一個生命週期：`fn foo<'a>(x: &'a i32)`；一個函式有兩個參數的話，就會有分別兩個生命週期參數：`fn foo<'a, 'b>(x: &'a i32, y: &'b i32)`，以此類推。
+The first rule is that the compiler assigns a lifetime parameter to each
+parameter that’s a reference. In other words, a function with one parameter
+gets one lifetime parameter: `fn foo<'a>(x: &'a i32)`; a function with two
+parameters gets two separate lifetime parameters: `fn foo<'a, 'b>(x: &'a i32,
+y: &'b i32)`; and so on.
 
-第二個規則是如果剛好只有一個輸入生命週期參數，該參數就會賦值給所有輸出生命週期參數：`fn foo<'a>(x: &'a i32) -> &'a i32`。
+The second rule is that, if there is exactly one input lifetime parameter, that
+lifetime is assigned to all output lifetime parameters: `fn foo<'a>(x: &'a i32)
+-> &'a i32`.
 
-第三個規則是如果有多個輸入生命週期參數，但其中一個是 `&self` 或 `&mut self`，由於這是方法，`self` 的生命週期會賦值給所有輸出生命週期參數。此規則讓方法更容易讀寫，因為不用寫更多符號出來。
+The third rule is that, if there are multiple input lifetime parameters, but
+one of them is `&self` or `&mut self` because this is a method, the lifetime of
+`self` is assigned to all output lifetime parameters. This third rule makes
+methods much nicer to read and write because fewer symbols are necessary.
 
-讓我們假裝我們是編譯器。我們會檢查這些規則並找出範例 10-25 中函式 `first_word` 簽名中參考的生命週期。簽名的參考一開始沒有任何生命週期：
+Let’s pretend we’re the compiler. We’ll apply these rules to figure out the
+lifetimes of the references in the signature of the `first_word` function in
+Listing 10-25. The signature starts without any lifetimes associated with the
+references:
 
 ```rust,ignore
 fn first_word(s: &str) -> &str {
 ```
 
-接著編譯器檢查第一個規則，指明每個參數都有自己的生命週期。我們如往常一樣指定 `'a`，所以簽名就會變成：
+Then the compiler applies the first rule, which specifies that each parameter
+gets its own lifetime. We’ll call it `'a` as usual, so now the signature is
+this:
 
 ```rust,ignore
 fn first_word<'a>(s: &'a str) -> &str {
 ```
 
-然後第二個規則也適用因為這裡剛好就一個輸入生命週期而已。第二個規則指明只有一個輸入生命週期的話，就會賦值給所有其他輸出生命週期。所以簽名現在變成這樣：
+The second rule applies because there is exactly one input lifetime. The second
+rule specifies that the lifetime of the one input parameter gets assigned to
+the output lifetime, so the signature is now this:
 
 ```rust,ignore
 fn first_word<'a>(s: &'a str) -> &'a str {
 ```
 
-現在此函式所有的參考都有生命週期了，而且編譯器可以繼續分析，不必要求程式設計師在此詮釋函式簽名的生命週期。
+Now all the references in this function signature have lifetimes, and the
+compiler can continue its analysis without needing the programmer to annotate
+the lifetimes in this function signature.
 
-讓我們再看看一個例子，這次是範例 10-20 一開始沒有任何生命週期參數的 `longest` 函式：
+Let’s look at another example, this time using the `longest` function that had
+no lifetime parameters when we started working with it in Listing 10-20:
 
 ```rust,ignore
 fn longest(x: &str, y: &str) -> &str {
 ```
 
-讓我們先檢查第一項規則：每個參數都有自己的生命週期。這次我們有兩個參數，所以我們有兩個生命週期：
+Let’s apply the first rule: each parameter gets its own lifetime. This time we
+have two parameters instead of one, so we have two lifetimes:
 
 ```rust,ignore
 fn longest<'a, 'b>(x: &'a str, y: &'b str) -> &str {
 ```
 
-你可以看出來第二個規則並不適用，因為我們有不止一個輸入生命週期。而第三個也不適用，因為 `longest` 是函式而非方法，其參數不會有 `self` 。遍歷這三個規則下來，我們仍然無法推斷出回傳型別的生命週期。這就是為何我們嘗試編譯範例 10-20 的程式碼會出錯的原因：編譯器遍歷生命週期省略規則，但仍然無法推導出簽名中所有參考的生命週期。
+You can see that the second rule doesn’t apply because there is more than one
+input lifetime. The third rule doesn’t apply either, because `longest` is a
+function rather than a method, so none of the parameters are `self`. After
+working through all three rules, we still haven’t figured out what the return
+type’s lifetime is. This is why we got an error trying to compile the code in
+Listing 10-20: the compiler worked through the lifetime elision rules but still
+couldn’t figure out all the lifetimes of the references in the signature.
 
-因為第三個規則僅適用於方法簽名，我們接下來就會看看這種情況時的生命週期，看看為何第三個規則讓我們不必常常在方法簽名詮釋生命週期。
+Because the third rule really only applies in method signatures, we’ll look at
+lifetimes in that context next to see why the third rule means we don’t have to
+annotate lifetimes in method signatures very often.
 
-### 在方法定義中的生命週期詮釋
+### Lifetime Annotations in Method Definitions
 
-當我們在有生命週期的結構體上實作方法時，其語法類似於我們在範例 10-11 中泛型型別參數的語法。宣告並使用生命週期參數的地方會依據它們是否與結構體欄位或方法參數與回傳值相關。
+When we implement methods on a struct with lifetimes, we use the same syntax as
+that of generic type parameters, as shown in Listing 10-11. Where we declare and
+use the lifetime parameters depends on whether they’re related to the struct
+fields or the method parameters and return values.
 
-結構體欄位的生命週期永遠需要宣告在 `impl` 關鍵字後方以及結構體名稱後方，因為這些生命週期是結構體型別的一部分。
+Lifetime names for struct fields always need to be declared after the `impl`
+keyword and then used after the struct’s name because those lifetimes are part
+of the struct’s type.
 
-在 `impl` 區塊中方法簽名的參考可能會與結構體欄位的參考生命週期綁定，或者它們可能是互相獨立的。除此之外，生命週期省略規則常常可以省略方法簽名中的生命週期詮釋。讓我們看看範例 10-24 定義過的 `ImportantExcerpt` 來作為範例。
+In method signatures inside the `impl` block, references might be tied to the
+lifetime of references in the struct’s fields, or they might be independent. In
+addition, the lifetime elision rules often make it so that lifetime annotations
+aren’t necessary in method signatures. Let’s look at some examples using the
+struct named `ImportantExcerpt` that we defined in Listing 10-24.
 
-首先我們使用一個方法叫做 `level` 其參數只有 `self` 的參考而回傳值是 `i32`，這不是任何參考：
+First we’ll use a method named `level` whose only parameter is a reference to
+`self` and whose return value is an `i32`, which is not a reference to anything:
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-10-lifetimes-on-methods/src/main.rs:1st}}
 ```
 
-我們必須在 `impl` 之後宣告生命週期參數，並在型別名稱後使用該生命週期。但是我們不必在 `self` 的參考加上生命週期詮釋，因為其適用於第一個省略規則。
+The lifetime parameter declaration after `impl` and its use after the type name
+are required, but we’re not required to annotate the lifetime of the reference
+to `self` because of the first elision rule.
 
-以下是第三個生命週期省略規則適用的地方：
+Here is an example where the third lifetime elision rule applies:
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-10-lifetimes-on-methods/src/main.rs:3rd}}
 ```
 
-這裡有兩個輸入生命週期，所以 Rust 用第一個生命週期省略規則給予 `&self` 和 `announcement` 它們自己的生命週期。然後因為其中一個參數是 `&self`，回傳型別會取得 `&self` 的生命週期，如此一來所有的生命週期都推導出來了。
+There are two input lifetimes, so Rust applies the first lifetime elision rule
+and gives both `&self` and `announcement` their own lifetimes. Then, because
+one of the parameters is `&self`, the return type gets the lifetime of `&self`,
+and all lifetimes have been accounted for.
 
-### 靜態生命週期
+### The Static Lifetime
 
-其中有個特殊的生命週期 `'static` 我們需要進一步討論，這是指該參考**可以**存活在整個程式期間。所有的字串字面值都有 `'static` 生命週期，我們可以這樣詮釋：
+One special lifetime we need to discuss is `'static`, which denotes that the
+affected reference _can_ live for the entire duration of the program. All
+string literals have the `'static` lifetime, which we can annotate as follows:
 
 ```rust
-let s: &'static str = "我有靜態生命週期。";
+let s: &'static str = "I have a static lifetime.";
 ```
 
-此字串的文字會直接儲存在程式的執行檔中，所以永遠有效。因此所有的字串字面值的生命週期都是 `'static`。
+The text of this string is stored directly in the program’s binary, which is
+always available. Therefore, the lifetime of all string literals is `'static`.
 
-你有時可能會看到錯誤訊息建議使用 `'static` 生命週期。但在你對參考指明 `'static` 生命週期前，最好想一下該參考的生命週期是否真的會存在於整個程式期間，以及是否真的該活得這麼久。大多數錯誤訊息會建議 `'static` 生命週期的情況都來自於嘗試建立迷途參考或可用的生命週期不符。這樣的情況下，應該是要實際嘗試解決問題，而不是指明 `'static` 生命週期。
+You might see suggestions in error messages to use the `'static` lifetime. But
+before specifying `'static` as the lifetime for a reference, think about
+whether the reference you have actually lives the entire lifetime of your
+program or not, and whether you want it to. Most of the time, an error message
+suggesting the `'static` lifetime results from attempting to create a dangling
+reference or a mismatch of the available lifetimes. In such cases, the solution
+is to fix those problems, not to specify the `'static` lifetime.
 
-## 組合泛型型別參數、特徵界限與生命週期
+## Generic Type Parameters, Trait Bounds, and Lifetimes Together
 
-讓我們用一個函式來總結泛型型別參數、特徵界限與生命週期的語法！
+Let’s briefly look at the syntax of specifying generic type parameters, trait
+bounds, and lifetimes all in one function!
 
 ```rust
 {{#rustdoc_include ../listings/ch10-generic-types-traits-and-lifetimes/no-listing-11-generics-traits-and-lifetimes/src/main.rs:here}}
 ```
 
-這是範例 10-21 會回傳兩個字串切片較長者的 `longest` 函式。不過現在它有個額外的參數 `ann`，使用的是泛型型別 `T`，它可以是任何在 `where` 中所指定有實作 `Display` 特徵的型別。此額外參數會在 `{}` 的地方印出來，這正是為何 `Display` 的特徵界限是必須的。因為生命週期也是一種泛型，生命週期參數 `'a` 與泛型型別參數 `T` 都宣告在函式名稱後的尖括號內。
+This is the `longest` function from Listing 10-21 that returns the longer of
+two string slices. But now it has an extra parameter named `ann` of the generic
+type `T`, which can be filled in by any type that implements the `Display`
+trait as specified by the `where` clause. This extra parameter will be printed
+using `{}`, which is why the `Display` trait bound is necessary. Because
+lifetimes are a type of generic, the declarations of the lifetime parameter
+`'a` and the generic type parameter `T` go in the same list inside the angle
+brackets after the function name.
 
-## 總結
+## Summary
 
-我們在此章節涵蓋了許多內容！現在你已經知道泛型型別參數、特徵與特徵界限以及泛型生命週期參數，你已經準備好能寫出適用於許多不同情況且不重複的程式碼了。泛型型別參數讓你可以讓程式碼適用於不同型別；特徵與特徵界限確保就算型別為泛型，它們都會有相同的行為。你還學到了使用生命週期詮釋確保此如此彈性的程式碼不會造成迷途參考。而且這些分析都發生在編譯期間，完全不影響執行的效能！
+We covered a lot in this chapter! Now that you know about generic type
+parameters, traits and trait bounds, and generic lifetime parameters, you’re
+ready to write code without repetition that works in many different situations.
+Generic type parameters let you apply the code to different types. Traits and
+trait bounds ensure that even though the types are generic, they’ll have the
+behavior the code needs. You learned how to use lifetime annotations to ensure
+that this flexible code won’t have any dangling references. And all of this
+analysis happens at compile time, which doesn’t affect runtime performance!
 
-不管你信不信，本章節還有很多延伸主題可以導論，像是第十七章就會討論特徵物件（trait objects），這是另一個使用特徵的方法。另外還有一些更複雜的場合會涉及到更進階的生命週期詮釋。對此你可能就會想閱讀 [Rust Reference][reference]。接下來，你將學習如何在 Rust 寫測試，讓你可以確保程式碼能如期執行。
+Believe it or not, there is much more to learn on the topics we discussed in
+this chapter: Chapter 18 discusses trait objects, which are another way to use
+traits. There are also more complex scenarios involving lifetime annotations
+that you will only need in very advanced scenarios; for those, you should read
+the [Rust Reference][reference]. But next, you’ll learn how to write tests in
+Rust so you can make sure your code is working the way it should.
 
-[references-and-borrowing]:
-ch04-02-references-and-borrowing.html#參考與借用
-[string-slices-as-parameters]:
-ch04-03-slices.html#字串切片作為參數
-[reference]: https://doc.rust-lang.org/stable/reference/index.html
+[references-and-borrowing]: ch04-02-references-and-borrowing.html#references-and-borrowing
+[string-slices-as-parameters]: ch04-03-slices.html#string-slices-as-parameters
+[reference]: ../reference/index.html

@@ -3,10 +3,11 @@ fn main() {
     use std::collections::HashMap;
 
     let field_name = String::from("Favorite color");
-    let field_value = String::from("藍隊");
+    let field_value = String::from("Blue");
 
     let mut map = HashMap::new();
     map.insert(field_name, field_value);
-    // field_name 和 field_value 在這之後就不能使用了，你可以試著使用它們並看看編譯器回傳什麼錯誤
+    // field_name and field_value are invalid at this point, try using them and
+    // see what compiler error you get!
     // ANCHOR_END: here
 }

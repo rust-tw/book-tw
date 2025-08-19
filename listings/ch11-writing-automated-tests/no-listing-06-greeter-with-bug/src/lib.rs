@@ -1,6 +1,6 @@
 // ANCHOR: here
 pub fn greeting(name: &str) -> String {
-    String::from("哈囉！")
+    String::from("Hello!")
 }
 // ANCHOR_END: here
 
@@ -10,7 +10,7 @@ mod tests {
 
     #[test]
     fn greeting_contains_name() {
-        let result = greeting("卡爾");
-        assert!(result.contains("卡爾"));
+        let result = greeting("Carol");
+        assert!(result.contains("Carol"));
     }
 }
