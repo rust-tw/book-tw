@@ -209,4 +209,4 @@ impl<T> Option<T> {
 
 當我們要在函式或型別中定義與使用閉包時，`Fn` 特徵是很重要的。在下個段落中，我們將討論疊代器。疊代器有許多方法都需要閉包引數，所以隨著我們繼續下去別忘了複習閉包的用法！
 
-[unwrap-or-else]: ../std/option/enum.Option.html#method.unwrap_or_else
+[unwrap-or-else]: https://doc.rust-lang.org/std/option/enum.Option.html#method.unwrap_or_else
