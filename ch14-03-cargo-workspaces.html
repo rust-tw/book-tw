@@ -302,7 +302,7 @@ error[E0432]: unresolved import `rand`
 2 | use rand;
   |     ^^^^ no external crate `rand`
 </code></pre>
-<p>要修正此問題，只要修改 <code>adder</code> 套件的 <em>Cargo.toml</em> 檔案，指示它也加入 <code>rand</code> 作為依賴就好了。這樣建構 <code>adder</code> 套件就會將在 <em>Cargo.lock</em> 中將 <code>rand</code> 加入 <code>adder</code> 的依賴，但是沒有額外的 <code>rand</code> 會被下載。Cargo 會確保工作空間中每個套件的每個 crate 都會使用相同的 <code>rand</code> 套件版本。這可以節省空間，並能確保工作空間中的 crate 彼此可以互相兼容。</p>
+<p>要修正此問題，只要修改 <code>adder</code> 套件的 <em>Cargo.toml</em> 檔案，指示它也加入 <code>rand</code> 作為依賴就好了。這樣建構 <code>adder</code> 套件就會將在 <em>Cargo.lock</em> 中將 <code>rand</code> 加入 <code>adder</code> 的依賴，但是沒有額外的 <code>rand</code> 會被下載。Cargo 會確保工作空間中每個套件的每個 crate 都會使用相同的 <code>rand</code> 套件版本。這可以節省空間，並能確保工作空間中的 crate 彼此相容。</p>
 <h4 id="在工作空間中新增測試"><a class="header" href="#在工作空間中新增測試">在工作空間中新增測試</a></h4>
 <p>讓我們再進一步加入一個測試函式 <code>add_one::add_one</code> 到 <code>add_one</code> crate 之中：</p>
 <p><span class="filename">檔案名稱：add_one/src/lib.rs</span></p>
