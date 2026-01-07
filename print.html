@@ -6367,7 +6367,7 @@ impl Summary for Tweet {
 }
 </code></pre>
 <p><span class="caption">範例 10-13：在型別 <code>NewsArticle</code> 與 <code>Tweet</code> 實作 <code>Summary</code> 特徵</span></p>
-<p>為一個型別實作一個特徵類似於實作一般的方法。不同的地方在於在 <code>impl</code> 之後我們加上的是想要實作的特徵，然後在用 <code>for</code> 關鍵字加上我們想要實作特徵的型別名稱。在 <code>impl</code> 的區塊內我們置入該特徵所定義的方法簽名，我們使用大括號並填入方法本體來為對特定型別實作出特徵方法的指定行為。</p>
+<p>為一個型別實作一個特徵類似於實作一般的方法。不同的地方在於在 <code>impl</code> 之後我們加上的是想要實作的特徵，然後再用 <code>for</code> 關鍵字加上我們想要實作特徵的型別名稱。在 <code>impl</code> 的區塊內我們置入該特徵所定義的方法簽名，我們使用大括號並填入方法本體來為對特定型別實作出特徵方法的指定行為。</p>
 <p>現在，我們就能像呼叫正常方法一樣，來呼叫 <code>NewsArticle</code> 和 <code>Tweet</code> 實例的方法，如以下所示：
 現在函式庫已經對 <code>NewsArticle</code> 和 <code>Tweet</code> 實作 <code>Summary</code> 特徵了，crate 的使用者能像我們平常呼叫方法那樣，對 <code>NewsArticle</code> 和 <code>Tweet</code> 的實例呼叫特徵方法。唯一的不同是使用者必須將特徵也加入作用域中。以下的範例展示執行檔 crate 如何使用我們的 <code>aggregator</code> 函式庫 crate：</p>
 <pre><code class="language-rust ignore">use aggregator::{self, Summary, Tweet};
