@@ -133,7 +133,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 <img alt="Rendered documentation for the `art` crate with the re-exports on the front page" src="img/trpl14-04.png" class="center" />
 
-<span class="caption">圖示 14-6：`art` 的技術文件首頁會連結重新匯出的結果</span>
+<span class="caption">圖示 14-4：`art` 的技術文件首頁會連結重新匯出的結果</span>
 
 `art` crate 使用者仍可以看到並使用範例 14-3 的內部架構，如範例 14-4 所展示的方式，或者它們可以使用像範例 14-5 這樣更方便的架構，如範例 14-6 所示：
 
