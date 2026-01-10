@@ -59,7 +59,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 #### 包含項目結構的註解
 
-風格為 `//!` 技術文件註解會對其包含該註解的項目加上的技術文件，而不是對註解後的項目加上技術文件。我們通常將此技術文件註解用於 crate 源頭檔（通常為 *src/lib.rs*）或模組來對整個 crate 或模組加上技術文件。
+風格為 `//!` 技術文件註解會對其包含該註解的項目加上技術文件，而不是對註解後的項目加上技術文件。我們通常將此技術文件註解用於 crate 源頭檔（通常為 *src/lib.rs*）或模組來對整個 crate 或模組加上技術文件。
 
 舉例來說，如果我們希望能加上技術文件來描述包含 `add_one` 函式的 `my_crate` 目的，我們可以用  `//!` 在 *src/lib.rs* 檔案開頭加上技術文件註解，如範例 14-2 所示：
 
@@ -133,7 +133,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 <img alt="Rendered documentation for the `art` crate with the re-exports on the front page" src="img/trpl14-04.png" class="center" />
 
-<span class="caption">圖示 14-：`art` 的技術文件首頁會連結重新匯出的結果</span>
+<span class="caption">圖示 14-6：`art` 的技術文件首頁會連結重新匯出的結果</span>
 
 `art` crate 使用者仍可以看到並使用範例 14-3 的內部架構，如範例 14-4 所展示的方式，或者它們可以使用像範例 14-5 這樣更方便的架構，如範例 14-6 所示：
 
