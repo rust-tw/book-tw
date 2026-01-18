@@ -189,7 +189,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 </code></pre>
 <p>現在如果我們變更函式或範例使其內的 <code>assert_eq!</code> 會恐慌並再次執行 <code>cargo test</code> 的話，我們會看到技術文件測試能互相獲取錯誤，告訴我們範例與程式碼已經不同步了！</p>
 <h4 id="包含項目結構的註解"><a class="header" href="#包含項目結構的註解">包含項目結構的註解</a></h4>
-<p>風格為 <code>//!</code> 技術文件註解會對其包含該註解的項目加上的技術文件，而不是對註解後的項目加上技術文件。我們通常將此技術文件註解用於 crate 源頭檔（通常為 <em>src/lib.rs</em>）或模組來對整個 crate 或模組加上技術文件。</p>
+<p>風格為 <code>//!</code> 技術文件註解會對其包含該註解的項目加上技術文件，而不是對註解後的項目加上技術文件。我們通常將此技術文件註解用於 crate 源頭檔（通常為 <em>src/lib.rs</em>）或模組來對整個 crate 或模組加上技術文件。</p>
 <p>舉例來說，如果我們希望能加上技術文件來描述包含 <code>add_one</code> 函式的 <code>my_crate</code> 目的，我們可以用  <code>//!</code> 在 <em>src/lib.rs</em> 檔案開頭加上技術文件註解，如範例 14-2 所示：</p>
 <p><span class="filename">檔案名稱：src/lib.rs</span></p>
 <pre><code class="language-rust ignore">//! # My Crate
@@ -314,7 +314,7 @@ pub mod utils {
 <p><span class="caption">範例 14-5：加上 <code>pub use</code> 陳述式來重新匯出項目</span></p>
 <p><code>cargo doc</code> 對此 crate 產生的 API 技術文件現在就會顯示與連結重新匯出的項目到首頁中，如圖示 14-4 所示。讓<code>PrimaryColor</code> 與 <code>SecondaryColor</code> 型別以及函式 <code>mix</code> 更容易被找到。</p>
 <img alt="Rendered documentation for the `art` crate with the re-exports on the front page" src="img/trpl14-04.png" class="center" />
-<p><span class="caption">圖示 14-：<code>art</code> 的技術文件首頁會連結重新匯出的結果</span></p>
+<p><span class="caption">圖示 14-4：<code>art</code> 的技術文件首頁會連結重新匯出的結果</span></p>
 <p><code>art</code> crate 使用者仍可以看到並使用範例 14-3 的內部架構，如範例 14-4 所展示的方式，或者它們可以使用像範例 14-5 這樣更方便的架構，如範例 14-6 所示：</p>
 <p><span class="filename">檔案名稱：src/main.rs</span></p>
 <pre><code class="language-rust ignore">use art::mix;
