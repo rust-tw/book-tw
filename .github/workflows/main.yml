@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v6
 
     - name: Install mdbook
       run: |
@@ -21,9 +21,11 @@ jobs:
     - name: Generate book
       run: mdbook build
 
-    # HTML publication as Github Page
+    # HTML publication to https://grebedoc.dev/
+    #
     - name: Publish HTML
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./book
+        publish_branch: pages
